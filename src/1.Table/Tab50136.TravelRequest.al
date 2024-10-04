@@ -588,29 +588,29 @@ table 50136 "Travel Request"
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(60; "Type Of Visit"; Option)
+        field(50; "Type Of Visit"; Option)
         {
             OptionCaption = ' ,Branch Visit,Branch Inspection,Site Visit,Training,Customer Call,Internal Aduit,Others';
             OptionMembers = " ","Branch Visit","Branch Inspection","Site Visit",Training,"Customer Call","Internal Aduit",Others;
         }
-        field(61; "Mode Of Travel"; Option)
+        field(51; "Mode Of Travel"; Option)
         {
             OptionCaption = ' ,By Air,By Road';
             OptionMembers = " ","By Air","By Road";
         }
-        field(62; "Depature From"; Code[20])
+        field(52; "Depature From"; Code[20])
         {
         }
-        field(63; Destination; Code[20])
+        field(53; Destination; Code[20])
         {
         }
-        field(64; Description; Text[250])
+        field(54; Description; Text[250])
         {
         }
-        field(65; "Purpose of Travel"; Text[100])
+        field(55; "Purpose of Travel"; Text[100])
         {
         }
-        field(66; "Advance Cash Required"; Boolean)
+        field(56; "Advance Cash Required"; Boolean)
         {
 
             trigger OnValidate()
@@ -618,7 +618,7 @@ table 50136 "Travel Request"
                 Clear("Advance Cash");
             end;
         }
-        field(67; "Advance Cash"; Decimal)
+        field(57; "Advance Cash"; Decimal)
         {
             CaptionClass = FieldName("Advance Cash") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -631,7 +631,7 @@ table 50136 "Travel Request"
                         Error(ErrorAdvCash, "Total Estimated Cost");
             end;
         }
-        field(68; "Estimated Transportation Cost"; Decimal)
+        field(58; "Estimated Transportation Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Transportation Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -640,7 +640,7 @@ table 50136 "Travel Request"
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
         }
-        field(69; "Estimated Lodging Cost"; Decimal)
+        field(59; "Estimated Lodging Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Lodging Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -655,7 +655,7 @@ table 50136 "Travel Request"
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
         }
-        field(70; "Estimated Fooding Cost"; Decimal)
+        field(60; "Estimated Fooding Cost"; Decimal)
         {
             CaptionClass = FieldName("Estimated Fooding Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -670,7 +670,7 @@ table 50136 "Travel Request"
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
         }
-        field(71; "Estimated Conveyance Expense"; Decimal)
+        field(61; "Estimated Conveyance Expense"; Decimal)
         {
             CaptionClass = FieldName("Estimated Conveyance Expense") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -679,7 +679,7 @@ table 50136 "Travel Request"
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
         }
-        field(72; "Other Estimated Cost"; Decimal)
+        field(62; "Other Estimated Cost"; Decimal)
         {
             CaptionClass = FieldName("Other Estimated Cost") + HRMgt.ReturnCurrencyCode("Currency Code");
 
@@ -688,14 +688,14 @@ table 50136 "Travel Request"
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
         }
-        field(73; "Auth. Account No."; Text[30])
+        field(63; "Auth. Account No."; Text[30])
         {
             Editable = false;
         }
-        field(74; Extended; Boolean)
+        field(64; Extended; Boolean)
         {
         }
-        field(75; "Travel Order No."; Code[20])
+        field(65; "Travel Order No."; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Activity" WHERE(Type = CONST("Travel Request"),
@@ -708,11 +708,11 @@ table 50136 "Travel Request"
                     PAGE.Run(60072, EmpAct);
             end;
         }
-        field(76; "Total No. of Days"; Decimal)
+        field(66; "Total No. of Days"; Decimal)
         {
             Editable = false;
         }
-        field(77; "Travel Countries"; Option)
+        field(67; "Travel Countries"; Option)
         {
             OptionCaption = 'Nepal,India,Other Countries';
             OptionMembers = Nepal,India,"Other Countries";
@@ -722,24 +722,24 @@ table 50136 "Travel Request"
                 Validate("No. of Days");
             end;
         }
-        field(78; "Currency Code"; Code[10])
+        field(68; "Currency Code"; Code[10])
         {
             TableRelation = Currency;
         }
-        field(79; "Exchange Rate"; Decimal)
+        field(69; "Exchange Rate"; Decimal)
         {
         }
-        field(80; "Depature Time"; Time)
+        field(70; "Depature Time"; Time)
         {
         }
-        field(81; "Arrival Time"; Time)
+        field(71; "Arrival Time"; Time)
         {
         }
-        field(82; "Total Estimated Cost"; Decimal)
+        field(72; "Total Estimated Cost"; Decimal)
         {
             Editable = false;
         }
-        field(83; "Travel With"; Code[20])
+        field(73; "Travel With"; Code[20])
         {
             TableRelation = Employee."No.";
 
@@ -750,7 +750,7 @@ table 50136 "Travel Request"
                 Validate("No. of Days");//AT
             end;
         }
-        field(84; "Payment From"; Option)
+        field(74; "Payment From"; Option)
         {
             OptionCaption = ' ,Office,Self';
             OptionMembers = " ",Office,Self;
@@ -761,13 +761,13 @@ table 50136 "Travel Request"
                     Validate("Estimated Transportation Cost", 0);
             end;
         }
-        field(85; "Actual Travel Start Date"; Date)
+        field(75; "Actual Travel Start Date"; Date)
         {
         }
-        field(86; "Actual Travel End Date"; Date)
+        field(76; "Actual Travel End Date"; Date)
         {
         }
-        field(87; "Actual Travel Start Time"; Time)
+        field(77; "Actual Travel Start Time"; Time)
         {
 
             trigger OnValidate()
@@ -781,7 +781,7 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(88; "Actual Travel End Time"; Time)
+        field(78; "Actual Travel End Time"; Time)
         {
 
             trigger OnValidate()
@@ -795,13 +795,13 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(89; "Travel Claimed"; Boolean)
+        field(79; "Travel Claimed"; Boolean)
         {
         }
-        field(90; "Screener Remarks"; Text[100])
+        field(80; "Screener Remarks"; Text[100])
         {
         }
-        field(91; "Claim Type"; Option)
+        field(81; "Claim Type"; Option)
         {
             OptionCaption = ' ,With Bill,Without Bill';
             OptionMembers = " ","With Bill","Without Bill";
@@ -811,10 +811,10 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(92; "Claimed Country"; Text[30])
+        field(82; "Claimed Country"; Text[30])
         {
         }
-        field(93; "Fooding Allowance"; Decimal)
+        field(83; "Fooding Allowance"; Decimal)
         {
             Editable = false;
 
@@ -828,7 +828,7 @@ table 50136 "Travel Request"
                         TravelMgt.CheckFoodingAmtNepal("Employee No.", "Fooding Allowance", "No. of Days", "Travel With");//AT "No. of Days"-1
             end;
         }
-        field(94; "Lodging Allowance"; Decimal)
+        field(84; "Lodging Allowance"; Decimal)
         {
             Editable = false;
 
@@ -842,7 +842,7 @@ table 50136 "Travel Request"
                         TravelMgt.CheckLodgingAmtIndia("Employee No.", "Lodging Allowance", "No. of Days" - 1, "Travel With");
             end;
         }
-        field(95; "Conveyance Expense"; Decimal)
+        field(85; "Conveyance Expense"; Decimal)
         {
 
             trigger OnValidate()
@@ -850,7 +850,7 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(96; "Total Claimed Amount"; Decimal)
+        field(86; "Total Claimed Amount"; Decimal)
         {
             Editable = false;
 
@@ -859,7 +859,7 @@ table 50136 "Travel Request"
                 Validate("Net Receivable/Payable", "Total Claimed Amount" - "Advance Cash");
             end;
         }
-        field(97; "Other Expense"; Decimal)
+        field(87; "Other Expense"; Decimal)
         {
 
             trigger OnValidate()
@@ -867,11 +867,11 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(98; "Net Receivable/Payable"; Decimal)
+        field(88; "Net Receivable/Payable"; Decimal)
         {
             Editable = false;
         }
-        field(99; "Out of Pocket Expense"; Decimal)
+        field(89; "Out of Pocket Expense"; Decimal)
         {
             Editable = false;
 
@@ -880,7 +880,7 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(100; "Road/Air Fare"; Decimal)
+        field(90; "Road/Air Fare"; Decimal)
         {
 
             trigger OnValidate()
@@ -888,7 +888,7 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(101; Reimbursable; Boolean)
+        field(91; Reimbursable; Boolean)
         {
 
             trigger OnValidate()
@@ -896,19 +896,19 @@ table 50136 "Travel Request"
                 CalculateTotalClaim;
             end;
         }
-        field(102; "Fooding Allowance Limit"; Decimal)
+        field(92; "Fooding Allowance Limit"; Decimal)
         {
             Editable = false;
         }
-        field(103; "Lodging Allowance Limit"; Decimal)
+        field(93; "Lodging Allowance Limit"; Decimal)
         {
             Editable = false;
         }
-        field(104; "Fooding Per Day Limit"; Decimal)
+        field(94; "Fooding Per Day Limit"; Decimal)
         {
             Editable = false;
         }
-        field(105; "Lodging Per Day Limit"; Decimal)
+        field(95; "Lodging Per Day Limit"; Decimal)
         {
             Editable = false;
         }

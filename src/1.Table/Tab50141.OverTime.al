@@ -665,10 +665,10 @@ table 50141 OverTime
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(90; "Screener Remarks"; Text[100])
+        field(50; "Screener Remarks"; Text[100])
         {
         }
-        field(107; "Estimated Hours"; Decimal)
+        field(51; "Estimated Hours"; Decimal)
         {
 
             trigger OnValidate()
@@ -680,14 +680,14 @@ table 50141 OverTime
             end;
         }
 
-        field(108; "Actual Hours"; Decimal)
+        field(52; "Actual Hours"; Decimal)
         {
         }
-        field(148; "HR Proposed Date"; Date)
+        field(53; "HR Proposed Date"; Date)
         {
             Description = 'Resignation';
         }
-        field(194; "Encashment Code"; Code[30])
+        field(54; "Encashment Code"; Code[30])
         {
             TableRelation = "OT Encashment Setup";
 
@@ -700,13 +700,13 @@ table 50141 OverTime
 
             end;
         }
-        field(195; "OT Amount"; Decimal)
+        field(55; "OT Amount"; Decimal)
         {
         }
-        field(196; "OT Disbursed"; Boolean)
+        field(56; "OT Disbursed"; Boolean)
         {
         }
-        field(197; "Updated Payroll Line"; Boolean)
+        field(57; "Updated Payroll Line"; Boolean)
         {
         }
 

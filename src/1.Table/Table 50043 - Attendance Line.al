@@ -8,7 +8,7 @@ table 50043 "Attendance Line"
 
     fields
     {
-        field(71; "Document No."; Code[20])
+        field(48; "Document No."; Code[20])
         {
             TableRelation = "Attendance Header"."No.";
         }
@@ -17,20 +17,20 @@ table 50043 "Attendance Line"
             Editable = false;
 
         }
-        field(61; "Pay Cycle Period"; Integer)
+        field(40; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-        field(62; "Pay Cycle Term"; Code[10])
+        field(41; "Pay Cycle Term"; Code[10])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-        field(63; "Pay Cycle Code"; Code[10])
+        field(42; "Pay Cycle Code"; Code[10])
         {
             TableRelation = "Pay Cycle";
         }
-        field(64; "Nepali Year"; Integer)
+        field(43; "Nepali Year"; Integer)
         {
             Editable = false;
         }
@@ -38,11 +38,11 @@ table 50043 "Attendance Line"
         {
             Editable = false;
         }
-        field(66; "From Date"; Date)
+        field(44; "From Date"; Date)
         {
             Editable = false;
         }
-        field(67; "To Date"; Date)
+        field(45; "To Date"; Date)
         {
             Editable = false;
         }
@@ -50,11 +50,11 @@ table 50043 "Attendance Line"
         {
             Editable = false;
         }
-        field(69; "From Date (B.S)"; Code[10])
+        field(46; "From Date (B.S)"; Code[10])
         {
             Editable = false;
         }
-        field(70; "To Date (B.S)"; Code[10])
+        field(47; "To Date (B.S)"; Code[10])
         {
             Editable = false;
         }
@@ -186,37 +186,37 @@ table 50043 "Attendance Line"
             MaxValue = 1;
             MinValue = 0;
         }
-        field(33; "Holiday Remarks"; Text[250]) { }
-        field(43; "Punch Out Reviewer"; Code[20])
+        field(30; "Holiday Remarks"; Text[250]) { }
+        field(31; "Punch Out Reviewer"; Code[20])
         {
             TableRelation = Employee;
         }
-        field(44; "Punch Out Check Reviewer"; Code[20])
+        field(32; "Punch Out Check Reviewer"; Code[20])
         {
             TableRelation = Employee;
         }
-        field(45; "Punch out Remarks"; Text[250]) { }
-        field(47; "Night Shift Punch Out Time"; Time) { }
-        field(48; "Training Check In Time"; Time) { }
-        field(49; "Training Check Out Time"; Time) { }
-        field(50; "Salary Level Code"; Code[10])
+        field(33; "Punch out Remarks"; Text[250]) { }
+        field(34; "Night Shift Punch Out Time"; Time) { }
+        field(35; "Training Check In Time"; Time) { }
+        field(36; "Training Check Out Time"; Time) { }
+        field(37; "Salary Level Code"; Code[10])
         {
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(51; "Salary Grade"; Code[10])
+        field(38; "Salary Grade"; Code[10])
         {
             Editable = false;
             TableRelation = "Salary Grade";
         }
-        field(52; Week; Enum Week)
+        field(39; Week; Enum Week)
         {
         }
-        field(77; "No. Series"; Code[20])
+        field(50; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(76; "Employee Name"; Text[50])
+        field(49; "Employee Name"; Text[50])
         {
             CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
             FieldClass = FlowField;

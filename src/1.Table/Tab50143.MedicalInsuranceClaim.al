@@ -664,7 +664,7 @@ table 50143 "Medical Insurance Claim"
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(149; "Insurance Claim"; Option)
+        field(50; "Insurance Claim"; Option)
         {
             OptionCaption = ' ,Self,Father,Mother,Spouse,Child,General Checkup';
             OptionMembers = " ",Self,Father,Mother,Spouse,Child,"General Checkup";
@@ -694,35 +694,35 @@ table 50143 "Medical Insurance Claim"
                 end;
             end;
         }
-        field(150; "Father Name"; Text[50])
+        field(51; "Father Name"; Text[50])
         {
             FieldClass = Normal;
         }
-        field(151; "Mother Name"; Text[50])
+        field(52; "Mother Name"; Text[50])
         {
         }
-        field(152; "Spouse Name"; Text[50])
+        field(53; "Spouse Name"; Text[50])
         {
         }
-        field(153; "Child Name"; Text[50])
+        field(54; "Child Name"; Text[50])
         {
         }
-        field(154; "Total Insurance Claim Amount"; Decimal)
+        field(55; "Total Insurance Claim Amount"; Decimal)
         {
         }
-        field(155; "Medical Prescription Date"; Date)
+        field(56; "Medical Prescription Date"; Date)
         {
         }
-        field(156; "Discharge Date"; Date)
+        field(57; "Discharge Date"; Date)
         {
         }
-        field(157; "Bank Account No."; Text[30])
+        field(58; "Bank Account No."; Text[30])
         {
         }
-        field(158; "Contact No."; Text[30])
+        field(59; "Contact No."; Text[30])
         {
         }
-        field(159; "Insurance Status"; Option)
+        field(60; "Insurance Status"; Option)
         {
             OptionCaption = ' ,Request to DTMD,Screened,Forwarded to Insurance Co.,Reimbursed,Rejected';
             OptionMembers = " ","Request to DTMD",Screened,"Forwarded to Insurance Co.",Reimbursed,Rejected;

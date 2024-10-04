@@ -22,18 +22,18 @@ tableextension 50008 "Source Code Setup Ext" extends "Source Code Setup"
             TableRelation = "Source Code";
             DataClassification = ToBeClassified;
         }
-        field(50100; "Payroll Journal"; Code[10])
+        field(50004; "Payroll Journal"; Code[10])
         {
             TableRelation = "Source Code";
             DataClassification = ToBeClassified;
         }
-        field(50101; "Payroll Plan"; Code[10])
+        field(50005; "Payroll Plan"; Code[10])
         {
             TableRelation = "Source Code";
             DataClassification = ToBeClassified;
             // Description = 'Pranisha';
         }
-        field(50102; "Attendance Management"; Code[10])
+        field(50006; "Attendance Management"; Code[10])
         {
             DataClassification = ToBeClassified;
         }

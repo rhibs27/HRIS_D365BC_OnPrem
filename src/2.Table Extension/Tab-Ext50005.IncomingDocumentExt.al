@@ -2,17 +2,17 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
 {
     fields
     {
-        field(33019800; "No."; Code[20])
+        field(50000; "No."; Code[20])
         {
             DataClassification = CustomerContent;
         }
-        field(33019801; "Table ID"; Integer)
+        field(50001; "Table ID"; Integer)
         {
             DataClassification = CustomerContent;
         }
-        field(33019802; "File Name"; Text[250])
+        field(50002; "File Name"; Text[250])
         { DataClassification = CustomerContent; }
-        field(33019803; "Attachment Code"; Code[20])
+        field(50003; "Attachment Code"; Code[20])
         {
             TableRelation = "Attachment Master".Code;
             DataClassification = CustomerContent;
@@ -21,9 +21,9 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
                 CheckSampleAttachment;
             end;
         }
-        field(33019804; "Employee Code"; Code[20])
+        field(50004; "Employee Code"; Code[20])
         { DataClassification = CustomerContent; }
-        field(33019805; "Type"; Option)
+        field(50005; "Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",Sample;
@@ -33,12 +33,12 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
                 CheckSampleAttachment;
             end;
         }
-        field(33019806; "Leave Type Code"; Code[20])
+        field(50006; "Leave Type Code"; Code[20])
         {
             TableRelation = "Leave Type Setup";
             DataClassification = CustomerContent;
         }
-        field(33019807; "Employee Activity Type"; Option)
+        field(50007; "Employee Activity Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee",,,Insurance;

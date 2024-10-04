@@ -2,7 +2,7 @@ tableextension 50014 "Qualification Ext" extends Qualification
 {
     fields
     {
-        field(33019800; "Type"; Option)
+        field(50000; "Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",Education,Work;
@@ -13,11 +13,11 @@ tableextension 50014 "Qualification Ext" extends Qualification
                     Clear("Qualification Type");
             end;
         }
-        field(33019801; Rank; Integer)
+        field(50001; Rank; Integer)
         {
             DataClassification = ToBeClassified;
         }
-        field(33019802; "Qualification Type"; Option)
+        field(50002; "Qualification Type"; Option)
         {
             DataClassification = ToBeClassified;
             OptionMembers = " ",SLC,"+2",Bachelor,Master;

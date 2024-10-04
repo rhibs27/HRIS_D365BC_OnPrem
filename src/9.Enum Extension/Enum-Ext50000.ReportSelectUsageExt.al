@@ -1,18 +1,18 @@
 enumextension 50000 "Report Select. Usage Ext" extends "Report Selection Usage"
 {
-    value(33019800; "Salary Advance")
+    value(50000; "Salary Advance")
     {
         Caption = 'Salary Advance';
     }
-    value(33019801; "Personal Loan")
+    value(50001; "Personal Loan")
     {
         Caption = 'Personal Loan';
     }
-    value(33019802; "Home Loan")
+    value(50002; "Home Loan")
     {
         Caption = 'Home Loan';
     }
-    value(33019803; "Vehicle Loan")
+    value(50003; "Vehicle Loan")
     {
         Caption = 'Vehicle Loan';
     }

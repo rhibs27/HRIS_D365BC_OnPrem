@@ -115,7 +115,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
             end;
         }
-        field(33019800; "Sub Province Name"; Text[30])
+        field(50000; "Sub Province Name"; Text[30])
         {
             Caption = 'Sub Province Name';
             Editable = false;
@@ -126,7 +126,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 //PostCode.LookupPostCode(City,"Post Code",County,"Country/Region Code");
             end;
         }
-        field(33019801; "Sub Province Code"; Code[20])
+        field(50001; "Sub Province Code"; Code[20])
         {
             Caption = 'Sub Province Code';
             // Editable = false;
@@ -165,7 +165,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019802; "Department Code"; Code[20])
+        field(50002; "Department Code"; Code[20])
         {
             TableRelation = Department;
             trigger OnValidate()
@@ -199,7 +199,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019803; "Deputation On Code"; Code[10])
+        field(50003; "Deputation On Code"; Code[10])
         {
             trigger OnValidate()
             begin
@@ -220,29 +220,29 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019804; "Advance Amount"; Decimal)
+        field(50004; "Advance Amount"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("G/L Entry".Amount where("Posting Date" = field("Date Filter"), "G/L Account No." = field("G/L Account Filter"), "Shortcut Dimension 3 Code" = field("No.")));
             Caption = 'Advance Amount';
         }
-        field(33019805; "G/L Account Filter"; Code[20])
+        field(50005; "G/L Account Filter"; Code[20])
         {
             FieldClass = FlowFilter;
             TableRelation = "G/L Account"."No.";
         }
-        field(33019806; "Employee Work Shift"; Code[10])
+        field(50006; "Employee Work Shift"; Code[10])
         {
             TableRelation = "Employee Work Shift";
             DataClassification = CustomerContent;
         }
-        field(33019807; "Assigned User ID"; Code[50])
+        field(50007; "Assigned User ID"; Code[50])
         {
             TableRelation = "User Setup";
             DataClassification = CustomerContent;
             Caption = 'Assigned User ID';
         }
-        field(33019808; "Total Earning"; Decimal)
+        field(50008; "Total Earning"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."), "Attribute Type" = filter("Basic Earning" | "Other Earnings"),
@@ -251,7 +251,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   "Non-Taxable" = const(false)));
             Editable = false;
         }
-        field(33019809; "Total Retirement Contribution"; Decimal)
+        field(50009; "Total Retirement Contribution"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -262,7 +262,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Document Type" = field("Document Type Filter")));
             Editable = false;
         }
-        field(33019810; "Total Donation Contribution"; Decimal)
+        field(50010; "Total Donation Contribution"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -272,15 +272,15 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(33019811; "Premium of Life Insurance"; Decimal)
+        field(50011; "Premium of Life Insurance"; Decimal)
         { DataClassification = CustomerContent; }
-        field(33019812; "Tax Code"; Code[20])
+        field(50012; "Tax Code"; Code[20])
         {
             TableRelation = "Tax Setup Header";
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019813; "Total Medical Re-Imbursement"; Decimal)
+        field(50013; "Total Medical Re-Imbursement"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -290,7 +290,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(33019814; "Salary Level"; Code[20])
+        field(50014; "Salary Level"; Code[20])
         {
             TableRelation = "Salary Level";
             DataClassification = CustomerContent;
@@ -304,12 +304,12 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Salary Level Description" := '';
             end;
         }
-        field(33019815; "Salary Grade"; Code[20])
+        field(50015; "Salary Grade"; Code[20])
         {
             TableRelation = "Salary Grade";
             DataClassification = CustomerContent;
         }
-        field(33019816; "Social Security Tax"; Decimal)
+        field(50016; "Social Security Tax"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -318,7 +318,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false)));
             Editable = false;
         }
-        field(33019817; "Remuneration & Benefits Tax"; Decimal)
+        field(50017; "Remuneration & Benefits Tax"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -327,7 +327,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false)));
             Editable = false;
         }
-        field(33019818; "PF Loan Advance"; Decimal)
+        field(50018; "PF Loan Advance"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -337,7 +337,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   "Payroll Attribute Code" = const('PF LOAN ADVANCE')));
             Editable = false;
         }
-        field(33019819; "Total Loan"; Decimal)
+        field(50019; "Total Loan"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -346,37 +346,37 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(33019821; "Full Name (Nepali)"; Text[30])
+        field(50020; "Full Name (Nepali)"; Text[30])
         {
             Description = 'In Nepali';
         }
-        field(33019822; "Father's Name (Nepali)"; Text[30])
+        field(50021; "Father's Name (Nepali)"; Text[30])
         {
             Description = 'In Nepali';
         }
-        field(33019823; "Mother's Name (Nepali)"; Text[30])
-        {
-            DataClassification = CustomerContent;
-            Description = 'In Nepali';
-        }
-        field(33019824; "GrandFather's Name (Nepali)"; Text[30])
+        field(50022; "Mother's Name (Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(33019825; "Promotion Date"; Date)
+        field(50023; "GrandFather's Name (Nepali)"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(50024; "Promotion Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(33019826; "CIT No."; Code[20])
+        field(50025; "CIT No."; Code[20])
         {
             DataClassification = CustomerContent;
         }
-        field(33019827; "PF No."; Code[20])
+        field(50026; "PF No."; Code[20])
         {
             DataClassification = CustomerContent;
         }
-        field(33019828; "PAN No."; Code[20])
+        field(50027; "PAN No."; Code[20])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -385,21 +385,21 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text007);
             end;
         }
-        field(33019829; "Third Party Payroll Emp Code"; Code[10])
+        field(50028; "Third Party Payroll Emp Code"; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'not used';
         }
-        field(33019830; "Bank No."; Code[20])
+        field(50029; "Bank No."; Code[20])
         {
             TableRelation = "Bank Account";
             DataClassification = CustomerContent;
         }
-        field(33019831; "Bank Name"; Text[50])
+        field(50030; "Bank Name"; Text[50])
         {
             DataClassification = CustomerContent;
         }
-        field(33019832; "Salary Advance"; Decimal)
+        field(50031; "Salary Advance"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee Code" = field("No."),
@@ -408,7 +408,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                      "Approval Status" = const(Approved)));
             Editable = false;
         }
-        field(33019833; "Total Renumeration"; Decimal)
+        field(50032; "Total Renumeration"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -417,7 +417,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                   Reversed = const(false)));
             Editable = false;
         }
-        field(33019834; "Vehicle Advance"; Decimal)
+        field(50033; "Vehicle Advance"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -425,7 +425,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = filter('VEHICLE ADVANCE')));
         }
-        field(33019835; "Maintenance Advance"; Decimal)
+        field(50034; "Maintenance Advance"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -434,7 +434,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = const('MAINTAINENCE ADV')));
         }
-        field(33019836; "PF Contribution"; Decimal)
+        field(50035; "PF Contribution"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -443,7 +443,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Payroll Attribute Code" = const('PF-EMPLOYEE'),
                                                                                                                    "Document Type" = field("Document Type Filter")));
         }
-        field(33019837; "CIT Deposit"; Decimal)
+        field(50036; "CIT Deposit"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -451,7 +451,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = const('CIT DEPOSIT')));
         }
-        field(33019838; "PF Contribution (Office)"; Decimal)
+        field(50037; "PF Contribution (Office)"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -460,7 +460,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Payroll Attribute Code" = const('PF-EMPLOYER'),
                                                                                                                    "Document Type" = field("Document Type Filter")));
         }
-        field(33019839; "Total PF"; Decimal)
+        field(50038; "Total PF"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -468,14 +468,14 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    Reversed = const(false),
                                                                                                                    "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
         }
-        field(33019840; "Advance for Expenses"; Decimal)
+        field(50039; "Advance for Expenses"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = sum("G/L Entry".Amount where("Shortcut Dimension 4 Code" = field("No."),
                                                                                              "Posting Date" = field("Date Filter"),
                                                                                              "G/L Account No." = const('121082')));
         }
-        field(33019841; "CIT Office Cont. Deduction"; Decimal)
+        field(50040; "CIT Office Cont. Deduction"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -484,15 +484,15 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
             Editable = false;
         }
-        field(33019842; "Document Type Filter"; Enum "Employee Document Type")
+        field(50041; "Document Type Filter"; Enum "Employee Document Type")
         {
             FieldClass = FlowFilter;
         }
-        field(33019843; Age; Integer)
+        field(50042; Age; Integer)
         {
             DataClassification = CustomerContent;
         }
-        field(33019844; "Marital Status"; Enum "Marital Status")
+        field(50043; "Marital Status"; Enum "Marital Status")
         {
             DataClassification = CustomerContent;
 
@@ -501,7 +501,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
             end;
         }
-        field(33019845; "Citizen Number"; Code[30])
+        field(50044; "Citizen Number"; Code[30])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -510,30 +510,30 @@ tableextension 50013 "Employee Ext" extends Employee
                 Clear("Citizenship Issue Place");
             end;
         }
-        field(33019846; "Passport Number"; Code[10])
+        field(50045; "Passport Number"; Code[10])
         {
             DataClassification = CustomerContent;
         }
-        field(33019847; "Blood Group"; Enum "Blood Group")
+        field(50046; "Blood Group"; Enum "Blood Group")
         {
             DataClassification = CustomerContent;
 
         }
-        field(33019848; "Employment Type"; enum "Employee Type")
+        field(50047; "Employment Type"; enum "Employee Type")
         {
             DataClassification = CustomerContent;
         }
-        field(33019849; "Province Name"; Text[30])
+        field(50048; "Province Name"; Text[30])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019850; "Sub-Province"; Text[30])
+        field(50049; "Sub-Province"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'not used(used city instead)';
         }
-        field(33019851; Cluster; Code[20])
+        field(50050; Cluster; Code[20])
         {
             DataClassification = CustomerContent;
             TableRelation = if ("Sub Province Code" = const()) "Employee Hierarchy Master" where(Type = const(Cluster))
@@ -551,38 +551,38 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019852; "Distance betn Res and Office"; Decimal)
+        field(50051; "Distance betn Res and Office"; Decimal)
         {
             DataClassification = CustomerContent;
         }
-        field(33019853; "Full Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(33019854; "Old Employee No."; Code[20])
-        {
-            DataClassification = CustomerContent;
-        }
-        field(33019855; "Date of Birth (B.S.)"; Text[30])
+        field(50052; "Full Name"; Text[50])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019856; "Citizenship Issue Place"; Text[30])
+        field(50053; "Old Employee No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50054; "Date of Birth (B.S.)"; Text[30])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019857; "Citizenship Issue Date"; Date)
+        field(50055; "Citizenship Issue Place"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50056; "Citizenship Issue Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(33019858; Religion; Text[30])
+        field(50057; Religion; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019859; "Unit Code"; Code[20])
+        field(50058; "Unit Code"; Code[20])
         {
             DataClassification = CustomerContent;
             TableRelation = "Employee Hierarchy Master" where(Type = const(Unit));
@@ -628,36 +628,36 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019860; "Branch Category"; Text[30])
+        field(50059; "Branch Category"; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019861; "Experience Years"; Integer)
+        field(50060; "Experience Years"; Integer)
         {
             DataClassification = CustomerContent;
         }
-        field(33019862; "Sol Id"; Code[20])
+        field(50061; "Sol Id"; Code[20])
         {
             DataClassification = CustomerContent;
         }
-        field(33019863; "Reporting Person"; Text[40])
+        field(50062; "Reporting Person"; Text[40])
         {
             DataClassification = CustomerContent;
         }
-        field(33019864; Disabled; Boolean)
+        field(50063; Disabled; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019865; "Vehicle Type"; Enum "Vehicle Type")
+        field(50064; "Vehicle Type"; Enum "Vehicle Type")
         {
             DataClassification = CustomerContent;
         }
-        field(33019866; "Posting Region"; Enum Region)
+        field(50065; "Posting Region"; Enum Region)
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019867; "Functional Title"; Code[20])
+        field(50066; "Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
             DataClassification = CustomerContent;
@@ -680,7 +680,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 //     "Functional Title Desc" := FunctionalTitle.Description;}
             end;
         }
-        field(33019868; "Out-Station eligible"; Boolean)
+        field(50067; "Out-Station eligible"; Boolean)
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -688,18 +688,18 @@ tableextension 50013 "Employee Ext" extends Employee
                 ValidateOutstationAllowance;
             end;
         }
-        field(33019869; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
+        field(50068; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = CustomerContent;
 
             Editable = false;
         }
-        field(33019870; Screener; Boolean)
+        field(50069; Screener; Boolean)
         {
             DataClassification = CustomerContent;
             Description = 'Loan';
         }
-        field(33019871; "Job Title Code"; Code[20])
+        field(50070; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
             DataClassification = CustomerContent;
@@ -708,7 +708,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 CalcFields("Job Title");
             end;
         }
-        field(33019872; "KPI Deputation Value"; Code[20])
+        field(50071; "KPI Deputation Value"; Code[20])
         {
             TableRelation = Department;
             ValidateTableRelation = false;
@@ -719,7 +719,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
             end;
         }
-        field(33019873; "Approver Code"; Code[20])
+        field(50072; "Approver Code"; Code[20])
         {
             TableRelation = Employee;
             ValidateTableRelation = false;
@@ -730,15 +730,15 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.GetEmployeeName("Approver Code", "Approver Name");
             end;
         }
-        field(33019874; "Recommender Name"; Text[50])
+        field(50073; "Recommender Name"; Text[50])
         { DataClassification = CustomerContent; }
-        field(33019875; "Approver Name"; Text[50])
+        field(50074; "Approver Name"; Text[50])
         { DataClassification = CustomerContent; }
-        field(33019876; "Service Period"; Integer)
+        field(50075; "Service Period"; Integer)
         { DataClassification = CustomerContent; }
-        field(33019877; "Converted To Emp. Date"; Date)
+        field(50076; "Converted To Emp. Date"; Date)
         { DataClassification = CustomerContent; }
-        field(33019878; "NAV Login ID"; Code[50])
+        field(50077; "NAV Login ID"; Code[50])
         {
             TableRelation = "User Setup";
             DataClassification = CustomerContent;
@@ -757,20 +757,20 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019879; "Company Code"; Code[10])
+        field(50078; "Company Code"; Code[10])
         {
             TableRelation = Department;
             DataClassification = CustomerContent;
             Caption = 'Company Code';
         }
-        field(33019880; Salutation; Option)
+        field(50079; Salutation; Option)
         {
             DataClassification = CustomerContent;
             Caption = 'Salutation';
             OptionMembers = " ","Mr.","Ms.","Mrs.";
             OptionCaption = ' ,Mr.,Ms.,Mrs.';
         }
-        field(33019881; "Permanent District"; Text[30])
+        field(50080; "Permanent District"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent District';
@@ -786,7 +786,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 //VALIDATE("Permanent District",HRMgt.LookupDistrict("Permanent Province","Permanent District"));
             end;
         }
-        field(33019882; "Temporary District"; Text[30])
+        field(50081; "Temporary District"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary District';
@@ -802,7 +802,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Temporary District", HRMgt.LookupDistrict("Temporary Province", "Temporary District"));
             end;
         }
-        field(33019883; "Permanent Province"; Text[30])
+        field(50082; "Permanent Province"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent Provience address';
@@ -825,7 +825,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Permanent Province", HRMgt.LookupProvience("Permanent Province"));
             end;
         }
-        field(33019884; "Temporary Province"; Text[30])
+        field(50083; "Temporary Province"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary Provience address';
@@ -848,7 +848,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Temporary Province", HRMgt.LookupProvience("Temporary Province"));
             end;
         }
-        field(33019885; "KPI Deputation"; Enum "Deputation Type")
+        field(50084; "KPI Deputation"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
 
@@ -869,7 +869,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 //VALIDATE("Permanent Sub Province",HRMgt.LookupSubProvience("Permanent Province","Permanent Sub Province"));
             end;
         }
-        field(33019886; "Temporary Ward No"; Code[10])
+        field(50085; "Temporary Ward No"; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'temporary';
@@ -879,7 +879,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
             end;
         }
-        field(33019887; "Permanent VDC"; Text[30])
+        field(50086; "Permanent VDC"; Text[30])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -887,7 +887,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
             end;
         }
-        field(33019888; "Temporary VDC"; Text[30])
+        field(50087; "Temporary VDC"; Text[30])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -895,15 +895,15 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
             end;
         }
-        field(33019889; "Permanent House"; Text[30])
+        field(50088; "Permanent House"; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019890; "Temporary House"; Text[30])
+        field(50089; "Temporary House"; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019891; "RF Deposit"; Decimal)
+        field(50090; "RF Deposit"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
@@ -912,7 +912,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Attribute Type" = const(Deduction),
                                                                                                                    "Attribute Sub Type" = const(RF)));
         }
-        field(33019892; "Citizenship Issue Place Code"; Code[10])
+        field(50091; "Citizenship Issue Place Code"; Code[10])
         {
             TableRelation = District;
             DataClassification = CustomerContent;
@@ -928,7 +928,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     HRMgt.CheckForCitizen("Citizen Number", "Citizenship Issue Place Code");
             end;
         }
-        field(33019893; "Province Code"; Code[10])
+        field(50092; "Province Code"; Code[10])
         {
             TableRelation = Province;
             DataClassification = CustomerContent;
@@ -961,7 +961,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019894; "Ward No"; Code[10])
+        field(50093; "Ward No"; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'Citizenship ward no';
@@ -970,15 +970,15 @@ tableextension 50013 "Employee Ext" extends Employee
                 Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
             end;
         }
-        field(33019895; "Disable Punch in"; Boolean)
+        field(50094; "Disable Punch in"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019896; "Restrict Leave Earn"; Boolean)
+        field(50095; "Restrict Leave Earn"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019897; "Confirmation Date"; Date)
+        field(50096; "Confirmation Date"; Date)
         {
             DataClassification = CustomerContent;
             Editable = true;
@@ -988,7 +988,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error('Confirmation date cannot be less than employment date');
             end;
         }
-        field(33019898; "Extension Counter Code"; Code[20])
+        field(50097; "Extension Counter Code"; Code[20])
         {
             DataClassification = CustomerContent;
             TableRelation = "Employee Hierarchy Master" where(Type = const("Extension Counter"));
@@ -997,27 +997,27 @@ tableextension 50013 "Employee Ext" extends Employee
                 ValidateExtenCounter;
             end;
         }
-        field(33019899; "Reporting Line 1"; Code[20])
+        field(50098; "Reporting Line 1"; Code[20])
         {
             DataClassification = CustomerContent;
             TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 1"));
         }
-        field(33019900; "Reporting Line 2"; Code[20])
+        field(50099; "Reporting Line 2"; Code[20])
         {
             TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 2"));
             DataClassification = CustomerContent;
         }
-        field(33019901; Office; Code[20])
+        field(50100; Office; Code[20])
         {
             TableRelation = "Employee Hierarchy Master" where(Type = const(Office));
             DataClassification = CustomerContent;
         }
-        field(33019902; "Eco-System"; Code[20])
+        field(50101; "Eco-System"; Code[20])
         {
             TableRelation = "Employee Hierarchy Master" where(Type = const("Eco-System"));
             DataClassification = CustomerContent;
         }
-        field(33019903; "Lump Sum CIT"; Decimal)
+        field(50102; "Lump Sum CIT"; Decimal)
         {
             FieldClass = FlowField;
             CalcFormula = - Sum("Detailed Employee Ledger Entry".Amount WHERE("Employee No." = FIELD("No."),
@@ -1027,7 +1027,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Disabled" = CONST(false)));
             Editable = false;
         }
-        field(33019904; "Resignation Approver"; Boolean)
+        field(50103; "Resignation Approver"; Boolean)
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -1035,30 +1035,30 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
-        field(33019905; "Secondary Mobile No."; Text[10])
+        field(50104; "Secondary Mobile No."; Text[10])
         {
             DataClassification = CustomerContent;
         }
-        field(33019906; "Emergency Mobile No."; Text[10])
+        field(50105; "Emergency Mobile No."; Text[10])
         {
             DataClassification = CustomerContent;
         }
-        field(33019907; "Insurance Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            Description = 'Insurance';
-        }
-        field(33019908; "Insurance Name"; Text[30])
+        field(50106; "Insurance Code"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019909; "Policy No."; Code[20])
+        field(50107; "Insurance Name"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019910; "Insurance Date"; Date)
+        field(50108; "Policy No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(50109; "Insurance Date"; Date)
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
@@ -1070,7 +1070,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Policy No.", '');
             end;
         }
-        field(33019911; "Insurance Expiry Date"; Date)
+        field(50110; "Insurance Expiry Date"; Date)
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
@@ -1082,38 +1082,38 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Insurance Expiry Date (B.S.)", '');
             end;
         }
-        field(33019912; "Insurance Date (B.S.)"; Code[10])
+        field(50111; "Insurance Date (B.S.)"; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019913; "Insurance Expiry Date (B.S.)"; Code[10])
+        field(50112; "Insurance Expiry Date (B.S.)"; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019914; "Premium Property Insurance"; Decimal)
+        field(50113; "Premium Property Insurance"; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019915; "Premium Amount"; Decimal)
+        field(50114; "Premium Amount"; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019916; "Rebate Amount"; Decimal)
+        field(50115; "Rebate Amount"; Decimal)
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(33019917; "Insurance Disabled"; Boolean)
+        field(50116; "Insurance Disabled"; Boolean)
         {
             DataClassification = CustomerContent;
             Caption = 'Disabled';
             Description = 'Insurance';
         }
-        field(33019918; "Gratuity Eligibility"; Date)
+        field(50117; "Gratuity Eligibility"; Date)
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -1127,7 +1127,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019919; "Contract Expiry Date"; Date)
+        field(50118; "Contract Expiry Date"; Date)
         {
             DataClassification = CustomerContent;
             Editable = false;
@@ -1140,49 +1140,49 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(33019920; "Resignation Date"; Date)
+        field(50119; "Resignation Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(33019921; "Selection committee"; Boolean)
+        field(50120; "Selection committee"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019922; "Citizenship No. (Nepali)"; Text[10])
-        {
-            DataClassification = CustomerContent;
-            Description = 'In nepali';
-        }
-        field(33019923; "VDC/Municipality (Nepali)"; Text[20])
-        {
-            DataClassification = CustomerContent;
-            Description = 'In Nepali';
-        }
-        field(33019924; "Employee No. (Nepali)"; Text[20])
-        {
-            DataClassification = CustomerContent;
-            Description = 'In Nepali';
-        }
-        field(33019925; "Citizenship Date(Nepali)"; Text[10])
+        field(50121; "Citizenship No. (Nepali)"; Text[10])
         {
             DataClassification = CustomerContent;
             Description = 'In nepali';
         }
-        field(33019926; "System Owner"; Boolean)
+        field(50122; "VDC/Municipality (Nepali)"; Text[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(50123; "Employee No. (Nepali)"; Text[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(50124; "Citizenship Date(Nepali)"; Text[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In nepali';
+        }
+        field(50125; "System Owner"; Boolean)
         {
             DataClassification = CustomerContent;
             Description = 'System Access';
         }
-        field(33019927; "CIF ID"; Code[20])
+        field(50126; "CIF ID"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Loan Integration';
         }
-        field(33019928; "Contract Salary Amount"; Decimal)
+        field(50127; "Contract Salary Amount"; Decimal)
         {
             DataClassification = CustomerContent;
         }
-        field(33019929; "Deputation on"; Enum "Deputation Type")
+        field(50128; "Deputation on"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -1191,7 +1191,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     ClearValues;
             end;
         }
-        field(33019930; "Contract Expiry Month"; Option)
+        field(50129; "Contract Expiry Month"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ","01M","02M","03M","04M","05M","06M","07M","08M","09M","10M","11M","1Y";
@@ -1209,110 +1209,110 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Contract Expiry Date");
             end;
         }
-        field(33019931; "Attendance Missed Count"; Integer)
+        field(50130; "Attendance Missed Count"; Integer)
         {
             DataClassification = CustomerContent;
         }
-        field(33019932; "Attendance Missed On";
+        field(50131; "Attendance Missed On";
         Date)
         { DataClassification = CustomerContent; }
-        field(33019933; "Unit Name"; Text[100])
+        field(50132; "Unit Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019934; "Department Name"; Text[50])
+        field(50133; "Department Name"; Text[50])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019935; "Branch Name"; Text[50])
+        field(50134; "Branch Name"; Text[50])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019936; "Extension Counter Name"; Text[100])
+        field(50135; "Extension Counter Name"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019937; "Facebook Url"; Text[100])
+        field(50136; "Facebook Url"; Text[100])
         {
             DataClassification = CustomerContent;
         }
-        field(33019955; Saved; Boolean)
+        field(50154; Saved; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019938; "Functional Title Desc"; Text[100])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(33019939; "Salary Level Description"; Text[50])
+        field(50137; "Functional Title Desc"; Text[100])
         {
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(33019940; "Premium of Health Insurance"; Decimal)
+        field(50138; "Salary Level Description"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50139; "Premium of Health Insurance"; Decimal)
         {
             DataClassification = CustomerContent;
         }
-        field(33019941; "Last Placement Date"; Date)
+        field(50140; "Last Placement Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(33019942; "Contract Renew Date"; Date)
+        field(50141; "Contract Renew Date"; Date)
         {
             DataClassification = CustomerContent;
         }
-        field(33019943; "Contract Expiry Remaining Days"; Integer)
+        field(50142; "Contract Expiry Remaining Days"; Integer)
         {
             DataClassification = CustomerContent;
         }
-        field(33019944; Settled; Boolean)
+        field(50143; Settled; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019945; "Lumpsum CIT (Not Actual)"; Decimal)
+        field(50144; "Lumpsum CIT (Not Actual)"; Decimal)
         {
             DataClassification = CustomerContent;
         }
-        field(33019946; "Lumpsum RF (Not Actual)"; Decimal)
+        field(50145; "Lumpsum RF (Not Actual)"; Decimal)
         {
             DataClassification = CustomerContent;
         }
-        field(33019947; "New Employee"; Boolean)
+        field(50146; "New Employee"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019948; "Old Employee ID (Regular)"; Code[20])
+        field(50147; "Old Employee ID (Regular)"; Code[20])
         {
             DataClassification = CustomerContent;
         }
-        field(33019949; "Probation Period"; Option)
+        field(50148; "Probation Period"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ","6 Month","12 Month";
             OptionCaption = ' ,6 Month,12 Month';
         }
-        field(33019950; "Relation With Emergency Cont"; Text[30])
+        field(50149; "Relation With Emergency Cont"; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019951; COPO; Boolean)
+        field(50150; COPO; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019952; "Department Head"; Boolean)
+        field(50151; "Department Head"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019953; "Chief Of Eco-System"; Boolean)
+        field(50152; "Chief Of Eco-System"; Boolean)
         {
             DataClassification = CustomerContent;
         }
-        field(33019954; "KPI Functional Title"; Code[20])
+        field(50153; "KPI Functional Title"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'KPI1.00';

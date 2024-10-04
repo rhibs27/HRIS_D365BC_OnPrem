@@ -664,13 +664,13 @@ table 50140 "Employee/HR Transfer"
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(64; Description; Text[250])
+        field(50; Description; Text[250])
         {
         }
-        field(90; "Screener Remarks"; Text[100])
+        field(51; "Screener Remarks"; Text[100])
         {
         }
-        field(109; "Transfer Type"; Option)
+        field(52; "Transfer Type"; Option)
         {
             OptionCaption = ' ,Intra Department,Inter Department,Intra Branch,Inter Branch,Intra Provincial,Inter Provincial,Cross Transfer';
             OptionMembers = " ","Intra Department","Inter Department","Intra Branch","Inter Branch","Intra Provincial","Inter Provincial","Cross Transfer";
@@ -695,7 +695,7 @@ table 50140 "Employee/HR Transfer"
                 //Min >>
             end;
         }
-        field(110; "Shortcut Dimension 1 Code (To)"; Code[20])
+        field(53; "Shortcut Dimension 1 Code (To)"; Code[20])
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
@@ -715,7 +715,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(111; "Sub Province Code (To)"; Code[20])
+        field(54; "Sub Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Sub Province".Code;
@@ -735,7 +735,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(112; "Province Code (To)"; Code[20])
+        field(55; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Province;
@@ -753,7 +753,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(113; "Unit (To)"; Code[20])
+        field(56; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Unit));
@@ -778,7 +778,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(114; "Department Code (To)"; Code[20])
+        field(57; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Department;
@@ -796,27 +796,27 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(115; "Reporting Line 1 (To)"; Code[20])
+        field(58; "Reporting Line 1 (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 1"));
         }
-        field(116; "Reporting Line 2 (To)"; Code[20])
+        field(59; "Reporting Line 2 (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 2"));
         }
-        field(117; "Eco-System (To)"; Code[20])
+        field(60; "Eco-System (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Eco-System"));
         }
-        field(118; "Office (To)"; Code[20])
+        field(61; "Office (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Office));
         }
-        field(119; "Extension Counter (To)"; Code[20])
+        field(62; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
@@ -840,7 +840,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(120; "Transfer Effective Date"; Date)
+        field(63; "Transfer Effective Date"; Date)
         {
             Description = 'Transfer';
 
@@ -852,17 +852,17 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(121; "Functional Title (To)"; Code[20])
+        field(64; "Functional Title (To)"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = "Functional Title";
         }
-        field(122; "Deputation On"; Option)
+        field(65; "Deputation On"; Option)
         {
             OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
             OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
         }
-        field(123; "Deputation On (To)"; Option)
+        field(66; "Deputation On (To)"; Option)
         {
             OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
             OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
@@ -880,7 +880,7 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(124; "Relocation Allow."; Decimal)
+        field(67; "Relocation Allow."; Decimal)
         {
             Description = 'Transfer';
 
@@ -890,7 +890,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Invalid Amount.');
             end;
         }
-        field(125; "Outstation/Discomfort Allow."; Decimal)
+        field(68; "Outstation/Discomfort Allow."; Decimal)
         {
             Description = 'Transfer';
 
@@ -900,7 +900,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Invalid Amount.');
             end;
         }
-        field(126; "BM Accomodation Allow."; Decimal)
+        field(69; "BM Accomodation Allow."; Decimal)
         {
             Description = 'Transfer';
 
@@ -910,7 +910,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Invalid Amount.');
             end;
         }
-        field(127; "Remote Area Allow."; Decimal)
+        field(70; "Remote Area Allow."; Decimal)
         {
             Description = 'Transfer';
 
@@ -920,7 +920,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Invalid Amount.');
             end;
         }
-        field(128; "Officiating Allow."; Decimal)
+        field(71; "Officiating Allow."; Decimal)
         {
             Description = 'Transfer';
 
@@ -930,7 +930,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Invalid Amount.');
             end;
         }
-        field(129; "Relocation Distance"; Decimal)
+        field(72; "Relocation Distance"; Decimal)
         {
             Description = 'Transfer';
 
@@ -939,7 +939,7 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        field(130; "Outstation Distance"; Decimal)
+        field(73; "Outstation Distance"; Decimal)
         {
             Description = 'Transfer';
 
@@ -948,7 +948,7 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        field(131; "BMAF Distance"; Decimal)
+        field(74; "BMAF Distance"; Decimal)
         {
             Description = 'Transfer';
 
@@ -957,19 +957,19 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        field(132; "Transfer Allowance Approval"; Option)
+        field(75; "Transfer Allowance Approval"; Option)
         {
             Description = 'Transfer';
             OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Reviewed';
             OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Reviewed;
         }
-        field(133; "Transfer Claim Recommender"; Code[20])
+        field(76; "Transfer Claim Recommender"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee;
             ValidateTableRelation = false;
         }
-        field(134; "Outgoing Branch Rep. Person"; Code[20])
+        field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee;
@@ -985,31 +985,31 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(135; "Transfer Claim Reviewer"; Code[20])
+        field(78; "Transfer Claim Reviewer"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee;
         }
-        field(136; "Acknowledged Date"; Date)
+        field(79; "Acknowledged Date"; Date)
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(137; "Transfer Claim Reviewer Name"; Text[30])
+        field(80; "Transfer Claim Reviewer Name"; Text[30])
         {
             CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Transfer Claim Reviewer")));
             Description = 'Transfer';
             Editable = false;
             FieldClass = FlowField;
         }
-        field(138; "Outgoing Reporting Person Name"; Text[30])
+        field(81; "Outgoing Reporting Person Name"; Text[30])
         {
             CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
             Description = 'Transfer';
             Editable = false;
             FieldClass = FlowField;
         }
-        field(139; Reviewer; Code[20])
+        field(82; Reviewer; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee;
@@ -1022,12 +1022,12 @@ table 50140 "Employee/HR Transfer"
                     Clear("Reviewer Name");
             end;
         }
-        field(140; "Reviewer Name"; Text[50])
+        field(83; "Reviewer Name"; Text[50])
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(141; "Incoming Supervisior"; Code[20])
+        field(84; "Incoming Supervisior"; Code[20])
         {
             Description = 'Transfer';
             TableRelation = Employee;
@@ -1047,19 +1047,19 @@ table 50140 "Employee/HR Transfer"
                     Clear("Incoming Supervisior Name");
             end;
         }
-        field(142; "Incoming Supervisior Name"; Text[50])
+        field(85; "Incoming Supervisior Name"; Text[50])
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(143; "Reviewer Remarks"; Text[50])
+        field(86; "Reviewer Remarks"; Text[50])
         {
         }
-        field(145; "Reason for Resignation"; Text[100])
+        field(87; "Reason for Resignation"; Text[100])
         {
             Description = 'Resignation';
         }
-        field(171; "Date of Joining Of Transfer"; Date)
+        field(88; "Date of Joining Of Transfer"; Date)
         {
             Description = 'Transfer';
 
@@ -1070,20 +1070,20 @@ table 50140 "Employee/HR Transfer"
                     Error('Date of joining of transfer %1 cannot be less than HR Proposed date %2', "Date of Joining Of Transfer", "Transfer Effective Date");
             end;
         }
-        field(172; "Transfer Remarks"; Text[50])
+        field(89; "Transfer Remarks"; Text[50])
         {
             Description = 'Transfer';
         }
-        field(179; "Temporary Address"; Text[65])
+        field(90; "Temporary Address"; Text[65])
         {
         }
-        field(180; "Temporary Province"; Text[30])
+        field(91; "Temporary Province"; Text[30])
         {
         }
-        field(182; "Temporary District"; Text[30])
+        field(92; "Temporary District"; Text[30])
         {
         }
-        field(185; "Notify to"; Text[200])
+        field(93; "Notify to"; Text[200])
         {
             Description = 'Transfer';
 
@@ -1098,7 +1098,7 @@ table 50140 "Employee/HR Transfer"
                     Error('Please use ";" instead of ","');
             end;
         }
-        field(186; "Transfer Category"; Option)
+        field(94; "Transfer Category"; Option)
         {
             Description = 'Transfer';
             OptionCaption = ' ,General,Temporary,Officiating';
@@ -1116,17 +1116,17 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(187; "Curr. Placement Period(Month)"; Decimal)
+        field(95; "Curr. Placement Period(Month)"; Decimal)
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(188; "Reason For Hold"; Text[50])
+        field(96; "Reason For Hold"; Text[50])
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(189; "On Hold Date"; Date)
+        field(97; "On Hold Date"; Date)
         {
             Description = 'Transfer';
 
@@ -1136,12 +1136,12 @@ table 50140 "Employee/HR Transfer"
                     Validate("Transfer Effective Date", "On Hold Date")
             end;
         }
-        field(190; "Reason For Cancel"; Text[50])
+        field(98; "Reason For Cancel"; Text[50])
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(191; "Cancelled Date"; Date)
+        field(99; "Cancelled Date"; Date)
         {
             Description = 'Transfer';
             Editable = false;

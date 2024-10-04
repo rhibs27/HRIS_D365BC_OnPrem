@@ -664,15 +664,15 @@ table 50142 Resignation
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(90; "Screener Remarks"; Text[100])
+        field(50; "Screener Remarks"; Text[100])
         {
         }
-        field(122; "Deputation On"; Option)
+        field(51; "Deputation On"; Option)
         {
             OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
             OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
         }
-        field(144; "Proposed Date of Resignation"; Date)
+        field(52; "Proposed Date of Resignation"; Date)
         {
             Description = 'Resignation';
 
@@ -684,11 +684,11 @@ table 50142 Resignation
                 ResignationMgt.UpdateResignationWaiver(Rec);
             end;
         }
-        field(145; "Reason for Resignation"; Text[100])
+        field(53; "Reason for Resignation"; Text[100])
         {
             Description = 'Resignation';
         }
-        field(146; "Waiver Case"; Option)
+        field(54; "Waiver Case"; Option)
         {
             Description = 'Resignation';
             OptionCaption = ' ,Normal,Recovery';
@@ -702,7 +702,7 @@ table 50142 Resignation
                 end;
             end;
         }
-        field(147; "Supervisor Proposed Date"; Date)
+        field(55; "Supervisor Proposed Date"; Date)
         {
             Description = 'Resignation';
 
@@ -712,11 +712,11 @@ table 50142 Resignation
                     Error('Supervisor proposed date(%1) must be greater than requested date(%2)', "Supervisor Proposed Date", "Requested Date");
             end;
         }
-        field(148; "HR Proposed Date"; Date)
+        field(56; "HR Proposed Date"; Date)
         {
             Description = 'Resignation';
         }
-        field(149; "Insurance Claim"; Option)
+        field(57; "Insurance Claim"; Option)
         {
             OptionCaption = ' ,Self,Father,Mother,Spouse,Child,General Checkup';
             OptionMembers = " ",Self,Father,Mother,Spouse,Child,"General Checkup";
@@ -746,24 +746,24 @@ table 50142 Resignation
                 end;
             end;
         }
-        field(150; "Father Name"; Text[50])
+        field(58; "Father Name"; Text[50])
         {
             FieldClass = Normal;
         }
-        field(151; "Mother Name"; Text[50])
+        field(59; "Mother Name"; Text[50])
         {
         }
-        field(152; "Spouse Name"; Text[50])
+        field(60; "Spouse Name"; Text[50])
         {
         }
-        field(153; "Child Name"; Text[50])
+        field(61; "Child Name"; Text[50])
         {
         }
-        field(160; "Apply for Waiver"; Boolean)
+        field(62; "Apply for Waiver"; Boolean)
         {
             Description = 'Resignation';
         }
-        field(161; "Reason for Waiver"; Text[50])
+        field(63; "Reason for Waiver"; Text[50])
         {
             Description = 'Resignation';
         }

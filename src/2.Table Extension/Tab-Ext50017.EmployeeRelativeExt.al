@@ -9,83 +9,83 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 GetNextLineNo;
             end;
         }
-        field(33019800; Address; Text[30])
+        field(50000; Address; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019801; Relation; Text[30])
+        field(50001; Relation; Text[30])
         {
             DataClassification = CustomerContent;
         }
-        field(33019802; "Master Type"; Option)
+        field(50002; "Master Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",Employee,Candidate;
             OptionCaption = ' ,Employee,Candidate';
         }
-        field(33019803; "Name(Nepali)"; Text[30])
+        field(50003; "Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019804; "Fathers Name(Nepali)"; Text[30])
+        field(50004; "Fathers Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019805; "GrandFather Name(Nepali)"; Text[30])
+        field(50005; "GrandFather Name(Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019806; District; Code[10])
+        field(50006; District; Code[10])
         {
             TableRelation = District;
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019807; "VDC/Municipality"; Text[30])
+        field(50007; "VDC/Municipality"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019808; "Ward No"; Integer)
+        field(50008; "Ward No"; Integer)
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019809; "Citizenship No."; Text[10])
+        field(50009; "Citizenship No."; Text[10])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019810; Age; Integer)
+        field(50010; Age; Integer)
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019811; "Citizenship Date"; Date)
+        field(50011; "Citizenship Date"; Date)
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(33019812; "Citizenship Issued District"; Code[10])
+        field(50012; "Citizenship Issued District"; Code[10])
         {
             TableRelation = District;
             DataClassification = CustomerContent;
         }
-        field(33019813; "Citizenship Date (Nepali)"; Text[10])
+        field(50013; "Citizenship Date (Nepali)"; Text[10])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(33019814; "Relationship"; Enum Relation)
+        field(50014; "Relationship"; Enum Relation)
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Relative.Relation WHERE(Code = FIELD("Relative Code")));
             Editable = false;
         }
-        field(33019815; "Full Name"; Text[50])
+        field(50015; "Full Name"; Text[50])
         {
             DataClassification = CustomerContent;
         }

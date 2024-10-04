@@ -40,7 +40,7 @@ table 50137 "Sub Province"
         {
             Caption = 'County';
         }
-        field(50000; "Province Code"; Code[10])
+        field(6; "Province Code"; Code[10])
         {
             TableRelation = Province;
             DataClassification = CustomerContent;
@@ -55,29 +55,29 @@ table 50137 "Sub Province"
                     Clear("Province Name");
             end;
         }
-        field(50001; "Province Name"; Text[50])
+        field(7; "Province Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Editable = false;
         }
-        field(50002; "Sol ID"; Code[10])
+        field(8; "Sol ID"; Code[10])
         {
             DataClassification = ToBeClassified;
         }
-        field(50003; "Posting Region"; Enum Region)
+        field(9; "Posting Region"; Enum Region)
         {
             DataClassification = ToBeClassified;
         }
-        field(50004; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
+        field(10; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = ToBeClassified;
         }
-        field(60000; "Reporting Category"; Code[10])
+        field(11; "Reporting Category"; Code[10])
         {
             // TableRelation = "Reporting Category"; todo
             DataClassification = ToBeClassified;
         }
-        field(60001; Blocked; Boolean)
+        field(12; Blocked; Boolean)
         {
             DataClassification = ToBeClassified;
         }

@@ -2,7 +2,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
 {
     fields
     {
-        field(5001; "G/L Document No"; Code[20])
+        field(50000; "G/L Document No"; Code[20])
         {
             DataClassification = ToBeClassified;
         }
@@ -10,159 +10,159 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50003; "Shortcut Dimension 1 Code"; Code[20])
+        field(50002; "Shortcut Dimension 1 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
             DataClassification = ToBeClassified;
             Caption = 'Shortcut Dimension 1 Code';
             CaptionClass = '1,2,1';
         }
-        field(50004; "Shortcut Dimension 2 Code"; Code[20])
+        field(50003; "Shortcut Dimension 2 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
             DataClassification = ToBeClassified;
             Caption = 'Shortcut Dimension 2 Code';
             CaptionClass = '1,2,2';
         }
-        field(50006; "Payroll Attribute Code"; Code[20])
+        field(50004; "Payroll Attribute Code"; Code[20])
         {
             TableRelation = "Payroll Attributes";
             DataClassification = ToBeClassified;
         }
-        field(50007; "Pay Cycle Code"; Code[10])
+        field(50005; "Pay Cycle Code"; Code[10])
         {
             TableRelation = "Pay Cycle";
             DataClassification = ToBeClassified;
         }
-        field(50008; "Pay Cycle Term"; Code[10])
+        field(50006; "Pay Cycle Term"; Code[10])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
             DataClassification = ToBeClassified;
         }
-        field(50009; "Pay Cycle Period"; Integer)
+        field(50007; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                                                                   "Pay Cycle Term" = field("Pay Cycle Term"));
             DataClassification = ToBeClassified;
         }
-        field(50010; "Pay Period Start Date"; Date)
+        field(50008; "Pay Period Start Date"; Date)
         {
             DataClassification = ToBeClassified;
         }
-        field(50011; "Pay Period End Date"; Date)
+        field(50009; "Pay Period End Date"; Date)
         {
             DataClassification = ToBeClassified;
         }
-        field(50012; "Attribute Type"; Enum "Attribute Type")
+        field(50010; "Attribute Type"; Enum "Attribute Type")
         {
             DataClassification = ToBeClassified;
 
         }
-        field(50013; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(50011; "Attribute Sub Type"; Enum "Attribute Sub Type")
         {
             DataClassification = ToBeClassified;
         }
-        field(50014; "Dimension Set ID"; Integer)
+        field(50012; "Dimension Set ID"; Integer)
         {
             TableRelation = "Dimension Set Entry";
             DataClassification = ToBeClassified;
             Caption = 'Dimension Set ID';
             Editable = false;
         }
-        field(50015; "Creation Date"; Date)
+        field(50013; "Creation Date"; Date)
         {
             DataClassification = ToBeClassified;
         }
-        field(50016; Reversed; Boolean)
+        field(50014; Reversed; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(50017; "Non-Taxable"; Boolean)
+        field(50015; "Non-Taxable"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(50018; "Posted Payroll Plan No."; Code[20])
+        field(50016; "Posted Payroll Plan No."; Code[20])
         {
             TableRelation = "Posted Payroll Header";
             DataClassification = ToBeClassified;
         }
-        field(50019; "Posted Payroll Plan Line No."; Integer)
+        field(50017; "Posted Payroll Plan Line No."; Integer)
         {
             DataClassification = ToBeClassified;
         }
-        field(50020; "Shortcut Dimension 3 Code"; Code[20])
+        field(50018; "Shortcut Dimension 3 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(3));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,3';
         }
-        field(50021; "Shortcut Dimension 4 Code"; Code[20])
+        field(50019; "Shortcut Dimension 4 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(4));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,4';
         }
-        field(50022; "Shortcut Dimension 5 Code"; Code[20])
+        field(50020; "Shortcut Dimension 5 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(5));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,5';
         }
-        field(50023; "Shortcut Dimension 6 Code"; Code[20])
+        field(50021; "Shortcut Dimension 6 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(6));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,6';
         }
-        field(50024; "Shortcut Dimension 7 Code"; Code[20])
+        field(50022; "Shortcut Dimension 7 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(7));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,7';
         }
-        field(50025; "Shortcut Dimension 8 Code"; Code[20])
+        field(50023; "Shortcut Dimension 8 Code"; Code[20])
         {
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(8));
             DataClassification = ToBeClassified;
             Editable = false;
             CaptionClass = '1,2,8';
         }
-        field(50026; "Salary Advance No."; Code[20])
+        field(50024; "Salary Advance No."; Code[20])
         {
             TableRelation = "Employee Loan/Advance" where("Loan Type" = const("Salary Advance"));
             DataClassification = ToBeClassified;
         }
-        field(50027; "Finacle GL No"; Text[30])
+        field(50025; "Finacle GL No"; Text[30])
         {
             DataClassification = ToBeClassified;
         }
-        field(50028; "Finacle GL Name"; Text[50])
+        field(50026; "Finacle GL Name"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
-        field(50029; "Deputation On"; Enum "Deputation Type")
+        field(50027; "Deputation On"; Enum "Deputation Type")
         {
             DataClassification = ToBeClassified;
         }
-        field(50030; "Deputation Value"; Text[60])
+        field(50028; "Deputation Value"; Text[60])
         {
             DataClassification = ToBeClassified;
         }
-        field(50031; "Sol ID"; Code[10])
+        field(50029; "Sol ID"; Code[10])
         {
             DataClassification = ToBeClassified;
         }
-        field(50032; "Fiscal Year"; Code[10])
+        field(50030; "Fiscal Year"; Code[10])
         {
             DataClassification = ToBeClassified;
             Editable = false;
         }
-        field(50033; Disabled; Boolean)
+        field(50031; Disabled; Boolean)
         {
             DataClassification = ToBeClassified;
         }

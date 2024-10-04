@@ -23,16 +23,16 @@ table 50001 "KRA Master Setup1"
         {
             TableRelation = "Key Value Master".Code where(Type = filter("Key Result Area"));
         }
-        field(6; "Deputation on"; Enum "Deputation Type")
+        field(5; "Deputation on"; Enum "Deputation Type")
         {
 
         }
-        field(7; Description; Text[250]) { }
-        field(8; "Weightage(%)"; Decimal) { }
-        field(9; "Target Assigned"; Decimal) { }
-        field(10; "Actual Achievement"; Decimal) { }
-        field(11; "Sol Id"; Code[20]) { }
-        field(12; "Province Code"; Code[10])
+        field(6; Description; Text[250]) { }
+        field(7; "Weightage(%)"; Decimal) { }
+        field(8; "Target Assigned"; Decimal) { }
+        field(9; "Actual Achievement"; Decimal) { }
+        field(10; "Sol Id"; Code[20]) { }
+        field(11; "Province Code"; Code[10])
         {
             TableRelation = Province;
 
@@ -40,7 +40,7 @@ table 50001 "KRA Master Setup1"
             begin
             end;
         }
-        field(13; "Sub Province Code"; Code[20])
+        field(12; "Sub Province Code"; Code[20])
         {
             Caption = 'Sub Province Code';
             TableRelation = "Sub Province";

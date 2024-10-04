@@ -26,49 +26,49 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                 Clear("Time Period");
             end;
         }
-        field(33019800; "Emp Qualification Type"; Option)
+        field(50000; "Emp Qualification Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",Education,Work;
             Description = 'Type as Work Experience or Education';
         }
-        field(33019801; Percentage; Decimal)
+        field(50001; Percentage; Decimal)
         { DataClassification = CustomerContent; }
-        field(33019802; Stream; Text[30])
+        field(50002; Stream; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'example- Science, Management etc.';
         }
-        field(33019803; Year; Code[10])
+        field(50003; Year; Code[10])
         {
             DataClassification = CustomerContent;
             Description = 'Date of Completion of particular study';
         }
-        field(33019804; Designation; Text[30])
+        field(50004; Designation; Text[30])
         { DataClassification = CustomerContent; }
-        field(33019805; "Time Period"; Decimal)
+        field(50005; "Time Period"; Decimal)
         { DataClassification = CustomerContent; }
-        field(33019806; Remuneration; Text[30])
+        field(50006; Remuneration; Text[30])
         { DataClassification = CustomerContent; }
-        field(33019807; "Contact Number"; Text[30])
+        field(50007; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33019808; Remarks; Text[30])
+        field(50008; Remarks; Text[30])
         { DataClassification = CustomerContent; }
-        field(33019809; Rank; Integer)
+        field(50009; Rank; Integer)
         { DataClassification = CustomerContent; }
-        field(33019810; "Qualification Type"; Option)
+        field(50010; "Qualification Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",SLC,"+2",Bachelor,Master,CA;
             OptionCaption = ' ,SLC,+2,Bachelor,Master,CA';
         }
-        field(33019811; "Master Type"; Option)
+        field(50011; "Master Type"; Option)
         {
             DataClassification = CustomerContent;
             OptionMembers = " ",Employee,Candidate;
             OptionCaption = ' ,Employee,Candidate';
         }
-        field(33019812; CGPA; Decimal)
+        field(50012; CGPA; Decimal)
         { DataClassification = CustomerContent; }
     }
     keys { }
