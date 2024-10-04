@@ -1,0 +1,21 @@
+enum 33019838 "Employee Type"
+{
+    Extensible = true;
+    
+    value(0; " ")
+    { 
+        Caption = ' ';
+    }
+    value(1; Permanent)
+    {
+        Caption = 'Permanent';
+    }
+    value(2; Probation)
+    {
+        Caption = 'Probation';
+    }
+    value(3; Contract)
+    {
+        Caption = 'Contract';
+    }
+}

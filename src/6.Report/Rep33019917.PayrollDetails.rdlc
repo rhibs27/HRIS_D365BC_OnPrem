@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+        <Field Name="SalaryLevel">
+          <DataField>SalaryLevel</DataField>
+        </Field>
+        <Field Name="SalaryGrade">
+          <DataField>SalaryGrade</DataField>
+        </Field>
+        <Field Name="PanNo">
+          <DataField>PanNo</DataField>
+        </Field>
+        <Field Name="FunctionalTitle">
+          <DataField>FunctionalTitle</DataField>
+        </Field>
+        <Field Name="BankAccountNo">
+          <DataField>BankAccountNo</DataField>
+        </Field>
+        <Field Name="DeputationOn">
+          <DataField>DeputationOn</DataField>
+        </Field>
+        <Field Name="DeputationCode">
+          <DataField>DeputationCode</DataField>
+        </Field>
+        <Field Name="SalaryLevelDescription">
+          <DataField>SalaryLevelDescription</DataField>
+        </Field>
+        <Field Name="FunctionalTitleVarDescription">
+          <DataField>FunctionalTitleVarDescription</DataField>
+        </Field>
+        <Field Name="DepartmentVarName">
+          <DataField>DepartmentVarName</DataField>
+        </Field>
+        <Field Name="CurrentDeduction">
+          <DataField>CurrentDeduction</DataField>
+        </Field>
+        <Field Name="CurrentDeductionFormat">
+          <DataField>CurrentDeductionFormat</DataField>
+        </Field>
+        <Field Name="DepartmentVarCode">
+          <DataField>DepartmentVarCode</DataField>
+        </Field>
+        <Field Name="NetPay">
+          <DataField>NetPay</DataField>
+        </Field>
+        <Field Name="NetPayFormat">
+          <DataField>NetPayFormat</DataField>
+        </Field>
+        <Field Name="MaritalStatus_PostedPayrollLine">
+          <DataField>MaritalStatus_PostedPayrollLine</DataField>
+        </Field>
+        <Field Name="Gender_PostedPayrollLine">
+          <DataField>Gender_PostedPayrollLine</DataField>
+        </Field>
+        <Field Name="PayCycleTerm">
+          <DataField>PayCycleTerm</DataField>
+        </Field>
+        <Field Name="Months">
+          <DataField>Months</DataField>
+        </Field>
+        <Field Name="EmployeeSalaryLevel">
+          <DataField>EmployeeSalaryLevel</DataField>
+        </Field>
+        <Field Name="EmployeePanNo">
+          <DataField>EmployeePanNo</DataField>
+        </Field>
+        <Field Name="EmployeeSalaryLevelDesc">
+          <DataField>EmployeeSalaryLevelDesc</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+        <Field Name="PayrollDescription">
+          <DataField>PayrollDescription</DataField>
+        </Field>
+        <Field Name="PayrollCode">
+          <DataField>PayrollCode</DataField>
+        </Field>
+        <Field Name="SortingOrder">
+          <DataField>SortingOrder</DataField>
+        </Field>
+        <Field Name="Type_PayrollAttributes">
+          <DataField>Type_PayrollAttributes</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

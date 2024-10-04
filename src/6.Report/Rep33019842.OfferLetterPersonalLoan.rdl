@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>f229a3ac-7d04-45bc-960e-bf387b9e6ce6</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>7.59375in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>6.92708in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle1">
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <Top>0.08333in</Top>
+            <Left>0.10292in</Left>
+            <Height>6.92708in</Height>
+            <Width>7.59375in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">O{=;= M </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">=fields!TodayDate.value</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve" EvaluationMode="Auto">
+</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">(Name of employee)</Value>
+                    <Style>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve" EvaluationMode="Auto">
+</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">sd{rf/L kl/ro kq </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">=fields!EmployeeCode.value</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">
+Pg cfO{ ;L Plzof a}+s lnld6]8,
+sf&amp;df)*f}+, g]kfn . 
+
+
+dxfzo, 
+l</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">jifo M sd{rf/L shf{÷;'ljwf :jLs[tL kq</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto"> 
+
+o; Pg cfO{ ;L Plzof a}+s lnld6]8n] tkfO{nfO{ lgDg zt{ aGb]hsf] clwgdf /xL lgDg adf]lhd C0f÷shf{  tyf ;'ljwf l;df k|bfg ug]{ lg0f{o u/]sf] x'Fbf ;xif{ hfgsf/L u/fpFb5f}+ . 
+kIfx? M 
+     -s_ </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">(Name of employee)</Value>
+                    <Style>
+                      <FontFamily>Times New Roman</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto"> -h;nfO{ o;kl5 æC0fL sd{rf/LÆ jf æC0fLÆ  jf ætkfO{Æ elgPsf] 5_
+     -v_ Pg cfO{ ;L Plzof a}+s lnld6]8 -h;nfO{ o;kl5 æa}+sÆ elgPsf] 5 _ </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value xml:space="preserve" EvaluationMode="Auto">
+</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">!=	;'ljwfsf] p2]Zo / k|s[of </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">(Purpose and Operation of Facilities) : </Value>
+                    <Style>
+                      <FontFamily />
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve" EvaluationMode="Auto">
+      </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">;'ljwf	M	sd{rf/L JolQmut shf{ </Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">(Staff Personal Loan Facility)</Value>
+                    <Style>
+                      <FontFamily />
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve" EvaluationMode="Auto">
+	</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value EvaluationMode="Auto">      /sd	M	clwstd /m=%,&amp;),)))÷–-cIf/]kL kfFr nfv ;Q/L xhf/ ===== ?k+}of ==== dfq_ {/m=@)$,)))÷-cIf/]kL b'O{ nfv rf/ xhf/ ?k+}of dfq_ k"j{ :jLs[t ;Ldfdf ?=  ^^,)))÷–-cIf/]kL ltg nfv 5};¶L xhf/ ?k+}of dfq_ n] a[l4} .
+	p2]Zo	M	JolQmut cfjZostf k'/f ug{ .
+Aofh b/ 	M	jflif{s $ k|ltzt (u|fxs jrt vftfsf] Go'gtd Jofhb/ eGbf )=%% al9_ sf b/n] cyjf a}+sn] ;do–;dodf kl/dflh{t u/] jdf]lhd .
+shf{ k|jfx   M	of] shf{ ;'ljwf l/elNeË (Revolving) k|s[ltsf] x'g]5 / C0fLn] cfjZostf cg';f/ /sd lgsfNg, /fVg / k'gM lgsfNg ;d]t ;Sg]5 / /sd hDdf ubf{ cfjZostf cg';f/ cg'dlt lng' kg]{ ePdf ;f] ;d]t lng' kg]{ 5 . a}+sn] lnlvt ?kdf dfu u/]sf] cj:yfdf pQm shf{ ;'ljwf t'?Gt r'Qmf e'QmfgL ug'{kg]{5 .
+@=	cfwf/e"t zt{ aGb]hx? (Basic terms and conditions): 
+-s_ sd{rf/L JolQmut shf{sf nflu 5'6[} vftf vf]lng]5 / ;f]xL vftfdf shf{ l;df /flvg]5 / Aofh klg ;f]xL vftfaf6 ljs|d ;+jt cg';f/ x/]s dlxgfsf] clGtd lbgdf lnOg] 5 .
+v_	Aofh (Interest) M  
+	a}+sn] cGoyf pNn]v u/]sf] cj:yf afx]s dfly pNn]v ul/Psf] b/n] b}lgs jSof}tf shf{ /sd (Daily Outstanding Balances) df Aofh nufO{g] 5 . olb ;dodf Aofh e'QmfgL gu/]df jf shf{ ;DaGwL s'g} klg zt{ aGb]h pNn+3g u/]df a}+sn] k"j{ ;"rgf lbO{ jf glbO{ sg} aSof}tf Jofh /sd -Overdue Interest Amount_ df aflif{s # k|ltztsf b/n] yk Aofh nufOg]5 . pQm /sd dfgj ;+zfwg ljefun]] k"j{ ;"rgf lbO{ jf glbO{sg} art vftfaf6 Jofh tyf yk Jofh c;'n pk/ ug]{5 . aSof}tf ePsf] /sd ;dodf r'Stf e'Stfg gePdf tkfO{sf] dfl;s tna eQfaf6 s§f ul/ tna k|bfg ul/g]5 . pQm aSof}tf Jofh /sd #) lbg leq klg r'Qmf e'Qmfg gePdf tkfFO{nfO{ r]tfjgL kq hf/L ul/g]5 . ;f] kqsf] k|ltlnkL tkfO{sf] JolQmut kmfOndf /flvg]5 . 
+-u_ olb tLg dlxgf ;Ddklg aSof}tf Aofh e'QmfgL gu/]df tkfO{n] k|of]u ub}{ cfpg' ePsf] JolQmut shf{ ;'ljwf r'Qmf e'Qmfg ug'{ kg]{5 . 
+-3_ o;/L C0f shf{ r'Qmf ug{ nufOP kl5 tLg jif{ ;Dd sd{rf/L JolQmut shf{ ;'ljwf k|bfg ul/g] 5}g .
+-ª_ C0fshf{ ;'ljwfsf] r'Qmf e'Qmfg ug{ g;s]sf] cj:yfdf cyjf tkfO{ a}+ssf] ;]jfdf s'g} klg sf/0faf6 g/x]sf] cj:yfdf afFsL aSof}tf c;'nLsf nflu tkfO{sf] cjsfz sf]if, ;+rosf]if tna ;'ljwf tyf a}+sn] tkfO{nfO{ lbg' kg]{ cGo /sdaf6 c;'npk/ ug]{5 . 
+-r_ C0fL sd{rf/Ln] k|fKt u/]sf] sd{rf/L JolQmut shf{ ;'ljwf, sd{rf/L ljlgodfjnLn] jlh{t u/]sf] sfdx?df b'?kof]u u/]sf] eGg] 7x/ ePdf oyflz3| ;f] shf{ r'Qmf e'Qmfg ug{ nufpg] clwsf/ a}+s;+u lglxt /xg]5 . 
+-5_	lwtf] ;'/If0f (Securities) : 
+	C0fL sd{rf/Ln] lgDg adf]lhd ;Dk"0f{ shf{ ;'ljwfsf] ;'/If0f k|bfg ug]{5 . shf{ k|jfx x'g' eGbf cufj} C0fLn] lgDg lnvt÷sfuhftx? Dfgj ;+zfwg ljefu ;dIf k]z ug'{kg]{5 . 
+	
+
+
+              
+
+           
+
+
+
+
+
+               -!_ shf{ td;'s (Loan Deed)
+     -@_ k|lt1f kq (Promissory Note)
+ -#_ &gt;Ldfg÷&gt;LdtLsf] JolQmut hdfgLkq (Personal Guarantee of Spouse, if applicable)
+	       Other Securities
+1.	Provident Fund, 2.Retirement Fund, 3. Salary, 4. Other Payables.
+ 
+    -h_ shf{ e'QmfgL (Repayment) : 
+	cGo ljz]if Joj:yfdf pNn]v ul/Psf jfx]s a}+sn] s'g} klg ;dodf ;a} afFsL ;Dk"0f{ shf{ tyf Aofh / cGo ltg'{ kg]{ /sd t'?Gt ltg{ nufpg]5 tyf ;'ljwf /2 ug{ ;Sg] 5 . 
+-em_ C0fL sd{rf/Ln] o; k|:tfj kq jf s'g} klg ;'/If0fsf] lnvtdf pNn]lvt s'g} klg zt{÷sa'lnotx?sf] kfngf ug'{kg]{5 .
+-`_ C0fL sd{rf/Ln] o; k|:tfj kq adf]lhd ug]{÷u/]sf ;Dk"0f{ sfuhft÷lnvtx? sfg"gL ?kn] aGwgsf/L x'g]5g\ . 
+-6_ C0fL sd{rf/Lsf lj?ådf s'g} sfg"gL sf/jfxL ÷ljefuLo sf/jfxL rln/x]sf] x'g'x'g] 5}g . 
+-7_ C0fL sd{rf/Ln] pkef]u ug]{ shf{ ;'ljwfsf nflu C0fL sd{rf/Ln] a}+sjf6 k|fKt ug]{ ;Dk'0f{ ljQLo ;'ljwfx? h:t} tnj, af]g;, ;~ro sf]if Pj+ cGo ;'ljwfx? pk/ a}+ssf] cu|flwsf/ /xg] 5 .
+-8_ a}+ssf] lxt k|lts'n x'g] s'g} sfo{ ug]{, k|lti7fdf cfFr cfpg ;Sg] u/L a}+ssf] lj?4df s'g} lgsfodf ph'/ afh'/ ug]{, kbLo dof{bfsf] Vofn gu/L a}+ssf] uf]kgLotf e+u x'g] lsl;dsf ultljWfLx?df ;+nUg x'g] Pj+ a}+ssf] gLlt lgod tyf sd{rf/L ;]jf, zt{ / ;'ljwf ;DjGwL ljlgodfjnL, @)&amp;# sf]] pNn+3g u/]df a}+sjf6 pknAw shf{ ;'ljwfsf] afFsL aSof}tf /sd t'?Gt lkmtf{ e'Qmfg dfUg] clwsf/ a}+s;Fu ;'/lIft /xg] 5 .
+#= dflysf] s'g} Ps jf ;a} cj:yf jf kl/l:ylt pTkGg ePdf a}+snfO{ lgDg lnlvt clwsf/ k|fKt x'g]5 . 
+s_ afFsL /x]sf] ;Dk"0f{ ;fFjf, Aofh tyf cGo n]gf /sdx? t'?Gt ltg{ nufpg] . 
+v_ C0fL sd{rf/Ln] ;'/If0f :j?k lbPsf] ;Dk"0f{ jf s]xL ;DklQ cfˆgf] sAhfdf lnO{ jf glnO{ lnnfd jf laqmL ug]{ / ;f] af6 k|fKt x'g cfPsf] /sd cfkm"n] C0fL sd{rf/L;Fu lng' kg]{ /sddf ;dfof]hg ug]{ . 
+u_ o; k|:tfj kq jf C0f÷shf{ /÷jf a}+lsË ;'ljwf;Fu ;DalGwt s'g} klg lnvtsf] s'g} klg zt{ aGb]h kfngf gu/L /2 ug]{ tyf s'g} klg C0f÷shf{ /÷jf a}lsË ;'ljwfsf] lbg afFsL /sd -lx:;f÷c+z_ /f]Ssf ug]{ . 
+3_ C0f÷shf{ /÷jf a}lsË ;'ljwf k|bfg ubf{sf] cj:yfsf] s'g} klg zt{ aGb]hx? cfˆgf] :jljj]sn] Psnf}6L ?kdf kl/jt{g ug]{ 
+ª_ g]kfn /fi6« a}+såf/f hf/L ePsf] lgb]{lzsf tyf cGo k|rlnt lgod÷sfg"gdf ePsf] Joj:yf adf]lhd C0fL tyf hdfgLstf{nfO{ shf{ ;"rgf s]Gb| tyf To:t} cGo lgsfodf sfnf] ;'rLdf /fVg l;kmfl/z ug]{ .
+r_ sd{rf/L ;]jf, zt{ / ;'ljwf ;DaGwL ljlgodfjnL, @)&amp;# adf]lhd C0fL sd{rf/Ln] vf]Ng ldNg] / cGo vftf / hdfgLstf{sf] a}+sdf /x]sf] vftfdf /x]sf] s'g} jf ;a} /sd /f]Ssf /fVg jf ;f]af6 a}+ssf] n]gf c;'n pk/ ug{ .
+5_ C0fL sd{rf/Ln] ltg'{ a'´fpg'kg]{ /sd ;dod} glt/L ga'´fO lwªGofO u/]df a}+såf/f hf/L ul/Psf] clGtd ;"rgfnfO{ cfwf/ dflg  a}+ssf] gLlt, lgod tyf a}+s tyf ljQLo ;+:yf ;DjGwL P]g, @)&amp;# tyf k|rlnt sfg"g adf]lhd cfkmgf] ;Dk'0f{ n]gf /sd c;'n pk/ ug]{ .
+#= sfg"g / clwsf/ If]q (Law and Jurisdiction):
+of] shf{ ;Demf}tf g]kfnsf] k|rlnt sfg"g tyf clwsf/ If]qsf] clwgdf /xg] 5 . 
+
+ejbLo, 
+
+==================================					    ========================================
+l8 Pg P P08 6\ofn]G6 Joj:yfkg ljefu				l8 Pg P P08 6\ofn]G6 Joj:yfkg ljefu
+Gffd M  l/t]z clwsf/L					        	gfdM  /lag al/of
+kb M  slgi7 clws[t– l8 Pg P P08 6\ofn]G6 Joj:yfkg ljefu               	kb M  k|aGws – l8 Pg P P08 6\ofn]G6 Joj:yfkg ljefu						
+o; kqdf pNn]lvt ;Dk"0f{ zt{ aGb]hx? dfGo /x]sf] x'Fbf ;f]df x:tfIf/ u/L l8 Pg P P08 6\ofn]G6 Joj:yfkg ljefu ;dIf k]z u/]sf] 5'
+x:tfIf/ M 	
+
+====================
+C0fL sd{rf/L
+;Gb]z /fhe08f/L
+</Value>
+                    <Style>
+                      <FontFamily>Preeti</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>0.11333in</Top>
+            <Left>0.13417in</Left>
+            <Height>6.47917in</Height>
+            <Width>7.48958in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>7.22917in</Height>
+        <Style />
+      </Body>
+      <Width>7.70833in</Width>
+      <Page>
+        <LeftMargin>0.25in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
+        <TopMargin>0.25in</TopMargin>
+        <BottomMargin>0.25in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="TodayDate">
+          <DataField>TodayDate</DataField>
+        </Field>
+        <Field Name="EmployeeCode">
+          <DataField>EmployeeCode</DataField>
+        </Field>
+        <Field Name="InterestRate_EmployeeLoanAdvance">
+          <DataField>InterestRate_EmployeeLoanAdvance</DataField>
+        </Field>
+        <Field Name="InterestRate_EmployeeLoanAdvanceFormat">
+          <DataField>InterestRate_EmployeeLoanAdvanceFormat</DataField>
+        </Field>
+        <Field Name="EligibleLoanAdvance_EmployeeLoanAdvance">
+          <DataField>EligibleLoanAdvance_EmployeeLoanAdvance</DataField>
+        </Field>
+        <Field Name="EligibleLoanAdvance_EmployeeLoanAdvanceFormat">
+          <DataField>EligibleLoanAdvance_EmployeeLoanAdvanceFormat</DataField>
+        </Field>
+        <Field Name="DisbursedAmount">
+          <DataField>DisbursedAmount</DataField>
+        </Field>
+        <Field Name="DisbursedAmountFormat">
+          <DataField>DisbursedAmountFormat</DataField>
+        </Field>
+        <Field Name="AmountInWordsNepali">
+          <DataField>AmountInWordsNepali</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

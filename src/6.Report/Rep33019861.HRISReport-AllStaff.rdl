@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="No_">
+          <DataField>No_</DataField>
+        </Field>
+        <Field Name="FullName_">
+          <DataField>FullName_</DataField>
+        </Field>
+        <Field Name="Gender_">
+          <DataField>Gender_</DataField>
+        </Field>
+        <Field Name="DeputationOn_">
+          <DataField>DeputationOn_</DataField>
+        </Field>
+        <Field Name="DeputationCode">
+          <DataField>DeputationCode</DataField>
+        </Field>
+        <Field Name="DeputationValue">
+          <DataField>DeputationValue</DataField>
+        </Field>
+        <Field Name="ProvinceName_">
+          <DataField>ProvinceName_</DataField>
+        </Field>
+        <Field Name="SubProvinceName_">
+          <DataField>SubProvinceName_</DataField>
+        </Field>
+        <Field Name="EcoSystem_">
+          <DataField>EcoSystem_</DataField>
+        </Field>
+        <Field Name="Cluster_">
+          <DataField>Cluster_</DataField>
+        </Field>
+        <Field Name="BranchName_">
+          <DataField>BranchName_</DataField>
+        </Field>
+        <Field Name="DepartmentName_">
+          <DataField>DepartmentName_</DataField>
+        </Field>
+        <Field Name="FunctionalTitleDesc_">
+          <DataField>FunctionalTitleDesc_</DataField>
+        </Field>
+        <Field Name="Status_">
+          <DataField>Status_</DataField>
+        </Field>
+        <Field Name="EmploymentType_">
+          <DataField>EmploymentType_</DataField>
+        </Field>
+        <Field Name="SalaryLevel_">
+          <DataField>SalaryLevel_</DataField>
+        </Field>
+        <Field Name="EmploymentDate_">
+          <DataField>EmploymentDate_</DataField>
+        </Field>
+        <Field Name="EmploymentDateNepali_">
+          <DataField>EmploymentDateNepali_</DataField>
+        </Field>
+        <Field Name="ConfirmationDate_">
+          <DataField>ConfirmationDate_</DataField>
+        </Field>
+        <Field Name="LastPromotionDate_">
+          <DataField>LastPromotionDate_</DataField>
+        </Field>
+        <Field Name="ContractExpiryPeriod_">
+          <DataField>ContractExpiryPeriod_</DataField>
+        </Field>
+        <Field Name="ContractExpiryDate_">
+          <DataField>ContractExpiryDate_</DataField>
+        </Field>
+        <Field Name="MobileNo_">
+          <DataField>MobileNo_</DataField>
+        </Field>
+        <Field Name="PhoneNo_">
+          <DataField>PhoneNo_</DataField>
+        </Field>
+        <Field Name="BirthDate_">
+          <DataField>BirthDate_</DataField>
+        </Field>
+        <Field Name="CompanyEmail_">
+          <DataField>CompanyEmail_</DataField>
+        </Field>
+        <Field Name="NavLogInID_">
+          <DataField>NavLogInID_</DataField>
+        </Field>
+        <Field Name="SalaryGrade_">
+          <DataField>SalaryGrade_</DataField>
+        </Field>
+        <Field Name="BankAccountNo_">
+          <DataField>BankAccountNo_</DataField>
+        </Field>
+        <Field Name="PermanentAddress_">
+          <DataField>PermanentAddress_</DataField>
+        </Field>
+        <Field Name="CurrentAddress_">
+          <DataField>CurrentAddress_</DataField>
+        </Field>
+        <Field Name="MaritalStatus_">
+          <DataField>MaritalStatus_</DataField>
+        </Field>
+        <Field Name="CitizenshipNo_">
+          <DataField>CitizenshipNo_</DataField>
+        </Field>
+        <Field Name="CitizenshipIssuePlace_">
+          <DataField>CitizenshipIssuePlace_</DataField>
+        </Field>
+        <Field Name="CitizenshipIssueDate_">
+          <DataField>CitizenshipIssueDate_</DataField>
+        </Field>
+        <Field Name="ServiceYear">
+          <DataField>ServiceYear</DataField>
+        </Field>
+        <Field Name="ServiceYearFormat">
+          <DataField>ServiceYearFormat</DataField>
+        </Field>
+        <Field Name="Age_">
+          <DataField>Age_</DataField>
+        </Field>
+        <Field Name="FatherName_">
+          <DataField>FatherName_</DataField>
+        </Field>
+        <Field Name="GrandFatherName_">
+          <DataField>GrandFatherName_</DataField>
+        </Field>
+        <Field Name="MotherName_">
+          <DataField>MotherName_</DataField>
+        </Field>
+        <Field Name="SpouseName_">
+          <DataField>SpouseName_</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

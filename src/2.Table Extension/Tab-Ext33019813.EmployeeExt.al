@@ -1,0 +1,1704 @@
+tableextension 33019813 "Employee Ext" extends Employee
+{
+    fields
+    {
+        modify("No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                if "No." = '' then
+                    Error('No. must have value.');
+                "New Employee" := true; //Min
+            end;
+        }
+        modify("First Name")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Full Name" := FullName;
+            end;
+        }
+        modify("Middle Name")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Full Name" := FullName;
+            end;
+        }
+        modify("Last Name")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Full Name" := FullName;
+            end;
+        }
+        modify("Mobile Phone No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                Clear(Len); //Min >> --- for Special Characters Control Add.
+                Len := StrLen(DelChr("Mobile Phone No.", '=', DelChr("Mobile Phone No.", '=', SpecialChars)));
+                if Len > 0 then
+                    Error(SpecialCharsErr);
+                EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
+                EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
+                EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
+                if EmployeeRec.FindFirst then
+                    Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
+                if StrLen("Mobile Phone No.") <> 10 then //Min
+                    Error(Text009);
+            end;
+        }
+        modify("Birth Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                Age := (Today - "Birth Date") div 365;
+                EngNepDate.SetRange("English Date", "Birth Date");
+                if EngNepDate.FindFirst then
+                    "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
+                else
+                    "Date of Birth (B.S.)" := '';
+            end;
+        }
+        modify(Address)
+        {
+            Caption = 'Permanent Address';
+        }
+        modify("Address 2")
+        {
+            Caption = 'Temporary Address';
+        }
+        modify(Gender)
+        {
+            trigger OnAfterValidate()
+            begin
+                Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
+            end;
+        }
+        modify("Employment Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                TestField("Employment Type");
+                TestField(Gender);
+                if "Contract Expiry Month" <> "Contract Expiry Month"::" " then
+                    Validate("Contract Expiry Month");
+            end;
+        }
+        modify("Global Dimension 1 Code")
+        {
+            TableRelation = if (Cluster = filter('<>''''')) "Dimension Value".Code where("Global Dimension No." = const(1), Cluster = field(Cluster));
+            trigger OnAfterValidate()
+            begin
+                ValidateBranch;
+            end;
+        }
+        modify(Title)
+        {
+            TableRelation = "Functional Title";
+        }
+        modify("Bank Branch No.")
+        {
+            TableRelation = "BOD-EOD Header";
+        }
+        modify("Bank Account No.")
+        {
+            TableRelation = "BOD-EOD Header";
+            trigger OnAfterValidate()
+            begin
+                TestField("CIF ID");
+                EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
+                EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+                EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
+                if EmployeeRec.FindFirst then
+                    Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+            end;
+        }
+        field(33019800; "Sub Province Name"; Text[30])
+        {
+            Caption = 'Sub Province Name';
+            Editable = false;
+
+            trigger OnValidate()
+            begin
+                //PostCode.ValidateCity(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                //PostCode.LookupPostCode(City,"Post Code",County,"Country/Region Code");
+            end;
+        }
+        field(33019801; "Sub Province Code"; Code[20])
+        {
+            Caption = 'Sub Province Code';
+            // Editable = false;
+
+            trigger OnValidate()
+            begin
+                //PostCode.ValidatePostCode(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                //PostCode.LookupPostCode(City,"Post Code",County,"Country/Region Code");
+
+                TestField("Deputation on");
+                if "Deputation on" = "Deputation on"::"Sub Province" then begin
+                    Clear("Province Code");
+                    Clear("Province Name");
+                    Clear("Sub Province Name");
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                    Clear("Department Code");
+                    Clear("Unit Code");
+                    Clear("Extension Counter Name");
+                    Clear("Department Name");
+                    Clear("Unit Name");
+                    Clear("Branch Name");
+                    Clear("Posting Region");
+
+                    SubProv.Reset;
+                    SubProv.SetRange(Code, "Sub Province Code");
+                    if SubProv.FindFirst then begin
+                        "Sol Id" := SubProv."Sol ID";
+                        "Sub Province Name" := SubProv.City;
+                        "Province Code" := SubProv."Province Code";
+                        if ProvinceVar.Get(SubProv."Province Code") then
+                            "Province Name" := ProvinceVar.Description;
+                        "Posting Region" := SubProv."Posting Region";
+                        "Inside/Outisde Valley" := SubProv."Inside/Outside Valley";
+                    end;
+                end;
+            end;
+        }
+        field(33019802; "Department Code"; Code[20])
+        {
+            TableRelation = Department;
+            trigger OnValidate()
+            begin
+                TestField("Deputation on");
+                if "Deputation on" = "Deputation on"::Department then begin
+                    Clear("Province Code");
+                    Clear("Province Name");
+                    Clear("Sub Province Name");
+                    Clear("Sub Province Code");
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                    Clear("Unit Code");
+                    Clear("Extension Counter Name");
+                    Clear("Department Name");
+                    Clear("Unit Name");
+                    Clear("Branch Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outisde Valley");
+                    Clear("Eco-System"); //Min 10.12.2022
+                    Depart.Get("Department Code");
+                    "Department Name" := Depart.Name;
+                    "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
+                    if ProvinceVar.Get(Depart."Province Code") then begin
+                        "Province Code" := ProvinceVar.Code;
+                        "Province Name" := ProvinceVar.Description;
+                        "Sol Id" := ProvinceVar."Sol ID";
+                        "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
+                        "Posting Region" := ProvinceVar."Posting Region";
+                    end;
+                end;
+            end;
+        }
+        field(33019803; "Deputation On Code"; Code[10])
+        {
+            trigger OnValidate()
+            begin
+                TestField("Deputation on");
+                case "Deputation on" of
+                    "Deputation on"::Branch:
+                        Validate("Global Dimension 1 Code", "Deputation On Code");
+                    "Deputation on"::Department:
+                        Validate("Department Code", "Deputation On Code");
+                    "Deputation on"::Province:
+                        Validate("Province Code", "Deputation On Code");
+                    "Deputation on"::"Sub Province":
+                        Validate("Sub Province Code", "Deputation On Code");
+                    "Deputation on"::"Extension Counter":
+                        Validate("Extension Counter Code", "Deputation On Code");
+                    "Deputation on"::Unit:
+                        Validate("Unit Code", "Deputation On Code");
+                end;
+            end;
+        }
+        field(33019804; "Advance Amount"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("G/L Entry".Amount where("Posting Date" = field("Date Filter"), "G/L Account No." = field("G/L Account Filter"), "Shortcut Dimension 3 Code" = field("No.")));
+            Caption = 'Advance Amount';
+        }
+        field(33019805; "G/L Account Filter"; Code[20])
+        {
+            FieldClass = FlowFilter;
+            TableRelation = "G/L Account"."No.";
+        }
+        field(33019806; "Employee Work Shift"; Code[10])
+        {
+            TableRelation = "Employee Work Shift";
+            DataClassification = CustomerContent;
+        }
+        field(33019807; "Assigned User ID"; Code[50])
+        {
+            TableRelation = "User Setup";
+            DataClassification = CustomerContent;
+            Caption = 'Assigned User ID';
+        }
+        field(33019808; "Total Earning"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."), "Attribute Type" = filter("Basic Earning" | "Other Earnings"),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false),
+                                                                                                                  "Non-Taxable" = const(false)));
+            Editable = false;
+        }
+        field(33019809; "Total Retirement Contribution"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Attribute Type" = filter(Deduction),
+                                                                                                                   "Attribute Sub Type" = filter(CIT),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Document Type" = field("Document Type Filter")));
+            Editable = false;
+        }
+        field(33019810; "Total Donation Contribution"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                  "Attribute Type" = filter("Non-Payment"),
+                                                                                                                  "Attribute Sub Type" = filter(Donation),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019811; "Premium of Life Insurance"; Decimal)
+        { DataClassification = CustomerContent; }
+        field(33019812; "Tax Code"; Code[20])
+        {
+            TableRelation = "Tax Setup Header";
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019813; "Total Medical Re-Imbursement"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                  "Attribute Type" = filter("Other Earnings"),
+                                                                                                                  "Attribute Sub Type" = filter(Medical),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019814; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                SalaryLevel: Record "Salary Level";
+            begin
+                if SalaryLevel.Get("Salary Level") then
+                    "Salary Level Description" := SalaryLevel.Description
+                else
+                    "Salary Level Description" := '';
+            end;
+        }
+        field(33019815; "Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+            DataClassification = CustomerContent;
+        }
+        field(33019816; "Social Security Tax"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Attribute Sub Type" = const("Social Security Tax"),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019817; "Remuneration & Benefits Tax"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Attribute Sub Type" = const("Tax on Remuneration & Benefits"),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019818; "PF Loan Advance"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                  "Attribute Sub Type" = filter(Advance),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false),
+                                                                                                                  "Payroll Attribute Code" = const('PF LOAN ADVANCE')));
+            Editable = false;
+        }
+        field(33019819; "Total Loan"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                  "Attribute Sub Type" = filter(Loan),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019821; "Full Name (Nepali)"; Text[30])
+        {
+            Description = 'In Nepali';
+        }
+        field(33019822; "Father's Name (Nepali)"; Text[30])
+        {
+            Description = 'In Nepali';
+        }
+        field(33019823; "Mother's Name (Nepali)"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(33019824; "GrandFather's Name (Nepali)"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(33019825; "Promotion Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019826; "CIT No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019827; "PF No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019828; "PAN No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if StrLen("PAN No.") <> 9 then //Min
+                    Error(Text007);
+            end;
+        }
+        field(33019829; "Third Party Payroll Emp Code"; Code[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'not used';
+        }
+        field(33019830; "Bank No."; Code[20])
+        {
+            TableRelation = "Bank Account";
+            DataClassification = CustomerContent;
+        }
+        field(33019831; "Bank Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019832; "Salary Advance"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Loan/Advance"."Remaining Amount" where("Employee Code" = field("No."),
+                                                                                                                     "Loan Type" = const("Salary Advance"),
+                                                                                                                     Settled = const(false),
+                                                                                                                     "Approval Status" = const(Approved)));
+            Editable = false;
+        }
+        field(33019833; "Total Renumeration"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                  "Attribute Sub Type" = filter(<> "Social Security Tax" & <> "Tax on Remuneration & Benefits"),
+                                                                                                                  "Posting Date" = field("Date Filter"),
+                                                                                                                  Reversed = const(false)));
+            Editable = false;
+        }
+        field(33019834; "Vehicle Advance"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = filter('VEHICLE ADVANCE')));
+        }
+        field(33019835; "Maintenance Advance"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Attribute Sub Type" = filter(Advance),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('MAINTAINENCE ADV')));
+        }
+        field(33019836; "PF Contribution"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('PF-EMPLOYEE'),
+                                                                                                                   "Document Type" = field("Document Type Filter")));
+        }
+        field(33019837; "CIT Deposit"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('CIT DEPOSIT')));
+        }
+        field(33019838; "PF Contribution (Office)"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('PF-EMPLOYER'),
+                                                                                                                   "Document Type" = field("Document Type Filter")));
+        }
+        field(33019839; "Total PF"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
+        }
+        field(33019840; "Advance for Expenses"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("G/L Entry".Amount where("Shortcut Dimension 4 Code" = field("No."),
+                                                                                             "Posting Date" = field("Date Filter"),
+                                                                                             "G/L Account No." = const('121082')));
+        }
+        field(33019841; "CIT Office Cont. Deduction"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
+            Editable = false;
+        }
+        field(33019842; "Document Type Filter"; Enum "Employee Document Type")
+        {
+            FieldClass = FlowFilter;
+        }
+        field(33019843; Age; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019844; "Marital Status"; Enum "Marital Status")
+        {
+            DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                Validate("Tax Code", HRMgt.ValidateTaxCode(Gender, "Marital Status"));
+            end;
+        }
+        field(33019845; "Citizen Number"; Code[30])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                Clear("Citizenship Issue Place Code");
+                Clear("Citizenship Issue Place");
+            end;
+        }
+        field(33019846; "Passport Number"; Code[10])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019847; "Blood Group"; Enum "Blood Group")
+        {
+            DataClassification = CustomerContent;
+
+        }
+        field(33019848; "Employment Type"; enum "Employee Type")
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019849; "Province Name"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019850; "Sub-Province"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'not used(used city instead)';
+        }
+        field(33019851; Cluster; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = if ("Sub Province Code" = const()) "Employee Hierarchy Master" where(Type = const(Cluster))
+            else
+            "Employee Hierarchy Master" where("Sub-Province" = field("Sub Province Code"),
+                                                                                                         "Type" = const(Cluster));
+            trigger OnValidate()
+            var
+                ClusExtCounter: Record "Employee Hierarchy Master";
+            begin
+                //ValidateCluster;
+                if not ClusExtCounter.Get(Cluster) then begin
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                end;
+            end;
+        }
+        field(33019852; "Distance betn Res and Office"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019853; "Full Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019854; "Old Employee No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019855; "Date of Birth (B.S.)"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019856; "Citizenship Issue Place"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019857; "Citizenship Issue Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019858; Religion; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019859; "Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Employee Hierarchy Master" where(Type = const(Unit));
+            trigger OnValidate()
+            var
+                EmpHie: Record "Employee Hierarchy Master";
+            begin
+                TestField("Deputation on");
+                if "Deputation on" = "Deputation on"::Unit then begin
+                    Clear("Province Code");
+                    Clear("Province Name");
+                    Clear("Sub Province Name");
+                    Clear("Sub Province Code");
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                    Clear("Department Code");
+                    Clear("Extension Counter Name");
+                    Clear("Department Name");
+                    Clear("Unit Name");
+                    Clear("Branch Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outisde Valley");
+                    Clear("Eco-System"); //Min 10.12.2022
+
+                    EmpHie.Reset;
+                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    EmpHie.SetRange(Code, "Unit Code");
+                    if EmpHie.FindFirst then begin
+                        "Unit Name" := EmpHie.Description;
+                        if Depart.Get(EmpHie."Department Code") then begin
+                            "Department Code" := Depart.Code;
+                            "Department Name" := Depart.Name;
+                            "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
+                            if ProvinceVar.Get(Depart."Province Code") then begin
+                                "Province Code" := ProvinceVar.Code;
+                                "Sol Id" := ProvinceVar."Sol ID";
+                                "Province Name" := ProvinceVar.Description;
+                                "Posting Region" := ProvinceVar."Posting Region";
+                                "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+        }
+        field(33019860; "Branch Category"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019861; "Experience Years"; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019862; "Sol Id"; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019863; "Reporting Person"; Text[40])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019864; Disabled; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019865; "Vehicle Type"; Enum "Vehicle Type")
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019866; "Posting Region"; Enum Region)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019867; "Functional Title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                //OnValidateFunctionTitle;
+                "Functional Title Desc" := '';
+                if FunctionalTitle.Get("Functional Title") then begin
+                    "Functional Title Desc" := FunctionalTitle.Description;
+                    if FunctionalTitle."Is Specific Functional" then begin //Abhiral 01.29.2023
+                        "KPI Functional Title" := "Functional Title";
+                        "KPI Deputation" := "Deputation on";
+                    end else begin
+                        "KPI Functional Title" := '';
+                        "KPI Deputation" := "KPI Deputation"::" ";
+                    end;
+                end;
+                //                                                 {"Functional Title Desc" := '';
+                // IF FunctionalTitle.GET("Functional Title") THEN
+                //     "Functional Title Desc" := FunctionalTitle.Description;}
+            end;
+        }
+        field(33019868; "Out-Station eligible"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                ValidateOutstationAllowance;
+            end;
+        }
+        field(33019869; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
+        {
+            DataClassification = CustomerContent;
+
+            Editable = false;
+        }
+        field(33019870; Screener; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Loan';
+        }
+        field(33019871; "Job Title Code"; Code[20])
+        {
+            TableRelation = "Job Title";
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                CalcFields("Job Title");
+            end;
+        }
+        field(33019872; "KPI Deputation Value"; Code[20])
+        {
+            TableRelation = Department;
+            ValidateTableRelation = false;
+            DataClassification = CustomerContent;
+            Description = 'KPI 1.00';
+            trigger OnValidate()
+            begin
+                //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
+            end;
+        }
+        field(33019873; "Approver Code"; Code[20])
+        {
+            TableRelation = Employee;
+            ValidateTableRelation = false;
+            DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                HRMgt.GetEmployeeName("Approver Code", "Approver Name");
+            end;
+        }
+        field(33019874; "Recommender Name"; Text[50])
+        { DataClassification = CustomerContent; }
+        field(33019875; "Approver Name"; Text[50])
+        { DataClassification = CustomerContent; }
+        field(33019876; "Service Period"; Integer)
+        { DataClassification = CustomerContent; }
+        field(33019877; "Converted To Emp. Date"; Date)
+        { DataClassification = CustomerContent; }
+        field(33019878; "NAV Login ID"; Code[50])
+        {
+            TableRelation = "User Setup";
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if ("NAV Login ID" <> xRec."NAV Login ID") and ("NAV Login ID" <> '') then begin
+                    Employee.Reset;
+                    Employee.SetRange("NAV Login ID", "NAV Login ID");
+                    Employee.SetFilter("No.", '<>%1', "No.");
+
+                    if Employee.FindFirst then
+                        Error('NAV Login ID already exist in Employee %1 of code %2', Employee."Full Name", Employee."No.");
+                    // VALIDATE("Company E-Mail", LOWERCASE(STRSUBSTNO('%1%2', COPYSTR("NAV Login ID", STRPOS("NAV Login ID", '\') + 1), '@nicasiabank.com')));
+                end;
+            end;
+        }
+        field(33019879; "Company Code"; Code[10])
+        {
+            TableRelation = Department;
+            DataClassification = CustomerContent;
+            Caption = 'Company Code';
+        }
+        field(33019880; Salutation; Option)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Salutation';
+            OptionMembers = " ","Mr.","Ms.","Mrs.";
+            OptionCaption = ' ,Mr.,Ms.,Mrs.';
+        }
+        field(33019881; "Permanent District"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Permanent District';
+            trigger OnValidate()
+            BEGIN
+                IF (Rec."Permanent District" <> xRec."Permanent District") AND ("Permanent District" <> '') THEN
+                    HRMgt.CheckDistrictName("Permanent District");
+                "Address" := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+            END;
+
+            trigger OnLookup()
+            begin
+                //VALIDATE("Permanent District",HRMgt.LookupDistrict("Permanent Province","Permanent District"));
+            end;
+        }
+        field(33019882; "Temporary District"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Temporary District';
+            trigger OnValidate()
+            begin
+                if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
+                    HRMgt.CheckDistrictName("Temporary District");
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("Temporary District", HRMgt.LookupDistrict("Temporary Province", "Temporary District"));
+            end;
+        }
+        field(33019883; "Permanent Province"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Permanent Provience address';
+            trigger OnValidate()
+            begin
+                if (Rec."Permanent Province" <> xRec."Permanent Province") and ("Permanent Province" <> '') then begin
+                    HRMgt.CheckProvience("Permanent Province");
+                    Clear("KPI Deputation");
+                    Clear("Permanent District");
+                end;
+                if "Permanent Province" = '' then begin
+                    Clear("KPI Deputation");
+                    Clear("Permanent District");
+                end;
+                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+            end;
+
+            trigger OnLookup()
+            begin
+                Validate("Permanent Province", HRMgt.LookupProvience("Permanent Province"));
+            end;
+        }
+        field(33019884; "Temporary Province"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Temporary Provience address';
+            trigger OnValidate()
+            begin
+                if (Rec."Temporary Province" <> xRec."Temporary Province") and ("Temporary Province" <> '') then begin
+                    HRMgt.CheckProvience("Temporary Province");
+                    Clear("Temporary Ward No");
+                    Clear("Temporary District");
+                end;
+                if "Temporary Province" = '' then begin
+                    Clear("Temporary Ward No");
+                    Clear("Temporary District");
+                end;
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+            end;
+
+            trigger OnLookup()
+            begin
+                Validate("Temporary Province", HRMgt.LookupProvience("Temporary Province"));
+            end;
+        }
+        field(33019885; "KPI Deputation"; Enum "Deputation Type")
+        {
+            DataClassification = CustomerContent;
+
+            Description = 'KPI1.00';
+            trigger OnValidate()
+            begin
+                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') THEN BEGIN
+                //     HRMgt.CheckSubProvience("KPI Deputation Code");
+                //     CLEAR("Permanent District");
+                // END;
+                // IF "KPI Deputation Code" = '' THEN
+                //     CLEAR("Permanent District");
+                // "Permanent Address" := ReturnAddress("Permanent Province", "KPI Deputation Code", "Permanent District", "Permanent VDC", "Ward No");}
+            end;
+
+            trigger OnLookup()
+            begin
+                //VALIDATE("Permanent Sub Province",HRMgt.LookupSubProvience("Permanent Province","Permanent Sub Province"));
+            end;
+        }
+        field(33019886; "Temporary Ward No"; Code[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'temporary';
+            trigger OnValidate()
+            begin
+
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+            end;
+        }
+        field(33019887; "Permanent VDC"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+            end;
+        }
+        field(33019888; "Temporary VDC"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+            end;
+        }
+        field(33019889; "Permanent House"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019890; "Temporary House"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019891; "RF Deposit"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                                                                                                                   "Posting Date" = field("Date Filter"),
+                                                                                                                   Reversed = const(false),
+                                                                                                                   "Attribute Type" = const(Deduction),
+                                                                                                                   "Attribute Sub Type" = const(RF)));
+        }
+        field(33019892; "Citizenship Issue Place Code"; Code[10])
+        {
+            TableRelation = District;
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                District: Record District;
+            begin
+                if District.Get("Citizenship Issue Place Code") then
+                    Validate("Citizenship Issue Place", District."District Name")
+                else
+                    Clear("Citizenship Issue Place");
+                if "Citizenship Issue Place Code" <> xRec."Citizenship Issue Place Code" then
+                    HRMgt.CheckForCitizen("Citizen Number", "Citizenship Issue Place Code");
+            end;
+        }
+        field(33019893; "Province Code"; Code[10])
+        {
+            TableRelation = Province;
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                ProvVar: Record Province;
+            begin
+                TestField("Deputation on");
+                if "Deputation on" = "Deputation on"::Province then begin
+                    Clear("Province Name");
+                    Clear("Sub Province Name");
+                    Clear("Sub Province Code");
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                    Clear("Department Code");
+                    Clear("Unit Code");
+                    Clear("Extension Counter Name");
+                    Clear("Department Name");
+                    Clear("Unit Name");
+                    Clear("Branch Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outisde Valley");
+
+                    if ProvVar.Get("Province Code") then begin
+                        "Sol Id" := ProvVar."Sol ID";
+                        "Province Name" := ProvVar.Description;
+                        "Posting Region" := ProvVar."Posting Region";
+                        "Inside/Outisde Valley" := ProvVar."Inside/Outside Valley";
+                    end;
+                end;
+            end;
+        }
+        field(33019894; "Ward No"; Code[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Citizenship ward no';
+            trigger OnValidate()
+            begin
+                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+            end;
+        }
+        field(33019895; "Disable Punch in"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019896; "Restrict Leave Earn"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019897; "Confirmation Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            Editable = true;
+            trigger OnValidate()
+            begin
+                if "Confirmation Date" < "Employment Date" then
+                    Error('Confirmation date cannot be less than employment date');
+            end;
+        }
+        field(33019898; "Extension Counter Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Employee Hierarchy Master" where(Type = const("Extension Counter"));
+            trigger OnValidate()
+            begin
+                ValidateExtenCounter;
+            end;
+        }
+        field(33019899; "Reporting Line 1"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 1"));
+        }
+        field(33019900; "Reporting Line 2"; Code[20])
+        {
+            TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 2"));
+            DataClassification = CustomerContent;
+        }
+        field(33019901; Office; Code[20])
+        {
+            TableRelation = "Employee Hierarchy Master" where(Type = const(Office));
+            DataClassification = CustomerContent;
+        }
+        field(33019902; "Eco-System"; Code[20])
+        {
+            TableRelation = "Employee Hierarchy Master" where(Type = const("Eco-System"));
+            DataClassification = CustomerContent;
+        }
+        field(33019903; "Lump Sum CIT"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = - Sum("Detailed Employee Ledger Entry".Amount WHERE("Employee No." = FIELD("No."),
+                                                                                                                   "Posting Date" = FIELD("Date Filter"),
+                                                                                                                   "Reversed" = CONST(false),
+                                                                                                                   "Attribute Sub Type" = CONST("Lump Sum Contribution"),
+                                                                                                                   "Disabled" = CONST(false)));
+            Editable = false;
+        }
+        field(33019904; "Resignation Approver"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
+            end;
+        }
+        field(33019905; "Secondary Mobile No."; Text[10])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019906; "Emergency Mobile No."; Text[10])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019907; "Insurance Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019908; "Insurance Name"; Text[30])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019909; "Policy No."; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019910; "Insurance Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+            trigger OnValidate()
+            begin
+                if EngNepDate.FindFirst then
+                    Validate("Policy No.", EngNepDate."Nepali Date")
+                else
+                    Validate("Policy No.", '');
+            end;
+        }
+        field(33019911; "Insurance Expiry Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+            trigger OnValidate()
+            begin
+                if EngNepDate.FindFirst then
+                    Validate("Insurance Expiry Date (B.S.)", EngNepDate."Nepali Date")
+                else
+                    Validate("Insurance Expiry Date (B.S.)", '');
+            end;
+        }
+        field(33019912; "Insurance Date (B.S.)"; Code[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019913; "Insurance Expiry Date (B.S.)"; Code[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019914; "Premium Property Insurance"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019915; "Premium Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019916; "Rebate Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+            Description = 'Insurance';
+        }
+        field(33019917; "Insurance Disabled"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Disabled';
+            Description = 'Insurance';
+        }
+        field(33019918; "Gratuity Eligibility"; Date)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if "Gratuity Eligibility" <> 0D then begin
+                    if "Employment Type" = "Employment Type"::Contract then
+                        Error(Text004, FieldCaption("Employment Type"), "Employment Type"::Contract);
+
+                    if "Employment Date" > "Gratuity Eligibility" then
+                        Error(Text005, FieldCaption("Employment Date"));
+                end;
+            end;
+        }
+        field(33019919; "Contract Expiry Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+            trigger OnValidate()
+            begin
+                if "Contract Expiry Date" <> 0D then begin
+                    TestField("Employment Type", "Employment Type"::Contract);
+                    if "Contract Expiry Date" < "Employment Date" then
+                        Error(Text005, FieldCaption("Contract Expiry Date"));
+                end;
+            end;
+        }
+        field(33019920; "Resignation Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019921; "Selection committee"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019922; "Citizenship No. (Nepali)"; Text[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In nepali';
+        }
+        field(33019923; "VDC/Municipality (Nepali)"; Text[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(33019924; "Employee No. (Nepali)"; Text[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In Nepali';
+        }
+        field(33019925; "Citizenship Date(Nepali)"; Text[10])
+        {
+            DataClassification = CustomerContent;
+            Description = 'In nepali';
+        }
+        field(33019926; "System Owner"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Description = 'System Access';
+        }
+        field(33019927; "CIF ID"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'Loan Integration';
+        }
+        field(33019928; "Contract Salary Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019929; "Deputation on"; Enum "Deputation Type")
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if xRec."Deputation on" <> "Deputation on" then
+                    ClearValues;
+            end;
+        }
+        field(33019930; "Contract Expiry Month"; Option)
+        {
+            DataClassification = CustomerContent;
+            OptionMembers = " ","01M","02M","03M","04M","05M","06M","07M","08M","09M","10M","11M","1Y";
+            OptionCaption = ' ,01M,02M,03M,04M,05M,06M,07M,08M,09M,10M,11M,1Y';
+            trigger OnValidate()
+            begin
+                if "Contract Renew Date" = 0D then
+                    TestField("Employment Date");
+                if "Contract Expiry Month" <> "Contract Expiry Month"::" " then begin
+                    if "Contract Renew Date" = 0D then
+                        Validate("Contract Expiry Date", CalcDate(StrSubstNo('<%1>', "Contract Expiry Month"), "Employment Date") - 1)
+                    else
+                        Validate("Contract Expiry Date", CalcDate(StrSubstNo('<%1>', "Contract Expiry Month"), "Contract Renew Date") - 1)
+                end else
+                    Clear("Contract Expiry Date");
+            end;
+        }
+        field(33019931; "Attendance Missed Count"; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019932; "Attendance Missed On";
+        Date)
+        { DataClassification = CustomerContent; }
+        field(33019933; "Unit Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019934; "Department Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019935; "Branch Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019936; "Extension Counter Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019937; "Facebook Url"; Text[100])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019955; Saved; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019938; "Functional Title Desc"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019939; "Salary Level Description"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(33019940; "Premium of Health Insurance"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019941; "Last Placement Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019942; "Contract Renew Date"; Date)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019943; "Contract Expiry Remaining Days"; Integer)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019944; Settled; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019945; "Lumpsum CIT (Not Actual)"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019946; "Lumpsum RF (Not Actual)"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019947; "New Employee"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019948; "Old Employee ID (Regular)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019949; "Probation Period"; Option)
+        {
+            DataClassification = CustomerContent;
+            OptionMembers = " ","6 Month","12 Month";
+            OptionCaption = ' ,6 Month,12 Month';
+        }
+        field(33019950; "Relation With Emergency Cont"; Text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019951; COPO; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019952; "Department Head"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019953; "Chief Of Eco-System"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(33019954; "KPI Functional Title"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            Description = 'KPI1.00';
+            TableRelation = "Functional Title";
+            trigger OnValidate()
+            begin
+                //OnValidateFunctionTitle;
+                "Functional Title Desc" := '';
+                if FunctionalTitle.Get("Functional Title") then
+                    "Functional Title Desc" := FunctionalTitle.Description;
+            end;
+        }
+    }
+    keys
+    {
+        key(key6; "First Name") { }
+        key(key7; "Last Name") { }
+        key(key8; "Full Name") { }
+    }
+
+    trigger OnModify()
+    begin
+        Saved := false;
+    end;
+
+    trigger OnDelete()
+    var
+
+    begin
+        Error('');
+
+        //IME.SRT
+        GLSetup.Get;
+        DimensionValue.SetRange("Dimension Code", GLSetup."Employee Dimension");
+        DimensionValue.SetRange(Code, "No.");
+        if DimensionValue.FindFirst then begin
+            DimensionValue.Blocked := true;
+            DimensionValue.Modify(true);
+        end;
+    end;
+    //IME.SRT
+    trigger OnRename()
+    begin
+        Error('');
+    end;
+
+    var
+        GLSetup: Record "General Ledger Setup";
+        DimensionValue: Record "Dimension Value";
+        DimName: Text;
+        DefaultDimension: Record "Default Dimension";
+        Text002: Label 'New Employee Name %1 is created successfully.';
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
+        PayrollEngine: Codeunit "Payroll Engine";
+        PayrollGeneralSetup: Record "Payroll General Setup";
+        PayrollAttribute: Record "Payroll Attributes";
+        Text003: Label 'ENU=%1 is not a contract Employee.';
+        EngNepDate: Record "English-Nepali Date";
+        HRMgt: Codeunit "HR Mgt.";
+        TravelMgt: Codeunit "Travel Mgt.";
+        TransferMgt: Codeunit "Transfer Mgt.";
+        LoanMgt: Codeunit "Loan Mgt.";
+        ProvinceVar: Record "Province";
+        Text004: Label '%1 is %2.';
+        Text005: Label '%1 must be greater.';
+        LeaveMgt: Codeunit "Leave Mgt.";
+        Depart: Record "Department";
+        SubProv: Record "Sub Province";
+        EmpHie: Record "Employee Hierarchy Master";
+        FunctionalTitle: Record "Functional Title";
+        EmployeeRec: Record Employee;
+        Text006: Label 'Bank Account No. %1 already used in Employee  No. %2.';
+        Text007: Label 'PAN No. must be 9 digits.';
+        Len: Integer;
+        SpecialCharsErr: Label 'You cannot enter the special characters.';
+        SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?|/|\';
+        Text010: Label 'Mobile No. %1 already used in Employee No. %2.';
+        Text009: Label 'Mobile No. must be 10 digits.';
+
+    local procedure CreateDimension()
+    var
+        DimValue: Record "Dimension Value";
+    begin
+        //IME19.00 Begin
+        GLSetup.Get;
+        GLSetup.TestField("Employee Dimension");
+        DimName := FullName();
+        DimValue.SetRange("Dimension Code", GLSetup."Employee Dimension");
+        DimValue.SetRange(Code, "No.");
+        if not DimValue.FindFirst then begin
+            DimValue.Init;
+            DimValue.Validate("Dimension Code", GLSetup."Employee Dimension");
+            DimValue.Validate(Code, "No.");
+            DimValue.Validate(Name, DimName);
+            DimValue.Insert(true);
+            Clear(DefaultDimension);
+            DefaultDimension.Init;
+            DefaultDimension.Validate("Table ID", Database::Employee);
+            DefaultDimension.Validate("No.", "No.");
+            DefaultDimension.Validate("Dimension Code", GLSetup."Employee Dimension");
+            DefaultDimension.Validate("Dimension Value Code", "No.");
+            DefaultDimension.Validate("Value Posting", DefaultDimension."Value Posting"::"Same Code");
+            DefaultDimension.Insert(true);
+        end else begin
+            if DimValue.Name <> DimName then begin
+                DimValue.Validate(Name, DimName);
+                DimValue.Modify;
+            end;
+        end;
+        //IME19.00 End
+        // Bhuwan 8/16/2019
+    end;
+
+    procedure GenerateNewEmployeeCard(CurrentEmployee: Record Employee);
+    var
+        NewEmployee: Record Employee;
+        PayrollAttributeUsage: Record "Payroll Attributes Usage";
+        NewPayrollAttributeUsage: Record "Payroll Attributes Usage";
+        PageFilterBuilder: FilterPageBuilder;
+        ReasonCode: Record "Reason Code";
+    begin
+        PageFilterBuilder.AddTable('Generate New Employee', Database::"Reason Code");
+        PageFilterBuilder.AddField('Generate New Employee', ReasonCode.Description);
+        if PageFilterBuilder.RunModal then begin
+            ReasonCode.SetView(PageFilterBuilder.GetView('Generate New Employee'));
+            if ReasonCode.GetFilter(Description) = '' then
+                Error('Please assign new employee no. first');
+            CurrentEmployee.TestField("Employment Type", CurrentEmployee."Employment Type"::Contract);
+            NewEmployee.Reset;
+            if CurrentEmployee."Employment Type" = CurrentEmployee."Employment Type"::Contract then begin
+                NewEmployee.Init;
+                NewEmployee.TransferFields(CurrentEmployee);
+                NewEmployee."No." := ReasonCode.GetFilter(Description);
+                NewEmployee."Old Employee No." := CurrentEmployee."No.";
+                NewEmployee.Validate("Deputation on", NewEmployee."Deputation on"::" ");
+                NewEmployee.Status := NewEmployee.Status::Active;
+                if CurrentEmployee.Image.HasValue then
+                    NewEmployee.Validate(Image, CurrentEmployee.Image);
+
+                NewEmployee."Employment Date" := Today;
+                NewEmployee."Attendance Missed Count" := 0;
+                NewEmployee."Attendance Missed On" := 0D;
+                NewEmployee.Validate("Contract Expiry Month");
+                NewEmployee.Settled := false;
+                NewEmployee.Insert(true);
+                CurrentEmployee.Status := CurrentEmployee.Status::Terminated; //CurrentEmployee.Status::Retired;
+                CurrentEmployee.Modify;
+
+                PayrollAttributeUsage.Reset;
+                PayrollAttributeUsage.SetRange("Employee Code", CurrentEmployee."No.");
+                if PayrollAttributeUsage.FindFirst then begin
+                    repeat
+                        NewPayrollAttributeUsage.Init;
+                        NewPayrollAttributeUsage.TransferFields(PayrollAttributeUsage);
+                        NewPayrollAttributeUsage."Employee Code" := '';
+                        NewPayrollAttributeUsage."Employee Code" := NewEmployee."No.";
+                        NewPayrollAttributeUsage.Insert(true);
+                    until PayrollAttributeUsage.Next = 0;
+                end;
+            end else
+                Error(Text003, CurrentEmployee."Full Name");
+            Commit;
+            Message(Text002, NewEmployee."Full Name");
+            Page.RunModal(Page::"Employee Card", NewEmployee);
+        end;
+    end;
+
+    local procedure ValidateOutstationAllowance();
+    begin
+        //   {Employee.GET("No.");
+        //   PayrollAttributeSubgroup.RESET;
+        //   PayrollAttributeSubgroup.SETRANGE("Auto-Validate",TRUE);
+        //   IF PayrollAttributeSubgroup.FINDFIRST THEN
+        //   Code:= PayrollAttributeSubgroup.Code;
+        //   IF "Out-Station eligible" THEN BEGIN
+        //     IF PayrollEngine.PayrollAttCheck(Code,"No.") THEN BEGIN
+        //       IF PayrollAttributeUsage.GET(Code,"No.") THEN
+        //         ERROR('Out Station Allowance Already present for this Employee.');
+        //       IF PayrollAttributeSubgroup.FINDFIRST THEN BEGIN
+        //         Code:= PayrollAttributeSubgroup.Code;
+        //         PayrollAttributeUsage.INIT;
+        //         PayrollAttributeUsage."Employee Code":=Employee."No.";
+        //         PayrollAttributeUsage.VALIDATE(Code,PayrollAttributeSubgroup.Code);
+        //         PayrollAttributeUsage.VALIDATE(Description,PayrollAttributeSubgroup.Description);
+        //         PayrollAttributeUsage.INSERT;
+        //       END;
+        //     END;
+        //   END;
+        //    IF NOT "Out-Station eligible" THEN BEGIN
+        //       PayrollAttributeUsage.GET(Code,"No.");
+        //         PayrollAttributeUsage.DELETE;
+        //    END;
+        //    }
+    end;
+
+    local procedure OnValidateFunctionTitle();
+    begin
+        PayrollGeneralSetup.Get;
+
+        //IF NOT ("Functional Title" IN [PayrollGeneralSetup."COPO Functional Title",PayrollGeneralSetup."COSPO Functioal Title"] ) THEN
+        if PayrollAttributeUsage.Get(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then
+            PayrollAttributeUsage.Delete;
+
+        if PayrollGeneralSetup."BM Functional Title" = "Functional Title" then
+            if PayrollAttributeUsage.Get(PayrollGeneralSetup."BM Accomendation", "No.") then
+                exit;
+        if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."BM Accomendation", "No.") then begin
+            PayrollAttributeUsage.Init;
+            PayrollAttributeUsage."Employee Code" := "No.";
+            PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."BM Accomendation");
+            PayrollAttribute.Get(PayrollGeneralSetup."BM Accomendation");
+            PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
+            PayrollAttributeUsage.Insert;
+        end;
+
+        if "Functional Title" in [PayrollGeneralSetup."COPO Functional Title", PayrollGeneralSetup."COSPO Functioal Title"] then
+            if PayrollEngine.PayrollAttCheck(PayrollGeneralSetup."COPO/COSPO Allowance", "No.") then begin
+                PayrollAttributeUsage.Init;
+                PayrollAttributeUsage."Employee Code" := "No.";
+                PayrollAttributeUsage.Validate(Code, PayrollGeneralSetup."COPO/COSPO Allowance");
+                PayrollAttribute.Get(PayrollGeneralSetup."COPO/COSPO Allowance");
+                PayrollAttributeUsage.Validate(Description, PayrollAttribute.Description);
+                PayrollAttributeUsage.Insert;
+            end;
+    end;
+
+    PROCEDURE LeaveRequest();
+    BEGIN
+        LeaveMgt.OpenLeaveRequest("No.");
+    END;
+
+    PROCEDURE TravelRequest();
+    BEGIN
+        TravelMgt.OpenTravelRequest("No.", FALSE, '');
+    END;
+
+    procedure ChangeEmployeeJobType();
+    begin
+        if Confirm('Do you want to confirm employee %1 ?', false, "Full Name") then begin
+        end;
+    end;
+
+    local procedure ValidateBranch();
+    begin
+        GLSetup.Get;
+        TestField("Deputation on");
+        if "Deputation on" = "Deputation on"::Branch then begin
+            Clear("Province Code");
+            Clear("Province Name");
+            Clear("Sub Province Name");
+            Clear("Sub Province Code");
+            Clear("Extension Counter Code");
+            Clear("Department Code");
+            Clear("Unit Code");
+            Clear("Extension Counter Name");
+            Clear("Department Name");
+            Clear("Unit Name");
+            Clear("Branch Name");
+            Clear("Posting Region");
+            Clear("Inside/Outisde Valley");
+
+            DimensionValue.Reset;
+            DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+            DimensionValue.SetRange(Code, "Global Dimension 1 Code");
+            if DimensionValue.FindFirst then begin
+                "Sol Id" := DimensionValue.Code;
+                "Branch Name" := DimensionValue.Name;
+                Cluster := DimensionValue.Cluster;
+                "Inside/Outisde Valley" := DimensionValue."Inside/Outisde Valley";
+                "Posting Region" := DimensionValue."Posting Region";
+                if ProvinceVar.Get(DimensionValue.Province) then begin
+                    "Province Code" := ProvinceVar.Code;
+                    "Province Name" := ProvinceVar.Description
+                end;
+
+                SubProv.Reset;
+                SubProv.SetRange(Code, DimensionValue."Sub-Province");
+                if SubProv.FindFirst then begin
+                    "Sub Province Code" := SubProv.Code;
+                    "Sub Province Name" := SubProv.City;
+                end;
+            end;
+        end;
+    end;
+
+    local procedure ValidateExtenCounter();
+    begin
+        if "Deputation on" = "Deputation on"::"Extension Counter" then begin
+            Clear("Province Code");
+            Clear("Province Name");
+            Clear("Sub Province Name");
+            Clear("Sub Province Code");
+            Clear("Global Dimension 1 Code");
+            Clear("Department Code");
+            Clear("Unit Code");
+            Clear("Extension Counter Name");
+            Clear("Department Name");
+            Clear("Unit Name");
+            Clear("Branch Name");
+            Clear("Posting Region");
+            Clear("Inside/Outisde Valley");
+
+            GLSetup.Get;
+            EmpHie.Reset;
+            EmpHie.SetRange(Code, "Extension Counter Code");
+            EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+            if EmpHie.FindFirst then begin
+                "Global Dimension 1 Code" := EmpHie."Shortcut Dimension 1 Code";
+                "Extension Counter Name" := EmpHie.Description;
+                DimensionValue.Reset;
+                DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+                DimensionValue.SetRange(Code, EmpHie."Shortcut Dimension 1 Code");
+                if DimensionValue.FindFirst then begin
+                    "Branch Name" := DimensionValue.Name;
+                    "Sol Id" := DimensionValue.Code;
+                    "Posting Region" := DimensionValue."Posting Region";
+                    "Inside/Outisde Valley" := DimensionValue."Inside/Outisde Valley";
+                    if ProvinceVar.Get(DimensionValue.Province) then begin
+                        "Province Code" := ProvinceVar.Code;
+                        "Province Name" := ProvinceVar.Description;
+                    end;
+                    SubProv.Reset;
+                    SubProv.SetRange(Code, DimensionValue."Sub-Province");
+                    if SubProv.FindFirst then begin
+                        "Sub Province Code" := SubProv.Code;
+                        "Sub Province Name" := SubProv.City;
+                    end;
+                end;
+                ValidateShortcutDimCode(1, "Global Dimension 1 Code");
+            end;
+        end;
+    end;
+
+    PROCEDURE TransferRequest();
+    BEGIN
+        TransferMgt.OpenTransferRequest("No.");
+    END;
+
+    PROCEDURE OTRequest();
+    BEGIN
+        TransferMgt.OpenOTForms("No.");
+    END;
+
+    PROCEDURE OutOfOffice();
+    BEGIN
+        TransferMgt.OpenOutofOfficeForms("No.");
+    END;
+
+    PROCEDURE BulkCash();
+    BEGIN
+        TransferMgt.OpenBulkCash("No.");
+    END;
+
+    procedure GetOutstandingAmt(): Decimal;
+    begin
+        LoanMgt.GetEmployeeSalaryOutstandingAmt("No.");
+    end;
+
+    local procedure ClearValues();
+    begin
+        Clear("Province Code");
+        Clear("Province Name");
+        Clear("Sub Province Name");
+        Clear("Sub Province Code");
+        Clear("Global Dimension 1 Code");
+        Clear("Extension Counter Code");
+        Clear("Department Code");
+        Clear("Unit Code");
+        Clear("Extension Counter Name");
+        Clear("Department Name");
+        Clear("Unit Name");
+        Clear("Branch Name");
+        Clear("Posting Region");
+        Clear("Inside/Outisde Valley");
+    end;
+
+    local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Text) ReturnText: Text;
+    begin
+        Clear(ReturnText);
+        ReturnText := Prov + ', ' + DistrictVara + ', ' + VDCVar + '-' + WardNoVar
+    end;
+
+    procedure RFRequest();
+    var
+        RF: Record "Retirement Fund" temporary;
+    begin
+        HRMgt.OpenRFRequest("No.", RF);
+    end;
+}

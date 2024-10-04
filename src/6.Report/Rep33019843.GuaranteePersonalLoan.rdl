@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Age">
+          <DataField>Age</DataField>
+        </Field>
+        <Field Name="EmpCode">
+          <DataField>EmpCode</DataField>
+        </Field>
+        <Field Name="AppliedLoanAdvance">
+          <DataField>AppliedLoanAdvance</DataField>
+        </Field>
+        <Field Name="AppliedLoanAdvanceFormat">
+          <DataField>AppliedLoanAdvanceFormat</DataField>
+        </Field>
+        <Field Name="TodayDate">
+          <DataField>TodayDate</DataField>
+        </Field>
+        <Field Name="EmployeeNameinNepali">
+          <DataField>EmployeeNameinNepali</DataField>
+        </Field>
+        <Field Name="FathersNameInNepali">
+          <DataField>FathersNameInNepali</DataField>
+        </Field>
+        <Field Name="GrandfathersNameInNepali">
+          <DataField>GrandfathersNameInNepali</DataField>
+        </Field>
+        <Field Name="GuarantorsVDCMunicipality">
+          <DataField>GuarantorsVDCMunicipality</DataField>
+        </Field>
+        <Field Name="GuarantorWardNo">
+          <DataField>GuarantorWardNo</DataField>
+        </Field>
+        <Field Name="GuarantorsCitizenshipN">
+          <DataField>GuarantorsCitizenshipN</DataField>
+        </Field>
+        <Field Name="GuarantorAge">
+          <DataField>GuarantorAge</DataField>
+        </Field>
+        <Field Name="GuarantorCitizenshipDate">
+          <DataField>GuarantorCitizenshipDate</DataField>
+        </Field>
+        <Field Name="GuarantorNameNepali">
+          <DataField>GuarantorNameNepali</DataField>
+        </Field>
+        <Field Name="GurarantorFathersName">
+          <DataField>GurarantorFathersName</DataField>
+        </Field>
+        <Field Name="GuarantrorGrandFather">
+          <DataField>GuarantrorGrandFather</DataField>
+        </Field>
+        <Field Name="GuarantorSpouseName">
+          <DataField>GuarantorSpouseName</DataField>
+        </Field>
+        <Field Name="EmployeeCitizenshipNo">
+          <DataField>EmployeeCitizenshipNo</DataField>
+        </Field>
+        <Field Name="EmployeeVDCMunicipality">
+          <DataField>EmployeeVDCMunicipality</DataField>
+        </Field>
+        <Field Name="EmployeeNoNepali">
+          <DataField>EmployeeNoNepali</DataField>
+        </Field>
+        <Field Name="EmployeeCitizenshipIssueDate">
+          <DataField>EmployeeCitizenshipIssueDate</DataField>
+        </Field>
+        <Field Name="AmountInWordsNepali">
+          <DataField>AmountInWordsNepali</DataField>
+        </Field>
+        <Field Name="EmployeeWardNo">
+          <DataField>EmployeeWardNo</DataField>
+        </Field>
+        <Field Name="CurrentYear">
+          <DataField>CurrentYear</DataField>
+        </Field>
+        <Field Name="CurrentMonth">
+          <DataField>CurrentMonth</DataField>
+        </Field>
+        <Field Name="CurrentDay">
+          <DataField>CurrentDay</DataField>
+        </Field>
+        <Field Name="ChoroChori">
+          <DataField>ChoroChori</DataField>
+        </Field>
+        <Field Name="NatiNatini">
+          <DataField>NatiNatini</DataField>
+        </Field>
+        <Field Name="GuarantorDistrict">
+          <DataField>GuarantorDistrict</DataField>
+        </Field>
+        <Field Name="EmployeeDistrict">
+          <DataField>EmployeeDistrict</DataField>
+        </Field>
+        <Field Name="GuarantorIssueDistrict">
+          <DataField>GuarantorIssueDistrict</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

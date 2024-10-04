@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-CA" original="Please update this value">
+    <body>
+      <group id="body">
+        <trans-unit id="Report 2076710114 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Period Generator</source>
+          <target>Pay Cycle Period Generator</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - RequestPage 1386417502 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Period Generator</source>
+          <target>Pay Cycle Period Generator</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - RequestPage RequestPage - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target>Options</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control Options - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 4059584599 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Code</source>
+          <target>Pay Cycle Code</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control PayCycleCodeTextBox - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 1064105093 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Cycle Term</source>
+          <target>Pay Cycle Term</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control PayCycleTermCodeTextBox - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 4281262952 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Frequency</source>
+          <target>Pay Frequency</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control PayFrequency - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 1523361719 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Default Pay Periods</source>
+          <target>Default Pay Periods</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control DefaultPayPeriods - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 3804664593 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Generate Frequency</source>
+          <target>Generate Frequency</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control GenerateFrequency - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 489126886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Date Formula</source>
+          <target>Date Formula</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control DateFormula - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 3083908106 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Periods to Generate</source>
+          <target>Pay Periods to Generate</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control PayPeriodsToGenerate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 1614338005 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pay Period Start Date</source>
+          <target>Pay Period Start Date</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control FROMPayPeriodStart - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2076710114 - Control 1004131203 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Default Insurable Hours</source>
+          <target>Default Insurable Hours</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Pay Cycle Period Generator - Control DefaultInsurableHours - Property Caption</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
