@@ -1,0 +1,33 @@
+page 50166 "Leave Type Entity"
+{
+    // version APINICASIA1.00
+
+    DeleteAllowed = false;
+    EntityName = 'leavetypesetup';
+    EntitySetName = 'leavetypesetups';
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    PageType = API;
+    APIVersion = 'v2.0';
+    DelayedInsert = true;
+    APIGroup = 'HRMS';
+    APIPublisher = 'Agile';
+    SourceTable = "Leave Type Setup";
+
+    layout
+    {
+        area(Content)
+        {
+            repeater(Group)
+            {
+                field("code"; Rec.Code) { }
+                field(description; Rec.Description) { }
+                field(payType; Rec."Pay Type") { }
+                field(EmployeeNoFilter; Rec."Employee No. Filter") { }
+                field(RemainingDays; Rec."Remaining Days") { }
+            }
+        }
+    }
+
+    actions { }
+}

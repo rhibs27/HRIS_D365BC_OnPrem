@@ -1,0 +1,239 @@
+table 50034 "Posted Payroll Header"
+{
+    // version PRM19.01.01
+
+    DrillDownPageId = "Posted Payroll Plan List";
+    LookupPageId = "Posted Payroll Plan List";
+    DataClassification = CustomerContent;
+
+    fields
+    {
+        field(1; "No."; Code[20])
+        {
+        }
+        field(2; "From Date"; Date)
+        {
+        }
+        field(3; "To Date"; Date)
+        {
+        }
+        field(4; Month; Enum "English Month")
+        {
+            Editable = false;
+        }
+        field(5; Remarks; Text[50]) { }
+        field(6; "Global Dimension 1 Code"; Code[20])
+        {
+            CaptionClass = '1,1,1';
+            Caption = 'Global Dimension 1 Code';
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
+        }
+        field(7; "Global Dimension 2 Code"; Code[20])
+        {
+            CaptionClass = '1,1,2';
+            Caption = 'Global Dimension 2 Code';
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+        }
+        field(8; "Responsibility Center"; Code[10])
+        {
+            TableRelation = "Responsibility Center";
+        }
+        field(9; "Pre-Assigned No. Series"; Code[10])
+        {
+            TableRelation = "No. Series";
+        }
+        field(10; "Document Date"; Date)
+        {
+        }
+        field(11; "Posting Date"; Date)
+        {
+        }
+        field(12; Status; Enum "Attendance Status")
+        {
+            Editable = false;
+
+        }
+        field(13; "Posting No."; Code[20]) { }
+        field(14; "Posting No. Series"; Code[10])
+        {
+            TableRelation = "No. Series";
+        }
+        field(15; "Posting Description"; Text[50]) { }
+        field(16; "Assigned User ID"; Code[50])
+        {
+            TableRelation = "User Setup";
+        }
+        field(17; "From Date (B.S)"; Code[10])
+        {
+        }
+        field(18; "To Date (B.S)"; Code[10])
+        {
+        }
+        field(19; "Nepali Month"; Enum "Nepali Month")
+        {
+
+        }
+        field(20; "Nepali Year"; Integer) { }
+        field(21; "Pay Cycle Code"; Code[10])
+        {
+            TableRelation = "Pay Cycle";
+        }
+        field(22; "Pay Cycle Term"; Code[10])
+        {
+            TableRelation = "Pay Cycle Term";
+        }
+        field(23; "Pay Cycle Period"; Integer) { }
+        field(24; "Currency Code"; Code[10])
+        {
+            Caption = 'Currency Code';
+            Editable = false;
+            TableRelation = Currency;
+        }
+        field(25; "Total Net Payable"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CalcFormula = sum("Posted Payroll Line"."Net Pay" where("Document No." = field("No.")));
+            Editable = false;
+            FieldClass = FlowField;
+        }
+        field(26; Type; Enum "Payroll Header Type")
+        {
+
+        }
+        field(27; "Employee Type"; Enum "Employee")
+        {
+
+        }
+        field(28; "Gross Payment"; Boolean) { }
+        field(29; "Posting User ID"; Code[50])
+        {
+            TableRelation = User."User Name";
+            //This property is currently not supported
+            //TestTableRelation = false;
+        }
+        field(30; "Pre-Assigned No."; Code[20]) { }
+        field(31; Reversed; Boolean) { }
+        field(32; Irregular; Boolean) { }
+        field(33; Narration; Text[250])
+        {
+            Width = 100;
+        }
+        field(34; "Previous Year Payroll"; Boolean) { }
+        field(35; "OverTime From"; Date) { }
+        field(36; "OverTime To"; Date) { }
+        field(37; "Encashment Code"; Code[20])
+        {
+            TableRelation = "OT Encashment Setup";
+        }
+        field(38; "Encashment Period"; Enum "Encashment Period")
+        {
+        }
+        field(39; "Posted Date"; DateTime) { }
+        field(40; "Approver Code"; Code[20])
+        {
+            Description = 'NIC';
+        }
+        field(41; "Approver Name"; Text[100])
+        {
+            Description = 'NIC';
+        }
+        field(42; "Approved Date"; Date)
+        {
+            Description = 'NIC';
+        }
+        field(43; "Approval Status"; Enum "Approve Status")
+        {
+            Description = 'NIC';
+
+        }
+    }
+
+    keys
+    {
+        key(Key1; "No.") { }
+        key(Key2; "Posted Date") { }
+    }
+
+    fieldgroups { }
+
+    var
+        Text001: Label 'Do you want to reverse Posted Payroll document %1?';
+        Text003: Label 'The entries were successfully reversed.';
+
+    procedure Navigate()
+    var
+        NavigateForm: Page Navigate;
+    begin
+        NavigateForm.SetDoc("Posting Date", "No.");
+        NavigateForm.Run;
+    end;
+
+    procedure SendEmail(DocumentNo: Code[20])
+    var
+        PostedPayrollHeaderRec: Record "Posted Payroll Header";
+    begin
+        PostedPayrollHeaderRec.Reset;
+        PostedPayrollHeaderRec.SetRange("No.", DocumentNo);
+        Report.Run(Report::"Mail for Payroll", true, true, PostedPayrollHeaderRec);
+    end;
+
+    procedure ReverseDocument(var PostedPayrollHeader: Record "Posted Payroll Header")
+    var
+        PostedPayrollLine: Record "Posted Payroll Line";
+        ReversalEntry: Record "Reversal Entry";
+        GLEntry: Record "G/L Entry";
+        PreviousPayrollHdr: Record "Posted Payroll Header";
+        PreviousPayrollLine: Record "Posted Payroll Line";
+    begin
+        if PostedPayrollHeader.FindFirst then begin
+            PostedPayrollHeader.TestField(Reversed, false);
+
+            PreviousPayrollHdr.Reset;
+            PreviousPayrollHdr.SetFilter("Posted Date", '>%1', PostedPayrollHeader."Posted Date");
+            PreviousPayrollHdr.SetRange("Nepali Year", "Nepali Year");
+            PreviousPayrollHdr.SetRange(Reversed, false);
+            if PreviousPayrollHdr.FindLast then
+                repeat
+                    PostedPayrollLine.Reset;
+                    PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
+                    if PostedPayrollLine.FindFirst then
+                        repeat
+                            PreviousPayrollLine.Reset;
+                            PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
+                            PreviousPayrollLine.SetRange("Employee No.", PostedPayrollLine."Employee No.");
+                            if PreviousPayrollLine.FindFirst then
+                                Error('Please reverse payroll plan %1 before reversing this payroll.', PreviousPayrollHdr."No.");
+                        until PostedPayrollLine.Next = 0;
+                until PreviousPayrollHdr.Next(-1) = 0;
+
+            if not Confirm(Text001, false, PostedPayrollHeader."No.") then
+                exit;
+
+            GLEntry.Reset;
+            GLEntry.SetRange("Document No.", PostedPayrollHeader."No.");
+            if GLEntry.FindFirst then begin
+                Clear(ReversalEntry);
+                if GLEntry.Reversed then
+                    ReversalEntry.AlreadyReversedEntry(TableCaption, GLEntry."Entry No.");
+                GLEntry.TestField("Transaction No.");
+                ReversalEntry.SetHideDialog(true);
+                ReversalEntry.SetPayrollEntry(true);
+                ReversalEntry.ReverseTransaction(GLEntry."Transaction No.")
+            end;
+            if GLEntry.FindFirst then
+                if GLEntry.Reversed then begin
+                    PostedPayrollLine.Reset;
+                    PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
+                    PostedPayrollLine.SetRange(Reversed, false);
+                    if PostedPayrollLine.FindSet(true, true) then
+                        repeat
+                            PostedPayrollLine.ReverseLine(PostedPayrollLine);
+                        until PostedPayrollLine.Next = 0;
+                    PostedPayrollHeader.Reversed := true;
+                    PostedPayrollHeader.Modify;
+                    Message(Text003);
+                end;
+        end;
+    end;
+}
