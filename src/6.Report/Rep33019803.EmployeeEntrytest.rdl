@@ -8,6 +8,7 @@
         <ConnectString />
       </ConnectionProperties>
       <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>c72a5d3c-9282-4ab6-888d-64073a481b36</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <ReportSections>
@@ -580,10 +581,6 @@
         <Style />
       </Body>
       <Width>8.52916in</Width>
-        <Height>2in</Height>
-        <Style />
-      </Body>
-      <Width>6.5in</Width>
       <Page>
         <Style />
       </Page>
