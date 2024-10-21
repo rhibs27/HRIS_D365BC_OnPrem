@@ -273,7 +273,7 @@ codeunit 50000 "Leave Mgt."
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
     begin
-        HRMgt.CheckBetweenFiscalYear;
+        CheckBetweenFiscalYear;
         PayrollSetup.Get;
         Employee.Get(EmpCode);
         if Employee."Employment Type" = Employee."Employment Type"::Permanent then
@@ -381,12 +381,12 @@ codeunit 50000 "Leave Mgt."
         SalaryLevel: Record "Salary Level";
         EmployeeRec: Record Employee;
     begin
-        HRMgt.CheckBetweenFiscalYear;
+        CheckBetweenFiscalYear;
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
         if EngNep.FindFirst then;
 
-        HRMgt.CheckBetweenFiscalYear;
+        CheckBetweenFiscalYear;
         EmployeeRec.Get(EmpCode);
         EmployeeRec.TestField("Salary Level");
         SalaryLevel.Get(EmployeeRec."Salary Level");
@@ -417,6 +417,13 @@ codeunit 50000 "Leave Mgt."
                         LeaveEarn.Insert(true);
                 end;
             until LeavetypSetup.Next = 0;
+    end;
+
+    procedure CheckBetweenFiscalYear()
+    begin
+        PayrollSetup.Get;
+        if (Today < PayrollSetup."Payroll Fiscal Year Start Date") or (Today > PayrollSetup."Payroll Fiscal Year End Date") then
+            Error('Date must between %1 and %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
     end;
 
     procedure CalculateProDataLeave(LeaveCode: Code[20]; JoiningDate: Date): Decimal

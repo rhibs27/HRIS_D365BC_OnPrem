@@ -362,9 +362,22 @@ page 50108 "Portal Functions"
           '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Lodging, false, endDate - startDate + 1)), '=', ',') + '",' +
           '"outOfPocket": "' + DelChr(Format(SalaryLevel."Out of Pocket Expense" *
                                 HrMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, startDate, endDate)), '=', ',') + '"' +
-
           '}');
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure logIn(empNo: Code[20]; userName: Text[20]; password: Text[20]): text
+    var
+
+    begin
+        Employee.Get(empNo);
+        if (Employee.UserName = userName) and (Employee.password = password) then
+            exit('{"LoginMessage" : "Log in Success"}')
+        else
+            exit('{"LoginMessage" : "Log in Fail"}');
+
     end;
 
     [ServiceEnabled]

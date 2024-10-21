@@ -525,6 +525,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the System Owner field.';
 
                 }
+                field(UserName; Rec.UserName)
+                {
+                    ApplicationArea = All;
+                }
+                field(Password; Rec.password)
+                {
+                    ApplicationArea = All;
+                }
             }
         }
         addlast(Payments)

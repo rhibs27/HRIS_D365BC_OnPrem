@@ -4006,59 +4006,59 @@ codeunit 50001 "HR Mgt."
     //         until LeavetypSetup.Next = 0;
     // end;
 
-    procedure UpdateLeaveEmployeeContract(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: enum "Employee Type"; Gender: Enum "Employee Gender";
-                                                                                                  MaritalStatus: Enum "Marital Status")
-    var
-        LeaveEarn: Record "Leave Earn";
-        LeavetypSetup: Record "Leave Type Setup";
-        HRSetup: Record "Human Resources Setup";
-        SalaryLevel: Record "Salary Level";
-        EmployeeRec: Record Employee;
-    begin
-        CheckBetweenFiscalYear;
-        EngNep.Reset;
-        EngNep.SetRange("English Date", Today);
-        if EngNep.FindFirst then;
+    // procedure UpdateLeaveEmployeeContract(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: enum "Employee Type"; Gender: Enum "Employee Gender";
+    //                                                                                               MaritalStatus: Enum "Marital Status")
+    // var
+    //     LeaveEarn: Record "Leave Earn";
+    //     LeavetypSetup: Record "Leave Type Setup";
+    //     HRSetup: Record "Human Resources Setup";
+    //     SalaryLevel: Record "Salary Level";
+    //     EmployeeRec: Record Employee;
+    // begin
+    //     CheckBetweenFiscalYear;
+    //     EngNep.Reset;
+    //     EngNep.SetRange("English Date", Today);
+    //     if EngNep.FindFirst then;
 
-        CheckBetweenFiscalYear;
-        EmployeeRec.Get(EmpCode);
-        EmployeeRec.TestField("Salary Level");
-        SalaryLevel.Get(EmployeeRec."Salary Level");
+    //     CheckBetweenFiscalYear;
+    //     EmployeeRec.Get(EmpCode);
+    //     EmployeeRec.TestField("Salary Level");
+    //     SalaryLevel.Get(EmployeeRec."Salary Level");
 
-        LeavetypSetup.Reset;
-        LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
-        LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1|%2', LeavetypSetup."Marital Status"::" ", MaritalStatus);
-        LeavetypSetup.SetRange(Compensatory, false);
-        LeavetypSetup.SetRange("Needed HR Permission", false);
-        LeavetypSetup.SetRange("Skip Balance Check", false);
-        if LeavetypSetup.Find('-') then
-            repeat
-                Clear(LeaveEarn);
-                LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
-                LeaveEarn.SetRange(EmpNo, EmpCode);
-                LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
-                if not LeaveEarn.FindFirst then begin
-                    LeaveEarn.Init;
-                    LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
-                    LeaveEarn.Validate(EmpNo, EmpCode);
-                    LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
-                    LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
-                    LeaveEarn.Validate("Posted Date", Today);
-                    if not LeavetypSetup."Calculate Proratawise" then
-                        LeaveEarn.Validate("Balancing Days", SalaryLevel."Leave Balance (Contract Staff)");
-                    if LeaveEarn."Balancing Days" <> 0 then
-                        LeaveEarn.Insert(true);
-                end;
-            until LeavetypSetup.Next = 0;
-    end;
+    //     LeavetypSetup.Reset;
+    //     LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
+    //     LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
+    //     LeavetypSetup.SetFilter("Marital Status", '%1|%2', LeavetypSetup."Marital Status"::" ", MaritalStatus);
+    //     LeavetypSetup.SetRange(Compensatory, false);
+    //     LeavetypSetup.SetRange("Needed HR Permission", false);
+    //     LeavetypSetup.SetRange("Skip Balance Check", false);
+    //     if LeavetypSetup.Find('-') then
+    //         repeat
+    //             Clear(LeaveEarn);
+    //             LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
+    //             LeaveEarn.SetRange(EmpNo, EmpCode);
+    //             LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
+    //             if not LeaveEarn.FindFirst then begin
+    //                 LeaveEarn.Init;
+    //                 LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
+    //                 LeaveEarn.Validate(EmpNo, EmpCode);
+    //                 LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
+    //                 LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
+    //                 LeaveEarn.Validate("Posted Date", Today);
+    //                 if not LeavetypSetup."Calculate Proratawise" then
+    //                     LeaveEarn.Validate("Balancing Days", SalaryLevel."Leave Balance (Contract Staff)");
+    //                 if LeaveEarn."Balancing Days" <> 0 then
+    //                     LeaveEarn.Insert(true);
+    //             end;
+    //         until LeavetypSetup.Next = 0;
+    // end;
 
-    procedure CheckBetweenFiscalYear()
-    begin
-        PayrollSetup.Get;
-        if (Today < PayrollSetup."Payroll Fiscal Year Start Date") or (Today > PayrollSetup."Payroll Fiscal Year End Date") then
-            Error('Date must between %1 and %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
-    end;
+    // procedure CheckBetweenFiscalYear()
+    // begin
+    //     PayrollSetup.Get;
+    //     if (Today < PayrollSetup."Payroll Fiscal Year Start Date") or (Today > PayrollSetup."Payroll Fiscal Year End Date") then
+    //         Error('Date must between %1 and %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
+    // end;
 
     // procedure CalculateProDataLeave(LeaveCode: Code[20]; JoiningDate: Date): Decimal
     // var
@@ -4377,99 +4377,99 @@ codeunit 50001 "HR Mgt."
     //         until TempIncomingDoc.Next = 0;
     // end;
 
-    procedure ApplyForLeave(Leave: Record "Leave" temporary): Boolean
-    var
-        leaveMgt: Codeunit "Leave Mgt.";
-        Leavevar: Record "Leave";
-        ConfirmLeave: Label 'Do you want to send leave request ?';
-        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-        LeaveTypeSetup: Record "Leave Type Setup";
-        LeaveTable: Record "Leave";
-        LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
-    begin
-        LeaveTypeSetup.Get(Leave."Leave Code");
-        LeaveTable.Reset;
-        LeaveTable.SetRange("Employee No.", Leave."Employee No.");
-        LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
-        LeaveTable.SetRange("Leave Code", LeaveTypeSetup.Code);
-        LeaveTable.SetFilter("Approval Status", '%1|%2|%3', LeaveTable."Approval Status"::Recommended, LeaveTable."Approval Status"::"Pending Approval", LeaveTable."Approval Status"::Open);
-        if LeaveTable.FindFirst then
-            Error(LeaveRequestError, LeaveTable."No.", LeaveTable."Leave Code");
-        if GuiAllowed then begin
-            if not Confirm(ConfirmLeave, false) then
-                exit;
-        end else begin
-            leaveMgt.CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
-            if not LeaveTypeSetup.Compensatory then
-                leaveMgt.CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
-            leaveMgt.CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
-            leaveMgt.CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
-        end;
-
-
-        PayrollSetup.Get;
-        //check for fisal year start date
-        if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or
-          (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
-            Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
-
-        //Bereavement Leave
-        if LeaveTypeSetup."Bereavement Leave" then
-            Leave.TestField("For Death Of");
-        //maternity and paternity leave
-        if LeaveTypeSetup."Maternity/Paternity Leave" then
-            Leave.TestField("Child's Gender");
-        Leave.TestField("Start Date");
-        Leave.TestField("End Date");
-        Leave.TestField(Remarks);
-        if Leave."No. of Days" <= 0 then
-            Error(ErrorNoOfDays);
-        Leave.TestField("Leave Code");
-
-        //IF NOT CheckForCompensatory(TempEmpAct."Leave Code",TempEmpAct."Employee No.",TempEmpAct."Compensatory Date",TempEmpAct."No. of Days") THEN //Min 12.19.2022 -- Commented,Compensatory Leave route through OT Lines.
-        leaveMgt.CheckRemainingLeaveDays(Leave."Leave Code", Leave."Employee No.", Leave."No. of Days");
-
-        leaveMgt.CheckDependability(Leave."Leave Code", Leave."Employee No.");
-        leaveMgt.CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
-        Leavevar.Init;
-        Leavevar.TransferFields(Leave);
-        Leavevar.TestField("Approver Code");
-        if Leavevar."Recommender Code" <> '' then
-            Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
-        else
-            Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
-        Leavevar.Validate("User ID", UserId);
-
-        Leavevar.Insert(true);
-        leaveMgt.AddLeaveAttachment(Leavevar."No.", Leavevar."Employee No.", Leavevar."Leave Code");
-        SendMailFromTemplate(DATABASE::"Employee Activity", Leavevar.Type::"Leave Request", Leavevar."Approval Status"::Open, '', Leavevar."Employee No.", Leavevar."No.", 0);   //For email
-
-        exit(true);
-    end;
-
-    // procedure CreateLeaveEarnContract(Employee: Record Employee)
+    // procedure ApplyForLeave(Leave: Record "Leave" temporary): Boolean
     // var
-    //     TempLeaveEarn: Record "Leave Earn" temporary;
-    //     LeaveEarn: Record "Leave Earn";
+    //     leaveMgt: Codeunit "Leave Mgt.";
+    //     Leavevar: Record "Leave";
+    //     ConfirmLeave: Label 'Do you want to send leave request ?';
+    //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
+    //     LeaveTypeSetup: Record "Leave Type Setup";
+    //     LeaveTable: Record "Leave";
+    //     LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     // begin
-    //     Employee.TestField("Employment Type", Employee."Employment Type"::Contract);
-    //     Employee.TestField("Employment Date");
+    //     LeaveTypeSetup.Get(Leave."Leave Code");
+    //     LeaveTable.Reset;
+    //     LeaveTable.SetRange("Employee No.", Leave."Employee No.");
+    //     LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
+    //     LeaveTable.SetRange("Leave Code", LeaveTypeSetup.Code);
+    //     LeaveTable.SetFilter("Approval Status", '%1|%2|%3', LeaveTable."Approval Status"::Recommended, LeaveTable."Approval Status"::"Pending Approval", LeaveTable."Approval Status"::Open);
+    //     if LeaveTable.FindFirst then
+    //         Error(LeaveRequestError, LeaveTable."No.", LeaveTable."Leave Code");
+    //     if GuiAllowed then begin
+    //         if not Confirm(ConfirmLeave, false) then
+    //             exit;
+    //     end else begin
+    //         leaveMgt.CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
+    //         if not LeaveTypeSetup.Compensatory then
+    //             leaveMgt.CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
+    //         leaveMgt.CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
+    //         leaveMgt.CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
+    //     end;
 
-    //     if not Confirm('Do you want to add leave balance for contract employee ?', false) then
-    //         exit;
-    //     /*LeaveEarn.RESET;
-    //     LeaveEarn.SETRANGE(EmpNo,"No.");
-    //     LeaveEarn.SETRANGE("Fiscal year",ReturnFiscalYear(TODAY));
-    //     LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Earned);
-    //     IF LeaveEarn.FINDFIRST THEN
-    //       ERROR('Leave Earn has already been carried out for this fiscal year');
-    //       */
-    //     TempLeaveEarn.Init;
-    //     TempLeaveEarn.Validate(EmpNo, Employee."No.");
-    //     TempLeaveEarn.Insert;
-    //     PAGE.RunModal(60238, TempLeaveEarn);
 
+    //     PayrollSetup.Get;
+    //     //check for fisal year start date
+    //     if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or
+    //       (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
+    //         Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
+
+    //     //Bereavement Leave
+    //     if LeaveTypeSetup."Bereavement Leave" then
+    //         Leave.TestField("For Death Of");
+    //     //maternity and paternity leave
+    //     if LeaveTypeSetup."Maternity/Paternity Leave" then
+    //         Leave.TestField("Child's Gender");
+    //     Leave.TestField("Start Date");
+    //     Leave.TestField("End Date");
+    //     Leave.TestField(Remarks);
+    //     if Leave."No. of Days" <= 0 then
+    //         Error(ErrorNoOfDays);
+    //     Leave.TestField("Leave Code");
+
+    //     //IF NOT CheckForCompensatory(TempEmpAct."Leave Code",TempEmpAct."Employee No.",TempEmpAct."Compensatory Date",TempEmpAct."No. of Days") THEN //Min 12.19.2022 -- Commented,Compensatory Leave route through OT Lines.
+    //     leaveMgt.CheckRemainingLeaveDays(Leave."Leave Code", Leave."Employee No.", Leave."No. of Days");
+
+    //     leaveMgt.CheckDependability(Leave."Leave Code", Leave."Employee No.");
+    //     leaveMgt.CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
+    //     Leavevar.Init;
+    //     Leavevar.TransferFields(Leave);
+    //     Leavevar.TestField("Approver Code");
+    //     if Leavevar."Recommender Code" <> '' then
+    //         Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
+    //     else
+    //         Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
+    //     Leavevar.Validate("User ID", UserId);
+
+    //     Leavevar.Insert(true);
+    //     leaveMgt.AddLeaveAttachment(Leavevar."No.", Leavevar."Employee No.", Leavevar."Leave Code");
+    //     SendMailFromTemplate(DATABASE::"Employee Activity", Leavevar.Type::"Leave Request", Leavevar."Approval Status"::Open, '', Leavevar."Employee No.", Leavevar."No.", 0);   //For email
+
+    //     exit(true);
     // end;
+
+    // // procedure CreateLeaveEarnContract(Employee: Record Employee)
+    // // var
+    // //     TempLeaveEarn: Record "Leave Earn" temporary;
+    // //     LeaveEarn: Record "Leave Earn";
+    // // begin
+    // //     Employee.TestField("Employment Type", Employee."Employment Type"::Contract);
+    // //     Employee.TestField("Employment Date");
+
+    // //     if not Confirm('Do you want to add leave balance for contract employee ?', false) then
+    // //         exit;
+    // //     /*LeaveEarn.RESET;
+    // //     LeaveEarn.SETRANGE(EmpNo,"No.");
+    // //     LeaveEarn.SETRANGE("Fiscal year",ReturnFiscalYear(TODAY));
+    // //     LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Earned);
+    // //     IF LeaveEarn.FINDFIRST THEN
+    // //       ERROR('Leave Earn has already been carried out for this fiscal year');
+    // //       */
+    // //     TempLeaveEarn.Init;
+    // //     TempLeaveEarn.Validate(EmpNo, Employee."No.");
+    // //     TempLeaveEarn.Insert;
+    // //     PAGE.RunModal(60238, TempLeaveEarn);
+
+    // // end;
 
     local procedure "--travel"()
     begin

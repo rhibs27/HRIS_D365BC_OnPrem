@@ -18688,21 +18688,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyCancelEmployeeActivity - NamedType LeaveCancelError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3993299712 - NamedType 3917487939" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send leave request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForLeave - NamedType ConfirmLeave</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3993299712 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForLeave - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3993299712 - NamedType 2996237022" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForLeave - NamedType LeaveRequestError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3452210115 - NamedType 3646518990" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send travel request ?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54638,6 +54623,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Passport Number - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2526185377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>password</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field password - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3705144616 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Permanent District</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54962,6 +54952,11 @@
           <source>Unit Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Unit Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 3549826426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>UserName</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field UserName - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3637499392 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>VDC/Municipality (Nepali)</source>

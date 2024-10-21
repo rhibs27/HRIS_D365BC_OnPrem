@@ -1325,6 +1325,15 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Functional Title Desc" := FunctionalTitle.Description;
             end;
         }
+        field(50155; "UserName"; text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50156; "password"; text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
     keys
     {
