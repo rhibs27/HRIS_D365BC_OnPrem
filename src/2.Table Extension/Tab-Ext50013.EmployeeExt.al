@@ -1332,6 +1332,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50156; "password"; text[20])
         {
             DataClassification = ToBeClassified;
+            ExtendedDatatype = Masked;
         }
 
     }

@@ -41478,6 +41478,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Portal Feedback - Action Download - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3977349962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>portalFunctions</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Portal Function - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3977349962 - NamedType 238939486" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No Employee card found for this user in Dynamics Business Central.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Portal Function - NamedType NoEmployeeMappingErr</note>
+        </trans-unit>
+        <trans-unit id="Page 3977349962 - NamedType 2739309534" size-unit="char" translate="yes" xml:space="preserve">
+          <source> Please contact your system administrator.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Portal Function - NamedType SystemAdminTxt</note>
+        </trans-unit>
         <trans-unit id="Page 4277848567 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>portalFunctions</source>
           <note from="Developer" annotates="general" priority="2"></note>
