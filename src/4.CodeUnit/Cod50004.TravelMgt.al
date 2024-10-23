@@ -26,6 +26,18 @@ codeunit 50004 "Travel Mgt."
         PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
     end;
 
+    procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date; Empcode: Code[20]): Decimal
+    var
+        DateError: Label 'Start Date (%1) must be less than End Date (%2).';
+        LeaveTypeSetup: Record "Leave Type Setup";
+        Difference: Decimal;
+    begin
+        if StartDate > EndDate then
+            Error(DateError, StartDate, EndDate)
+        else
+            exit(EndDate - StartDate + 1);
+    end;
+
     procedure CalcExtendDays(NoOfDays: Decimal; TravelOrderNo: Code[20]): Decimal
     var
         EmpAct: Record "Employee Activity";
