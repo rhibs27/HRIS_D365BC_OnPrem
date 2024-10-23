@@ -2,26 +2,28 @@ codeunit 50004 "Travel Mgt."
 {
     procedure OpenTravelRequest(EmpCode: Code[20]; ToExtend: Boolean; TravelNo: Code[20])
     var
-        EmpAct: Record "Employee Activity" temporary;
-        EmpAct2: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity" temporary;
+        TravelRequest: Record "Travel Request" temporary;
+        TravelRequest2: Record "Travel Request";
+    //EmpAct2: Record "Employee Activity";
     begin
-        EmpAct.Init;
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate(Type, EmpAct.Type::"Travel Request");
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Requested Date", Today);
+        TravelRequest.Init;
+        TravelRequest.Validate("Employee No.", EmpCode);
+        TravelRequest.Validate("Functional Title", Employee."Functional Title");
+        TravelRequest.Validate(Type, TravelRequest.Type::"Travel Request");
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+        TravelRequest.Validate("Requested Date", Today);
         Employee.Get(EmpCode);
-        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        EmpAct.Validate(Department, Employee."Department Code");
+        TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        TravelRequest.Validate(Department, Employee."Department Code");
         if ToExtend then begin
-            Clear(EmpAct2);
-            EmpAct2.Get(TravelNo);
-            EmpAct.Validate("Travel Order No.", TravelNo);
-            EmpAct.Validate("Start Date", EmpAct2."End Date" + 1);
+            Clear(TravelRequest2);
+            TravelRequest2.Get(TravelNo);
+            TravelRequest.Validate("Travel Order No.", TravelNo);
+            TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
         end;
-        EmpAct.Insert;
-        PAGE.Run(PAGE::"Travel Request Form", EmpAct);
+        TravelRequest.Insert;
+        PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
     end;
 
     procedure CalcExtendDays(NoOfDays: Decimal; TravelOrderNo: Code[20]): Decimal

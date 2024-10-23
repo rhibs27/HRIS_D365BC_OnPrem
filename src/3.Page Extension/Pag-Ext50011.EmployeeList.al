@@ -268,7 +268,7 @@ pageextension 50011 "Employee List" extends "Employee List"
                 begin
                     Employee.Reset;
                     Employee.SetRange("No.", Rec."No.");
-                    Report.RunModal(60014, true, false, Employee);
+                    Report.RunModal(REPORT::"Generate Leave Balance", true, false, Employee);
                 end;
             }
             action("Update Approval Code")
