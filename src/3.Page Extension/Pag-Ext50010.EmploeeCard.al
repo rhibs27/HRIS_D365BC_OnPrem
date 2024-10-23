@@ -1474,7 +1474,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     begin
                         Employee.RESET;
                         Employee.SETRANGE("No.", Rec."No.");
-                        REPORT.RUNMODAL(50017, TRUE, FALSE, Employee);
+                        REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
                     end;
                 }
                 action("Leave Earn (Contract)")
