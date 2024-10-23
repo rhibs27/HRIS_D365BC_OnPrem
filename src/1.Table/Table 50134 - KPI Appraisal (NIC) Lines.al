@@ -21,10 +21,8 @@ table 50134 "KPI Appraisal (NIC) Lines"
         field(3; "KPI Code"; Code[20]) { }
         field(4; "KPI Description"; Text[250]) { }
         field(5; "Weightage %"; Decimal) { }
-        field(6; Type; Option)
+        field(6; Type; Enum "KPI Setup Type")
         {
-            OptionCaption = ' ,Functional,Department,Department Central Level,Department Province Level';
-            OptionMembers = " ",Functional,Department,"Department Central Level","Department Province Level";
         }
         field(7; Target; Decimal)
         {

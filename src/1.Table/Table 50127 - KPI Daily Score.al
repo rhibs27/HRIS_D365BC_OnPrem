@@ -100,9 +100,9 @@ table 50127 "KPI Daily Score"
         }
         field(11; "KPI Score"; Decimal) { }
         field(12; Quarter; Text[10]) { }
-        field(13; Type; Option)
+        field(13; Type; Enum EmployeeDepartment)
         {
-            OptionMembers = " ",Employee,Department;
+
         }
         field(14; Department; Code[20])
         {

@@ -22,4 +22,8 @@ enum 50010 "Loan Type"
     {
         Caption = 'Vehicle Loan';
     }
+    value(5; "Home Loan Insurance Tieup")
+    {
+        Caption = 'Home Loan Insurance Tieup';
+    }
 }

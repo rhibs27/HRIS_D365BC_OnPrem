@@ -14,11 +14,8 @@ table 50111 "Attachment Setup"
         {
             TableRelation = AllObjWithCaption."Object ID" where("Object Type" = const(Table));
         }
-        field(4; Type; Option)
+        field(4; Type; Enum "Attachment Setup Type")
         {
-            OptionCaption = ' ,Salary Advance,Personal Loan,Home Loan,Vehicle Loan,Employee Profile,Education,Work Experience,Complaince Requirement Forms,Leave Request,Travel Request,Travel Claim,Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Attendance Missed,Insurance,,CV,Passport,Property Disclosure,Outside Business';
-            OptionMembers = " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan","Employee Profile",Education,"Work Experience","Complaince Requirement Forms","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Attendance Missed",Insurance,,CV,Passport,"Property Disclosure","Outside Business";
-
             trigger OnValidate()
             begin
                 if Type <> xRec.Type then begin
@@ -32,17 +29,13 @@ table 50111 "Attachment Setup"
                     SyncNewAttachmentSetup;
             end;
         }
-        field(5; "Purpose of Housing Loan"; Option)
+        field(5; "Purpose of Housing Loan"; Enum "Purpose of Housing Loan")
         {
             Description = 'Home';
-            OptionCaption = ' ,Purchase of Land,Construction of House,Purchase of ready built house,Renovate/Extend/Repair,Purpose of Equity Financing';
-            OptionMembers = " ","Purchase of Land","Construction of House","Purchase of ready built house","Renovate/Extend/Repair","Purpose of Equity Financing";
         }
         field(6; Mandatory; Boolean) { }
-        field(7; "Qualification Type"; Option)
+        field(7; "Qualification Type"; Enum "Qualification Type")
         {
-            OptionCaption = ' ,SLC,+2,Bachelor''s,Master''s';
-            OptionMembers = " ",SLC,"+2","Bachelor's","Master's";
         }
         field(8; Enhancement; Boolean) { }
         field(9; "Leave Type Code"; Code[20])

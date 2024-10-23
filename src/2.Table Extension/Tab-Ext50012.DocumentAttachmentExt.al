@@ -2,11 +2,10 @@ tableextension 50012 "Document Attachment Ext" extends "Document Attachment"
 {
     fields
     {
-        field(50000; "Qualification Doc. Type"; Option)
+        field(50000; "Qualification Doc. Type"; Enum "Emp. Qualification Type")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",Education,Work;
-            OptionCaption = ' ,Education,Work';
+
             trigger OnValidate()
             begin
                 //>>clearing the related field on validation
@@ -21,11 +20,9 @@ tableextension 50012 "Document Attachment Ext" extends "Document Attachment"
             // TableRelation = Qualification WHERE("Type" = FIELD("Qualification Doc. Type"),"Qualification Type" = FIELD("Qualification Level")); todo
             DataClassification = ToBeClassified;
         }
-        field(50002; "Qualification Level"; Option)
+        field(50002; "Qualification Level"; Enum "Qualification Type")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",SLC,"+2",Bachelor,Master;
-            OptionCaption = ' ,SLC,+2,Bachelor,Master';
             trigger OnValidate()
             begin
                 //>>clearing the related field on validation

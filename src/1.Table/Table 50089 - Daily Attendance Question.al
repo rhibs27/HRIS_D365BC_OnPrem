@@ -12,10 +12,8 @@ table 50089 "Daily Attendance Question"
         field(6; Option4; Text[150]) { }
         field(7; "Question Date"; Date) { }
         field(8; "Is Punch In Question"; Boolean) { }
-        field(9; "Correct Option"; Option)
+        field(9; "Correct Option"; Enum "Correct Option")
         {
-            OptionCaption = ' ,Option1,Option2,Option3,Option4';
-            OptionMembers = " ",Option1,Option2,Option3,Option4;
         }
         field(10; "Sync to Portal"; Boolean) { }
     }

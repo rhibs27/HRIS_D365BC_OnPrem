@@ -100,26 +100,20 @@ table 50099 "Employee Insurance Information"
         }
         field(15; "Is Home Loan TieUp"; Boolean) { }
         field(16; "Requested Date"; Date) { }
-        field(17; Status; Option)
+        field(17; Status; Enum "Employee Insurance Status")
         {
-            OptionCaption = ' ,Open,Pending,Screened,Rejected';
-            OptionMembers = " ",Open,Pending,Screened,Rejected;
+
         }
-        field(18; Type; Option)
+        field(18; Type; Enum "Employee Insurance Type")
         {
-            OptionCaption = ' ,Life Insurance,Medical Insurance,Property Insurance';
-            OptionMembers = " ","Life Insurance","Medical Insurance","Property Insurance";
+
         }
         field(19; Remarks; Text[250]) { }
-        field(20; "Life Insurance Company"; Option)
+        field(20; "Life Insurance Company"; Enum "Life Insurance Company")
         {
-            OptionCaption = ' ,Citizen Life Ins. Co. Ltd.,Gurans Life Ins. Co. Ltd.,I.M.E. Life Ins. Co. Ltd.,Jyoti Life Ins. Co. Ltd.,Life Ins. Corporation (Nepal) Ltd.,Mahalaxmi Life Ins. Co. Ltd.,National Life Ins. Co. Ltd.,Nepal Life Ins. Co. Ltd.,Prabhu Life Ins. Co. Ltd.,Prime Life Ins. Co. Ltd.,Rastriya Beema Sansthan,Reliable Nepal Life Ins. Ltd.,Reliance Life Ins. Ltd.,Sanima Life Ins. Co. Ltd.,Sun Nepal Life Ins. Co. Ltd.,Surya Life Ins. Co. Ltd.,Union Life Ins. Co. Ltd.,Asian Life Insurance Co. Ltd.,American Life Insurance Co. Ltd.(MetLife)';
-            OptionMembers = ,"Citizen Life Ins. Co. Ltd.","Gurans Life Ins. Co. Ltd.","I.M.E. Life Ins. Co. Ltd.","Jyoti Life Ins. Co. Ltd.","Life Ins. Corporation (Nepal) Ltd.","Mahalaxmi Life Ins. Co. Ltd.","National Life Ins. Co. Ltd.","Nepal Life Ins. Co. Ltd.","Prabhu Life Ins. Co. Ltd.","Prime Life Ins. Co. Ltd.","Rastriya Beema Sansthan","Reliable Nepal Life Ins. Ltd.","Reliance Life Ins. Ltd.","Sanima Life Ins. Co. Ltd.","Sun Nepal Life Ins. Co. Ltd.","Surya Life Ins. Co. Ltd.","Union Life Ins. Co. Ltd.","Asian Life Insurance Co. Ltd.","American Life Insurance Co. Ltd.(MetLife)";
         }
-        field(21; "Medical/Property Ins Company"; Option)
+        field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
         {
-            OptionCaption = ' ,Ajod Ins. Co. Ltd.,Everest Ins. Co. Ltd.,General Ins. Co. Nepal Ltd.,IME General Ins. Co. Ltd.,Himalayan General Ins. Co. Ltd.,Lumbini General Ins. Co. Ltd.,National Ins. Co. Ltd.,Neco Ins. Co. Ltd.,Nepal Ins. Co. Ltd.,NLG Ins. Co. Ltd.,Oriental Ins. Co. Ltd.,Prabhu Ins. Co. Ltd.,Premier Ins. Co. (Nepal) Ltd.,Prudential Ins. Co. Ltd.,Rastriya Beema Co. Ltd.,Sagarmatha Ins. Co. Ltd.,Sanima General Ins. Co. Ltd.,Shikhar Ins. Co. Ltd.,Siddartha Ins. Co. Ltd.,United Ins. Co. (Nepal) Ltd.';
-            OptionMembers = " ","Ajod Ins. Co. Ltd.","Everest Ins. Co. Ltd.","General Ins. Co. Nepal Ltd.","IME General Ins. Co. Ltd.","Himalayan General Ins. Co. Ltd.","Lumbini General Ins. Co. Ltd.","National Ins. Co. Ltd.","Neco Ins. Co. Ltd.","Nepal Ins. Co. Ltd.","NLG Ins. Co. Ltd.","Oriental Ins. Co. Ltd.","Prabhu Ins. Co. Ltd.","Premier Ins. Co. (Nepal) Ltd.","Prudential Ins. Co. Ltd.","Rastriya Beema Co. Ltd.","Sagarmatha Ins. Co. Ltd.","Sanima General Ins. Co. Ltd.","Shikhar Ins. Co. Ltd.","Siddartha Ins. Co. Ltd.","""United Ins. Co. (Nepal) Ltd.";
         }
     }
 

@@ -52,11 +52,11 @@ pageextension 50012 Qualifications extends Qualifications
             Format(Rec."Qualification Type"::"+2"):
                 Rec."Qualification Type" := Rec."Qualification Type"::"+2";
 
-            Format(Rec."Qualification Type"::Bachelor):
-                Rec."Qualification Type" := Rec."Qualification Type"::Bachelor;
+            Format(Rec."Qualification Type"::"Bachelor''s"):
+                Rec."Qualification Type" := Rec."Qualification Type"::"Bachelor''s";
 
-            Format(Rec."Qualification Type"::Master):
-                Rec."Qualification Type" := Rec."Qualification Type"::Master;
+            Format(Rec."Qualification Type"::"Master''s"):
+                Rec."Qualification Type" := Rec."Qualification Type"::"Master''s";
 
             Format(Rec."Qualification Type"::SLC):
                 Rec."Qualification Type" := Rec."Qualification Type"::SLC;

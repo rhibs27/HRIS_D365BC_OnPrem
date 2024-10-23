@@ -763,12 +763,10 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Caption = 'Company Code';
         }
-        field(50079; Salutation; Option)
+        field(50079; Salutation; Enum Salutation)
         {
             DataClassification = CustomerContent;
             Caption = 'Salutation';
-            OptionMembers = " ","Mr.","Ms.","Mrs.";
-            OptionCaption = ' ,Mr.,Ms.,Mrs.';
         }
         field(50080; "Permanent District"; Text[30])
         {
@@ -1191,11 +1189,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     ClearValues;
             end;
         }
-        field(50129; "Contract Expiry Month"; Option)
+        field(50129; "Contract Expiry Month"; Enum "Contract Expiry Date")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ","01M","02M","03M","04M","05M","06M","07M","08M","09M","10M","11M","1Y";
-            OptionCaption = ' ,01M,02M,03M,04M,05M,06M,07M,08M,09M,10M,11M,1Y';
             trigger OnValidate()
             begin
                 if "Contract Renew Date" = 0D then
@@ -1290,11 +1286,9 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50148; "Probation Period"; Option)
+        field(50148; "Probation Period"; Enum "Probation Period")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ","6 Month","12 Month";
-            OptionCaption = ' ,6 Month,12 Month';
         }
         field(50149; "Relation With Emergency Cont"; Text[30])
         {

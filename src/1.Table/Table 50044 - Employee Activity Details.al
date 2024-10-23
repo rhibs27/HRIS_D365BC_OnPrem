@@ -23,7 +23,7 @@ table 50044 "Employee Activity Details"
         {
             Editable = false;
         }
-        field(3; Type; Enum "Employee  Activity Type")
+        field(3; Type; Enum "Employee leave Activity Type")
         {
             trigger OnValidate()
             begin

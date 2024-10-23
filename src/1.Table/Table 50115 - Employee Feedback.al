@@ -17,21 +17,15 @@ table 50115 "Employee Feedback"
         field(4; "Answers Text"; Text[250]) { }
         field(5; "Line No."; Integer) { }
         field(6; "Question Code"; Code[20]) { }
-        field(7; Type; Option)
+        field(7; Type; Enum "Employee Question Type")
         {
-            OptionCaption = ' ,Apparisal,Training';
-            OptionMembers = " ",Apparisal,Training;
         }
-        field(8; "Sub Type"; Option)
+        field(8; "Sub Type"; Enum "Employee Question SubType")
         {
-            OptionCaption = ' ,Training,Trainer';
-            OptionMembers = " ",Training,Trainer;
-        }
-        field(9; Answer; Option)
-        {
-            OptionCaption = ' ,Strongly Agree,Agree,Netural,Disagree,Strongly Disagree';
-            OptionMembers = " ","Strongly Agree",Agree,Netural,Disagree,"Strongly Disagree";
 
+        }
+        field(9; Answer; Enum "Employee FeedBack")
+        {
             trigger OnValidate()
             begin
                 case Answer of

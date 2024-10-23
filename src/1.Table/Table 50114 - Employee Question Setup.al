@@ -19,19 +19,17 @@ table 50114 "Employee Question Setup"
         }
         field(2; "Line No."; Integer) { }
         field(3; Question; Text[250]) { }
-        field(4; Type; Option)
+        field(4; Type; Enum "Employee Question Type")
         {
-            OptionCaption = ' ,Appraisal,Training';
-            OptionMembers = " ",Appraisal,Training;
+
         }
         field(5; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(6; "Sub Type"; Option)
+        field(6; "Sub Type"; Enum "Employee Question SubType")
         {
-            OptionCaption = ' ,Training,Trainer';
-            OptionMembers = " ",Training,Trainer;
+
         }
     }
 

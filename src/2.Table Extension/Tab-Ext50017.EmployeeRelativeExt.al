@@ -17,11 +17,9 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
-        field(50002; "Master Type"; Option)
+        field(50002; "Master Type"; Enum EmployeeCandidate)
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Employee,Candidate;
-            OptionCaption = ' ,Employee,Candidate';
         }
         field(50003; "Name(Nepali)"; Text[30])
         {

@@ -105,10 +105,9 @@ table 50093 "Allowance Assignment Line"
         }
         field(10; "Is Substitute"; Boolean) { }
         field(11; "Substitue of Line No."; Integer) { }
-        field(12; Type; Option)
+        field(12; Type; Enum "Branchwise/Extension Type")
         {
-            OptionCaption = ' ,Branch,Extension Counter';
-            OptionMembers = " ",Branch,"Extension Counter";
+
         }
         field(13; "Created Date"; Date) { }
         field(14; "Created By"; Code[50]) { }
@@ -135,10 +134,8 @@ table 50093 "Allowance Assignment Line"
         {
             Editable = false;
         }
-        field(23; Panel; Option)
+        field(23; Panel; Enum Panel)
         {
-            OptionCaption = ' ,Panel A,Panel B';
-            OptionMembers = " ","Panel A","Panel B";
 
             trigger OnValidate()
             begin
@@ -156,10 +153,8 @@ table 50093 "Allowance Assignment Line"
             Editable = false;
         }
         field(25; "Rejection Remarks"; Text[100]) { }
-        field(26; Week; Option)
+        field(26; Week; Enum WeekNumber)
         {
-            OptionCaption = ' ,Week 1,Week 2,Week 3,Week 4';
-            OptionMembers = " ","Week 1","Week 2","Week 3","Week 4";
         }
     }
 

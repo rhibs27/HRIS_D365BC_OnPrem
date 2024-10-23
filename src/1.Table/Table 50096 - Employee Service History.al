@@ -39,10 +39,8 @@ table 50096 "Employee Service History"
         field(6; "Deputation Value (To)"; Text[100])
         {
         }
-        field(7; "Service Event"; Option)
+        field(7; "Service Event"; Enum "Service Event")
         {
-            OptionCaption = ' ,Appointment,Confirmation,Transfer,Internal Appointment,Expired Contract,Formation of Department/Unit/Functional Title,Addition in Job Function,Assignment in Job Function,Contract Renew,Resignation,Grade Increment,Promotion,Assigned In Functional Title,Intra Transfer,Formation Of Department Or Unit Or Function,Temporary Deputation,Back From Deputation,On The Job Training,Promotion Through Job Evaluation,Officiating Arrangement';
-            OptionMembers = " ",Appointment,Confirmation,Transfer,"Internal Appointment","Expired Contract","Formation of Department/Unit/Functional Title","Addition in Job Function","Assignment in Job Function","Contract Renew",Resignation,"Grade Increment",Promotion,"Assigned In Functional Title","Intra Transfer","Formation Of Department Or Unit Or Function","Temporary Deputation","Back From Deputation","On The Job Training","Promotion Through Job Evaluation","Officiating Arrangement";
         }
         field(8; "Deputation On(From)"; Enum "Deputation Type")
         {

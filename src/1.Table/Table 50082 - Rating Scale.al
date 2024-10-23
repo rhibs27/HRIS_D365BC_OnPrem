@@ -9,10 +9,9 @@ table 50082 "Rating Scale"
 
     fields
     {
-        field(1; Type; Option)
+        field(1; Type; Enum "Rating Scale Type")
         {
-            OptionCaption = ' ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM & Above),KRA';
-            OptionMembers = " ",Interview,Probation,"KPI (Common)","KPI (Below AM)","KPI (AM & Above)",KRA;
+
         }
         field(2; "Code"; Decimal) { }
         field(3; Remarks; Text[30]) { }

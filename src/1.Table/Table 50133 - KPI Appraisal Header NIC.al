@@ -131,11 +131,9 @@ table 50133 "KPI Appraisal Header NIC"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(15; Type; Option)
+        field(15; Type; Enum "KPI Setup Type")
         {
             Editable = true;
-            OptionCaption = ' ,Functional,Department,Department Central Level,Department Province Level';
-            OptionMembers = " ",Functional,Department,"Department Central Level","Department Province Level";
         }
         field(16; "Department Name"; Text[50]) { }
         field(17; Quarter; Text[20]) { }

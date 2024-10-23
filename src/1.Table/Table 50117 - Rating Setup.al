@@ -7,10 +7,9 @@ table 50117 "Rating Setup"
     fields
     {
         field(1; "Entry No."; Integer) { }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Question Type")
         {
-            OptionCaption = ' ,Training,Appraisal';
-            OptionMembers = " ",Training,Appraisal;
+
         }
         field(3; From; Decimal)
         {

@@ -5,10 +5,9 @@ table 50078 "Evaluation Attribute"
 
     fields
     {
-        field(1; "Attribute Type"; Option)
+        field(1; "Attribute Type"; Enum "Evaluation Attribute Type")
         {
-            OptionCaption = ' ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM & Above),Written Exam,Group Discussion';
-            OptionMembers = " ",Interview,Probation,"KPI (Common)","KPI (Below AM)","KPI (AM & Above)","Written Exam","Group Discussion";
+
         }
         field(2; "Code"; Code[20]) { }
         field(3; Description; Text[250]) { }

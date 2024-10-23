@@ -28,10 +28,8 @@ table 50124 Leave
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
         }
         field(3; "Employee No."; Code[20])
         {
@@ -199,10 +197,8 @@ table 50124 Leave
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
 
             trigger OnValidate()
             begin
@@ -382,11 +378,9 @@ table 50124 Leave
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {
@@ -487,10 +481,8 @@ table 50124 Leave
         {
             Editable = false;
         }
-        field(53; "Leave Type"; Option)
+        field(53; "Leave Type"; Enum "Leave Type")
         {
-            OptionCaption = 'Full Day,First Half,Second Half';
-            OptionMembers = "Full Day","First Half","Second Half";
 
             trigger OnValidate()
             begin
@@ -519,11 +511,9 @@ table 50124 Leave
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
             end;
         }
-        field(54; "Pay Type"; Option)
+        field(54; "Pay Type"; Enum "Leave Pay Type")
         {
             Editable = false;
-            OptionCaption = ' ,Paid,Unpaid';
-            OptionMembers = " ",Paid,Unpaid;
         }
         field(55; "Start Time"; Time)
         {
@@ -549,15 +539,11 @@ table 50124 Leave
                 leaveMgt.CheckForCompensatory("Leave Code", "Employee No.", "Compensatory Date", "No. of Days");
             end;
         }
-        field(58; "For Death Of"; Option)
+        field(58; "For Death Of"; Enum "For Death Of")
         {
-            OptionCaption = ' ,Father,Mother,Father In Law,Mother In Law,Spouse,Son,Daughter';
-            OptionMembers = " ",Father,Mother,"Father In Law","Mother In Law",Spouse,Son,Daughter;
         }
-        field(59; "Child's Gender"; Option)
+        field(59; "Child's Gender"; Enum Gender)
         {
-            OptionCaption = ' ,Male,Female';
-            OptionMembers = " ",Male,Female;
         }
         field(60; "LFA Paid"; Boolean)
         {

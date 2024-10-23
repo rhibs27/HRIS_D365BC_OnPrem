@@ -26,11 +26,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                 Clear("Time Period");
             end;
         }
-        field(50000; "Emp Qualification Type"; Option)
+        field(50000; "Emp Qualification Type"; Enum "Emp. Qualification Type")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Education,Work;
-            Description = 'Type as Work Experience or Education';
         }
         field(50001; Percentage; Decimal)
         { DataClassification = CustomerContent; }
@@ -56,17 +54,13 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         { DataClassification = CustomerContent; }
         field(50009; Rank; Integer)
         { DataClassification = CustomerContent; }
-        field(50010; "Qualification Type"; Option)
+        field(50010; "Qualification Type"; Enum "Qualification Type")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",SLC,"+2",Bachelor,Master,CA;
-            OptionCaption = ' ,SLC,+2,Bachelor,Master,CA';
         }
-        field(50011; "Master Type"; Option)
+        field(50011; "Master Type"; Enum EmployeeCandidate)
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Employee,Candidate;
-            OptionCaption = ' ,Employee,Candidate';
         }
         field(50012; CGPA; Decimal)
         { DataClassification = CustomerContent; }

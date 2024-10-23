@@ -11,10 +11,9 @@ table 50125 "KPI Rating Setup"
         }
         field(2; "Min Score"; Decimal) { }
         field(3; "Max Score"; Decimal) { }
-        field(4; Rating; Option)
+        field(4; Rating; Enum "Appraisal Rating")
         {
-            OptionCaption = ' ,Excellent,Very Good,Good,Needs Improvement,Unsatisfactory';
-            OptionMembers = " ",Excellent,"Very Good",Good,"Needs Improvement",Unsatisfactory;
+
         }
         field(5; "User ID"; Code[50])
         {

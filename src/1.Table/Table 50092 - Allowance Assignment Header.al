@@ -59,10 +59,9 @@ table 50092 "Allowance Assignment Header"
                     Error('Invalid date.');
             end;
         }
-        field(6; Type; Option)
+        field(6; Type; Enum "Branchwise/Extension Type")
         {
-            OptionCaption = ' ,Branch,Extension Counter';
-            OptionMembers = " ",Branch,"Extension Counter";
+
         }
         field(7; "Created Date"; Date) { }
         field(8; "Created By"; Code[50]) { }
@@ -99,10 +98,8 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
-        field(17; Week; Option)
+        field(17; Week; Enum WeekNumber)
         {
-            OptionCaption = ' ,Week 1,Week 2,Week 3,Week 4';
-            OptionMembers = " ","Week 1","Week 2","Week 3","Week 4";
 
             trigger OnValidate()
             begin

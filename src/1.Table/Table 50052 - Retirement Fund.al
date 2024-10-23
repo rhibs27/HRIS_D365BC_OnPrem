@@ -127,7 +127,7 @@ table 50052 "Retirement Fund"
         {
             DataClassification = ToBeClassified;
         }
-        field(22; "Approval Status"; Enum "Retirement Approval Status")
+        field(22; "Approval Status"; Enum "Employee Act. Approval Status")
         {
             DataClassification = ToBeClassified;
             Editable = true;

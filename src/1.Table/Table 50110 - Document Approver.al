@@ -41,20 +41,17 @@ table 50110 "Document Approver"
             Editable = false;
         }
         field(8; "Approved Date"; Date) { }
-        field(9; "Employee Type"; Option)
+        field(9; "Employee Type"; Enum "Document Approver Emp. Type")
         {
-            OptionCaption = ' ,Initiated By,Reviewer,Supported By,Approved By';
-            OptionMembers = " ","Initiated By",Reviewer,"Supported By","Approved By";
-
             trigger OnValidate()
             begin
                 if "Employee Type" = "Employee Type"::"Initiated By" then
                     Validate("Employee No.", HRMgt.GetEmployeeNo());
             end;
         }
-        field(10; "Document Type"; Option)
+        field(10; "Document Type"; Enum "Document Approver Doc. Type")
         {
-            OptionMembers = " ",Resignation,Training;
+
         }
         field(11; "Rejection Remarks"; Text[100]) { }
     }

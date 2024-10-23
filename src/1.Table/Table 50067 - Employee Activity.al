@@ -398,7 +398,7 @@ table 50067 "Employee Activity"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; enum "Retirement Approval Status")
+        field(16; "Approval Status"; enum "Employee Act. Approval Status")
         {
 
             trigger OnValidate()

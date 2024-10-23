@@ -722,7 +722,7 @@ codeunit 50001 "HR Mgt."
                 end;
             until Candidate.Next = 0;
         if counter <> 0 then begin
-            VacancyHeader.Status := VacancyHeader.Status::"System Screeened";
+            VacancyHeader.Status := VacancyHeader.Status::"System Screened";
             VacancyHeader.Modify;
             Message(Success, counter)
         end else

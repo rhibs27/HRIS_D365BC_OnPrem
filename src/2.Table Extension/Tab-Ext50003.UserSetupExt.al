@@ -15,12 +15,10 @@ tableextension 50003 "User Setup Ext" extends "User Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50003; "License Type II"; Option)
+        field(50003; "License Type II"; Enum "License Type")
         {
             TableRelation = User."License Type";
             DataClassification = CustomerContent;
-            OptionMembers = "Full User","Limited User","Device Only User","Windows Group","External User";
-            OptionCaption = 'Full User,Limited User,Device Only User,Windows Group,External User';
         }
         field(50004; "For Leave-Dashboard"; Boolean)
         {

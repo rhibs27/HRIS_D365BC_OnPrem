@@ -112,10 +112,9 @@ table 50141 OverTime
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
+
         }
         field(3; "Employee No."; Code[20])
         {
@@ -396,10 +395,8 @@ table 50141 OverTime
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
 
             trigger OnValidate()
             begin
@@ -592,11 +589,9 @@ table 50141 OverTime
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {

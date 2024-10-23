@@ -28,10 +28,9 @@ table 50080 "Evaluation Entry"
                 //END;
             end;
         }
-        field(3; Type; Option)
+        field(3; Type; Enum "Evaluation Entry Type")
         {
-            OptionCaption = ' ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM & Above),Written Exam,Group Discussion';
-            OptionMembers = " ",Interview,Probation,"KPI (Common)","KPI (Below AM)","KPI (AM & Above)","Written Exam","Group Discussion";
+
         }
         field(4; "Attribute Code"; Code[20])
         {

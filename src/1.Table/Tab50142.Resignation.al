@@ -111,10 +111,8 @@ table 50142 Resignation
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
         }
         field(3; "Employee No."; Code[20])
         {
@@ -395,10 +393,8 @@ table 50142 Resignation
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
 
             trigger OnValidate()
             begin
@@ -591,11 +587,9 @@ table 50142 Resignation
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {
@@ -667,10 +661,8 @@ table 50142 Resignation
         field(50; "Screener Remarks"; Text[100])
         {
         }
-        field(51; "Deputation On"; Option)
+        field(51; "Deputation On"; Enum "Deputation Type")
         {
-            OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
-            OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
         }
         field(52; "Proposed Date of Resignation"; Date)
         {
@@ -688,12 +680,9 @@ table 50142 Resignation
         {
             Description = 'Resignation';
         }
-        field(54; "Waiver Case"; Option)
+        field(54; "Waiver Case"; Enum "Waiver Case")
         {
             Description = 'Resignation';
-            OptionCaption = ' ,Normal,Recovery';
-            OptionMembers = " ",Normal,Recovery;
-
             trigger OnValidate()
             begin
                 if "Waiver Case" <> xRec."Waiver Case" then begin
@@ -716,11 +705,8 @@ table 50142 Resignation
         {
             Description = 'Resignation';
         }
-        field(57; "Insurance Claim"; Option)
+        field(57; "Insurance Claim"; Enum "Insurance Claim")
         {
-            OptionCaption = ' ,Self,Father,Mother,Spouse,Child,General Checkup';
-            OptionMembers = " ",Self,Father,Mother,Spouse,Child,"General Checkup";
-
             trigger OnValidate()
             begin
                 Clear("Father Name");

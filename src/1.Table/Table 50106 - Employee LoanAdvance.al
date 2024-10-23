@@ -130,11 +130,8 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(22; "Vehicle Purchase Type"; Option)
+        field(22; "Vehicle Purchase Type"; Enum "Vehicle Purchase Type")
         {
-            OptionCaption = ' ,New,Second Hand';
-            OptionMembers = " ",New,"Second Hand";
-
             trigger OnValidate()
             begin
                 if "Vehicle Loan Type" = "Vehicle Loan Type"::"Two Wheeler" then
@@ -152,10 +149,8 @@ table 50106 "Employee Loan/Advance"
         field(25; Remarks; Text[250]) { }
         field(26; "Eligible Loan/Advance"; Decimal) { }
         field(27; "Applied Loan/Advance"; Decimal) { }
-        field(28; "Payback Months"; Option)
+        field(28; "Payback Months"; Enum "Payback Months")
         {
-            OptionCaption = ' ,1,2,3,4';
-            OptionMembers = " ","1","2","3","4";
         }
         field(29; "DBR Ratio"; Decimal)
         {
@@ -170,7 +165,7 @@ table 50106 "Employee Loan/Advance"
                 Validate(FY, HRMgt.ReturnFiscalYear("Requested Loan Date"));
             end;
         }
-        field(31; "Approval Status"; Enum "Retirement Approval Status")
+        field(31; "Approval Status"; Enum "Employee Act. Approval Status")
         {
         }
         field(32; "Loan Type"; Enum "Loan Type")
@@ -234,18 +229,13 @@ table 50106 "Employee Loan/Advance"
             end;
         }
         field(43; Description; Text[30]) { }
-        field(44; "Purpose of Housing Loan"; Option)
+        field(44; "Purpose of Housing Loan"; Enum "Purpose of Housing Loan")
         {
             Description = 'Home';
-            OptionCaption = ' ,Purchase of Land,Construction of House,Purchase of ready built house,Renovate/Extend/Repair,Purpose of Equity Financing';
-            OptionMembers = " ","Purchase of Land","Construction of House","Purchase of ready built house","Renovate/Extend/Repair","Purpose of Equity Financing";
         }
-        field(45; "Repayment Mode"; Option)
+        field(45; "Repayment Mode"; Enum "Repayment Mode")
         {
             Description = 'Home';
-            OptionCaption = ' ,EMI Basis,Insurance Tieup';
-            OptionMembers = " ","EMI Basis","Insurance Tieup";
-
             trigger OnValidate()
             begin
                 if GuiAllowed then begin
@@ -269,17 +259,14 @@ table 50106 "Employee Loan/Advance"
                 "Estimated Cost of Construction" := 0;
             end;
         }
-        field(47; "Insurance Tieup"; Option)
+        field(47; "Insurance Tieup"; Enum "Insurance Tieup")
         {
-            OptionCaption = ' ,NEPAL Life Insurance,LIC Nepal,National Life Insurance,Surya Life Insurance';
-            OptionMembers = " ","NEPAL Life Insurance","LIC Nepal","National Life Insurance","Surya Life Insurance";
-
             trigger OnValidate()
             var
                 InsurancePremiumSetup: Record "Insurance Premium Setup";
             begin
                 InsurancePremiumSetup.Reset;
-                InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
+                //InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
                 InsurancePremiumSetup.SetRange(Age, Age);
                 InsurancePremiumSetup.SetRange(Period, "Repayment Period");
                 if not InsurancePremiumSetup.FindFirst then
@@ -386,11 +373,8 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(66; "Area Format"; Option)
+        field(66; "Area Format"; Enum "Area Format")
         {
-            OptionCaption = ' ,R-A-P-D,B-K-D,Sq.m';
-            OptionMembers = " ","R-A-P-D","B-K-D","Sq.m";
-
             trigger OnValidate()
             begin
                 Clear("Area of Plot");

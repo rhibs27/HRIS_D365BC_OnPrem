@@ -7,10 +7,9 @@ table 50108 "Insurance Premium Setup"
 
     fields
     {
-        field(1; "Insurance Company"; Option)
+        field(1; "Insurance Company"; Enum "Life Insurance Company")
         {
-            OptionCaption = ' ,NEPAL Life Insurance,LIC Nepal,National Life Insurance,Surya Life Insurance';
-            OptionMembers = " ","NEPAL Life Insurance","LIC Nepal","National Life Insurance","Surya Life Insurance";
+
         }
         field(2; Age; Decimal) { }
         field(3; Period; Decimal) { }

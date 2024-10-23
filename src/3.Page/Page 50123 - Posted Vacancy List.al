@@ -208,7 +208,7 @@ page 50123 "Posted Vacancy List"
                     begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::released);
                         if Rec.Type = Rec.Type::External then
-                            Rec.TestField(Status, Rec.Status::"System Screeened")
+                            Rec.TestField(Status, Rec.Status::"System Screened")
                         else
                             Rec.TestField(Status, Rec.Status::Applied);
                         Candidate.Reset;

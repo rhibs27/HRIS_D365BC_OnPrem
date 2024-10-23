@@ -41,14 +41,12 @@ table 50128 "KPI Daily Incentive"
                 end;
             end;
         }
-        field(8; Rating; Option)
+        field(8; Rating; Enum "Appraisal Rating")
         {
-            OptionCaption = ' ,Excellent,Very Good,Good,Needs Improvement,Unsatisfactory';
-            OptionMembers = " ",Excellent,"Very Good",Good,"Needs Improvement",Unsatisfactory;
+
         }
-        field(9; Type; Option)
+        field(9; Type; Enum EmployeeDepartment)
         {
-            OptionMembers = " ",Employee,Department;
         }
         field(10; Department; Code[20]) { }
         field(11; "Department Name"; Text[50]) { }

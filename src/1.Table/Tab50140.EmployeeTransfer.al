@@ -111,10 +111,8 @@ table 50140 "Employee/HR Transfer"
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
         }
         field(3; "Employee No."; Code[20])
         {
@@ -395,11 +393,8 @@ table 50140 "Employee/HR Transfer"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
-
             trigger OnValidate()
             begin
                 if "Approval Status" = "Approval Status"::Approved then
@@ -591,11 +586,9 @@ table 50140 "Employee/HR Transfer"
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {
@@ -670,11 +663,8 @@ table 50140 "Employee/HR Transfer"
         field(51; "Screener Remarks"; Text[100])
         {
         }
-        field(52; "Transfer Type"; Option)
+        field(52; "Transfer Type"; Enum "Transfer Type")
         {
-            OptionCaption = ' ,Intra Department,Inter Department,Intra Branch,Inter Branch,Intra Provincial,Inter Provincial,Cross Transfer';
-            OptionMembers = " ","Intra Department","Inter Department","Intra Branch","Inter Branch","Intra Provincial","Inter Provincial","Cross Transfer";
-
             trigger OnValidate()
             begin
                 if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin //Min >>
@@ -857,16 +847,12 @@ table 50140 "Employee/HR Transfer"
             Description = 'Transfer';
             TableRelation = "Functional Title";
         }
-        field(65; "Deputation On"; Option)
+        field(65; "Deputation On"; Enum "Deputation Type")
         {
-            OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
-            OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
-        }
-        field(66; "Deputation On (To)"; Option)
-        {
-            OptionCaption = ' ,Branch,Extension Counter,Sub Province,Province,Unit,Department';
-            OptionMembers = " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
 
+        }
+        field(66; "Deputation On (To)"; Enum "Deputation Type")
+        {
             trigger OnValidate()
             begin
                 if "Deputation On (To)" <> xRec."Deputation On (To)" then begin
@@ -957,11 +943,9 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        field(75; "Transfer Allowance Approval"; Option)
+        field(75; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
         {
             Description = 'Transfer';
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Reviewed';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Reviewed;
         }
         field(76; "Transfer Claim Recommender"; Code[20])
         {
@@ -1098,12 +1082,9 @@ table 50140 "Employee/HR Transfer"
                     Error('Please use ";" instead of ","');
             end;
         }
-        field(94; "Transfer Category"; Option)
+        field(94; "Transfer Category"; Enum "Transfer Category")
         {
             Description = 'Transfer';
-            OptionCaption = ' ,General,Temporary,Officiating';
-            OptionMembers = " ",General,"Temporary",Officiating;
-
             trigger OnValidate()
             begin
                 if Type in [Type::"Employee Transfer", Type::"HR Transfer"] then begin

@@ -5,10 +5,9 @@ table 50132 "KPI Setup NIC"
 
     fields
     {
-        field(1; Type; Option)
+        field(1; Type; Enum "KPI Setup Type")
         {
-            OptionCaption = ' ,Functional,Department,Department Central & Province Level';
-            OptionMembers = " ",Functional,Department,"Department Central & Province Level";
+
         }
         field(2; "Code"; Code[20])
         {
@@ -29,12 +28,9 @@ table 50132 "KPI Setup NIC"
         field(4; "KPI Description"; Text[250]) { }
         field(5; "Weightage %"; Decimal) { }
         field(6; Indentation; Integer) { }
-        field(7; "Account Type"; Option)
+        field(7; "Account Type"; Enum "KPI SetUp Account Type")
         {
             Caption = 'Account Type';
-            OptionCaption = 'Posting,Heading,Total,Begin-Total,End-Total';
-            OptionMembers = Posting,Heading,Total,"Begin-Total","End-Total";
-
             trigger OnValidate()
             begin
                 /*IF ("Account Type" <> "Account Type"::Posting) AND

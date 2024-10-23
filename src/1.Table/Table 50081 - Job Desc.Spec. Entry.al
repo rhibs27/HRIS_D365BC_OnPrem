@@ -15,9 +15,9 @@ table 50081 "Job Desc./Spec. Entry"
         }
         field(2; "Line No."; Integer) { }
         field(3; "Job Description Code"; Code[20]) { }
-        field(4; Type; Option)
+        field(4; Type; Enum "Job Desc./Spec. Entry Type ")
         {
-            OptionMembers = " ","Job Description","Job Specification";
+
         }
         field(5; "Job Description"; Text[250]) { }
         field(6; Rank; Integer) { }

@@ -62,10 +62,9 @@ table 50077 "Vacancy Header"
                 //HRMgt.ValidateJobTitle(Rec);
             end;
         }
-        field(9; Location; Option)
+        field(9; Location; Enum "Outside/Inside Valley")
         {
-            OptionCaption = ' ,Inside Valley,Outside Valley,Inside & Outside Valley';
-            OptionMembers = " ","Inside Valley","Outside Valley","Inside & Outside Valley";
+
         }
         field(10; "New Position"; Boolean) { }
         field(11; "Salary Level Code"; Code[20])
@@ -133,10 +132,9 @@ table 50077 "Vacancy Header"
         {
 
         }
-        field(25; "Recruitment to be filled"; Option)
+        field(25; "Recruitment to be filled"; Enum BeforeAfter)
         {
-            OptionCaption = ' ,After,Before';
-            OptionMembers = " ",After,Before;
+
         }
         field(26; "Reporting to Employee ID"; Code[20])
         {
@@ -186,10 +184,8 @@ table 50077 "Vacancy Header"
             Editable = false;
             TableRelation = "Recruitement Memo";
         }
-        field(36; Status; Option)
+        field(36; Status; Enum "Vacancy Header Status")
         {
-            OptionCaption = ' ,Applied,System Screeened,Written/GD Passed,Interview Scheduled,Interviewed,,Offer Letter Sent,Offer Letter Accepted,Appointment Letter Sent,Appointment Letter Accepted,Converted To Employee,Manual Shortlist,Final Shortlisted';
-            OptionMembers = " ",Applied,"System Screeened","Written/GD Passed","Interview Scheduled",Interviewed,,"Offer Letter Sent","Offer Letter Accepted","Appointment Letter Sent","Appointment Letter Accepted","Converted To Employee","Manual Shortlist","Final Shortlisted";
         }
         field(37; "Vacancy Published Date"; Date)
         {

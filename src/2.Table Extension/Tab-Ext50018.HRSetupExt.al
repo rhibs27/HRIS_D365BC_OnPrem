@@ -413,10 +413,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50085; "Attachment Storage Type"; Option)
+        field(50085; "Attachment Storage Type"; Enum "Attachment Storage Type")
         {
             DataClassification = CustomerContent;
-            OptionMembers = Embedded,"Disk File";
         }
         field(50086; "Attachment Storage Location"; Text[250])
         {
@@ -449,10 +448,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50093; "HR Start From Month"; Option)
+        field(50093; "HR Start From Month"; Enum "Nepali Month")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Baisakh,Jestha,Asar,Shrawn,Bhadra,Ashoj,Kartik,Mangsir,Poush,Margh,Falgun,Chaitra;
+
         }
         field(50094; "Leave Earn No."; Code[20])
         {

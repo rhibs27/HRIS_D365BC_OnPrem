@@ -64,10 +64,9 @@ table 50121 "Access Control Request Line"
         {
             Editable = false;
         }
-        field(12; "Access Type"; Option)
+        field(12; "Access Type"; Enum "Access Type")
         {
-            OptionCaption = ' ,Grant,Remove';
-            OptionMembers = " ",Grant,Remove;
+
         }
         field(13; "Approved Date"; Date)
         {

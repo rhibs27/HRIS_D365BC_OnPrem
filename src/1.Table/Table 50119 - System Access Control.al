@@ -4,10 +4,9 @@ table 50119 "System Access Control"
 
     fields
     {
-        field(1; "Type of Masters"; Option)
+        field(1; "Type of Masters"; Enum "System Access Control Type")
         {
-            OptionCaption = ' ,System Category,System Type,System Control Setup';
-            OptionMembers = " ","System Category","System Type","System Control Setup";
+
         }
         field(2; "Code"; Code[20])
         {

@@ -22,10 +22,8 @@ table 50059 "KRA Master"
         {
             TableRelation = "No. Series";
         }
-        field(4; Type; Option)
+        field(4; Type; Enum "KRA Master Type")
         {
-            OptionCaption = 'Functional Title,Department';
-            OptionMembers = "Functional Title",Department;
 
             trigger OnValidate()
             begin

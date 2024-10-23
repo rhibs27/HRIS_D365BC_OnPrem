@@ -2,11 +2,9 @@ tableextension 50014 "Qualification Ext" extends Qualification
 {
     fields
     {
-        field(50000; "Type"; Option)
+        field(50000; "Type"; Enum "Emp. Qualification Type")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Education,Work;
-            OptionCaption = ' ,Education,Work';
             trigger OnValidate()
             begin
                 if not (Type = xRec.Type) then
@@ -17,11 +15,9 @@ tableextension 50014 "Qualification Ext" extends Qualification
         {
             DataClassification = ToBeClassified;
         }
-        field(50002; "Qualification Type"; Option)
+        field(50002; "Qualification Type"; Enum "Qualification Type")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",SLC,"+2",Bachelor,Master;
-            OptionCaption = ' ,SLC,+2,Bachelor,Master';
         }
     }
 }

@@ -55,10 +55,8 @@ table 50100 "Attendance Ledger Entry"
         field(14; "Logout frequency"; Integer) { }
         field(15; "Presence Minutes"; Decimal) { }
         field(16; "Absense Minutes"; Decimal) { }
-        field(17; "Adjustment Type"; Option)
+        field(17; "Adjustment Type"; Enum "Adjustment Type")
         {
-            OptionCaption = ' ,Manual,System';
-            OptionMembers = " ",Manual,System;
         }
         field(18; "Adjustment Minutes"; Decimal) { }
         field(19; "Conflict Exists"; Boolean)

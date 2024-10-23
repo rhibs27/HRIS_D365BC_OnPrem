@@ -7,12 +7,10 @@ tableextension 50025 "Standard Text" extends "Standard Text"
             Caption = 'Employee Activity Type';
             DataClassification = ToBeClassified;
         }
-        field(50001; "Attendance Missed Access"; Option)
+        field(50001; "Attendance Missed Access"; Enum "Attendance Missed Access")
         {
             DataClassification = ToBeClassified;
             Caption = 'Attendance Missed Access';
-            OptionMembers = " ",HR;
-            OptionCaption = ' ,HR';
         }
     }
 }

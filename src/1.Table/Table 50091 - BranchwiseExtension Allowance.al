@@ -39,10 +39,9 @@ table 50091 "Branchwise/Extension Allowance"
         {
             MinValue = 0;
         }
-        field(5; Type; Option)
+        field(5; Type; Enum "Branchwise/Extension Type")
         {
-            OptionCaption = ' ,Branch,Extension Counter';
-            OptionMembers = " ",Branch,"Extension Counter";
+
         }
         field(6; Disabled; Boolean) { }
     }

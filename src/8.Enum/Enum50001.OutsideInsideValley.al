@@ -14,4 +14,8 @@ enum 50001 "Outside/Inside Valley"
     {
         Caption = 'Inside';
     }
+    value(3; "Inside & Outside Valley")
+    {
+        Caption = 'Inside & Outside Valley';
+    }
 }

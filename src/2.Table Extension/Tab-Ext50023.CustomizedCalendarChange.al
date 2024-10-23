@@ -7,7 +7,7 @@ tableextension 50023 "Customized Calendar Change" extends "Customized Calendar C
             Caption = 'Provinces';
             DataClassification = ToBeClassified;
         }
-        field(50001; Gender; Enum "Employee Gender")
+        field(50001; Gender; Enum "Gender")
         {
 
         }

@@ -8,10 +8,9 @@ table 50056 "Key Value Master"
     {
         field(1; "Code"; Code[50]) { }
         field(2; Description; Text[250]) { }
-        field(3; Type; Option)
+        field(3; Type; Enum "Key Value Master Type")
         {
-            OptionCaption = ' ,KRA Category,Key Result Area';
-            OptionMembers = " ","KRA Category","Key Result Area";
+
         }
     }
 

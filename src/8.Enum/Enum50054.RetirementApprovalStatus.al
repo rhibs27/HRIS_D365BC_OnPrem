@@ -1,4 +1,4 @@
-enum 50054 "Retirement Approval Status"
+enum 50054 "Employee Act. Approval Status"
 {
     Extensible = true;
 

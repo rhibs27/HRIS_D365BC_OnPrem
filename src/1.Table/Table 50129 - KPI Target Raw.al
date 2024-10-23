@@ -46,9 +46,8 @@ table 50129 "KPI Target Raw"
             end;
         }
         field(9; "Department Name"; Text[50]) { }
-        field(10; Type; Option)
+        field(10; Type; Enum EmployeeDepartment)
         {
-            OptionMembers = " ",Employee,Department;
         }
         field(11; "Assigned By"; Code[20])
         {

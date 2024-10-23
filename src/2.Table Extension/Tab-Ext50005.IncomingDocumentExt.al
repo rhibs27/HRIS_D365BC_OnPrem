@@ -23,11 +23,9 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         }
         field(50004; "Employee Code"; Code[20])
         { DataClassification = CustomerContent; }
-        field(50005; "Type"; Option)
+        field(50005; "Type"; Enum "Incoming Document Sample")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ",Sample;
-            OptionCaption = ' ,Sample';
             trigger OnValidate()
             begin
                 CheckSampleAttachment;
@@ -38,11 +36,9 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
             TableRelation = "Leave Type Setup";
             DataClassification = CustomerContent;
         }
-        field(50007; "Employee Activity Type"; Option)
+        field(50007; "Employee Activity Type"; Enum "Employee Activity Type")
         {
             DataClassification = CustomerContent;
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee",,,Insurance;
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,,,Insurance';
         }
     }
     trigger OnDelete()

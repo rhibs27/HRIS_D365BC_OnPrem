@@ -20,10 +20,8 @@ table 50122 "Loan Outstanding from Finacle"
         field(5; "Outstanding Amount"; Decimal) { }
         field(6; "Loan Limit"; Decimal) { }
         field(7; EMI; Decimal) { }
-        field(8; "Loan Type"; Option)
+        field(8; "Loan Type"; Enum "Loan Type")
         {
-            OptionCaption = ' ,,Personal Loan,Home Loan,Vehicle Loan,Home Loan Insurance Tieup';
-            OptionMembers = " ",,"Personal Loan","Home Loan","Vehicle Loan","Home Loan Insurance Tieup";
         }
         field(9; "Scheme Code"; Text[10])
         {

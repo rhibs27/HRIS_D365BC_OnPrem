@@ -35,10 +35,9 @@ table 50136 "Travel Request"
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
+
         }
         field(3; "Employee No."; Code[20])
         {
@@ -319,10 +318,8 @@ table 50136 "Travel Request"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
 
             trigger OnValidate()
             begin
@@ -515,11 +512,9 @@ table 50136 "Travel Request"
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {
@@ -588,15 +583,11 @@ table 50136 "Travel Request"
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(50; "Type Of Visit"; Option)
+        field(50; "Type Of Visit"; Enum "Type Of Visit")
         {
-            OptionCaption = ' ,Branch Visit,Branch Inspection,Site Visit,Training,Customer Call,Internal Aduit,Others';
-            OptionMembers = " ","Branch Visit","Branch Inspection","Site Visit",Training,"Customer Call","Internal Aduit",Others;
         }
-        field(51; "Mode Of Travel"; Option)
+        field(51; "Mode Of Travel"; Enum "Mode Of Travel")
         {
-            OptionCaption = ' ,By Air,By Road';
-            OptionMembers = " ","By Air","By Road";
         }
         field(52; "Depature From"; Code[20])
         {
@@ -712,11 +703,8 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
-        field(67; "Travel Countries"; Option)
+        field(67; "Travel Countries"; Enum "Travel Countries")
         {
-            OptionCaption = 'Nepal,India,Other Countries';
-            OptionMembers = Nepal,India,"Other Countries";
-
             trigger OnValidate()
             begin
                 Validate("No. of Days");
@@ -750,11 +738,8 @@ table 50136 "Travel Request"
                 Validate("No. of Days");//AT
             end;
         }
-        field(74; "Payment From"; Option)
+        field(74; "Payment From"; Enum "Payment From")
         {
-            OptionCaption = ' ,Office,Self';
-            OptionMembers = " ",Office,Self;
-
             trigger OnValidate()
             begin
                 if Rec."Payment From" <> xRec."Payment From" then
@@ -801,11 +786,8 @@ table 50136 "Travel Request"
         field(80; "Screener Remarks"; Text[100])
         {
         }
-        field(81; "Claim Type"; Option)
+        field(81; "Claim Type"; Enum "Claim Type")
         {
-            OptionCaption = ' ,With Bill,Without Bill';
-            OptionMembers = " ","With Bill","Without Bill";
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;

@@ -1,4 +1,4 @@
-enum 50052 "Employee  Activity Type"
+enum 50052 "Employee leave Activity Type"
 {
     Extensible = true;
 

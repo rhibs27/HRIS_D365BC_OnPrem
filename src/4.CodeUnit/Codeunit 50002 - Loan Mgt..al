@@ -295,7 +295,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoan."Loan Type"::"Salary Advance":
                 begin
                     if EmpLoan."Payback Months" <> 0 then
-                        EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / EmpLoan."Payback Months"
+                        EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / EmpLoan."Payback Months".AsInteger()
                     else
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / 1;
                 end;
@@ -334,7 +334,7 @@ codeunit 50002 "Loan Mgt."
                     else if EmpLoan."Repayment Mode" = EmpLoan."Repayment Mode"::"Insurance Tieup" then begin
                         EmpLoan."Interest Rate" := 0;
                         InsurancePolicy.Reset;
-                        InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
+                        //InsurancePolicy.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
                         InsurancePolicy.SetRange(Age, EmpLoan.Age);
                         InsurancePolicy.SetRange(Period, EmpLoan."Repayment Period");
                         if InsurancePolicy.FindFirst then begin
@@ -859,7 +859,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoan.TestField("Insurance Tieup");
             EmpLoan.TestField(Age);
             InsurancePremiumSetup.Reset;
-            InsurancePremiumSetup.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
+            //InsurancePremiumSetup.SetRange("Insurance Company", EmpLoan."Insurance Tieup");
             InsurancePremiumSetup.SetRange(Age, EmpLoan.Age);
             InsurancePremiumSetup.SetRange(Period, EmpLoan."Repayment Period");
             if not InsurancePremiumSetup.FindFirst then
@@ -1529,7 +1529,7 @@ codeunit 50002 "Loan Mgt."
                 AttachmentSetup.Reset;
                 //AttachmentSetup.SETRANGE("Table ID", DATABASE::"Employee Loan/Advance");
                 AttachmentSetup.SetRange(Mandatory, true);
-                AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
+                //AttachmentSetup.SetRange(Type, EmpLoan."Loan Type");
                 //IF EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" THEN
                 // AttachmentSetup.SETFILTER("Purpose of Housing Loan",'%1|%2',AttachmentSetup."Purpose of Housing Loan",AttachmentSetup."Purpose of Housing Loan"::" ");
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");

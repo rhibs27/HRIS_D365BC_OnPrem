@@ -5,10 +5,8 @@ table 50090 "Notice Bulletin"
     fields
     {
         field(1; "Entry No."; Integer) { }
-        field(2; Type; Option)
+        field(2; Type; Enum "Notice Bulletin Type")
         {
-            OptionCaption = ' ,All,Province,Branch,Department';
-            OptionMembers = " ",All,Province,Branch,Department;
         }
         field(3; Date; Date) { }
         field(4; Notice; Blob) { }

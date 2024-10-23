@@ -7,9 +7,8 @@ table 50017 "Email Template"
     {
         field(1; "Code"; Code[20]) { }
         field(2; Description; Text[50]) { }
-        field(3; "Document Profile"; Option)
+        field(3; "Document Profile"; Enum "Document Profile")
         {
-            OptionMembers = " ","Employee Activity";
         }
         field(4; "Document Type"; Enum "Email Document Type")
         {
@@ -20,10 +19,10 @@ table 50017 "Email Template"
 
         }
         field(6; Subject; Text[100]) { }
-        field(7; "Memo Type"; Option)
+        field(7; "Memo Type"; Enum "Memo Type")
         {
             Description = 'not required';
-            OptionMembers = " ",test;
+
         }
         // field(8; "Product Segment"; Code[20])
         // {

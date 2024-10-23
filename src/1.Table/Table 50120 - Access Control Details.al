@@ -4,9 +4,8 @@ table 50120 "Access Control Details"
 
     fields
     {
-        field(1; Type; Option)
+        field(1; Type; Enum "Access Control Type")
         {
-            OptionMembers = " ","Funtional Title",Employee;
         }
         field(2; "Code"; Code[20])
         {

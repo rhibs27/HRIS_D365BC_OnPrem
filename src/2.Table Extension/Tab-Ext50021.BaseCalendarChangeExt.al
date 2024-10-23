@@ -2,26 +2,22 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
 {
     fields
     {
-        field(50000; "Holiday Type"; Option)
+        field(50000; "Holiday Type"; Enum "Holiday Type")
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",Weekend,Public,Festival;
-            OptionCaption = ' ,Weekend,Public,Festival';
         }
         field(50001; "Province Filter"; Text[150])
         {
             DataClassification = ToBeClassified;
         }
-        field(50002; "Gender Filter"; Option)
+        field(50002; "Gender Filter"; Enum Gender)
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",Female,Male;
-            OptionCaption = ',Female,Male';
         }
         field(50003; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = ToBeClassified;
-            // OptionMembers = " ","Outside","Inside";
+
         }
         field(50004; "Posting Region"; Enum Region)
         {

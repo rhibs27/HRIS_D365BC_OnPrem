@@ -111,10 +111,9 @@ table 50143 "Medical Insurance Claim"
                     end;
             end;
         }
-        field(2; Type; Option)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            OptionCaption = ' ,Leave Request,Travel Request,Travel Claim,Employee Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,HR Transfer';
-            OptionMembers = " ","Leave Request","Travel Request","Travel Claim","Employee Transfer",Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee","HR Transfer";
+
         }
         field(3; "Employee No."; Code[20])
         {
@@ -395,11 +394,8 @@ table 50143 "Medical Insurance Claim"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Option)
+        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
         {
-            OptionCaption = ' ,Open,Approved,Rejected,Pending Approval,Recommended,Cancelled,Acknowledged,Screened,Settled,,Forwarded To HR,Final Approved & Forwarded to Finance Department,Reviewed,On Hold';
-            OptionMembers = " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,Settled,,"Forwarded To HR","Final Approved & Forwarded to Finance Department",Reviewed,"On Hold";
-
             trigger OnValidate()
             begin
                 if "Approval Status" = "Approval Status"::Approved then
@@ -591,11 +587,9 @@ table 50143 "Medical Insurance Claim"
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
+        field(38; "Approver Type"; Enum "Approver Type")
         {
             Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
         }
         field(39; Cancelled; Boolean)
         {
@@ -664,11 +658,8 @@ table 50143 "Medical Insurance Claim"
         field(49; "Reason Description"; Text[50])
         {
         }
-        field(50; "Insurance Claim"; Option)
+        field(50; "Insurance Claim"; Enum "Insurance Claim")
         {
-            OptionCaption = ' ,Self,Father,Mother,Spouse,Child,General Checkup';
-            OptionMembers = " ",Self,Father,Mother,Spouse,Child,"General Checkup";
-
             trigger OnValidate()
             begin
                 Clear("Father Name");
@@ -722,10 +713,9 @@ table 50143 "Medical Insurance Claim"
         field(59; "Contact No."; Text[30])
         {
         }
-        field(60; "Insurance Status"; Option)
+        field(60; "Insurance Status"; Enum "Insurance Status")
         {
-            OptionCaption = ' ,Request to DTMD,Screened,Forwarded to Insurance Co.,Reimbursed,Rejected';
-            OptionMembers = " ","Request to DTMD",Screened,"Forwarded to Insurance Co.",Reimbursed,Rejected;
+
         }
 
 
