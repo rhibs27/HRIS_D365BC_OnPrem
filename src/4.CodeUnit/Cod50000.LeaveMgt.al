@@ -3,7 +3,7 @@ codeunit 50000 "Leave Mgt."
     procedure OpenLeaveRequest(EmpCode: Code[20])
     var
         // EmpAct: Record "Employee Activity" temporary;
-        leaveRequest: record leave;
+        leaveRequest: record leave temporary;
         EmployeeActivity: Record "Employee Activity";
     begin
         Clear(Employee);

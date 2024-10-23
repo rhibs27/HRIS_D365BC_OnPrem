@@ -53,11 +53,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Access Control Request Line - Field Access Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 374903936 - Field 3680813464 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Grant,Remove</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Access Control Request Line - Field Access Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 374903936 - Field 4041162204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved By</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -313,20 +308,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Branch,Extension Counter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 572629000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Week</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Week - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 572629000 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Week 1,Week 2,Week 3,Week 4</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Week - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - NamedType 4034540392" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 and %2 cannot be assigned on same date %3.</source>
@@ -433,11 +418,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Panel - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 25557770 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Panel A,Panel B</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Panel - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -468,20 +448,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Branch,Extension Counter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 572629000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Week</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Week - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 572629000 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Week 1,Week 2,Week 3,Week 4</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Week - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1691263759 - Method 1039615615 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot change, Status = %1, Appraisal Document.</source>
@@ -953,20 +923,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Purpose of Housing Loan - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1955267922 - Field 258625110 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Purchase of Land,Construction of House,Purchase of ready built house,Renovate/Extend/Repair,Purpose of Equity Financing</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Purpose of Housing Loan - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 1955267922 - Field 264531091 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Qualification Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Qualification Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1955267922 - Field 264531091 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,SLC,+2,Bachelor's,Master's</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Qualification Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1955267922 - Field 3135334477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Table ID</source>
@@ -982,11 +942,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1955267922 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Salary Advance,Personal Loan,Home Loan,Vehicle Loan,Employee Profile,Education,Work Experience,Complaince Requirement Forms,Leave Request,Travel Request,Travel Claim,Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Attendance Missed,Insurance,,CV,Passport,Property Disclosure,Outside Business</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 580550010 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -1217,11 +1172,6 @@
           <source>Adjustment Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Ledger Entry - Field Adjustment Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 552625466 - Field 1765229233 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Manual,System</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Ledger Entry - Field Adjustment Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 552625466 - Field 3795677189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Date</source>
@@ -2358,11 +2308,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Branchwise/Extension Allowance - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 335302086 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Branch,Extension Counter</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Branchwise/Extension Allowance - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3401129687 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Candidate</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2898,11 +2843,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Daily Attendance Question - Field Correct Option - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2262861980 - Field 2049739791 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Option1,Option2,Option3,Option4</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Daily Attendance Question - Field Correct Option - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 2262861980 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3292,11 +3232,6 @@
           <source>Employee Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Document Approver - Field Employee Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3298545406 - Field 545490910 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Initiated By,Reviewer,Supported By,Approved By</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Document Approver - Field Employee Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3298545406 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
@@ -5413,11 +5348,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Answer - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4261979893 - Field 2183871104 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Strongly Agree,Agree,Netural,Disagree,Strongly Disagree</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Answer - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 4261979893 - Field 1410047408 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Answer II</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5483,20 +5413,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Sub Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4261979893 - Field 692903808 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Training,Trainer</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Sub Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 4261979893 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4261979893 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Apparisal,Training</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Feedback - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1576165065 - Field 1159403147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attachment</source>
@@ -5668,11 +5588,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Life Insurance Company - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 617144856 - Field 1793903605 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Citizen Life Ins. Co. Ltd.,Gurans Life Ins. Co. Ltd.,I.M.E. Life Ins. Co. Ltd.,Jyoti Life Ins. Co. Ltd.,Life Ins. Corporation (Nepal) Ltd.,Mahalaxmi Life Ins. Co. Ltd.,National Life Ins. Co. Ltd.,Nepal Life Ins. Co. Ltd.,Prabhu Life Ins. Co. Ltd.,Prime Life Ins. Co. Ltd.,Rastriya Beema Sansthan,Reliable Nepal Life Ins. Ltd.,Reliance Life Ins. Ltd.,Sanima Life Ins. Co. Ltd.,Sun Nepal Life Ins. Co. Ltd.,Surya Life Ins. Co. Ltd.,Union Life Ins. Co. Ltd.,Asian Life Insurance Co. Ltd.,American Life Insurance Co. Ltd.(MetLife)</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Life Insurance Company - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 617144856 - Field 2635139872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Linked Home Loan Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5682,11 +5597,6 @@
           <source>Medical/Property Ins Company</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Medical/Property Ins Company - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 617144856 - Field 113432700 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Ajod Ins. Co. Ltd.,Everest Ins. Co. Ltd.,General Ins. Co. Nepal Ltd.,IME General Ins. Co. Ltd.,Himalayan General Ins. Co. Ltd.,Lumbini General Ins. Co. Ltd.,National Ins. Co. Ltd.,Neco Ins. Co. Ltd.,Nepal Ins. Co. Ltd.,NLG Ins. Co. Ltd.,Oriental Ins. Co. Ltd.,Prabhu Ins. Co. Ltd.,Premier Ins. Co. (Nepal) Ltd.,Prudential Ins. Co. Ltd.,Rastriya Beema Co. Ltd.,Sagarmatha Ins. Co. Ltd.,Sanima General Ins. Co. Ltd.,Shikhar Ins. Co. Ltd.,Siddartha Ins. Co. Ltd.,United Ins. Co. (Nepal) Ltd.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Medical/Property Ins Company - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 3338754494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Monthly Premium Amount</source>
@@ -5718,20 +5628,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 617144856 - Field 513339096 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Open,Pending,Screened,Rejected</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Status - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 617144856 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 617144856 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Life Insurance,Medical Insurance,Property Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1302753547 - Field 4198934148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Carry Forward</source>
@@ -6053,11 +5953,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Area Format - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 1841242856 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,R-A-P-D,B-K-D,Sq.m</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Area Format - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1607726315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Area of Plot</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6223,11 +6118,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Insurance Tieup - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 3046439657 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,NEPAL Life Insurance,LIC Nepal,National Life Insurance,Surya Life Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Insurance Tieup - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 1213267064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Interest Rate</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6313,11 +6203,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Payback Months - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 2811292980 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,1,2,3,4</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Payback Months - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3188117941 - Field 233789282 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Plot No. of Property</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6347,11 +6232,6 @@
           <source>Purpose of Housing Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Purpose of Housing Loan - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 258625110 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Purchase of Land,Construction of House,Purchase of ready built house,Renovate/Extend/Repair,Purpose of Equity Financing</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Purpose of Housing Loan - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3391530901 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purpose of Loan</source>
@@ -6402,11 +6282,6 @@
           <source>Repayment Mode</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Repayment Mode - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 1877960242 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,EMI Basis,Insurance Tieup</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Repayment Mode - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 3561179364 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Repayment Period</source>
@@ -6502,11 +6377,6 @@
           <source>Vehicle Purchase Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Vehicle Purchase Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3188117941 - Field 2165338013 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,New,Second Hand</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Loan/Advance - Field Vehicle Purchase Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3188117941 - Field 2733117426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vehicle Registration No.</source>
@@ -6618,20 +6488,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Question Setup - Field Sub Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 912174237 - Field 692903808 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Training,Trainer</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Question Setup - Field Sub Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 912174237 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Question Setup - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 912174237 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Appraisal,Training</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Question Setup - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 565250863 - Field 98207365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Created by</source>
@@ -6762,11 +6622,6 @@
           <source>Service Event</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Service Event - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 565250863 - Field 3349968947 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Appointment,Confirmation,Transfer,Internal Appointment,Expired Contract,Formation of Department/Unit/Functional Title,Addition in Job Function,Assignment in Job Function,Contract Renew,Resignation,Grade Increment,Promotion,Assigned In Functional Title,Intra Transfer,Formation Of Department Or Unit Or Function,Temporary Deputation,Back From Deputation,On The Job Training,Promotion Through Job Evaluation,Officiating Arrangement</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Service Event - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 565250863 - Field 4145437134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Service History Code</source>
@@ -7468,11 +7323,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Evaluation Attribute - Field Attribute Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 249149774 - Field 2709262848 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM &amp; Above),Written Exam,Group Discussion</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Evaluation Attribute - Field Attribute Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 249149774 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7637,11 +7487,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Evaluation Entry - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2529982790 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM &amp; Above),Written Exam,Group Discussion</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Evaluation Entry - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 2529982790 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User ID</source>
@@ -8543,11 +8388,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Insurance Premium Setup - Field Insurance Company - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3798184322 - Field 4290892503 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,NEPAL Life Insurance,LIC Nepal,National Life Insurance,Surya Life Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Insurance Premium Setup - Field Insurance Company - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 3798184322 - Field 912261439 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8682,11 +8522,6 @@
           <source>Job Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Job Title Line - Field Job Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1098663723 - Field 3594614433 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Job Description,Job Specification</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Job Title Line - Field Job Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1098663723 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Line No</source>
@@ -8863,11 +8698,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Appraisal (NIC) Lines - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2485243905 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Functional,Department,Department Central Level,Department Province Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Appraisal (NIC) Lines - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 2485243905 - Field 2137208818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Weightage %</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9023,11 +8853,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Appraisal Header NIC - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 226033400 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Functional,Department,Department Central Level,Department Province Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Appraisal Header NIC - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 226033400 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9107,11 +8932,6 @@
           <source>Rating</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Daily Incentive - Field Rating - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1369042374 - Field 2689469945 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Excellent,Very Good,Good,Needs Improvement,Unsatisfactory</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Daily Incentive - Field Rating - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1369042374 - Field 1219737103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Role Incentive</source>
@@ -9513,11 +9333,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Rating Setup - Field Rating - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 418930790 - Field 2689469945 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Excellent,Very Good,Good,Needs Improvement,Unsatisfactory</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Rating Setup - Field Rating - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 418930790 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9527,11 +9342,6 @@
           <source>Account Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Setup NIC - Field Account Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3610214139 - Field 3699788827 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Posting,Heading,Total,Begin-Total,End-Total</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Setup NIC - Field Account Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3610214139 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
@@ -9567,11 +9377,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KPI Setup NIC - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3610214139 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Functional,Department,Department Central &amp; Province Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KPI Setup NIC - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3610214139 - Field 2137208818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Weightage %</source>
@@ -9677,11 +9482,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1468538152 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Functional Title,Department</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table KRA Master - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 1468538152 - Field 1946120737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Weightage (%)</source>
@@ -10683,11 +10483,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Loan Outstanding from Finacle - Field Loan Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 677525622 - Field 2228618656 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,,Personal Loan,Home Loan,Vehicle Loan,Home Loan Insurance Tieup</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Loan Outstanding from Finacle - Field Loan Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 677525622 - Field 3134116370 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outstanding Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11102,11 +10897,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Notice Bulletin - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2276530373 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,All,Province,Branch,Department</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Notice Bulletin - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3644669616 - Field 4038995315 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attribute Code</source>
@@ -15548,11 +15338,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Rating Scale - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 520939081 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Interview,Probation,KPI (Common),KPI (Below AM),KPI (AM &amp; Above),KRA</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Rating Scale - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="Table 1068235300 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15577,11 +15362,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Rating Setup - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1068235300 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Training,Appraisal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Rating Setup - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 77407685 - Field 98207365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Created by</source>
@@ -16672,11 +16452,6 @@
           <source>Type of Masters</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table System Access Control - Field Type of Masters - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2614108898 - Field 2512272114 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,System Category,System Type,System Control Setup</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table System Access Control - Field Type of Masters - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 2648118079 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
@@ -18147,11 +17922,6 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Vacancy Header - Field Status - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3905624234 - Field 513339096 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Applied,System Screeened,Written/GD Passed,Interview Scheduled,Interviewed,,Offer Letter Sent,Offer Letter Accepted,Appointment Letter Sent,Appointment Letter Accepted,Converted To Employee,Manual Shortlist,Final Shortlisted</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Vacancy Header - Field Status - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="Table 3905624234 - Field 744042784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Experience</source>
@@ -53623,20 +53393,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Gender Filter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 385602012 - Field 482506489 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
-          <source>,Female,Male</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Gender Filter - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 166358986 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Holiday Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Holiday Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 385602012 - Field 166358986 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
-          <source> ,Weekend,Public,Festival</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Holiday Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 3506737127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Inside/Outisde Valley</source>
@@ -53928,20 +53688,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Doc. Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1431060665 - Field 760877769 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
-          <source> ,Education,Work</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Doc. Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 1431060665 - Field 2188626633 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
           <source>Qualification Level</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Level - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1431060665 - Field 2188626633 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
-          <source> ,SLC,+2,Bachelor,Master</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Level - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - NamedType 960505862" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
           <source>!|@|#|$|%|&amp;|*|(|)|_|-|+|=| |?|/|\</source>
@@ -54137,11 +53887,6 @@
           <source>Contract Expiry Month</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Contract Expiry Month - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 2006462231 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source> ,01M,02M,03M,04M,05M,06M,07M,08M,09M,10M,11M,1Y</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Contract Expiry Month - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3325422466 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Contract Expiry Remaining Days</source>
@@ -54518,11 +54263,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Probation Period - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 2585284105 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source> ,6 Month,12 Month</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Probation Period - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3102419953 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Promotion Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54622,11 +54362,6 @@
           <source>Salutation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Salutation - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 3649518822 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source> ,Mr.,Ms.,Mrs.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Salutation - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3302153935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Saved</source>
@@ -54953,11 +54688,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Qualification Ext  - Field Master Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 3052036550 - Field 964944336 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2723222125">
-          <source> ,Employee,Candidate</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Qualification Ext  - Field Master Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 3052036550 - Field 3557664220 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2723222125">
           <source>Percentage</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54967,11 +54697,6 @@
           <source>Qualification Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Qualification Ext  - Field Qualification Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 3052036550 - Field 264531091 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2723222125">
-          <source> ,SLC,+2,Bachelor,Master,CA</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Qualification Ext  - Field Qualification Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 3052036550 - Field 1018677426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2723222125">
           <source>Rank</source>
@@ -55057,11 +54782,6 @@
           <source>Master Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Master Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 630092753 - Field 964944336 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
-          <source> ,Employee,Candidate</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Relative Ext - Field Master Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 630092753 - Field 3173152947 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 10849778">
           <source>Name(Nepali)</source>
@@ -55953,11 +55673,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Employee Activity Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1365319268 - Field 4154710913 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
-          <source> ,Leave Request,Travel Request,Travel Claim,Transfer,Overtime,Out of Office,Bulk Cash,Resignation,Medical Insurance Claim,Promotion,Attendance Missed,Access Control,Changes in employee,,,Insurance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Employee Activity Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 1365319268 - Field 387747209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
           <source>Employee Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55988,20 +55703,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1365319268 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
-          <source> ,Sample</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Type - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 2950119068 - Field 264531091 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
           <source>Qualification Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Qualification Ext - Field Qualification Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 2950119068 - Field 264531091 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
-          <source> ,SLC,+2,Bachelor,Master</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Qualification Ext - Field Qualification Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2950119068 - Field 1018677426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
           <source>Rank</source>
@@ -56012,11 +55717,6 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Qualification Ext - Field Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 2950119068 - Field 1878130204 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2251411675">
-          <source> ,Education,Work</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Qualification Ext - Field Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1580001100 - Field 452516176 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1908046867">
           <source>Transf. Claim Apporver Remarks</source>
@@ -56098,11 +55798,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Missed Access - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 3189627266 - Field 306504114 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
-          <source> ,HR</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Standard Text - Field Attendance Missed Access - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 3189627266 - Field 4154710913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3189627266">
           <source>Employee Activity Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56112,11 +55807,6 @@
           <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Terms And Conditions Ext - Field Document Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 3228028617 - Field 2363328873 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 387852570">
-          <source> ,Candidate</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Terms And Conditions Ext - Field Document Type - Property OptionCaption</note>
         </trans-unit>
         <trans-unit id="TableExtension 3228028617 - Field 4003090428 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 387852570">
           <source>Employment Type</source>
@@ -56198,11 +55888,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field License Type II - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 4110536417 - Field 2562008773 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 337631938">
-          <source>Full User,Limited User,Device Only User,Windows Group,External User</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field License Type II - Property OptionCaption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 4110536417 - Field 696896177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 337631938">
           <source>Run Back Date Daily Attend.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56217,6 +55902,36 @@
           <source>Update Budget</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field Update Budget - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 394492797 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Control Type - EnumValue  - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 394492797 - EnumValue 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Control Type - EnumValue Employee - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 394492797 - EnumValue 719290816 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Funtional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Control Type - EnumValue Funtional Title - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3680813464 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3680813464 - EnumValue 2361451618 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Grant</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Type - EnumValue Grant - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3680813464 - EnumValue 3238504282 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Access Type - EnumValue Remove - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1765229233 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -56413,10 +56128,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Approver Type - EnumValue With Recommendation - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1841242856 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 1841242856 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Area Format - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Area Format - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1841242856 - EnumValue 1647814647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>B-K-D</source>
@@ -56433,10 +56148,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Area Format - EnumValue Sq.m - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 905637490 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 905637490 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>
@@ -56548,6 +56263,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Work Experience - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 1002451572 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Storage - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1002451572 - EnumValue 3248459781 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Disk File</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Storage - EnumValue Disk File - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1002451572 - EnumValue 3874727850 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Embedded</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Storage - EnumValue Embedded - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 1163676163 - EnumValue 765772952 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56587,6 +56317,16 @@
           <source>Training</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attendance Entry Type - EnumValue Training - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 306504114 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attendance Missed Access - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 306504114 - EnumValue 2905005406 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>HR</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attendance Missed Access - EnumValue HR - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2858353277 - EnumValue 2913119229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved</source>
@@ -56843,6 +56583,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Extension Counter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3401129687 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Candidate - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3401129687 - EnumValue 3401129687 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Candidate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Candidate - EnumValue Candidate - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 4094543315 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56953,6 +56703,71 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Claim Type - EnumValue Without Bill - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 3584117704 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>01M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 01M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 3641411129 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>02M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 02M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 1958516074 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>03M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 03M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 672522011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>04M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 04M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 3305382604 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>05M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 05M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 3362676029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>06M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 06M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 1679780974 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>07M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 07M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 1462331647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>08M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 08M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 3005859152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>09M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 09M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 2473707824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>10M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 10M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 950968671 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>11M</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 11M - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4133302435 - EnumValue 4198681236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>1Y</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Contract Expiry Date - EnumValue 1Y - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2049739791 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57038,30 +56853,45 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Deputation Type - EnumValue Unit - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1964942398 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Enum 1925425976 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Doc. Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1925425976 - EnumValue 3932326675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Doc. Type - EnumValue Resignation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1925425976 - EnumValue 2116756124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Doc. Type - EnumValue Training - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 667903240 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp Type - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp. Type - EnumValue  - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1964942398 - EnumValue 4041162204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Enum 667903240 - EnumValue 4041162204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved By</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp Type - EnumValue Approved By - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp. Type - EnumValue Approved By - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1964942398 - EnumValue 6975888 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Enum 667903240 - EnumValue 6975888 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Initiated By</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp Type - EnumValue Initiated By - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp. Type - EnumValue Initiated By - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1964942398 - EnumValue 1519032111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Enum 667903240 - EnumValue 1519032111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reviewer</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp Type - EnumValue Reviewer - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp. Type - EnumValue Reviewer - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1964942398 - EnumValue 3113748279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Enum 667903240 - EnumValue 3113748279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Supported By</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp Type - EnumValue Supported By - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Document Approver Emp. Type - EnumValue Supported By - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 992868393 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -57302,6 +57132,21 @@
           <source>Earnings</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Emp. Ledg. Type - EnumValue Earnings - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3655360673 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Emp. Qualification Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3655360673 - EnumValue 791614854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Education</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Emp. Qualification Type - EnumValue Education - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3655360673 - EnumValue 1844685107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Work</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Emp. Qualification Type - EnumValue Work - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1498446062 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
@@ -57733,6 +57578,36 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee leave Activity Type - EnumValue Training - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 3791596769 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Trainer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Trainer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1539901012 - EnumValue 2116756124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question SubType - EnumValue Training - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 864094944 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 864094944 - EnumValue 1691263759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question Type - EnumValue Appraisal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 864094944 - EnumValue 2116756124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Training</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Question Type - EnumValue Training - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 545490910 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57752,6 +57627,36 @@
           <source>Probation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue Probation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3901343921 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeCandidate - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3901343921 - EnumValue 3401129687 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Candidate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeCandidate - EnumValue Candidate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3901343921 - EnumValue 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeCandidate - EnumValue Employee - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 387870738 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeDepartment - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 387870738 - EnumValue 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeDepartment - EnumValue Department - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 387870738 - EnumValue 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum EmployeeDepartment - EnumValue Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1055692247 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
@@ -57888,6 +57793,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Attribute Type - EnumValue Written Exam - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue  - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 1443966257 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Group Discussion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue Group Discussion - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 3823117883 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Interview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue Interview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 1989548930 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI (AM &amp; Above)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue KPI (AM &amp; Above) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 1298533632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI (Below AM)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue KPI (Below AM) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 2123565450 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>KPI (Common)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue KPI (Common) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 2801623926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Probation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue Probation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2155568550 - EnumValue 1469229426 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Written Exam</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Evaluation Entry Type - EnumValue Written Exam - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 4243133434 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57928,10 +57873,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum For Death Of - EnumValue Spouse - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2303302321 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 2303302321 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Gender - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Gender - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2303302321 - EnumValue 895618026 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Female</source>
@@ -57947,6 +57892,36 @@
           <source>Others</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Gender - EnumValue Others - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 166358986 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Holiday Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 166358986 - EnumValue 1206435770 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Festival</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Holiday Type - EnumValue Festival - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 166358986 - EnumValue 3064246819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Public</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Holiday Type - EnumValue Public - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 166358986 - EnumValue 1748166277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Weekend</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Holiday Type - EnumValue Weekend - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3871129073 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Incoming Document Sample - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3871129073 - EnumValue 1776355858 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sample</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Incoming Document Sample - EnumValue Sample - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4183540572 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -58113,6 +58088,66 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Master Type - EnumValue Quantitative - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 1941099004 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Begin-Total</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue Begin-Total - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 1775943060 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End-Total</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue End-Total - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 1539074812 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Heading</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue Heading - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 2808404044 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue Posting - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1933537272 - EnumValue 245426702 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI SetUp Account Type - EnumValue Total - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue Department - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 3716457423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Central &amp; Province Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue Department Central &amp; Province Level - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 2168993955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Central Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue Department Central Level - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 3069883156 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Province Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue Department Province Level - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2140414967 - EnumValue 1449721393 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum KPI Setup Type - EnumValue Functional - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3537235816 - EnumValue 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58197,6 +58232,36 @@
           <source>Second Half</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Type - EnumValue Second Half - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 4153727695 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Device Only User</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue Device Only User - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 3597732120 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>External User</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue External User - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 174407318 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Full User</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue Full User - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 2846732271 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Limited User</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue Limited User - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3673444989 - EnumValue 501420548 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Windows Group</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum License Type - EnumValue Windows Group - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1793903605 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -58307,6 +58372,11 @@
           <source>Home Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Loan Type - EnumValue Home Loan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2228618656 - EnumValue 2036677976 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Home Loan Insurance Tieup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Loan Type - EnumValue Home Loan Insurance Tieup - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2228618656 - EnumValue 1694761824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Personal Loan</source>
@@ -58603,10 +58673,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Outside/Inside Valley - EnumValue Outside - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 25557770 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 25557770 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Panel - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Panel - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 25557770 - EnumValue 146105009 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Panel A</source>
@@ -58888,10 +58958,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll Type - EnumValue Non-Payment - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 258625110 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 2585284105 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Probation Period - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2585284105 - EnumValue 2116936749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>12 Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Probation Period - EnumValue 12 Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2585284105 - EnumValue 3746106738 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>6 Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Probation Period - EnumValue 6 Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 258625110 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Purpose of Housing Loan - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 258625110 - EnumValue 241358228 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Construction of House</source>
@@ -58968,10 +59053,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Quater - EnumValue Third - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 576112657 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 576112657 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Rating Scale Type - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Rating Scale Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 576112657 - EnumValue 3823117883 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Interview</source>
@@ -59098,10 +59183,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Relation - EnumValue Spouse Grandfather - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1877960242 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 1877960242 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Repayment Mode - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Repayment Mode - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1877960242 - EnumValue 2573805829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>EMI Basis</source>
@@ -59177,6 +59262,26 @@
           <source>Internal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Resouce person - EnumValue Internal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3649518822 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Salutation - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3649518822 - EnumValue 1490054403 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mr.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Salutation - EnumValue Mr. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3649518822 - EnumValue 266169190 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mrs.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Salutation - EnumValue Mrs. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3649518822 - EnumValue 2290464868 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ms.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Salutation - EnumValue Ms. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3349968947 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
@@ -59282,6 +59387,26 @@
           <source>Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1626074402 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum System Access Control Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1626074402 - EnumValue 884578959 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>System Category</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum System Access Control Type - EnumValue System Category - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1626074402 - EnumValue 2354836079 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>System Control Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum System Access Control Type - EnumValue System Control Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1626074402 - EnumValue 981873783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>System Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum System Access Control Type - EnumValue System Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3055411267 - EnumValue 21616679 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Monthly</source>
