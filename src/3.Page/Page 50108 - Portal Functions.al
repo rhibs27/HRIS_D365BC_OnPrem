@@ -7,6 +7,7 @@ page 50108 "Portal Functions"
     Caption = 'portalFunctions';
     EntityName = 'portalFunction';
     EntitySetName = 'portalFunctions';
+    APIVersion = 'v2.0';
     SourceTable = "Portal Function";
     DelayedInsert = true;
     layout

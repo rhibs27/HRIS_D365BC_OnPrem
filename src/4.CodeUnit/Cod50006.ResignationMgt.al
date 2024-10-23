@@ -2,27 +2,30 @@ codeunit 50006 "Resignation Mgt"
 {
     procedure OpenResignationRequest(EmpCode3: Code[10])
     var
-        EmpAct4: Record "Employee Activity" temporary;
+        //EmpAct4: Record "Employee Activity" temporary;
+        Resignation2: Record Resignation temporary;
+
         RequestError: Label 'You are not eligible to request for a transfer.';
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        Resignation: Record Resignation;
     begin
-        EmpAct.Reset;
-        EmpAct.SetRange("Employee No.", EmpCode3);
-        EmpAct.SetRange(Type, EmpAct.Type::Resignation);
-        EmpAct.SetFilter("Approval Status", '<>%1&<>%2', EmpAct."Approval Status"::Cancelled, EmpAct."Approval Status"::Rejected);
-        if EmpAct.FindLast then begin
-            PAGE.Run(PAGE::"Resignation Card", EmpAct);
+        Resignation.Reset;
+        Resignation.SetRange("Employee No.", EmpCode3);
+        Resignation.SetRange(Type, Resignation.Type::Resignation);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Cancelled, Resignation."Approval Status"::Rejected);
+        if Resignation.FindLast then begin
+            PAGE.Run(PAGE::"Resignation Card", Resignation);
             exit;
         end;
 
         Clear(Employee);
         Employee.Get(EmpCode3);
 
-        EmpAct4.Init;
-        EmpAct4.Validate(Type, EmpAct4.Type::Resignation);
-        EmpAct4.Validate("Employee No.", EmpCode3);
-        EmpAct4.Insert;
-        PAGE.Run(PAGE::"Resignation Card", EmpAct4);
+        Resignation2.Init;
+        Resignation2.Validate(Type, Resignation2.Type::Resignation);
+        Resignation2.Validate("Employee No.", EmpCode3);
+        Resignation2.Insert;
+        PAGE.Run(PAGE::"Resignation Card", Resignation2);
     end;
 
     procedure SendResignationApproval(TempResignation: Record "Resignation" temporary): Boolean

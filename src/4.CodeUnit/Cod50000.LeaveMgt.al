@@ -2,26 +2,27 @@ codeunit 50000 "Leave Mgt."
 {
     procedure OpenLeaveRequest(EmpCode: Code[20])
     var
-        EmpAct: Record "Employee Activity" temporary;
+        // EmpAct: Record "Employee Activity" temporary;
+        leaveRequest: record leave;
         EmployeeActivity: Record "Employee Activity";
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
 
-        EmpAct.Init;
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate(Type, EmpAct.Type::"Leave Request");
-        EmpAct.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Employee Work Shift", Employee."Employee Work Shift");
-        EmpAct.Validate("Leave Type", EmpAct."Leave Type"::"Full Day");
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        EmpAct.Validate(Department, Employee."Department Code");
-        EmpAct.Insert;
+        leaveRequest.Init;
+        leaveRequest.Validate("Functional Title", Employee."Functional Title");
+        leaveRequest.Validate("Employee No.", EmpCode);
+        leaveRequest.Validate(Type, leaveRequest.Type::"Leave Request");
+        leaveRequest.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
+        leaveRequest.Validate("Approval Status", leaveRequest."Approval Status"::Open);
+        leaveRequest.Validate("Employee Work Shift", Employee."Employee Work Shift");
+        leaveRequest.Validate("Leave Type", leaveRequest."Leave Type"::"Full Day");
+        leaveRequest.Validate("Requested Date", Today);
+        leaveRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        leaveRequest.Validate(Department, Employee."Department Code");
+        leaveRequest.Insert;
         if GuiAllowed then //NICASIA SM for Web Portal
-            PAGE.Run(PAGE::"Leave Request", EmpAct);
+            PAGE.Run(PAGE::"Leave Request", leaveRequest);
     end;
 
     procedure CalculateNoOfDays(StartDate: Date; EndDate: Date; LeaveCode: Code[20]; Type: Option " ","Leave Request","Travel Request",Settlement; LeaveType: Option "Full Day","First Half","Second Half"; Empcode: Code[20]): Decimal

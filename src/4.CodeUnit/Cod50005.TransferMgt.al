@@ -26,7 +26,8 @@ codeunit 50005 "Transfer Mgt."
 
     procedure OpenOTForms(EmpCode: Code[20])
     var
-        EmpAct: Record "Employee Activity" temporary;
+        //EmpAct: Record "Employee Activity" temporary;
+        OverTime: Record OverTime temporary;
         SalaryLevel: Record "Salary Level";
         OTEligibleError: Label 'Employee %1 is not eligible for OT.';
     begin
@@ -35,52 +36,54 @@ codeunit 50005 "Transfer Mgt."
         SalaryLevel.Get(Employee."Salary Level");
         if not SalaryLevel."OT Eligible" then
             Error(OTEligibleError, Employee.FullName);
-        EmpAct.Init;
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate(Type, EmpAct.Type::Overtime);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        EmpAct.Validate(Department, Employee."Department Code");
-        EmpAct.Insert;
-        PAGE.Run(PAGE::"Overtime Card", EmpAct);
+        OverTime.Init;
+        OverTime.Validate("Employee No.", EmpCode);
+        OverTime.Validate("Functional Title", Employee."Functional Title");
+        OverTime.Validate(Type, OverTime.Type::Overtime);
+        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+        OverTime.Validate("Requested Date", Today);
+        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        OverTime.Validate(Department, Employee."Department Code");
+        OverTime.Insert;
+        PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
     procedure OpenOutofOfficeForms(EmpCode: Code[20])
     var
-        EmpAct: Record "Employee Activity" temporary;
+        //EmpAct: Record "Employee Activity" temporary;
+        OverTime: Record OverTime temporary;
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
-        EmpAct.Init;
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate(Type, EmpAct.Type::"Out of Office");
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        EmpAct.Validate(Department, Employee."Department Code");
-        EmpAct.Insert;
-        PAGE.Run(PAGE::"Overtime Card", EmpAct);
+        OverTime.Init;
+        OverTime.Validate("Employee No.", EmpCode);
+        OverTime.Validate("Functional Title", Employee."Functional Title");
+        OverTime.Validate(Type, OverTime.Type::"Out of Office");
+        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+        OverTime.Validate("Requested Date", Today);
+        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        OverTime.Validate(Department, Employee."Department Code");
+        OverTime.Insert;
+        PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
     procedure OpenBulkCash(EmpCode: Code[20])
     var
-        EmpAct: Record "Employee Activity" temporary;
+        //EmpAct: Record "Employee Activity" temporary;
+        OverTime: Record OverTime temporary;
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
-        EmpAct.Init;
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate(Type, EmpAct.Type::"Bulk Cash");
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate(Department, Employee."Department Code");
-        EmpAct.Insert;
-        PAGE.Run(PAGE::"Overtime Card", EmpAct);
+        OverTime.Init;
+        OverTime.Validate("Employee No.", EmpCode);
+        OverTime.Validate(Type, OverTime.Type::"Bulk Cash");
+        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+        OverTime.Validate("Requested Date", Today);
+        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        OverTime.Validate("Functional Title", Employee."Functional Title");
+        OverTime.Validate(Department, Employee."Department Code");
+        OverTime.Insert;
+        PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
     procedure ApplyForApprovalForms(TempOvertime: Record "OverTime" temporary): Boolean
