@@ -1,7 +1,7 @@
 page 50180 "Cancel Document"
 {
     PageType = Card;
-    SourceTable = Leave;
+    SourceTable = "Employee Activity";
     ApplicationArea = All;
 
     layout

@@ -8242,67 +8242,64 @@ codeunit 50001 "HR Mgt."
         if PAGE.RunModal(PAGE::"Cancel Document", Leave) = ACTION::LookupOK then;
     end;
 
-    procedure ApplyCancelEmployeeActivity(TempLeave: Record "Leave" temporary)
+    procedure ApplyCancelEmployeeActivity(TempEmpActivity: Record "Employee Activity" temporary)
     var
-        //EmployeeActivity: Record "Employee Activity";
-        Leave:Record leave;
-        //EmployeeActivity2: Record "Employee Activity";
-        Leave2:Record leave;
-        //EmpAct: Record "Employee Activity";
-        Leave3:Record Leave;
+        EmployeeActivity: Record "Employee Activity";
+        EmployeeActivity2: Record "Employee Activity";
+        EmpAct: Record "Employee Activity";
         LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        if TempLeave.Type = TempLeave.Type::"Leave Request" then begin //Min 10.13.2022
-            Leave3.Reset;
-            Leave3.SetRange("Cancelled Document No.", TempLeave."Cancelled Document No.");
-            Leave3.SetFilter("Approval Status", '<>%1', Leave3."Approval Status"::Rejected);
-            if Leave3.FindFirst then
-                Error(LeaveCancelError, Leave3."No.", Leave3."Leave Code");
+        if TempEmpActivity.Type = TempEmpActivity.Type::"Leave Request" then begin //Min 10.13.2022
+            EmpAct.Reset;
+            EmpAct.SetRange("Cancelled Document No.", TempEmpActivity."Cancelled Document No.");
+            EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
+            if EmpAct.FindFirst then
+                Error(LeaveCancelError, EmpAct."No.", EmpAct."Leave Code");
         end;
         PayrollSetup.Get;
-        if TempLeave.Type = TempLeave.Type::"Attendance Missed" then
-            CheckForLeaveOnAttendanceMissed(TempLeave."Start Date", TempLeave."End Date", TempLeave."Employee No.");
-        if TempLeave."No." = '' then begin
-            TempLeave.TestField("Start Date");
-            if (TempLeave."Start Date" >= Today) or (TempLeave."End Date" >= Today) then
+        if TempEmpActivity.Type = TempEmpActivity.Type::"Attendance Missed" then
+            CheckForLeaveOnAttendanceMissed(TempEmpActivity."Start Date", TempEmpActivity."End Date", TempEmpActivity."Employee No.");
+        if TempEmpActivity."No." = '' then begin
+            TempEmpActivity.TestField("Start Date");
+            if (TempEmpActivity."Start Date" >= Today) or (TempEmpActivity."End Date" >= Today) then
                 Error('Cannot apply for future date.Please check the date.');
-            if TempLeave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
+            if TempEmpActivity."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
                 Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
-            TempLeave.TestField("End Date");
-            TempLeave.TestField(Remarks);
-            Leave.Init;
-            Leave.TransferFields(TempLeave);
-            if TempLeave."Recommender Code" <> '' then
-                Leave.Validate("Approval Status", Leave."Approval Status"::"Pending Approval")
+            TempEmpActivity.TestField("End Date");
+            TempEmpActivity.TestField(Remarks);
+            EmployeeActivity.Init;
+            EmployeeActivity.TransferFields(TempEmpActivity);
+            if TempEmpActivity."Recommender Code" <> '' then
+                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
             else
-                Leave.Validate("Approval Status", Leave."Approval Status"::Recommended);
+                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
 
-            Leave."Cancelled No." := '';
-            Leave.Insert(true);
+            EmployeeActivity."Cancelled No." := '';
+            EmployeeActivity.Insert(true);
         end else begin
-            Leave.Get(TempLeave."No.");
-            if Leave."Recommender Code" <> '' then
-                Leave.Validate("Approval Status", Leave."Approval Status"::"Pending Approval")
+            EmployeeActivity.Get(TempEmpActivity."No.");
+            if EmployeeActivity."Recommender Code" <> '' then
+                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
             else
-                Leave.Validate("Approval Status", Leave."Approval Status"::Recommended);
-            Leave.Modify(true);
+                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
+            EmployeeActivity.Modify(true);
         end;
 
 
-        if Leave.Type = Leave.Type::"Leave Request" then begin
-            Clear(Leave2);
-            Leave2.Get(TempLeave."Cancelled Document No.");
-            Leave2."Cancelled No." := Leave."No.";
-            Leave2.Modify;
+        if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then begin
+            Clear(EmployeeActivity2);
+            EmployeeActivity2.Get(TempEmpActivity."Cancelled Document No.");
+            EmployeeActivity2."Cancelled No." := EmployeeActivity."No.";
+            EmployeeActivity2.Modify;
 
-            if (Leave."Start Date" < Leave2."Start Date") or (Leave."End Date" < Leave2."Start Date") then
-                Error('Date must be between %1 and %2', Leave2."Start Date", Leave2."End Date");
+            if (EmployeeActivity."Start Date" < EmployeeActivity2."Start Date") or (EmployeeActivity."End Date" < EmployeeActivity2."Start Date") then
+                Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
 
-            if (Leave."Start Date" > Leave2."End Date") or (Leave."End Date" > Leave2."End Date") then
-                Error('Date must be between %1 and %2', Leave2."Start Date", Leave2."End Date");
+            if (EmployeeActivity."Start Date" > EmployeeActivity2."End Date") or (EmployeeActivity."End Date" > EmployeeActivity2."End Date") then
+                Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
 
         end;
     end;

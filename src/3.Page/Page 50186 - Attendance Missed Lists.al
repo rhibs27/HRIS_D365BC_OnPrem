@@ -5,7 +5,7 @@ page 50186 "Attendance Missed Lists"
     CardPageId = "Cancel Document";
     Editable = false;
     PageType = List;
-    SourceTable = "Leave";
+    SourceTable = "Employee Activity";
     SourceTableView = WHERE(Type = CONST("Attendance Missed"));
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -106,7 +106,7 @@ page 50186 "Attendance Missed Lists"
 
                 trigger OnAction()
                 begin
-                    HRMgt.OpenCancelEmpActivity(Rec);
+                    //HRMgt.OpenCancelEmpActivity(Rec); santosh
                 end;
             }
             action("Change Recommender/Approver")
