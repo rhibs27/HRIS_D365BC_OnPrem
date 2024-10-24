@@ -1,7 +1,7 @@
 page 50180 "Cancel Document"
 {
     PageType = Card;
-    SourceTable = "Employee Activity";
+    SourceTable = Leave;
     ApplicationArea = All;
 
     layout
@@ -166,48 +166,48 @@ page 50180 "Cancel Document"
                     CurrPage.Close;
                 end;
             }
-            action(Approve)
-            {
-                Visible = not IsOpen;
-                ToolTip = 'Executes the Approve action.';
-                ApplicationArea = All;
+            // action(Approve)
+            // {
+            //     Visible = not IsOpen;
+            //     ToolTip = 'Executes the Approve action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to approve this document?', false) then begin
-                        HRMgt.ApproveRejectCancelAttendanceMissed(Rec, true);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Reject)
-            {
-                Visible = not IsOpen;
-                ToolTip = 'Executes the Reject action.';
-                ApplicationArea = All;
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to approve this document?', false) then begin
+            //             HRMgt.ApproveRejectCancelAttendanceMissed(Rec, true);
+            //             CurrPage.Close;
+            //         end;
+            //     end;
+            // }
+            // action(Reject)
+            // {
+            //     Visible = not IsOpen;
+            //     ToolTip = 'Executes the Reject action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to reject this document?', false) then begin
-                        HRMgt.ApproveRejectCancelAttendanceMissed(Rec, false);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Screen)
-            {
-                Visible = IsLeaveRequest;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to reject this document?', false) then begin
+            //             HRMgt.ApproveRejectCancelAttendanceMissed(Rec, false);
+            //             CurrPage.Close;
+            //         end;
+            //     end;
+            // }
+            // action(Screen)
+            // {
+            //     Visible = IsLeaveRequest;
+            //     ToolTip = 'Executes the Screen action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to screen this document?', false) then begin
-                        HRMgt.ScreenCancelledLeave(Rec);
-                        Message('Screened');
-                    end;
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to screen this document?', false) then begin
+            //             HRMgt.ScreenCancelledLeave(Rec);
+            //             Message('Screened');
+            //         end;
+            //     end;
+            // } temp comment santosh
             action("Change Recommender/Approver")
             {
                 Image = ReOpen;

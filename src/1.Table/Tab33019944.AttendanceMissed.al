@@ -2,8 +2,7 @@
 // {
 //     Caption = 'Access Control';
 //     DataClassification = ToBeClassified;
-
-//     fields
+//     // fields
 //     {
 //         field(1; "No."; Code[20])
 //         {
