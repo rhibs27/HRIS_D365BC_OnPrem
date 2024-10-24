@@ -206,14 +206,14 @@ table 50136 "Travel Request"
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
-                if Type = Type::"Leave Request" then
-                    // TestField(Rec."Leave Code");
+                // if Type = Type::"Leave Request" then
+                //     // TestField(Rec."Leave Code");
                 if "End Date" <> 0D then
-                        Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date", "Employee No."))
-                    else begin
-                        Clear("End Date (BS)");
-                        Clear("No. of Days");
-                    end;
+                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date", "Employee No."))
+                else begin
+                    Clear("End Date (BS)");
+                    Clear("No. of Days");
+                end;
                 if Type = Type::"Travel Claim" then begin
                     Clear("Out of Pocket Expense");
                 end;

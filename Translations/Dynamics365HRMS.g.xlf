@@ -19163,6 +19163,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApplyForTravelClaim - NamedType ErrorNoOfDays</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 2290084637 - NamedType 1338891784" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date (%1) must be less than End Date (%2).</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CalculateNoOfDaysTravel - NamedType DateError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 4121429225 - NamedType 1966792102" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fooding Amount cannot be greater than %1.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22133,25 +22138,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Apply - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3821175371 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Approve action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Approve - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3821175371 - Action 3518177385 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Change Recommender/Approver action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Change Recommender/Approver - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3821175371 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reject action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Reject - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3821175371 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Screen - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4281285454 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
