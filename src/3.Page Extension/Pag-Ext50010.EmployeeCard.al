@@ -903,6 +903,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = Planning;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
+                    Visible = false;
                     ToolTip = 'Executes the Out of Office Forms action.';
                     trigger OnAction()
                     begin

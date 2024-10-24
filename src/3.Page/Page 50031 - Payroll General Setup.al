@@ -222,6 +222,7 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Faciliator Allowance"; Rec."Faciliator Allowance")
                 {

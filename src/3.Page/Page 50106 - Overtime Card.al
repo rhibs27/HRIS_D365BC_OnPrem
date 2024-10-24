@@ -99,7 +99,7 @@ page 50106 "Overtime Card"
                 field(Remarks; Rec.Remarks)
                 {
                     Caption = 'Reason for OT';
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Reason for OT field.';
                     ApplicationArea = All;
                 }
@@ -160,7 +160,7 @@ page 50106 "Overtime Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = false;
+                // Visible = false; santosh
                 ToolTip = 'Executes the Submit action.';
                 ApplicationArea = All;
 

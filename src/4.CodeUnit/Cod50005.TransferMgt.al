@@ -132,8 +132,8 @@ codeunit 50005 "Transfer Mgt."
                 end;
         end;
 
-        if TempOvertime."No. of Days" <= 0 then
-            Error(ErrorNoOfDays);
+        // if TempOvertime."No. of Days" <= 0 then
+        //     Error(ErrorNoOfDays); santosh commented for over time
 
         EmpOvertime.Init;
         EmpOvertime.TransferFields(TempOvertime);
