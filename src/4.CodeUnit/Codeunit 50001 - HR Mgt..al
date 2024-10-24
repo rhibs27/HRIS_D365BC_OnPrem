@@ -8216,30 +8216,31 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    procedure OpenCancelEmpActivity(LeaveVar: Record "Leave")
+    procedure OpenCancelEmpActivity(EmpActivity: Record "Employee Activity")
     var
-        Leave: Record "Leave" temporary;
+        //Leave: Record "Leave" temporary;
+        TempEmpActivity: Record "Employee Activity" temporary;
     begin
         if not Confirm('Do you want to cancel document?', false) then
             exit;
-        LeaveVar.TestField("Approval Status", LeaveVar."Approval Status"::Approved);
-        LeaveVar.TestField("Cancelled Document No.", '');
-        Leave.Init;
-        Leave.Validate(Cancelled, true);
-        Leave.Validate("Employee No.", LeaveVar."Employee No.");
-        Leave.Validate("Employee Name", LeaveVar."Employee Name");
-        Leave.Validate("Approval Status", Leave."Approval Status"::Open);
-        Leave.Validate(Type, LeaveVar.Type);
-        Leave.Validate("Leave Code", LeaveVar."Leave Code");
-        Leave.Validate("Requested Date", Today);
-        Leave.Validate("Start Date", LeaveVar."Start Date");
-        Leave.Validate("End Date", LeaveVar."End Date");
-        Leave.Validate("No. of Days", LeaveVar."No. of Days");
-        Leave.Validate("Recommender Code", LeaveVar."Recommender Code");
-        Leave.Validate("Approver Code", LeaveVar."Approver Code");
-        Leave."Cancelled Document No." := LeaveVar."No.";
-        Leave.Insert;
-        if PAGE.RunModal(PAGE::"Cancel Document", Leave) = ACTION::LookupOK then;
+        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Approved);
+        EmpActivity.TestField("Cancelled Document No.", '');
+        TempEmpActivity.Init;
+        TempEmpActivity.Validate(Cancelled, true);
+        TempEmpActivity.Validate("Employee No.", EmpActivity."Employee No.");
+        TempEmpActivity.Validate("Employee Name", EmpActivity."Employee Name");
+        TempEmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Open);
+        TempEmpActivity.Validate(Type, EmpActivity.Type);
+        TempEmpActivity.Validate("Leave Code", EmpActivity."Leave Code");
+        TempEmpActivity.Validate("Requested Date", Today);
+        TempEmpActivity.Validate("Start Date", EmpActivity."Start Date");
+        TempEmpActivity.Validate("End Date", EmpActivity."End Date");
+        TempEmpActivity.Validate("No. of Days", EmpActivity."No. of Days");
+        TempEmpActivity.Validate("Recommender Code", EmpActivity."Recommender Code");
+        TempEmpActivity.Validate("Approver Code", EmpActivity."Approver Code");
+        TempEmpActivity."Cancelled Document No." := EmpActivity."No.";
+        TempEmpActivity.Insert;
+        if PAGE.RunModal(PAGE::"Cancel Document", TempEmpActivity) = ACTION::LookupOK then;
     end;
 
     procedure ApplyCancelEmployeeActivity(TempEmpActivity: Record "Employee Activity" temporary)

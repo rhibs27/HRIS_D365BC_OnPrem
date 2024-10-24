@@ -814,6 +814,34 @@ codeunit 50000 "Leave Mgt."
 
     end;
 
+    procedure OpenCancelEmpActivity(Leave: Record Leave)
+    var
+        TempLeave: Record "Leave" temporary;
+    //TempEmpActivity: Record "Employee Activity" temporary;
+    begin
+        if not Confirm('Do you want to cancel document?', false) then
+            exit;
+        Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
+        Leave.TestField("Cancelled Document No.", '');
+        TempLeave.Init;
+        TempLeave.Validate(Cancelled, true);
+        TempLeave.Validate("Employee No.", Leave."Employee No.");
+        TempLeave.Validate("Employee Name", Leave."Employee Name");
+        TempLeave.Validate("Approval Status", TempLeave."Approval Status"::Open);
+        TempLeave.Validate(Type, Leave.Type);
+        TempLeave.Validate("Leave Code", Leave."Leave Code");
+        TempLeave.Validate("Requested Date", Today);
+        TempLeave.Validate("Start Date", Leave."Start Date");
+        TempLeave.Validate("End Date", Leave."End Date");
+        TempLeave.Validate("No. of Days", Leave."No. of Days");
+        TempLeave.Validate("Recommender Code", Leave."Recommender Code");
+        TempLeave.Validate("Approver Code", Leave."Approver Code");
+        TempLeave."Cancelled Document No." := Leave."No.";
+        TempLeave.Insert;
+        if PAGE.RunModal(PAGE::"Cancel Document", TempLeave) = ACTION::LookupOK then;
+    end;
+
+
     var
         EngNep: Record "English-Nepali Date";
         LeaveError: Label 'You cannot apply leave in Present day %1.';

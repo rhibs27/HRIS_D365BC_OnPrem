@@ -106,7 +106,7 @@ page 50186 "Attendance Missed Lists"
 
                 trigger OnAction()
                 begin
-                    //HRMgt.OpenCancelEmpActivity(Rec); santosh
+                    HRMgt.OpenCancelEmpActivity(Rec);
                 end;
             }
             action("Change Recommender/Approver")

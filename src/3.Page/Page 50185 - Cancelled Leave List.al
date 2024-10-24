@@ -82,12 +82,12 @@ page 50185 "Cancelled Leave List"
 
                 trigger OnAction()
                 begin
-                    HRMgt.OpenCancelEmpActivity(Rec);
+                    leaveMgt.OpenCancelEmpActivity(Rec);
                 end;
             }
         }
     }
 
     var
-        HRMgt: Codeunit "HR Mgt.";
+        leaveMgt: Codeunit "Leave Mgt.";
 }
