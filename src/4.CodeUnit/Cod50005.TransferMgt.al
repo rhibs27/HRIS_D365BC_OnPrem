@@ -2,7 +2,8 @@ codeunit 50005 "Transfer Mgt."
 {
     procedure OpenTransferRequest(EmpCode3: Code[10])
     var
-        EmpAct4: Record "Employee Activity" temporary;
+        //EmpAct4: Record "Employee Activity" temporary;
+        EmpTransfer: Record "Employee/HR Transfer" temporary;
         RequestError: Label 'You are not eligible to request for a transfer.';
     begin
         Clear(Employee);
@@ -16,36 +17,12 @@ codeunit 50005 "Transfer Mgt."
         Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
         Employee1.SetRange(Status, Employee1.Status::Active); //Min
         if Employee.FindFirst then;
-        EmpAct4.Init;
-        EmpAct4.Validate(Type, EmpAct4.Type::"Employee Transfer");
-        EmpAct4.Validate("Employee No.", EmpCode3);
-        EmpAct4.Validate("Approval Status", EmpAct4."Approval Status"::Open);
-        EmpAct4.Insert;
-        PAGE.Run(PAGE::"Transfer Card", EmpAct4);
-    end;
-
-    procedure OpenOTForms(EmpCode: Code[20])
-    var
-        //EmpAct: Record "Employee Activity" temporary;
-        OverTime: Record OverTime temporary;
-        SalaryLevel: Record "Salary Level";
-        OTEligibleError: Label 'Employee %1 is not eligible for OT.';
-    begin
-        Clear(Employee);
-        Employee.Get(EmpCode);
-        SalaryLevel.Get(Employee."Salary Level");
-        if not SalaryLevel."OT Eligible" then
-            Error(OTEligibleError, Employee.FullName);
-        OverTime.Init;
-        OverTime.Validate("Employee No.", EmpCode);
-        OverTime.Validate("Functional Title", Employee."Functional Title");
-        OverTime.Validate(Type, OverTime.Type::Overtime);
-        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
-        OverTime.Validate("Requested Date", Today);
-        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        OverTime.Validate(Department, Employee."Department Code");
-        OverTime.Insert;
-        PAGE.Run(PAGE::"Overtime Card", OverTime);
+        EmpTransfer.Init;
+        EmpTransfer.Validate(Type, EmpTransfer.Type::"Employee Transfer");
+        EmpTransfer.Validate("Employee No.", EmpCode3);
+        EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::Open);
+        EmpTransfer.Insert;
+        PAGE.Run(PAGE::"Transfer Card", EmpTransfer);
     end;
 
     procedure OpenOutofOfficeForms(EmpCode: Code[20])
@@ -882,14 +859,6 @@ codeunit 50005 "Transfer Mgt."
             Message('Updated');
         end;
     end;
-
-
-
-
-
-
-
-
 
     var
         Employee: Record Employee;

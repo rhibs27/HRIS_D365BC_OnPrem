@@ -28,6 +28,8 @@ page 50340 "Portal Function"
         NoEmployeeMappingErr: Label 'No Employee card found for this user in Dynamics Business Central.';
         HrMgt: Codeunit "HR Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";
+        TravelMgt: Codeunit "Travel Mgt.";
+        TransferMgt: Codeunit "Transfer Mgt.";
         FileManagement: Codeunit "File Management";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
@@ -362,7 +364,7 @@ page 50340 "Portal Function"
           '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Fooding, false, endDate - startDate + 1)), '=', ',') + '",' +
           '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Lodging, false, endDate - startDate + 1)), '=', ',') + '",' +
           '"outOfPocket": "' + DelChr(Format(SalaryLevel."Out of Pocket Expense" *
-                                HrMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, startDate, endDate)), '=', ',') + '"' +
+                                TravelMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, startDate, endDate)), '=', ',') + '"' +
           '}');
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
     end;
@@ -393,21 +395,21 @@ page 50340 "Portal Function"
 
         exit(
         '{' +
-          '"totalNoOfDays" : "' + DelChr(Format(HrMgt.CalculateTotalNoDays(empAcitivityNo)), '=', ',') + '",' +
-          '"totalEstimatedConv" : "' + DelChr(Format(HrMgt.CalculateTotalEstimatedConv(empAcitivityNo)), '=', ',') + '",' +
+          '"totalNoOfDays" : "' + DelChr(Format(TravelMgt.CalculateTotalNoDays(empAcitivityNo)), '=', ',') + '",' +
+          '"totalEstimatedConv" : "' + DelChr(Format(TravelMgt.CalculateTotalEstimatedConv(empAcitivityNo)), '=', ',') + '",' +
           '"totalFooding" : "' + DelChr(Format(GetAllowanceFoodingLoding(EmpActivity, allType::Fooding, EmpActivity."Total No. of Days")), '=', ',') + '",' +
           '"totalLodging" :"' + DelChr(Format(GetAllowanceFoodingLoding(EmpActivity, allType::Lodging, EmpActivity."Total No. of Days")), '=', ',') + '",' +
-          '"totalAdvance" : "' + DelChr(Format(HrMgt.CalculateTotalAdvance(empAcitivityNo)), '=', ',') + '",' +
-          '"totalTransport" : "' + DelChr(Format(HrMgt.CalculateTotalTransport(empAcitivityNo)), '=', ',') + '",' +
-          '"totalEstmiatedCost" : "' + DelChr(Format(HrMgt.CalculateTotalEstimatedCost(empAcitivityNo)), '=', ',') + '",' +
-          '"travelStartDate": "' + getDateinFormat(HrMgt.GetTravelStartDate(empAcitivityNo)) + '",' +
-          '"travelEndDate": "' + getDateinFormat(HrMgt.GetTravelEndDate(empAcitivityNo)) + '",' +
+          '"totalAdvance" : "' + DelChr(Format(TravelMgt.CalculateTotalAdvance(empAcitivityNo)), '=', ',') + '",' +
+          '"totalTransport" : "' + DelChr(Format(TravelMgt.CalculateTotalTransport(empAcitivityNo)), '=', ',') + '",' +
+          '"totalEstmiatedCost" : "' + DelChr(Format(TravelMgt.CalculateTotalEstimatedCost(empAcitivityNo)), '=', ',') + '",' +
+          '"travelStartDate": "' + getDateinFormat(TravelMgt.GetTravelStartDate(empAcitivityNo)) + '",' +
+          '"travelEndDate": "' + getDateinFormat(TravelMgt.GetTravelEndDate(empAcitivityNo)) + '",' +
           '"foodingPerDayLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Fooding, true, 1)), '=', ',') + '",' +
           '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Fooding, false, EmpActivity."Total No. of Days")), '=', ',') + '",' +
           '"lodgingPerDayLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Lodging, true, 1)), '=', ',') + '",' +
           '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpActivity, allType::Lodging, false, EmpActivity."Total No. of Days")), '=', ',') + '",' +
-          '"depatureTime": "' + getTimeinFormat(HrMgt.GetDepatureTime(empAcitivityNo)) + '",' +
-          '"arrivalTime" : "' + getTimeinFormat(HrMgt.GetArrivalTime(empAcitivityNo)) + '"' +
+          '"depatureTime": "' + getTimeinFormat(TravelMgt.GetDepatureTime(empAcitivityNo)) + '",' +
+          '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empAcitivityNo)) + '"' +
         '}'
         )
     end;
@@ -1640,17 +1642,17 @@ page 50340 "Portal Function"
                 EmpHrTransfer."Approval Status"::Reviewed:
                     begin
                         EmpHrTransfer."Screener Remarks" := remark;
-                        HrMgt.ScreenTransfer(EmpHrTransfer);
+                        TransferMgt.ScreenTransfer(EmpHrTransfer);
                     end;
 
                 EmpActivity."Approval Status"::Screened:
                     begin
-                        HrMgt.ApproveTransfer(EmpHrTransfer);
+                        TransferMgt.ApproveTransfer(EmpHrTransfer);
                     end;
             end;
         end else begin
             EmpActivity."Rejection Remarks" := remark;
-            HrMgt.RejectTransfer(EmpHrTransfer);
+            TransferMgt.RejectTransfer(EmpHrTransfer);
         end;
     end;
 

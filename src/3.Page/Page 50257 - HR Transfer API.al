@@ -288,7 +288,7 @@ page 50257 "HR Transfer API"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to hold this document?', false) then begin
-                        HRMgt.HoldTransfer(Rec);
+                        TransferMgt.HoldTransfer(Rec);
                         CurrPage.Close;
                     end;
                 end;

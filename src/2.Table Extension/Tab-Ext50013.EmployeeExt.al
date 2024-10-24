@@ -1379,6 +1379,7 @@ tableextension 50013 "Employee Ext" extends Employee
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         LoanMgt: Codeunit "Loan Mgt.";
+        OTMgt: Codeunit "OverTime Mgt";
         ProvinceVar: Record "Province";
         Text004: Label '%1 is %2.';
         Text005: Label '%1 must be greater.';
@@ -1657,7 +1658,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
     PROCEDURE OTRequest();
     BEGIN
-        TransferMgt.OpenOTForms("No.");
+        OTMgt.OpenOTForms("No.");
     END;
 
     PROCEDURE OutOfOffice();

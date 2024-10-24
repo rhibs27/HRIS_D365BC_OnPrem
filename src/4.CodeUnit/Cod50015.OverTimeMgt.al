@@ -110,9 +110,34 @@ codeunit 50015 "OverTime Mgt"
             until TempIncomingDoc.Next = 0;
     end;
 
+    procedure OpenOTForms(EmpCode: Code[20])
+    var
+        //EmpAct: Record "Employee Activity" temporary;
+        OverTime: Record OverTime temporary;
+        SalaryLevel: Record "Salary Level";
+        OTEligibleError: Label 'Employee %1 is not eligible for OT.';
+    begin
+        Clear(Employee);
+        Employee.Get(EmpCode);
+        SalaryLevel.Get(Employee."Salary Level");
+        if not SalaryLevel."OT Eligible" then
+            Error(OTEligibleError, Employee.FullName);
+        OverTime.Init;
+        OverTime.Validate("Employee No.", EmpCode);
+        OverTime.Validate("Functional Title", Employee."Functional Title");
+        OverTime.Validate(Type, OverTime.Type::Overtime);
+        OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+        OverTime.Validate("Requested Date", Today);
+        OverTime.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        OverTime.Validate(Department, Employee."Department Code");
+        OverTime.Insert;
+        PAGE.Run(PAGE::"Overtime Card", OverTime);
+    end;
+
     var
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
+        Employee: Record Employee;
 
 
 

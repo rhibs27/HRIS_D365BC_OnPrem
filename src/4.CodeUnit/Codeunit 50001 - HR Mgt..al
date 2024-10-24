@@ -4783,286 +4783,286 @@ codeunit 50001 "HR Mgt."
     //     PAGE.RunModal(PAGE::"Request Travel Claim", EmpAct);
     // end;
 
-    procedure CalculateTotalNoDays(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalNoDays(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."No. of Days");
-        end;
-    end;
+    // procedure CalculateTotalNoDays(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalNoDays(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."No. of Days");
+    //     end;
+    // end;
 
-    procedure CalculateTotalEstimatedConv(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalEstimatedConv(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Conveyance Expense");
-        end;
-    end;
+    // procedure CalculateTotalEstimatedConv(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalEstimatedConv(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Estimated Conveyance Expense");
+    //     end;
+    // end;
 
-    procedure CalculateTotalFooding(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalFooding(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Fooding Cost");
-        end;
-    end;
+    // procedure CalculateTotalFooding(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalFooding(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Estimated Fooding Cost");
+    //     end;
+    // end;
 
-    procedure CalculateTotalAdvance(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalAdvance(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Advance Cash");
-        end;
-    end;
+    // procedure CalculateTotalAdvance(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalAdvance(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Advance Cash");
+    //     end;
+    // end;
 
-    procedure CalculateTotalLodging(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalLodging(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Lodging Cost");
-        end;
-    end;
+    // procedure CalculateTotalLodging(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalLodging(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Estimated Lodging Cost");
+    //     end;
+    // end;
 
-    procedure CalculateTotalOtherExpense(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalOtherExpense(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Other Estimated Cost");
-        end;
-    end;
+    // procedure CalculateTotalOtherExpense(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalOtherExpense(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Other Estimated Cost");
+    //     end;
+    // end;
 
-    procedure CalculateTotalTransport(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalTransport(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Transportation Cost");
-        end;
-    end;
+    // procedure CalculateTotalTransport(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalTransport(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Estimated Transportation Cost");
+    //     end;
+    // end;
 
-    procedure CalculateTotalEstimatedCost(TravelOrderNo: Code[20]): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        AdvAmt: Decimal;
-    begin
-        Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalEstimatedCost(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Total Estimated Cost");
-        end;
-    end;
+    // procedure CalculateTotalEstimatedCost(TravelOrderNo: Code[20]): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     AdvAmt: Decimal;
+    // begin
+    //     Clear(AdvAmt);
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             AdvAmt := CalculateTotalEstimatedCost(EmpAct."Travel Order No.");
+    //         exit(AdvAmt + EmpAct."Total Estimated Cost");
+    //     end;
+    // end;
 
-    procedure GetTravelStartDate(TravelOrderNo: Code[20]): Date
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                exit(GetTravelStartDate(EmpAct."Travel Order No."))
-            else
-                exit(EmpAct."Start Date");
-        end;
-    end;
+    // procedure GetTravelStartDate(TravelOrderNo: Code[20]): Date
+    // var
+    //     EmpAct: Record "Employee Activity";
+    // begin
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             exit(GetTravelStartDate(EmpAct."Travel Order No."))
+    //         else
+    //             exit(EmpAct."Start Date");
+    //     end;
+    // end;
 
-    procedure GetTravelEndDate(TravelOrderNo: Code[20]): Date
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            exit(EmpAct."End Date");
-        end;
-    end;
+    // procedure GetTravelEndDate(TravelOrderNo: Code[20]): Date
+    // var
+    //     EmpAct: Record "Employee Activity";
+    // begin
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         exit(EmpAct."End Date");
+    //     end;
+    // end;
 
-    procedure GetOutofExpneseDuration(DepatureTime: Time; ArrivalTime: Time; DepartureDate: Date; ArrivalDate: Date): Decimal
-    var
-        EmpAct: Record "Employee Activity";
-        Duration1: Duration;
-        Duration2: Duration;
-        TotalDuration: Decimal;
-        NoofDays: Integer;
-    begin
-        if (DepartureDate = 0D) or (ArrivalDate = 0D) then
-            exit;
-        HRSetup.Get;
-        //Duration1 :=(CREATEDATETIME(TODAY,0T) - CREATEDATETIME(TODAY-1,DepatureTime));
-        //Duration2 := (CREATEDATETIME(TODAY,ArrivalTime) - (CREATEDATETIME(TODAY,0T)));
-        TotalDuration := (CreateDateTime(ArrivalDate, ArrivalTime) - CreateDateTime(DepartureDate, DepatureTime)) / 1000 / 60 / 60;
+    // procedure GetOutofExpneseDuration(DepatureTime: Time; ArrivalTime: Time; DepartureDate: Date; ArrivalDate: Date): Decimal
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     Duration1: Duration;
+    //     Duration2: Duration;
+    //     TotalDuration: Decimal;
+    //     NoofDays: Integer;
+    // begin
+    //     if (DepartureDate = 0D) or (ArrivalDate = 0D) then
+    //         exit;
+    //     HRSetup.Get;
+    //     //Duration1 :=(CREATEDATETIME(TODAY,0T) - CREATEDATETIME(TODAY-1,DepatureTime));
+    //     //Duration2 := (CREATEDATETIME(TODAY,ArrivalTime) - (CREATEDATETIME(TODAY,0T)));
+    //     TotalDuration := (CreateDateTime(ArrivalDate, ArrivalTime) - CreateDateTime(DepartureDate, DepatureTime)) / 1000 / 60 / 60;
 
-        NoofDays := Round(TotalDuration / 24, 1, '<');
+    //     NoofDays := Round(TotalDuration / 24, 1, '<');
 
-        TotalDuration := TotalDuration mod 24;
+    //     TotalDuration := TotalDuration mod 24;
 
-        if TotalDuration >= HRSetup."Full Limit (out expense)" then
-            exit(NoofDays + HRSetup."Full Limit Value")
-        else if TotalDuration >= HRSetup."Half Limit (out expense)" then
-            exit(NoofDays + HRSetup."Half Limit Value")
-        else
-            exit(NoofDays);
-    end;
+    //     if TotalDuration >= HRSetup."Full Limit (out expense)" then
+    //         exit(NoofDays + HRSetup."Full Limit Value")
+    //     else if TotalDuration >= HRSetup."Half Limit (out expense)" then
+    //         exit(NoofDays + HRSetup."Half Limit Value")
+    //     else
+    //         exit(NoofDays);
+    // end;
 
-    procedure GetDepatureTime(TravelOrderNo: Code[20]): Time
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                exit(GetDepatureTime(EmpAct."Travel Order No."))
-            else
-                exit(EmpAct."Depature Time");
-        end;
-    end;
+    // procedure GetDepatureTime(TravelOrderNo: Code[20]): Time
+    // var
+    //     EmpAct: Record "Employee Activity";
+    // begin
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         if not (EmpAct."Travel Order No." = '') then
+    //             exit(GetDepatureTime(EmpAct."Travel Order No."))
+    //         else
+    //             exit(EmpAct."Depature Time");
+    //     end;
+    // end;
 
-    procedure GetArrivalTime(TravelOrderNo: Code[20]): Time
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            exit(EmpAct."Arrival Time");
-        end;
-    end;
+    // procedure GetArrivalTime(TravelOrderNo: Code[20]): Time
+    // var
+    //     EmpAct: Record "Employee Activity";
+    // begin
+    //     if EmpAct.Get(TravelOrderNo) then begin
+    //         exit(EmpAct."Arrival Time");
+    //     end;
+    // end;
 
-    procedure ApplyForTravelClaim(TravelReq: Record "Travel Request" temporary): Boolean
-    var
-        TravelRequest: Record "Travel Request";
-        ConfirmTravel: Label 'Do you want to send travel request ?';
-        ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
-        TravelRequest2: Record "Travel Request";
-        SalaryLevel1: Record "Salary Level";
-        SalaryLevel: Record "Salary Level";
-    begin
-        if GuiAllowed then
-            if not Confirm(ConfirmTravel, false) then
-                exit(false);
-        TravelReq.TestField("Start Date");
-        TravelReq.TestField("End Date");
-        TravelReq.TestField("Claim Type");
-        if TravelRequest2.Get(TravelReq."Travel Order No.") then
-            if (TravelRequest2."Travel Claimed") then
-                Error('Travel order no. %1 has already been claimed.', TravelRequest2."No.");
+    // procedure ApplyForTravelClaim(TravelReq: Record "Travel Request" temporary): Boolean
+    // var
+    //     TravelRequest: Record "Travel Request";
+    //     ConfirmTravel: Label 'Do you want to send travel request ?';
+    //     ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
+    //     TravelRequest2: Record "Travel Request";
+    //     SalaryLevel1: Record "Salary Level";
+    //     SalaryLevel: Record "Salary Level";
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm(ConfirmTravel, false) then
+    //             exit(false);
+    //     TravelReq.TestField("Start Date");
+    //     TravelReq.TestField("End Date");
+    //     TravelReq.TestField("Claim Type");
+    //     if TravelRequest2.Get(TravelReq."Travel Order No.") then
+    //         if (TravelRequest2."Travel Claimed") then
+    //             Error('Travel order no. %1 has already been claimed.', TravelRequest2."No.");
 
-        TravelReq.TestField("Purpose of Travel");
-        if TravelReq."No. of Days" <= 0 then
-            Error(ErrorNoOfDays);
-        Employee.Get(TravelReq."Employee No.");
-        Clear(TravelRequest);
-        SalaryLevel.Get(Employee."Salary Level");
-        if TravelReq."Travel With" <> '' then begin//AT
-            Employee1.Get(TravelReq."Travel With");
-            if not SalaryLevel."Travel With Not Eligible" then
-                SalaryLevel1.Get(Employee1."Salary Level");
-        end;
+    //     TravelReq.TestField("Purpose of Travel");
+    //     if TravelReq."No. of Days" <= 0 then
+    //         Error(ErrorNoOfDays);
+    //     Employee.Get(TravelReq."Employee No.");
+    //     Clear(TravelRequest);
+    //     SalaryLevel.Get(Employee."Salary Level");
+    //     if TravelReq."Travel With" <> '' then begin//AT
+    //         Employee1.Get(TravelReq."Travel With");
+    //         if not SalaryLevel."Travel With Not Eligible" then
+    //             SalaryLevel1.Get(Employee1."Salary Level");
+    //     end;
 
 
-        TravelRequest.Init;
-        TravelRequest.TransferFields(TravelReq);
-        TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
-        TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
-        TravelRequest.Validate(Destination, TravelRequest2.Destination);
-        TravelRequest.Validate("Depature From", TravelRequest2."Depature From");
-        TravelRequest.Validate(Description, TravelRequest2.Description);
-        TravelRequest.Validate("Mode Of Travel", TravelRequest2."Mode Of Travel");
-        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelRequest2."No."));
-        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest2."No."));
-        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest2."No."));
+    //     TravelRequest.Init;
+    //     TravelRequest.TransferFields(TravelReq);
+    //     TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
+    //     TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
+    //     TravelRequest.Validate(Destination, TravelRequest2.Destination);
+    //     TravelRequest.Validate("Depature From", TravelRequest2."Depature From");
+    //     TravelRequest.Validate(Description, TravelRequest2.Description);
+    //     TravelRequest.Validate("Mode Of Travel", TravelRequest2."Mode Of Travel");
+    //     TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelRequest2."No."));
+    //     TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelRequest2."No."));
+    //     TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelRequest2."No."));
+    //     TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelRequest2."No."));
+    //     TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest2."No."));
+    //     TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest2."No."));
 
-        if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
-            if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
-            end else begin
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
-            end;
-            if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
-            end else begin
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
-            end;
-        end
-        else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
-            if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
+    //     if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
+    //         if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
+    //             TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+    //             TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
+    //         end else begin
+    //             TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+    //             TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
+    //         end;
+    //         if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
+    //             TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+    //             TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
+    //         end else begin
+    //             TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+    //             TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
+    //         end;
+    //     end
+    //     else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
+    //         if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
+    //             TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
+    //             TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
 
-            end else begin
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
+    //         end else begin
+    //             TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
+    //             TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
 
-            end;
-            if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
+    //         end;
+    //         if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
+    //             TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+    //             TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
 
-            end else begin
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
+    //         end else begin
+    //             TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+    //             TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
 
-            end;
-        end;
+    //         end;
+    //     end;
 
-        HRSetup.Get;
-        Employee1.Reset;
-        Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee1.SetRange(Status, Employee1.Status::Active); //Min
-        if Employee1.FindFirst then
-            TravelRequest.Validate("Final Approver", Employee1."No.");
+    //     HRSetup.Get;
+    //     Employee1.Reset;
+    //     Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+    //     Employee1.SetRange(Status, Employee1.Status::Active); //Min
+    //     if Employee1.FindFirst then
+    //         TravelRequest.Validate("Final Approver", Employee1."No.");
 
-        TravelRequest.Validate("Requested Date", Today);
-        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelRequest.Validate("User ID", UserId);
-        TravelRequest.TestField("Approver Code");
-        if TravelRequest."Recommender Code" = '' then
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
-        else
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelRequest.Validate("Total Claimed Amount");
-        TravelRequest.Insert(true);
-        SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
-        Message('Travel Claim has been sent for apporval.');
-        TravelRequest2."Travel Claimed" := true;
-        TravelRequest2.Modify;
-        exit(true);
-    end;
+    //     TravelRequest.Validate("Requested Date", Today);
+    //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+    //     TravelRequest.Validate("User ID", UserId);
+    //     TravelRequest.TestField("Approver Code");
+    //     if TravelRequest."Recommender Code" = '' then
+    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
+    //     else
+    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+    //     TravelRequest.Validate("Total Claimed Amount");
+    //     TravelRequest.Insert(true);
+    //     SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
+    //     Message('Travel Claim has been sent for apporval.');
+    //     TravelRequest2."Travel Claimed" := true;
+    //     TravelRequest2.Modify;
+    //     exit(true);
+    // end;
 
     // procedure FinalApprove(var EmpAct: Record "Employee Activity")
     // var
@@ -6077,48 +6077,48 @@ codeunit 50001 "HR Mgt."
         Message('Document has been reviewed.');
     end;
 
-    procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-    begin
-        EmpHrTransfer.TestField("Transfer Category");
-        EmpHrTransfer.TestField("Transfer Effective Date");
-        EmpHrTransfer.TestField("Functional Title (To)");
-        EmpHrTransfer.TestField("Deputation On (To)");
-        EmpHrTransfer.TestField(Description);
-        EmpHrTransfer.TestField("Transfer Type");
-        EmpHrTransfer.TestField("Reason for Resignation");
-        EmpHrTransfer.TestField("Notify to"); //Min
-        if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
-            EmpHrTransfer.TestField("Start Date");
-            EmpHrTransfer.TestField("End Date");
-        end;
-        Employee.Get(GetEmployeeNo);
-        case EmpHrTransfer."Deputation On (To)" of
-            EmpHrTransfer."Deputation On (To)"::Branch:
-                EmpHrTransfer.TestField("Shortcut Dimension 1 Code (To)");
-            EmpHrTransfer."Deputation On (To)"::Department:
-                EmpHrTransfer.TestField("Department Code (To)");
-            EmpHrTransfer."Deputation On (To)"::"Extension Counter":
-                EmpHrTransfer.TestField("Extension Counter (To)");
-            EmpHrTransfer."Deputation On (To)"::Province:
-                EmpHrTransfer.TestField("Province Code (To)");
-            EmpHrTransfer."Deputation On (To)"::"Sub Province":
-                EmpHrTransfer.TestField("Sub Province Code (To)");
-            EmpHrTransfer."Deputation On (To)"::Unit:
-                EmpHrTransfer.TestField("Unit (To)");
-        end;
-        if not Employee.Screener then
-            Error('You are not eligible to screen this document');
-        if EmpHrTransfer.Type = EmpHrTransfer.Type::"Employee Transfer" then
-            EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Reviewed)
-        else if EmpHrTransfer.Type = EmpHrTransfer.Type::"HR Transfer" then
-            EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Open);
-        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Screened);
-        EmpHrTransfer.Modify;
-        Message('Document has been screened');
-    end;
+    // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    // begin
+    //     EmpHrTransfer.TestField("Transfer Category");
+    //     EmpHrTransfer.TestField("Transfer Effective Date");
+    //     EmpHrTransfer.TestField("Functional Title (To)");
+    //     EmpHrTransfer.TestField("Deputation On (To)");
+    //     EmpHrTransfer.TestField(Description);
+    //     EmpHrTransfer.TestField("Transfer Type");
+    //     EmpHrTransfer.TestField("Reason for Resignation");
+    //     EmpHrTransfer.TestField("Notify to"); //Min
+    //     if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
+    //         EmpHrTransfer.TestField("Start Date");
+    //         EmpHrTransfer.TestField("End Date");
+    //     end;
+    //     Employee.Get(GetEmployeeNo);
+    //     case EmpHrTransfer."Deputation On (To)" of
+    //         EmpHrTransfer."Deputation On (To)"::Branch:
+    //             EmpHrTransfer.TestField("Shortcut Dimension 1 Code (To)");
+    //         EmpHrTransfer."Deputation On (To)"::Department:
+    //             EmpHrTransfer.TestField("Department Code (To)");
+    //         EmpHrTransfer."Deputation On (To)"::"Extension Counter":
+    //             EmpHrTransfer.TestField("Extension Counter (To)");
+    //         EmpHrTransfer."Deputation On (To)"::Province:
+    //             EmpHrTransfer.TestField("Province Code (To)");
+    //         EmpHrTransfer."Deputation On (To)"::"Sub Province":
+    //             EmpHrTransfer.TestField("Sub Province Code (To)");
+    //         EmpHrTransfer."Deputation On (To)"::Unit:
+    //             EmpHrTransfer.TestField("Unit (To)");
+    //     end;
+    //     if not Employee.Screener then
+    //         Error('You are not eligible to screen this document');
+    //     if EmpHrTransfer.Type = EmpHrTransfer.Type::"Employee Transfer" then
+    //         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Reviewed)
+    //     else if EmpHrTransfer.Type = EmpHrTransfer.Type::"HR Transfer" then
+    //         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Open);
+    //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Screened);
+    //     EmpHrTransfer.Modify;
+    //     Message('Document has been screened');
+    // end;
 
 
     //         ServiceHistory."Outstation Eligible" := PreviousServiceHistory."Outstation Eligible";
@@ -6136,183 +6136,183 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    procedure HoldTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-        TransferPageBuilder: FilterPageBuilder;
-        EmpHrTrsfer: Record "Employee/HR Transfer";
-        GetDate: Date;
-        EmpServiceActivityRec: Record "Employee Service History";
-    begin
-        Employee.Get(GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to put this document on hold');
-        EmpHrTrsfer.TestField("Approval Status", EmpHrTrsfer."Approval Status"::Approved);
+    // procedure HoldTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    //     TransferPageBuilder: FilterPageBuilder;
+    //     EmpHrTrsfer: Record "Employee/HR Transfer";
+    //     GetDate: Date;
+    //     EmpServiceActivityRec: Record "Employee Service History";
+    // begin
+    //     Employee.Get(GetEmployeeNo);
+    //     if not Employee.Screener then
+    //         Error('You are not eligible to put this document on hold');
+    //     EmpHrTrsfer.TestField("Approval Status", EmpHrTrsfer."Approval Status"::Approved);
 
-        TransferPageBuilder.AddRecord('Transfer Document', EmpHrTrsfer);
-        TransferPageBuilder.ADdField('Transfer Document', EmpHrTrsfer."On Hold Date");
-        TransferPageBuilder.ADdField('Transfer Document', EmpHrTrsfer."Reason For Hold");
-        if TransferPageBuilder.RunModal then begin
-            EmpHrTrsfer.SetView(TransferPageBuilder.GetView('Transfer Document'));
-            //IF EmpActivity.FINDFIRST THEN;
-            Evaluate(GetDate, EmpHrTrsfer.GetFilter("On Hold Date"));
-            if GetDate = 0D then
-                Error('Please enter on hold date.');
-            if EmpHrTrsfer.GetFilter("Reason For Hold") = '' then
-                Error('Please enter reason.');
-            EmpHrTrsfer.Validate("On Hold Date", GetDate);
-            EmpHrTrsfer.Validate("Transfer Effective Date", GetDate);
-            EmpHrTrsfer.Validate("Reason For Hold", EmpHrTrsfer.GetFilter("Reason For Hold"));
-            EmpHrTrsfer.Validate("Approval Status", EmpHrTrsfer."Approval Status"::"On Hold");
-            EmpHrTrsfer.Modify;
-            SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTrsfer.Type::"Employee Transfer", EmpHrTrsfer."Approval Status"::"On Hold", EmpHrTrsfer.Remarks, '', EmpHrTrsfer."No.", 0);
-            ReinstateCancelTransfer(EmpHrTrsfer); //Min -- Reinstate while Hold transfer
-            EmpServiceActivityRec.Reset; //Min 3.13.2022 -- For Remove Transfer Hold Doc. line
-            EmpServiceActivityRec.SetRange("Document No.", EmpHrTrsfer."No.");
-            if EmpServiceActivityRec.FindFirst then
-                EmpServiceActivityRec.Delete;
-            if EmployeeRec.Get(EmpHrTrsfer."Employee No.") then begin //Min -- For Enable Punchin
-                EmployeeRec."Disable Punch in" := false;
-                EmployeeRec.Modify;
-            end;
-            Message('Document has been put on hold.');
-        end;
-    end;
+    //     TransferPageBuilder.AddRecord('Transfer Document', EmpHrTrsfer);
+    //     TransferPageBuilder.ADdField('Transfer Document', EmpHrTrsfer."On Hold Date");
+    //     TransferPageBuilder.ADdField('Transfer Document', EmpHrTrsfer."Reason For Hold");
+    //     if TransferPageBuilder.RunModal then begin
+    //         EmpHrTrsfer.SetView(TransferPageBuilder.GetView('Transfer Document'));
+    //         //IF EmpActivity.FINDFIRST THEN;
+    //         Evaluate(GetDate, EmpHrTrsfer.GetFilter("On Hold Date"));
+    //         if GetDate = 0D then
+    //             Error('Please enter on hold date.');
+    //         if EmpHrTrsfer.GetFilter("Reason For Hold") = '' then
+    //             Error('Please enter reason.');
+    //         EmpHrTrsfer.Validate("On Hold Date", GetDate);
+    //         EmpHrTrsfer.Validate("Transfer Effective Date", GetDate);
+    //         EmpHrTrsfer.Validate("Reason For Hold", EmpHrTrsfer.GetFilter("Reason For Hold"));
+    //         EmpHrTrsfer.Validate("Approval Status", EmpHrTrsfer."Approval Status"::"On Hold");
+    //         EmpHrTrsfer.Modify;
+    //         SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTrsfer.Type::"Employee Transfer", EmpHrTrsfer."Approval Status"::"On Hold", EmpHrTrsfer.Remarks, '', EmpHrTrsfer."No.", 0);
+    //         ReinstateCancelTransfer(EmpHrTrsfer); //Min -- Reinstate while Hold transfer
+    //         EmpServiceActivityRec.Reset; //Min 3.13.2022 -- For Remove Transfer Hold Doc. line
+    //         EmpServiceActivityRec.SetRange("Document No.", EmpHrTrsfer."No.");
+    //         if EmpServiceActivityRec.FindFirst then
+    //             EmpServiceActivityRec.Delete;
+    //         if EmployeeRec.Get(EmpHrTrsfer."Employee No.") then begin //Min -- For Enable Punchin
+    //             EmployeeRec."Disable Punch in" := false;
+    //             EmployeeRec.Modify;
+    //         end;
+    //         Message('Document has been put on hold.');
+    //     end;
+    // end;
 
-    procedure CancelTransfer(var EmphrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-        TransferPageBuilder: FilterPageBuilder;
-        EmpHrTrnsferVar: Record "Employee/HR Transfer";
-        GetDate: Date;
-        EmpServiceActivity: Record "Employee Service History";
-    begin
-        Employee.Get(GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to cancel this document.');
-        EmpHrTrnsferVar.TestField("Approval Status", EmpHrTrnsferVar."Approval Status"::Approved);
-        TransferPageBuilder.AddRecord('Transfer Document', EmpHrTrnsferVar);
-        TransferPageBuilder.ADdField('Transfer Document', EmpHrTrnsferVar."Cancelled Date");
-        TransferPageBuilder.ADdField('Transfer Document', EmpHrTrnsferVar."Reason For Cancel");
-        if TransferPageBuilder.RunModal then begin
-            EmpHrTrnsferVar.SetView(TransferPageBuilder.GetView('Transfer Document'));
+    // procedure CancelTransfer(var EmphrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    //     TransferPageBuilder: FilterPageBuilder;
+    //     EmpHrTrnsferVar: Record "Employee/HR Transfer";
+    //     GetDate: Date;
+    //     EmpServiceActivity: Record "Employee Service History";
+    // begin
+    //     Employee.Get(GetEmployeeNo);
+    //     if not Employee.Screener then
+    //         Error('You are not eligible to cancel this document.');
+    //     EmpHrTrnsferVar.TestField("Approval Status", EmpHrTrnsferVar."Approval Status"::Approved);
+    //     TransferPageBuilder.AddRecord('Transfer Document', EmpHrTrnsferVar);
+    //     TransferPageBuilder.ADdField('Transfer Document', EmpHrTrnsferVar."Cancelled Date");
+    //     TransferPageBuilder.ADdField('Transfer Document', EmpHrTrnsferVar."Reason For Cancel");
+    //     if TransferPageBuilder.RunModal then begin
+    //         EmpHrTrnsferVar.SetView(TransferPageBuilder.GetView('Transfer Document'));
 
-            Evaluate(GetDate, EmpHrTrnsferVar.GetFilter("Cancelled Date"));
-            if GetDate = 0D then
-                Error('Please enter on cancel date.');
-            if EmpHrTrnsferVar.GetFilter("Reason For Cancel") = '' then
-                Error('Please enter reason.');
-            EmpHrTrnsferVar.Validate("Cancelled Date", GetDate);
-            EmpHrTrnsferVar.Validate("Reason For Cancel", EmpHrTrnsferVar.GetFilter("Reason For Cancel"));
-            EmpHrTrnsferVar.Validate("Approval Status", EmpHrTrnsferVar."Approval Status"::Cancelled);
-            EmpHrTrnsferVar.Modify;
-            SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTrnsferVar.Type::"Employee Transfer", EmpHrTrnsferVar."Approval Status"::Cancelled, EmpHrTrnsferVar.Remarks, '', EmpHrTrnsferVar."No.", 0);
-            ReinstateCancelTransfer(EmpHrTrnsferVar); //Min -- Reinstate while cancel transfer
-            EmpServiceActivity.Reset; //Min 3.13.2022 -- For Remove cancel Doc. line
-            EmpServiceActivity.SetRange("Document No.", EmpHrTrnsferVar."No.");
-            if EmpServiceActivity.FindFirst then
-                EmpServiceActivity.Delete;
-            EmpServiceActivity.Reset;//Min 3.13.2022 -- For Update Last Placement Date in Employee Table.
-            EmpServiceActivity.SetCurrentKey("Effective Date");
-            EmpServiceActivity.SetRange("Employee No.", EmpHrTrnsferVar."Employee No.");
-            EmpServiceActivity.SetRange("Service Event", EmpServiceActivity."Service Event"::Transfer);
-            if EmpServiceActivity.FindLast then begin
-                if EmployeeRec.Get(EmpHrTrnsferVar."Employee No.") then begin
-                    EmployeeRec."Last Placement Date" := EmpServiceActivity."Effective Date";
-                    EmployeeRec.Modify;
-                end;
-            end;
-            if EmployeeRec.Get(EmpHrTrnsferVar."Employee No.") then begin //Min -- For Enable Punchin
-                EmployeeRec."Disable Punch in" := false;
-                EmployeeRec.Modify;
-            end;
-            Message('Document has been Cancelled.');
-        end;
-    end;
+    //         Evaluate(GetDate, EmpHrTrnsferVar.GetFilter("Cancelled Date"));
+    //         if GetDate = 0D then
+    //             Error('Please enter on cancel date.');
+    //         if EmpHrTrnsferVar.GetFilter("Reason For Cancel") = '' then
+    //             Error('Please enter reason.');
+    //         EmpHrTrnsferVar.Validate("Cancelled Date", GetDate);
+    //         EmpHrTrnsferVar.Validate("Reason For Cancel", EmpHrTrnsferVar.GetFilter("Reason For Cancel"));
+    //         EmpHrTrnsferVar.Validate("Approval Status", EmpHrTrnsferVar."Approval Status"::Cancelled);
+    //         EmpHrTrnsferVar.Modify;
+    //         SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTrnsferVar.Type::"Employee Transfer", EmpHrTrnsferVar."Approval Status"::Cancelled, EmpHrTrnsferVar.Remarks, '', EmpHrTrnsferVar."No.", 0);
+    //         ReinstateCancelTransfer(EmpHrTrnsferVar); //Min -- Reinstate while cancel transfer
+    //         EmpServiceActivity.Reset; //Min 3.13.2022 -- For Remove cancel Doc. line
+    //         EmpServiceActivity.SetRange("Document No.", EmpHrTrnsferVar."No.");
+    //         if EmpServiceActivity.FindFirst then
+    //             EmpServiceActivity.Delete;
+    //         EmpServiceActivity.Reset;//Min 3.13.2022 -- For Update Last Placement Date in Employee Table.
+    //         EmpServiceActivity.SetCurrentKey("Effective Date");
+    //         EmpServiceActivity.SetRange("Employee No.", EmpHrTrnsferVar."Employee No.");
+    //         EmpServiceActivity.SetRange("Service Event", EmpServiceActivity."Service Event"::Transfer);
+    //         if EmpServiceActivity.FindLast then begin
+    //             if EmployeeRec.Get(EmpHrTrnsferVar."Employee No.") then begin
+    //                 EmployeeRec."Last Placement Date" := EmpServiceActivity."Effective Date";
+    //                 EmployeeRec.Modify;
+    //             end;
+    //         end;
+    //         if EmployeeRec.Get(EmpHrTrnsferVar."Employee No.") then begin //Min -- For Enable Punchin
+    //             EmployeeRec."Disable Punch in" := false;
+    //             EmployeeRec.Modify;
+    //         end;
+    //         Message('Document has been Cancelled.');
+    //     end;
+    // end;
 
-    procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-    begin
-        EmpHrTransfer.TestField("Rejection Remarks");
-        case EmpHrTransfer."Approval Status" of
-            EmpHrTransfer."Approval Status"::"Pending Approval":
-                begin
-                    if StrPos(EmpHrTransfer."Recommender Code", GetEmployeeNo) = 0 then
-                        Error('You are not eligible to reject this document');
-                end;
+    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    // begin
+    //     EmpHrTransfer.TestField("Rejection Remarks");
+    //     case EmpHrTransfer."Approval Status" of
+    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //             begin
+    //                 if StrPos(EmpHrTransfer."Recommender Code", GetEmployeeNo) = 0 then
+    //                     Error('You are not eligible to reject this document');
+    //             end;
 
-            EmpHrTransfer."Approval Status"::Recommended:
-                begin
-                    if EmpHrTransfer.Reviewer <> GetEmployeeNo then
-                        Error('You are not eligible to reject this document.');
-                end;
+    //         EmpHrTransfer."Approval Status"::Recommended:
+    //             begin
+    //                 if EmpHrTransfer.Reviewer <> GetEmployeeNo then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-            EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
-                begin
-                    Employee.Get(GetEmployeeNo);
-                    if not Employee.Screener then
-                        Error('You are not eligible to reject this document.');
-                end;
+    //         EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
+    //             begin
+    //                 Employee.Get(GetEmployeeNo);
+    //                 if not Employee.Screener then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-            EmpHrTransfer."Approval Status"::Screened:
-                begin
-                    if EmpHrTransfer."Approver Code" <> GetEmployeeNo then
-                        Error('You are eligible to reject this document.');
-                end;
-        end; // 
-    end;
+    //         EmpHrTransfer."Approval Status"::Screened:
+    //             begin
+    //                 if EmpHrTransfer."Approver Code" <> GetEmployeeNo then
+    //                     Error('You are eligible to reject this document.');
+    //             end;
+    //     end; // 
+    // end;
 
-    procedure ApproveTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-        ServiceHistoryCode: Code[20];
-        ServiceHistory: Record "Employee Service History";
-        PreviousServiceHistory: Record "Employee Service History";
-    begin
-        if EmpHrTransfer."Approver Code" <> GetEmployeeNo then
-            Error('You are not eligible to approved this document');
-        if Today > EmpHrTransfer."Transfer Effective Date" then //Min 8.7.2022 + 1
-            Error(TransferError, EmpHrTransfer."Transfer Effective Date", Today);
-        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Screened);
-        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Approved);
-        EmpHrTransfer.Validate("Approved Date", Today);
-        IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::"Temporary" THEN //Min 1.4 >>
-            ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
-        IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::Officiating THEN
-            ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
-        IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::General THEN
-            ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
-        EmpHrTransfer.Modify;
-        //ValidateTransferField(EmpHrTransfer); //Min 1.4 >> commented by santosh
-        IF ServiceHistory.GET(ServiceHistoryCode) THEN BEGIN //Min 1.4 >>
-            ServiceHistory.VALIDATE("Functional Title (To)", EmpHrTransfer."Functional Title (To)");
-            ServiceHistory.VALIDATE("Salary Level (To)", Employee."Salary Level");
-            ServiceHistory.VALIDATE("Deputation On (To)", EmpHrTransfer."Deputation On (To)");
-            ServiceHistory.VALIDATE("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.VALIDATE("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.VALIDATE("Document No.", EmpHrTransfer."No.");
-            PreviousServiceHistory.RESET;
-            PreviousServiceHistory.SETRANGE("Employee No.", ServiceHistory."Employee No.");
-            PreviousServiceHistory.SETFILTER("Service History Code", '<>%1', ServiceHistoryCode);
-            PreviousServiceHistory.SETCURRENTKEY("Effective Date");
-            IF (PreviousServiceHistory.FINDLAST) THEN
-                IF (ServiceHistory."Deputation Code (From)" = ServiceHistory."Deputation Code (To)") OR
-                  (EmpHrTransfer."Transfer Category" IN [EmpHrTransfer."Transfer Category"::Officiating, EmpHrTransfer."Transfer Category"::"Temporary"]) THEN
-                    EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
-            EmpHrTransfer.Modify;
-            if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
-                EmployeeRec."Disable Punch in" := false;
-                EmployeeRec.Modify;
-            end;
-            Message('Document has been rejected.');
+    // procedure ApproveTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    //     ServiceHistoryCode: Code[20];
+    //     ServiceHistory: Record "Employee Service History";
+    //     PreviousServiceHistory: Record "Employee Service History";
+    // begin
+    //     if EmpHrTransfer."Approver Code" <> GetEmployeeNo then
+    //         Error('You are not eligible to approved this document');
+    //     if Today > EmpHrTransfer."Transfer Effective Date" then //Min 8.7.2022 + 1
+    //         Error(TransferError, EmpHrTransfer."Transfer Effective Date", Today);
+    //     EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Screened);
+    //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+    //     EmpHrTransfer.Validate("Approved Date", Today);
+    //     IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::"Temporary" THEN //Min 1.4 >>
+    //         ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
+    //     IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::Officiating THEN
+    //         ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
+    //     IF EmpHrTransfer."Transfer Category" = EmpHrTransfer."Transfer Category"::General THEN
+    //         ServiceHistoryCode := AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Transfer Effective Date");
+    //     EmpHrTransfer.Modify;
+    //     //ValidateTransferField(EmpHrTransfer); //Min 1.4 >> commented by santosh
+    //     IF ServiceHistory.GET(ServiceHistoryCode) THEN BEGIN //Min 1.4 >>
+    //         ServiceHistory.VALIDATE("Functional Title (To)", EmpHrTransfer."Functional Title (To)");
+    //         ServiceHistory.VALIDATE("Salary Level (To)", Employee."Salary Level");
+    //         ServiceHistory.VALIDATE("Deputation On (To)", EmpHrTransfer."Deputation On (To)");
+    //         ServiceHistory.VALIDATE("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+    //         ServiceHistory.VALIDATE("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+    //         ServiceHistory.VALIDATE("Document No.", EmpHrTransfer."No.");
+    //         PreviousServiceHistory.RESET;
+    //         PreviousServiceHistory.SETRANGE("Employee No.", ServiceHistory."Employee No.");
+    //         PreviousServiceHistory.SETFILTER("Service History Code", '<>%1', ServiceHistoryCode);
+    //         PreviousServiceHistory.SETCURRENTKEY("Effective Date");
+    //         IF (PreviousServiceHistory.FINDLAST) THEN
+    //             IF (ServiceHistory."Deputation Code (From)" = ServiceHistory."Deputation Code (To)") OR
+    //               (EmpHrTransfer."Transfer Category" IN [EmpHrTransfer."Transfer Category"::Officiating, EmpHrTransfer."Transfer Category"::"Temporary"]) THEN
+    //                 EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
+    //         EmpHrTransfer.Modify;
+    //         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
+    //             EmployeeRec."Disable Punch in" := false;
+    //             EmployeeRec.Modify;
+    //         end;
+    //         Message('Document has been rejected.');
 
-        end;
-    end;
+    //     end;
+    // end;
 
     // procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee/HR Transfer")
     // var
