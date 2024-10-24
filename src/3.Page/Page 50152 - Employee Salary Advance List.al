@@ -315,8 +315,8 @@ page 50152 "Employee Salary Advance List"
 
     trigger OnOpenPage()
     begin
-        Rec.FilterGroup(2);
-        Rec.SetFilter("Approval Status", '<>%1', Rec."Approval Status"::Open);
-        Rec.FilterGroup(0);
+        // Rec.FilterGroup(2);
+        // Rec.SetFilter("Approval Status", '<>%1', Rec."Approval Status"::Open);
+        // Rec.FilterGroup(0);
     end;
 }

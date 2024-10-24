@@ -179,6 +179,7 @@ page 50025 "Salary Levels"
                 {
                     ToolTip = 'Specifies the value of the Extra Mileage Eligible field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Compensatory Leave"; Rec."Compensatory Leave")
                 {
