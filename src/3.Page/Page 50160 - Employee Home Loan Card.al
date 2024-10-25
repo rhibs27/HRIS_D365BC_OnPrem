@@ -704,7 +704,7 @@ page 50160 "Employee Home Loan Card"
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 begin
-                    ForRecommend := false;
+                    ForRecommend := true;
                     ForReject := false;
                     ForApprove := false;
                     ForScreen := true;

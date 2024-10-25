@@ -10043,6 +10043,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Sub Province Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 4027585923 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel Order No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Travel Order No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18268,16 +18273,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForRetirementFund - NamedType ErrorNoOfDays</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2893785583 - NamedType 3646518990" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send travel request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForTravelClaim - NamedType ConfirmTravel</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2893785583 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Travel days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForTravelClaim - NamedType ErrorNoOfDays</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3730703477 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status must be %1 or %2.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18338,16 +18333,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectResignationAPI - NamedType RecommendNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2252888784 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2252888784 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2781101943 - NamedType 1397003111" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start time cannot be greater than end time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18357,16 +18342,6 @@
           <source>Do you want to confirm cancel appraisal request?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CancelAppraisalApproval - NamedType ConfirmCancel</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 333145975 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CancelTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 333145975 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CancelTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document </source>
@@ -18448,16 +18423,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ForwardToHRforTravel - NamedType ConfirmScreen</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 594311864 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method HoldTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 594311864 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method HoldTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3229658818 - NamedType 2425724332" size-unit="char" translate="yes" xml:space="preserve">
           <source>ENU=The approval request for the record has been canceled.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18472,26 +18437,6 @@
           <source>ENU=The approval request for the record has been canceled.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method InsertVacancyDocApprovalWorkflowSteps - NamedType ApprovalRequestCanceledMsg</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 1577402000 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method RejectTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 1577402000 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method RejectTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 125410033 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ScreenTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 125410033 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ScreenTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 2229816073" size-unit="char" translate="yes" xml:space="preserve">
           <source>Thanks and Regards,&lt;br&gt;DNA and Talent Management Department&lt;br&gt;&lt;br&gt;NIC ASIA Bank Ltd.&lt;br&gt;Trade Tower, Thapathali, Kathmandu&lt;br&gt;Tel: +977-1-5111177/78/79&lt;br&gt;Fax: +977-1-5111180M&lt;br&gt;Swift: NICENPKA&lt;br&gt;www.nicasiabank.com</source>
@@ -18638,10 +18583,35 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApplyForLeave - NamedType LeaveRequestError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 1278006580 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApprovedRejectLeaveApproval - NamedType ApprovalStatusError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 1278006580 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be in %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApprovedRejectLeaveApproval - NamedType ErrorReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 2840587125 - NamedType 1338891784" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date (%1) must be less than End Date (%2).</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CalculateNoOfDays - NamedType DateError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 3000782636 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApproval - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 3000782636 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApproval - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 3000782636 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to acknowledge this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApproval - NamedType AcknowledgeError</note>
         </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 2673657447 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. days must be 1.</source>
@@ -18802,6 +18772,11 @@
           <source>No Approver Code.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoApprover</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 3043778326 - NamedType 3251816306" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee %1 is not eligible for OT.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method OpenOTForms - NamedType OTEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 601271653 - NamedType 2476940767" size-unit="char" translate="yes" xml:space="preserve">
           <source>You must specify %1.</source>
@@ -19057,11 +19032,6 @@
           <source>Confirm Reject?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method HoldTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 3043778326 - NamedType 3251816306" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee %1 is not eligible for OT.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method OpenOTForms - NamedType OTEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 21689818 - NamedType 2236086507" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not eligible to request for a transfer.</source>

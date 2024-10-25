@@ -124,6 +124,7 @@ page 50155 "Employee Personal Loan Card"
                 }
                 field("Purpose of Loan"; Rec."Purpose of Loan")
                 {
+                    Editable = true;
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
@@ -132,6 +133,7 @@ page 50155 "Employee Personal Loan Card"
                 {
                     ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                     ApplicationArea = All;
+                    Editable = true;
 
                     trigger OnValidate()
                     begin
@@ -644,7 +646,7 @@ page 50155 "Employee Personal Loan Card"
                     ForRecommend := false;
                     ForReject := false;
                     ForApprove := false;
-                    ForScreen := false;
+                    ForScreen := true;
                 end;
             Rec."Approval Status"::"Pending Approval":
                 begin

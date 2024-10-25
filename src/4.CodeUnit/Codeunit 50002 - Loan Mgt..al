@@ -380,10 +380,12 @@ codeunit 50002 "Loan Mgt."
 
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee Code", EmpLoan."Employee Code");
-        EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
+        //EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
+        EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::"Pending Approval", EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange(Settled, false);
-        EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
+        //EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
+        EmpSalaryAdv.SetFilter("Loan Type", '%1|%2|%3|%4', EmpSalaryAdv."Loan Type"::"Salary Advance", EmpSalaryAdv."Loan Type"::"Home Loan", EmpSalaryAdv."Loan Type"::"Personal Loan", EmpSalaryAdv."Loan Type"::"Vehicle Loan");
         EmpSalaryAdv.CalcSums(EMI);
 
         Clear(VehicleLoanEMI);
@@ -408,7 +410,7 @@ codeunit 50002 "Loan Mgt."
 
         if (SalaryLevel."Vehicle Loan Limit" <> 0) then begin
             if (EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Vehicle Loan") then
-                TotalEMI := EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI //+ Homeloan.EMI
+                TotalEMI := EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI + EmpLoan.EMI //+ Homeloan.EMI
             else
                 TotalEMI := EmpSalaryAdv.EMI + EmpLoan.EMI + PreviosuEMI + EMIPersonalLoan + VehicleLoanEMI; //+Homeloan.EMI;
         end else
@@ -1928,6 +1930,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoanAdvance.Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
             EmpLoanAdvance.Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
             EmpLoanAdvance.Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
+            EmpLoanAdvance.Validate("Approval Status", EmpLoanAdvance."Approval Status"::"Pending Approval");
             EmpLoanAdvance.Insert(true);
         end;
 

@@ -121,7 +121,7 @@ page 50089 "Leave Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to recommend the request?', false) then
-                        HRMgt.RecommendEmployeeActivity(Rec."No.");
+                        leaveMgt.RecommendEmployeeLeave(Rec."No.");
                 end;
             }
             action("Approve Request")
@@ -138,7 +138,7 @@ page 50089 "Leave Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then
-                        HRMgt.ApprovedRejectApproval(true, Rec."No.");
+                        leaveMgt.ApprovedRejectLeaveApproval(true, Rec."No.");
                 end;
             }
             action("Reject Request")
@@ -154,7 +154,7 @@ page 50089 "Leave Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then
-                        HRMgt.ApprovedRejectApproval(false, Rec."No.");
+                        leaveMgt.ApprovedRejectLeaveApproval(false, Rec."No.");
                 end;
             }
             action(Reopen)
@@ -323,6 +323,7 @@ page 50089 "Leave Requests"
     end;
 
     var
+        leaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
         [InDataSet]
         IsRecommended: Boolean;

@@ -3541,7 +3541,8 @@ codeunit 50001 "HR Mgt."
                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
                 Employee.Modify;
 
-                SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);  //For email
+                Message('The document has been approved.');
             end else begin
                 EmpAct.TestField("Rejection Remarks");
                 if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::"Pending Approval"]) then

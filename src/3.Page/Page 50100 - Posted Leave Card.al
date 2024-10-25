@@ -193,7 +193,7 @@ page 50100 "Posted Leave Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to recommend the request?', false) then begin
-                        HRMgt.RecommendEmployeeActivity(Rec."No.");
+                        Leavemgt.RecommendEmployeeLeave(Rec."No.");
                         CurrPage.Close;
                     end;
                 end;
@@ -213,7 +213,7 @@ page 50100 "Posted Leave Card"
                 begin
 
                     if Confirm('Do you want to approve the request?', false) then begin
-                        HRMgt.ApprovedRejectApproval(true, Rec."No.");
+                        Leavemgt.ApprovedRejectLeaveApproval(true, Rec."No.");
                         CurrPage.Close;
                     end;
                 end;
@@ -231,7 +231,7 @@ page 50100 "Posted Leave Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
-                        HRMgt.ApprovedRejectApproval(false, Rec."No.");
+                        Leavemgt.ApprovedRejectLeaveApproval(false, Rec."No.");
                         CurrPage.Close;
                     end;
                 end;
@@ -266,6 +266,7 @@ page 50100 "Posted Leave Card"
     end;
 
     var
+        Leavemgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
         [InDataSet]
         IsPending: Boolean;

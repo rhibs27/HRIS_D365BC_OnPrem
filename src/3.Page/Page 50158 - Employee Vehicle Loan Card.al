@@ -68,6 +68,7 @@ page 50158 "Employee Vehicle Loan Card"
                 Editable = ForScreen;
                 field("Previous Loan Amount"; Rec."Previous Loan Amount")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Previous Loan Amount field.';
                     ApplicationArea = All;
                 }
@@ -102,13 +103,13 @@ page 50158 "Employee Vehicle Loan Card"
                 }
                 field("Purpose of Loan"; Rec."Purpose of Loan")
                 {
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
                 }
                 field("Cost of Vehicle"; Rec."Cost of Vehicle")
                 {
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Cost of Vehicle field.';
                     ApplicationArea = All;
 
@@ -141,13 +142,13 @@ page 50158 "Employee Vehicle Loan Card"
                 }
                 field("Vehicle Loan Type"; Rec."Vehicle Loan Type")
                 {
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Vehicle Loan Type field.';
                     ApplicationArea = All;
                 }
                 field("Vehicle Type (Nepali)"; Rec."Vehicle Type (Nepali)")
                 {
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Vehicle Type (Nepali) field.';
                     ApplicationArea = All;
                 }
@@ -739,17 +740,17 @@ page 50158 "Employee Vehicle Loan Card"
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 begin
-                    ForRecommend := false;
+                    ForRecommend := true;
                     ForReject := false;
                     ForApprove := false;
-                    ForScreen := false;
+                    ForScreen := true;
                 end;
             Rec."Approval Status"::"Pending Approval":
                 begin
                     ForRecommend := true;
                     ForReject := true;
                     ForApprove := true;
-                    ForScreen := false;
+                    ForScreen := true;
                 end;
             Rec."Approval Status"::Recommended:
                 begin

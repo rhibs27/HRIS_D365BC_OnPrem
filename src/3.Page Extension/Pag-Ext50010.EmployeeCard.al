@@ -1006,10 +1006,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             AppraisalRec.INIT;
                             AppraisalRec.VALIDATE("Employee Code", Rec."No.");
                             AppraisalRec.INSERT(TRUE);
-                            PAGE.RUN(33019878, AppraisalRec);
+                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
                         END
                         ELSE
-                            PAGE.RUN(33019878, AppraisalRec);
+                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
                     end;
                 }
             }

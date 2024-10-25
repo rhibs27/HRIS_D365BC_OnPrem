@@ -478,7 +478,7 @@ page 50153 "Employee Salary Advance Card"
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 begin
-                    ForRecommend := false;
+                    ForRecommend := true;
                     ForReject := false;
                     ForApprove := false;
                     ForScreen := false;
