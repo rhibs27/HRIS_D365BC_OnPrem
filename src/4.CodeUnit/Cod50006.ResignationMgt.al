@@ -76,7 +76,7 @@ codeunit 50006 "Resignation Mgt"
         HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type));//attachment
         InsertResignationApprover(Resignation); //resignation approver
 
-        HrMgt.SendMailFromTemplate(DATABASE::"Employee Activity", Resignation.Type::Resignation, Resignation."Approval Status"::Open, '', Resignation."Employee No.", Resignation."No.", 0);   //For email
+        HrMgt.SendMailFromTemplate(DATABASE::Resignation, Resignation.Type::Resignation, Resignation."Approval Status"::Open, '', Resignation."Employee No.", Resignation."No.", 0);   //For email
         if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval") then
             HrMgt.ResignationEmailSend(Resignation."Employee No."); //Min 4.28.2022
         Message(ApprovalRequestSent);
@@ -191,50 +191,6 @@ codeunit 50006 "Resignation Mgt"
                 end;
 
             until DocumentApprover.Next = 0;
-    end;
-
-    procedure ScreenResignationforTravel(var TravelReq: Record "Travel Request")
-    var
-        ConfirmScreen: Label 'Do you want to screen this document?';
-        FunctionalTitle: Record "Functional Title";
-    begin
-        //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
-        if TravelReq.Type = TravelReq.Type::Resignation then begin
-            if not Employee.Screener then           //resignation approver replaced with screener
-                Error('Not authorized screener.');
-            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
-            //  EmpAct.TESTFIELD("Screener Remarks");
-            HrMgt.CheckDocumentApprover(TravelReq."No.");
-            CheckResignationAttachmentMandatoryforTravel(TravelReq);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end
-        else if TravelReq.Type = TravelReq.Type::"Travel Claim" then begin
-            /*HRSetup.GET;
-            Employee.RESET;
-            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SETRANGE("NAV Login ID", USERID);
-            IF NOT Employee.FINDFIRST THEN
-                ERROR('Not authorized screener.');*///AT
-            if not (TravelReq."Approval Status" = TravelReq."Approval Status"::Approved) then
-                Error('Approval Status must be approved before screening.');
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end else if TravelReq.Type = TravelReq.Type::Overtime then begin
-            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::Approved);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end;
     end;
 
     procedure ScreenResignation(var EmpAcctivity: Record "Employee Activity")
@@ -422,27 +378,6 @@ codeunit 50006 "Resignation Mgt"
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Normal)
         else
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Recovery);
-    end;
-
-    procedure CheckResignationAttachmentMandatoryforTravel(var TravelReq: Record "Travel Request")
-    var
-        AttachmentSetup: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-
-        IncomingDocument.Reset;
-        IncomingDocument.SetRange("No.", TravelReq."No.");
-        IncomingDocument.SetRange("File Name", '');
-        if IncomingDocument.FindFirst then
-            repeat
-                AttachmentSetup.Reset;
-                AttachmentSetup.SetRange(Mandatory, true);
-                AttachmentSetup.SetFilter(Type, Format(TravelReq.Type));
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                if AttachmentSetup.FindFirst then
-                    Error('Upload attachment for %1', IncomingDocument."Attachment Code");
-
-            until IncomingDocument.Next = 0;
     end;
 
     procedure CheckResignationAttachmentMandatory(var EmpAct: Record "Employee Activity")

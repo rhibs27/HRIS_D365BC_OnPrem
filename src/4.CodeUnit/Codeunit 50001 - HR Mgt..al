@@ -152,6 +152,7 @@ codeunit 50001 "HR Mgt."
         LeaveMgt: Codeunit "Leave Mgt.";
         loanMgt: Codeunit "Loan Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
+        TravelMgt: CodeUnit "Travel Mgt.";
 
     local procedure "<------------------NIC Asia------------------------>"()
     begin
@@ -5888,91 +5889,92 @@ codeunit 50001 "HR Mgt."
     //     PAGE.Run(PAGE::"Overtime Card", EmpAct);
     // end;
 
-    // procedure OpenBulkCash(EmpCode: Code[20])
-    // var
-    //     EmpAct: Record "Employee Activity" temporary;
-    // begin
-    //     Clear(Employee);
-    //     Employee.Get(EmpCode);
-    //     EmpAct.Init;
-    //     EmpAct.Validate("Employee No.", EmpCode);
-    //     EmpAct.Validate(Type, EmpAct.Type::"Bulk Cash");
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-    //     EmpAct.Validate("Requested Date", Today);
-    //     EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-    //     EmpAct.Validate("Functional Title", Employee."Functional Title");
-    //     EmpAct.Validate(Department, Employee."Department Code");
-    //     EmpAct.Insert;
-    //     PAGE.Run(PAGE::"Overtime Card", EmpAct);
-    // end;
+    procedure OpenBulkCash(EmpCode: Code[20])
+    var
+        EmpAct: Record "Employee Activity" temporary;
+    begin
+        Clear(Employee);
+        Employee.Get(EmpCode);
+        EmpAct.Init;
+        EmpAct.Validate("Employee No.", EmpCode);
+        EmpAct.Validate(Type, EmpAct.Type::"Bulk Cash");
+        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
+        EmpAct.Validate("Requested Date", Today);
+        EmpAct.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+        EmpAct.Validate("Functional Title", Employee."Functional Title");
+        EmpAct.Validate(Department, Employee."Department Code");
+        EmpAct.Insert;
+        PAGE.Run(PAGE::"Bulk Cash Card", EmpAct);
+    end;
 
-    // procedure ApplyForApprovalForms(TempOvertime: Record "OverTime" temporary): Boolean
-    // var
-    //     EmpOvertime: Record "OverTime";
-    //     ConfirmForm: Label 'Do you want to send request ?';
-    //     ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
-    //     EmpOvertime2: Record "Overtime";
-    //     AllowanceAssignmentLine: Record "Allowance Assignment Line";
-    //     SalaryLevel: Record "Salary Level";
-    // begin
-    //     if GuiAllowed then
-    //         if not Confirm(ConfirmForm, false) then
-    //             exit;
-    //     TempOvertime.TestField("Start Date");
-    //     TempOvertime.TestField("End Date");
-    //     TempOvertime.TestField("Estimated Hours");
-    //     //TempEmpAct.TESTFIELD(Remarks);
-    //     PayrollSetup.Get;
-    //     PayrollSetup.TestField("Friday Counter");
-    //     PayrollSetup.TestField("Holiday Counter");
-    //     PayrollSetup.TestField("Evening Counter");
+    procedure ApplyForApprovalForms(TempEmpActivity: Record "Employee Activity" temporary): Boolean
+    var
+        EmpOvertime: Record "OverTime";
+        EmpActivity: Record "Employee Activity";
+        ConfirmForm: Label 'Do you want to send request ?';
+        ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
+        EmpOvertime2: Record "Overtime";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        SalaryLevel: Record "Salary Level";
+    begin
+        if GuiAllowed then
+            if not Confirm(ConfirmForm, false) then
+                exit;
+        // TempEmpActivity.TestField("Start Date");
+        // TempEmpActivity.TestField("End Date");
+        // TempEmpActivity.TestField("Estimated Hours");
+        //TempEmpAct.TESTFIELD(Remarks);
+        // PayrollSetup.Get;
+        // PayrollSetup.TestField("Friday Counter");
+        // PayrollSetup.TestField("Holiday Counter");
+        // PayrollSetup.TestField("Evening Counter");
 
-    //     case TempOvertime.Type of
-    //         TempOvertime.Type::Overtime:
-    //             begin
-    //                 EmpOvertime.Reset;
-    //                 EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
-    //                 EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
-    //                 EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
-    //                 EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected); //Min 8.7.2022
-    //                 if EmpOvertime.FindFirst then
-    //                     Error('Overtime already submitted for %1', TempOvertime."Start Date");
+        // case TempOvertime.Type of
+        //     TempOvertime.Type::Overtime:
+        //         begin
+        //             EmpOvertime.Reset;
+        //             EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
+        //             EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
+        //             EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
+        //             EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected); //Min 8.7.2022
+        //             if EmpOvertime.FindFirst then
+        //                 Error('Overtime already submitted for %1', TempOvertime."Start Date");
 
-    //                 AllowanceAssignmentLine.Reset;
-    //                 AllowanceAssignmentLine.SetRange("Employee Code", TempOvertime."Employee No.");
-    //                 AllowanceAssignmentLine.SetRange("From Date", TempOvertime."Start Date");
-    //                 AllowanceAssignmentLine.SetFilter("Allowance Type", '%1|%2|%3', PayrollSetup."Friday Counter",
-    //                                                   PayrollSetup."Evening Counter", PayrollSetup."Holiday Counter");
-    //                 AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-    //                 if AllowanceAssignmentLine.FindFirst then
-    //                     Error('%1 is already approved for the date %2. Overtime submission not allowed.',
-    //                                 AllowanceAssignmentLine."Allowance Type", TempOvertime."Start Date");
-    //                 if TempOvertime.Remarks = '' then
-    //                     Error('Please enter reason for OT before submitting.');
-    //             end;
-    //     end;
+        //             AllowanceAssignmentLine.Reset;
+        //             AllowanceAssignmentLine.SetRange("Employee Code", TempOvertime."Employee No.");
+        //             AllowanceAssignmentLine.SetRange("From Date", TempOvertime."Start Date");
+        //             AllowanceAssignmentLine.SetFilter("Allowance Type", '%1|%2|%3', PayrollSetup."Friday Counter",
+        //                                               PayrollSetup."Evening Counter", PayrollSetup."Holiday Counter");
+        //             AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        //             if AllowanceAssignmentLine.FindFirst then
+        //                 Error('%1 is already approved for the date %2. Overtime submission not allowed.',
+        //                             AllowanceAssignmentLine."Allowance Type", TempOvertime."Start Date");
+        //             if TempOvertime.Remarks = '' then
+        //                 Error('Please enter reason for OT before submitting.');
+        //         end;
+        // end;
 
-    //     if TempOvertime."No. of Days" <= 0 then
-    //         Error(ErrorNoOfDays);
+        // if TempOvertime."No. of Days" <= 0 then
+        //     Error(ErrorNoOfDays);
 
-    //     EmpOvertime.Init;
-    //     EmpOvertime.TransferFields(TempOvertime);
-    //     EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending Approval");
-    //     EmpOvertime.Validate("User ID", UserId);
-    //     EmpOvertime.Insert(true);
-    //     AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");
-    //     Message('Document has been sent for apporval.');
+        EmpActivity.Init;
+        EmpActivity.TransferFields(TempEmpActivity);
+        EmpActivity.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending Approval");
+        EmpActivity.Validate("User ID", UserId);
+        EmpActivity.Insert(true);
+        // AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");
+        Message('Document has been sent for apporval.');
 
-    //     case EmpOvertime.Type of
-    //         EmpOvertime.Type::"Out of Office":
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
-    //         EmpOvertime.Type::Overtime:
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
-    //         EmpOvertime.Type::"Bulk Cash":
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
-    //     end;
-    //     exit(true);
-    // end;
+        case EmpOvertime.Type of
+            EmpOvertime.Type::"Out of Office":
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
+            EmpOvertime.Type::Overtime:
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::Overtime, EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
+            EmpOvertime.Type::"Bulk Cash":
+                SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Bulk Cash", EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email
+        end;
+        exit(true);
+    end;
 
     // procedure SendTransferApproval(TempEmphrtransfer: Record "Employee/HR Transfer" temporary): Boolean
     // var
@@ -7414,7 +7416,7 @@ codeunit 50001 "HR Mgt."
         if not (Employee."No." = TravelReq."Employee No.") then
             Error('Only employee %1 can forward this document to HR.', TravelReq."Employee Name");
         CheckDocumentApprover(TravelReq."No.");
-        ResignationMgt.CheckResignationAttachmentMandatoryforTravel(TravelReq);
+        TravelMgt.CheckResignationAttachmentMandatoryforTravel(TravelReq);
         if GuiAllowed then
             if not Confirm(ConfirmScreen, false) then
                 exit;

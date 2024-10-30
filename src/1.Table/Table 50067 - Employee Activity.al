@@ -1728,6 +1728,30 @@ table 50067 "Employee Activity"
         field(195; "OT Amount"; Decimal) { }
         field(196; "OT Disbursed"; Boolean) { }
         field(197; "Updated Payroll Line"; Boolean) { }
+        field(198; "From Branch"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code;
+        }
+        field(199; "To Branch"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code;
+        }
+        field(200; "Total Cash"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(201; "Total Distance (In KM)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(202; "Total Estimate Time (In Hour)"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+
+
     }
 
     keys

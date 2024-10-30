@@ -131,7 +131,7 @@ codeunit 50005 "Transfer Mgt."
         exit(true);
     end;
 
-    procedure SendTransferApproval(TempEmphrtransfer: Record "Employee/HR Transfer" temporary): Boolean
+    procedure SendTransferApproval(TempEmpHRtransfer: Record "Employee/HR Transfer" temporary): Boolean
     var
         EmphrTransfer: Record "Employee/HR Transfer";
         ConfirmTransfer: Label 'Do you want to send transfer request ?';
@@ -186,7 +186,7 @@ codeunit 50005 "Transfer Mgt."
 
         EmphrTransfer.Insert(true);
 
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, '', EmphrTransfer."Employee No.", EmphrTransfer."No.", 0);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee/HR Transfer", EmphrTransfer.Type::"Employee Transfer", EmphrTransfer."Approval Status"::Open, '', EmphrTransfer."Employee No.", EmphrTransfer."No.", 0);   //For email
         Message(TransferSent);
         exit(true);
     end;

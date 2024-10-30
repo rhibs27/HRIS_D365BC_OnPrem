@@ -77,7 +77,7 @@ page 50093 "Travel Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to recommend the travel request?', false) then
-                        HRMgt.RecommendEmployeeActivity(Rec."No.");
+                        TravelMgt.RecommendEmployeeTravel(Rec."No.");
                 end;
             }
             action("Approve Travel Request")
@@ -94,7 +94,7 @@ page 50093 "Travel Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the travel request?', false) then
-                        HRMgt.ApprovedRejectApproval(true, Rec."No.");
+                        TravelMgt.ApprovedRejectTravelApproval(true, Rec."No.");
                 end;
             }
             action("Reject Travel Request")
@@ -110,7 +110,7 @@ page 50093 "Travel Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel requet?', false) then
-                        HRMgt.ApprovedRejectApproval(false, Rec."No.");
+                        TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
                 end;
             }
         }
@@ -247,4 +247,5 @@ page 50093 "Travel Requests"
         HRMgt: Codeunit "HR Mgt.";
         [InDataSet]
         IsRecommended: Boolean;
+        TravelMgt: CodeUnit "Travel Mgt.";
 }

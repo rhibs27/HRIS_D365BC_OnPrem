@@ -1668,7 +1668,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
     PROCEDURE BulkCash();
     BEGIN
-        TransferMgt.OpenBulkCash("No.");
+        HRMgt.OpenBulkCash("No.");
     END;
 
     procedure GetOutstandingAmt(): Decimal;

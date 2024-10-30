@@ -3813,6 +3813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field For Death Of - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 3716467862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field From Branch - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3719397593 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4273,10 +4278,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Time Duration - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field To Branch - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 3686062581 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Cash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Total Cash - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3719397593 - Field 3933242367 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Claimed Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Total Claimed Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 3216967683 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Distance (In KM)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Total Distance (In KM) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 1281278889 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Estimate Time (In Hour)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Total Estimate Time (In Hour) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3719397593 - Field 1911299381 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Estimated Cost</source>
@@ -10042,11 +10067,6 @@
           <source>Sub Province Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Sub Province Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3212359541 - Field 4027585923 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Travel Order No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Travel Order No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
@@ -18263,6 +18283,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyCancelEmployeeActivity - NamedType LeaveCancelError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 2986831991 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to send request ?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForApprovalForms - NamedType ConfirmForm</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 2986831991 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Travel days must be greater than 0.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForApprovalForms - NamedType ErrorNoOfDays</note>
+        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3452210115 - NamedType 3646518990" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send travel request ?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18938,11 +18968,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ScreenResignationForOvertime - NamedType ConfirmScreen</note>
         </trans-unit>
-        <trans-unit id="Codeunit 391235505 - Method 1690645978 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to screen this document?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ScreenResignationforTravel - NamedType ConfirmScreen</note>
-        </trans-unit>
         <trans-unit id="Codeunit 391235505 - Method 1196895094 - NamedType 1110775650" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send resignation request?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19133,10 +19158,35 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApplyForTravelClaim - NamedType ErrorNoOfDays</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 173598685 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApprovedRejectTravelApproval - NamedType ApprovalStatusError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 173598685 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be in %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApprovedRejectTravelApproval - NamedType ErrorReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 2290084637 - NamedType 1338891784" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date (%1) must be less than End Date (%2).</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CalculateNoOfDaysTravel - NamedType DateError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 2022447317 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApproval - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 2022447317 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApproval - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 2022447317 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to acknowledge this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApproval - NamedType AcknowledgeError</note>
         </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 4121429225 - NamedType 1966792102" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fooding Amount cannot be greater than %1.</source>
@@ -19167,6 +19217,11 @@
           <source>Do you want to confirm screen this document?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method FinalApproveForTravel - NamedType ConfirmScreen</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 1690645978 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to screen this document?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ScreenResignationforTravel - NamedType ConfirmScreen</note>
         </trans-unit>
         <trans-unit id="Page 329735894 - Control 3680813464 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Access Type field.</source>
@@ -21918,11 +21973,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Branchwise/Extension Counter - Control Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 1139063383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Actual Hours field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Actual Hours - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1242348827 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21933,35 +21983,35 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Employee No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 2999614507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Estimated Hours field.</source>
+        <trans-unit id="Page 1242348827 - Control 3716467862 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch From Bulk Cash.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Estimated Hours - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control From Branch - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1242348827 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Reason for OT field.</source>
+        <trans-unit id="Page 1242348827 - Control 4180430401 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch To Bulk Cash.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Remarks - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control To Branch - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason for OT</source>
+        <trans-unit id="Page 1242348827 - Control 3686062581 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Total Bulk cash Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Remarks - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Total Cash - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the OT Date field.</source>
+        <trans-unit id="Page 1242348827 - Control 3216967683 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Total Distance In Km to travel for Bulk Cash</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Start Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Total Distance (In KM) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1242348827 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>OT Date</source>
+        <trans-unit id="Page 1242348827 - Control 1281278889 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Total Time In Hour taken for Bulk Cash</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Start Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Control Total Estimate Time (In Hour) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1242348827 - Action 2913119229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approved action.</source>
@@ -21997,6 +22047,71 @@
           <source>Executes the Screened action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash - Action Screened - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bulk Cash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 227370865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Approval - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 3967614788 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Approver Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 1865071614 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Approver Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 868085935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Approver Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 1709631354 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Recommender Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Recommender Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 2717344192 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Recommender Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control Recommender Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Control General - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Action Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Action 3160920556 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Change Recommender Approver action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Action Change Recommender Approver - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Action 950470767 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Recommend Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Action Recommend Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1874318447 - Action 1829548432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Submit action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Bulk Cash Card - Action Submit - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3821175371 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
@@ -46963,10 +47078,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Advance Cash Required - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 2007869813 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Advance Cash field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control AdvanceCash - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 2007869813 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Advance Cash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control AdvanceCash - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1635708066 - Control 3640676372 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Auth. Account No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Auth. Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 4198939294 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Currency Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Currency Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Control 314715092 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Depature From field.</source>
@@ -47003,10 +47133,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Estimated Transportation Cost - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 541734643 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Exchange Rate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Exchange Rate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 727939721 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Extended field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Extended - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1635708066 - Control 3198880606 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Mode Of Travel field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Mode Of Travel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 2547122982 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Mode Of Travel field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control ModeOfTravel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 2547122982 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mode Of Travel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control ModeOfTravel - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Control 236192023 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Other Estimated Cost field.</source>
@@ -47017,6 +47167,16 @@
           <source>Specifies the value of the Purpose of Travel field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Purpose of Travel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 1339549457 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Purpose Of Travel field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control PurposeOfTravel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 1339549457 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purpose Of Travel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control PurposeOfTravel - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Control 1911299381 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Estimated Cost field.</source>
@@ -47037,6 +47197,16 @@
           <source>Specifies the value of the Type Of Visit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Type Of Visit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 515177436 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type Of Visit field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control TypeOfVisit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 515177436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type Of Visit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control TypeOfVisit - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>
@@ -47073,6 +47243,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action ExtendTravelRequest - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1635708066 - Action 1302548166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Final Approve action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Final Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Action 1302548166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Final Approve</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Final Approve Request - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1635708066 - Action 4167200489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Print Report action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47087,6 +47267,11 @@
           <source>Executes the Reject Travel Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Reject Travel Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Screen action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Screen - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4088765785 - Control 3967614788 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approver Code field.</source>

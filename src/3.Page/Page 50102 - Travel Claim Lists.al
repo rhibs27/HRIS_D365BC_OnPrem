@@ -2,7 +2,7 @@ page 50102 "Travel Claim Lists"
 {
     // version NIC Asia1.00,Travel
 
-    CardPageId = "New Employee Activity Card";
+    CardPageId = "Travel Form";
     Editable = false;
     PageType = List;
     PromotedActionCategories = 'New,Process,Report,SetFilter';
@@ -128,7 +128,7 @@ page 50102 "Travel Claim Lists"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to recommend the travel claim?', false) then
-                        HRMgt.RecommendEmployeeActivity(Rec."No.");
+                        TravelMgt.RecommendEmployeeTravel(Rec."No.");
                 end;
             }
             action("Approve Travel Request")
@@ -145,7 +145,7 @@ page 50102 "Travel Claim Lists"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the travel claim?', false) then
-                        HRMgt.ApprovedRejectApproval(true, Rec."No.");
+                        TravelMgt.ApprovedRejectTravelApproval(true, Rec."No.");
                 end;
             }
             action("Reject Travel Request")
@@ -161,7 +161,7 @@ page 50102 "Travel Claim Lists"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel claim?', false) then
-                        HRMgt.ApprovedRejectApproval(false, Rec."No.");
+                        TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
                 end;
             }
             action(Screen)
@@ -170,13 +170,13 @@ page 50102 "Travel Claim Lists"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsApproved;
+                Visible = IsRecommended;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    ResignationMgt.ScreenResignationforTravel(Rec);
+                    TravelMgt.ScreenResignationforTravel(Rec);
                     CurrPage.Close;
                 end;
             }

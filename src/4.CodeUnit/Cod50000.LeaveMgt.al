@@ -4,7 +4,7 @@ codeunit 50000 "Leave Mgt."
     var
         // EmpAct: Record "Employee Activity" temporary;
         leaveRequest: record leave temporary;
-        EmployeeActivity: Record "Employee Activity";
+    //EmployeeActivity: Record "Employee Activity";
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -186,7 +186,8 @@ codeunit 50000 "Leave Mgt."
 
     procedure CheckForLeaveCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20]; NoofDays: Decimal)
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        Leave: Record Leave;
         LeaveTypeSetup: Record "Leave Type Setup";
         NoLeaveDaysError: Label 'You do not have enough leave Days.';
         LeaveEarn: Record "Leave Earn";
@@ -195,12 +196,12 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.Get(LeaveCode);
         Employee.Get(EmpCode);
         if LeaveTypeSetup."Services Period" then begin
-            EmpAct.Reset;
-            EmpAct.SetRange("Employee No.", EmpCode);
-            EmpAct.SetRange("Leave Code", LeaveCode);
-            EmpAct.SetFilter("Approval Status", '<>%1&<>%2', EmpAct."Approval Status"::Rejected, EmpAct."Approval Status"::Cancelled);
-            EmpAct.SetRange(Posted, true);
-            if EmpAct.Count >= LeaveTypeSetup."Times Per Service Period" then
+            Leave.Reset;
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetRange("Leave Code", LeaveCode);
+            Leave.SetFilter("Approval Status", '<>%1&<>%2', Leave."Approval Status"::Rejected, Leave."Approval Status"::Cancelled);
+            Leave.SetRange(Posted, true);
+            if Leave.Count >= LeaveTypeSetup."Times Per Service Period" then
                 Error('You cannot apply for %1 leave anymore.', LeaveTypeSetup.Description);
         end;
 
@@ -239,32 +240,33 @@ codeunit 50000 "Leave Mgt."
 
     procedure CheckForMulipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        Leave: Record Leave;
         LeaveTypeSetup: Record "Leave Type Setup";
         ErrorforConsecutive: Label 'Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.';
     begin
         LeaveTypeSetup.Get(LeaveCode);
         if LeaveTypeSetup."Limit Max. Leave at Once" then begin
-            EmpAct.Reset;
-            EmpAct.SetRange("Leave Code", LeaveCode);
-            EmpAct.SetRange("Employee No.", EmpCode);
-            EmpAct.SetRange("Approval Status", EmpAct."Approval Status"::Approved);
-            EmpAct.SetRange("End Date", StartDate - 1);
-            if EmpAct.FindFirst then begin
-                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + EmpAct."No. of Days" then
+            Leave.Reset;
+            Leave.SetRange("Leave Code", LeaveCode);
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+            Leave.SetRange("End Date", StartDate - 1);
+            if Leave.FindFirst then begin
+                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
                 else
-                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + EmpAct."No. of Days");
+                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate - 1, EndDate, NoOfDays + Leave."No. of Days");
             end;
-            Clear(EmpAct);
-            EmpAct.SetRange("Leave Code", LeaveCode);
-            EmpAct.SetRange("Employee No.", EmpCode);
-            EmpAct.SetRange("Start Date", EndDate + 1);
-            if EmpAct.FindFirst then begin
-                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + EmpAct."No. of Days" then
+            Clear(Leave);
+            Leave.SetRange("Leave Code", LeaveCode);
+            Leave.SetRange("Employee No.", EmpCode);
+            Leave.SetRange("Start Date", EndDate + 1);
+            if Leave.FindFirst then begin
+                if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
                 else
-                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + EmpAct."No. of Days");
+                    CheckForMulipleRequest(LeaveCode, EmpCode, StartDate, EndDate + 1, NoOfDays + Leave."No. of Days");
             end;
         end;
     end;
@@ -785,7 +787,7 @@ codeunit 50000 "Leave Mgt."
 
         Leavevar.Insert(true);
         AddLeaveAttachment(Leavevar."No.", Leavevar."Employee No.", Leavevar."Leave Code");
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", Leavevar.Type::"Leave Request", Leavevar."Approval Status"::Open, '', Leavevar."Employee No.", Leavevar."No.", 0);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leavevar.Type::"Leave Request", Leavevar."Approval Status"::Open, '', Leavevar."Employee No.", Leavevar."No.", 0);   //For email
 
         exit(true);
     end;

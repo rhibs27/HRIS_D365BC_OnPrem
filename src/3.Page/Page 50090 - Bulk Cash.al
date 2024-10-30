@@ -34,27 +34,30 @@ page 50090 "Bulk Cash"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("Start Date"; Rec."Start Date")
+                field("Approval Status"; Rec."Approval Status")
                 {
-                    Caption = 'OT Date';
-                    ToolTip = 'Specifies the value of the OT Date field.';
+
+                }
+                field("From Branch"; Rec."From Branch")
+                {
+                    ToolTip = 'Specifies the value of the Branch From Bulk Cash.';
                     ApplicationArea = All;
                 }
-                field("Estimated Hours"; Rec."Estimated Hours")
+                field("To Branch"; Rec."To Branch")
                 {
-                    ToolTip = 'Specifies the value of the Estimated Hours field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Branch To Bulk Cash.';
                 }
-                field("Actual Hours"; Rec."Actual Hours")
+                field("Total Cash"; Rec."Total Cash")
                 {
-                    ToolTip = 'Specifies the value of the Actual Hours field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of Total Bulk cash Value';
                 }
-                field(Remarks; Rec.Remarks)
+                field("Total Distance (In KM)"; Rec."Total Distance (In KM)")
                 {
-                    Caption = 'Reason for OT';
-                    ToolTip = 'Specifies the value of the Reason for OT field.';
-                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of Total Distance In Km to travel for Bulk Cash';
+                }
+                field("Total Estimate Time (In Hour)"; Rec."Total Estimate Time (In Hour)")
+                {
+                    ToolTip = 'Specifies the value of Total Time In Hour taken for Bulk Cash';
                 }
             }
         }

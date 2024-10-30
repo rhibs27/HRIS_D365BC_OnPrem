@@ -554,6 +554,31 @@ page 50202 "New Employee Activity Card"
                     ApplicationArea = All;
                 }
             }
+            group("Bulk Cash")
+            {
+                Editable = FieldEditable;
+                Visible = IsBulkCash;
+                field("From Branch"; Rec."From Branch")
+                {
+
+                }
+                field("To Branch"; Rec."To Branch")
+                {
+
+                }
+                field("Total Cash"; Rec."Total Cash")
+                {
+
+                }
+                field("Total Distance (In KM)"; Rec."Total Distance (In KM)")
+                {
+
+                }
+                field("Total Estimate Time (In Hour)"; Rec."Total Estimate Time (In Hour)")
+                {
+
+                }
+            }
             group(Transfer)
             {
                 Editable = FieldEditable;
@@ -849,6 +874,7 @@ page 50202 "New Employee Activity Card"
         IsTransferVisible := false;
         IsTravelClaimVisible := false;
         IsTravelReqVisible := false;
+        IsBulkCash := false;
         if Rec.Type = Rec.Type::"Leave Request" then
             IsLeaveVisible := true
         else if Rec.Type = Rec.Type::"Travel Claim" then
@@ -858,7 +884,9 @@ page 50202 "New Employee Activity Card"
         else if Rec."Type Of Visit" = Rec.Type::"Employee Transfer" then
             IsTransferVisible := true
         else if Rec."Type Of Visit" = Rec.Type::Overtime then
-            IsOTVisible := true;
+            IsOTVisible := true
+        else if Rec."Type" = Rec.Type::"Bulk Cash" then
+            IsBulkCash := true;
         SetVisibility;
         IsScreeenerRemarksVisible := Rec."Approval Status" in [Rec."Approval Status"::Approved, Rec."Approval Status"::Screened];
         if SalaryLevel.Get(Rec."Salary Level Code") then;
@@ -877,6 +905,8 @@ page 50202 "New Employee Activity Card"
         IsTransferVisible: Boolean;
         [InDataSet]
         IsOTVisible: Boolean;
+        [InDataSet]
+        IsBulkCash: Boolean;
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";

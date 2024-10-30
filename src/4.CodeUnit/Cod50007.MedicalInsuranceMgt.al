@@ -2,21 +2,22 @@ codeunit 50007 "MedicalInsurance Mgt"
 {
     procedure OpenMedicalInsuranePage(EmployeeCode: Code[20])
     var
-        EmployeeAct: Record "Employee Activity";
+        //EmployeeAct: Record "Employee Activity";
+        MedicalInsurance: Record "Medical Insurance Claim";
     begin
-        EmployeeAct.Reset;
-        EmployeeAct.SetRange("Employee No.", EmployeeCode);
-        EmployeeAct.SetRange(Type, EmployeeAct.Type::"Medical Insurance Claim");
-        EmployeeAct.SetFilter("Approval Status", '<>%1', EmployeeAct."Approval Status"::"Pending Approval");
-        if not EmployeeAct.FindFirst then begin
-            EmployeeAct.Init;
-            EmployeeAct.Validate(Type, EmployeeAct.Type::"Medical Insurance Claim");
-            EmployeeAct.Validate("Employee No.", EmployeeCode);
-            EmployeeAct.Insert(true);
-            PAGE.Run(PAGE::"Medical Insurance Claim", EmployeeAct);
+        MedicalInsurance.Reset;
+        MedicalInsurance.SetRange("Employee No.", EmployeeCode);
+        MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
+        MedicalInsurance.SetFilter("Approval Status", '<>%1', MedicalInsurance."Approval Status"::"Pending Approval");
+        if not MedicalInsurance.FindFirst then begin
+            MedicalInsurance.Init;
+            MedicalInsurance.Validate(Type, MedicalInsurance.Type::"Medical Insurance Claim");
+            MedicalInsurance.Validate("Employee No.", EmployeeCode);
+            MedicalInsurance.Insert(true);
+            PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
         end
         else
-            PAGE.Run(PAGE::"Medical Insurance Claim", EmployeeAct);
+            PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
     end;
 
     procedure SendMedicalInsuranceApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean

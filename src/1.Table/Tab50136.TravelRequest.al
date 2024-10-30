@@ -42,6 +42,7 @@ table 50136 "Travel Request"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
+            Editable = false;
 
             trigger OnValidate()
             begin
@@ -689,7 +690,7 @@ table 50136 "Travel Request"
         field(65; "Travel Order No."; Code[20])
         {
             Editable = false;
-            TableRelation = "Employee Activity" WHERE(Type = CONST("Travel Request"),
+            TableRelation = "Travel Request" WHERE(Type = CONST("Travel Request"),
                                                        "Approval Status" = CONST(Approved),
                                                        "Employee No." = FIELD("Employee No."));
 

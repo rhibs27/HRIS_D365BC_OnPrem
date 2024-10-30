@@ -227,12 +227,14 @@ codeunit 50004 "Travel Mgt."
     procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Option Nepal,India,"Other Countries")
     var
         EmpAct: Record "Employee Activity" temporary;
+        TravelRequest: Record "Travel Request" temporary;
         SalaryLevel: Record "Salary Level";
         Employee1: Record Employee;
         SalaryLevel1: Record "Salary Level";
-        EmpAct2: Record "Employee Activity";
+        //EmpAct2: Record "Employee Activity";
+        TravelRequest2: Record "Travel Request";
     begin
-        EmpAct.Init;
+        TravelRequest.Init;
         Employee.Get(EmpCode);
         SalaryLevel.Get(Employee."Salary Level");
         if TravelWith <> '' then begin//AT
@@ -240,216 +242,224 @@ codeunit 50004 "Travel Mgt."
             if not SalaryLevel."Travel With Not Eligible" then
                 SalaryLevel1.Get(Employee1."Salary Level");
         end;
-        EmpAct2.Get(TravelOrderNo);
-        EmpAct.TransferFields(EmpAct2);
-        EmpAct."No." := '';
-        EmpAct.Validate("Employee No.", EmpCode);
-        EmpAct.Validate("Functional Title", Employee."Functional Title");
-        EmpAct.Validate(Type, EmpAct.Type::"Travel Claim");
-        EmpAct.Validate("Travel Countries", TravelCountry);
-        EmpAct.Validate("Claimed Country", Format(TravelCountry));
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Open);
-        EmpAct.Validate("Start Date", GetTravelStartDate(TravelOrderNo));
-        EmpAct.Validate("End Date", GetTravelEndDate(TravelOrderNo));
-        EmpAct.Validate("Requested Date", Today);
-        EmpAct.Validate("Travel Order No.", TravelOrderNo);
-        EmpAct.Validate("No. of Days", CalculateTotalNoDays(TravelOrderNo));
-        EmpAct."Travel With" := TravelWith;
+        TravelRequest2.Get(TravelOrderNo);
+        TravelRequest.TransferFields(TravelRequest2);
+        TravelRequest."No." := '';
+        TravelRequest.Validate("Employee No.", EmpCode);
+        TravelRequest.Validate("Functional Title", Employee."Functional Title");
+        TravelRequest.Validate(Type, TravelRequest.Type::"Travel Claim");
+        TravelRequest.Validate("Travel Countries", TravelCountry);
+        TravelRequest.Validate("Claimed Country", Format(TravelCountry));
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+        TravelRequest.Validate("Start Date", GetTravelStartDate(TravelOrderNo));
+        TravelRequest.Validate("End Date", GetTravelEndDate(TravelOrderNo));
+        TravelRequest.Validate("Requested Date", Today);
+        TravelRequest.Validate("Travel Order No.", TravelOrderNo);
+        TravelRequest.Validate("No. of Days", CalculateTotalNoDays(TravelOrderNo));
+        TravelRequest."Travel With" := TravelWith;
         //EmpAct.VALIDATE("Claimed Country", );
-        EmpAct.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelOrderNo));
-        EmpAct.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelOrderNo));
-        EmpAct.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelOrderNo));
-        EmpAct.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelOrderNo));
-        EmpAct.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelOrderNo));
-        EmpAct.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelOrderNo));
-        EmpAct.Validate("Advance Cash", CalculateTotalAdvance(TravelOrderNo));
-        if EmpAct."Travel Countries" = EmpAct."Travel Countries"::Nepal then begin
+        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelOrderNo));
+        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelOrderNo));
+        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelOrderNo));
+        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelOrderNo));
+        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelOrderNo));
+        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelOrderNo));
+        TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelOrderNo));
+        if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
-                EmpAct.Validate("Fooding Allowance", SalaryLevel1."Nepal Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
+                TravelRequest.Validate("Fooding Allowance", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
             end else begin
-                EmpAct.Validate("Fooding Allowance", SalaryLevel."Nepal Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
             end;
             if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
-                EmpAct.Validate("Lodging Allowance", SalaryLevel1."Nepal Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
+                TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
             end else begin
-                EmpAct.Validate("Lodging Allowance", SalaryLevel."Nepal Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
+                TravelRequest.Validate("Lodging Allowance", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
             end;
         end
-        else if EmpAct."Travel Countries" = EmpAct."Travel Countries"::India then begin
+        else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
             if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
-                EmpAct.Validate("Fooding Allowance", SalaryLevel1."India Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
+                TravelRequest.Validate("Fooding Allowance", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
 
             end else begin
-                EmpAct.Validate("Fooding Allowance", SalaryLevel."India Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * EmpAct."No. of Days");
-                EmpAct.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
+                TravelRequest.Validate("Fooding Allowance", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
 
             end;
             if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
-                EmpAct.Validate("Lodging Allowance", SalaryLevel1."India Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
+                TravelRequest.Validate("Lodging Allowance", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
 
             end else begin
-                EmpAct.Validate("Lodging Allowance", SalaryLevel."India Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (EmpAct."No. of Days" - 1));
-                EmpAct.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
+                TravelRequest.Validate("Lodging Allowance", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
 
             end;
         end;
-        EmpAct."Arrival Time" := GetArrivalTime(TravelOrderNo);
-        EmpAct."Depature Time" := GetDepatureTime(TravelOrderNo);
-        EmpAct."Actual Travel Start Date" := GetTravelStartDate(TravelOrderNo);
-        EmpAct."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
-        EmpAct."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
-        EmpAct."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
-        EmpAct.Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
-              GetOutofExpneseDuration(EmpAct."Actual Travel Start Time", EmpAct."Actual Travel End Time", EmpAct."Start Date", EmpAct."End Date")));
+        TravelRequest."Arrival Time" := GetArrivalTime(TravelOrderNo);
+        TravelRequest."Depature Time" := GetDepatureTime(TravelOrderNo);
+        TravelRequest."Actual Travel Start Date" := GetTravelStartDate(TravelOrderNo);
+        TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
+        TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
+        TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
+        TravelRequest.Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
+              GetOutofExpneseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date")));
 
-        if EmpAct."Advance Cash" <> 0 then
-            EmpAct."Advance Cash Required" := true;
-        EmpAct.Insert;
-        PAGE.RunModal(PAGE::"Request Travel Claim", EmpAct);
+        if TravelRequest."Advance Cash" <> 0 then
+            TravelRequest."Advance Cash Required" := true;
+        TravelRequest.Insert;
+        PAGE.RunModal(PAGE::"Request Travel Claim", TravelRequest);
     end;
 
     procedure CalculateTotalNoDays(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalNoDays(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."No. of Days");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalNoDays(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."No. of Days");
         end;
     end;
 
     procedure CalculateTotalEstimatedConv(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalEstimatedConv(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Conveyance Expense");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalEstimatedConv(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Estimated Conveyance Expense");
         end;
     end;
 
     procedure CalculateTotalFooding(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalFooding(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Fooding Cost");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalFooding(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Estimated Fooding Cost");
         end;
     end;
 
     procedure CalculateTotalAdvance(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalAdvance(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Advance Cash");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalAdvance(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Advance Cash");
         end;
     end;
 
     procedure CalculateTotalLodging(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalLodging(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Lodging Cost");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalLodging(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Estimated Lodging Cost");
         end;
     end;
 
     procedure CalculateTotalOtherExpense(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalOtherExpense(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Other Estimated Cost");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalOtherExpense(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Other Estimated Cost");
         end;
     end;
 
     procedure CalculateTotalTransport(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalTransport(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Estimated Transportation Cost");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalTransport(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Estimated Transportation Cost");
         end;
     end;
 
     procedure CalculateTotalEstimatedCost(TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
         AdvAmt: Decimal;
     begin
         Clear(AdvAmt);
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                AdvAmt := CalculateTotalEstimatedCost(EmpAct."Travel Order No.");
-            exit(AdvAmt + EmpAct."Total Estimated Cost");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                AdvAmt := CalculateTotalEstimatedCost(TravelRequest."Travel Order No.");
+            exit(AdvAmt + TravelRequest."Total Estimated Cost");
         end;
     end;
 
     procedure GetTravelStartDate(TravelOrderNo: Code[20]): Date
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                exit(GetTravelStartDate(EmpAct."Travel Order No."))
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                exit(GetTravelStartDate(TravelRequest."Travel Order No."))
             else
-                exit(EmpAct."Start Date");
+                exit(TravelRequest."Start Date");
         end;
     end;
 
     procedure GetTravelEndDate(TravelOrderNo: Code[20]): Date
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            exit(EmpAct."End Date");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            exit(TravelRequest."End Date");
         end;
     end;
 
     procedure GetOutofExpneseDuration(DepatureTime: Time; ArrivalTime: Time; DepartureDate: Date; ArrivalDate: Date): Decimal
     var
-        EmpAct: Record "Employee Activity";
         Duration1: Duration;
         Duration2: Duration;
         TotalDuration: Decimal;
@@ -476,22 +486,24 @@ codeunit 50004 "Travel Mgt."
 
     procedure GetDepatureTime(TravelOrderNo: Code[20]): Time
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            if not (EmpAct."Travel Order No." = '') then
-                exit(GetDepatureTime(EmpAct."Travel Order No."))
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if not (TravelRequest."Travel Order No." = '') then
+                exit(GetDepatureTime(TravelRequest."Travel Order No."))
             else
-                exit(EmpAct."Depature Time");
+                exit(TravelRequest."Depature Time");
         end;
     end;
 
     procedure GetArrivalTime(TravelOrderNo: Code[20]): Time
     var
-        EmpAct: Record "Employee Activity";
+        // EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if EmpAct.Get(TravelOrderNo) then begin
-            exit(EmpAct."Arrival Time");
+        if TravelRequest.Get(TravelOrderNo) then begin
+            exit(TravelRequest."Arrival Time");
         end;
     end;
 
@@ -690,7 +702,182 @@ codeunit 50004 "Travel Mgt."
         end;
     end;
 
+    procedure RecommendEmployeeTravel(EmpTravelCode: Code[20])
+    var
+        //EmpAct: Record "Employee Activity";
+        EmpTravel: Record "Travel Request";
+    begin
+        EmpTravel.Get(EmpTravelCode);
+        EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
+        CheckEmployeeTravelApproval(EmpTravel);
+        EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
+        EmpTravel.Modify;
+        Message('The document has been recommended.');
+    end;
 
+    local procedure CheckEmployeeTravelApproval("Travel Request": Record "Travel Request")
+    var
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    begin
+        Employee.Reset;
+        Employee.SetRange("NAV Login ID", UserId);
+        Employee.FindFirst;
+        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
+            if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
+                Error(RecommendNotEligibleError);
+        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
+            if StrPos("Travel Request"."Approver Code", Employee."No.") = 0 then
+                Error(ApproveNotEligibleError);
+
+        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
+        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
+        //ERROR(AcknowledgeError);
+    end;
+
+    procedure ApprovedRejectTravelApproval(Approved: Boolean; TravelCode: Code[20])
+    var
+
+        //EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
+        LeaveEarn: Record "Leave Earn";
+        ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
+        ErrorReject: Label 'Approval Status must be in %1 or %2.';
+        EmpAttendActivity: Record "Employee Attendance & Activity";
+        LeaveTypeSetup: Record "Leave Type Setup";
+        //EmpAct2: Record "Employee Activity";
+        TravelRequest2: Record "Travel Request";
+    begin
+        TravelRequest.Get(TravelCode);
+
+        if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+            if Approved then begin
+                TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
+                CheckEmployeeTravelApproval(TravelRequest);
+                TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
+                if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+                    //changes in employee attendance and activity
+                    EmpAttendActivity.Reset;
+                    EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
+                    EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
+                    if EmpAttendActivity.Find('-') then
+                        repeat
+                            EmpAttendActivity."Absent Day" := 0;
+                            EmpAttendActivity."Present Day" := 1;
+                            EmpAttendActivity."Tour Day" := 1;
+                            EmpAttendActivity."Leave Day" := 0;
+                            EmpAttendActivity."Source No." := TravelRequest."No.";
+                            EmpAttendActivity."Employee Activity Found" := true;
+                            EmpAttendActivity."Created Datetime" := CurrentDateTime;
+
+                            EmpAttendActivity.Modify;
+                        until EmpAttendActivity.Next = 0;
+                    Employee.Get(TravelRequest."Employee No.");
+                    Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+                    AttendanceSetup.Get;
+                    Employee.Get(TravelRequest."Employee No.");
+                    Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+                    if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+                        if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+                            Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+                        else
+                            Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+                    end else
+                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+                    Employee.Modify;
+                end;
+
+                HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+                Message('The document has been approved.');
+            end else
+                if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
+                    TravelRequest.TestField("Rejection Remarks");
+                    if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
+                        TravelRequest.TestField("Travel Order No.");
+                        TravelRequest2.Get(TravelRequest."Travel Order No.");
+                        TravelRequest2.Validate("Travel Claimed", false);
+                        TravelRequest2.Modify;
+                    end;
+                    CheckEmployeeTravelApproval(TravelRequest);
+                    if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
+                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
+                    else
+                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+                    TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
+                    Message('The document has been rejected.');
+                end else
+                    Error('Cannot reject the document.');
+        end;
+        TravelRequest.Posted := true;
+        TravelRequest."Approved Date" := Today;
+        TravelRequest.Modify;
+    end;
+
+    procedure ScreenResignationforTravel(var TravelReq: Record "Travel Request")
+    var
+        ConfirmScreen: Label 'Do you want to screen this document?';
+        FunctionalTitle: Record "Functional Title";
+    begin
+        //check authorized user
+        Employee.Get(HrMgt.GetEmployeeNo());
+        if TravelReq.Type = TravelReq.Type::Resignation then begin
+            if not Employee.Screener then           //resignation approver replaced with screener
+                Error('Not authorized screener.');
+            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
+            //  EmpAct.TESTFIELD("Screener Remarks");
+            HrMgt.CheckDocumentApprover(TravelReq."No.");
+            CheckResignationAttachmentMandatoryforTravel(TravelReq);
+            if not Confirm(ConfirmScreen, false) then
+                exit;
+
+            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+            TravelReq.Modify;
+        end
+        else if TravelReq.Type = TravelReq.Type::"Travel Claim" then begin
+            /*HRSetup.GET;
+            Employee.RESET;
+            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
+            Employee.SETRANGE("NAV Login ID", USERID);
+            IF NOT Employee.FINDFIRST THEN
+                ERROR('Not authorized screener.');*///AT
+            if not (TravelReq."Approval Status" = TravelReq."Approval Status"::Recommended) then
+                Error('Approval Status must be Recommended before screening.');
+            if not Confirm(ConfirmScreen, false) then
+                exit;
+
+            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+            TravelReq.Modify;
+        end else if TravelReq.Type = TravelReq.Type::Overtime then begin
+            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::Approved);
+            if not Confirm(ConfirmScreen, false) then
+                exit;
+
+            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+            TravelReq.Modify;
+        end;
+    end;
+
+    procedure CheckResignationAttachmentMandatoryforTravel(var TravelReq: Record "Travel Request")
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDocument: Record "Incoming Document";
+    begin
+
+        IncomingDocument.Reset;
+        IncomingDocument.SetRange("No.", TravelReq."No.");
+        IncomingDocument.SetRange("File Name", '');
+        if IncomingDocument.FindFirst then
+            repeat
+                AttachmentSetup.Reset;
+                AttachmentSetup.SetRange(Mandatory, true);
+                AttachmentSetup.SetFilter(Type, Format(TravelReq.Type));
+                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
+                if AttachmentSetup.FindFirst then
+                    Error('Upload attachment for %1', IncomingDocument."Attachment Code");
+
+            until IncomingDocument.Next = 0;
+    end;
 
 
 
@@ -698,9 +885,11 @@ codeunit 50004 "Travel Mgt."
 
     var
         Employee: Record Employee;
-        HRmgt: Codeunit "HR Mgt.";
+        HRMgt: Codeunit "HR Mgt.";
         Employee1: Record Employee;
         HRSetup: Record "Human Resources Setup";
+        LeaveMgt: Codeunit "Leave Mgt.";
+        AttendanceSetup: Record "Attendance Setup";
 
 
 }
