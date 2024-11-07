@@ -663,6 +663,7 @@ table 50141 OverTime
         field(50; "Screener Remarks"; Text[100])
         {
         }
+        field(106; "Time Duration"; Duration) { }
         field(51; "Estimated Hours"; Decimal)
         {
 

@@ -53,95 +53,95 @@ page 50171 "Temp Employee Activity Entity"
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
             }
-            group(Leave)
-            {
-                field(leavedescription; Rec."Leave Description") { }
-                field(leavetype; Rec."Leave Type") { }
-                field(paytype; Rec."Pay Type") { }
-                field(starttime; Rec."Start Time") { }
-                field(endtime; Rec."End Time") { }
-                field(compensatorydate; Rec."Compensatory Date") { }
-                field(childGender; Rec."Child's Gender") { }
-                field(forDeathOf; Rec."For Death Of") { }
-                field(contactNo; Rec."Contact No.") { }
-                field(remarks; Rec.Remarks) { }
-            }
-            group("Travel Request")
-            {
-                field(PurposeOfTravel; Rec."Purpose of Travel") { }
-                field(TypeOfVisit; Rec."Type Of Visit") { }
-                field(ModeOfTravel; Rec."Mode Of Travel") { }
-                field(Traveltype; Rec."Travel Countries") { }
-                field(TravelWith; Rec."Travel With") { }
-                field(DepatureFrom; Rec."Depature From") { }
-                field(Destination; Rec.Destination) { }
-                field(Description; Rec.Description) { }
-                field(AdvanceCashRequired; Rec."Advance Cash Required") { }
-                field(EstimatedTransportationCost; Rec."Estimated Transportation Cost") { }
-                field(EstimatedLodgingCost; Rec."Estimated Lodging Cost") { }
-                field(EstimatedFoodingCost; Rec."Estimated Fooding Cost") { }
-                field(EstimatedConveyanceExpense; Rec."Estimated Conveyance Expense") { }
-                field(OtherEstimatedCost; Rec."Other Estimated Cost") { }
-                field(AuthAccountNo; Rec."Auth. Account No.") { }
-                field(Extended; Rec.Extended) { }
-                field(TravelOrderNo; Rec."Travel Order No.")
-                {
-                    Editable = true;
+            // group(Leave)
+            // {
+            //     field(leavedescription; Rec."Leave Description") { }
+            //     field(leavetype; Rec."Leave Type") { }
+            //     field(paytype; Rec."Pay Type") { }
+            //     field(starttime; Rec."Start Time") { }
+            //     field(endtime; Rec."End Time") { }
+            //     field(compensatorydate; Rec."Compensatory Date") { }
+            //     field(childGender; Rec."Child's Gender") { }
+            //     field(forDeathOf; Rec."For Death Of") { }
+            //     field(contactNo; Rec."Contact No.") { }
+            //     field(remarks; Rec.Remarks) { }
+            // }
+            // group("Travel Request")
+            // {
+            //     field(PurposeOfTravel; Rec."Purpose of Travel") { }
+            //     field(TypeOfVisit; Rec."Type Of Visit") { }
+            //     field(ModeOfTravel; Rec."Mode Of Travel") { }
+            //     field(Traveltype; Rec."Travel Countries") { }
+            //     field(TravelWith; Rec."Travel With") { }
+            //     field(DepatureFrom; Rec."Depature From") { }
+            //     field(Destination; Rec.Destination) { }
+            //     field(Description; Rec.Description) { }
+            //     field(AdvanceCashRequired; Rec."Advance Cash Required") { }
+            //     field(EstimatedTransportationCost; Rec."Estimated Transportation Cost") { }
+            //     field(EstimatedLodgingCost; Rec."Estimated Lodging Cost") { }
+            //     field(EstimatedFoodingCost; Rec."Estimated Fooding Cost") { }
+            //     field(EstimatedConveyanceExpense; Rec."Estimated Conveyance Expense") { }
+            //     field(OtherEstimatedCost; Rec."Other Estimated Cost") { }
+            //     field(AuthAccountNo; Rec."Auth. Account No.") { }
+            //     field(Extended; Rec.Extended) { }
+            //     field(TravelOrderNo; Rec."Travel Order No.")
+            //     {
+            //         Editable = true;
 
-                    trigger OnValidate()
-                    var
-                        EmpActivity: Record "Employee Activity";
-                    begin
-                        if Rec."Travel Order No." <> '' then
-                            if EmpActivity.Get(Rec."Travel Order No.") then
-                                Rec.Validate("Travel With", EmpActivity."Travel With")
-                    end;
-                }
-                field(TotalNoofDays; Rec."Total No. of Days") { }
-                field(CurrencyCode; Rec."Currency Code") { }
-                field(ExchangeRate; Rec."Exchange Rate") { }
-                field(DepatureTime; Rec."Depature Time") { }
-                field(ArrivalTime; Rec."Arrival Time") { }
-                field(TotalEstimatedCost; Rec."Total Estimated Cost") { }
-            }
-            group("Travel Claim")
-            {
-                field(FoodingAllowanceLimit; Rec."Fooding Allowance Limit") { }
-                field(LodgingAllowanceLimit; Rec."Lodging Allowance Limit") { }
-                field(FoodingPerDayLimit; Rec."Fooding Per Day Limit") { }
-                field(LodgingPerDayLimit; Rec."Lodging Per Day Limit") { }
-                field(ActualTravelStartDate; Rec."Actual Travel Start Date") { }
-                field(ActualTravelEndDate; Rec."Actual Travel End Date") { }
-                field(ActualTravelStartTime; Rec."Actual Travel Start Time") { }
-                field(ActualTravelEndTime; Rec."Actual Travel End Time") { }
-                field(ClaimType; Rec."Claim Type") { }
-                field(ClaimedCountry; Rec."Claimed Country") { }
-                field(RoadandAirFare; Rec."Road/Air Fare") { }
-                field(Reimbursable; Rec.Reimbursable) { }
-                field(OutofPocketExpense; Rec."Out of Pocket Expense")
-                {
-                    Editable = true;
-                }
-                field(FoodingAllowance; Rec."Fooding Allowance")
-                {
-                    Editable = true;
-                }
-                field(LodgingAllowance; Rec."Lodging Allowance")
-                {
-                    Editable = true;
-                }
-                field(ConveyanceExpense; Rec."Conveyance Expense") { }
-                field(OtherExpense; Rec."Other Expense") { }
-                field(TotalClaimedAmount; Rec."Total Claimed Amount") { }
-                field(NetReceivablePayable; Rec."Net Receivable/Payable") { }
-                field(AdvanceCash; Rec."Advance Cash") { }
-            }
-            group(Overtime)
-            {
-                field(TimeDuration; Rec."Time Duration") { }
-                field(EstimatedHours; Rec."Estimated Hours") { }
-                field(ActualHours; Rec."Actual Hours") { }
-            }
+            //         trigger OnValidate()
+            //         var
+            //             EmpActivity: Record "Employee Activity";
+            //         begin
+            //             if Rec."Travel Order No." <> '' then
+            //                 if EmpActivity.Get(Rec."Travel Order No.") then
+            //                     Rec.Validate("Travel With", EmpActivity."Travel With")
+            //         end;
+            //     }
+            //     field(TotalNoofDays; Rec."Total No. of Days") { }
+            //     field(CurrencyCode; Rec."Currency Code") { }
+            //     field(ExchangeRate; Rec."Exchange Rate") { }
+            //     field(DepatureTime; Rec."Depature Time") { }
+            //     field(ArrivalTime; Rec."Arrival Time") { }
+            //     field(TotalEstimatedCost; Rec."Total Estimated Cost") { }
+            // }
+            // group("Travel Claim")
+            // {
+            //     field(FoodingAllowanceLimit; Rec."Fooding Allowance Limit") { }
+            //     field(LodgingAllowanceLimit; Rec."Lodging Allowance Limit") { }
+            //     field(FoodingPerDayLimit; Rec."Fooding Per Day Limit") { }
+            //     field(LodgingPerDayLimit; Rec."Lodging Per Day Limit") { }
+            //     field(ActualTravelStartDate; Rec."Actual Travel Start Date") { }
+            //     field(ActualTravelEndDate; Rec."Actual Travel End Date") { }
+            //     field(ActualTravelStartTime; Rec."Actual Travel Start Time") { }
+            //     field(ActualTravelEndTime; Rec."Actual Travel End Time") { }
+            //     field(ClaimType; Rec."Claim Type") { }
+            //     field(ClaimedCountry; Rec."Claimed Country") { }
+            //     field(RoadandAirFare; Rec."Road/Air Fare") { }
+            //     field(Reimbursable; Rec.Reimbursable) { }
+            //     field(OutofPocketExpense; Rec."Out of Pocket Expense")
+            //     {
+            //         Editable = true;
+            //     }
+            //     field(FoodingAllowance; Rec."Fooding Allowance")
+            //     {
+            //         Editable = true;
+            //     }
+            //     field(LodgingAllowance; Rec."Lodging Allowance")
+            //     {
+            //         Editable = true;
+            //     }
+            //     field(ConveyanceExpense; Rec."Conveyance Expense") { }
+            //     field(OtherExpense; Rec."Other Expense") { }
+            //     field(TotalClaimedAmount; Rec."Total Claimed Amount") { }
+            //     field(NetReceivablePayable; Rec."Net Receivable/Payable") { }
+            //     field(AdvanceCash; Rec."Advance Cash") { }
+            // }
+            // group(Overtime)
+            // {
+            //     field(TimeDuration; Rec."Time Duration") { }
+            //     field(EstimatedHours; Rec."Estimated Hours") { }
+            //     field(ActualHours; Rec."Actual Hours") { }
+            // }
             group(Transfer)
             {
                 field(TransferType; Rec."Transfer Type") { }

@@ -798,7 +798,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 //SubPageLink = 
                 SubPageView = WHERE("Remaining Days" = FILTER(> 0));
-                // SubPageLink ="Employee No."=FIELD("No.");
+                SubPageLink = "Employee No. Filter" = FIELD("No.");
             }
         }
     }
