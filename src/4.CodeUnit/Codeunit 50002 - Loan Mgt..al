@@ -580,25 +580,27 @@ codeunit 50002 "Loan Mgt."
                 CreateNewDir(DirectoryName, 'Appraisal', DirectoryName)
         end;
 
-        DirectoryName += '\';
-        instream.Read(DirectoryName);
+        //DirectoryName += '\';
+        //instream.Read(DirectoryName);
+        IncomingDocument.ImportAttachment(IncomingDocument);
 
-        if UploadIntoStream('Select file', '', '', txt, instream) then begin
-            Extention := FileMgt.GetExtension(DirectoryName);
-            if Extention = '' then
-                Error('Invalid file.');
 
-            ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDocument."Entry No.") + '_' + IncomingDocument."No." + '.' + Extention;
-            // Rename(DirectoryName, ClientFileName);
-            DirectoryName := ClientFileName;
-            FileName := ClientFileName;
-            IncomingDocument."File Name" := FileName;
-            IncomingDocument.Modify;
+        // if UploadIntoStream('Select file', '', '', txt, instream) then begin
+        //Extention := FileMgt.GetExtension(DirectoryName);
+        //     if Extention = '' then
+        //         Error('Invalid file.');
 
-            Message('Uploaded.');
+        ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDocument."Entry No.") + '_' + IncomingDocument."No." + '.' + Extention;
+        // Rename(DirectoryName, ClientFileName);
+        DirectoryName := ClientFileName;
+        FileName := ClientFileName;
+        IncomingDocument."File Name" := FileName;
+        IncomingDocument.Modify;
 
-        end;
+        Message('Uploaded.');
+
     end;
+    // end;
 
     procedure DownloadAttachment(var IncomingDocument: Record "Incoming Document")
     var
@@ -608,6 +610,8 @@ codeunit 50002 "Loan Mgt."
         // FileSystem: Automation;
         Foldername: Text;
         instream: InStream;
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
+        Extension: text;
     // WindowsShell: Automation;
     // SelectedFolder: Automation;
     // FolderItem: Automation;
@@ -617,9 +621,15 @@ codeunit 50002 "Loan Mgt."
             //FileMgt.DownloadToFile(IncomingDocument."File Name", IncomingDocument."File Name");
             //FileMgt.DownloadTempFile(IncomingDocument."File Name");
             //FileMgt.MoveFile
-            TempFileName := IncomingDocument."File Name";
-            instream.Read(IncomingDocument."File Name");
+            //TempFileName := IncomingDocument."File Name";
+            //instream.Read(IncomingDocument."File Name");
+            IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+            IncomingDocumentAttachment.FindFirst();
+            IncomingDocumentAttachment.CalcFields(Content);
+            IncomingDocumentAttachment.Content.CreateInStream(InStream);
+            Extension := IncomingDocumentAttachment."File Extension";
             //Download(IncomingDocument."File Name", 'Save To', '', '', TempFileName);
+            TempFileName := IncomingDocument."File Name" + Extension;
             DownloadFromStream(instream, 'Save To', '', '', TempFileName);
 
         end;
@@ -633,9 +643,10 @@ codeunit 50002 "Loan Mgt."
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
         file: Codeunit "File Management";
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
     begin
-        Employee.Get(HRMgt.GetEmployeeNo);
-
+        //Employee.Get(HRMgt.GetEmployeeNo);
+        Employee.Get(IncomingDocument."Employee Code");
         if not Employee.Screener then begin
             if EmpLoan.Get(IncomingDocument."No.") then begin
                 EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::Open);
@@ -662,6 +673,10 @@ codeunit 50002 "Loan Mgt."
             if GuiAllowed then
                 Message('Attachment Removed.');
             // end;
+            IncomingDocumentAttachment.Reset();
+            IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+            IncomingDocumentAttachment.Findset();
+            IncomingDocumentAttachment.DeleteAll();
         end;
     end;
 

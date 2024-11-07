@@ -371,20 +371,6 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure logIn(empNo: Code[20]; userName: Text[20]; password: Text[20]): text
-    var
-
-    begin
-        Employee.Get(empNo);
-        if (Employee.UserName = userName) and (Employee.password = password) then
-            exit('{"LoginMessage" : "Log in Success"}')
-        else
-            exit('{"LoginMessage" : "Log in Fail"}');
-
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
     procedure exitForTravelClaims(empAcitivityNo: Code[20]): Text
     var
         EmpActivity: Record "Employee Activity";
@@ -871,24 +857,36 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure retrunAttachmentBase64(docNo: Code[20]; entryNo: Integer): Text
     var
-        IncomingDoc: Record "Incoming Document";
-        TempBlob: Codeunit "Temp Blob";
-        FileName: Text;
-        ext: Text;
+        //IncomingDoc: Record "Incoming Document";
+        //TempBlob: Codeunit "Temp Blob";
+        //FileName: Text;
+        // ext: Text;
         Base64: Codeunit "Base64 Convert";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
+        instr: InStream;
+        Extension: text;
+        LargeText: text;
     begin
-        IncomingDoc.Reset;
-        if docNo <> '' then
-            IncomingDoc.SetRange("No.", docNo);
-        IncomingDoc.SetRange("Entry No.", entryNo);
-        if IncomingDoc.FindFirst then begin
-            FileName := IncomingDoc."File Name";
-            FileManagement.BLOBImport(TempBlob, FileName);
-            ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
-            exit(
-            '{' +
-            '"extension" : "' + ext + '",' +
-            '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
+        // IncomingDoc.Reset;
+        // if docNo <> '' then
+        //     IncomingDoc.SetRange("No.", docNo);
+        // IncomingDoc.SetRange("Entry No.", entryNo);
+        // if IncomingDoc.FindFirst then begin
+        IncomingDocAttachment.Reset();
+        IncomingDocAttachment.SetRange("Incoming Document Entry No.", entryNo);
+        if IncomingDocAttachment.FindFirst() then begin
+            Extension := IncomingDocAttachment."File Extension";
+            IncomingDocAttachment.CalcFields(Content);
+            IncomingDocAttachment.Content.CreateInStream(instr, TextEncoding::UTF8);
+            LargeText := Base64.ToBase64(instr, false);
+            // FileName := IncomingDoc."File Name";
+            // FileManagement.BLOBImport(TempBlob, FileName);
+            // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
+            exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
+            // exit(
+            // '{' +
+            // '"extension" : "' + ext + '",' +
+            // '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
         end else
             exit('not found');
     end;
@@ -957,6 +955,7 @@ page 50108 "Portal Functions"
     procedure uploadAttachment(docNo: Code[20]; entryNo: Integer; fname: Text; ext: Text): Text
     var
         IncomingDoc: Record "Incoming Document";
+        IncomingDocAttach: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
         FileName: Text;
         DirectoryName: Text;
@@ -971,6 +970,7 @@ page 50108 "Portal Functions"
         AppraisalDocFound: Boolean;
         AppraisalEmp: Record Appraisal;
         base64: Codeunit "Base64 Convert";
+        Outstream: OutStream;
     begin
         IncomingDoc.Get(entryNo);
 
@@ -1032,9 +1032,22 @@ page 50108 "Portal Functions"
         // TempBlob.Reset;
         FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext;
         IncomingDoc."File Name" := FileName;
-        base64.FromBase64(fname);
+
+        IncomingDocAttach.Reset();
+        IncomingDocAttach.Init();
+        IncomingDocAttach."Incoming Document Entry No." := entryNo;
+        IncomingDocAttach."Line No." := 10000;
+        tempblob.CreateOutStream(outStream);
+        IncomingDocAttach.Content.CreateOutStream(outStream, TextEncoding::UTF8);
+        base64.FromBase64(fname, Outstream);
+        IncomingDocAttach."File Extension" := ext;
+        IncomingDocAttach."Document No." := docNo;
+
+        IncomingDocAttach.Insert();
+
+        //base64.FromBase64(fname);
         // instream.Read(base64);//santosh
-        FileManagement.BLOBExport(TempBlob, FileName, false);
+        //FileManagement.BLOBExport(TempBlob, FileName, false);
         // IncomingDoc."File Name" := FileName; santosh
         IncomingDoc.Modify;
     end;
