@@ -78,7 +78,7 @@ page 50332 "Temp Employee Leave Entity"
                         //     TransferMgt.SendTransferApproval(Rec);
                     end;
                 }
-                field(recommnedername; Rec."Recommender Name") { }
+                field(recommendername; Rec."Recommender Name") { }
                 field(approvercode; Rec."Approver Code")
                 {
                     trigger OnValidate()

@@ -11,6 +11,7 @@ page 50335 "Temp Employee Resignation API"
     PageType = API;
     SourceTable = Resignation;
 
+
     layout
     {
         area(Content)
@@ -67,8 +68,8 @@ page 50335 "Temp Employee Resignation API"
                 {
                     trigger OnValidate()
                     begin
-                        // if Rec.Type = Rec.Type::Resignation then
-                        //     ResignationMgt.SendResignationApproval(Rec);
+                        if Rec.Type = Rec.Type::Resignation then
+                            ResignationMgt.SendResignationApproval(Rec);
                         // if Rec.Type = Rec.Type::"Employee Transfer" then
                         //     TransferMgt.SendTransferApproval(Rec);
                     end;
@@ -107,4 +108,7 @@ page 50335 "Temp Employee Resignation API"
             }
         }
     }
+    var
+        ResignationMgt: CodeUnit "Resignation Mgt";
+
 }

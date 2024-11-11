@@ -11233,6 +11233,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Sub Province Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2112932261 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Time Duration</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Time Duration - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18623,6 +18628,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApprovedRejectLeaveApproval - NamedType ErrorReject</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 1188434036 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApprovedRejectLeaveApprovalAPI - NamedType ApprovalStatusError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 1188434036 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be in %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method ApprovedRejectLeaveApprovalAPI - NamedType ErrorReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 2840587125 - NamedType 1338891784" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date (%1) must be less than End Date (%2).</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18642,6 +18657,21 @@
           <source>You are not Eligible to acknowledge this document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApproval - NamedType AcknowledgeError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 2764746172 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApprovalAPI - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 2764746172 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApprovalAPI - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 2764746172 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to acknowledge this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckEmployeeLeaveApprovalAPI - NamedType AcknowledgeError</note>
         </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 2673657447 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. days must be 1.</source>
@@ -19168,6 +19198,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApprovedRejectTravelApproval - NamedType ErrorReject</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 1989333605 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApprovedRejectTravelApprovalAPI - NamedType ApprovalStatusError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 1989333605 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be in %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method ApprovedRejectTravelApprovalAPI - NamedType ErrorReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 2290084637 - NamedType 1338891784" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date (%1) must be less than End Date (%2).</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19187,6 +19227,21 @@
           <source>You are not Eligible to acknowledge this document.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApproval - NamedType AcknowledgeError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 3142027085 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApprovalAPI - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 3142027085 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApprovalAPI - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 3142027085 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to acknowledge this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckEmployeeTravelApprovalAPI - NamedType AcknowledgeError</note>
         </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 4121429225 - NamedType 1966792102" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fooding Amount cannot be greater than %1.</source>
@@ -28683,6 +28738,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Loan/Advance API - NamedType Error1</note>
         </trans-unit>
+        <trans-unit id="Page 506621030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>employeeOverTimeEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee OverTime Entity - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3935423716 - Control 636392376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Amount field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30022,6 +30082,11 @@
           <source>Executes the Screened action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Action Screened - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 29364283 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>employeeTravelEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Travel Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2737898174 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
@@ -45257,6 +45322,26 @@
           <source>Specifies the value of the Tax Rate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Tax Setup Subform - Control Tax Rate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3188400690 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>tempEmployeeLeaveEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Leave Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 58272090 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>tempEmployeeOverTimeEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee OverTime Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2446721697 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>tempEmployeeResignationAPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Resignation API - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1715857751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>tempEmployeeTravelEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Travel  Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 565033530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Terms and Conditions</source>
