@@ -76,11 +76,12 @@ page 50333 "Temp Employee Travel  Entity"
 
                     trigger OnValidate()
                     var
-                        EmpActivity: Record "Employee Activity";
+                        //EmpActivity: Record "Employee Activity";
+                        Travel: Record "Travel Request";
                     begin
                         if Rec."Travel Order No." <> '' then
-                            if EmpActivity.Get(Rec."Travel Order No.") then
-                                Rec.Validate("Travel With", EmpActivity."Travel With")
+                            if Travel.Get(Rec."Travel Order No.") then
+                                Rec.Validate("Travel With", Travel."Travel With")
                     end;
                 }
                 field(totalNoOfDays; Rec."Total No. of Days") { }

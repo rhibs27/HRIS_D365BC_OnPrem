@@ -615,27 +615,6 @@ codeunit 50004 "Travel Mgt."
         exit(true);
     end;
 
-    procedure FinalApprove(var EmpAct: Record "Employee Activity")
-    var
-        ConfirmScreen: Label 'Do you want to confirm screen this document?';
-        FunctionalTitle: Record "Functional Title";
-    begin
-        //check authorized user
-        if EmpAct.Type = EmpAct.Type::"Travel Claim" then begin
-            HRSetup.Get;
-            if Employee.Get(HRmgt.GetEmployeeNo) then;
-
-            if Employee."No." <> EmpAct."Final Approver" then
-                Error('Not authorized Approver.');//AT
-            EmpAct.TestField(EmpAct."Approval Status", EmpAct."Approval Status"::Screened);
-            if not Confirm('Do you want to final approve this document?', false) then
-                exit;
-
-            EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Final Approved & Forwarded to Finance Department");
-            EmpAct.Modify;
-        end;
-    end;
-
     procedure FinalApproveForTravel(var Travel: Record "Travel Request")
     var
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
@@ -651,6 +630,26 @@ codeunit 50004 "Travel Mgt."
             Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Screened);
             if not Confirm('Do you want to final approve this document?', false) then
                 exit;
+
+            Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
+            Travel.Modify;
+        end;
+    end;
+
+    procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: code[20])
+    var
+        ConfirmScreen: Label 'Do you want to confirm screen this document?';
+        FunctionalTitle: Record "Functional Title";
+    begin
+        //check authorized user
+        if Travel.Type = Travel.Type::"Travel Claim" then begin
+            if Employee.Get(ApproverID) then;
+
+            if Employee."No." <> Travel."Final Approver" then
+                Error('Not authorized Approver.');//AT
+            Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Recommended);
+            // if not Confirm('Do you want to final approve this document?', false) then
+            //     exit;
 
             Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
             Travel.Modify;
@@ -862,65 +861,63 @@ codeunit 50004 "Travel Mgt."
         TravelRequest2: Record "Travel Request";
     begin
         TravelRequest.Get(TravelCode);
+        if Approved then begin
+            TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
+            CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
+            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
+            if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+                //changes in employee attendance and activity
+                EmpAttendActivity.Reset;
+                EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
+                EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
+                if EmpAttendActivity.Find('-') then
+                    repeat
+                        EmpAttendActivity."Absent Day" := 0;
+                        EmpAttendActivity."Present Day" := 1;
+                        EmpAttendActivity."Tour Day" := 1;
+                        EmpAttendActivity."Leave Day" := 0;
+                        EmpAttendActivity."Source No." := TravelRequest."No.";
+                        EmpAttendActivity."Employee Activity Found" := true;
+                        EmpAttendActivity."Created Datetime" := CurrentDateTime;
 
-        if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-            if Approved then begin
-                TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
-                CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
-                TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
-                if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-                    //changes in employee attendance and activity
-                    EmpAttendActivity.Reset;
-                    EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
-                    EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
-                    if EmpAttendActivity.Find('-') then
-                        repeat
-                            EmpAttendActivity."Absent Day" := 0;
-                            EmpAttendActivity."Present Day" := 1;
-                            EmpAttendActivity."Tour Day" := 1;
-                            EmpAttendActivity."Leave Day" := 0;
-                            EmpAttendActivity."Source No." := TravelRequest."No.";
-                            EmpAttendActivity."Employee Activity Found" := true;
-                            EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-                            EmpAttendActivity.Modify;
-                        until EmpAttendActivity.Next = 0;
-                    Employee.Get(TravelRequest."Employee No.");
-                    Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-                    AttendanceSetup.Get;
-                    Employee.Get(TravelRequest."Employee No.");
-                    Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-                    if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-                        if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                            Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-                        else
-                            Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-                    end else
-                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-                    Employee.Modify;
-                end;
-
-                HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
-                Message('The document has been approved.');
-            end else
-                if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
-                    TravelRequest.TestField("Rejection Remarks");
-                    if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
-                        TravelRequest.TestField("Travel Order No.");
-                        TravelRequest2.Get(TravelRequest."Travel Order No.");
-                        TravelRequest2.Validate("Travel Claimed", false);
-                        TravelRequest2.Modify;
-                    end;
-                    CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
-                    if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
-                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
+                        EmpAttendActivity.Modify;
+                    until EmpAttendActivity.Next = 0;
+                Employee.Get(TravelRequest."Employee No.");
+                Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+                AttendanceSetup.Get;
+                Employee.Get(TravelRequest."Employee No.");
+                Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+                if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+                    if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
                     else
-                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
-                    TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
-                    Message('The document has been rejected.');
+                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
                 end else
-                    Error('Cannot reject the document.');
-        end;
+                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+                Employee.Modify;
+            end;
+
+            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+            Message('The document has been approved.');
+        end else
+            if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
+                TravelRequest.TestField("Rejection Remarks");
+                if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
+                    TravelRequest.TestField("Travel Order No.");
+                    TravelRequest2.Get(TravelRequest."Travel Order No.");
+                    TravelRequest2.Validate("Travel Claimed", false);
+                    TravelRequest2.Modify;
+                end;
+                CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
+                if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
+                    HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
+                else
+                    HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+                TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
+                Message('The document has been rejected.');
+            end else
+                Error('Cannot reject the document.');
+
         TravelRequest.Posted := true;
         TravelRequest."Approved Date" := Today;
         TravelRequest.Modify;

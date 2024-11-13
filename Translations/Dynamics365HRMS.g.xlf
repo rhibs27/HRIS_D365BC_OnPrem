@@ -1438,6 +1438,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field OT Hrs - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3184509268 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Outdoor Duty Day</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Outdoor Duty Day - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 4117176191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Cycle Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5027,6 +5032,11 @@
           <source>Standard Work Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Standard Work Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Status - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 934214068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tour Day</source>
@@ -19263,15 +19273,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method CheckLodgingAmtNepal - NamedType ErrorLodgingError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2020391132 - Method 1268295149 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to confirm screen this document?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method FinalApprove - NamedType ConfirmScreen</note>
-        </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 1546225756 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to confirm screen this document?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method FinalApproveForTravel - NamedType ConfirmScreen</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2020391132 - Method 3770544972 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to confirm screen this document?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Travel Mgt. - Method FinalApproveForTravelAPI - NamedType ConfirmScreen</note>
         </trans-unit>
         <trans-unit id="Codeunit 2020391132 - Method 1690645978 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to screen this document?</source>

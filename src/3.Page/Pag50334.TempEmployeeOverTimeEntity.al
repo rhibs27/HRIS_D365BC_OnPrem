@@ -56,9 +56,19 @@ page 50334 "Temp Employee OverTime Entity"
             }
             group(Overtime)
             {
-                field(TimeDuration; Rec."Time Duration") { }
-                field(EstimatedHours; Rec."Estimated Hours") { }
-                field(ActualHours; Rec."Actual Hours") { }
+                field(timeDuration; Rec."Time Duration") { }
+                field(estimatedHours; Rec."Estimated Hours") { }
+                field(actualHours; Rec."Actual Hours") { }
+                field(enCashmentCode; Rec."Encashment Code")
+                {
+                }
+                field(OTAmount; Rec."OT Amount")
+                {
+                }
+                field(ReasonOfOT; Rec.Remarks)
+                {
+                }
+
             }
             group(Approval)
             {

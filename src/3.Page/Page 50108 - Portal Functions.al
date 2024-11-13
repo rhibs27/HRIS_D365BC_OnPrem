@@ -45,6 +45,7 @@ page 50108 "Portal Functions"
         UserSetup: Record "User Setup";
         CheckSalaryLevel: Record "Salary Level";
         BelowSOAmt: Decimal;
+        EngNepDate: Record "English-Nepali Date";
 
     local procedure "---API1.00 BEGIN"()
     begin
@@ -202,6 +203,18 @@ page 50108 "Portal Functions"
             Error('Record not found');
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    var
+        EmpActivity: Record "Employee Activity";
+    begin
+        EmpActivity.Get(empActNo);
+        EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
+        EmpActivity.Modify;
+        HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
+    end;
+
     local procedure "------Leave API---------"()
     begin
     end;
@@ -350,21 +363,11 @@ page 50108 "Portal Functions"
         exit(StrSubstNo('{"EstFoodCost" : "%1","EstLodgCost" : "%2","appoverCode" : "%3"}', EstFoodCost, EstLodgCost, approverCode));
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        EmpActivity.Get(empActNo);
-        EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-        EmpActivity.Modify;
-        HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
-    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveTravelActivity(empTravelNo: Code[20]; startDate: Date; endDate: Date; advanceCash: Decimal; approverCode: Code[20]): Text
+    procedure approveTravelActivity(empTravelNo: Code[20]; startDate: Date; endDate: Date; advanceCash: Decimal; isApprove: Boolean; rejectionRemarks: text; approverCode: Code[20]): Text
     var
         //EmpActivity: Record "Employee Activity";
         EmpTravel: Record "Travel Request";
@@ -375,12 +378,39 @@ page 50108 "Portal Functions"
         if EmpTravel."Advance Cash Required" then
             EmpTravel.Validate("Advance Cash", advanceCash);
         EmpTravel.Modify;
-        if (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
+        if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
             TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
         else begin
-            TravelMgt.ApprovedRejectTravelApprovalAPI(true, empTravelNo, approverCode);
+            if not isApprove then begin
+                EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
+                EmpTravel.Modify;
+            end;
+            TravelMgt.ApprovedRejectTravelApprovalAPI(isApprove, empTravelNo, approverCode);
         end;
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveEmployeeTravelClaim(empTravelNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
+    var
+        //EmpActivity: Record "Employee Activity";
+        Travel: Record "Travel Request";
+    begin
+        Travel.Get(empTravelNo);
+        if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
+            TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
+        else begin
+            if not isApproved then begin
+                Travel.Validate("Rejection Remarks", rejectionRemarks);
+                Travel.Modify;
+                TravelMgt.ApprovedRejectTravelApprovalAPI(isApproved, empTravelNo, approverCode);
+            end
+            else
+                TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
+        end;
+
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -637,6 +667,11 @@ page 50108 "Portal Functions"
             else
                 exit(0);
         end;
+    end;
+
+    local procedure "------Loan API---------"()
+    begin
+
     end;
 
     [ServiceEnabled]
@@ -1235,6 +1270,27 @@ page 50108 "Portal Functions"
         Overtime.Insert;
         if TransferMgt.ApplyForApprovalForms(Overtime) then
             exit(200);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    var
+        //EmpActivity: Record "Employee Activity";
+        OverTime: Record OverTime;
+    begin
+        OverTime.Get(empOverTimeNo);
+        if not OverTime.Cancelled then begin
+            if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval") then
+                HrMgt.RecommendEmployeeActivityAPI(empOverTimeNo, employeeNo)
+            else begin
+                if not isApproved then begin
+                    OverTime.Validate("Rejection Remarks", rejectionRemarks);
+                    OverTime.Modify;
+                end;
+                HrMgt.ApprovedRejectApprovalAPI(isApproved, empOverTimeNo, employeeNo);
+            end;
+        end;
     end;
 
     local procedure "---API1.00 END"()
@@ -2599,6 +2655,26 @@ page 50108 "Portal Functions"
     procedure exitCurrentFiscalYear(): Text
     begin
         exit(HrMgt.ReturnFiscalYear(Today)); //Min -- For Exit Current fiscal year (Extra Milage Module)
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure exitNepaliStartDate(engStartDate: Date): Text
+    begin
+        EngNepDate.Reset;
+        EngNepDate.SetRange("English Date", engStartDate);
+        if EngNepDate.FindFirst then
+            Exit(EngNepDate."Nepali Date");
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure exitNepaliEndDate(engEndDate: Date): Text
+    begin
+        EngNepDate.Reset;
+        EngNepDate.SetRange("English Date", engEndDate);
+        if EngNepDate.FindFirst then
+            Exit(EngNepDate."Nepali Date");
     end;
 
     [ServiceEnabled]

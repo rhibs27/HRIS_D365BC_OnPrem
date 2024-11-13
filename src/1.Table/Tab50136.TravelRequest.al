@@ -337,7 +337,8 @@ table 50136 "Travel Request"
                     end;
                 if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
                     Validate("Final Approver Date", Today);
-                    Validate("Final Approver", HRMgt.GetEmployeeNo);
+                    if GuiAllowed then
+                        Validate("Final Approver", HRMgt.GetEmployeeNo);
                 end;
             end;
         }
