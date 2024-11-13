@@ -799,8 +799,8 @@ page 50202 "New Employee Activity Card"
 
                 trigger OnAction()
                 begin
-                    TravelMgt.FinalApprove(Rec);
-                    CurrPage.Close;
+                    // TravelMgt.FinalApprove(Rec); santosh 
+                    // CurrPage.Close;
                 end;
             }
             action("Change Approver")

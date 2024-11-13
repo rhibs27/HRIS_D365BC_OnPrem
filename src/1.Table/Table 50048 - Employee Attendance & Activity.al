@@ -23,9 +23,12 @@ table 50048 "Employee Attendance & Activity"
         field(4; "Check Out Time"; Time)
         {
         }
-        field(5; "Late Remarks"; Text[100])
+        field(5; Status; Enum "Attendance Status")
         {
+            Editable = false;
+
         }
+
         field(6; "Day Type"; Enum "Day Type")
         {
 
@@ -101,16 +104,12 @@ table 50048 "Employee Attendance & Activity"
             MinValue = 0;
         }
         field(25; "Outdoor Duty Day"; Decimal) { }
-        field(26; "Training Day"; Decimal) { }
+        field(26; "Late Remarks"; Text[100])
+        {
+        }
         field(27; "Late Day"; Decimal) { }
         field(28; "Daily Food Allowance"; Decimal) { }
         field(29; "Employee Activity Found"; Boolean) { }
-        field(30; "Employee Name"; Text[50])
-        {
-            CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
-            Editable = false;
-            FieldClass = FlowField;
-        }
         field(31; "Source No."; Code[20])
         {
         }
@@ -168,7 +167,14 @@ table 50048 "Employee Attendance & Activity"
         field(46; "Overtime Disbursed"; Boolean) { }
         field(47; "Night Shift Punch Out Time"; Time) { }
         field(48; "Training Check In Time"; Time) { }
-        field(49; "Training Check Out Time"; Time) { }
+
+
+        field(49; "Employee Name"; Text[50])
+        {
+            CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
+            Editable = false;
+            FieldClass = FlowField;
+        }
         field(50; "Salary Level Code"; Code[10])
         {
             Editable = false;
@@ -183,6 +189,10 @@ table 50048 "Employee Attendance & Activity"
         {
 
         }
+        field(53; "Training Day"; Decimal) { }
+
+        field(54; "Training Check Out Time"; Time) { }
+
     }
 
     keys

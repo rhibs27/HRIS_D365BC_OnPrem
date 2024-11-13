@@ -5,6 +5,7 @@ page 50013 "District List Page"
     PageType = List;
     SourceTable = District;
     ApplicationArea = All;
+    UsageCategory = Lists;
 
     layout
     {
