@@ -97,36 +97,35 @@ table 50034 "Posted Payroll Header"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(26; Type; Enum "Payroll Header Type")
+
+        field(28; Irregular; Boolean) { }
+        field(29; Type; Enum "Payroll Header Type")
         {
 
         }
-        field(27; "Employee Type"; Enum "Employee")
+
+
+
+        field(30; "Employee Type"; Enum "Employee")
         {
 
         }
-        field(28; "Gross Payment"; Boolean) { }
-        field(29; "Posting User ID"; Code[50])
-        {
-            TableRelation = User."User Name";
-            //This property is currently not supported
-            //TestTableRelation = false;
-        }
-        field(30; "Pre-Assigned No."; Code[20]) { }
-        field(31; Reversed; Boolean) { }
-        field(32; Irregular; Boolean) { }
-        field(33; Narration; Text[250])
+
+        field(31; "Gross Payment"; Boolean) { }
+
+
+        field(32; Narration; Text[250])
         {
             Width = 100;
         }
-        field(34; "Previous Year Payroll"; Boolean) { }
-        field(35; "OverTime From"; Date) { }
-        field(36; "OverTime To"; Date) { }
-        field(37; "Encashment Code"; Code[20])
+        field(33; "Previous Year Payroll"; Boolean) { }
+        field(34; "OverTime From"; Date) { }
+        field(35; "OverTime To"; Date) { }
+        field(36; "Encashment Code"; Code[20])
         {
             TableRelation = "OT Encashment Setup";
         }
-        field(38; "Encashment Period"; Enum "Encashment Period")
+        field(37; "Encashment Period"; Enum "Encashment Period")
         {
         }
         field(39; "Posted Date"; DateTime) { }
@@ -147,6 +146,14 @@ table 50034 "Posted Payroll Header"
             Description = 'NIC';
 
         }
+        field(44; "Posting User ID"; Code[50])
+        {
+            TableRelation = User."User Name";
+            //This property is currently not supported
+            //TestTableRelation = false;
+        }
+        field(45; "Pre-Assigned No."; Code[20]) { }
+        field(46; Reversed; Boolean) { }
     }
 
     keys

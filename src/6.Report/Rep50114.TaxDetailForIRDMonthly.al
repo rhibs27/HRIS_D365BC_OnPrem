@@ -24,7 +24,7 @@ report 50114 "Tax Detail For IRD Monthly"
                 dataitem("Detailed Employee Ledger Entry"; "Detailed Employee Ledger Entry")
                 {
                     DataItemLink = "Employee No." = field("No.");
-                    DataItemTableView = where("Attribute Sub Type" = filter("Social Security Tax" | '"Tax on Remuneration & Benefits"'));
+                    DataItemTableView = where("Attribute Sub Type" = filter("Social Security Tax" | "Tax on Remuneration & Benefits"));
                     column(Amount; Amount * -1) { }
                     column(PostingDate; Format("Pay Period End Date")) { }
                     column(TDSAmt; TDSAmt) { }

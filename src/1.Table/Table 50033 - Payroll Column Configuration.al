@@ -91,11 +91,11 @@ table 50033 "Payroll Column Configuration"
 
         TableIDArray[1] := Database::"Payroll Line";
         if WhatToFind = WhatToFind::Field then
-            FillFieldIDArray(FieldIDArray, 1, 51, 50490, 1);
+            FillFieldIDArray(FieldIDArray, 1, 51, 50, 1);
 
         TableIDArray[2] := Database::"Level Wise Attributes";
         if WhatToFind = WhatToFind::Field then
-            FillFieldIDArray(FieldIDArray, 2, 40, 50000, 1);
+            FillFieldIDArray(FieldIDArray, 2, 40, 3, 1);
 
         if WhatToFind = WhatToFind::Object then begin
             Object.SetRange("Object Type", Object."Object Type"::Table);

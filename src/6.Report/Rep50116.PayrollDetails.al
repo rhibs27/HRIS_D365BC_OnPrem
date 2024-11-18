@@ -3,7 +3,7 @@ report 50116 "Payroll Details"
     // //Min 3 feb 2022 (1.1) -- for add condition in months filter.
     // //Min 3 feb 2022 (1.2) -- Commented for skip months request page control.
     DefaultLayout = RDLC;
-    RDLCLayout = './src/6.Report/Rep33019917.PayrollDetails.rdlc';
+    RDLCLayout = './src/6.Report/Rep33019917.PayrollDetails.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
 

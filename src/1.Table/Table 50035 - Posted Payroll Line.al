@@ -176,527 +176,530 @@ table 50035 "Posted Payroll Line"
             Editable = false;
             TableRelation = Currency;
         }
-        field(45; "Posting Date"; Date) { }
-        field(46; "Dimension Set ID"; Integer)
+
+        field(45; "Dimension Set ID"; Integer)
         {
             Caption = 'Dimension Set ID';
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
-        field(47; Reversed; Boolean) { }
-        field(48; "Variable Field 50487"; Decimal)
+
+        field(47; "Variable Field 50487"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,50487';
+            CaptionClass = '8,60024,48';
             Description = 'added for nic';
         }
-        field(49; "Variable Field 50488"; Decimal)
+        field(48; "Variable Field 50488"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,50488';
+            CaptionClass = '8,60024,49';
             Description = 'added for nic';
         }
-        field(50; "Variable Field 50489"; Decimal)
+        field(49; "Variable Field 50489"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,50489';
+            CaptionClass = '8,60024,50';
         }
-        field(51; "Variable Field 50490"; Decimal)
+        field(50; "Variable Field 50490"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,50490';
+            CaptionClass = '8,60024,51';
             Description = 'added for nic';
         }
-        field(52; "Variable Field 50491"; Decimal)
+        field(51; "Variable Field 50491"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,50491';
+            CaptionClass = '8,60024,52';
             Description = 'added for nic';
         }
-        field(53; "Variable Field 50492"; Decimal)
+        field(52; "Variable Field 50492"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50492';
             Description = 'added for nic';
         }
-        field(54; "Variable Field 50493"; Decimal)
+        field(53; "Variable Field 50493"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50493';
             Description = 'added for nic';
         }
-        field(55; "Variable Field 50494"; Decimal)
+        field(54; "Variable Field 50494"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50494';
             Description = 'added for nic';
         }
-        field(56; "Variable Field 50495"; Decimal)
+        field(55; "Variable Field 50495"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50495';
             Description = 'added for nic';
         }
-        field(57; "Variable Field 50496"; Decimal)
+        field(56; "Variable Field 50496"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50496';
             Description = 'added for nic';
         }
-        field(58; "Variable Field 50497"; Decimal)
+        field(57; "Variable Field 50497"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50497';
             Description = 'added for nic';
         }
-        field(59; "Variable Field 50498"; Decimal)
+        field(58; "Variable Field 50498"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50498';
             Description = 'added for nic';
         }
-        field(60; "Variable Field 50499"; Decimal)
+        field(59; "Variable Field 50499"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50499';
             Description = 'added for nic';
         }
-        field(61; "Variable Field 50500"; Decimal)
+        field(60; "Variable Field 50500"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,50500';
             Description = 'added for nic';
         }
-        field(62; "Variable Field 50501"; Decimal)
+        field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50501';
         }
-        field(63; "Variable Field 50502"; Decimal)
+        field(62; "Variable Field 50502"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50502';
         }
-        field(64; "Variable Field 50503"; Decimal)
+        field(63; "Variable Field 50503"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50503';
         }
-        field(65; "Variable Field 50504"; Decimal)
+        field(64; "Variable Field 50504"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50504';
         }
-        field(66; "Variable Field 50505"; Decimal)
+        field(65; "Variable Field 50505"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50505';
         }
-        field(67; "Variable Field 50506"; Decimal)
+        field(66; "Variable Field 50506"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50506';
         }
-        field(68; "Variable Field 50507"; Decimal)
+        field(67; "Variable Field 50507"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50507';
         }
-        field(69; "Variable Field 50508"; Decimal)
+        field(68; "Variable Field 50508"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50508';
         }
-        field(70; "Variable Field 50509"; Decimal)
+        field(69; "Variable Field 50509"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50509';
         }
-        field(71; "Variable Field 50510"; Decimal)
+        field(70; "Variable Field 50510"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50510';
         }
-        field(72; "Variable Field 50511"; Decimal)
+        field(71; "Variable Field 50511"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50511';
         }
-        field(73; "Variable Field 50512"; Decimal)
+        field(72; "Variable Field 50512"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50512';
         }
-        field(74; "Variable Field 50513"; Decimal)
+        field(73; "Variable Field 50513"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50513';
         }
-        field(75; "Variable Field 50514"; Decimal)
+        field(74; "Variable Field 50514"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50514';
         }
-        field(76; "Variable Field 50515"; Decimal)
+        field(75; "Variable Field 50515"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50515';
         }
-        field(77; "Variable Field 50516"; Decimal)
+        field(76; "Variable Field 50516"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50516';
         }
-        field(78; "Variable Field 50517"; Decimal)
+        field(77; "Variable Field 50517"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50517';
         }
-        field(79; "Variable Field 50518"; Decimal)
+        field(78; "Variable Field 50518"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50518';
         }
-        field(80; "Variable Field 50519"; Decimal)
+        field(79; "Variable Field 50519"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50519';
         }
-        field(81; "Variable Field 50520"; Decimal)
+        field(80; "Variable Field 50520"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50520';
         }
-        field(82; "Variable Field 50521"; Decimal)
+        field(81; "Variable Field 50521"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50521';
         }
-        field(83; "Variable Field 50522"; Decimal)
+        field(82; "Variable Field 50522"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50522';
         }
-        field(84; "Variable Field 50523"; Decimal)
+        field(83; "Variable Field 50523"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50523';
         }
-        field(85; "Variable Field 50524"; Decimal)
+        field(84; "Variable Field 50524"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50524';
         }
-        field(86; "Variable Field 50525"; Decimal)
+        field(85; "Variable Field 50525"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50525';
         }
-        field(87; "Variable Field 50526"; Decimal)
+        field(86; "Variable Field 50526"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50526';
         }
-        field(88; "Variable Field 50527"; Decimal)
+        field(87; "Variable Field 50527"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50527';
         }
-        field(89; "Variable Field 50528"; Decimal)
+        field(88; "Variable Field 50528"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50528';
         }
-        field(90; "Variable Field 50529"; Decimal)
+        field(89; "Variable Field 50529"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50529';
         }
-        field(91; "Variable Field 50530"; Decimal)
+        field(90; "Variable Field 50530"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50530';
         }
-        field(92; "Variable Field 50531"; Decimal)
+        field(91; "Variable Field 50531"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50531';
         }
-        field(93; "Variable Field 50532"; Decimal)
+        field(92; "Variable Field 50532"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50532';
         }
-        field(94; "Variable Field 50533"; Decimal)
+        field(93; "Variable Field 50533"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50533';
         }
-        field(95; "Variable Field 50534"; Decimal)
+        field(94; "Variable Field 50534"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50534';
         }
-        field(96; "Variable Field 50535"; Decimal)
+        field(95; "Variable Field 50535"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50535';
         }
-        field(97; "Variable Field 50536"; Decimal)
+        field(96; "Variable Field 50536"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50536';
         }
-        field(98; "Variable Field 50537"; Decimal)
+        field(97; "Variable Field 50537"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50537';
         }
-        field(99; "Variable Field 50538"; Decimal)
+        field(98; "Variable Field 50538"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50538';
         }
-        field(100; "Variable Field 50539"; Decimal)
+        field(99; "Variable Field 50539"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50539';
         }
-        field(101; "Variable Field 50540"; Decimal)
+        field(100; "Variable Field 50540"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 1;
             CaptionClass = '8,60024,50540';
         }
-        field(102; "Bank Name"; Text[50]) { }
-        field(103; "Evening Counter Days"; Decimal)
+        field(101; "Bank Name"; Text[50]) { }
+        field(102; "Evening Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(104; "Holiday Counter Days"; Decimal)
+        field(103; "Holiday Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(105; "Bulk Cash Transfer Days"; Decimal) { }
-        field(106; "Cash Risk Days"; Decimal)
+        field(104; "Bulk Cash Transfer Days"; Decimal) { }
+        field(105; "Cash Risk Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(107; "Friday Counter Days"; Decimal)
+        field(106; "Friday Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(108; "Festival Counter Days"; Decimal)
+        field(107; "Festival Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(109; "Vault Key Days"; Decimal)
+        field(108; "Vault Key Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(110; "Faciliating Hours"; Decimal)
+        field(109; "Faciliating Hours"; Decimal)
         {
         }
-        field(111; "Gratuity Years"; Decimal)
+        field(110; "Gratuity Years"; Decimal)
         {
         }
-        field(112; "Document Type"; Enum "Payroll Document Type")
+        field(111; "Document Type"; Enum "Payroll Document Type")
         {
 
         }
-        field(113; "Resignation Date"; Date) { }
-        field(114; "Annual Leave Days"; Decimal) { }
-        field(115; "Sick Leave Days"; Decimal) { }
-        field(116; "Total Adjusted Leave Days"; Decimal) { }
-        field(117; "Total Insurance Claim Amount"; Decimal) { }
-        field(118; LFA; Decimal) { }
-        field(119; "Morning Counter Days"; Decimal)
+        field(112; "Resignation Date"; Date) { }
+        field(113; "Annual Leave Days"; Decimal) { }
+        field(114; "Sick Leave Days"; Decimal) { }
+        field(115; "Total Adjusted Leave Days"; Decimal) { }
+        field(116; "Total Insurance Claim Amount"; Decimal) { }
+        field(117; LFA; Decimal) { }
+        field(118; "Morning Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(120; "Prior Absent Days"; Decimal) { }
-        field(121; "Prior Present Days"; Decimal) { }
-        field(122; "Salary Advance No."; Code[20]) { }
-        field(123; "CIT Posted 1"; Boolean) { }
-        field(124; "PF Posted 1"; Boolean) { }
-        field(125; "IC Posted 1"; Boolean)
-        {
-            Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)';
-        }
-        field(126; "IC Posted 2"; Boolean)
-        {
-            Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)';
-        }
-        field(127; "CIT Posted 2"; Boolean)
+        field(119; "Prior Absent Days"; Decimal) { }
+        field(120; "Prior Present Days"; Decimal) { }
+        field(121; "Salary Advance No."; Code[20]) { }
+
+        field(122; "Projected Benefit"; Decimal)
         {
         }
-        field(128; "PF Posted 2"; Boolean)
+        field(123; "Past Benefit"; Decimal)
         {
         }
-        field(129; "Projected Benefit"; Decimal)
+        field(124; "Assessable Income"; Decimal)
         {
         }
-        field(130; "Past Benefit"; Decimal)
+        field(125; "Past Retirement Fund"; Decimal)
         {
         }
-        field(131; "Assessable Income"; Decimal)
+        field(126; "Projected Retirement Fund"; Decimal)
         {
         }
-        field(132; "Past Retirement Fund"; Decimal)
+        field(127; "Actual RF Contribution"; Decimal)
         {
         }
-        field(133; "Projected Retirement Fund"; Decimal)
+        field(128; "1/3 of Assessable Income"; Decimal)
         {
         }
-        field(134; "Actual RF Contribution"; Decimal)
+        field(129; "Eligible RF Deduction"; Decimal)
         {
         }
-        field(135; "1/3 of Assessable Income"; Decimal)
+        field(130; "Life Insurance Premium"; Decimal)
         {
         }
-        field(136; "Eligible RF Deduction"; Decimal)
+        field(131; "Health Insurance Premium"; Decimal)
         {
         }
-        field(137; "Life Insurance Premium"; Decimal)
+        field(132; "Taxable Income"; Decimal)
         {
         }
-        field(138; "Health Insurance Premium"; Decimal)
+        field(133; "Disable Person Reduction"; Decimal)
         {
         }
-        field(139; "Taxable Income"; Decimal)
+        field(134; "Female Tax Credit"; Decimal)
         {
         }
-        field(140; "Disable Person Reduction"; Decimal)
+        field(135; "Total Tax Liability"; Decimal)
         {
         }
-        field(141; "Female Tax Credit"; Decimal)
+        field(136; "Payable Tax Liability"; Decimal)
         {
         }
-        field(142; "Total Tax Liability"; Decimal)
+        field(137; "Net Tax Liability"; Decimal)
         {
         }
-        field(143; "Payable Tax Liability"; Decimal)
+        field(138; "Social Security Tax(Annual)"; Decimal)
         {
         }
-        field(144; "Net Tax Liability"; Decimal)
+        field(139; "Tax on Remuneration(Annual)"; Decimal)
         {
         }
-        field(145; "Social Security Tax(Annual)"; Decimal)
+        field(140; "Total Tax Paid"; Decimal)
         {
         }
-        field(146; "Tax on Remuneration(Annual)"; Decimal)
+        field(141; "Carry Forwarded Sick"; Decimal)
         {
         }
-        field(147; "Total Tax Paid"; Decimal)
+        field(142; "Carry Forward Annual"; Decimal)
         {
         }
-        field(148; "Carry Forwarded Sick"; Decimal)
+        field(143; "Prorata Sick"; Decimal)
         {
         }
-        field(149; "Carry Forward Annual"; Decimal)
+        field(144; "Prorata Annual"; Decimal)
         {
         }
-        field(150; "Prorata Sick"; Decimal)
+        field(145; "Used Leave Sick"; Decimal)
         {
         }
-        field(151; "Prorata Annual"; Decimal)
+        field(146; "Used Leave Annual"; Decimal)
         {
         }
-        field(152; "Used Leave Sick"; Decimal)
+        field(147; "Gratuity & leave Encash Tax"; Decimal)
         {
         }
-        field(153; "Used Leave Annual"; Decimal)
+        field(148; "Projection Month"; Decimal)
         {
         }
-        field(154; "Gratuity & leave Encash Tax"; Decimal)
-        {
-        }
-        field(155; "Projection Month"; Decimal)
-        {
-        }
-        field(156; "Deputation On"; Enum "Deputation Type")
+        field(149; "Deputation On"; Enum "Deputation Type")
         {
 
         }
-        field(157; "Deputation Code"; Code[20])
+        field(150; "Deputation Code"; Code[20])
         {
         }
-        field(158; "Sol ID"; Code[10])
+        field(151; "Sol ID"; Code[20])
         {
         }
-        field(159; "1% Slab"; Decimal)
+        field(152; "1% Slab"; Decimal)
         {
         }
-        field(160; "10% Slab"; Decimal)
+        field(153; "10% Slab"; Decimal)
         {
         }
-        field(161; "20% Slab"; Decimal)
+        field(154; "20% Slab"; Decimal)
         {
         }
-        field(162; "30% Slab"; Decimal)
+        field(155; "30% Slab"; Decimal)
         {
         }
-        field(163; "36% Slab"; Decimal)
+        field(156; "36% Slab"; Decimal)
         {
         }
-        field(164; Type; Enum "Payroll Header Type")
+        field(157; Type; Enum "Payroll Header Type")
         {
         }
-        field(165; "Remote Area Deduction"; Decimal)
+        field(158; "Remote Area Deduction"; Decimal)
         {
         }
-        field(166; Gender; Enum "Employee Gender")
+        field(159; Gender; Enum "Employee Gender")
         {
             Caption = 'Gender';
         }
-        field(167; "Marital Status"; Enum "Marital Status")
+        field(160; "Marital Status"; Enum "Marital Status")
         {
 
         }
-        field(168; "Total SST Paid"; Decimal) { }
-        field(169; "Total Tax Remuneration Paid"; Decimal) { }
-        field(170; "LWP Days"; Decimal) { }
-        field(171; "Prior Leave Days"; Decimal) { }
-        field(172; "Property Insurance Premium"; Decimal) { }
+        field(161; "Total SST Paid"; Decimal) { }
+        field(162; "Total Tax Remuneration Paid"; Decimal) { }
+        field(163; "LWP Days"; Decimal) { }
+        field(164; "Prior Leave Days"; Decimal) { }
+        field(165; "Property Insurance Premium"; Decimal) { }
+        field(181; "Posting Date"; Date) { }
+        field(174; Reversed; Boolean) { }
+        field(175; "CIT Posted 1"; Boolean) { }
+        field(176; "PF Posted 1"; Boolean) { }
+        field(177; "IC Posted 1"; Boolean)
+        {
+            Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)';
+        }
+        field(178; "IC Posted 2"; Boolean)
+        {
+            Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)';
+        }
+        field(179; "CIT Posted 2"; Boolean)
+        {
+        }
+        field(180; "PF Posted 2"; Boolean)
+        {
+        }
     }
 
     keys

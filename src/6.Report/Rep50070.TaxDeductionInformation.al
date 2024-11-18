@@ -734,7 +734,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee.GetFilter("No."));
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70026);
+        FieldRefs := RecRefs.Field(148);
         ProjectionMonth := FieldRefs.Value;
         ProjectionMonth += 1;
         PayrollAttributes.SetCurrentKey("Tax Info Report Type");
@@ -802,7 +802,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee.GetFilter("No."));
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70026);
+        FieldRefs := RecRefs.Field(124);
         ProjectionMonth := FieldRefs.Value;
         ProjectionMonth += 1;
 
@@ -873,7 +873,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee.GetFilter("No."));
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70005);
+        FieldRefs := RecRefs.Field(127);
         EstimatedRF := FieldRefs.Value;
 
         CurrentPayroll.Init;
@@ -900,7 +900,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(EmployeeNo);
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70006);
+        FieldRefs := RecRefs.Field(128);
         EligibleRF := FieldRefs.Value;
         if PGSetup."Tax Ex. Amt. not Exceeding" < EligibleRF then
             EligibleRF := PGSetup."Tax Ex. Amt. not Exceeding";
@@ -950,7 +950,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70008);
+        FieldRefs := RecRefs.Field(130);
         InsuranceAmt := FieldRefs.Value;
         //FieldRefs := RecRefs.FIELD(70009);
         //InsuranceAmt := FieldRefs.VALUE;
@@ -979,7 +979,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70010);
+        FieldRefs := RecRefs.Field(132);
 
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1006,7 +1006,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70011);
+        FieldRefs := RecRefs.Field(133);
         DisablePersonReduction := FieldRefs.Value;
         RecRefs.Close;
 
@@ -1064,7 +1064,7 @@ report 50070 "Tax Deduction Information"
             FieldRefs := RecRefs.Field(3);
             FieldRefs.SetRange(Employee."No.");
             RecRefs.FindFirst;
-            FieldRefs := RecRefs.Field(70029 + SlabCount);
+            FieldRefs := RecRefs.Field(151 + SlabCount);
             SlabAmount := FieldRefs.Value;
 
             CurrentPayroll.Init;
@@ -1079,6 +1079,7 @@ report 50070 "Tax Deduction Information"
             CurrentPayroll."Decimal Value" := 0;
             CurrentPayroll."Total Value" := SlabAmount;
             CurrentPayroll.Insert;
+            SlabCount += 1;
             IncrementRowColumn;
             IncrementRowColumn;
         end;
@@ -1093,7 +1094,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70014);
+        FieldRefs := RecRefs.Field(136);
         EstimatedTax := FieldRefs.Value;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1119,7 +1120,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70018);
+        FieldRefs := RecRefs.Field(140);
         TotalTaxPaid := FieldRefs.Value;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1171,7 +1172,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70015);
+        FieldRefs := RecRefs.Field(137);
         RemainingTax := FieldRefs.Value;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1198,7 +1199,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(Employee."No.");
 
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(12);
+        FieldRefs := RecRefs.Field(7);
         CurrentMonthTax := FieldRefs.Value;
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
@@ -1225,7 +1226,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs.SetRange(Employee."No.");
 
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70002);
+        FieldRefs := RecRefs.Field(124);
         Assessableincome := FieldRefs.Value;
 
         CurrentPayroll.Init;
@@ -1252,7 +1253,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70009);
+        FieldRefs := RecRefs.Field(131);
         HealthInsuranceAmt := FieldRefs.Value;
 
         RecRefs.Close;
@@ -1279,7 +1280,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(80001);
+        FieldRefs := RecRefs.Field(158);
         RemoteAreaAmt := FieldRefs.Value;
 
         RecRefs.Close;
@@ -1332,7 +1333,7 @@ report 50070 "Tax Deduction Information"
         FieldRefs := RecRefs.Field(3);
         FieldRefs.SetRange(Employee."No.");
         RecRefs.FindFirst;
-        FieldRefs := RecRefs.Field(70012);
+        FieldRefs := RecRefs.Field(134);
 
         CurrentPayroll.Init;
         CurrentPayroll."Row No." := RowNo;
