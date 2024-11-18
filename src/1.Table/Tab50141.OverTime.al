@@ -143,8 +143,8 @@ table 50141 OverTime
                         if "Start Date" > 20221207D then begin
                             PayrollGenSetup.Get;
                             if EmployeeAttendanceActivity.Get("Employee No.", "Start Date") then begin
-                                SalaryLevelRec.Get(EmployeeAttendanceActivity."Salary Level Code");
-                                SalaryGrade.Get(EmployeeAttendanceActivity."Salary Grade");
+                                SalaryLevelRec.Get(EmpVar."Salary Level");
+                                SalaryGrade.Get(EmpVar."Salary Grade");
                                 if "Encashment Code" = PayrollGenSetup.Overtime then begin
                                     if EmpVar."Salary Level" = PayrollGenSetup."TA Salary Level" then
                                         "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))

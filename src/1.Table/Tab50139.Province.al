@@ -13,7 +13,7 @@ table 50139 Province
         {
             Caption = 'Description';
         }
-        field(3; "Sol ID"; Code[10]) { DataClassification = ToBeClassified; }
+        field(3; "Sol ID"; Code[20]) { DataClassification = ToBeClassified; }
         field(4; "Posting Region"; Enum Region)
         {
             DataClassification = ToBeClassified;

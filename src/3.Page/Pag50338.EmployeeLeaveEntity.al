@@ -1,15 +1,15 @@
-page 50337 "Employee OverTime Entity"
+page 50338 "Employee Leave Entity"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     APIVersion = 'v2.0';
     ApplicationArea = All;
-    Caption = 'employeeOverTimeEntity';
+    Caption = 'employeeLeaveEntity';
     DelayedInsert = true;
-    EntityName = 'employeeOverTime';
-    EntitySetName = 'employeeOverTimeEntity';
+    EntityName = 'employeeLeave';
+    EntitySetName = 'employeeLeaveEntity';
     PageType = API;
-    SourceTable = OverTime;
+    SourceTable = Leave;
 
     layout
     {
@@ -44,33 +44,30 @@ page 50337 "Employee OverTime Entity"
                 field(approverType; Rec."Approver Type") { }
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
+            }
+            group(Leave)
+            {
+                field(leaveCode; Rec."Leave Code") { }
+                field(leaveDescription; Rec."Leave Description") { }
+                field(leaveType; Rec."Leave Type") { }
+                field(payType; Rec."Pay Type") { }
+                field(startTime; Rec."Start Time") { }
+                field(endTime; Rec."End Time") { }
+                field(compensatoryDate; Rec."Compensatory Date") { }
+                field(childGender; Rec."Child's Gender") { }
+                field(forDeathOf; Rec."For Death Of") { }
+                field(contactNo; Rec."Contact No.") { }
                 field(remarks; Rec.Remarks) { }
-                field(screenerRemarks; Rec."Screener Remarks") { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }
-            }
-            group(Overtime)
-            {
-                field(TimeDuration; Rec."Time Duration") { }
-                field(ActualHours; Rec."Actual Hours") { }
-                field(EstimatedHours; Rec."Estimated Hours") { }
-                field(EncashmentCode; Rec."Encashment Code") { }
-                field(OTAmount; Rec."OT Amount") { }
-                field(OTDisbursed; Rec."OT Disbursed") { }
-            }
-            part(Attachment; "Attachment Subform")
-            {
-                EntityName = 'attachmentEntity';
-                EntitySetName = 'attachmentEntities';
-                SubPageLink = "No." = field("No.");
             }
             group(Approval)
             {
-                field(recommendercode; Rec."Recommender Code")
+                field(recommenderCode; Rec."Recommender Code")
                 {
                 }
-                field(recommnedername; Rec."Recommender Name") { }
-                field(approvercode; Rec."Approver Code") { }
-                field(approvername; Rec."Approver Name") { }
+                field(recommenderName; Rec."Recommender Name") { }
+                field(approverCode; Rec."Approver Code") { }
+                field(approverName; Rec."Approver Name") { }
             }
         }
     }

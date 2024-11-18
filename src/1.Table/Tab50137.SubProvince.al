@@ -60,7 +60,7 @@ table 50137 "Sub Province"
             DataClassification = ToBeClassified;
             Editable = false;
         }
-        field(8; "Sol ID"; Code[10])
+        field(8; "Sol ID"; Code[20])
         {
             DataClassification = ToBeClassified;
         }

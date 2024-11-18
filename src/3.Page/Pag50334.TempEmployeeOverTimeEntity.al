@@ -100,7 +100,7 @@ page 50334 "Temp Employee OverTime Entity"
                             // Rec.Type::"Travel Claim": //nilesh
                             //     HRMgt.ApplyForTravelClaim(Rec); //nilesh
                             Rec.Type::"Out of Office", Rec.Type::Overtime, Rec.Type::"Bulk Cash":
-                                TransferMgt.ApplyForApprovalForms(Rec);
+                                OverTimeMgt.ApplyForOverTimeApprovalForms(Rec);
                         //     Rec.Type::"Attendance Missed":
                         // //     HRMgt.ApplyCancelEmployeeActivity(Rec);
                         end;
@@ -117,5 +117,5 @@ page 50334 "Temp Employee OverTime Entity"
         }
     }
     var
-        TransferMgt: codeUnit "Transfer Mgt.";
+        OverTimeMgt: codeUnit "OverTime Mgt";
 }

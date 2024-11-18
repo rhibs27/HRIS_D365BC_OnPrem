@@ -166,7 +166,7 @@ page 50106 "Overtime Card"
 
                 trigger OnAction()
                 begin
-                    TransferMgt.ApplyForApprovalForms(Rec);
+                    OverTimeMgt.ApplyForOverTimeApprovalForms(Rec);
                     IsApplied := true;
                     CurrPage.Close;
                 end;
@@ -277,7 +277,7 @@ page 50106 "Overtime Card"
     var
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
-        TransferMgt: Codeunit "Transfer Mgt.";
+        OverTimeMgt: Codeunit "OverTime Mgt";
         IsApplied: Boolean;
         FormEditable: Boolean;
         ForRecommend: Boolean;

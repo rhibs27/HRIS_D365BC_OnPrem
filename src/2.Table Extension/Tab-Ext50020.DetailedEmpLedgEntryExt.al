@@ -153,7 +153,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50029; "Sol ID"; Code[10])
+        field(50029; "Sol ID"; Code[20])
         {
             DataClassification = ToBeClassified;
         }

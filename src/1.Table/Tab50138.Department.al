@@ -100,7 +100,7 @@ table 50138 Department
                 PostCode.CheckClearPostCodeCityCounty(City, "Province Code", County, "Country/Region Code", xRec."Country/Region Code");
             end;
         }
-        field(15; "Sol ID"; Code[10]) { }
+        field(15; "Sol ID"; Code[20]) { }
         field(16; Blocked; Boolean) { }
         field(17; "Eco-System"; Code[20])
         {

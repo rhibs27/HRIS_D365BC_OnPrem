@@ -111,7 +111,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
-        HRmgt.SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Request", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
+        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Request", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
         Message('Travel Request has been sent for apporval.');
         exit(true);
     end;

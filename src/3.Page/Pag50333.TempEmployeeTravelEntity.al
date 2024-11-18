@@ -1,4 +1,4 @@
-page 50333 "Temp Employee Travel  Entity"
+page 50333 "Temp Employee Travel Entity"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
@@ -10,7 +10,7 @@ page 50333 "Temp Employee Travel  Entity"
     EntitySetName = 'tempEmployeeTravelEntity';
     PageType = API;
     SourceTable = "Travel Request";
-    SourceTableTemporary = true;
+    //SourceTableTemporary = true;
     layout
     {
         area(Content)
@@ -74,15 +74,15 @@ page 50333 "Temp Employee Travel  Entity"
                 {
                     Editable = true;
 
-                    trigger OnValidate()
-                    var
-                        //EmpActivity: Record "Employee Activity";
-                        Travel: Record "Travel Request";
-                    begin
-                        if Rec."Travel Order No." <> '' then
-                            if Travel.Get(Rec."Travel Order No.") then
-                                Rec.Validate("Travel With", Travel."Travel With")
-                    end;
+                    // trigger OnValidate()
+                    // var
+                    //     //EmpActivity: Record "Employee Activity";
+                    //     Travel: Record "Travel Request";
+                    // begin
+                    //     if Rec."Travel Order No." <> '' then
+                    //         if Travel.Get(Rec."Travel Order No.") then
+                    //             Rec.Validate("Travel With", Travel."Travel With")
+                    // end;
                 }
                 field(totalNoOfDays; Rec."Total No. of Days") { }
                 field(currencyCode; Rec."Currency Code") { }
@@ -152,6 +152,11 @@ page 50333 "Temp Employee Travel  Entity"
             }
         }
     }
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: CodeUnit "Travel Mgt.";

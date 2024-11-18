@@ -44,6 +44,9 @@ page 50336 "Employee Travel Entity"
                 field(approverType; Rec."Approver Type") { }
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
+                field(remarks; Rec.Remarks) { }
+                field(screenerRemarks; Rec."Screener Remarks") { }
+                field(rejectionRemarks; Rec."Rejection Remarks") { }
             }
             group("Travel Request")
             {

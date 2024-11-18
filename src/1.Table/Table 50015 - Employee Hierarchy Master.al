@@ -34,7 +34,7 @@ table 50015 "Employee Hierarchy Master"
             CaptionClass = '1,2,1';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
         }
-        field(6; "Sol ID"; Code[10]) { }
+        field(6; "Sol ID"; Code[20]) { }
         field(7; "Department Code"; Code[10])
         {
             TableRelation = Department;
