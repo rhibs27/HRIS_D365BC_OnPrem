@@ -31,6 +31,9 @@ page 50108 "Portal Functions"
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         leaveMgt: Codeunit "Leave Mgt.";
+        OverTimeMgt: Codeunit "OverTime Mgt";
+        ResignationMgt: Codeunit "Resignation Mgt";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         FileManagement: Codeunit "File Management";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
@@ -106,6 +109,7 @@ page 50108 "Portal Functions"
               ',"recommendercode": "' + Employee."KPI Deputation Value" +
               '","approverCode": "' + Employee."Approver Code" +
               '","isAdmin": "' + isAdmin +
+              '","employeeName": "' + Employee."Full Name" +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
@@ -122,7 +126,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text): Text
+    procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text; approverCode: Code[20]): Text
     var
         AttendanceLog: Record "Attendance Log";
     begin
@@ -131,7 +135,7 @@ page 50108 "Portal Functions"
         AttendanceLog.SetRange(Date, lateAttendanceDate);
         if AttendanceLog.FindFirst then begin
             Employee.Reset;
-            Employee.SetRange("NAV Login ID", UserId);
+            Employee.SetRange("No.", approverCode);
             if Employee.FindFirst then
                 if Employee."No." <> AttendanceLog."Approver Code" then
                     Error('You are not eligible to approve or reject this document');
@@ -205,14 +209,14 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
     var
         EmpActivity: Record "Employee Activity";
     begin
         EmpActivity.Get(empActNo);
         EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
         EmpActivity.Modify;
-        HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
+        HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, approverCode);
     end;
 
     local procedure "------Leave API---------"()
@@ -311,6 +315,78 @@ page 50108 "Portal Functions"
     local procedure "------Travel API---------"()
     begin
 
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitTravelRequest(
+    "type": Text;
+    "employeeNo": Code[20];
+    "startDate": date;
+    "endDate": date;
+    "requestedDate": Date;
+    "purposeOfTravel": text;
+    "typeOfVisit": text;
+    "modeOfTravel": text;
+    "travelType": text;
+    "travelWith": code[20];
+    "departureFrom": text;
+    "destination": text;
+    "description": text;
+    "advanceCashRequired": Boolean;
+    "estimatedConveyanceExpense": Decimal;
+    "otherEstimatedCost": Decimal;
+    "departureTime": Time;
+    "arrivalTime": Time;
+    "extended": Boolean;
+    advanceCash: Decimal;
+
+    "recommenderCode": Code[20];
+    "approverCode": code[20]): Integer
+    var
+        TravelRequest: Record "Travel Request" temporary;
+        TravelMgt: Codeunit "Travel Mgt.";
+        TypeOfVisitEnum: Enum "Type Of Visit";
+        ModeOfTravelEnum: Enum "Mode Of Travel";
+        TravelTypeEnum: Enum "Travel Countries";
+        typeEnum: Enum "Employee Activity Type";
+    begin
+        Employee.Get(employeeNo);
+        /*SalaryLevel.GET(Employee."Salary Level");
+        IF NOT SalaryLevel."OT Eligible" THEN
+          ERROR(OTEligibleError,Employee.FullName);*/
+        typeOfVisitEnum := Enum::"Type Of Visit".FromInteger(typeOfVisitEnum.Ordinals.Get(typeOfVisitEnum.Names.IndexOf(typeOfVisit)));
+        ModeOfTravelEnum := Enum::"Mode Of Travel".FromInteger(ModeOfTravelEnum.Ordinals.Get(ModeOfTravelEnum.Names.IndexOf(modeOfTravel)));
+        TravelTypeEnum := Enum::"Travel Countries".FromInteger(TravelTypeEnum.Ordinals.Get(TravelTypeEnum.Names.IndexOf(TravelType)));
+        typeEnum := Enum::"Employee Activity Type".FromInteger(typeEnum.Ordinals.Get(typeEnum.Names.IndexOf(Type)));
+
+        TravelRequest.Reset;
+        TravelRequest.Init;
+        TravelRequest.Validate(Type, typeEnum);
+        TravelRequest.Validate("Employee No.", employeeNo);
+        TravelRequest.Validate("Start Date", startDate);
+        TravelRequest.Validate("End Date", endDate);
+        TravelRequest.Validate("Requested Date", requestedDate);
+        TravelRequest.Validate("Purpose of Travel", purposeOfTravel); //Min 11.29.2022
+        TravelRequest.Validate("Type Of Visit", typeOfVisitEnum);
+        TravelRequest.Validate("Mode Of Travel", ModeOfTravelEnum);
+        TravelRequest.Validate("Travel Countries", TravelTypeEnum);
+        TravelRequest.Validate("Travel With", travelWith);
+        TravelRequest.Validate("Depature From", departureFrom);
+        TravelRequest.Validate(Destination, destination);
+        TravelRequest.Validate(Extended, extended);
+        TravelRequest.Validate("Advance Cash Required", advanceCashRequired);
+        TravelRequest.Validate("Advance Cash", advanceCash);
+        TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
+        TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
+        TravelRequest.Validate("Travel With", travelWith);
+        TravelRequest.Validate("Depature Time", departureTime);
+        TravelRequest.Validate("Arrival Time", arrivalTime);
+        TravelRequest.Validate("Recommender Code", recommenderCode);
+        TravelRequest.Validate("Approver Code", approverCode);
+        TravelRequest.Insert;
+        if TravelMgt.ApplyForTravel(TravelRequest) then
+            exit(200);
     end;
 
     [ServiceEnabled]
@@ -1217,19 +1293,24 @@ page 50108 "Portal Functions"
         LoanMgt.ReturnAllowanceAssignment(entryNo);
     end;
 
+    local procedure "------Resignation API---------"()
+    begin
+    end;
+
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveResignationDoc(docNo: Code[20]; remarks: Text; isApproved: Boolean)
+    procedure approveResignationDoc(docNo: Code[20]; remarks: Text; isApproved: Boolean; employeeNo: code[20])
     var
-        EmpActivity: Record "Employee Activity";
+        //EmpActivity: Record "Employee Activity";
+        Resignation: Record Resignation;
         DocumentApprover: Record "Document Approver";
     begin
 
-        EmpActivity.Get(docNo);
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Recommended);
+        Resignation.Get(docNo);
+        Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended);
         DocumentApprover.Reset;
-        DocumentApprover.SetRange("Document No.", EmpActivity."No.");
-        DocumentApprover.SetRange("Employee No.", HrMgt.GetEmployeeNo);
+        DocumentApprover.SetRange("Document No.", Resignation."No.");
+        DocumentApprover.SetRange("Employee No.", employeeNo);
         if DocumentApprover.FindFirst then begin
             if isApproved then begin
                 DocumentApprover.Validate(Remarks, remarks);
@@ -1246,11 +1327,37 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure approveEmployeeResignation(empResignNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    var
+        //EmpActivity: Record "Employee Activity";
+        Resignation: Record Resignation;
+    begin
+        Resignation.Get(empResignNo);
+        if Resignation.Type = Resignation.Type::Resignation then begin
+            if isApproved then begin
+                Resignation.Validate(Remarks, rejectionRemarks);
+                Resignation.Modify;
+                ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
+            end else begin
+                Resignation.Validate("Rejection Remarks", rejectionRemarks);
+                Resignation.Modify;
+                ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
+            end;
+            exit;
+        end;
+    end;
+
+    local procedure "------OverTime API---------"()
+    begin
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure submitOvertime(employeeNo: Code[20]; OTDate: Date; reasonforOT: Text; recommenderCode: Code[20]; approverCode: Code[20]; estimatedHrs: Decimal; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
-        TransferMgt: Codeunit "Transfer Mgt.";
+        OverTimeMgt: codeUnit "OverTime Mgt";
     begin
         Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
@@ -1268,28 +1375,26 @@ page 50108 "Portal Functions"
         Overtime.Validate("Recommender Code", recommenderCode);
         Overtime.Validate("Approver Code", approverCode);
         Overtime.Insert;
-        if TransferMgt.ApplyForApprovalForms(Overtime) then
+        if OverTimeMgt.ApplyForOverTimeApprovalForms(Overtime) then
             exit(200);
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approvalCode: Code[20])
     var
         //EmpActivity: Record "Employee Activity";
         OverTime: Record OverTime;
     begin
         OverTime.Get(empOverTimeNo);
-        if not OverTime.Cancelled then begin
-            if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval") then
-                HrMgt.RecommendEmployeeActivityAPI(empOverTimeNo, employeeNo)
-            else begin
-                if not isApproved then begin
-                    OverTime.Validate("Rejection Remarks", rejectionRemarks);
-                    OverTime.Modify;
-                end;
-                HrMgt.ApprovedRejectApprovalAPI(isApproved, empOverTimeNo, employeeNo);
+        if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval") then
+            OverTimeMgt.RecommendEmployeeOverTimeAPI(empOverTimeNo, approvalCode)
+        else begin
+            if not isApproved then begin
+                OverTime.Validate("Rejection Remarks", rejectionRemarks);
+                OverTime.Modify;
             end;
+            OverTimeMgt.ApprovedRejectOverTimeApprovalAPI(isApproved, empOverTimeNo, approvalCode);
         end;
     end;
 
@@ -2177,7 +2282,7 @@ page 50108 "Portal Functions"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get(AppraisalCode) then begin
-            HrMgt.OnValidateKRACategory(AppraisalRec);
+            AppraisalMgt.OnValidateKRACategory(AppraisalRec);
         end;
     end;
 
@@ -2188,7 +2293,7 @@ page 50108 "Portal Functions"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get(appraisalCode) then
-            HrMgt.ApproveRejectAppraisal(true, AppraisalRec);
+            AppraisalMgt.ApproveRejectAppraisal(true, AppraisalRec);
     end;
 
     [ServiceEnabled]

@@ -52,6 +52,7 @@ page 50171 "Temp Employee Activity Entity"
                 field(approverType; Rec."Approver Type") { }
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
+                field(remarks; Rec.Remarks) { }
             }
             // group(Leave)
             // {
@@ -238,10 +239,10 @@ page 50171 "Temp Employee Activity Entity"
                 {
                     trigger OnValidate()
                     begin
-                        // if Rec.Type = Rec.Type::Resignation then
-                        //     ResignationMgt.SendResignationApproval(Rec);
+                        if Rec.Type = Rec.Type::Resignation then
+                            HRMgt.SendResignationApproval(Rec);
                         // if Rec.Type = Rec.Type::"Employee Transfer" then
-                        //     TransferMgt.SendTransferApproval(Rec);
+                        //     HRMgt.SendTransferApproval(Rec);
                     end;
                 }
                 field(recommnedername; Rec."Recommender Name") { }
@@ -250,21 +251,21 @@ page 50171 "Temp Employee Activity Entity"
                     trigger OnValidate()
                     begin
                         case Rec.Type of
-                        // Rec.Type::"Leave Request":
-                        //     begin
-                        //         if Rec.Cancelled then
-                        //             HRMgt.ApplyCancelEmployeeActivity(Rec)
-                        //         // else
-                        //         //     HRMgt.ApplyForLeave(Rec); NIlesh
-                        //     end;
-                        // Rec.Type::"Travel Request": //nilesh
-                        //     HRMgt.ApplyForTravel(Rec); //nilesh
-                        // Rec.Type::"Travel Claim": //nilesh
-                        //     HRMgt.ApplyForTravelClaim(Rec); //nilesh
-                        // Rec.Type::"Out of Office", Rec.Type::Overtime, Rec.Type::"Bulk Cash":
-                        //     TransferMgt.ApplyForApprovalForms(Rec);
-                        // Rec.Type::"Attendance Missed":
-                        //     HRMgt.ApplyCancelEmployeeActivity(Rec);
+                            // Rec.Type::"Leave Request":
+                            //     begin
+                            //         if Rec.Cancelled then
+                            //             HRMgt.ApplyCancelEmployeeActivity(Rec)
+                            //         // else
+                            //         //     HRMgt.ApplyForLeave(Rec); NIlesh
+                            //     end;
+                            // Rec.Type::"Travel Request": //nilesh
+                            //     HRMgt.ApplyForTravel(Rec); //nilesh
+                            // Rec.Type::"Travel Claim": //nilesh
+                            //     HRMgt.ApplyForTravelClaim(Rec); //nilesh
+                            // Rec.Type::"Out of Office", Rec.Type::Overtime, Rec.Type::"Bulk Cash":
+                            //     TransferMgt.ApplyForApprovalForms(Rec);
+                            Rec.Type::"Attendance Missed":
+                                HRMgt.ApplyCancelEmployeeActivity(Rec);
                         end;
                     end;
                 }

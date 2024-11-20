@@ -30,6 +30,9 @@ page 50340 "Portal Function"
         LoanMgt: Codeunit "Loan Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
+        OverTimeMgt: Codeunit "OverTime Mgt";
+        ResignationMgt: Codeunit "Resignation Mgt";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         FileManagement: Codeunit "File Management";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
@@ -1186,7 +1189,7 @@ page 50340 "Portal Function"
         Overtime.Validate("Recommender Code", recommenderCode);
         Overtime.Validate("Approver Code", approverCode);
         Overtime.Insert;
-        if TransferMgt.ApplyForApprovalForms(Overtime) then
+        if OverTimeMgt.ApplyForOverTimeApprovalForms(Overtime) then
             exit(200);
     end;
 
@@ -2074,7 +2077,7 @@ page 50340 "Portal Function"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get(AppraisalCode) then begin
-            HrMgt.OnValidateKRACategory(AppraisalRec);
+            AppraisalMgt.OnValidateKRACategory(AppraisalRec);
         end;
     end;
 
@@ -2085,7 +2088,7 @@ page 50340 "Portal Function"
         AppraisalRec: Record Appraisal;
     begin
         if AppraisalRec.Get(appraisalCode) then
-            HrMgt.ApproveRejectAppraisal(true, AppraisalRec);
+            AppraisalMgt.ApproveRejectAppraisal(true, AppraisalRec);
     end;
 
     [ServiceEnabled]

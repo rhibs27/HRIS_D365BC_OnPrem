@@ -1017,47 +1017,147 @@ table 50136 "Travel Request"
                         end;
                 end;
             end;
-
-        // InsertAttachmentLines;
     end;
 
-    // local procedure InsertAttachmentLines()
-    // var
-    //     IncomingDocument: Record "Incoming Document";
-    //     AttachmentMandatory: Record "Attachment Setup";
-    // begin
-    //     case Type of
-    //         Type::"Employee Transfer", Type::"HR Transfer":
-    //             begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //                 IncomingDocument.SetRange("No.", "No.");
-    //                 IncomingDocument.DeleteAll(true);
-    //                 AttachmentMandatory.Reset;
-    //                 AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
-    //                 AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
-    //                 if AttachmentMandatory.FindFirst then
-    //                     repeat
-    //                         Clear(IncomingDocument);
-    //                         IncomingDocument.Reset;
-    //                         IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //                         IncomingDocument.SetRange("No.", "No.");
-    //                         IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //                         if not IncomingDocument.FindFirst then begin
-    //                             IncomingDocument.Reset;
-    //                             IncomingDocument.Init;
-    //                             IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                             IncomingDocument.Description := Rec.TableName;
-    //                             IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                             IncomingDocument."No." := "No.";
-    //                             IncomingDocument."Employee Code" := "Employee No.";
-    //                             IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-    //                             IncomingDocument.Insert(true);
-    //                         end;
-    //                     until AttachmentMandatory.Next = 0;
-    //             end;
-    //     end;
-    // end;
+    procedure AssistEdit(OldTravel: Record "Travel Request"): Boolean
+    var
+        //EmpAct: Record "Employee Activity";
+        Travel: Record "Travel Request";
+    begin
+        HRSetup.Get;
+        Travel := Rec;
+        if EmpAct.Cancelled then begin
+            HRSetup.TestField("Cancel Document No. Series");
+            if NoSeriesMgt.SelectSeries(HRSetup."Cancel Document No. Series", OldTravel."No. Series", EmpAct."No. Series") then begin
+                NoSeriesMgt.SetSeries(EmpAct."No.");
+                Rec := Travel;
+                exit(true);
+            end;
+        end else begin
+            case EmpAct.Type of
+                //change in employee
+                EmpAct.Type::"Changes in employee":
+                    begin
+                        HRSetup.TestField("Employee Change No. Series");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Employee Change No. Series", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //access control
+                EmpAct.Type::"Access Control":
+                    begin
+                        HRSetup.TestField("Access Control No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Access Control No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //attendance missed
+                EmpAct.Type::"Attendance Missed":
+                    begin
+                        HRSetup.TestField("Attendance Missed No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Attendance Missed No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for leave
+                EmpAct.Type::"Leave Request":
+                    begin
+                        HRSetup.TestField("Leave No. Series");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Leave No. Series", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for travel request
+                EmpAct.Type::"Travel Request":
+                    begin
+                        HRSetup.TestField("Travel Request No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Request No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for travel claim
+                EmpAct.Type::"Travel Claim":
+                    begin
+                        HRSetup.TestField("Travel Claimed No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Travel Claimed No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for transfer
+                EmpAct.Type::"Employee Transfer", EmpAct.Type::"HR Transfer":
+                    begin
+                        HRSetup.TestField("Transfer No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Transfer No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for OT
+                EmpAct.Type::Overtime:
+                    begin
+                        HRSetup.TestField("OT No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."OT No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for out of office
+                EmpAct.Type::"Out of Office":
+                    begin
+                        HRSetup.TestField("Out of office No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Out of office No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for bulk cash
+                EmpAct.Type::"Bulk Cash":
+                    begin
+                        HRSetup.TestField("Bulk Cash No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Bulk Cash No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+
+                //for promotion
+                EmpAct.Type::Promotion:
+                    begin
+                        HRSetup.TestField("Promotion No.");
+                        if NoSeriesMgt.SelectSeries(HRSetup."Promotion No.", OldTravel."No. Series", EmpAct."No. Series") then begin
+                            NoSeriesMgt.SetSeries(EmpAct."No.");
+                            Rec := Travel;
+                            exit(true);
+                        end;
+                    end;
+            end;
+        end;
+    end;
 
     local procedure InsertAttendanceMissedAttachment()
     var

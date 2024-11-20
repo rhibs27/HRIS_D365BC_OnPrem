@@ -17,68 +17,68 @@ page 50242 "Appraisal API"
         {
             repeater(Group)
             {
-                field(AppraisalCode; Rec."Appraisal Code") { }
-                field(EmployeeCode; Rec."Employee Code") { }
-                field(EmployeeName; Rec."Employee Name") { }
-                field(DateofEmployement; Rec."Date of Employement") { }
-                field(AppraisalType; Rec."Appraisal Type") { }
-                field(FinalScore; Rec."Final Score") { }
-                field(FinalGrade; Rec."Final Grade") { }
-                field(Reviewer; Rec.Reviewer) { }
-                field(CheckReviewer; Rec."Check Reviewer") { }
-                field(ReviewerIII; Rec."Reviewer III") { }
-                field(PostingDate; Rec."Posting Date") { }
-                field(ReviewedScoreI; Rec."Reviewed Score I") { }
-                field(ReviewedScoreII; Rec."Reviewed Score II") { }
-                field(ReviewedScoreIII; Rec."Reviewed Score III") { }
-                field(Department; Rec.Department) { }
-                field(FunctionalTitle; Rec."Functional Title") { }
-                field("Code"; Rec.Code) { }
-                field(JobGrade; Rec."Job Grade") { }
-                field(TotalTenureinBank; Rec."Total Tenure in Bank") { }
-                field(SubmissionDate; Rec."Submission Date") { }
-                field(ReviewedDateI; Rec."Reviewed Date I") { }
-                field(ReviewedDateII; Rec."Reviewed Date II") { }
-                field(ReviewedDateIII; Rec."Reviewed Date III") { }
-                field(TotalTenureinCrcPosition; Rec."Total Tenure in Crc Position") { }
-                field(Branch; Rec.Branch) { }
-                field(BranchName; Rec."Branch Name") { }
-                field(Posted; Rec.Posted) { }
-                field(NoSeries; Rec."No. Series") { }
+                field(appraisalCode; Rec."Appraisal Code") { }
+                field(employeeCode; Rec."Employee Code") { }
+                field(employeeName; Rec."Employee Name") { }
+                field(dateOfEmployement; Rec."Date of Employement") { }
+                field(appraisalType; Rec."Appraisal Type") { }
+                field(finalScore; Rec."Final Score") { }
+                field(finalGrade; Rec."Final Grade") { }
+                field(reviewer; Rec.Reviewer) { }
+                field(checkReviewer; Rec."Check Reviewer") { }
+                field(reviewerIII; Rec."Reviewer III") { }
+                field(postingDate; Rec."Posting Date") { }
+                field(reviewedScoreI; Rec."Reviewed Score I") { }
+                field(reviewedScoreII; Rec."Reviewed Score II") { }
+                field(reviewedScoreIII; Rec."Reviewed Score III") { }
+                field(department; Rec.Department) { }
+                field(functionalTitle; Rec."Functional Title") { }
+                field(code; Rec.Code) { }
+                field(jobGrade; Rec."Job Grade") { }
+                field(totalTenureInBank; Rec."Total Tenure in Bank") { }
+                field(submissionDate; Rec."Submission Date") { }
+                field(reviewedDateI; Rec."Reviewed Date I") { }
+                field(reviewedDateII; Rec."Reviewed Date II") { }
+                field(reviewedDateIII; Rec."Reviewed Date III") { }
+                field(totalTenureInCrcPosition; Rec."Total Tenure in Crc Position") { }
+                field(branch; Rec.Branch) { }
+                field(branchName; Rec."Branch Name") { }
+                field(posted; Rec.Posted) { }
+                field(noSeries; Rec."No. Series") { }
                 field(KRACategory; Rec."KRA Category") { }
-                field(ApprovedDate; Rec."Approved Date") { }
-                field(Rating; Rec.Rating) { }
-                field(Status; Rec.Status) { }
-                field(AcademicDegree; Rec."Academic Degree") { }
-                field(WrittenVerbalWarningIssued; Rec."Written Verbal Warning Issued") { }
-                field(CompletionofTraining; Rec."Completion of Training") { }
-                field(DisciplinaryActionsTaken; Rec."Disciplinary Actions Taken") { }
-                field(CommendationsonFile; Rec."Commendations on File") { }
-                field(FrequentUntidyUniform; Rec."Frequent Untidy Uniform") { }
-                field(UninformedAbsence; Rec."Uninformed Absence") { }
-                field(NoofSickLeavesTaken; Rec."No of Sick Leaves Taken") { }
-                field(DevelopmentPlanRemarks; Rec."Development Plan Remarks") { }
-                field(ImprovementTime; Rec."Improvement Time") { }
-                field(ReporteesComments; Rec."Reportees Comments") { }
-                field(SalesandMarketingCorporate; Rec."Sales and Marketing Corporate") { }
-                field(SalesandMarketingRetail; Rec."Sales and Marketing Retail") { }
-                field(Operations; Rec.Operations) { }
-                field(FinanceorAccounts; Rec."Finance or Accounts") { }
-                field(Administration; Rec.Administration) { }
-                field(BackOffice; Rec."Back Office") { }
-                field(HumanResource; Rec."Human Resource") { }
-                field(ReviewerComments; Rec."Reviewer Comments") { }
-                field(CheckReviewersComments; Rec."Check Reviewers Comments") { }
-                field(UserID; Rec."User ID") { }
-                field(RecommenderCode; Rec."Recommender Code") { }
-                field(ApproverCode; Rec."Approver Code") { }
-                field(RecommenderName; Rec."Recommender Name") { }
-                field(ApproverName; Rec."Approver Name") { }
-                field(RequestedDate; Rec."Requested Date") { }
-                field(AppraisalSubtypeMonthly; Rec."Appraisal Subtype Monthly") { }
-                field(AppraisalSubtypeQuarterly; Rec."Appraisal Subtype Quarterly") { }
-                field(AppraisalAttachmentExt; AppraisalAttachmentExt) { }
-                field(AppraisalAttachment; AppraisalAttachment)
+                field(approvedDate; Rec."Approved Date") { }
+                field(rating; Rec.Rating) { }
+                field(status; Rec.Status) { }
+                field(academicDegree; Rec."Academic Degree") { }
+                field(writtenVerbalWarningIssued; Rec."Written Verbal Warning Issued") { }
+                field(completionOfTraining; Rec."Completion of Training") { }
+                field(disciplinaryActionsTaken; Rec."Disciplinary Actions Taken") { }
+                field(commendationsOnFile; Rec."Commendations on File") { }
+                field(frequentUntidyUniform; Rec."Frequent Untidy Uniform") { }
+                field(uninformedAbsence; Rec."Uninformed Absence") { }
+                field(noOfSickLeavesTaken; Rec."No of Sick Leaves Taken") { }
+                field(developmentPlanRemarks; Rec."Development Plan Remarks") { }
+                field(improvementTime; Rec."Improvement Time") { }
+                field(reporteesComments; Rec."Reportees Comments") { }
+                field(salesAndMarketingCorporate; Rec."Sales and Marketing Corporate") { }
+                field(salesAndMarketingRetail; Rec."Sales and Marketing Retail") { }
+                field(operations; Rec.Operations) { }
+                field(financeOrAccounts; Rec."Finance or Accounts") { }
+                field(administration; Rec.Administration) { }
+                field(backOffice; Rec."Back Office") { }
+                field(humanResource; Rec."Human Resource") { }
+                field(reviewerComments; Rec."Reviewer Comments") { }
+                field(checkReviewersComments; Rec."Check Reviewers Comments") { }
+                field(userID; Rec."User ID") { }
+                field(recommenderCode; Rec."Recommender Code") { }
+                field(approverCode; Rec."Approver Code") { }
+                field(recommenderName; Rec."Recommender Name") { }
+                field(approverName; Rec."Approver Name") { }
+                field(requestedDate; Rec."Requested Date") { }
+                field(appraisalSubtypeMonthly; Rec."Appraisal Subtype Monthly") { }
+                field(appraisalSubtypeQuarterly; Rec."Appraisal Subtype Quarterly") { }
+                field(appraisalAttachmentExt; AppraisalAttachmentExt) { }
+                field(appraisalAttachment; AppraisalAttachment)
                 {
                     trigger OnValidate()
                     begin
@@ -92,12 +92,12 @@ page 50242 "Appraisal API"
                         end;
                     end;
                 }
-                field(Deputationon; Rec."Deputation on") { }
-                field(FunctionalTitleDesc; Rec."Functional Title Desc") { }
-                field(Hide; Rec.Hide) { }
-                field(FinalGrading; Rec."Final Grading") { }
+                field(deputationOn; Rec."Deputation on") { }
+                field(functionalTitleDesc; Rec."Functional Title Desc") { }
+                field(hide; Rec.Hide) { }
+                field(finalGrading; Rec."Final Grading") { }
             }
-            part(Attachment; "Attachment Subform")
+            part(attachment; "Attachment Subform")
             {
                 EntityName = 'attachmentEntity';
                 EntitySetName = 'attachmentEntities';

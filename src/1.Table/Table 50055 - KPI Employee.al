@@ -47,11 +47,12 @@ table 50055 "KPI Employee"
         {
             trigger OnValidate()
             var
-                HRMgt: Codeunit "HR Mgt.";
+                //HRMgt: Codeunit "HR Mgt.";
+                AppraisalMgt: Codeunit "AppraisalMgt.";
             begin
                 Modify();
                 AppraisalRec.Get("Appraisal Code");
-                HRMgt.CalculateKPIMarks(AppraisalRec);
+                AppraisalMgt.CalculateKPIMarks(AppraisalRec);
             end;
         }
         field(12; "Fiscal Year"; Code[10])

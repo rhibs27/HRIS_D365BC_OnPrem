@@ -10,7 +10,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50002; "Gender Filter"; Enum Gender)
+        field(50002; "Gender Filter"; Enum "Employee Gender")
         {
             DataClassification = ToBeClassified;
         }

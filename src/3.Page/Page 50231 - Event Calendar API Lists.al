@@ -41,7 +41,7 @@ page 50231 "Event Calendar API Lists"
         Employee.SetRange("No.", Rec.GetFilter("Employee Filter"));
         Employee.FindFirst;
         Rec.SetRange(Nonworking, true);
-        Rec.SetFilter("Gender Filter", '%1|%2', Rec."Gender Filter"::" ");
+        Rec.SetFilter("Gender Filter", '%1|%2', Employee.Gender, Rec."Gender Filter"::" ");
         Rec.SetFilter("Inside/Outisde Valley", '%1|%2', Employee."Inside/Outisde Valley", Rec."Inside/Outisde Valley"::" ");
         Rec.SetFilter("Posting Region", '%1|%2', Employee."Posting Region", Rec."Posting Region"::" ");
         Rec.SetFilter("Province Filter", '%1|%2', StrSubstNo('*%1*', Employee."Province Code"), '');

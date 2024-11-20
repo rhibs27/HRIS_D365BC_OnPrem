@@ -15,9 +15,9 @@ page 50244 "Key Value Master Entity"
         {
             repeater(Group)
             {
-                field("Code"; Rec.Code) { }
-                field(Description; Rec.Description) { }
-                field(Type; Rec.Type) { }
+                field(code; Rec.Code) { }
+                field(description; Rec.Description) { }
+                field(type; Rec.Type) { }
             }
         }
     }

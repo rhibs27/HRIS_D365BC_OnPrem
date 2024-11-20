@@ -117,7 +117,7 @@ table 50061 Appraisal
             trigger OnValidate()
             begin
                 if GuiAllowed then
-                    HRMgt.OnValidateKRACategory(Rec);
+                    AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
         field(30; "Approved Date"; Date)
@@ -310,7 +310,7 @@ table 50061 Appraisal
         if not GuiAllowed then begin
             if "Employee Code" = '' then
                 Validate("Employee Code", "Employee Code");
-            HRMgt.OnValidateKRACategory(Rec);
+            AppraisalMgt.OnValidateKRACategory(Rec);
             CheckForDuplicateEmployeeAppraisal;
         end;
     end;
@@ -332,6 +332,7 @@ table 50061 Appraisal
         EngNepDate: Record "English-Nepali Date";
         RatingSetup: Record "Rating Setup";
         KRAMasterSetupRec: Record "KRA Master Setup";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
 
     local procedure ClearDetails()
     begin

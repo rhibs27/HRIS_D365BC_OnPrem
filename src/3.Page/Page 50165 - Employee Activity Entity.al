@@ -246,11 +246,11 @@ page 50165 "Employee Activity Entity"
             }
             group(Resignation)
             {
-                field(proposedDateofResignation; Rec."Proposed Date of Resignation") { }
+                field(proposedDateOfResignation; Rec."Proposed Date of Resignation") { }
                 field(supervisorProposedDate; Rec."Supervisor Proposed Date") { }
                 field(hRProposedDate; Rec."HR Proposed Date") { }
                 field(waiverCase; Rec."Waiver Case") { }
-                field(reasonforResignation; Rec."Reason for Resignation") { }
+                field(reasonForResignation; Rec."Reason for Resignation") { }
                 field(clearnceStatement; ClearnceStatement) { }
                 field(applyForWaiver; Rec."Apply for Waiver") { }
             }

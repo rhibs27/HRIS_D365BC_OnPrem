@@ -20,6 +20,11 @@ page 50093 "Travel Requests"
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
+                    trigger OnAssistEdit()
+                    begin
+                        if Rec.AssistEdit(xRec) then
+                            CurrPage.Update();
+                    end;
                 }
                 field("Employee No."; Rec."Employee No.")
                 {

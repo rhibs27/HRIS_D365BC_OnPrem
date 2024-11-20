@@ -455,7 +455,7 @@ page 50078 "Appraisal Form Card"
 
                 trigger OnAction()
                 begin
-                    HRMgt.CancelAppraisalApproval(Rec);
+                    AppraisalMgt.CancelAppraisalApproval(Rec);
                 end;
             }
             action("Send Review Request")
@@ -486,7 +486,7 @@ page 50078 "Appraisal Form Card"
 
                 trigger OnAction()
                 begin
-                    HRMgt.ApproveRejectAppraisal(true, Rec);
+                    AppraisalMgt.ApproveRejectAppraisal(true, Rec);
                 end;
             }
             action("Send Check Review Request")
@@ -503,7 +503,7 @@ page 50078 "Appraisal Form Card"
                 var
                     HRMgt: Codeunit "HR Mgt.";
                 begin
-                    HRMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Check Reviewer");
+                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Check Reviewer");
                     CurrPage.Close();
                 end;
             }
@@ -520,7 +520,7 @@ page 50078 "Appraisal Form Card"
 
                 trigger OnAction()
                 begin
-                    HRMgt.ApproveRejectAppraisal(true, Rec);
+                    AppraisalMgt.ApproveRejectAppraisal(true, Rec);
                 end;
             }
             action("Send Approval Request")
@@ -544,7 +544,7 @@ page 50078 "Appraisal Form Card"
                         repeat
                             KRASubFormRec.TestField(Remarks);
                         until KRASubFormRec.Next = 0;
-                    HRMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Approver Code");
+                    AppraisalMgt.AppraisalEmail(Rec."Appraisal Code", Rec."Approver Code");
                     CurrPage.Close();
                 end;
             }
@@ -563,9 +563,7 @@ page 50078 "Appraisal Form Card"
                 var
                     RatingSetup: Record "Rating Setup";
                 begin
-                    HRMgt.ApproveRejectAppraisal(true, Rec);
-                    ;
-
+                    AppraisalMgt.ApproveRejectAppraisal(true, Rec);
                     RatingSetup.Reset;
                     RatingSetup.SetRange(Type, RatingSetup.Type::Appraisal);
                     RatingSetup.SetFilter(From, '<=%1', Rec."Final Score");
@@ -587,7 +585,7 @@ page 50078 "Appraisal Form Card"
 
                 trigger OnAction()
                 begin
-                    HRMgt.ApproveRejectAppraisal(false, Rec);
+                    AppraisalMgt.ApproveRejectAppraisal(false, Rec);
                 end;
             }
             action("Calculate Final Marks")
@@ -603,7 +601,7 @@ page 50078 "Appraisal Form Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to calculate marks?', false) then
-                        HRMgt.CalculateFinalScore(Rec);
+                        AppraisalMgt.CalculateFinalScore(Rec);
                 end;
             }
             action("Download Appraisal Attachment")
@@ -657,6 +655,7 @@ page 50078 "Appraisal Form Card"
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        AppraisalMgt: Codeunit "AppraisalMgt.";
         KRASubFormRec: Record "KRA Subform List";
         Appraisal: Record Appraisal;
         FieldVisible: Boolean;

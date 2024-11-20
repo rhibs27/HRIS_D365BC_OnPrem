@@ -6973,60 +6973,61 @@ codeunit 50001 "HR Mgt."
     //     PAGE.Run(PAGE::"Resignation Card", EmpAct4);
     // end;
 
-    // procedure SendResignationApproval(TempResignation: Record "Resignation" temporary): Boolean
-    // var
-    //     Resignation: Record "Resignation";
-    //     ConfirmResign: Label 'Do you want to send resignation request?';
-    //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-    //     ApprovalRequestSent: Label 'Resignation request approval has been sent.';
-    //     NoRecommender: Label 'No %1.';
-    //     ResignationDays: Integer;
-    // begin
-    //     if GuiAllowed then
-    //         if not Confirm(ConfirmResign, false) then
-    //             exit;
-    //     Resignation.Reset;
-    //     Resignation.SetRange("Employee No.", TempResignation."Employee No.");
-    //     Resignation.SetRange(Type, Resignation.Type::Resignation);
-    //     Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Cancelled, Resignation."Approval Status"::Rejected);
-    //     if Resignation.FindFirst then
-    //         Error('Employee %1 has already send request for resignation', Resignation."Employee Name");
+    procedure SendResignationApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean
+    var
+        //Resignation: Record "Resignation";
+        EmpAct: record "Employee Activity";
+        ConfirmResign: Label 'Do you want to send resignation request?';
+        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
+        ApprovalRequestSent: Label 'Resignation request approval has been sent.';
+        NoRecommender: Label 'No %1.';
+        ResignationDays: Integer;
+    begin
+        if GuiAllowed then
+            if not Confirm(ConfirmResign, false) then
+                exit;
+        EmpAct.Reset;
+        EmpAct.SetRange("Employee No.", TempEmpAct."Employee No.");
+        EmpAct.SetRange(Type, EmpAct.Type::Resignation);
+        EmpAct.SetFilter("Approval Status", '<>%1&<>%2', EmpAct."Approval Status"::Cancelled, EmpAct."Approval Status"::Rejected);
+        if EmpAct.FindFirst then
+            Error('Employee %1 has already send request for resignation', EmpAct."Employee Name");
 
-    //     TempResignation.TestField("Proposed Date of Resignation");
-    //     TempResignation.TestField("Reason for Resignation");
-    //     TempResignation.TestField("Reason Code");
+        TempEmpAct.TestField("Proposed Date of Resignation");
+        TempEmpAct.TestField("Reason for Resignation");
+        TempEmpAct.TestField("Reason Code");
 
-    //     Clear(Resignation);
-    //     Resignation.Reset;
-    //     Resignation.Init;
-    //     Resignation.TransferFields(TempResignation);
-    //     Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending Approval");
-    //     Resignation.Validate("User ID", UserId);
+        Clear(EmpAct);
+        EmpAct.Reset;
+        EmpAct.Init;
+        EmpAct.TransferFields(TempEmpAct);
+        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+        EmpAct.Validate("User ID", UserId);
 
-    //     Employee.Get(Resignation."Employee No.");
-    //     //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
-    //     Resignation.Validate("Approver Code", GetHrHead());
+        Employee.Get(EmpAct."Employee No.");
+        //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
+        EmpAct.Validate("Approver Code", GetHrHead());
 
-    //     if Resignation."Recommender Code" = '' then
-    //         Error(NoRecommender, Resignation.FieldCaption("Recommender Code"));
+        if EmpAct."Recommender Code" = '' then
+            Error(NoRecommender, EmpAct.FieldCaption("Recommender Code"));
 
-    //     if Resignation."Requested Date" = 0D then
-    //         Resignation."Requested Date" := Today;
+        if EmpAct."Requested Date" = 0D then
+            EmpAct."Requested Date" := Today;
 
-    //     Resignation."Supervisor Proposed Date" := Resignation."Proposed Date of Resignation";
-    //     Resignation."HR Proposed Date" := Resignation."Proposed Date of Resignation";
+        EmpAct."Supervisor Proposed Date" := EmpAct."Proposed Date of Resignation";
+        EmpAct."HR Proposed Date" := EmpAct."Proposed Date of Resignation";
 
-    //     Resignation.Insert(true);
+        EmpAct.Insert(true);
 
-    //     InsertAttachmentLines(Resignation."No.", Format(Resignation.Type));//attachment
-    //     InsertResignationApprover(Resignation); //resignation approver
+        InsertAttachmentLines(EmpAct."No.", Format(EmpAct.Type));//attachment
+        //InsertResignationApprover(Resignation); //resignation approver
 
-    //     SendMailFromTemplate(DATABASE::"Employee Activity", Resignation.Type::Resignation, Resignation."Approval Status"::Open, '', Resignation."Employee No.", Resignation."No.", 0);   //For email
-    //     if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval") then
-    //         ResignationEmailSend(Resignation."Employee No."); //Min 4.28.2022
-    //     Message(ApprovalRequestSent);
-    //     exit(true);
-    // end;
+        SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+        if (EmpAct.Type = EmpAct.Type::Resignation) and (EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval") then
+            ResignationEmailSend(EmpAct."Employee No."); //Min 4.28.2022
+        Message(ApprovalRequestSent);
+        exit(true);
+    end;
 
     // procedure CancelResignationApproval(var Resignation: Record "Resignation")
     // var
@@ -7937,283 +7938,283 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    local procedure "------Appraisal---------"()
-    begin
-    end;
+    // local procedure "------Appraisal---------"()
+    // begin
+    // end;
 
-    procedure AppraisalEmail(AppraisalCode: Code[20]; EmployeeCode: Code[20])
-    var
-        AppraisalRec: Record Appraisal;
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
-        EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Counter: Integer;
-    begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(CodeunitEmailMessage);
-        HRSetup.Get;
-        HRSetup.TestField("Email Appraisal");
-        AppraisalRec.Reset;
-        Counter := 0;
-        AppraisalRec.SetRange("Appraisal Code", AppraisalCode);
-        if AppraisalRec.FindFirst then
-            repeat
-                if EmailTemplate.Get(HRSetup."Email Appraisal") then begin
-                    Clear(Footer);
-                    Clear(Header);
-                    Clear(Body);
-                    Employee.Get(EmployeeCode);
-                    // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Employee."E-Mail(Personal)", EmailTemplate.Subject, '', true);
-                    CodeunitEmailMessage.Create(Employee."E-Mail", EmailTemplate.Subject, '');
-                    EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-                    if EmailMessage.FindFirst then
-                        repeat
-                            case EmailMessage.Type of
-                                EmailMessage.Type::Header:
-                                    Header := Header + EmailMessage."Body Message";
+    // procedure AppraisalEmail(AppraisalCode: Code[20]; EmployeeCode: Code[20])
+    // var
+    //     AppraisalRec: Record Appraisal;
+    //     CompanyInfo: Record "Company Information";
+    //     // SMTPSetup: Record "SMTP Mail Setup";
+    //     EmailTemplate: Record "Email Template";
+    //     HRSetup: Record "Human Resources Setup";
+    //     EmailMessage: Record "Agile Email Message";
+    //     Header: Text;
+    //     Body: Text;
+    //     Footer: Text;
+    //     Counter: Integer;
+    // begin
+    //     CompanyInfo.Get;
+    //     // SMTPSetup.Get;
+    //     Clear(CodeunitEmailMessage);
+    //     HRSetup.Get;
+    //     HRSetup.TestField("Email Appraisal");
+    //     AppraisalRec.Reset;
+    //     Counter := 0;
+    //     AppraisalRec.SetRange("Appraisal Code", AppraisalCode);
+    //     if AppraisalRec.FindFirst then
+    //         repeat
+    //             if EmailTemplate.Get(HRSetup."Email Appraisal") then begin
+    //                 Clear(Footer);
+    //                 Clear(Header);
+    //                 Clear(Body);
+    //                 Employee.Get(EmployeeCode);
+    //                 // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Employee."E-Mail(Personal)", EmailTemplate.Subject, '', true);
+    //                 CodeunitEmailMessage.Create(Employee."E-Mail", EmailTemplate.Subject, '');
+    //                 EmailMessage.SetRange("Template Code", EmailTemplate.Code);
+    //                 if EmailMessage.FindFirst then
+    //                     repeat
+    //                         case EmailMessage.Type of
+    //                             EmailMessage.Type::Header:
+    //                                 Header := Header + EmailMessage."Body Message";
 
-                                EmailMessage.Type::Body:
-                                    Body := Body + EmailMessage."Body Message";
+    //                             EmailMessage.Type::Body:
+    //                                 Body := Body + EmailMessage."Body Message";
 
-                                EmailMessage.Type::Footer:
-                                    Footer := Footer + EmailMessage."Body Message";
-                            end;
-                        until EmailMessage.Next = 0;
-                    CodeunitEmailMessage.AppendToBody(Header);
-                    CodeunitEmailMessage.AppendToBody('<br><br>');
-                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Code") + Colon + Format(AppraisalRec."Appraisal Code"));
-                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Employee Name") + Colon + Format(AppraisalRec."Employee Name"));
-                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Type") + Colon + Format(AppraisalRec."Appraisal Type"));
-                    CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("KRA Category") + Colon + Format(AppraisalRec."KRA Category"));
-                    CodeunitEmailMessage.AppendToBody('<br><br>');
-                    CodeunitEmailMessage.AppendToBody(Footer);
-                    if Email.Send(CodeunitEmailMessage) then
-                        Counter += 1;
-                end;
-            until AppraisalRec.Next = 0;
-        if Counter <> 0 then
-            Message('Mail Sent');
-    end;
+    //                             EmailMessage.Type::Footer:
+    //                                 Footer := Footer + EmailMessage."Body Message";
+    //                         end;
+    //                     until EmailMessage.Next = 0;
+    //                 CodeunitEmailMessage.AppendToBody(Header);
+    //                 CodeunitEmailMessage.AppendToBody('<br><br>');
+    //                 CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Code") + Colon + Format(AppraisalRec."Appraisal Code"));
+    //                 CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Employee Name") + Colon + Format(AppraisalRec."Employee Name"));
+    //                 CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("Appraisal Type") + Colon + Format(AppraisalRec."Appraisal Type"));
+    //                 CodeunitEmailMessage.AppendToBody(AppraisalRec.FieldCaption("KRA Category") + Colon + Format(AppraisalRec."KRA Category"));
+    //                 CodeunitEmailMessage.AppendToBody('<br><br>');
+    //                 CodeunitEmailMessage.AppendToBody(Footer);
+    //                 if Email.Send(CodeunitEmailMessage) then
+    //                     Counter += 1;
+    //             end;
+    //         until AppraisalRec.Next = 0;
+    //     if Counter <> 0 then
+    //         Message('Mail Sent');
+    // end;
 
-    procedure CancelAppraisalApproval(var Appraisal: Record Appraisal)
-    var
-        ConfirmCancel: Label 'Do you want to confirm cancel appraisal request?';
-    begin
-        Appraisal.TestField(Status, Appraisal.Status::Submitted);
-        if not Confirm(ConfirmCancel, false) then
-            exit;
-        Appraisal.Validate(Status, Appraisal.Status::Cancelled);
-        Appraisal.Modify(true);
-    end;
+    // procedure CancelAppraisalApproval(var Appraisal: Record Appraisal)
+    // var
+    //     ConfirmCancel: Label 'Do you want to confirm cancel appraisal request?';
+    // begin
+    //     Appraisal.TestField(Status, Appraisal.Status::Submitted);
+    //     if not Confirm(ConfirmCancel, false) then
+    //         exit;
+    //     Appraisal.Validate(Status, Appraisal.Status::Cancelled);
+    //     Appraisal.Modify(true);
+    // end;
 
-    procedure ApproveRejectAppraisal(Approve: Boolean; var Appraisal: Record Appraisal)
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-    begin
-        CheckAppraisalApproval(Appraisal); //check authorized
-        if Approve then begin
-            if not Confirm(ConfirmApprove, false) then
-                exit;
-            if Appraisal.Status = Appraisal.Status::Requested then
-                Appraisal.Validate(Status, Appraisal.Status::Reviewed)
-            else if Appraisal.Status = Appraisal.Status::Reviewed then
-                Appraisal.Validate(Status, Appraisal.Status::"Check Reviewed")
-            else if Appraisal.Status = Appraisal.Status::"Check Reviewed" then
-                Appraisal.Validate(Status, Appraisal.Status::Approved);
-        end
-        else begin
-            if not Confirm(ConfirmReject, false) then
-                exit;
-            Appraisal.Validate(Status, Appraisal.Status::Requested);
-        end;
+    // procedure ApproveRejectAppraisal(Approve: Boolean; var Appraisal: Record Appraisal)
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    // begin
+    //     CheckAppraisalApproval(Appraisal); //check authorized
+    //     if Approve then begin
+    //         if not Confirm(ConfirmApprove, false) then
+    //             exit;
+    //         if Appraisal.Status = Appraisal.Status::Requested then
+    //             Appraisal.Validate(Status, Appraisal.Status::Reviewed)
+    //         else if Appraisal.Status = Appraisal.Status::Reviewed then
+    //             Appraisal.Validate(Status, Appraisal.Status::"Check Reviewed")
+    //         else if Appraisal.Status = Appraisal.Status::"Check Reviewed" then
+    //             Appraisal.Validate(Status, Appraisal.Status::Approved);
+    //     end
+    //     else begin
+    //         if not Confirm(ConfirmReject, false) then
+    //             exit;
+    //         Appraisal.Validate(Status, Appraisal.Status::Requested);
+    //     end;
 
-        Appraisal.Modify;
-    end;
+    //     Appraisal.Modify;
+    // end;
 
-    local procedure CheckAppraisalApproval(Appraisal: Record Appraisal)
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-        ReviewNotEligibleError: Label 'You are not Eligible to review this document.';
-        CheckReviewNotEligibleError: Label 'You are not Eligible to check review this document.';
-    begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        Employee.FindFirst;
-        if Appraisal.Status = Appraisal.Status::Requested then
-            if StrPos(Appraisal.Reviewer, Employee."No.") = 0 then
-                Error(ReviewNotEligibleError);
-        if Appraisal.Status = Appraisal.Status::Reviewed then
-            if StrPos(Appraisal."Check Reviewer", Employee."No.") = 0 then
-                Error(CheckReviewNotEligibleError);
-        if Appraisal.Status = Appraisal.Status::"Check Reviewed" then
-            if StrPos(Appraisal."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-    end;
+    // local procedure CheckAppraisalApproval(Appraisal: Record Appraisal)
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    //     ReviewNotEligibleError: Label 'You are not Eligible to review this document.';
+    //     CheckReviewNotEligibleError: Label 'You are not Eligible to check review this document.';
+    // begin
+    //     Employee.Reset;
+    //     Employee.SetRange("NAV Login ID", UserId);
+    //     Employee.FindFirst;
+    //     if Appraisal.Status = Appraisal.Status::Requested then
+    //         if StrPos(Appraisal.Reviewer, Employee."No.") = 0 then
+    //             Error(ReviewNotEligibleError);
+    //     if Appraisal.Status = Appraisal.Status::Reviewed then
+    //         if StrPos(Appraisal."Check Reviewer", Employee."No.") = 0 then
+    //             Error(CheckReviewNotEligibleError);
+    //     if Appraisal.Status = Appraisal.Status::"Check Reviewed" then
+    //         if StrPos(Appraisal."Approver Code", Employee."No.") = 0 then
+    //             Error(ApproveNotEligibleError);
+    // end;
 
-    procedure OnValidateKRACategory(AppraisalRec: Record Appraisal)
-    var
-        KRASubform: Record "KRA Subform List";
-    begin
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KRASubform.SetRange("Employee Code", AppraisalRec."Employee Code");
-        KRASubform.DeleteAll;
+    // procedure OnValidateKRACategory(AppraisalRec: Record Appraisal)
+    // var
+    //     KRASubform: Record "KRA Subform List";
+    // begin
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KRASubform.SetRange("Employee Code", AppraisalRec."Employee Code");
+    //     KRASubform.DeleteAll;
 
-        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Annually then begin //Min 7.26.2022
-            ValidateKRAInEmployeeKRAAnnually(AppraisalRec);
-            ValidateKRAInEmployeeKPIAnnually(AppraisalRec);
-            ValidateKRAInEmployeeSATKPIAnnually(AppraisalRec);
-            InsertEmployeeKPIAnnually(AppraisalRec);
-        end else begin
-            ValidateKRAInEmployeeKRA(AppraisalRec);
-            InsertEmployeeKPI(AppraisalRec);
-        end;
-    end;
+    //     if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Annually then begin //Min 7.26.2022
+    //         ValidateKRAInEmployeeKRAAnnually(AppraisalRec);
+    //         ValidateKRAInEmployeeKPIAnnually(AppraisalRec);
+    //         ValidateKRAInEmployeeSATKPIAnnually(AppraisalRec);
+    //         InsertEmployeeKPIAnnually(AppraisalRec);
+    //     end else begin
+    //         ValidateKRAInEmployeeKRA(AppraisalRec);
+    //         InsertEmployeeKPI(AppraisalRec);
+    //     end;
+    // end;
 
-    local procedure ValidateKRAInEmployeeKRA(AppraisalRec: Record Appraisal)
-    var
-        KRAMaster: Record "KRA Master Setup";
-        KRASubform: Record "KRA Subform List";
-    begin
-        KRAMaster.Reset;
-        KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KRAMaster.SetRange("Deputation on", KRAMaster."Deputation on"::" ");
-        KRAMaster.SetFilter(Weightage, '>%1', 0);
-        if KRAMaster.FindFirst then
-            repeat
-                KRASubform.Reset;
-                KRASubform.Init;
-                KRASubform.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
-                KRASubform.Validate("KRA Category", KRAMaster."KRA Category");
-                KRASubform.Validate(Description, KRAMaster."KRA Master Name");
-                KRASubform.Validate("Key Result Area", KRAMaster."Key Result Area");
-                KRASubform.Validate("Weightage (%)", KRAMaster.Weightage);
-                KRASubform.Validate("Employee Code", AppraisalRec."Employee Code");
-                KRASubform.Insert;
-            until KRAMaster.Next = 0;
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KRASubform.CalcSums("Weightage (%)");
-        if KRASubform."Weightage (%)" <> 100 then
-            Error('Sum of KRA (%1)weightage must be 100. Please contact admin.', AppraisalRec."KRA Category");
-    end;
+    // local procedure ValidateKRAInEmployeeKRA(AppraisalRec: Record Appraisal)
+    // var
+    //     KRAMaster: Record "KRA Master Setup";
+    //     KRASubform: Record "KRA Subform List";
+    // begin
+    //     KRAMaster.Reset;
+    //     KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
+    //     KRAMaster.SetRange("Deputation on", KRAMaster."Deputation on"::" ");
+    //     KRAMaster.SetFilter(Weightage, '>%1', 0);
+    //     if KRAMaster.FindFirst then
+    //         repeat
+    //             KRASubform.Reset;
+    //             KRASubform.Init;
+    //             KRASubform.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             KRASubform.Validate("KRA Category", KRAMaster."KRA Category");
+    //             KRASubform.Validate(Description, KRAMaster."KRA Master Name");
+    //             KRASubform.Validate("Key Result Area", KRAMaster."Key Result Area");
+    //             KRASubform.Validate("Weightage (%)", KRAMaster.Weightage);
+    //             KRASubform.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             KRASubform.Insert;
+    //         until KRAMaster.Next = 0;
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KRASubform.CalcSums("Weightage (%)");
+    //     if KRASubform."Weightage (%)" <> 100 then
+    //         Error('Sum of KRA (%1)weightage must be 100. Please contact admin.', AppraisalRec."KRA Category");
+    // end;
 
-    procedure InsertEmployeeKPI(AppraisalRec: Record Appraisal)
-    var
-        KPIMaster: Record "KPI Master";
-        KPIEmpRec: Record "KPI Employee";
-        KRASubform: Record "KRA Subform List";
-        KPIWeightage: Decimal;
-    begin
-        AppraisalRec.TestField("KRA Category");
-        KPIMaster.Reset;
-        KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-        KPIMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
-        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
-            KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
-        else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
-            KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
+    // procedure InsertEmployeeKPI(AppraisalRec: Record Appraisal)
+    // var
+    //     KPIMaster: Record "KPI Master";
+    //     KPIEmpRec: Record "KPI Employee";
+    //     KRASubform: Record "KRA Subform List";
+    //     KPIWeightage: Decimal;
+    // begin
+    //     AppraisalRec.TestField("KRA Category");
+    //     KPIMaster.Reset;
+    //     KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+    //     KPIMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
+    //     KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
+    //     if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
+    //         KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
+    //     else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
+    //         KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
 
-        KPIEmpRec.Reset;
-        KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
-        KPIEmpRec.DeleteAll;
-        if KPIMaster.Find('-') then
-            repeat
-            begin
-                KPIEmpRec.Init;
-                KPIEmpRec.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
-                KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
-                KPIEmpRec.Validate("KRA Category", KPIMaster."KRA Category");
-                KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
-                KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
-                KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
-                KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
-                KPIEmpRec.Validate(Description, KPIMaster.Description);
-                KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
-                KPIEmpRec.Validate(Description, KPIMaster.Description);
-                KPIEmpRec.Validate("Key Result Area", KPIMaster."Key Result Area");
-                KPIEmpRec.Validate("Weightage(%)", KPIMaster."Weightage (%)");
-                KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
-                KPIEmpRec.Validate("From Setup", true);
-                KPIEmpRec.Insert(true);
-            end;
-            until KPIMaster.Next = 0;
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        if KRASubform.Find('-') then
-            repeat
-                Clear(KPIWeightage);
-                KPIEmpRec.Reset;
-                KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-                KPIEmpRec.SetRange("Key Result Area", KRASubform."Key Result Area");
-                KPIEmpRec.CalcSums("Weightage(%)");
-                KPIWeightage := KPIEmpRec."Weightage(%)";
-                if (KPIEmpRec.FindFirst) and (KPIWeightage <> 100) then
-                    Error('Total weightage of KPIs in KRA (%1) must be 100', KRASubform.Description);
-            until KRASubform.Next = 0;
-    end;
+    //     KPIEmpRec.Reset;
+    //     KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
+    //     KPIEmpRec.DeleteAll;
+    //     if KPIMaster.Find('-') then
+    //         repeat
+    //         begin
+    //             KPIEmpRec.Init;
+    //             KPIEmpRec.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             KPIEmpRec.Validate("KRA Category", KPIMaster."KRA Category");
+    //             KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
+    //             KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
+    //             KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
+    //             KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
+    //             KPIEmpRec.Validate(Description, KPIMaster.Description);
+    //             KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
+    //             KPIEmpRec.Validate(Description, KPIMaster.Description);
+    //             KPIEmpRec.Validate("Key Result Area", KPIMaster."Key Result Area");
+    //             KPIEmpRec.Validate("Weightage(%)", KPIMaster."Weightage (%)");
+    //             KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
+    //             KPIEmpRec.Validate("From Setup", true);
+    //             KPIEmpRec.Insert(true);
+    //         end;
+    //         until KPIMaster.Next = 0;
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     if KRASubform.Find('-') then
+    //         repeat
+    //             Clear(KPIWeightage);
+    //             KPIEmpRec.Reset;
+    //             KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             KPIEmpRec.SetRange("Key Result Area", KRASubform."Key Result Area");
+    //             KPIEmpRec.CalcSums("Weightage(%)");
+    //             KPIWeightage := KPIEmpRec."Weightage(%)";
+    //             if (KPIEmpRec.FindFirst) and (KPIWeightage <> 100) then
+    //                 Error('Total weightage of KPIs in KRA (%1) must be 100', KRASubform.Description);
+    //         until KRASubform.Next = 0;
+    // end;
 
-    procedure CalculateKPIMarks(AppraisalRec: Record Appraisal)
-    var
-        KRASubform: Record "KRA Subform List";
-        TotalWeight: Decimal;
-        TotalMarks: Decimal;
-        KPIRec: Record "KPI Employee";
-        KRAWeight: Decimal;
-    begin
-        Clear(KRAWeight);
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KRASubform.CalcSums("Weightage (%)");
-        KRAWeight := KRASubform."Weightage (%)";
-        if KRASubform.Find('-') then
-            repeat
-                KPIRec.Reset;
-                KPIRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-                KPIRec.SetRange("Employee Code", AppraisalRec."Employee Code");
-                KPIRec.SetRange("Key Result Area", KRASubform."Key Result Area");
-                if KPIRec.Find('-') then
-                    repeat
-                        TotalWeight += KPIRec."Weightage(%)";
-                        TotalMarks += (KPIRec."Weightage(%)" * KPIRec.Score);
-                    until KPIRec.Next = 0;
-                KRASubform.Validate(Score, Round(TotalMarks / TotalWeight, 0.01, '='));
-                if KRAWeight <> 0 then
-                    KRASubform.Validate("Final Score", Round(TotalMarks * KRASubform."Weightage (%)" / KRAWeight));
-                KRASubform.Modify;
-            until KRASubform.Next = 0;
-    end;
+    // procedure CalculateKPIMarks(AppraisalRec: Record Appraisal)
+    // var
+    //     KRASubform: Record "KRA Subform List";
+    //     TotalWeight: Decimal;
+    //     TotalMarks: Decimal;
+    //     KPIRec: Record "KPI Employee";
+    //     KRAWeight: Decimal;
+    // begin
+    //     Clear(KRAWeight);
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KRASubform.CalcSums("Weightage (%)");
+    //     KRAWeight := KRASubform."Weightage (%)";
+    //     if KRASubform.Find('-') then
+    //         repeat
+    //             KPIRec.Reset;
+    //             KPIRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             KPIRec.SetRange("Employee Code", AppraisalRec."Employee Code");
+    //             KPIRec.SetRange("Key Result Area", KRASubform."Key Result Area");
+    //             if KPIRec.Find('-') then
+    //                 repeat
+    //                     TotalWeight += KPIRec."Weightage(%)";
+    //                     TotalMarks += (KPIRec."Weightage(%)" * KPIRec.Score);
+    //                 until KPIRec.Next = 0;
+    //             KRASubform.Validate(Score, Round(TotalMarks / TotalWeight, 0.01, '='));
+    //             if KRAWeight <> 0 then
+    //                 KRASubform.Validate("Final Score", Round(TotalMarks * KRASubform."Weightage (%)" / KRAWeight));
+    //             KRASubform.Modify;
+    //         until KRASubform.Next = 0;
+    // end;
 
-    procedure CalculateFinalScore(AppraisalRec: Record Appraisal)
-    var
-        KRASubform: Record "KRA Subform List";
-        TotalWeight: Decimal;
-        TotalMarks: Decimal;
-    begin
-        Clear(TotalMarks);
-        Clear(TotalWeight);
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        if KRASubform.Find('-') then
-            repeat
-                TotalWeight += KRASubform."Weightage (%)";
-                TotalMarks += (KRASubform."Weightage (%)" * KRASubform."HR Score");
-            until KRASubform.Next = 0;
-        if TotalWeight > 0 then
-            AppraisalRec.Validate("Final Score", Round(TotalMarks / TotalWeight, 0.01, '='));
-        AppraisalRec.Modify;
-    end;
+    // procedure CalculateFinalScore(AppraisalRec: Record Appraisal)
+    // var
+    //     KRASubform: Record "KRA Subform List";
+    //     TotalWeight: Decimal;
+    //     TotalMarks: Decimal;
+    // begin
+    //     Clear(TotalMarks);
+    //     Clear(TotalWeight);
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     if KRASubform.Find('-') then
+    //         repeat
+    //             TotalWeight += KRASubform."Weightage (%)";
+    //             TotalMarks += (KRASubform."Weightage (%)" * KRASubform."HR Score");
+    //         until KRASubform.Next = 0;
+    //     if TotalWeight > 0 then
+    //         AppraisalRec.Validate("Final Score", Round(TotalMarks / TotalWeight, 0.01, '='));
+    //     AppraisalRec.Modify;
+    // end;
 
     local procedure "----------Cancel-----------"()
     begin
@@ -10423,144 +10424,144 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    local procedure ValidateKRAInEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
-    var
-        KRAMaster: Record "KRA Master Setup";
-        EmployeeKPI: Record "KPI Employee";
-        LineNo: Integer;
-    begin
+    // local procedure ValidateKRAInEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
+    // var
+    //     KRAMaster: Record "KRA Master Setup";
+    //     EmployeeKPI: Record "KPI Employee";
+    //     LineNo: Integer;
+    // begin
 
-        KRAMaster.Reset;
-        KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
-        KRAMaster.SetFilter(Description, '<>%1', '');
-        KRAMaster.SetFilter("Key Result Area", '<>%1', 'CAPACITY');
-        if AppraisalRec."Deputation on" in [AppraisalRec."Deputation on"::Branch, AppraisalRec."Deputation on"::"Extension Counter"] then
-            KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
-            KRAMaster.SetRange("Province Code", AppraisalRec.Province)
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
-            KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
-        if KRAMaster.FindFirst then
-            repeat
-                EmployeeKPI.Reset;
-                LineNo += 10000;
-                EmployeeKPI.Init;
-                EmployeeKPI.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
-                EmployeeKPI."Line No." := LineNo;
-                EmployeeKPI.Validate("Key Result Area", KRAMaster."Key Result Area");
-                EmployeeKPI.Validate("KRA Category", KRAMaster."KRA Category");
-                EmployeeKPI.Validate(Description, KRAMaster.Description);
-                EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
-                EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
-                EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
-                EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
-                EmployeeKPI.Validate("Deputation on", KRAMaster."Deputation on");
-                EmployeeKPI."From Setup" := true;
-                EmployeeKPI.Insert;
-            until KRAMaster.Next = 0;
-    end;
+    //     KRAMaster.Reset;
+    //     KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
+    //     KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
+    //     KRAMaster.SetFilter(Description, '<>%1', '');
+    //     KRAMaster.SetFilter("Key Result Area", '<>%1', 'CAPACITY');
+    //     if AppraisalRec."Deputation on" in [AppraisalRec."Deputation on"::Branch, AppraisalRec."Deputation on"::"Extension Counter"] then
+    //         KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
+    //     else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
+    //         KRAMaster.SetRange("Province Code", AppraisalRec.Province)
+    //     else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
+    //         KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
+    //     if KRAMaster.FindFirst then
+    //         repeat
+    //             EmployeeKPI.Reset;
+    //             LineNo += 10000;
+    //             EmployeeKPI.Init;
+    //             EmployeeKPI.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             EmployeeKPI."Line No." := LineNo;
+    //             EmployeeKPI.Validate("Key Result Area", KRAMaster."Key Result Area");
+    //             EmployeeKPI.Validate("KRA Category", KRAMaster."KRA Category");
+    //             EmployeeKPI.Validate(Description, KRAMaster.Description);
+    //             EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
+    //             EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
+    //             EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
+    //             EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             EmployeeKPI.Validate("Deputation on", KRAMaster."Deputation on");
+    //             EmployeeKPI."From Setup" := true;
+    //             EmployeeKPI.Insert;
+    //         until KRAMaster.Next = 0;
+    // end;
 
-    local procedure ValidateKRAInEmployeeSATKPIAnnually(AppraisalRec: Record Appraisal)
-    var
-        KRAMaster: Record "KRA Master Setup";
-        EmployeeKPI: Record "KPI Employee";
-        LineNo: Integer;
-    begin
+    // local procedure ValidateKRAInEmployeeSATKPIAnnually(AppraisalRec: Record Appraisal)
+    // var
+    //     KRAMaster: Record "KRA Master Setup";
+    //     EmployeeKPI: Record "KPI Employee";
+    //     LineNo: Integer;
+    // begin
 
-        KRAMaster.Reset;
-        KRAMaster.SetRange("Employee Code", AppraisalRec."Employee Code");
-        KRAMaster.SetFilter("Key Result Area", 'CAPACITY');
-        if KRAMaster.FindFirst then
-            repeat
-                EmployeeKPI.Reset;
-                LineNo += 10000;
-                EmployeeKPI.Init;
-                EmployeeKPI.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
-                EmployeeKPI."Line No." := LineNo;
-                EmployeeKPI.Validate("Key Result Area", KRAMaster."Key Result Area");
-                EmployeeKPI.Validate("KRA Category", KRAMaster."KRA Category");
-                EmployeeKPI.Validate(Description, KRAMaster.Description);
-                EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
-                EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
-                EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
-                EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
-                EmployeeKPI.Validate("Deputation on", AppraisalRec."Deputation on");
-                EmployeeKPI."From Setup" := true;
-                EmployeeKPI.Insert;
-            until KRAMaster.Next = 0;
-    end;
+    //     KRAMaster.Reset;
+    //     KRAMaster.SetRange("Employee Code", AppraisalRec."Employee Code");
+    //     KRAMaster.SetFilter("Key Result Area", 'CAPACITY');
+    //     if KRAMaster.FindFirst then
+    //         repeat
+    //             EmployeeKPI.Reset;
+    //             LineNo += 10000;
+    //             EmployeeKPI.Init;
+    //             EmployeeKPI.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             EmployeeKPI."Line No." := LineNo;
+    //             EmployeeKPI.Validate("Key Result Area", KRAMaster."Key Result Area");
+    //             EmployeeKPI.Validate("KRA Category", KRAMaster."KRA Category");
+    //             EmployeeKPI.Validate(Description, KRAMaster.Description);
+    //             EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
+    //             EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
+    //             EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
+    //             EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             EmployeeKPI.Validate("Deputation on", AppraisalRec."Deputation on");
+    //             EmployeeKPI."From Setup" := true;
+    //             EmployeeKPI.Insert;
+    //         until KRAMaster.Next = 0;
+    // end;
 
-    local procedure ValidateKRAInEmployeeKRAAnnually(AppraisalRec: Record Appraisal)
-    var
-        KRAMaster: Record "KRA Master Setup";
-        KRASubform: Record "KRA Subform List";
-    begin
-        KRAMaster.Reset;
-        KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
-        if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Branch then
-            KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Extension Counter" then
-            KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
-            KRAMaster.SetRange("Province Code", AppraisalRec.Province)
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
-            KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
-        if KRAMaster.FindFirst then
-            repeat
-                KRASubform.Reset;
-                KRASubform.Init;
-                KRASubform.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
-                KRASubform.Validate("KRA Category", KRAMaster."KRA Category");
-                KRASubform.Validate(Description, KRAMaster."KRA Master Name");
-                KRASubform.Validate("Key Result Area", KRAMaster."Key Result Area");
-                KRASubform.Validate("Weightage (%)", KRAMaster.Weightage);
-                KRASubform.Validate("Employee Code", AppraisalRec."Employee Code");
-                KRASubform.Insert;
-            until KRAMaster.Next = 0;
-        KRASubform.Reset;
-        KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KRASubform.CalcSums("Weightage (%)");
-        if KRASubform."Weightage (%)" <> 100 then
-            Error('Sum of KRA (%1)weightage must be 100. Please contact admin.', AppraisalRec."KRA Category");
-    end;
+    // local procedure ValidateKRAInEmployeeKRAAnnually(AppraisalRec: Record Appraisal)
+    // var
+    //     KRAMaster: Record "KRA Master Setup";
+    //     KRASubform: Record "KRA Subform List";
+    // begin
+    //     KRAMaster.Reset;
+    //     KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
+    //     KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
+    //     if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Branch then
+    //         KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
+    //     else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Extension Counter" then
+    //         KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
+    //     else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
+    //         KRAMaster.SetRange("Province Code", AppraisalRec.Province)
+    //     else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
+    //         KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
+    //     if KRAMaster.FindFirst then
+    //         repeat
+    //             KRASubform.Reset;
+    //             KRASubform.Init;
+    //             KRASubform.Validate("Appraisal Code", AppraisalRec."Appraisal Code");
+    //             KRASubform.Validate("KRA Category", KRAMaster."KRA Category");
+    //             KRASubform.Validate(Description, KRAMaster."KRA Master Name");
+    //             KRASubform.Validate("Key Result Area", KRAMaster."Key Result Area");
+    //             KRASubform.Validate("Weightage (%)", KRAMaster.Weightage);
+    //             KRASubform.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             KRASubform.Insert;
+    //         until KRAMaster.Next = 0;
+    //     KRASubform.Reset;
+    //     KRASubform.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KRASubform.CalcSums("Weightage (%)");
+    //     if KRASubform."Weightage (%)" <> 100 then
+    //         Error('Sum of KRA (%1)weightage must be 100. Please contact admin.', AppraisalRec."KRA Category");
+    // end;
 
-    procedure InsertEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
-    var
-        KPIMaster: Record "KPI Master";
-        KPIEmpRec: Record "KPI Employee";
-        KRASubform: Record "KRA Subform List";
-        KPIWeightage: Decimal;
-    begin
-        AppraisalRec.TestField("KRA Category");
-        KPIMaster.Reset;
-        KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
-        KPIMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
-        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
-            KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
-        else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
-            KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
+    // procedure InsertEmployeeKPIAnnually(AppraisalRec: Record Appraisal)
+    // var
+    //     KPIMaster: Record "KPI Master";
+    //     KPIEmpRec: Record "KPI Employee";
+    //     KRASubform: Record "KRA Subform List";
+    //     KPIWeightage: Decimal;
+    // begin
+    //     AppraisalRec.TestField("KRA Category");
+    //     KPIMaster.Reset;
+    //     KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
+    //     KPIMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
+    //     KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
+    //     if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
+    //         KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
+    //     else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
+    //         KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
 
-        KPIEmpRec.Reset;
-        KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
-        KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
-        if KPIMaster.Find('-') then
-            repeat
-            begin
-                KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
-                KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
-                KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
-                KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
-                KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
-                KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
-                KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
-                KPIEmpRec.Validate("From Setup", true);
-                KPIEmpRec.Modify;
-            end;
-            until KPIMaster.Next = 0;
-    end;
+    //     KPIEmpRec.Reset;
+    //     KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
+    //     KPIEmpRec.SetRange("Employee Code", AppraisalRec."Employee Code");
+    //     if KPIMaster.Find('-') then
+    //         repeat
+    //         begin
+    //             KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
+    //             KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
+    //             KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
+    //             KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
+    //             KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
+    //             KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
+    //             KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
+    //             KPIEmpRec.Validate("From Setup", true);
+    //             KPIEmpRec.Modify;
+    //         end;
+    //         until KPIMaster.Next = 0;
+    // end;
 
     procedure ResignationRejectEmailSend(EmployeeNo: Code[20])
     var
