@@ -253,7 +253,7 @@ codeunit 50010 "Payroll-Post"
                 Clear(PayrollJnlPostLine);
                 PostedPayrollLine.InitFromPayrollLine(PostedPayrollHeader, PayrollLine);
                 PostedPayrollLine.Insert;
-                for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+                for FieldID := 47 to 100 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin

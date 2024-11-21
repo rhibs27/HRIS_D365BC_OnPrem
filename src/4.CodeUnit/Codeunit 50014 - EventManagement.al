@@ -72,4 +72,15 @@ codeunit 50014 "Event Management"
         BaseCalendarChange."Posting Region" := CustCalendarChange.PostingRegion;
         BaseCalendarChange."Shortcut Dimension 1 Code" := CustCalendarChange.Branch;
     end;
+    //Add by santosh for Caption in payroll line
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Caption Class", 'OnResolveCaptionClass', '', true, true)]
+    local procedure MyOnResolveCaptionClass(CaptionArea: Text; CaptionExpr: Text; Language: Integer; var Caption: Text; var Resolved: Boolean)
+    var
+        PayrollEngine: Codeunit "Payroll Engine";
+    begin
+        if CaptionArea = '8' then begin
+            Caption := PayrollEngine.PayrollCaptionClassTranslate(CaptionExpr);
+            Resolved := true;
+        end;
+    end;
 }

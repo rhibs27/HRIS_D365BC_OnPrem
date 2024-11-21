@@ -475,6 +475,7 @@ page 50040 "Payroll Plan"
             Rec.Validate(Type, Rec.Type::Adjustment);
             Rec.Validate(Irregular, true);
         end;
+        Rec.Status := rec.Status::Open;
     end;
 
     trigger OnOpenPage()

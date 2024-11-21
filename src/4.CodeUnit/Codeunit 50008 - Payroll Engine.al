@@ -411,7 +411,7 @@ codeunit 50008 "Payroll Engine"
     begin
         CurrentEarning := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+        for FieldID := 47 to 100 do begin //Min 9.16.2022
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -913,6 +913,7 @@ codeunit 50008 "Payroll Engine"
             exit('');
         if not Evaluate(FieldNo, SelectStr(2, CaptionRef)) then
             exit('');
+
 
         LanguageRec.Reset;
         LanguageRec.SetCurrentKey("Windows Language ID");
@@ -2163,7 +2164,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+                for FieldID := 48 to 101 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2260,7 +2261,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+                for FieldID := 48 to 101 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2368,7 +2369,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+                for FieldID := 48 to 101 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2502,7 +2503,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+                for FieldID := 48 to 101 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2917,7 +2918,7 @@ codeunit 50008 "Payroll Engine"
         //pradhan>>
         TaxAtOnceCurrentEarning := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 50487 to 50540 do begin //Min 9.16.2022
+        for FieldID := 47 to 100 do begin //Min 9.16.2022
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -4404,5 +4405,35 @@ codeunit 50008 "Payroll Engine"
                         EmployeeActivity.Modify;
                     until EmployeeActivity.Next = 0;
             until PayrollLineRec.Next = 0;
+    end;
+
+    procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
+    var
+        LanguageCode: Code[10];
+        LanguageRec: Record Language;
+        TableID: Integer;
+        FieldNo: Integer;
+    begin
+        if CaptionRef = '' then
+            exit('');
+        if not Evaluate(TableID, SelectStr(1, CaptionRef)) then
+            exit('');
+        if not Evaluate(FieldNo, SelectStr(2, CaptionRef)) then
+            exit('');
+
+        exit(GetCaption(TableID, FieldNo));
+    end;
+
+    procedure GetCaption(TableNo: Integer; FieldNo: Integer): Text[30]
+    var
+        PayColumnConfig: Record "Payroll Column Configuration";
+        PayAttribute: Record "Payroll Attributes";
+    begin
+        if PayColumnConfig.Get(TableNo, FieldNo) then begin
+            if PayAttribute.Get(PayColumnConfig."Variable Field Code") then begin
+                exit(CopyStr(PayAttribute.Description, 1, 30));
+            end;
+        end;
+        exit('');
     end;
 }
