@@ -142,8 +142,8 @@ page 50066 "Transfer Card"
 
                     trigger OnValidate()
                     begin
-                        //SetLayout;
-                        //CurrPage.UPDATE;
+                        SetLayout;
+                        CurrPage.UPDATE;
                     end;
                 }
             }

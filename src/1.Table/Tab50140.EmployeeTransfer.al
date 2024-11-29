@@ -1157,36 +1157,6 @@ table 50140 "Employee/HR Transfer"
                             HRSetup.TestField("Employee Change No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
-
-                    //for access control
-                    Type::"Access Control":
-                        begin
-                            HRSetup.TestField("Access Control No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Access Control No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-
-                    //for leave
-                    Type::"Leave Request":
-                        begin
-                            HRSetup.TestField("Leave No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for travel request
-                    Type::"Travel Request":
-                        begin
-                            HRSetup.TestField("Travel Request No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for travel claim
-                    Type::"Travel Claim":
-                        begin
-                            HRSetup.TestField("Travel Claimed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
                     //for transfer
                     Type::"Employee Transfer", Type::"HR Transfer":
                         begin
@@ -1194,56 +1164,6 @@ table 50140 "Employee/HR Transfer"
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             "Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
                             "Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
-                        end;
-
-                    //for overtime
-                    Type::Overtime:
-                        begin
-                            HRSetup.TestField("OT No.");
-                            NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for out of office
-                    Type::"Out of Office":
-                        begin
-                            HRSetup.TestField("Out of office No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for bulk cash
-                    Type::"Bulk Cash":
-                        begin
-                            HRSetup.TestField("Bulk Cash No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for resignation
-                    Type::Resignation:
-                        begin
-                            HRSetup.TestField("Resignation No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for medical insurance claim
-                    Type::"Medical Insurance Claim":
-                        begin
-                            HRSetup.TestField("Medical Insurance No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for promotion
-                    Type::Promotion:
-                        begin
-                            HRSetup.TestField("Promotion No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Promotion No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //attendance missed
-                    Type::"Attendance Missed":
-                        begin
-                            HRSetup.TestField("Attendance Missed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            InsertAttendanceMissedAttachment;
                         end;
                 end;
             end;
@@ -1281,40 +1201,17 @@ table 50140 "Employee/HR Transfer"
                                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                                 IncomingDocument."No." := "No.";
                                 IncomingDocument."Employee Code" := "Employee No.";
-                                IncomingDocument."Table ID" := DATABASE::"Employee Activity";
+                                IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                if Type = Type::"Employee Transfer" then
+                                    IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
+                                else if Type = Type::"HR Transfer" then
+                                    IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"HR Transfer";
+
                                 IncomingDocument.Insert(true);
                             end;
                         until AttachmentMandatory.Next = 0;
                 end;
         end;
-    end;
-
-    local procedure InsertAttendanceMissedAttachment()
-    var
-        AttachmentMandatory: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-        AttachmentMandatory.Reset;
-        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
-        if AttachmentMandatory.FindFirst then
-            repeat
-                Clear(IncomingDocument);
-                IncomingDocument.Reset;
-                IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-                IncomingDocument.SetRange("No.", "No.");
-                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-                if not IncomingDocument.FindFirst then begin
-                    IncomingDocument.Reset;
-                    IncomingDocument.Init;
-                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-                    IncomingDocument.Description := Rec.TableName;
-                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-                    IncomingDocument."No." := "No.";
-                    IncomingDocument."Employee Code" := "Employee No.";
-                    IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-                    IncomingDocument.Insert(true);
-                end;
-            until AttachmentMandatory.Next = 0;
     end;
 
     local procedure ValidateTransfer()

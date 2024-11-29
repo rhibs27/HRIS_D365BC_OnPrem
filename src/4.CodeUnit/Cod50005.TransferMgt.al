@@ -1,13 +1,13 @@
 codeunit 50005 "Transfer Mgt."
 {
-    procedure OpenTransferRequest(EmpCode3: Code[10])
+    procedure OpenTransferRequest(EmpCode: Code[10])
     var
         //EmpAct4: Record "Employee Activity" temporary;
         EmpTransfer: Record "Employee/HR Transfer" temporary;
         RequestError: Label 'You are not eligible to request for a transfer.';
     begin
         Clear(Employee);
-        Employee.Get(EmpCode3);
+        Employee.Get(EmpCode);
         Employee.TestField("Confirmation Date");
         if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
             Error(RequestError);
@@ -19,7 +19,7 @@ codeunit 50005 "Transfer Mgt."
         if Employee.FindFirst then;
         EmpTransfer.Init;
         EmpTransfer.Validate(Type, EmpTransfer.Type::"Employee Transfer");
-        EmpTransfer.Validate("Employee No.", EmpCode3);
+        EmpTransfer.Validate("Employee No.", EmpCode);
         EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::Open);
         EmpTransfer.Insert;
         PAGE.Run(PAGE::"Transfer Card", EmpTransfer);
@@ -66,7 +66,7 @@ codeunit 50005 "Transfer Mgt."
             TempEmphrtransfer.TestField("End Date");
         end;
         EmphrTransfer.Reset;
-        EmphrTransfer.SetRange(Type, EmphrTransfer.Type::"HR Transfer");
+        EmphrTransfer.SetFilter(Type, '%1|%2', EmphrTransfer.Type::"HR Transfer", EmphrTransfer.Type::"Employee Transfer");
         EmphrTransfer.SetFilter("Approval Status", '<>%1', EmphrTransfer."Approval Status"::Acknowledged);
         EmphrTransfer.SetRange("Employee No.", TempEmphrtransfer."Employee No.");
         EmphrTransfer.SetFilter("No.", '<>%1', TempEmphrtransfer."No.");
@@ -80,7 +80,7 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending Approval");
         EmphrTransfer.Validate("User ID", UserId);
         Employee.Get(EmphrTransfer."Employee No.");
-        //EmpAct.VALIDATE("Recommender Code", Employee."Approver Code");
+        EmphrTransfer.VALIDATE("Recommender Code", Employee."Approver Code");
         HRSetup.Get;
         HRSetup.TestField("HR Head Functional Title");
         HRSetup.TestField("HR Department Code");

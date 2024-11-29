@@ -20,52 +20,52 @@ page 50257 "HR Transfer API"
             group(General)
             {
                 Editable = ForOpen;
-                field(No; Rec."No.")
+                field(no; Rec."No.")
                 {
                     Editable = false;
                 }
-                field(EmployeeNo; Rec."Employee No.")
+                field(employeeNo; Rec."Employee No.")
                 {
                     Editable = true;
                 }
-                field(EmployeeName; Rec."Employee Name") { }
-                field(TransferCategory; Rec."Transfer Category")
+                field(employeeName; Rec."Employee Name") { }
+                field(transferCategory; Rec."Transfer Category")
                 {
                     trigger OnValidate()
                     begin
                         GetTransferEditibility;
                     end;
                 }
-                field(Type; Rec.Type)
+                field(type; Rec.Type)
                 {
                     Visible = false;
                 }
-                field(StartDate; Rec."Start Date")
+                field(startDate; Rec."Start Date")
                 {
                     Editable = TransferCategoryEditable;
                 }
-                field(EndDate; Rec."End Date")
+                field(endDate; Rec."End Date")
                 {
                     Editable = TransferCategoryEditable;
                 }
             }
-            group(Transfer)
+            group(transfer)
             {
-                field(TransferEffectiveDate; Rec."Transfer Effective Date")
+                field(transferEffectiveDate; Rec."Transfer Effective Date")
                 {
                     Editable = not ForAck;
                 }
-                field(ReasonForTransfer; Rec."Reason for Resignation")
+                field(reasonForTransfer; Rec."Reason for Resignation")
                 {
                     Editable = ForOpen;
                 }
-                field(Notifyto; Rec."Notify to") { }
+                field(notifyTo; Rec."Notify to") { }
             }
             group(Placement)
             {
                 Editable = not ForApprove;
                 Visible = ForReview;
-                field(TransferType; Rec."Transfer Type")
+                field(transferType; Rec."Transfer Type")
                 {
                     trigger OnValidate()
                     begin
@@ -74,9 +74,9 @@ page 50257 "HR Transfer API"
                     end;
                 }
             }
-            group("Proposed Placement")
+            group("proposed Placement")
             {
-                field(DeputationOnTo; Rec."Deputation On (To)")
+                field(deputationOnTo; Rec."Deputation On (To)")
                 {
                     trigger OnValidate()
                     begin
@@ -84,7 +84,7 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(ExtensionCounterTo; Rec."Extension Counter (To)")
+                field(extensionCounterTo; Rec."Extension Counter (To)")
                 {
                     Editable = ExtensionCounterEdit;
 
@@ -93,23 +93,23 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(ExtensionNameTo; ExtensionNameTo)
+                field(extensionNameTo; ExtensionNameTo)
                 {
                     Editable = false;
                 }
-                field(FunctionalTitleTo; Rec."Functional Title (To)")
+                field(functionalTitleTo; Rec."Functional Title (To)")
                 {
                     trigger OnValidate()
                     begin
                         GetTransferName;
                     end;
                 }
-                field(FunctionalDescTo; FunctionalDescTo)
+                field(functionalDescTo; FunctionalDescTo)
                 {
                     Caption = 'Functional Title Description(To)';
                     Editable = false;
                 }
-                field(ShortcutDimension1CodeTo; Rec."Shortcut Dimension 1 Code (To)")
+                field(shortcutDimension1CodeTo; Rec."Shortcut Dimension 1 Code (To)")
                 {
                     Caption = 'Branch Code (To)';
                     Editable = BranchEdit;
@@ -119,11 +119,11 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(BranchNameTo; BranchNameTo)
+                field(branchNameTo; BranchNameTo)
                 {
                     Editable = false;
                 }
-                field(SubProvinceCodeTo; Rec."Sub Province Code (To)")
+                field(subProvinceCodeTo; Rec."Sub Province Code (To)")
                 {
                     Editable = SubProvinceEdit;
 
@@ -132,11 +132,11 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(SubProvinceNameTo; SubProvinceNameTo)
+                field(subProvinceNameTo; SubProvinceNameTo)
                 {
                     Editable = false;
                 }
-                field(ProvinceCodeTo; Rec."Province Code (To)")
+                field(provinceCodeTo; Rec."Province Code (To)")
                 {
                     Editable = ProvinceEdit;
 
@@ -145,11 +145,11 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(ProvinceNameTo; ProvinceNameTo)
+                field(provinceNameTo; ProvinceNameTo)
                 {
                     Editable = false;
                 }
-                field(UnitTo; Rec."Unit (To)")
+                field(unitTo; Rec."Unit (To)")
                 {
                     Editable = UnitEdit;
 
@@ -158,11 +158,11 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(UnitNameTo; UnitNameTo)
+                field(unitNameTo; UnitNameTo)
                 {
                     Editable = false;
                 }
-                field(DepartmentCodeTo; Rec."Department Code (To)")
+                field(departmentCodeTo; Rec."Department Code (To)")
                 {
                     Editable = DepartEdit;
 
@@ -171,20 +171,20 @@ page 50257 "HR Transfer API"
                         GetTransferName;
                     end;
                 }
-                field(DepartmentNameTo; DepartmentNameTo)
+                field(departmentNameTo; DepartmentNameTo)
                 {
                     Editable = false;
                 }
-                field(IncomingSupervisior; Rec."Incoming Supervisior") { }
-                field(IncomingSupervisiorName; Rec."Incoming Supervisior Name") { }
-                field(OutgoingBranchRepPerson; Rec."Outgoing Branch Rep. Person")
+                field(incomingSupervisior; Rec."Incoming Supervisior") { }
+                field(incomingSupervisiorName; Rec."Incoming Supervisior Name") { }
+                field(outgoingBranchRepPerson; Rec."Outgoing Branch Rep. Person")
                 {
                     trigger OnValidate()
                     begin
                         Rec.CalcFields("Outgoing Reporting Person Name");
                     end;
                 }
-                field(OutgoingReportingPersonName; Rec."Outgoing Reporting Person Name") { }
+                field(outgoingReportingPersonName; Rec."Outgoing Reporting Person Name") { }
             }
         }
     }

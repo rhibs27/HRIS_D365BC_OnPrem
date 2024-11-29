@@ -2,9 +2,9 @@ enum 50062 "Employee Activity Type"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; "Leave Request")
     {

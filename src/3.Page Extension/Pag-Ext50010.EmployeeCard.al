@@ -882,6 +882,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE();
                     end;
                 }
+                action("Request Transfer")
+                {
+                    Image = TransferReceipt;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Request Transfer action.';
+                    ApplicationArea = All;
+
+                    trigger OnAction()
+                    begin
+                        TransferMgt.OpenTransferRequest(Rec."No.");
+                    end;
+                }
+
                 action("Request Attendace Missed")
                 {
                     ApplicationArea = All;
@@ -1690,6 +1706,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         PayrollEngine: Codeunit "Payroll Engine";
         ServiceHistory: Record "Employee Service History";
         PGSetup: Record "Payroll General Setup";
+        TransferMgt: Codeunit "Transfer Mgt.";
 
 
     trigger OnOpenPage()

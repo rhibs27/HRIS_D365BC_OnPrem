@@ -196,6 +196,8 @@ table 50141 OverTime
         {
 
             trigger OnValidate()
+            var
+                AttendanceLog: Record "Attendance Log";
             begin
                 if Type <> Type::Overtime then
                     EmployeeRec.Get("Employee No.");
@@ -208,6 +210,7 @@ table 50141 OverTime
                                 Error('Cannot apply before your confirmation date.');
                     end;
                 end;
+
                 //>>check for leave
                 if Type = Type::"Leave Request" then begin
                     if EmployeeRec."Contract Expiry Date" <> 0D then
@@ -248,6 +251,17 @@ table 50141 OverTime
                     if "Start Date" >= Today then
                         Error('You cannot apply OverTime in current and future date.');
                     Validate("End Date", "Start Date");
+                    AttendanceLog.Reset;
+                    AttendanceLog.SetRange("Employee ID", Rec."Employee No.");
+                    AttendanceLog.SetRange(Date, Rec."Start Date");
+                    if AttendanceLog.FindFirst then begin
+                        if (AttendanceLog."Check In Time" = 0T) or (AttendanceLog."Check Out Time" = 0T) then begin
+                            Error('No punch in or punch out found.');
+                        end;
+                    end else
+                        Error('No Attendance Found on %1', rec."Start Date");
+
+
                 end;
                 // //AT Travel Req Control
                 // if Type = Type::"Travel Request" then begin
@@ -826,7 +840,7 @@ table 50141 OverTime
                 end;
             end;
 
-        // InsertAttachmentLines;
+        //InsertAttachmentLines;
     end;
 
     local procedure InsertAttendanceMissedAttachment()

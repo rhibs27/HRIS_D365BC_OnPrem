@@ -7161,7 +7161,6 @@ codeunit 50001 "HR Mgt."
                     IncomingDocument."Order No." := DocumentNo;
                     IncomingDocument."Employee Code" := DocumentNo;
                     IncomingDocument.Insert(true);
-
                 end;
             until AttachmentMandatory.Next = 0;
     end;

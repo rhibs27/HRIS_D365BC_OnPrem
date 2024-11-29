@@ -242,7 +242,7 @@ page 50171 "Temp Employee Activity Entity"
                         if Rec.Type = Rec.Type::Resignation then
                             HRMgt.SendResignationApproval(Rec);
                         // if Rec.Type = Rec.Type::"Employee Transfer" then
-                        //     HRMgt.SendTransferApproval(Rec);
+                        //     TransferMgt.SendTransferApproval(Rec);
                     end;
                 }
                 field(recommnedername; Rec."Recommender Name") { }
