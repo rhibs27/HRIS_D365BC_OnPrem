@@ -1,7 +1,7 @@
 table 50142 Resignation
 {
     Caption = 'Resignation';
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
 
     fields
     {
@@ -802,6 +802,7 @@ table 50142 Resignation
         ExtensionName: Text;
         UnitName: Text;
         Overtime: Record OverTime;
+        Resignation: Record Resignation;
         FunctionalTitle: Record "Functional Title";
         FunctionalDescFrom: Text;
         FunctionalDescTo: Text;
@@ -957,41 +958,38 @@ table 50142 Resignation
             until AttachmentMandatory.Next = 0;
     end;
 
-    // local procedure InsertAttachmentLines()
-    // var
-    //     IncomingDocument: Record "Incoming Document";
-    //     AttachmentMandatory: Record "Attachment Setup";
-    // begin
-    //     case Type of
-    //         Type::"Employee Transfer", Type::"HR Transfer":
-    //             begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //                 IncomingDocument.SetRange("No.", "No.");
-    //                 IncomingDocument.DeleteAll(true);
-    //                 AttachmentMandatory.Reset;
-    //                 AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
-    //                 AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
-    //                 if AttachmentMandatory.FindFirst then
-    //                     repeat
-    //                         Clear(IncomingDocument);
-    //                         IncomingDocument.Reset;
-    //                         IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //                         IncomingDocument.SetRange("No.", "No.");
-    //                         IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //                         if not IncomingDocument.FindFirst then begin
-    //                             IncomingDocument.Reset;
-    //                             IncomingDocument.Init;
-    //                             IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                             IncomingDocument.Description := Rec.TableName;
-    //                             IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                             IncomingDocument."No." := "No.";
-    //                             IncomingDocument."Employee Code" := "Employee No.";
-    //                             IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-    //                             IncomingDocument.Insert(true);
-    //                         end;
-    //                     until AttachmentMandatory.Next = 0;
-    //             end;
-    //     end;
-    // end;
+    procedure ReopenDocument()
+    var
+        EmpActFilterPageBuilder: FilterPageBuilder;
+        RecommenderCode: Code[20];
+        ApproverCode: Code[20];
+    begin
+        if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Open] then
+            Error('You cannot change Recommender and Approver of already open or approved request.');
+
+        if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
+            exit;
+
+        EmpActFilterPageBuilder.AddRecord('Employee Activity', Rec);
+        EmpActFilterPageBuilder.AddField('Employee Activity', "Recommender Code");
+        EmpActFilterPageBuilder.AddField('Employee Activity', "Approver Code");
+        EmpActFilterPageBuilder.RunModal;
+        Resignation.SetView(EmpActFilterPageBuilder.GetView('Employee Activity'));
+        RecommenderCode := Resignation.GetFilter("Recommender Code");
+        ApproverCode := Resignation.GetFilter("Approver Code");
+
+        if (RecommenderCode = '') and (ApproverCode = '') then
+            Error('Please select either recommender or approver of the request.');
+
+        if RecommenderCode <> '' then begin
+            TestField("Approver Type", "Approver Type"::"With Recommendation");
+            Validate("Recommender Code", RecommenderCode);
+        end;
+        if ApproverCode <> '' then
+            Validate("Approver Code", ApproverCode);
+        Modify;
+
+        Message('The request has been update sucessfully.');
+    end;
+
 }

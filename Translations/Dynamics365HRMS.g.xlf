@@ -18033,6 +18033,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Vacancy Line - Field Vacancy No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
+          <source> : </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - NamedType Colon</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 1119822271 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method ApproveRejectAppraisal - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 1119822271 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method ApproveRejectAppraisal - NamedType ConfirmReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 634034736 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to confirm cancel appraisal request?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CancelAppraisalApproval - NamedType ConfirmCancel</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to acknowledge this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType AcknowledgeError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 3444143894" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to review this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType ReviewNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1293262007 - Method 3884514720 - NamedType 2865616048" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to check review this document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 4102621001 - Method 741337154 - NamedType 128634895" size-unit="char" translate="yes" xml:space="preserve">
           <source>The incoming document has already been assigned to %1 %2 (%3).</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18348,16 +18393,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedTransferUpdate - NamedType ConfirmReject</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 1119822271 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectAppraisal - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 1119822271 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectAppraisal - NamedType ConfirmReject</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2713014571 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
           <source>Confirm Approve?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18382,36 +18417,6 @@
           <source>Start time cannot be greater than end time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CaluateDuration - NamedType ErrorTime</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 634034736 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to confirm cancel appraisal request?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CancelAppraisalApproval - NamedType ConfirmCancel</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckAppraisalApproval - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to recommend or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckAppraisalApproval - NamedType RecommendNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 2349949476" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to acknowledge this document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckAppraisalApproval - NamedType AcknowledgeError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 3444143894" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to review this document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckAppraisalApproval - NamedType ReviewNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3884514720 - NamedType 2865616048" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to check review this document.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1298234753 - NamedType 2334196938" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Name %1 Not found</source>
@@ -18492,6 +18497,26 @@
           <source>&lt;br&gt;The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.&lt;br&gt;Request you to assign it till EOD.&lt;br&gt;</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType AllowanceBodyText</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 1196895094 - NamedType 1110775650" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to send resignation request?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendResignationApproval - NamedType ConfirmResign</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 1196895094 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of leave days must be greater than 0.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendResignationApproval - NamedType ErrorNoOfDays</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 1196895094 - NamedType 19132630" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation request approval has been sent.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendResignationApproval - NamedType ApprovalRequestSent</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 1196895094 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No %1.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendResignationApproval - NamedType NoRecommender</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 961688684 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send transfer request ?</source>
@@ -18743,6 +18768,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method ApproveRejectLoan - NamedType Approved</note>
         </trans-unit>
+        <trans-unit id="Codeunit 852765344 - Method 2577992448 - NamedType 3473949665" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm action?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method ApproveRejectLoanAPI - NamedType Confirmation</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 852765344 - Method 2577992448 - NamedType 2913119229" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document is approved.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method ApproveRejectLoanAPI - NamedType Approved</note>
+        </trans-unit>
         <trans-unit id="Codeunit 852765344 - Method 1185473215 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
           <source>You are not Eligible to approve or reject this document </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18752,6 +18787,16 @@
           <source>You are not Eligible to recommend or reject this document </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method CheckLoanApproval - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 852765344 - Method 1590342119 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method CheckLoanApprovalAPI - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 852765344 - Method 1590342119 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method CheckLoanApprovalAPI - NamedType RecommendNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 852765344 - Method 4273835060 - NamedType 3472471286" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Month</source>
@@ -18842,6 +18887,36 @@
           <source>No Approver Code.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoApprover</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to send request ?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApplyForOverTimeApprovalForms - NamedType ConfirmForm</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Travel days must be greater than 0.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApplyForOverTimeApprovalForms - NamedType ErrorNoOfDays</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 3974373516 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApprovedRejectOverTimeApprovalAPI - NamedType ApprovalStatusError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 3974373516 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status must be in %1 or %2.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method ApprovedRejectOverTimeApprovalAPI - NamedType ErrorReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 2775329460 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method CheckEmployeeOverTimeApprovalAPI - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 621810791 - Method 2775329460 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit OverTime Mgt - Method CheckEmployeeOverTimeApprovalAPI - NamedType RecommendNotEligibleError</note>
         </trans-unit>
         <trans-unit id="Codeunit 621810791 - Method 3043778326 - NamedType 3251816306" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee %1 is not eligible for OT.</source>
@@ -18978,6 +19053,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ApproveRejectResignation - NamedType AcknowledgeError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 391235505 - Method 2713014571 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ApproveRejectResignationAPI - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 391235505 - Method 2713014571 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ApproveRejectResignationAPI - NamedType ConfirmReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 391235505 - Method 2713014571 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to approve or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ApproveRejectResignationAPI - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 391235505 - Method 2713014571 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to recommend or reject this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method ApproveRejectResignationAPI - NamedType RecommendNotEligibleError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 391235505 - Method 1512392436 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to confirm cancel resignation request?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19042,16 +19137,6 @@
           <source>Acknowledged.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method AcknowledgeTransfer - NamedType Acknowledged</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 2986831991 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ApplyForApprovalForms - NamedType ConfirmForm</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 2986831991 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Travel days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ApplyForApprovalForms - NamedType ErrorNoOfDays</note>
         </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 2252888784 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
           <source>Confirm Approve?</source>
@@ -26638,6 +26723,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control groundsForTermCode - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 3089802257 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Image</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control image - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 2025750209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Job Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27727,6 +27817,11 @@
           <source>Specifies the value of the Requested field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Leave Days-HR Cue - Control Requested - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 705323646 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>employeeLeaveEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Leave Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1302753547 - Control 4198934148 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Carry Forward field.</source>
@@ -29528,6 +29623,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Relative Entity - Control wardNo - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 622115084 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>employeeResignationEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Resignation Entity - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4043754004 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30017,6 +30117,11 @@
           <source>Specifies the value of the Question field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Training Feedback - Control Question - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2989086006 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Transfer Entity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1538991725 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
@@ -33368,15 +33473,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Contract Expiry Employees - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1056294803 - Control 970212319 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1056294803 - Control 3687590975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title Description(To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer API - Control FunctionalDescTo - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer API - Control functionalDescTo - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1056294803 - Control 3585664393 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1056294803 - Control 1539451561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer API - Control ShortcutDimension1CodeTo - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer API - Control shortcutDimension1CodeTo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1056294803 - Action 2493986398 - Method 1377591017 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send transfer request ?</source>
@@ -45348,10 +45453,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Resignation API - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1715857751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 225116810 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>tempEmployeeTransferEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Transfer Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1829759119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>tempEmployeeTravelEntity</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Travel  Entity - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Travel Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 565033530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Terms and Conditions</source>
@@ -51728,6 +51838,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Resign - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 4108552614 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Executes the Request Transfer action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Transfer - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 101765779 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Request Travel action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57533,10 +57648,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Second Type - EnumValue Residential Address - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4154710913 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 4154710913 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3511167141 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Access Control</source>

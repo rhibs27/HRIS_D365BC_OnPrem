@@ -290,7 +290,7 @@ page 50067 "Resignation Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Forward to HR action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     ResignationMgt.ForwardToHRForResignation(Rec);

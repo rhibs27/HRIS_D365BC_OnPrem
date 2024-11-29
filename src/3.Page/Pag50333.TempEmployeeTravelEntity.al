@@ -10,7 +10,7 @@ page 50333 "Temp Employee Travel Entity"
     EntitySetName = 'tempEmployeeTravelEntity';
     PageType = API;
     SourceTable = "Travel Request";
-    //SourceTableTemporary = true;
+    SourceTableTemporary = true;
     layout
     {
         area(Content)

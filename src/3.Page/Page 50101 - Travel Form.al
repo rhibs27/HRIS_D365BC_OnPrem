@@ -11,17 +11,6 @@ page 50101 "Travel Form"
         {
             group(General)
             {
-                field("No."; Rec."No.")
-                {
-                    ToolTip = 'Specifies the value of the No. field.';
-                    ApplicationArea = All;
-
-                    trigger OnAssistEdit()
-                    begin
-                        if Rec.AssistEdit(xRec) then
-                            CurrPage.Update();
-                    end;
-                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
