@@ -136,44 +136,45 @@ codeunit 50000 "Leave Mgt."
 
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
-        EmpAct: Record "Employee Activity";
+        //EmpAct: Record "Employee Activity";
+        leave: Record Leave;
         NoOfRecrod: Integer;
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
     begin
-        // check for leave conflict..
-        EmpAct.Reset;
-        EmpAct.SetRange("Employee No.", EmpCode);
+        //check for leave conflict..
+        leave.Reset;
+        leave.SetRange("Employee No.", EmpCode);
         //EmpAct.SETRANGE(Type,EmpAct.Type::"Leave Request");
-        EmpAct.SetFilter(Type, '%1|%2', EmpAct.Type::"Leave Request", EmpAct.Type::"Attendance Missed");
-        EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
-        EmpAct.SetRange("Cancelled No.", '');
-        EmpAct.SetRange(Cancelled, false);
-        EmpAct.FilterGroup(-1);
-        EmpAct.SetRange("Start Date", StartDate, EndDate);
-        EmpAct.SetRange("End Date", StartDate, EndDate);
-        EmpAct.FilterGroup(0);
+        leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
+        leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
+        leave.SetRange("Cancelled No.", '');
+        leave.SetRange(Cancelled, false);
+        leave.FilterGroup(-1);
+        leave.SetRange("Start Date", StartDate, EndDate);
+        leave.SetRange("End Date", StartDate, EndDate);
+        leave.FilterGroup(0);
 
-        NoOfRecrod := EmpAct.Count;
+        NoOfRecrod := leave.Count;
         if NoOfRecrod <> 0 then
             Error('Leave has already been request between %1 to %2', StartDate, EndDate);
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
         if EngNep.FindFirst then;
 
-        EmpAct.Reset;
-        EmpAct.SetRange("Employee No.", EmpCode);
+        leave.Reset;
+        leave.SetRange("Employee No.", EmpCode);
         //EmpAct.SETRANGE(Type,EmpAct.Type::"Leave Request");
-        EmpAct.SetFilter(Type, '%1|%2', EmpAct.Type::"Leave Request", EmpAct.Type::"Attendance Missed");
-        EmpAct.SetRange("Fiscal Year", EngNep."Fiscal Year");
-        EmpAct.SetRange("Cancelled No.", '');
-        EmpAct.SetRange(Cancelled, false);
-        EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
-        if EmpAct.Find('-') then
+        leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
+        leave.SetRange("Fiscal Year", EngNep."Fiscal Year");
+        leave.SetRange("Cancelled No.", '');
+        leave.SetRange(Cancelled, false);
+        leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
+        if leave.Find('-') then
             repeat
-                if ((StartDate > EmpAct."Start Date") and (StartDate < EmpAct."End Date")) or
-                    ((EndDate > EmpAct."Start Date") and (EndDate < EmpAct."End Date")) then
+                if ((StartDate > leave."Start Date") and (StartDate < leave."End Date")) or
+                    ((EndDate > leave."Start Date") and (EndDate < leave."End Date")) then
                     Error('Leave has already been request between %1 to %2', StartDate, EndDate);
-            until EmpAct.Next = 0;
+            until leave.Next = 0;
         EmpAttendanceActivity.Reset; //Min 4.11.2022
         EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
         EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
@@ -723,7 +724,7 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
     end;
 
-    procedure ApplyForLeave(Leave: Record "Leave" temporary): Boolean
+    procedure ApplyForLeave(Leave: Record "Leave" temporary): Code[20]
     var
         Leavevar: Record "Leave";
         ConfirmLeave: Label 'Do you want to send leave request ?';
@@ -749,6 +750,8 @@ codeunit 50000 "Leave Mgt."
                 CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
             CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
             CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
+            if (LeaveTypeSetup."Sick Leave") and (Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment") then
+                GenerateSickLeaveAttachment(leave);
         end;
 
 
@@ -786,10 +789,11 @@ codeunit 50000 "Leave Mgt."
         Leavevar.Validate("User ID", UserId);
 
         Leavevar.Insert(true);
-        AddLeaveAttachment(Leavevar."No.", Leavevar."Employee No.", Leavevar."Leave Code");
+        if GuiAllowed then
+            AddLeaveAttachment(Leavevar."No.", Leavevar."Employee No.", Leavevar."Leave Code");
         HRMgt.SendMailFromTemplate(DATABASE::Leave, Leavevar.Type::"Leave Request", Leavevar."Approval Status"::Open, '', Leavevar."Employee No.", Leavevar."No.", 0);   //For email
 
-        exit(true);
+        exit(Leavevar."No.");
     end;
 
     procedure CreateLeaveEarnContract(Employee: Record Employee)
@@ -1254,6 +1258,41 @@ codeunit 50000 "Leave Mgt."
         exit(EmpAttendActivity.Count);
     end;
 
+    procedure GenerateSickLeaveAttachment(var Leave: Record leave)
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SetRange("Employee Code", Leave."Employee No.");
+        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
+        TempIncomingDoc.SETRANGE("Leave Type Code", Leave."Leave Code");
+        TempIncomingDoc.SetRange("No.", '');
+        if TempIncomingDoc.Find('-') then
+            repeat
+                if TempIncomingDoc."File Name" <> '' then
+                    Clear(TempIncomingDoc."File Name");
+            until TempIncomingDoc.Next = 0;
+        TempIncomingDoc.DeleteAll;
+        Leave.TestField("Leave Code");
+        //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+        AttachmentSetup.SetRange("Leave Type Code", Leave."Leave Code");
+        if AttachmentSetup.Find('-') then
+            repeat
+                TempIncomingDoc.Reset;
+                TempIncomingDoc.Init;
+                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                TempIncomingDoc.Validate(Description, Format(Leave.Type) + ': ' + Leave."Leave Description");
+                TempIncomingDoc.Validate("Employee Code", Leave."Employee No.");
+                TempIncomingDoc.Validate("Leave Type Code", Leave."Leave Code");
+                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                TempIncomingDoc.Insert(true);
+            until AttachmentSetup.Next = 0;
+        //END;
+    end;
 
     var
         EngNep: Record "English-Nepali Date";

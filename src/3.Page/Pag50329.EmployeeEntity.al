@@ -310,6 +310,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Bank Account No.';
                 }
+                field(image; ExportEmpImage)
+                {
+                    Caption = 'Employee Image';
+                }
             }
         }
     }

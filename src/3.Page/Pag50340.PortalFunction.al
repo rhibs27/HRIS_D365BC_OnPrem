@@ -268,7 +268,7 @@ page 50340 "Portal Function"
         end;
         tempLeave.Validate("Contact No.", contactNo);
         tempLeave.Insert;
-        if LeaveMgt.ApplyForLeave(tempLeave) then
+        if LeaveMgt.ApplyForLeave(tempLeave) <> '' then
             exit(200);
     end;
 
@@ -2695,6 +2695,33 @@ page 50340 "Portal Function"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure getChanges(since: DateTime): JsonArray
+    var
+        Leave: Record Leave; // Replace with your table name
+        ResponseArray: JsonArray;
+        RecordObject: JsonObject;
+    begin
+        // Filter records modified after the given timestamp
+        Leave.SetRange("SystemModifiedAt", Since, CurrentDateTime);
+        if Leave.FindSet() then begin
+            repeat
+                // Prepare each record as a JSON object
+                RecordObject.Add('Name', Leave.Type);
+                RecordObject.Add('LastModifiedDateTime', Leave.SystemModifiedAt);
+
+                // Add the JSON object to the array
+                ResponseArray.Add(RecordObject);
+
+            // Clear the object for the next record
+            // RecordObject.Clear();
+            until Leave.Next() = 0;
+        end;
+
+        exit(ResponseArray);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure myTask(employeeNo: Code[20]) HRCue: Record "HR Cue"
     var
         myTasks: Record "HR Cue";
@@ -2702,4 +2729,5 @@ page 50340 "Portal Function"
         myTasks.SetRange("Employee Filter", employeeNo);
         exit(myTasks);
     end;
+
 }

@@ -225,12 +225,12 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitLeaveRequest(employeeNo: Code[20]; leaveCode: Code[20]; startDate: Date; endDate: Date; remarks: Text; recommenderCode: Code[20]; approverCode: Code[20]; childGender: Text; forDeathof: Text; contactNo: Text): Integer
+    procedure submitLeaveRequest(employeeNo: Code[20]; leaveCode: Code[20]; startDate: Date; endDate: Date; remarks: Text; recommenderCode: Code[20]; approverCode: Code[20]; childGender: Text; forDeathof: Text; contactNo: Text): text
     var
         //TempEmpAct: Record "Employee Activity" temporary;
         LeaveMgt: Codeunit "Leave Mgt.";
         tempLeave: Record Leave temporary;
-
+        docNo: text;
     begin
         tempLeave.Reset;
         tempLeave.Init;
@@ -287,8 +287,9 @@ page 50108 "Portal Functions"
         end;
         tempLeave.Validate("Contact No.", contactNo);
         tempLeave.Insert;
-        if LeaveMgt.ApplyForLeave(tempLeave) then
-            exit(200);
+        docNo := LeaveMgt.ApplyForLeave(tempLeave);
+        if docNo <> '' then
+            exit(docNo);
     end;
 
     [ServiceEnabled]
@@ -334,13 +335,13 @@ page 50108 "Portal Functions"
     "destination": text;
     "description": text;
     "advanceCashRequired": Boolean;
+    "estimatedTransportCost": Decimal;
     "estimatedConveyanceExpense": Decimal;
     "otherEstimatedCost": Decimal;
     "departureTime": Time;
     "arrivalTime": Time;
     "extended": Boolean;
     advanceCash: Decimal;
-
     "recommenderCode": Code[20];
     "approverCode": code[20]): Integer
     var
@@ -377,6 +378,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate(Extended, extended);
         TravelRequest.Validate("Advance Cash Required", advanceCashRequired);
         TravelRequest.Validate("Advance Cash", advanceCash);
+        TravelRequest.Validate("Estimated Transportation Cost", estimatedTransportCost);
         TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
         TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
         TravelRequest.Validate("Travel With", travelWith);
@@ -386,6 +388,84 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Approver Code", approverCode);
         TravelRequest.Insert;
         if TravelMgt.ApplyForTravel(TravelRequest) then
+            exit(200);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitTravelClaim(
+   "employeeNo": Code[20];
+   "startDate": date;
+   "endDate": date;
+   "requestedDate": Date;
+   "purposeOfTravel": text;
+   "modeOfTravel": text;
+   "travelType": text;
+   "travelWith": code[20];
+   "description": text;
+    claimType: text;
+   "estimatedConveyanceExpense": Decimal;
+   "otherEstimatedCost": Decimal;
+   "recommenderCode": Code[20];
+   "approverCode": code[20];
+   foodingAllowance: decimal;
+   lodgingAllowance: decimal;
+   outOfPocketExpense: decimal;
+   travelOrderNo: Code[20];
+   conveyanceExpense: Decimal;
+   otherExpense: Decimal;
+   roadAndAirFare: Decimal;
+   claimedCountry: text;
+   reimbursable: Boolean
+   ): Integer;
+    var
+        TravelRequest: Record "Travel Request" temporary;
+        TravelMgt: Codeunit "Travel Mgt.";
+        TypeOfVisitEnum: Enum "Type Of Visit";
+        ModeOfTravelEnum: Enum "Mode Of Travel";
+        TravelTypeEnum: Enum "Travel Countries";
+        typeEnum: Enum "Employee Activity Type";
+        claimTypeEnum: Enum "Claim Type";
+    begin
+        Employee.Get(employeeNo);
+        /*SalaryLevel.GET(Employee."Salary Level");
+        IF NOT SalaryLevel."OT Eligible" THEN
+          ERROR(OTEligibleError,Employee.FullName);*/
+        claimTypeEnum := Enum::"Claim Type".FromInteger(claimTypeEnum.Ordinals.Get(claimTypeEnum.Names.IndexOf(claimType)));
+        ModeOfTravelEnum := Enum::"Mode Of Travel".FromInteger(ModeOfTravelEnum.Ordinals.Get(ModeOfTravelEnum.Names.IndexOf(modeOfTravel)));
+        TravelTypeEnum := Enum::"Travel Countries".FromInteger(TravelTypeEnum.Ordinals.Get(TravelTypeEnum.Names.IndexOf(TravelType)));
+        // typeEnum := Enum::"Employee Activity Type".FromInteger(typeEnum.Ordinals.Get(typeEnum.Names.IndexOf(Type)));
+
+        TravelRequest.Reset;
+        TravelRequest.Init;
+        TravelRequest.Validate(Type, TravelRequest.Type::"Travel Claim");
+        TravelRequest.Validate("Employee No.", employeeNo);
+        TravelRequest.Validate("Start Date", startDate);
+        TravelRequest.Validate("End Date", endDate);
+        TravelRequest.Validate("Requested Date", requestedDate);
+        TravelRequest.Validate("Purpose of Travel", purposeOfTravel); //Min 11.29.2022
+        TravelRequest.Validate("Type Of Visit", typeOfVisitEnum);
+        TravelRequest.Validate("Mode Of Travel", ModeOfTravelEnum);
+        TravelRequest.Validate("Travel Countries", TravelTypeEnum);
+        TravelRequest.Validate("Travel With", travelWith);
+        TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
+        TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
+        TravelRequest.Validate("Travel With", travelWith);
+        TravelRequest.Validate(Description, description);
+        TravelRequest.Validate("Claim Type", claimTypeEnum);
+        TravelRequest.Validate("Fooding Allowance", foodingAllowance);
+        TravelRequest.Validate("Lodging Allowance", lodgingAllowance);
+        TravelRequest.Validate("Conveyance Expense", conveyanceExpense);
+        TravelRequest.Validate("Other Expense", otherExpense);
+        TravelRequest.Validate("Road/Air Fare", roadAndAirFare);
+        TravelRequest.Validate("Claimed Country", claimedCountry);
+        TravelRequest.Validate(Reimbursable, reimbursable);
+        TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
+        TravelRequest.Validate("Recommender Code", recommenderCode);
+        TravelRequest.Validate("Approver Code", approverCode);
+        TravelRequest.Validate("Travel Order No.", travelOrderNo);
+        TravelRequest.Insert;
+        if TravelMgt.ApplyForTravelClaim(TravelRequest) then
             exit(200);
     end;
 
@@ -985,7 +1065,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveEmpLoanSalAdv(empLoanNo: Code[20]; isApproved: Boolean; remark: Text; EmpNo: Code[20])
+    procedure approveEmpLoanSalAdv(empLoanNo: Code[20]; isApproved: Boolean; remark: Text; approverNo: Code[20])
     var
         EmpSalaryAdv: Record "Employee Loan/Advance";
     begin
@@ -996,20 +1076,23 @@ page 50108 "Portal Functions"
         end else
             EmpSalaryAdv.Validate("Rejection Remark", remark);
         EmpSalaryAdv.Modify;
-        LoanMgt.ApproveRejectLoan(EmpSalaryAdv, isApproved);
+        LoanMgt.ApproveRejectLoanAPI(EmpSalaryAdv, isApproved, approverNo);
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure retrunAttachmentBase64(docNo: Code[20]; entryNo: Integer): Text
     var
-        //IncomingDoc: Record "Incoming Document";
+        IncomingDoc: Record "Incoming Document";
         //TempBlob: Codeunit "Temp Blob";
-        //FileName: Text;
+        FilePath: Text;
+        FileName: text;
+        File: File;
+        FileMgt: Codeunit "File Management";
         // ext: Text;
         Base64: Codeunit "Base64 Convert";
         IncomingDocAttachment: Record "Incoming Document Attachment";
-        instr: InStream;
+        instream: InStream;
         Extension: text;
         LargeText: text;
     begin
@@ -1018,23 +1101,54 @@ page 50108 "Portal Functions"
         //     IncomingDoc.SetRange("No.", docNo);
         // IncomingDoc.SetRange("Entry No.", entryNo);
         // if IncomingDoc.FindFirst then begin
-        IncomingDocAttachment.Reset();
-        IncomingDocAttachment.SetRange("Incoming Document Entry No.", entryNo);
-        if IncomingDocAttachment.FindFirst() then begin
-            Extension := IncomingDocAttachment."File Extension";
-            IncomingDocAttachment.CalcFields(Content);
-            IncomingDocAttachment.Content.CreateInStream(instr, TextEncoding::UTF8);
-            LargeText := Base64.ToBase64(instr, false);
-            // FileName := IncomingDoc."File Name";
-            // FileManagement.BLOBImport(TempBlob, FileName);
-            // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
-            exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
-            // exit(
-            // '{' +
-            // '"extension" : "' + ext + '",' +
-            // '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
-        end else
-            exit('not found');
+        // IncomingDocAttachment.Reset();
+        // IncomingDocAttachment.SetRange("Incoming Document Entry No.", entryNo);
+        // if IncomingDocAttachment.FindFirst() then begin
+        //     Extension := IncomingDocAttachment."File Extension";
+        //     IncomingDocAttachment.CalcFields(Content);
+        //     IncomingDocAttachment.Content.CreateInStream(instr, TextEncoding::UTF8);
+        //     LargeText := Base64.ToBase64(instr, false);
+        //     // FileName := IncomingDoc."File Name";
+        //     // FileManagement.BLOBImport(TempBlob, FileName);
+        //     // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
+        //     exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
+        //     // exit(
+        //     // '{' +
+        //     // '"extension" : "' + ext + '",' +
+        //     // '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
+        // end else
+        //     exit('not found');
+        IncomingDoc.Reset();
+        if docNo <> '' then
+            IncomingDoc.SetRange("No.", docNo);
+        IncomingDoc.SetRange("Entry No.", entryNo);
+        IncomingDoc.FindFirst();
+        FilePath := IncomingDoc."File Name"; // Ensure this stores the server file path
+        if FilePath = '' then
+            Error('File path not specified for this document.');
+
+        // Validate that the file exists
+        // if not File.Exists(FilePath) then
+        //     Error('The file does not exist on the server: %1', FilePath);
+
+        // Open the file and read it into an InStream
+        File.OPEN(FilePath);
+        File.CREATEINSTREAM(InStream);
+
+        // Extract the file name (e.g., "51.jpg" from "D:\HRFiles\51.jpg")
+        FileName := FileMgt.GetFileName(FilePath);
+        Extension := FileMgt.GetExtension(FileName);
+        LargeText := Base64.ToBase64(instream, false);
+        exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
+
+
+        // Prompt the user to save the file on their client computer
+        // DownloadFromStream(InStream, '', '', '', FileName);
+
+        // // Close the file
+        // File.CLOSE;
+
+        // Message('File downloaded successfully: %1', FileName);
     end;
 
     [ServiceEnabled]
@@ -1101,13 +1215,12 @@ page 50108 "Portal Functions"
     procedure uploadAttachment(docNo: Code[20]; entryNo: Integer; fname: Text; ext: Text): Text
     var
         IncomingDoc: Record "Incoming Document";
-        IncomingDocAttach: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
-        FileName: Text;
-        DirectoryName: Text;
         DocFoundEmpActivity: Boolean;
         DocFoundEmpLoan: Boolean;
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        Leave: record leave;
+        DocFoundEmpLeave: Boolean;
         EmployeeActivity: Record "Employee Activity";
         LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
         ActivityType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee";
@@ -1117,13 +1230,24 @@ page 50108 "Portal Functions"
         AppraisalEmp: Record Appraisal;
         base64: Codeunit "Base64 Convert";
         Outstream: OutStream;
+        instream: InStream;
+        TargetDirectory: Text;
+        ServerFilePath: text;
+        ServerFolderPath: text;
+        File: File;
+        EmployeeActivityFolder: text;
+        CleanedFileName: text;
+        LoanMgt: Codeunit "Loan Mgt.";
+
+
     begin
         IncomingDoc.Get(entryNo);
 
         HRSetup.Get;
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
-        AppraisalDocFound := false; //Min
+        AppraisalDocFound := false;
+        DocFoundEmpLeave := false; //Min
         if EmployeeLoanAdvance.Get(IncomingDoc."No.") then begin
             DocFoundEmpLoan := true;
             LoanType := EmployeeLoanAdvance."Loan Type";
@@ -1159,43 +1283,61 @@ page 50108 "Portal Functions"
                     Error('Attachment already exist.');
             end;
         end;
+        if not DocFoundEmpLeave then begin //Min
+            if docNo <> '' then begin
+                if Leave.Get(docNo) then begin
+                    DocFoundEmpLeave := true;
+                    IncomingDoc."No." := docNo;
+                    if (Leave."Approval Status" in [Leave."Approval Status"::"Pending Approval", EmployeeActivity."Approval Status"::Approved])
+                     and (IncomingDoc."File Name" <> '') then
+                        Error('Attachment already exist.');
+                end;
+            end;
+        end;
+
 
         if IncomingDoc."File Name" <> '' then
             Error('File already exist. Please remove the file first.');
 
-        CreateNewDir(HRSetup."Attachment Storage Location", IncomingDoc."Employee Code", DirectoryName);
-        DirectoryName += '\';
-        if DocFoundEmpLoan then
-            CreateNewDir(DirectoryName, Format(LoanType), DirectoryName)
-        else if DocFoundEmpActivity then
-            CreateNewDir(DirectoryName, Format(ActivityType), DirectoryName)
-        else if DocFoundInsurance then
-            CreateNewDir(DirectoryName, 'Insurance', DirectoryName)
-        else if AppraisalDocFound then //Min
-            CreateNewDir(DirectoryName, 'Appraisal', DirectoryName);
+        // CreateNewDir(HRSetup."Attachment Storage Location", IncomingDoc."Employee Code", DirectoryName);
+        // DirectoryName += '\';
+        // if DocFoundEmpLoan then
+        //     CreateNewDir(DirectoryName, Format(LoanType), DirectoryName)
+        // else if DocFoundEmpActivity then
+        //     CreateNewDir(DirectoryName, Format(ActivityType), DirectoryName)
+        // else if DocFoundInsurance then
+        //     CreateNewDir(DirectoryName, 'Insurance', DirectoryName)
+        // else if AppraisalDocFound then //Min
+        //     CreateNewDir(DirectoryName, 'Appraisal', DirectoryName);
 
-        DirectoryName += '\';
-        // TempBlob.Reset;
-        FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext;
-        IncomingDoc."File Name" := FileName;
+        // DirectoryName += '\';
+        // // TempBlob.Reset;
 
-        IncomingDocAttach.Reset();
-        IncomingDocAttach.Init();
-        IncomingDocAttach."Incoming Document Entry No." := entryNo;
-        IncomingDocAttach."Line No." := 10000;
+        TargetDirectory := HRSetup."Attachment Storage Location";
+        // Step 2: Construct the server folder path
+        ServerFolderPath := 'D:\HRFiles\' + EmployeeActivityFolder;
+
+
+        if TargetDirectory = '' then
+            Error('Attachment Storage Location is not configured.');
+
+        if not TargetDirectory.EndsWith('\') then
+            TargetDirectory := TargetDirectory + '\';
+
+        CleanedFileName := LoanMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
+
+        // Construct server file path with unique name
+        ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
+        // Construct server file path with unique name
         tempblob.CreateOutStream(outStream);
-        IncomingDocAttach.Content.CreateOutStream(outStream, TextEncoding::UTF8);
         base64.FromBase64(fname, Outstream);
-        IncomingDocAttach."File Extension" := ext;
-        IncomingDocAttach."Document No." := docNo;
-
-        IncomingDocAttach.Insert();
-
-        //base64.FromBase64(fname);
-        // instream.Read(base64);//santosh
-        //FileManagement.BLOBExport(TempBlob, FileName, false);
-        // IncomingDoc."File Name" := FileName; santosh
-        IncomingDoc.Modify;
+        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        File.CREATE(ServerFilePath);       // Create the file on the server
+        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        CopyStream(OutStream, InStream);  // Write the data
+        File.CLOSE;
+        IncomingDoc."File Name" := ServerFilePath;
+        IncomingDoc.MODIFY;
     end;
 
     [ServiceEnabled]
@@ -1295,6 +1437,29 @@ page 50108 "Portal Functions"
 
     local procedure "------Resignation API---------"()
     begin
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitResignation(employeeNo: Code[20]; requestedDate: Date; proposedDateOfResignation: Date; reasonCode: Code[20]; reasonForResignation: text; recommenderCode: Code[20]; applyForWaiver: Boolean): Integer
+    var
+        // TempEmpAct: Record "Employee Activity" temporary;
+        Resignation: Record Resignation temporary;
+        ResignationMgt: codeUnit "Resignation Mgt";
+    begin
+        Resignation.Reset;
+        Resignation.Init;
+        Resignation.Validate("Employee No.", employeeNo);
+        Resignation.Validate(Type, Resignation.Type::Resignation);
+        Resignation.Validate("Requested Date", requestedDate);
+        Resignation.Validate("Proposed Date of Resignation", proposedDateOfResignation); //Min 11.29.2022
+        Resignation.Validate("Reason Code", reasonCode);
+        Resignation.Validate("Reason for Resignation", reasonForResignation);
+        Resignation.Validate("Recommender Code", recommenderCode);
+        Resignation.Validate("Apply for Waiver", applyForWaiver);
+        Resignation.Insert;
+        if ResignationMgt.SendResignationApproval(Resignation) then
+            exit(200);
     end;
 
     [ServiceEnabled]
@@ -1707,9 +1872,9 @@ page 50108 "Portal Functions"
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("Employee Code", employeeNo);
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        //TempIncomingDoc.SETRANGE("Leave Type Code",LeaveType.Code);
+        TempIncomingDoc.SETRANGE("Leave Type Code", leavecode);
         TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.Find('-') then
+        if TempIncomingDoc.FindSet() then
             repeat
                 if TempIncomingDoc."File Name" <> '' then
                     Clear(TempIncomingDoc."File Name");
@@ -1738,6 +1903,7 @@ page 50108 "Portal Functions"
                 TempIncomingDoc.Validate(Description, 'Leave Request' + ': ' + LeaveType.Description);
                 TempIncomingDoc.Validate("Employee Code", employeeNo);
                 TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                 TempIncomingDoc.Insert(true);
             until AttachmentSetup.Next = 0;
         //END;
@@ -1824,6 +1990,45 @@ page 50108 "Portal Functions"
         AccessControlLine.FindFirst;
         HrMgt.ApproveRejectScreenAccessControl(AccessControlLine, isApproved);
     end;
+
+    local procedure "------Transfer API---------"()
+    begin
+
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitTransferRequest(
+    "employeeNo": Code[20];
+    // "startDate": date;
+    // "endDate": date;
+    "proposedTransferDate": Date;
+    "reasonForTransfer": text;
+    "description": text;
+    "recommenderCode": Code[20];
+    "reviewer": text): Integer
+    var
+        // TravelRequest: Record "Travel Request" temporary;
+        TransferRequest: Record "Employee/HR Transfer";
+    begin
+        Employee.Get(employeeNo);
+        /*SalaryLevel.GET(Employee."Salary Level");
+        IF NOT SalaryLevel."OT Eligible" THEN
+          ERROR(OTEligibleError,Employee.FullName);*/
+        TransferRequest.Reset;
+        TransferRequest.Init;
+        TransferRequest.Validate(Type, TransferRequest.Type::"Employee Transfer");
+        TransferRequest.Validate("Employee No.", employeeNo);
+        TransferRequest.Validate("Transfer Effective Date", ProposedTransferDate);
+        TransferRequest.Validate(Description, description);
+        TransferRequest.Validate("Reason for Resignation", reasonForTransfer);
+        TransferRequest.Validate("Recommender Code", recommenderCode);
+        TransferRequest.Validate(Reviewer, reviewer);
+        TransferRequest.Insert;
+        if TransferMgt.SendTransferApproval(TransferRequest) then
+            exit(200);
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2920,6 +3125,32 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure getChanges(since: DateTime): JsonArray
+    var
+        Leave: Record Leave; // Replace with your table name
+        ResponseArray: JsonArray;
+        RecordObject: JsonObject;
+    begin
+        // Filter records modified after the given timestamp
+        Leave.SetRange("SystemModifiedAt", Since, CurrentDateTime);
+        if Leave.FindSet() then begin
+            repeat
+                // Prepare each record as a JSON object
+                RecordObject.Add('Name', Leave.Type);
+                RecordObject.Add('LastModifiedDateTime', Leave.SystemModifiedAt);
+
+                // Add the JSON object to the array
+                ResponseArray.Add(RecordObject);
+
+            // Clear the object for the next record
+            // RecordObject.Clear();
+            until Leave.Next() = 0;
+        end;
+        exit(ResponseArray);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure myTask(employeeNo: Code[20]) HRCue: Record "HR Cue"
     var
         myTasks: Record "HR Cue";
@@ -2927,4 +3158,6 @@ page 50108 "Portal Functions"
         myTasks.SetRange("Employee Filter", employeeNo);
         exit(myTasks);
     end;
+
+
 }

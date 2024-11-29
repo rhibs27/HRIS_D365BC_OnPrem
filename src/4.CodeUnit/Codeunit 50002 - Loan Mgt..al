@@ -497,11 +497,12 @@ codeunit 50002 "Loan Mgt."
             until AttachmentMandatory.Next = 0;
     end;
 
-    procedure UploadAttachment(var IncomingDocument: Record "Incoming Document")
+    procedure UploadFileToServer(var IncomingDocument: Record "Incoming Document")
     var
         ClientFileName: Text;
         FileName: Text;
         Extention: Text;
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
         DirectoryName: Text;
         DocFoundEmpActivity: Boolean;
         DocFoundEmpLoan: Boolean;
@@ -514,9 +515,12 @@ codeunit 50002 "Loan Mgt."
         AppraisalDocFound: Boolean;
         AppraisalEmp: Record Appraisal;
         instream: InStream;
+        Outstream: OutStream;
+        FullFileName: text;
         File: File;
         bool: Boolean;
         txt: Text;
+        TempBlob: Codeunit "Temp Blob";
     begin
         IncomingDocument.TestField("Entry No.");
         HRSetup.Get;
@@ -579,30 +583,196 @@ codeunit 50002 "Loan Mgt."
             else if AppraisalDocFound then  //Min
                 CreateNewDir(DirectoryName, 'Appraisal', DirectoryName)
         end;
-
+        ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDocument."Entry No.") + '_' + IncomingDocument."No." + '.' + Extention;
+        //File.Upload('', '', '', '', ClientFileName);
         //DirectoryName += '\';
         //instream.Read(DirectoryName);
         IncomingDocument.ImportAttachment(IncomingDocument);
-
+        IncomingDocumentAttachment.Reset();
+        IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+        IncomingDocumentAttachment.FindFirst();
 
         // if UploadIntoStream('Select file', '', '', txt, instream) then begin
         //Extention := FileMgt.GetExtension(DirectoryName);
         //     if Extention = '' then
         //         Error('Invalid file.');
 
+
         ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + Format(IncomingDocument."Entry No.") + '_' + IncomingDocument."No." + '.' + Extention;
         // Rename(DirectoryName, ClientFileName);
         DirectoryName := ClientFileName;
         FileName := ClientFileName;
-        IncomingDocument."File Name" := FileName;
+        IncomingDocument."File Name" := FileName + IncomingDocumentAttachment."File Extension";
         IncomingDocument.Modify;
 
         Message('Uploaded.');
+        IncomingDocumentAttachment.CalcFields(Content);
+        IncomingDocumentAttachment.Content.CreateInStream(instream, TextEncoding::UTF8);
+        TempBlob.CreateInStream(instream);
+        // "Document Reference ID".EXPORTSTREAM(DocumentStream);
+        FileMgt.BLOBExport(TempBlob, FullFileName, false);
+
+
+
+        // TempBlob.CREATEOUTSTREAM(DocumentStream);
+        // "Document Reference ID".EXPORTSTREAM(DocumentStream);
+        // EXIT(FileManagement.BLOBExport(TempBlob, FullFileName, ShowFileDialog));
+        // SaveAttachment2(FromRecRef, FileName, TempBlob, TRUE, Recs."No.");
+        // CurrPage.UPDATE(FALSE);
 
     end;
     // end;
+    procedure UploadAttachment(IncomingDocument: Record "Incoming Document")
+    var
+        TempBlob: Codeunit "Temp Blob";
+        InStream: InStream;
+        OutStream: OutStream;
+        FileName: Text;
+        Extension: Text;
+        ServerFilePath: Text;
+        TargetDirectory: Text;
+        File: file;
+        DocFoundEmpActivity: Boolean;
+        DocFoundEmpLoan: Boolean;
+        AppraisalDocFound: Boolean;
+        EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        AppraisalEmp: Record Appraisal;
+        EmployeeActivityFolder: Text;
+        CleanedFileName: text;
+        ServerFolderPath: text;
 
-    procedure DownloadAttachment(var IncomingDocument: Record "Incoming Document")
+    begin
+        // Validate Incoming Document
+        IncomingDocument.TestField("Entry No.");
+        HRSetup.Get;
+        HRSetup.TestField("Attachment Storage Location");
+        DocFoundEmpActivity := false;
+        DocFoundEmpLoan := false;
+        AppraisalDocFound := false;
+        Employee.Get(HRMgt.GetEmployeeNo);
+        if not Employee.Screener then begin
+            if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
+                DocFoundEmpLoan := true;
+                //LoanType := EmployeeLoanAdvance."Loan Type";
+                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+                   and (IncomingDocument."File Name" <> '') then
+                    Error('Attachment already exist.');
+            end;
+
+            // if not DocFoundEmpLoan then begin
+            //     if EmployeeActivity.Get(IncomingDocument."No.") then begin
+            //         DocFoundEmpActivity := true;
+            //         ActivityType := EmployeeActivity.Type;
+            //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
+            //          and (IncomingDocument."File Name" <> '') then
+            //             Error('Attachment already exist.');
+            //     end;
+            // end;
+
+            // if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
+            //     if EmpInsurance.Get(IncomingDocument."No.") then begin
+            //         DocFoundInsurance := true;
+            //         if EmpInsurance.Status = EmpInsurance.Status::Screened then
+            //             Error('Cannot upload in screened insurance.');
+            //         if IncomingDocument."File Name" <> '' then
+            //             Error('Attachment already exist.');
+            //     end;
+            // end;
+            if not AppraisalDocFound then begin //Min
+                if AppraisalEmp.Get(IncomingDocument."No.") then begin
+                    AppraisalDocFound := true;
+                    if (AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed")
+                     and (IncomingDocument."File Name" <> '') then
+                        Error('Attachment already exist.');
+                end;
+            end;
+        end;
+        case IncomingDocument."Employee Activity Type" of
+            IncomingDocument."Employee Activity Type"::"Employee Transfer", IncomingDocument."Employee Activity Type"::"HR Transfer":
+                EmployeeActivityFolder := 'Transfer';
+            else
+        // Error('Invalid activity type: %1', EmployeeActivityFolder);
+        end;
+
+
+        // Prompt the user to select a file and upload into TempBlob
+        if UploadIntoStream('Select a file to upload', '', '', FileName, InStream) then begin
+            // Validate File Extension
+            Extension := FileMgt.GetExtension(FileName);
+            if Extension = '' then
+                Error('Invalid file. Please upload a file with a valid extension.');
+
+            // Define the server directory (ensure it is configured in your setup)
+
+            TargetDirectory := HRSetup."Attachment Storage Location";
+            ServerFolderPath := TargetDirectory + EmployeeActivityFolder;
+            if TargetDirectory = '' then
+                Error('Attachment Storage Location is not configured.');
+
+            if not TargetDirectory.EndsWith('\') then
+                TargetDirectory := TargetDirectory + '\';
+
+            CleanedFileName := SanitizeFileName(FORMAT(IncomingDocument."Entry No.") + '_' + IncomingDocument."No.");
+
+            // Construct server file path with unique name
+            ServerFilePath := TargetDirectory + CleanedFileName + '.' + Extension;
+
+            // Save the uploaded content to the server file path
+            TempBlob.CreateOutStream(OutStream);
+            CopyStream(OutStream, InStream);
+            // TempBlob.ToFile(ServerFilePath); // Write the content directly to the server location
+            // Write TempBlob content to server file location
+            TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+            File.CREATE(ServerFilePath);       // Create the file on the server
+            File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+            CopyStream(OutStream, InStream);  // Write the data
+            File.CLOSE;                       // Close the file
+
+            // Update the Incoming Document record with the file path
+
+            // Update the Incoming Document record with the file path
+            IncomingDocument."File Name" := ServerFilePath;
+            IncomingDocument.MODIFY;
+
+            Message('File uploaded successfully to server location: %1', ServerFilePath);
+        end else
+            Error('File upload canceled.');
+    end;
+
+    procedure DownloadAttachment(IncomingDocument: Record "Incoming Document")
+    var
+        File: File;
+        InStream: InStream;
+        FilePath: Text;
+        FileName: Text;
+    begin
+        // Construct the file path on the server
+        FilePath := IncomingDocument."File Name"; // Ensure this stores the server file path
+        if FilePath = '' then
+            Error('File path not specified for this document.');
+
+        // Validate that the file exists
+        // if not File.Exists(FilePath) then
+        //     Error('The file does not exist on the server: %1', FilePath);
+
+        // Open the file and read it into an InStream
+        File.OPEN(FilePath);
+        File.CREATEINSTREAM(InStream);
+
+        // Extract the file name (e.g., "51.jpg" from "D:\HRFiles\51.jpg")
+        FileName := FileMgt.GetFileName(FilePath);
+
+        // Prompt the user to save the file on their client computer
+        DownloadFromStream(InStream, '', '', '', FileName);
+
+        // Close the file
+        File.CLOSE;
+
+        Message('File downloaded successfully: %1', FileName);
+    end;
+
+
+    procedure DownloadFileFromServer(var IncomingDocument: Record "Incoming Document")
     var
         TestFile: File;
         TempFileName: Text;
@@ -642,8 +812,10 @@ codeunit 50002 "Loan Mgt."
         EmpAct: Record "Employee Activity";
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalEmp: Record Appraisal;
-        file: Codeunit "File Management";
+        fileMgt: Codeunit "File Management";
         IncomingDocumentAttachment: Record "Incoming Document Attachment";
+        FilePath: text;
+        leave: Record leave;
     begin
         //Employee.Get(HRMgt.GetEmployeeNo);
         Employee.Get(IncomingDocument."Employee Code");
@@ -663,21 +835,62 @@ codeunit 50002 "Loan Mgt."
             end else if AppraisalEmp.Get(IncomingDocument."No.") then begin //Min
                 if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
                     Error('Cannot delete attachment.');
+            end else if leave.Get(IncomingDocument."No.") then begin //Min
+                if leave."Approval Status" = leave."Approval Status"::Approved then
+                    Error('Cannot delete attachment.');
             end;
         end;
-        if Employee.Get(IncomingDocument."Order No.") then;
-        if IncomingDocument."File Name" <> '' then begin
-            // if Erase(IncomingDocument."File Name") then begin
-            IncomingDocument."File Name" := '';
-            IncomingDocument.Modify;
-            if GuiAllowed then
-                Message('Attachment Removed.');
-            // end;
-            IncomingDocumentAttachment.Reset();
-            IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
-            IncomingDocumentAttachment.Findset();
-            IncomingDocumentAttachment.DeleteAll();
+
+        FilePath := IncomingDocument."File Name"; // Ensure this field stores the full file path
+        // if FilePath = '' then
+        //     Error('File path not specified for this document.');
+
+        // Delete the file from the server
+        fileMgt.DeleteServerFile(FilePath);
+
+        // Clear the file name in the Incoming Document record
+        IncomingDocument."File Name" := '';
+        IncomingDocument.MODIFY;
+
+        Message('File successfully deleted from the server: %1', FilePath);
+
+        // if Employee.Get(IncomingDocument."Order No.") then;
+
+        // if IncomingDocument."File Name" <> '' then begin
+        //     // if Erase(IncomingDocument."File Name") then begin
+        //     IncomingDocument."File Name" := '';
+        //     IncomingDocument.Modify;
+        //     if GuiAllowed then
+        //         Message('Attachment Removed.');
+        //     // end;
+        //     IncomingDocumentAttachment.Reset();
+        //     IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+        //     IncomingDocumentAttachment.Findset();
+        //     IncomingDocumentAttachment.DeleteAll();
+        // end;
+    end;
+
+    procedure SanitizeFileName(FileName: Text): Text
+    var
+        InvalidChars: Text[20];
+        CleanedFileName: Text;
+        CurrentChar: Char;
+        i: Integer;
+    begin
+        InvalidChars := '\ / : * ? " < > |';
+
+        // Step 2: Iterate through the characters in the file name
+        CleanedFileName := '';
+        for i := 1 to StrLen(FileName) do begin
+            CurrentChar := FileName[i];
+            // If the character is not invalid, add it to the cleaned file name
+            if StrPos(InvalidChars, FORMAT(CurrentChar)) = 0 then
+                CleanedFileName += CurrentChar
+            else
+                CleanedFileName += '_'; // Replace invalid character with an underscore
         end;
+
+        exit(CleanedFileName);
     end;
 
     local procedure CreateNewDir(OldPathFile: Text; NewDirectoryName: Text; var AttrDir: Text)
@@ -1164,6 +1377,58 @@ codeunit 50002 "Loan Mgt."
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
     end;
 
+    procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: code[20])
+    var
+        Confirmation: Label 'Confirm action?';
+        Approved: Label 'Document is approved.';
+    begin
+        if GuiAllowed then
+            if not Confirm(Confirmation, false) then
+                exit;
+
+        //control
+        if Approve then
+            ValidateDocument(EmpLoan);
+
+
+        if not Approve then
+            EmpLoan.TestField("Rejection Remark")
+        else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
+            Error(Approved);
+
+        //check approver
+        CheckLoanApprovalAPI(EmpLoan, ApproverNo);
+        //action
+        if Approve then begin
+            if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+                if EmpLoan."Recommendation Remarks" = '' then
+                    Error('Recommendation remarks must have value');
+                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
+            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Approved);
+                if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
+                    EmpLoan.Validate("Remaining Amount", EmpLoan."Applied Loan/Advance");
+            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Recommended then
+                    Error('Please verfiy loan first.');
+        end else begin
+            if EmpLoan."Rejection Remark" = '' then
+                Error('Rejection Remarks must have value.');
+            if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Approved] then begin
+                Employee.Get(HRMgt.GetEmployeeNo);
+                if not Employee.Screener then
+                    Error('You are not eligble to reject this document.');
+            end;
+
+            EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Rejected);
+
+        end;
+        EmpLoan."Approved Date" := Today;
+        //VALIDATE("Employee Code",HRMgt.GetEmployeeNo);
+        EmpLoan.Modify();
+
+        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
+    end;
+
     local procedure "------update approver------"()
     begin
     end;
@@ -1527,6 +1792,21 @@ codeunit 50002 "Loan Mgt."
         end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
             HRSetup.Get;
             if StrPos(EmpLoan.Approver, GetEmployeeCode()) = 0 then
+                Error(ApproveNotEligibleError);
+        end;
+    end;
+
+    local procedure CheckLoanApprovalAPI(var EmpLoan: Record "Employee Loan/Advance"; ApprovalCode: Code[20])
+    var
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    begin
+        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+            if StrPos(EmpLoan.Recommender, ApprovalCode) = 0 then
+                Error(RecommendNotEligibleError);
+        end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+            HRSetup.Get;
+            if StrPos(EmpLoan.Approver, ApprovalCode) = 0 then
                 Error(ApproveNotEligibleError);
         end;
     end;
@@ -2846,6 +3126,9 @@ codeunit 50002 "Loan Mgt."
         TempBlob: Codeunit "Temp Blob";
         base64: Codeunit "Base64 Convert";
         instream: InStream;
+        outStream: OutStream;
+    // TempBlob: Record TempBlob;
+    // SystemDirectoryServer: DotNet Directory;
     begin
         HRSetup.Get;
         HRSetup.TestField("Attachment Storage Location");
@@ -2859,12 +3142,21 @@ codeunit 50002 "Loan Mgt."
         if ext = '' then
             Error('Invalid file.');
 
-        ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + TypofDoc + '.' + ext;
-        base64.FromBase64(base64text);
-        instream.Read(base64);
-        FileMgt.BLOBExport(TempBlob, ClientFileName, false);
-        FileName := ClientFileName;
+        //ClientFileName := ClientFileName + '\' + TypofDoc + '.' + ext;
+        FileName := ClientFileName + TypofDoc + '.' + ext;
+        tempblob.CreateOutStream(outStream);
+        //base64.FromBase64(base64text);
+        base64.FromBase64(base64text, Outstream);
+        // instream.Read(base64);
+        //FileMgt.BLOBExport(TempBlob, ClientFileName, false);
+        FileMgt.BLOBExportToServerFile(TempBlob, ClientFileName);
+        // FileName := ClientFileName;
         exit(FileName);
+
+        //TempBlob.FromBase64String(base64text);
+        // FileMgt.BLOBExportToServerFile(TempBlob, ClientFileName);
+        // FileName := ClientFileName;
+        // exit(FileName);
     end;
 
 

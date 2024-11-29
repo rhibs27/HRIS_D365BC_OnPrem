@@ -69,6 +69,12 @@ page 50338 "Employee Leave Entity"
                 field(approverCode; Rec."Approver Code") { }
                 field(approverName; Rec."Approver Name") { }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                EntityName = 'attachmentEntity';
+                EntitySetName = 'attachmentEntities';
+                SubPageLink = "No." = field("No.");
+            }
         }
     }
 }

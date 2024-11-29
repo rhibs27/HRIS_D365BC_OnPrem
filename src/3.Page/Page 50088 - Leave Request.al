@@ -164,7 +164,8 @@ page 50088 "Leave Request"
                 SubPageLink = "No." = field("No."),
                               Type = const(" "),
                               "Employee Code" = field("Employee No."),
-                              "Leave Type Code" = field("Leave Code");
+                              "Leave Type Code" = field("Leave Code"),
+                              "Employee Activity Type" = field(Type);
                 ApplicationArea = All;
             }
             group(Approval)
@@ -214,11 +215,23 @@ page 50088 "Leave Request"
 
                 trigger OnAction()
                 begin
-                    if LeaveMgt.ApplyForLeave(Rec) then begin
+                    if LeaveMgt.ApplyForLeave(Rec) <> '' then begin
                         IsApplied := true;
                         Message('Leave has been sent for apporval.');
                         CurrPage.Close;
                     end;
+                end;
+            }
+            action(delete)
+            {
+                trigger OnAction()
+                var
+                    leave: Record Leave;
+                begin
+                    leave.Reset();
+                    leave.SetFilter("No.", '%1', '');
+                    leave.FindFirst();
+                    leave.Delete();
                 end;
             }
         }
@@ -241,16 +254,20 @@ page 50088 "Leave Request"
                 TempIncomingDoc.SetRange("No.", '');
                 if TempIncomingDoc.Find('-') then
                     repeat
+                        LoanMgt.DeleteAttachment(TempIncomingDoc);
                         if TempIncomingDoc."File Name" <> '' then
                             Clear(TempIncomingDoc."File Name");
+
                     until TempIncomingDoc.Next = 0;
                 TempIncomingDoc.DeleteAll;
+
             end;
         end;
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        LoanMgt: Codeunit "Loan Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         RemainingDays: Decimal;
         [InDataSet]
@@ -269,7 +286,7 @@ page 50088 "Leave Request"
         TempIncomingDoc.Reset;
         TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        //TempIncomingDoc.SETRANGE("Leave Type Code",LeaveType.Code);
+        TempIncomingDoc.SETRANGE("Leave Type Code", LeaveType.Code);
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
             repeat
@@ -281,21 +298,22 @@ page 50088 "Leave Request"
         if LeaveType."Sick Leave" then
             if Rec."No. of Days" < LeaveType."No. of Days for Attachment" then
                 exit;
-        //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-        AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-        if AttachmentSetup.Find('-') then
-            repeat
-                TempIncomingDoc.Reset;
-                TempIncomingDoc.Init;
-                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                TempIncomingDoc.Validate(Description, Format(Rec.Type) + ': ' + Rec."Leave Description");
-                TempIncomingDoc.Validate("Employee Code", Rec."Employee No.");
-                TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
-                TempIncomingDoc.Insert(true);
-            until AttachmentSetup.Next = 0;
-        //END;
+        IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
+            AttachmentSetup.Reset;
+            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+            if AttachmentSetup.Find('-') then
+                repeat
+                    TempIncomingDoc.Reset;
+                    TempIncomingDoc.Init;
+                    TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                    TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    TempIncomingDoc.Validate(Description, Format(Rec.Type) + ': ' + Rec."Leave Description");
+                    TempIncomingDoc.Validate("Employee Code", Rec."Employee No.");
+                    TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                    TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                    TempIncomingDoc.Insert(true);
+                until AttachmentSetup.Next = 0;
+        END;
     end;
 }
