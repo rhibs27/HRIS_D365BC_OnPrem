@@ -446,7 +446,7 @@ page 50097 "Training Card"
             group("Request Approval")
             {
                 Caption = 'Request Approval';
-                Visible = false;
+                // Visible = false;
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';

@@ -5,6 +5,7 @@ report 50054 "Payroll Payslip"
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019855.PayrollPayslip.rdl';
     ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {

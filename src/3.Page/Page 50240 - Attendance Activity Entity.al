@@ -34,6 +34,7 @@ page 50240 "Attendance Activity Entity"
                 field(SourceNo; Rec."Source No.") { }
                 field(LeaveDay; Rec."Leave Day") { }
                 field(TourDay; Rec."Tour Day") { }
+
             }
         }
     }

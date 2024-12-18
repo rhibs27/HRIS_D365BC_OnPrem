@@ -154,7 +154,6 @@ report 50070 "Tax Deduction Information"
                             PagePostedPayroll.SetTableView(PostedPayrollHeader);
 
                             if PagePostedPayroll.RunModal = Action::OK then begin
-                                ;
                                 DocumentNo := PagePostedPayroll.ReturnPostedDocext;
                             end;
                         end;

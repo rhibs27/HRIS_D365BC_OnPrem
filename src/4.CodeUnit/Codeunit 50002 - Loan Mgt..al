@@ -1730,7 +1730,52 @@ codeunit 50002 "Loan Mgt."
         //EmpRec.GET(EmpAllowance."Approver ID");
         //PGSetup.GET;
         //PGSetup.TESTFIELD("BM Functional Title");
-        if GetEmployeeCode <> EmpAllowance."Approver ID" then
+        if GetEmployeeCode() <> EmpAllowance."Approver ID" then
+            Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
+
+        if Approved then
+            EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
+        else
+            EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
+        EmpAllowance.Posted := true;
+        EmpAllowance."Approver ID" := GetEmployeeCode();
+        EmpAllowance."Approved Date" := Today;
+        EmpAllowance.Modify(true);
+
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange("Entry No.", EntryNo);
+        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        if Approved then
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
+        else
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
+        AllowanceLine.ModifyAll("Approved Id", GetEmployeeCode());
+        AllowanceLine.ModifyAll("Approved Date", Today);
+    end;
+
+    procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; EntryNo: Integer; EmpNo: Code[20])
+    var
+        EmpAllowance: Record "Allowance Assignment Header";
+        PGSetup: Record "Payroll General Setup";
+        EmpRec: Record Employee;
+        AllowanceLine: Record "Allowance Assignment Line";
+    begin
+        PGSetup.Get;
+        EmpAllowance.Get(EntryNo);
+        EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending Approval");
+        if CalcDate('<CM>', EmpAllowance."To date") + PGSetup."Approval Grace Period" < Today then
+            Error('Approval for allowance assignment has exceeded.Please contact corresponding Department.');
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange("Entry No.", EntryNo);
+        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
+
+        if AllowanceLine.FindFirst then
+            Error('This document has an open record.Please advise your staff to delete the open records.');
+        //Employee.GET(GetEmployeeCode());
+        //EmpRec.GET(EmpAllowance."Approver ID");
+        //PGSetup.GET;
+        //PGSetup.TESTFIELD("BM Functional Title");
+        if EmpNo <> EmpAllowance."Approver ID" then
             Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
 
         if Approved then

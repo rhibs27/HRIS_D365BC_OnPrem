@@ -52,7 +52,7 @@ table 50014 "Facilitator Pool"
         field(6; Branch; Code[20])
         {
         }
-        field(7; Department; Code[10])
+        field(7; Department; Code[20])
         {
         }
         field(8; Position; Code[20])

@@ -9063,6 +9063,7 @@ codeunit 50001 "HR Mgt."
             Employee."Temporary District" := EmpActivity."Temporary District";
             Employee."Temporary Province" := EmpActivity."Temporary Province";
             Employee."Temporary House" := EmpActivity.House;
+            Employee."Temporary Ward No" := EmpActivity."Temporary Ward No";
             Employee."Blood Group" := EmpActivity."Blood Group";
             Employee.Extension := EmpActivity.Extension;//Min -- For Extension no. editable in portal emp. profile
             Employee.Modify;

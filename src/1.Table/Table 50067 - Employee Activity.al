@@ -1638,6 +1638,10 @@ table 50067 "Employee Activity"
         field(182; "Temporary District"; Text[30])
         {
         }
+        field(203; "Temporary Ward No"; code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(183; House; Text[30])
         {
         }
@@ -1750,6 +1754,23 @@ table 50067 "Employee Activity"
         {
             DataClassification = ToBeClassified;
         }
+        field(204; "Temporary VDC"; text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(205; "Disable"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(206; "Temporary House"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(207; "Mobile Phone No"; Code[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+
 
 
     }

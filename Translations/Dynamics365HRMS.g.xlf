@@ -3658,6 +3658,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Differently Able - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 4283638840 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Disable</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Disable - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3719397593 - Field 2483678980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Discharge Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3917,6 +3922,11 @@
           <source>Mobile No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Mobile No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 1903548239 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mobile Phone No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Mobile Phone No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3719397593 - Field 3198880606 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Mode Of Travel</source>
@@ -4273,10 +4283,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Temporary District - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 3778468497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary House</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Temporary House - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3719397593 - Field 3507210259 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Temporary Province</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Temporary Province - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 4038635166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary VDC</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Temporary VDC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3719397593 - Field 3103046918 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Ward No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity - Field Temporary Ward No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3719397593 - Field 2112932261 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Time Duration</source>
@@ -6933,6 +6958,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Fiscal Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 3716467862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field From Branch - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7192,6 +7222,11 @@
           <source>Temporary Province</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Temporary Province - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Branch</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field To Branch - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 1135410608 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Allowance Approval</source>
@@ -19148,6 +19183,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ApproveTransfer - NamedType ConfirmReject</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 458525872 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ApproveTransferAPI - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 458525872 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ApproveTransferAPI - NamedType ConfirmReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 333145975 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
           <source>Confirm Approve?</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19208,6 +19253,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RejectTransfer - NamedType ConfirmReject</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 3869637360 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RejectTransferAPI - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 3869637360 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RejectTransferAPI - NamedType ConfirmReject</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 2340189372 - NamedType 358455804" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19237,6 +19292,16 @@
           <source>Confirm Reject?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ScreenTransfer - NamedType ConfirmReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 2908572937 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ScreenTransferAPI - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1148580165 - Method 2908572937 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method ScreenTransferAPI - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 3624107980 - NamedType 1484189931" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send transfer request ?</source>
@@ -45452,11 +45517,6 @@
           <source>tempEmployeeResignationAPI</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Resignation API - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 225116810 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>tempEmployeeTransferEntity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Temp Employee Transfer Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1829759119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>tempEmployeeTravelEntity</source>

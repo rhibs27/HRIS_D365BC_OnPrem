@@ -37,8 +37,10 @@ page 50165 "Employee Activity Entity"
                             HRSetup.TestField("Employee Change No. Series");
                             Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
                             Rec."No. Series" := HRSetup."Employee Change No. Series";
-                            // Noseries := NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true);
-                            // Rec.Rename(Noseries);
+                            // Rec.Rename(NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true));
+                            // Rec."No. Series" := HRSetup."Employee Change No. Series";
+                            //Noseries := NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true);
+                            //Rec.Rename(Noseries);
                         end;
                     end;
                 }
@@ -231,18 +233,30 @@ page 50165 "Employee Activity Entity"
             }
             group("Change in employee")
             {
-                field(MobileNo; Rec."Mobile No.") { }
-                field(MaritalStatus; Rec."Marital Status") { }
-                field(EmailPersonal; Rec."Email (Personal)") { }
-                field(PassportNo; Rec."Passport No.") { }
-                field(DifferentlyAble; Rec."Differently Able") { }
-                field(VehicleType; Rec."Vehicle Type") { }
-                field(TemporaryAddress; Rec."Temporary Address") { }
-                field(TemporaryProvince; Rec."Temporary Province") { }
+                field(mobileNo; Rec."Mobile No.") { }
+                field(maritalStatus; Rec."Marital Status") { }
+                field(emailPersonal; Rec."Email (Personal)") { }
+                field(passportNo; Rec."Passport No.") { }
+                field(differentlyAble; Rec."Differently Able") { }
+                field(vehicleType; Rec."Vehicle Type") { }
+                field(temporaryAddress; Rec."Temporary Address") { }
+                field(temporaryProvince; Rec."Temporary Province") { }
                 field(VDC; Rec.VDC) { }
-                field(TemporaryDistrict; Rec."Temporary District") { }
-                field(House; Rec.House) { }
-                field(BloodGroup; Rec."Blood Group") { }
+                field(temporaryDistrict; Rec."Temporary District") { }
+                field(temporaryWardNo; Rec."Temporary Ward No")
+                {
+                }
+                field(email; Rec."Email (Personal)")
+                {
+                }
+                field(bloodGroup; Rec."Blood Group")
+                {
+                }
+                field(temporaryVDC; Rec."Temporary VDC") { }
+                field(house; Rec.House) { }
+                field(disable; Rec.Disable) { }
+                field(temporaryHouse; Rec."Temporary House") { }
+                field(mobilePhoneNo; Rec."Mobile Phone No") { }
             }
             group(Resignation)
             {

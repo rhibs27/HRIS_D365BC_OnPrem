@@ -44,61 +44,61 @@ page 50011 "Retirement Fund Entity"
                 {
                     Editable = false;
                 }
-                field(rfContributionEligibleAmt; "RF Contribution Eligible Amt")
+                field(rfContributionEligibleAmt; Rec."RF Contribution Eligible Amt")
                 {
                     Editable = false;
                 }
-                field(providentFundDeposited; "Provident Fund Deposited")
+                field(providentFundDeposited; Rec."Provident Fund Deposited")
                 {
                     Editable = false;
                 }
-                field(rfContributionDeposited; "RF Contribution Deposited")
+                field(rfContributionDeposited; Rec."RF Contribution Deposited")
                 {
                     Editable = false;
                 }
-                field(providentFundProjected; "Provident Fund Projected")
+                field(providentFundProjected; Rec."Provident Fund Projected")
                 {
                     Editable = false;
                 }
-                field(actualProjectedContribution; "Actual/Projected Contribution")
+                field(actualProjectedContribution; Rec."Actual/Projected Contribution")
                 {
                     Editable = false;
                 }
-                field(additionalSpaceforRF; "Additional Space for RF Cont.")
+                field(additionalSpaceForRF; Rec."Additional Space for RF Cont.")
                 {
                     Editable = false;
                 }
-                field(projectionMonth; "Projection Month")
+                field(projectionMonth; Rec."Projection Month")
                 {
                     Editable = false;
                 }
-                field(nICARTFAmount; "NICA RTF Amount (Month)") { }
-                field(cITAmount; "CIT Amount (Month)") { }
-                field(nICARTFAmountLumpsum; "NICA RTF Amount (Lumpsum)") { }
-                field(cITAmountLumpsum; "CIT Amount( Lumpsum)") { }
-                field(totalCommittedContribution; "Total Committed Contribution")
+                field(nICARTFAmount; Rec."NICA RTF Amount (Month)") { }
+                field(cITAmount; Rec."CIT Amount (Month)") { }
+                field(nICARTFAmountLumpSum; Rec."NICA RTF Amount (Lumpsum)") { }
+                field(cITAmountLumpSum; Rec."CIT Amount( Lumpsum)") { }
+                field(totalCommittedContribution; Rec."Total Committed Contribution")
                 {
                     Editable = false;
                 }
-                field(totalDeduction; "Total Deduction")
+                field(totalDeduction; Rec."Total Deduction")
                 {
                     Editable = false;
                 }
-                field(difference; Difference)
+                field(difference; Rec.Difference)
                 {
                     Editable = false;
                 }
-                field(approvalStatus; "Approval Status") { }
-                field(createdDate; "Created Date") { }
-                field(requestedDate; "Requested Date") { }
-                field(screenedDate; "Screened Date") { }
-                field(screenedBy; "Screened By") { }
-                field(Remarks; Remarks) { }
-                field(citContributionDeposited; "CIT Contribution Deposited") { }
-                field(actualCITContribution; "Actual Lumpsump CIT") { }
-                field(actualRTFContribution; "Actual Lumpsump RTF") { }
-                field(lumpsumCommittedContribution; "Lumpsum Committed Contribution") { }
-                field(lumpsumSpaceMaxBenefit; "Lumpsum Space Max Benefit") { }
+                field(approvalStatus; Rec."Approval Status") { }
+                field(createdDate; Rec."Created Date") { }
+                field(requestedDate; Rec."Requested Date") { }
+                field(screenedDate; Rec."Screened Date") { }
+                field(screenedBy; Rec."Screened By") { }
+                field(Remarks; Rec.Remarks) { }
+                field(citContributionDeposited; Rec."CIT Contribution Deposited") { }
+                field(actualCITContribution; Rec."Actual Lumpsump CIT") { }
+                field(actualRTFContribution; Rec."Actual Lumpsump RTF") { }
+                field(lumpSumCommittedContribution; Rec."Lumpsum Committed Contribution") { }
+                field(lumpSumSpaceMaxBenefit; Rec."Lumpsum Space Max Benefit") { }
             }
         }
     }
