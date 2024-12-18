@@ -109,6 +109,7 @@ page 50108 "Portal Functions"
               ',"recommendercode": "' + Employee."KPI Deputation Value" +
               '","approverCode": "' + Employee."Approver Code" +
               '","isAdmin": "' + isAdmin +
+              '","functionalTitle": "' + Employee."Functional Title Desc" +
               '","employeeName": "' + Employee."Full Name" +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
@@ -1425,7 +1426,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure approveAllowanceAssignment(entryNo: Integer; isApproved: Boolean; EmpNo: Code[20]): Text
     begin
-        LoanMgt.ApproveRejectAllowanceAssignment(isApproved, entryNo);
+        LoanMgt.ApproveRejectAllowanceAssignmentAPI(isApproved, entryNo, EmpNo);
     end;
 
     [ServiceEnabled]
@@ -2009,7 +2010,7 @@ page 50108 "Portal Functions"
     "reviewer": text): Integer
     var
         // TravelRequest: Record "Travel Request" temporary;
-        TransferRequest: Record "Employee/HR Transfer";
+        TransferRequest: Record "Employee/HR Transfer" temporary;
     begin
         Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
@@ -2034,7 +2035,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; remark: Text; employeeNo: Code[20])
     var
-        EmpActivity: Record "Employee Activity";
+        //EmpActivity: Record "Employee Activity";
         EmpHrTransfer: Record "Employee/HR Transfer";
     begin
         EmpHrTransfer.Get(empActivityNo);
@@ -2043,29 +2044,29 @@ page 50108 "Portal Functions"
                 EmpHrTransfer."Approval Status"::"Pending Approval":
                     begin
                         EmpHrTransfer.Remarks := remark;
-                        HrMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
+                        TransferMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
                     end;
 
                 EmpHrTransfer."Approval Status"::Recommended:
                     begin
                         EmpHrTransfer."Reviewer Remarks" := remark;
-                        HrMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
+                        TransferMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
                     end;
 
                 EmpHrTransfer."Approval Status"::Reviewed:
                     begin
                         EmpHrTransfer."Screener Remarks" := remark;
-                        TransferMgt.ScreenTransfer(EmpHrTransfer);
+                        TransferMgt.ScreenTransferAPI(EmpHrTransfer, employeeNo);
                     end;
 
-                EmpActivity."Approval Status"::Screened:
+                EmpHrTransfer."Approval Status"::Screened:
                     begin
-                        TransferMgt.ApproveTransfer(EmpHrTransfer);
+                        TransferMgt.ApproveTransferAPI(EmpHrTransfer, employeeNo);
                     end;
             end;
         end else begin
-            EmpActivity."Rejection Remarks" := remark;
-            TransferMgt.RejectTransfer(EmpHrTransfer);
+            EmpHrTransfer."Rejection Remarks" := remark;
+            TransferMgt.RejectTransferAPI(EmpHrTransfer, employeeNo);
         end;
     end;
 
@@ -2349,27 +2350,62 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure uploadEmployeeImage(empNo: Code[20]; ext: Text; fileBaseText: Text)
     var
-        FileManagement: Codeunit "File Management";
-        FileName: Text;
-        ClientFileName: Text;
-        DirectoryName: Text;
+        TargetDirectory: text;
+        EmployeeActivityFolder: text;
+        ServerFolderPath: text;
+        ServerFilePath: text;
+        CleanedFileName: text;
+        // FileManagement: Codeunit "File Management";
+        // FileName: Text;
+        // ClientFileName: Text;
+        // DirectoryName: Text;
         TempBlob: Codeunit "Temp Blob";
         Instream: InStream;
         base64: Codeunit "Base64 Convert";
-        tempinstream: InStream;
+        // tempinstream: InStream;
+        Outstream: OutStream;
+        File: file;
     begin
         Employee.Get(empNo);
         HRSetup.Get;
-        CreateNewDir(HRSetup."Attachment Storage Location", empNo, DirectoryName);
-        DirectoryName += '\';
-        FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Employee."First Name" + '_image' + '.' + ext;
-        base64.FromBase64(fileBaseText);
-        Instream.Read(base64);
-        FileManagement.BLOBExport(TempBlob, FileName, false);
+        // CreateNewDir(HRSetup."Attachment Storage Location", empNo, DirectoryName);
+        // DirectoryName += '\';
+        // FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Employee."First Name" + '_image' + '.' + ext;
+        // base64.FromBase64(fileBaseText);
+        // Instream.Read(base64);
+        // FileManagement.BLOBExport(TempBlob, FileName, false);
+
+
+
+        TargetDirectory := HRSetup."Attachment Storage Location";
+        // Step 2: Construct the server folder path
+        ServerFolderPath := 'D:\HRFiles\' + EmployeeActivityFolder;
+
+
+        if TargetDirectory = '' then
+            Error('Attachment Storage Location is not configured.');
+
+        if not TargetDirectory.EndsWith('\') then
+            TargetDirectory := TargetDirectory + '\';
+
+        // CleanedFileName := LoanMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
+
+        // Construct server file path with unique name
+        ServerFilePath := TargetDirectory + Employee."First Name" + '_image' + '.' + ext;
+        // Construct server file path with unique name
+        tempblob.CreateOutStream(outStream);
+        base64.FromBase64(fileBaseText, Outstream);
+        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        File.CREATE(ServerFilePath);       // Create the file on the server
+        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        CopyStream(OutStream, InStream);  // Write the data
+        File.CLOSE;
+        // IncomingDoc."File Name" := ServerFilePath;
+        // IncomingDoc.MODIFY;
 
         Clear(Employee.Image);
-        tempinstream.Read(FileName);
-        Employee.Image.ImportStream(tempinstream, ClientFileName);
+        Instream.Read(ServerFilePath);
+        Employee.Image.ImportStream(Instream, ServerFilePath);
         Employee.Modify;
     end;
 
@@ -2400,7 +2436,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure downloadPaySlip(year: Integer; month: Text; employeeNo: Code[20]) exitText: Text
+    procedure downloadPaySlip(year: Integer; month: Text; employeeNo: Code[20]): Text
     var
         PaySlip: Report "Payroll Payslip";
         MonthOption: Enum "Nepali Month";
@@ -2409,8 +2445,15 @@ page 50108 "Portal Functions"
         recRef: RecordRef;
         OutStr: OutStream;
         format: ReportFormat;
+        TempBolb: Codeunit "Temp Blob";
+        instream: instream;
+        base64: Codeunit "Base64 Convert";
+        ext: text;
+        exitText: text;
 
     begin
+        HRSetup.get();
+
         Employee.Get(employeeNo);
         PostedPayrollHeader.Reset;
         PostedPayrollHeader.SetRange("Nepali Year", year);
@@ -2473,10 +2516,16 @@ page 50108 "Portal Functions"
             else
                 Error('Please select a month');
         end;
+        TempBolb.CreateOutStream(OutStr);
         FileName := StrSubstNo('%1\temp\%2.pdf', HRSetup."Attachment Storage Location", Employee."No.");
+        recRef.Get(PostedPayrollHeader.RecordId);
         recRef.SetTable(PostedPayrollHeader);
-        Report.SaveAs(Report::"Payroll Payslip", '', format::Pdf, OutStr, recRef);
-        exitText := downloadFeedbackAttachment(FileName);
+        PaySlip.SaveAs('', format::Pdf, OutStr, recRef);
+        TempBolb.CreateInStream(instream);
+        exitText := base64.ToBase64(InStream);
+        Clear(FileName);
+        exit('{' + '"extension": "' + 'Pdf' + '",' + '"attachBase64":"' + exitText + '"}');
+        //exitText := downloadFeedbackAttachment(FileName);
         Clear(FileName);
     end;
 
@@ -2614,8 +2663,12 @@ page 50108 "Portal Functions"
         recRef: RecordRef;
         OutStr: OutStream;
         format: ReportFormat;
+        tempbolb: Codeunit "Temp Blob";
+        instream: InStream;
+        base64: Codeunit "Base64 Convert";
 
     begin
+        HRSetup.Get();
         Employee.Reset;
         Employee.SetRange("No.", employeeNo);
         Employee.FindFirst;
@@ -2656,15 +2709,16 @@ page 50108 "Portal Functions"
             else
                 Error('Please select a month');
         end;
+        TempBolb.CreateOutStream(OutStr);
         FileName := StrSubstNo('%1\temp\%2.pdf', HRSetup."Attachment Storage Location", Employee."No.");
-        // TaxDeductionInfo.SetTableView(Employee);
-        // TaxDeductionInfo.SaveAsPdf(FileName);
-        // exitText := downloadFeedbackAttachment(FileName);
-
+        recRef.Get(Employee.RecordId);
         recRef.SetTable(Employee);
-        Report.SaveAs(Report::"Tax Deduction Information", '', format::Pdf, OutStr, recRef);
-        exitText := downloadFeedbackAttachment(FileName);
+        TaxDeductionInfo.SaveAs('', format::Pdf, OutStr, recRef);
+        TempBolb.CreateInStream(instream);
+        exitText := base64.ToBase64(InStream);
         Clear(FileName);
+        exit('{' + '"extension": "' + 'Pdf' + '",' + '"attachBase64":"' + exitText + '"}');
+
     end;
 
     local procedure FindPayrollLine(DocNo: Code[20])
@@ -2687,11 +2741,11 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure onOpenRetirementFund(): Text
+    procedure onOpenRetirementFund(empNo: Code[20]): Text
     var
         RF: Record "Retirement Fund" temporary;
     begin
-        HrMgt.OpenRFRequest(HrMgt.GetEmployeeNo(), RF);
+        HrMgt.OpenRFRequest(empNo, RF);
         InitReturnApiValue();
         InsertAPINameValue('fiscalYear', RF."Fiscal Year");
         InsertAPINameValue('payrollMonth', Format(RF."Payroll Month"));
@@ -2721,11 +2775,11 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure calculateRetirementFund(nICARTFAmount: Decimal; cITAmount: Decimal; nICARTFAmountLumpsum: Decimal; cITAmountLumpsum: Decimal): Text
+    procedure calculateRetirementFund(nICARTFAmount: Decimal; cITAmount: Decimal; nICARTFAmountLumpsum: Decimal; cITAmountLumpsum: Decimal; empNo: Code[20]): Text
     var
         RF: Record "Retirement Fund" temporary;
     begin
-        HrMgt.OpenRFRequest(HrMgt.GetEmployeeNo(), RF);
+        HrMgt.OpenRFRequest(empNo, RF);
         RF."NICA RTF Amount (Month)" := nICARTFAmount;
         RF."NICA RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
         RF."CIT Amount (Month)" := cITAmount;
@@ -2781,13 +2835,13 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure returnRFData(): Text
+    procedure returnRFData(empNo: Code[20]): Text
     var
         PRAttributesUsage: Record "Payroll Attributes Usage";
         CITAmt: Decimal;
         NICAAmt: Decimal;
     begin
-        Employee.Get(HrMgt.GetEmployeeNo());
+        Employee.Get(empNo);
         PGSetup.Get();
         InitReturnApiValue();
         InsertAPINameValue('citNo', Employee."CIT No.");
@@ -3121,6 +3175,147 @@ page 50108 "Portal Functions"
         KPIMgt: Codeunit "KPI Mgt.";
     begin
         KPIMgt.checkIfTargetExceeds(empcode, kpicode, startdate, enddate)//Min -- For Exit Current fiscal year (Extra Milage Module)
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure countForDashBoard(empcode: Code[20]): text
+    var
+        Leave: Record Leave;
+        Loan: Record "Employee Loan/Advance";
+        leaveForRecommendation: Integer;
+        leaveForApprove: Integer;
+        LoanForRecommendation: Integer;
+        LoanForApprove: Integer;
+        TravelRequest: Record "Travel Request";
+        TravelReqForRecommendation: Integer;
+        TravelReqForApprove: Integer;
+        Resign: Record Resignation;
+        ResignForRecommendation: Integer;
+        ResignForApprove: Integer;
+        OverTime: Record OverTime;
+        OverTimeForRecommendation: Integer;
+        OverTimeForApprove: Integer;
+        Appraisal: Record Appraisal;
+        AppraisalForRecommendation: Integer;
+        AppraisalForApprove: Integer;
+        TotalCount: Integer;
+        EmpTransfer: Record "Employee/HR Transfer";
+
+    begin
+        Leave.Reset();
+        Leave.SetRange("Recommender Code", empcode);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::"Pending Approval");
+        leaveForRecommendation := leave.Count();
+        Leave.Reset();
+        Leave.SetRange("Approver Code", empcode);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Recommended);
+        leaveForApprove := leave.Count();
+
+        Loan.Reset();
+        Loan.SetRange(Recommender, empcode);
+        Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
+        LoanForRecommendation := Loan.Count();
+        Loan.Reset();
+        Loan.SetRange(Approver, empcode);
+        Loan.SetRange("Approval Status", Loan."Approval Status"::Recommended);
+        LoanForApprove := Loan.Count();
+
+        TravelRequest.Reset();
+        TravelRequest.SetRange("Recommender Code", empcode);
+        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        TravelReqForRecommendation := TravelRequest.Count();
+        TravelRequest.Reset();
+        TravelRequest.SetRange("Approver Code", empcode);
+        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::Recommended);
+        TravelReqForApprove := TravelRequest.Count();
+
+        Resign.Reset();
+        Resign.SetRange("Recommender Code", empcode);
+        Resign.SetRange("Approval Status", Resign."Approval Status"::"Pending Approval");
+        ResignForRecommendation := Resign.Count();
+        Resign.Reset();
+        Resign.SetRange("Approver Code", empcode);
+        Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
+        ResignForApprove := Resign.Count();
+
+        OverTime.Reset();
+        OverTime.SetRange("Recommender Code", empcode);
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::"Pending Approval");
+        OverTimeForRecommendation := OverTime.Count();
+        OverTime.Reset();
+        OverTime.SetRange("Approver Code", empcode);
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Recommended);
+        OverTimeForApprove := OverTime.Count();
+
+        Appraisal.Reset();
+        Appraisal.SetRange("Recommender Code", empcode);
+        Appraisal.SetRange(Status, Appraisal.Status::Submitted);
+        AppraisalForRecommendation := OverTime.Count();
+        Appraisal.Reset();
+        Appraisal.SetRange("Approver Code", empcode);
+        Appraisal.SetRange(Status, Appraisal."Status"::Recommended);
+        AppraisalForApprove := OverTime.Count();
+
+        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove +
+                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove;
+
+        exit('{"leaveForRecommendation" : "' + Format(leaveForRecommendation) + '"' +
+        ',"leaveForApprove" :"' + Format(leaveForApprove) + '"' +
+        ',"LoanForRecommendation": "' + format(LoanForRecommendation) + '"' +
+        ',"LoanForApprove": "' + format(LoanForApprove) + '"' +
+        ',"TravelReqForRecommendation": "' + format(TravelReqForRecommendation) + '"' +
+        ',"TravelReqForApprove": "' + format(TravelReqForApprove) + '"' +
+        ',"ResignForRecommendation": "' + format(ResignForRecommendation) + '"' +
+        ',"ResignForApprove": "' + format(ResignForApprove) + '"' +
+        ',"OverTimeForRecommendation": "' + format(OverTimeForRecommendation) + '"' +
+        ',"OverTimeForApprove": "' + format(OverTimeForApprove) + '"' +
+        ',"AppraisalForRecommendation": "' + format(AppraisalForRecommendation) + '"' +
+        ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
+        ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
+
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure CountEmployeeAttendance(employeeNo: Code[20]): text
+    var
+        EmployeeAttendace: Record "Employee Attendance & Activity";
+        AbsentDayCount: Integer;
+        PresentDayCount: Integer;
+        WeekOffDayCount: Integer;
+        LeaveDayCount: Integer;
+
+    begin
+        EmployeeAttendace.Reset();
+        EmployeeAttendace.SetRange("Employee No.", employeeNo);
+        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetFilter("Absent Day", '=%1', 1);
+        AbsentDayCount := EmployeeAttendace.Count();
+
+        EmployeeAttendace.Reset();
+        EmployeeAttendace.SetRange("Employee No.", employeeNo);
+        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetFilter("Week Off Day", '=%1', 1);
+        WeekOffDayCount := EmployeeAttendace.Count();
+
+        EmployeeAttendace.Reset();
+        EmployeeAttendace.SetRange("Employee No.", employeeNo);
+        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetFilter("Present Day", '=%1', 1);
+        PresentDayCount := EmployeeAttendace.Count();
+
+        EmployeeAttendace.Reset();
+        EmployeeAttendace.SetRange("Employee No.", employeeNo);
+        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetFilter("Leave Day", '=%1', 1);
+        LeaveDayCount := EmployeeAttendace.Count();
+
+        exit('{"AbsentDayCount" : "' + Format(AbsentDayCount) + '"' +
+       ',"WeekOffDayCount" :"' + Format(WeekOffDayCount) + '"' +
+       ',"PresentDayCount": "' + format(PresentDayCount) + '"' +
+       ',"LeaveDayCount" :"' + DelChr(Format(LeaveDayCount), '=', '{}') + '"}');
+
     end;
 
     [ServiceEnabled]

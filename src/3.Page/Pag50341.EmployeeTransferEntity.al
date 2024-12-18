@@ -66,7 +66,19 @@ page 50341 "Employee Transfer Entity"
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Resignation") { }
-                field(Description; Rec.Description) { }
+                field(subProvinceCode;Rec."Sub Province Code") { }
+                field(subProvinceName;SubProvinceName) { }
+                field(provinceCode;Rec."Province Code") { }
+                field(unitCode;Rec."Unit Code") { }
+                field(unitName;UnitName) { }
+                field(departmentName;DepartmentName) { }
+                field(ExtensionName;ExtensionName) { }
+                field(branchCodeTo;Rec."To Branch") { }
+                field(remarks; Rec.Remarks) { }
+                field(screenerRemarks; Rec."Screener Remarks") { }
+                field(rejectionRemarks; Rec."Rejection Remarks") { }
+
+
             }
             group(Transfer)
             {
@@ -125,6 +137,7 @@ page 50341 "Employee Transfer Entity"
                 field(reviewerName; Rec."Reviewer Name") { }
                 field(dateofJoiningOfTransfer; Rec."Date of Joining Of Transfer") { }
                 field(reviewerRemarks; Rec."Reviewer Remarks") { }
+
             }
             group("Transfer Claim")
             {

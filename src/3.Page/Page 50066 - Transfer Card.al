@@ -506,7 +506,7 @@ page 50066 "Transfer Card"
                 }
                 field(Reviewer; Rec.Reviewer)
                 {
-                    Visible = Rec.Type = Rec.Type::"Employee Transfer";
+                    // Visible = Rec.Type = Rec.Type::"Employee Transfer";
                     ToolTip = 'Specifies the value of the Reviewer field.';
                     ApplicationArea = All;
                 }

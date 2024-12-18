@@ -1128,7 +1128,7 @@ page 50340 "Portal Function"
     [Scope('Personalization')]
     procedure approveAllowanceAssignment(entryNo: Integer; isApproved: Boolean; EmpNo: Code[20]): Text
     begin
-        LoanMgt.ApproveRejectAllowanceAssignment(isApproved, entryNo);
+        // LoanMgt.ApproveRejectAllowanceAssignment(isApproved, entryNo);
     end;
 
     [ServiceEnabled]

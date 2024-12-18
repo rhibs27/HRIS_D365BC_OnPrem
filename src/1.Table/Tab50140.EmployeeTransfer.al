@@ -1127,6 +1127,16 @@ table 50140 "Employee/HR Transfer"
             Description = 'Transfer';
             Editable = false;
         }
+        field(198; "From Branch"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code;
+        }
+        field(199; "To Branch"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code;
+        }
 
     }
     keys
