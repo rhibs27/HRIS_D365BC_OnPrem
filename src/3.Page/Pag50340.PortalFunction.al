@@ -2218,34 +2218,34 @@ page 50340 "Portal Function"
         else
             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
         PostedPayrollHeader.FindFirst;
-        case month of
-            Format(MonthOption::Baisakh):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Baisakh);
-            Format(MonthOption::Jestha):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Jestha);
-            Format(MonthOption::Asar):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Asar);
-            Format(MonthOption::Shrawn):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawn);
-            Format(MonthOption::Bhadra):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Bhadra);
-            Format(MonthOption::Ashoj):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Ashoj);
-            Format(MonthOption::Kartik):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Kartik);
-            Format(MonthOption::Mangsir):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Mangsir);
-            Format(MonthOption::Poush):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Poush);
-            Format(MonthOption::Margh):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Margh);
-            Format(MonthOption::Falgun):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Falgun);
-            Format(MonthOption::Chaitra):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Chaitra);
-            else
-                Error('Please select a month');
-        end;
+        // case month of
+        //     Format(MonthOption::Baisakh):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Baisakh);
+        //     Format(MonthOption::Jestha):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Jestha);
+        //     Format(MonthOption::Asar):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Asar);
+        //     Format(MonthOption::Shrawn):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+        //     Format(MonthOption::Bhadra):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Bhadra);
+        //     Format(MonthOption::Ashoj):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Ashoj);
+        //     Format(MonthOption::Kartik):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Kartik);
+        //     Format(MonthOption::Mangsir):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Mangsir);
+        //     Format(MonthOption::Poush):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Poush);
+        //     Format(MonthOption::Margh):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Margh);
+        //     Format(MonthOption::Falgun):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Falgun);
+        //     Format(MonthOption::Chaitra):
+        //         TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Chaitra);
+        //     else
+        //         Error('Please select a month');
+        // end;
         FileName := StrSubstNo('%1\temp\%2.pdf', HRSetup."Attachment Storage Location", Employee."No.");
         // TaxDeductionInfo.SetTableView(Employee);
         // TaxDeductionInfo.SaveAsPdf(FileName);

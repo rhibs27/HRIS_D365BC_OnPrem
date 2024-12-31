@@ -1350,11 +1350,11 @@ report 50070 "Tax Deduction Information"
         RecRefs.Close;
     end;
 
-    procedure PassParPortal(DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
+    procedure PassParPortal(empCode: code[20]; DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
     var
         PostedPayroll: Record "Posted Payroll Header";
     begin
-        //EmployeeNo := empCode;
+        EmployeeNoFilter := empCode;
         Month := Monthpar;
         Year := yearpar;
         DocumentNo := DocNo;
