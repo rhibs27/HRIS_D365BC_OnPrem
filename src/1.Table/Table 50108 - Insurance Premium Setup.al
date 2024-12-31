@@ -7,7 +7,7 @@ table 50108 "Insurance Premium Setup"
 
     fields
     {
-        field(1; "Insurance Company"; Enum "Life Insurance Company")
+        field(1; "Insurance Company"; Enum "Insurance Tieup")
         {
 
         }

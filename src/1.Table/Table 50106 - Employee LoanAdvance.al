@@ -265,12 +265,14 @@ table 50106 "Employee Loan/Advance"
             var
                 InsurancePremiumSetup: Record "Insurance Premium Setup";
             begin
-                InsurancePremiumSetup.Reset;
-                //InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
-                InsurancePremiumSetup.SetRange(Age, Age);
-                InsurancePremiumSetup.SetRange(Period, "Repayment Period");
-                if not InsurancePremiumSetup.FindFirst then
-                    Error('Premium Setup is not available for this insurance company. Please contact HR department.');
+                if "Insurance Tieup" <> 0 then begin
+                    InsurancePremiumSetup.Reset;
+                    //InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
+                    InsurancePremiumSetup.SetRange(Age, Age);
+                    InsurancePremiumSetup.SetRange(Period, "Repayment Period");
+                    if not InsurancePremiumSetup.FindFirst then
+                        Error('Premium Setup is not available for this insurance company. Please contact HR department.');
+                end;
             end;
         }
         field(48; "Property in the name of"; Text[50]) { }

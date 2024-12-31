@@ -1190,7 +1190,7 @@ table 50140 "Employee/HR Transfer"
             Type::"Employee Transfer", Type::"HR Transfer":
                 begin
                     IncomingDocument.Reset;
-                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
+                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
                     IncomingDocument.SetRange("No.", "No.");
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
@@ -1200,7 +1200,7 @@ table 50140 "Employee/HR Transfer"
                         repeat
                             Clear(IncomingDocument);
                             IncomingDocument.Reset;
-                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
+                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
                             IncomingDocument.SetRange("No.", "No.");
                             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
                             if not IncomingDocument.FindFirst then begin
