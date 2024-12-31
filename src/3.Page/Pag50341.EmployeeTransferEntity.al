@@ -159,9 +159,9 @@ page 50341 "Employee Transfer Entity"
                 {
                     trigger OnValidate()
                     begin
-                        // if Rec.Type in [Rec.Type::"Employee Transfer", Rec.Type::"HR Transfer"] then
-                        //     if forTransferClaimApproval then
-                        //         TransferMgt.RequestTransferAllowanceClaim(Rec);
+                        if Rec.Type in [Rec.Type::"Employee Transfer", Rec.Type::"HR Transfer"] then
+                            if forTransferClaimApproval then
+                                TransferMgt.RequestTransferAllowanceClaim(Rec);
                     end;
                 }
             }
@@ -238,6 +238,12 @@ page 50341 "Employee Transfer Entity"
                         end;
                     end;
                 }
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                EntityName = 'attachmentEntity';
+                EntitySetName = 'attachmentEntities';
+                SubPageLink = "No." = field("No.");
             }
 
 

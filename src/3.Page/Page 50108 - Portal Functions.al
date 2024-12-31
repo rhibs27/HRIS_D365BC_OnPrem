@@ -1471,7 +1471,6 @@ page 50108 "Portal Functions"
         Resignation: Record Resignation;
         DocumentApprover: Record "Document Approver";
     begin
-
         Resignation.Get(docNo);
         Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended);
         DocumentApprover.Reset;
@@ -1532,10 +1531,10 @@ page 50108 "Portal Functions"
         Overtime.Reset;
         Overtime.Init;
         Overtime.Validate(Type, Overtime.Type::Overtime);
+        Overtime.Validate("Employee No.", employeeNo);
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
         Overtime.Validate("Estimated Hours", estimatedHrs);
-        Overtime.Validate("Employee No.", employeeNo);
         Overtime.Validate("Requested Date", Today);
         Overtime.Validate(Remarks, reasonforOT);
         Overtime.Validate("Recommender Code", recommenderCode);
@@ -2099,23 +2098,24 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure returnTrasferClaim(empActivityNo: Code[20]; relocationDis: Decimal; oustationDis: Decimal; bMAFDis: Decimal): Text
+    procedure returnTrasferClaim(empTransferNo: Code[20]; relocationDis: Decimal; oustationDis: Decimal; bMAFDis: Decimal): Text
     var
-        EmpActivity: Record "Employee Activity";
+        // EmpActivity: Record "Employee Activity";
+        EmployeeTransfer: Record "Employee/HR Transfer";
     begin
         HRSetup.Get;
-        EmpActivity.Get(empActivityNo);
+        EmployeeTransfer.Get(empTransferNo);
         exit('{' +
-        '"relocationAllowance" : "' + Format(CalculateRelocationAllowance(EmpActivity, relocationDis)) + '",' +
-        '"outstationAllowance" : "' + Format(CalculateOutstationAllowance(EmpActivity, oustationDis)) + '",' +
-        '"bMAFAllowance" : "' + Format(CalculateBMAccomodationAllowance(EmpActivity, bMAFDis)) + '",' +
-        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmpActivity)) + '",' +
-        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmpActivity)) + '",' +
-        '"remoteAreaAllownce" : "' + Format(CalculateRemoteAreaAllowance(EmpActivity)) + '"' +
+        '"relocationAllowance" : "' + Format(CalculateRelocationAllowance(EmployeeTransfer, relocationDis)) + '",' +
+        '"outstationAllowance" : "' + Format(CalculateOutstationAllowance(EmployeeTransfer, oustationDis)) + '",' +
+        '"bMAFAllowance" : "' + Format(CalculateBMAccomodationAllowance(EmployeeTransfer, bMAFDis)) + '",' +
+        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
+        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
+        '"remoteAreaAllownce" : "' + Format(CalculateRemoteAreaAllowance(EmployeeTransfer)) + '"' +
         '}');
     end;
 
-    local procedure CalculateRelocationAllowance(EmpAct: Record "Employee Activity"; relocationDistance: Decimal): Decimal
+    local procedure CalculateRelocationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         SalaryLevel: Record "Salary Level";
@@ -2128,8 +2128,8 @@ page 50108 "Portal Functions"
             ;
         end;
 
-        if DimensionValueCurrent.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code") then;
-        if not DimensionValue.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code (To)") then
+        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
+        if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
             exit;
         if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
             if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
@@ -2137,7 +2137,7 @@ page 50108 "Portal Functions"
 
         HRSetup.TestField("Relocation Dist. Criteria (H)");
         HRSetup.TestField("Relocation Dist. Criteria (T)");
-        Employee.Get(EmpAct."Employee No.");
+        Employee.Get(EmployeeTransfer."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
 
         if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
@@ -2153,7 +2153,7 @@ page 50108 "Portal Functions"
         exit(RelocationAllowance);
     end;
 
-    local procedure CalculateOutstationAllowance(EmpAct: Record "Employee Activity"; outstationDistance: Decimal): Decimal
+    local procedure CalculateOutstationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; outstationDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         SalaryLevel: Record "Salary Level";
@@ -2164,11 +2164,11 @@ page 50108 "Portal Functions"
             outstationAllow := 0;
             exit(outstationAllow);
         end;
-        Employee.Get(EmpAct."Employee No.");
+        Employee.Get(EmployeeTransfer."Employee No.");
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             exit;
-        if DimensionValueCurrent.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code") then;
-        if not DimensionValue.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code (To)") then
+        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
+        if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
             exit;
         if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
             if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
@@ -2189,7 +2189,7 @@ page 50108 "Portal Functions"
         exit(outstationAllow)
     end;
 
-    local procedure CalculateBMAccomodationAllowance(EmpAct: Record "Employee Activity"; BMAFDistance: Decimal): Decimal
+    local procedure CalculateBMAccomodationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         RemoteArea: Record "Remote Area Category";
@@ -2203,10 +2203,10 @@ page 50108 "Portal Functions"
         end;
         PGSetup.Get;
         PGSetup.TestField("BM Functional Title");
-        if EmpAct."Functional Title (To)" <> PGSetup."BM Functional Title" then
+        if EmployeeTransfer."Functional Title (To)" <> PGSetup."BM Functional Title" then
             exit;
-        if DimensionValueCurrent.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code") then
-            if not DimensionValue.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code (To)") then
+        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then
+            if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
                 exit(BMAccomodationAllow);
         if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
             if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
@@ -2229,7 +2229,7 @@ page 50108 "Portal Functions"
         exit(BMAccomodationAllow);
     end;
 
-    local procedure CalculateOfficiatingAllowance(EmpAct: Record "Employee Activity"): Decimal
+    local procedure CalculateOfficiatingAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
     var
         SalaryLevel1: Record "Salary Level";
         GrossSalary: Decimal;
@@ -2237,12 +2237,12 @@ page 50108 "Portal Functions"
         SalaryGrade: Record "Salary Grade";
         OfficiatingAllow: Decimal;
     begin
-        Employee.Get(EmpAct."Employee No.");
+        Employee.Get(EmployeeTransfer."Employee No.");
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             exit;
-        if EmpAct."Transfer Type" <> EmpAct."Transfer Type"::"Intra Provincial" then
+        if EmployeeTransfer."Transfer Type" <> EmployeeTransfer."Transfer Type"::"Intra Provincial" then
             exit;
-        Employee.Get(EmpAct."Employee No.");
+        Employee.Get(EmployeeTransfer."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
 
         SalaryLevel1.Reset;
@@ -2257,7 +2257,7 @@ page 50108 "Portal Functions"
         exit(OfficiatingAllow);
     end;
 
-    local procedure CalculateRemoteAreaAllowance(EmpAct: Record "Employee Activity"): Decimal
+    local procedure CalculateRemoteAreaAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
     var
         GrossSalary: Decimal;
         SalaryLevel: Record "Salary Level";
@@ -2266,9 +2266,9 @@ page 50108 "Portal Functions"
         DimensionValue: Record "Dimension Value";
         RemoteAreaAllow: Decimal;
     begin
-        if DimensionValue.Get('BRANCH', EmpAct."Shortcut Dimension 1 Code (To)") then begin
+        if DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then begin
             if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
-                Employee.Get(EmpAct."Employee No.");
+                Employee.Get(EmployeeTransfer."Employee No.");
                 SalaryLevel.Get(Employee."Salary Level");
                 SalaryGrade.Get(Employee."Salary Grade");
                 GrossSalary := SalaryLevel."Basic Salary" +
@@ -2683,29 +2683,29 @@ page 50108 "Portal Functions"
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Baisakh);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Baisakh);
             Format(MonthOption::Jestha):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Jestha);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Jestha);
             Format(MonthOption::Asar):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Asar);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Asar);
             Format(MonthOption::Shrawn):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Shrawn);
             Format(MonthOption::Bhadra):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Bhadra);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Bhadra);
             Format(MonthOption::Ashoj):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Ashoj);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Ashoj);
             Format(MonthOption::Kartik):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Kartik);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Kartik);
             Format(MonthOption::Mangsir):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Mangsir);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Mangsir);
             Format(MonthOption::Poush):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Poush);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Poush);
             Format(MonthOption::Margh):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Margh);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Margh);
             Format(MonthOption::Falgun):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Falgun);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Falgun);
             Format(MonthOption::Chaitra):
-                TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Chaitra);
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Chaitra);
             else
                 Error('Please select a month');
         end;
@@ -3285,38 +3285,73 @@ page 50108 "Portal Functions"
         PresentDayCount: Integer;
         WeekOffDayCount: Integer;
         LeaveDayCount: Integer;
+        TourDayCount: Integer;
+        EnglishNepalidate: Record "English-Nepali Date";
+        StartofYear: date;
 
     begin
+        Clear(StartofYear);
+        Clear(AbsentDayCount);
+        Clear(WeekOffDayCount);
+        Clear(PresentDayCount);
+        Clear(LeaveDayCount);
+        EnglishNepalidate.Reset();
+        EnglishNepalidate.SetRange("Fiscal Year", exitCurrentFiscalYear);
+        EnglishNepalidate.SetRange("Opening Fiscal Year", true);
+        EnglishNepalidate.FindFirst();
+        StartofYear := EnglishNepalidate."English Date";
+
         EmployeeAttendace.Reset();
         EmployeeAttendace.SetRange("Employee No.", employeeNo);
-        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetRange("Attendance Date", StartofYear, Today);
         EmployeeAttendace.SetFilter("Absent Day", '=%1', 1);
         AbsentDayCount := EmployeeAttendace.Count();
 
         EmployeeAttendace.Reset();
         EmployeeAttendace.SetRange("Employee No.", employeeNo);
-        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetRange("Attendance Date", StartofYear, Today);
         EmployeeAttendace.SetFilter("Week Off Day", '=%1', 1);
         WeekOffDayCount := EmployeeAttendace.Count();
 
         EmployeeAttendace.Reset();
         EmployeeAttendace.SetRange("Employee No.", employeeNo);
-        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetRange("Attendance Date", StartofYear, Today);
         EmployeeAttendace.SetFilter("Present Day", '=%1', 1);
         PresentDayCount := EmployeeAttendace.Count();
 
         EmployeeAttendace.Reset();
         EmployeeAttendace.SetRange("Employee No.", employeeNo);
-        EmployeeAttendace.SetRange("Attendance Date", CalcDate('<-1M>', Today), Today);
+        EmployeeAttendace.SetRange("Attendance Date", StartofYear, Today);
         EmployeeAttendace.SetFilter("Leave Day", '=%1', 1);
         LeaveDayCount := EmployeeAttendace.Count();
+
+        EmployeeAttendace.Reset();
+        EmployeeAttendace.SetRange("Employee No.", employeeNo);
+        EmployeeAttendace.SetRange("Attendance Date", StartofYear, Today);
+        EmployeeAttendace.SetFilter("Tour Day", '=%1', 1);
+        TourDayCount := EmployeeAttendace.Count();
 
         exit('{"AbsentDayCount" : "' + Format(AbsentDayCount) + '"' +
        ',"WeekOffDayCount" :"' + Format(WeekOffDayCount) + '"' +
        ',"PresentDayCount": "' + format(PresentDayCount) + '"' +
+       ',"TourDayCount": "' + format(TourDayCount) + '"' +
        ',"LeaveDayCount" :"' + DelChr(Format(LeaveDayCount), '=', '{}') + '"}');
 
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure TotalLeaveCount() leavecount: Record Leave
+    var
+        leave: Record Leave;
+    begin
+        leave.Reset();
+        leave.SetFilter("Start Date", '>=%1', Today);
+        leave.Setfilter("End Date", '<=%1', Today);
+        leave.FindSet();
+        exit(leave);
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]

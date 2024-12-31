@@ -206,7 +206,8 @@ table 50052 "Retirement Fund"
     begin
         if not GuiAllowed then begin
             TempRF := Rec;
-            HRMgt.OpenRFRequest(HRMgt.GetEmployeeNo(), RF);
+            HRMgt.OpenRFRequest(TempRF."Employee No.", RF);
+            //HRMgt.OpenRFRequest(HRMgt.GetEmployeeNo(), RF);
             Rec := RF;
             "NICA RTF Amount (Lumpsum)" := TempRF."NICA RTF Amount (Lumpsum)";
             "NICA RTF Amount (Month)" := TempRF."NICA RTF Amount (Month)";
@@ -225,7 +226,7 @@ table 50052 "Retirement Fund"
         end;
 
         if ("CIT Amount (Month)" <> 0) or ("CIT Amount( Lumpsum)" <> 0) then begin
-            Employee.Get(HRMgt.GetEmployeeNo);
+            Employee.Get(TempRF."Employee No.");
             if Employee."CIT No." = '' then
                 Error('Your CIT no. is blank. Please verify with HR department.');
         end;

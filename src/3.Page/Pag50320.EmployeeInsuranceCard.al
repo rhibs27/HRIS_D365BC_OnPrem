@@ -27,66 +27,79 @@ page 50320 "Employee Insurance Card"
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Insurance Company"; Rec."Insurance Company")
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsuranceCompanyEdit;
                 }
                 field("Life Insurance Company"; Rec."Life Insurance Company")
                 {
                     ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = LifeInsEdit;
                 }
                 field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
                 {
                     ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = NonLifeInsEdit;
                 }
                 field("Policy Number"; Rec."Policy Number")
                 {
                     ToolTip = 'Specifies the value of the Policy Number field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = PolicyNoEdit;
                 }
                 field("Insurance Start Date (AD)"; Rec."Insurance Start Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Start Date (AD) field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsStartDateEdit;
                 }
                 field("Insurance Start Date (BS)"; Rec."Insurance Start Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Start Date (BS) field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsStartDateEdit;
                 }
                 field("Insurance Expiry Date (AD)"; Rec."Insurance Expiry Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Expiry Date (AD) field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsEndDateEdit;
                 }
                 field("Insurance Expiry Date (BS)"; Rec."Insurance Expiry Date (BS)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Expiry Date (BS) field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsEndDateEdit;
                 }
                 field("Insurance Amount"; Rec."Insurance Amount")
                 {
                     ToolTip = 'Specifies the value of the Insurance Amount field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsAmountEdit;
                 }
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Annual Premium Amount"; Rec."Annual Premium Amount")
                 {
                     ToolTip = 'Specifies the value of the Annual Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = AnnualPremiumAmtEdit;
                 }
                 field("Monthly Premium Amount"; Rec."Monthly Premium Amount")
                 {
                     ToolTip = 'Specifies the value of the Monthly Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsAmountEdit;
                 }
                 field("Linked Home Loan Account No."; Rec."Linked Home Loan Account No.")
                 {
@@ -107,6 +120,7 @@ page 50320 "Employee Insurance Card"
                 {
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     ApplicationArea = All;
+                    Editable = InsuranceTypeEdit;
                 }
                 field(Remarks; Rec.Remarks)
                 {
@@ -275,7 +289,7 @@ page 50320 "Employee Insurance Card"
             EmployeeInsurance.SetRange(Type, EmployeeInsurance.Type::"Life Insurance");
             EmployeeInsurance.CalcSums("Annual Premium Amount");
             LifeInsuranceAmt := EmployeeInsurance."Annual Premium Amount" + Rec."Annual Premium Amount";
-            Employee.Get();
+            Employee.Get(EmployeeNo);
             Employee.Validate("Premium of Life Insurance", LifeInsuranceAmt);
             Employee.Modify;
         end;

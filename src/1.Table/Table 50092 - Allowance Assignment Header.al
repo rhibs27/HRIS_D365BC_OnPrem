@@ -284,6 +284,7 @@ table 50092 "Allowance Assignment Header"
         AllowanceHeader.SetRange("English Year", "English Year");
         AllowanceHeader.SetRange("English Month", "English Month");
         AllowanceHeader.SetRange(Code, Code);
+        AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
         if AllowanceHeader.FindFirst then
             Error('Allowance for branch %1 of month %2 and week %3 has already been assigned.', Name, "English Month", Week);
     end;

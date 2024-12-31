@@ -15,9 +15,10 @@ page 50011 "Retirement Fund Entity"
         {
             repeater(General)
             {
-                Editable = false;
+                //Editable = false;
                 field(no; Rec."No.")
                 {
+                    Editable = false;
                     trigger OnAssistEdit()
                     begin
                         if AssistEdit(xRec) then
@@ -26,7 +27,7 @@ page 50011 "Retirement Fund Entity"
                 }
                 field(employeeNo; Rec."Employee No.")
                 {
-                    Editable = false;
+                    // Editable = false;
                 }
                 field(employeeName; Rec."Employee Name")
                 {
