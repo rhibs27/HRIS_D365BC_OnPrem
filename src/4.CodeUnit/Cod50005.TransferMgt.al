@@ -848,6 +848,8 @@ codeunit 50005 "Transfer Mgt."
           ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::Transfer,EmpAct.Remarks,"Date of Joining Of Transfer");*/
         GLSetup.Get;
         //checking for attachment mandatory
+        if EmpHrTransfer."Date of Joining Of Transfer" > Today then
+            Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
         AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Transfer);
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
@@ -863,9 +865,9 @@ codeunit 50005 "Transfer Mgt."
             until AttachmentSetup.Next = 0;
 
         //  CheckEmployeeActivityApproval(EmpAct);
-        /*Employee1.GET(GetEmployeeNo);
-        IF ("Incoming Supervisior" <> Employee1."No.") AND (NOT Employee1.Screener) THEN
-          ERROR('You are not eligible to acknowledge this transfer');*/
+        // /*Employee1.GET(GetEmployeeNo);
+        // IF ("Incoming Supervisior" <> Employee1."No.") AND (NOT Employee1.Screener) THEN
+        //   ERROR('You are not eligible to acknowledge this transfer');*/
         if Employee1.Screener then
             EmpHrTransfer."Transfer Remarks" += 'by screener (' + Employee1."No." + ')';
         if GuiAllowed then
@@ -896,6 +898,13 @@ codeunit 50005 "Transfer Mgt."
                 //UpdatePortalTransferEffDate(0D,"Employee No."); //Min 4.27.2022
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
             EmployeeRec."Disable Punch in" := false;
+            EmployeeRec."Global Dimension 1 Code" := EmpHrTransfer."Shortcut Dimension 1 Code (To)";
+            EmployeeRec."Deputation on" := EmpHrTransfer."Deputation On (To)";
+            EmployeeRec."Extension Counter Code" := EmpHrTransfer."Extension Counter (To)";
+            EmployeeRec."Functional Title" := EmpHrTransfer."Functional Title (To)";
+            EmployeeRec."Province Code" := EmpHrTransfer."Province Code (To)";
+            EmployeeRec."Unit Code" := EmpHrTransfer."Unit (To)";
+            EmployeeRec."Department Code" := EmpHrTransfer."Department Code (To)";
             EmployeeRec.Modify;
         end;
         Message(Acknowledged);

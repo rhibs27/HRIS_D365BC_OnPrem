@@ -31073,6 +31073,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employeewise KPI List - Control Period - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3058644566 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EmployeeOnLeave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page EmpOnLeave - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4177272057 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36778,6 +36783,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Send to Insurance Company - Method OnAction - NamedType ApprovalRequestSent</note>
         </trans-unit>
+        <trans-unit id="Page 134964540 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>medicalInsuranceClaimEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Entity - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2110272054 - Control 4248640148 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Bank Account No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36837,6 +36847,11 @@
           <source>Specifies the value of the Total Insurance Claim Amount field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control Total Insurance Claim Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2878798622 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>medicalInsuranceEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4171089046 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
@@ -48773,6 +48788,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Yearly Grade Increase - Control EmployeeNo - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 3327191392 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EmployeeJobQueue</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report EmployeeJobQue - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3424873321 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the referenceNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56582,6 +56602,11 @@
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 1691263759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Appraisal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>

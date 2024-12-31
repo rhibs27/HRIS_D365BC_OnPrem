@@ -94,4 +94,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Outside Business';
     }
+    value(24; "Appraisal")
+    {
+        Caption = 'Appraisal';
+    }
 }

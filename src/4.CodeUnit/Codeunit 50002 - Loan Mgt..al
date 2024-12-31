@@ -1783,7 +1783,7 @@ codeunit 50002 "Loan Mgt."
         else
             EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
         EmpAllowance.Posted := true;
-        EmpAllowance."Approver ID" := GetEmployeeCode();
+        EmpAllowance."Approver ID" := EmpNo;
         EmpAllowance."Approved Date" := Today;
         EmpAllowance.Modify(true);
 
@@ -1794,7 +1794,7 @@ codeunit 50002 "Loan Mgt."
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
         else
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-        AllowanceLine.ModifyAll("Approved Id", GetEmployeeCode());
+        AllowanceLine.ModifyAll("Approved Id", EmpNo);
         AllowanceLine.ModifyAll("Approved Date", Today);
     end;
 

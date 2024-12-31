@@ -283,6 +283,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Deputation On (To) field.';
                         ApplicationArea = All;
+                        Editable = ForScreenButton;
 
                         trigger OnValidate()
                         begin
@@ -311,6 +312,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
                         ApplicationArea = All;
+                        Editable = ForScreenButton;
 
                         trigger OnValidate()
                         begin
@@ -320,7 +322,7 @@ page 50066 "Transfer Card"
                     field(FunctionalTitleTo; FunctionalDescTo)
                     {
                         Caption = 'Functional Title Description(To)';
-                        Editable = false;
+                        Editable = ForScreen;
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
                         ApplicationArea = All;
                     }
@@ -459,7 +461,7 @@ page 50066 "Transfer Card"
                 }
                 field("Screener Remarks"; Rec."Screener Remarks")
                 {
-                    Editable = (ForReview) and (Rec."Approval Status" = Rec."Approval Status"::Open);
+                    Editable = (ForReview);
                     Visible = ForReview;
                     ToolTip = 'Specifies the value of the Screener Remarks field.';
                     ApplicationArea = All;

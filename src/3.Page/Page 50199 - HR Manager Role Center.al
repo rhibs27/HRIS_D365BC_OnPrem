@@ -44,6 +44,10 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = All;
             }
+            part(Control33; "Power BI Embedded Report Part")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 
