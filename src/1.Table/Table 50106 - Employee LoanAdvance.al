@@ -625,7 +625,7 @@ table 50106 "Employee Loan/Advance"
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1', EmpSalaryAdv."Approval Status"::Rejected);
         EmpSalaryAdv.SetRange(Settled, false);
         if EmpSalaryAdv.FindFirst then
-            Error('Loan %1 already exist for employee %2.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
+            Error('%1 already exist for employee %2.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
     end;
 
     procedure ReOpenDocument(EmpLoanAdvance: Record "Employee Loan/Advance")

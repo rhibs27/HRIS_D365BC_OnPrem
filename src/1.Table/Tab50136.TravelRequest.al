@@ -1202,12 +1202,12 @@ table 50136 "Travel Request"
 
         if Reimbursable then
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
-                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare")
+                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare" + "Advance Cash")
         else begin
             "Fooding Allowance" := "Fooding Allowance" / ReduceBy;
             "Lodging Allowance" := "Lodging Allowance" / ReduceBy;//AT
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
-                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense");
+                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Advance Cash");
         end;
     end;
 

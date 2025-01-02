@@ -186,6 +186,23 @@ codeunit 50001 "HR Mgt."
         Candidate.Modify;
     end;
 
+    procedure RecommendCandidateAPI(Candidate: Record Candidate; IsApproved: Boolean; employeeNo: Code[20])
+    var
+        VacancyHeader: Record "Vacancy Header";
+    begin
+        Candidate.TestField(Status, Candidate.Status::Applied);
+        Candidate.TestField("Vacancy Code");
+        VacancyHeader.Get(Candidate."Vacancy Code");
+        VacancyHeader.TestField(Type, VacancyHeader.Type::Internal);
+        if Candidate."Recommender Code" <> employeeNo then
+            Error('You are not elgible to recommend this candidate');
+        if IsApproved then
+            Candidate.Validate(Status, Candidate.Status::Recommended)
+        else
+            Candidate.Validate(Status, Candidate.Status::" ");
+        Candidate.Modify;
+    end;
+
     procedure ApplyForPromoiton(Candidate: Record Candidate)
     var
         VacancyHeader: Record "Vacancy Header";

@@ -67,7 +67,8 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
         //CheckLeaveConflict(TempEmpAct."Employee No.",TempEmpAct."Start Date",TempEmpAct."End Date");
-
+        if TravelReq."Recommender Code" = TravelReq."Approver Code" then
+            Error('Recommender and Approver Cannot be Same.');
         TravelRequest.Reset;
         TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
         TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
@@ -94,9 +95,6 @@ codeunit 50004 "Travel Mgt."
             if TravelRequest."Advance Cash" > 0 then
                 TravelRequest."Advance Cash Required" := true;
         //<<api
-
-
-
         if TravelRequest."Recommender Code" = '' then
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
         else
@@ -519,6 +517,8 @@ codeunit 50004 "Travel Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
                 exit(false);
+        if TravelReq."Recommender Code" = TravelReq."Approver Code" then
+            Error('Recommender and Approver Cannot be Same.');
         TravelReq.TestField("Start Date");
         TravelReq.TestField("End Date");
         TravelReq.TestField("Claim Type");
@@ -553,6 +553,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelRequest2."No."));
         TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest2."No."));
         TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest2."No."));
+        TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash");
 
         if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT

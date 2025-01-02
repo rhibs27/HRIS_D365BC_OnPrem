@@ -1137,6 +1137,18 @@ table 50140 "Employee/HR Transfer"
             DataClassification = ToBeClassified;
             TableRelation = "Dimension Value".Code;
         }
+        field(200; "Transf. Claim Recomm. Remarks"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(201; "Transf. Claim Reviewer Remarks"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(202; "Transf. Claim Approver Remarks"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
@@ -1172,8 +1184,8 @@ table 50140 "Employee/HR Transfer"
                         begin
                             HRSetup.TestField("Transfer No.");
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            "Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
-                            "Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
+                            //"Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
+                            //"Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
                         end;
                 end;
             end;
@@ -1262,8 +1274,6 @@ table 50140 "Employee/HR Transfer"
         if "Employee Tranfer".FindFirst then
             Error('Transfer for employee %1 (%2) is still pending. Please check the transfer no. %3', "Employee Tranfer"."Employee Name", "Employee Tranfer"."Employee No.", "Employee Tranfer"."No.");
     end;
-
-
 
     local procedure GetTransferName()
     var

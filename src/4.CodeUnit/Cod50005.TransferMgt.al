@@ -560,6 +560,26 @@ codeunit 50005 "Transfer Mgt."
                 Error(ApproveNotEligibleError);
     end;
 
+    local procedure CheckTransferClaimApprovalAPI(EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    var
+        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    begin
+        Employee.Reset;
+        Employee.SetRange("No.", employeeNo);
+        Employee.FindFirst;
+        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
+            if StrPos(EmpHrTransfer."Transfer Claim Recommender", Employee."No.") = 0 then
+                Error(RecommendNotEligibleError);
+        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
+            if StrPos(EmpHrTransfer."Transfer Claim Reviewer", Employee."No.") = 0 then
+                Error(ApproveNotEligibleError);
+        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then
+            if not Employee.Screener then
+                Error(ApproveNotEligibleError);
+    end;
+
     procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text)
     var
         ServiceHistory: Record "Employee Service History";
@@ -623,6 +643,73 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.Modify;
     end;
 
+    procedure ApproveRejectTransferClaimAPI(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text; employeeNo: Code[20])
+    var
+        ServiceHistory: Record "Employee Service History";
+        ReasonCode: Record "Reason Code";
+    begin
+        CheckTransferClaimApprovalAPI(EmpHrTransfer, employeeNo);
+        //CheckEmployeeActivityApproval(EmpAct);
+        // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
+        //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+        //         ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
+        //         ReasonCode.Modify;
+        //     end else begin
+        //         ReasonCode.Init;
+        //         ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
+        //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+        //         ReasonCode.Insert;
+        //     end;
+        // end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
+        //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+        //         ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
+        //         ReasonCode.Modify;
+        //     end else begin
+        //         ReasonCode.Init;
+        //         ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
+        //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+        //         ReasonCode.Insert;
+        //     end;
+        // end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
+        //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+        //         ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
+        //         ReasonCode.Modify;
+        //     end else begin
+        //         ReasonCode.Init;
+        //         ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
+        //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+        //         ReasonCode.Insert;
+        //     end;
+        // end;
+
+        if Approve then begin
+            if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
+                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended);
+                EmpHrTransfer.Validate("Transf. Claim Recomm. Remarks", remarksText);
+            end
+            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
+                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Reviewed);
+                EmpHrTransfer.Validate("Transf. Claim Reviewer Remarks", remarksText);
+            end
+            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
+                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Approved);
+                EmpHrTransfer.Validate("Transf. Claim Approver Remarks", remarksText);
+                EmpHrTransfer.Modify();
+                ServiceHistory.Reset;
+                ServiceHistory.SetRange("Document No.", EmpHrTransfer."No.");
+                if ServiceHistory.FindFirst then begin
+                    if EmpHrTransfer."Outstation/Discomfort Allow." <> 0 then
+                        ServiceHistory."Outstation Eligible" := true;
+                    ServiceHistory.Modify;
+                end;
+            end;
+        end
+        else begin
+            EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Open);
+        end;
+        EmpHrTransfer.Modify;
+    end;
+
     procedure ReturnTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
     begin
 
@@ -630,6 +717,19 @@ codeunit 50005 "Transfer Mgt."
             Error('It is not transfer document.');
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Screened);
         Employee.Get(HRMgt.GetEmployeeNo);
+        if not Employee.Screener then
+            Error('You are not authorized to return this document.');
+        EmpHrTransfer."Approval Status" := EmpHrTransfer."Approval Status"::Open;
+        EmpHrTransfer.Modify;
+        Message('Document Returned.');
+    end;
+
+    procedure ReturnTransferAPI(EmpHrTransfer: Record "Employee/HR Transfer"; employeeCode: code[20])
+    begin
+        if EmpHrTransfer.Type in [EmpHrTransfer.Type::"HR Transfer", EmpHrTransfer.Type::"Employee Transfer"] then
+            Error('It is not transfer document.');
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Screened);
+        Employee.Get(employeeCode);
         if not Employee.Screener then
             Error('You are not authorized to return this document.');
         EmpHrTransfer."Approval Status" := EmpHrTransfer."Approval Status"::Open;
@@ -861,7 +961,7 @@ codeunit 50005 "Transfer Mgt."
                 IncomingDoc.SetRange("No.", EmpHrTransfer."No.");
                 IncomingDoc.SetRange("File Name", '');
                 if IncomingDoc.FindFirst then
-                    Error('Please upload file for attachment %1', AttachmentSetup."Attachment Code");
+                    Error('Attachmentment filenot Uploaded for attachment %1', AttachmentSetup."Attachment Code");
             until AttachmentSetup.Next = 0;
 
         //  CheckEmployeeActivityApproval(EmpAct);
