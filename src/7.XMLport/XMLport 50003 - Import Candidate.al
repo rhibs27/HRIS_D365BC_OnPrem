@@ -3,6 +3,8 @@ xmlport 50003 "Import Candidate"
     TextEncoding = UTF8;
     Format = VariableText;
     TableSeparator = '<<NewLine>>';
+    // DefaultFieldsValidation = true;
+    Direction = Import;
 
     schema
     {

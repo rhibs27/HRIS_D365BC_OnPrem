@@ -218,7 +218,7 @@ page 50181 "Vacancy API"
 
     trigger OnOpenPage()
     begin
-        SetControlAppearanceInterviewer; //Min
+        //SetControlAppearanceInterviewer; //Min
         //SetControlAppearance;
         //SETRANGE("No.",'VCAN-0027');
         Rec.SetRange(Status, Rec.Status::"Interview Scheduled"); //Min

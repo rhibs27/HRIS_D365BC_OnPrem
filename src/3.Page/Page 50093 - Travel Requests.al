@@ -3,7 +3,7 @@ page 50093 "Travel Requests"
     // version NIC Asia1.00,Travel
 
     CardPageId = "Travel Form";
-    Editable = false;
+    // Editable = false;
     PageType = List;
     SourceTable = "Travel Request";
     SourceTableView = WHERE(Type = CONST("Travel Request"));

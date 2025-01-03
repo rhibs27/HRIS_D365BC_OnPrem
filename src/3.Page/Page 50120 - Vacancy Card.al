@@ -140,7 +140,7 @@ page 50120 "Vacancy Card"
             group("Request Approval")
             {
                 Caption = 'Request Approval';
-                Visible = false;
+                // Visible = false;
                 action("Send Approval Request")
                 {
                     Caption = 'Send A&pproval Request';
@@ -214,6 +214,7 @@ page 50120 "Vacancy Card"
                     PromotedIsBig = true;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Post action.';
+                    Visible = false;
                     ApplicationArea = All;
 
                     trigger OnAction()

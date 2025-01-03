@@ -527,7 +527,7 @@ page 50123 "Posted Vacancy List"
                     PromotedCategory = Category4;
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    Visible = false;
+                    // Visible = false;
                     ToolTip = 'Executes the Export Candidate List action.';
                     ApplicationArea = All;
 
@@ -544,7 +544,7 @@ page 50123 "Posted Vacancy List"
                     PromotedCategory = Category4;
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    Visible = false;
+                    // Visible = false;
                     ToolTip = 'Executes the Import Candidate List action.';
                     ApplicationArea = All;
 

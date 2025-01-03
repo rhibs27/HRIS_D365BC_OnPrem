@@ -1,9 +1,15 @@
 xmlport 50000 "Export Candidate"
 {
+    //Format = Xml;
+    Direction = Export;
+    // TableSeparator = '<NewLine>';
+    // TextEncoding = UTF8;
+    FileName = 'Candidate.csv';
+    //FormatEvaluate = Xml;
     Format = VariableText;
     TableSeparator = '<NewLine>';
     TextEncoding = UTF8;
-
+    // UseRequestPage = true;
     schema
     {
         textelement(Root)
