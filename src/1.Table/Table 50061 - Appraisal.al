@@ -40,8 +40,8 @@ table 50061 Appraisal
                     Clear("Appraisal Subtype Monthly");
                     Clear("Appraisal Subtype Quarterly");
                 end;
-                if "Appraisal Type" = "Appraisal Type"::Quarterly then
-                    Error('Quarterly Appraisal has been disabled.');
+                // if "Appraisal Type" = "Appraisal Type"::Quarterly then
+                //      Error('Quarterly Appraisal has been disabled.');
             end;
         }
         field(6; "Final Score"; Decimal)
@@ -129,7 +129,12 @@ table 50061 Appraisal
         }
         field(32; Status; Enum "Appraisal Status")
         {
-
+            trigger OnValidate()
+            var
+            begin
+                If Rec.Status = Rec.Status::Submitted then
+                    AppraisalMgt.CheckAppraisalAttachmentMandatory(Rec);
+            end;
         }
         field(33; "Academic Degree"; Text[250]) { }
         field(34; "Written Verbal Warning Issued"; Text[150]) { }
@@ -313,6 +318,7 @@ table 50061 Appraisal
             AppraisalMgt.OnValidateKRACategory(Rec);
             CheckForDuplicateEmployeeAppraisal;
         end;
+        InsertAttachmentAppraisal;
     end;
 
     trigger OnModify()
@@ -514,5 +520,33 @@ table 50061 Appraisal
             Modify;
             Message(Text003);
         end;
+    end;
+
+    local procedure InsertAttachmentAppraisal()
+    var
+        AttachmentMandatory: Record "Attachment Setup";
+        IncomingDocument: Record "Incoming Document";
+    begin
+        AttachmentMandatory.Reset;
+        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Appraisal);
+        if AttachmentMandatory.FindFirst then
+            repeat
+                Clear(IncomingDocument);
+                IncomingDocument.Reset;
+                IncomingDocument.SetRange("Table ID", DATABASE::Appraisal);
+                IncomingDocument.SetRange("No.", "Appraisal Code");
+                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                if not IncomingDocument.FindFirst then begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.Init;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument.Description := Rec.TableName;
+                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                    IncomingDocument."No." := "Appraisal Code";
+                    IncomingDocument."Employee Code" := Rec."Employee Code";
+                    IncomingDocument."Table ID" := DATABASE::Appraisal;
+                    IncomingDocument.Insert(true);
+                end;
+            until AttachmentMandatory.Next = 0;
     end;
 }

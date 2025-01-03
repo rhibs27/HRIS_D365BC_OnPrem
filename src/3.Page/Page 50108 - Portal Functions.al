@@ -378,10 +378,10 @@ page 50108 "Portal Functions"
         TravelRequest.Validate(Destination, destination);
         TravelRequest.Validate(Extended, extended);
         TravelRequest.Validate("Advance Cash Required", advanceCashRequired);
-        TravelRequest.Validate("Advance Cash", advanceCash);
         TravelRequest.Validate("Estimated Transportation Cost", estimatedTransportCost);
         TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
         TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
+        TravelRequest.Validate("Advance Cash", advanceCash);
         TravelRequest.Validate("Travel With", travelWith);
         TravelRequest.Validate("Depature Time", departureTime);
         TravelRequest.Validate("Arrival Time", arrivalTime);
@@ -417,7 +417,8 @@ page 50108 "Portal Functions"
    otherExpense: Decimal;
    roadAndAirFare: Decimal;
    claimedCountry: text;
-   reimbursable: Boolean
+   reimbursable: Boolean;
+   totalAllowanceClaim: decimal
    ): Integer;
     var
         TravelRequest: Record "Travel Request" temporary;
@@ -460,6 +461,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Other Expense", otherExpense);
         TravelRequest.Validate("Road/Air Fare", roadAndAirFare);
         TravelRequest.Validate("Claimed Country", claimedCountry);
+        TravelRequest.Validate("Total Claimed Amount", totalAllowanceClaim);
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
         TravelRequest.Validate("Recommender Code", recommenderCode);
@@ -524,17 +526,17 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveTravelActivity(empTravelNo: Code[20]; startDate: Date; endDate: Date; advanceCash: Decimal; isApprove: Boolean; rejectionRemarks: text; approverCode: Code[20]): Text
+    procedure approveTravelActivity(empTravelNo: Code[20]; isApprove: Boolean; rejectionRemarks: text; approverCode: Code[20]): Text
     var
         //EmpActivity: Record "Employee Activity";
         EmpTravel: Record "Travel Request";
     begin
         EmpTravel.Get(empTravelNo);
-        EmpTravel.Validate("Start Date", startDate);
-        EmpTravel.Validate("End Date", endDate);
-        if EmpTravel."Advance Cash Required" then
-            EmpTravel.Validate("Advance Cash", advanceCash);
-        EmpTravel.Modify;
+        // EmpTravel.Validate("Start Date", startDate);
+        // EmpTravel.Validate("End Date", endDate);
+        // if EmpTravel."Advance Cash Required" then
+        //     EmpTravel.Validate("Advance Cash", advanceCash);
+        // EmpTravel.Modify;
         if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
             TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
         else begin
@@ -2086,14 +2088,14 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text)
+    procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])
     var
         //EmpActivity: Record "Employee Activity";
         EmployeeTransfer: Record "Employee/HR Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
         EmployeeTransfer.Get(empActivityNo);
-        TransferMgt.ApproveRejectTransferClaim(isApproved, EmployeeTransfer, remarks);
+        TransferMgt.ApproveRejectTransferClaimAPI(isApproved, EmployeeTransfer, remarks, employeeNo);
     end;
 
     [ServiceEnabled]
@@ -2758,9 +2760,9 @@ page 50108 "Portal Functions"
         InsertAPINameValue('actualProjectedContribution', Format(RF."Actual/Projected Contribution"));
         InsertAPINameValue('additionalSpaceforRF', Format(RF."Additional Space for RF Cont."));
         InsertAPINameValue('projectedMonth', Format(RF."Projection Month"));
-        InsertAPINameValue('nICARTFAmount', Format(RF."NICA RTF Amount (Month)"));
+        InsertAPINameValue('nICARTFAmount', Format(RF."RTF Amount (Month)"));
         InsertAPINameValue('cITAmount', Format(RF."CIT Amount (Month)"));
-        InsertAPINameValue('nICARTFAmountLumpsum', Format(RF."NICA RTF Amount (Lumpsum)"));
+        InsertAPINameValue('nICARTFAmountLumpsum', Format(RF."RTF Amount (Lumpsum)"));
         InsertAPINameValue('cITAmountLumpsum', Format(RF."CIT Amount( Lumpsum)"));
         InsertAPINameValue('totalCommittedContribution', Format(RF."Total Committed Contribution"));
         InsertAPINameValue('totalDeduction', Format(RF."Total Deduction"));
@@ -2780,8 +2782,8 @@ page 50108 "Portal Functions"
         RF: Record "Retirement Fund" temporary;
     begin
         HrMgt.OpenRFRequest(empNo, RF);
-        RF."NICA RTF Amount (Month)" := nICARTFAmount;
-        RF."NICA RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
+        RF."RTF Amount (Month)" := nICARTFAmount;
+        RF."RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
         RF."CIT Amount (Month)" := cITAmount;
         RF."CIT Amount( Lumpsum)" := cITAmountLumpsum;
         HrMgt.CalculateRetirementFund(RF, RF."Projection Month");
@@ -2850,7 +2852,7 @@ page 50108 "Portal Functions"
         if PRAttributesUsage.Get(PGSetup."CIT (Monthly)", Employee."No.") then
             CITAmt := PRAttributesUsage.Amount;
         InsertAPINameValue('cITAmount', Format(CITAmt));
-        if PRAttributesUsage.Get(PGSetup."NICA RTF (Monthly)", Employee."No.") then
+        if PRAttributesUsage.Get(PGSetup."RTF (Monthly)", Employee."No.") then
             NICAAmt := PRAttributesUsage.Amount;
         InsertAPINameValue('nICARTFAmount', Format(NICAAmt));
         CloseReturnApiValue;
@@ -3201,6 +3203,17 @@ page 50108 "Portal Functions"
         AppraisalForApprove: Integer;
         TotalCount: Integer;
         EmpTransfer: Record "Employee/HR Transfer";
+        SalaryAdvanceForRecommemdation: Integer;
+        SalaryAdvanceForApprove: Integer;
+        AttendanceMissed: Record "Employee Activity";
+        AttendanceMissedForRecommendation: Integer;
+        AttendanceMissedForApprove: Integer;
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransferForRecommendation: Integer;
+        EmployeeTransferForApprove: Integer;
+        AllowanceAssignment: Record "Allowance Assignment Header";
+
+
 
     begin
         Leave.Reset();
@@ -3215,11 +3228,24 @@ page 50108 "Portal Functions"
         Loan.Reset();
         Loan.SetRange(Recommender, empcode);
         Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
+        Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
         LoanForRecommendation := Loan.Count();
         Loan.Reset();
         Loan.SetRange(Approver, empcode);
         Loan.SetRange("Approval Status", Loan."Approval Status"::Recommended);
+        Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
         LoanForApprove := Loan.Count();
+
+        Loan.Reset();
+        Loan.SetRange(Recommender, empcode);
+        Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
+        Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
+        SalaryAdvanceForRecommemdation := Loan.Count();
+        // Loan.Reset();
+        // Loan.SetRange(Approver, empcode);
+        // Loan.SetRange("Approval Status", Loan."Approval Status"::Recommended);
+        // Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
+        // SalaryAdvanceForApprove := Loan.Count();
 
         TravelRequest.Reset();
         TravelRequest.SetRange("Recommender Code", empcode);
@@ -3248,17 +3274,39 @@ page 50108 "Portal Functions"
         OverTime.SetRange("Approval Status", OverTime."Approval Status"::Recommended);
         OverTimeForApprove := OverTime.Count();
 
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Recommender Code", empcode);
+        EmployeeTransfer.SetRange(Type, EmployeeTransfer.Type::"Employee Transfer");
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::"Pending Approval");
+        EmployeeTransferForRecommendation := EmployeeTransfer.Count();
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Approver Code", empcode);
+        EmployeeTransfer.SetRange(Type, EmployeeTransfer.Type::"Employee Transfer");
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Recommended);
+        EmployeeTransferForApprove := EmployeeTransfer.Count();
+
+        AttendanceMissed.Reset();
+        AttendanceMissed.SetRange("Recommender Code", empcode);
+        AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
+        AttendanceMissed.SetRange("Approval Status", AttendanceMissed."Approval Status"::"Pending Approval");
+        AttendanceMissedForRecommendation := AttendanceMissed.Count();
+        AttendanceMissed.Reset();
+        AttendanceMissed.SetRange("Approver Code", empcode);
+        AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
+        AttendanceMissed.SetRange("Approval Status", AttendanceMissed."Approval Status"::Recommended);
+        AttendanceMissedForApprove := AttendanceMissed.Count();
+
         Appraisal.Reset();
         Appraisal.SetRange("Recommender Code", empcode);
         Appraisal.SetRange(Status, Appraisal.Status::Submitted);
-        AppraisalForRecommendation := OverTime.Count();
+        AppraisalForRecommendation := Appraisal.Count();
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", empcode);
-        Appraisal.SetRange(Status, Appraisal."Status"::Recommended);
-        AppraisalForApprove := OverTime.Count();
+        Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
+        AppraisalForApprove := Appraisal.Count();
 
-        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove +
-                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove;
+        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove +
+                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + SalaryAdvanceForRecommemdation + AttendanceMissedForRecommendation + AttendanceMissedForApprove;
 
         exit('{"leaveForRecommendation" : "' + Format(leaveForRecommendation) + '"' +
         ',"leaveForApprove" :"' + Format(leaveForApprove) + '"' +
@@ -3272,6 +3320,11 @@ page 50108 "Portal Functions"
         ',"OverTimeForApprove": "' + format(OverTimeForApprove) + '"' +
         ',"AppraisalForRecommendation": "' + format(AppraisalForRecommendation) + '"' +
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
+        ',"SalaryAdvanceForRecommemdation": "' + format(SalaryAdvanceForRecommemdation) + '"' +
+        ',"EmployeeTransferForRecommendation": "' + format(EmployeeTransferForRecommendation) + '"' +
+        ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
+        ',"AttendanceMissedForRecommendation": "' + format(AttendanceMissedForRecommendation) + '"' +
+        ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;

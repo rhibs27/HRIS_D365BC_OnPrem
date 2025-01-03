@@ -102,8 +102,8 @@ page 50242 "Appraisal API"
                 EntityName = 'attachmentEntity';
                 EntitySetName = 'attachmentEntities';
                 SubPageLink = "No." = field("Appraisal Code"),
-                              "Employee Code" = field("Employee Code"),
-                              "Table ID" = const(60058);
+                              "Employee Code" = field("Employee Code");
+                //"Table ID" = const(60058)
             }
         }
     }

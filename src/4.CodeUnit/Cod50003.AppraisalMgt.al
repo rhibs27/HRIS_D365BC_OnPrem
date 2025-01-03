@@ -315,7 +315,7 @@ codeunit 50003 "AppraisalMgt."
                 EmployeeKPI.Validate(Description, KRAMaster.Description);
                 EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
                 EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
-                EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
+                //EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
                 EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
                 EmployeeKPI.Validate("Deputation on", KRAMaster."Deputation on");
                 EmployeeKPI."From Setup" := true;
@@ -345,7 +345,7 @@ codeunit 50003 "AppraisalMgt."
                 EmployeeKPI.Validate(Description, KRAMaster.Description);
                 EmployeeKPI.Validate("Weightage(%)", KRAMaster."Weightage Percent");
                 EmployeeKPI.Validate("Target Assigned", KRAMaster."Target Assigned");
-                EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
+                // EmployeeKPI.Validate("Actual Achievement", KRAMaster."Actual Achievement");
                 EmployeeKPI.Validate("Employee Code", AppraisalRec."Employee Code");
                 EmployeeKPI.Validate("Deputation on", AppraisalRec."Deputation on");
                 EmployeeKPI."From Setup" := true;
@@ -360,15 +360,16 @@ codeunit 50003 "AppraisalMgt."
     begin
         KRAMaster.Reset;
         KRAMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
-        KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
-        if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Branch then
-            KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Extension Counter" then
-            KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
-            KRAMaster.SetRange("Province Code", AppraisalRec.Province)
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
-            KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
+        //Commented by Santosh
+        // KRAMaster.SetRange("Deputation on", AppraisalRec."Deputation on");
+        // if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Branch then
+        //     KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
+        // else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Extension Counter" then
+        //     KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
+        // else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
+        //     KRAMaster.SetRange("Province Code", AppraisalRec.Province)
+        // else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
+        //     KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
         if KRAMaster.FindFirst then
             repeat
                 KRASubform.Reset;
@@ -400,10 +401,11 @@ codeunit 50003 "AppraisalMgt."
         KPIMaster.SetRange("Fiscal Year", AppraisalRec."Fiscal Year");
         KPIMaster.SetRange("KRA Category", AppraisalRec."KRA Category");
         KPIMaster.SetRange("Appraisal Type", AppraisalRec."Appraisal Type");
-        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
-            KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
-        else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
-            KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
+        //Commented by Santosh
+        // if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Monthly then
+        //     KPIMaster.SetRange("Appraisal Subtype Monthly", AppraisalRec."Appraisal Subtype Monthly")
+        // else if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Quarterly then
+        //     KPIMaster.SetRange("Appraisal Subtype Quarterly", AppraisalRec."Appraisal Subtype Quarterly");
 
         KPIEmpRec.Reset;
         KPIEmpRec.SetRange("Appraisal Code", AppraisalRec."Appraisal Code");
@@ -414,14 +416,34 @@ codeunit 50003 "AppraisalMgt."
                 KPIEmpRec.Validate("Employee Code", AppraisalRec."Employee Code");
                 KPIEmpRec.Validate("Fiscal Year", AppraisalRec."Fiscal Year");
                 KPIEmpRec.Validate("Appraisal Type", KPIMaster."Appraisal Type");
-                KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
-                KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
+                //Commented by Santosh
+                // KPIEmpRec.Validate("Appraisal Subtype Monthly", KPIMaster."Appraisal Subtype Monthly");
+                // KPIEmpRec.Validate("Appraisal Subtype Quarterly", KPIMaster."Appraisal Subtype Quarterly");
                 KPIEmpRec.Validate("KPI No.", KPIMaster."KPI No.");
                 KPIEmpRec.Validate("Target Assigned", KPIMaster."Target Assigned");
                 KPIEmpRec.Validate("From Setup", true);
                 KPIEmpRec.Modify;
             end;
             until KPIMaster.Next = 0;
+    end;
+
+    procedure CheckAppraisalAttachmentMandatory(Var Appraisal: Record Appraisal)
+    var
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+    begin
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Appraisal);
+        AttachmentSetup.SetRange(Mandatory, true);
+        if AttachmentSetup.Find('-') then
+            repeat
+                IncomingDoc.Reset;
+                IncomingDoc.SetRange("Attachment Code", AttachmentSetup."Attachment Code");
+                IncomingDoc.SetRange("No.", Appraisal."Appraisal Code");
+                IncomingDoc.SetRange("File Name", '');
+                if IncomingDoc.FindFirst then
+                    Error('Attachment filenot Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+            until AttachmentSetup.Next = 0;
     end;
 
 }

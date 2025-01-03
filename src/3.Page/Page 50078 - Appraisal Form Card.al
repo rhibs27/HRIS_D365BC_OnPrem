@@ -160,6 +160,7 @@ page 50078 "Appraisal Form Card"
             group(Approval)
             {
                 Caption = 'Approval';
+                Editable = ApprovalSent;
                 field(Status; Rec.Status)
                 {
                     Editable = false;
@@ -362,6 +363,12 @@ page 50078 "Appraisal Form Card"
                     ToolTip = 'Specifies the value of the Comments of Report Officers Check Review field.';
                     ApplicationArea = All;
                 }
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("Appraisal Code"),
+                              "Employee Code" = field("Employee Code");
+                ApplicationArea = All;
             }
         }
     }

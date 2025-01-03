@@ -107,6 +107,7 @@ table 50057 "KRA Master Setup"
     trigger OnInsert()
     begin
         if "KRA No." = '' then begin
+            HumanResSetup.get();
             HumanResSetup.TestField("KRA Setup No.");
             NoSeriesMgt.InitSeries(HumanResSetup."KRA Setup No.", xRec."No. Series", 0D, "KRA No.", "No. Series");
         end;

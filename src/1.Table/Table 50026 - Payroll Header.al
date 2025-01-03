@@ -121,7 +121,7 @@ table 50026 "Payroll Header"
 
         }
         field(13; "Posting No."; Code[20]) { }
-        field(14; "Posting No. Series"; Code[10])
+        field(14; "Posting No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
