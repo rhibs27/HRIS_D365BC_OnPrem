@@ -866,7 +866,7 @@
 //     local procedure RemoveAmount()
 //     begin
 //         PayrollAttributesUsage.Reset;
-//         PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4|%5', 'PF-BENEFIT', 'PF-EMPLOYEE', 'PF-EMPLOYER', 'CIT', 'NICA RTF');
+//         PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4|%5', 'PF-BENEFIT', 'PF-EMPLOYEE', 'PF-EMPLOYER', 'CIT', 'RTF');
 //         PayrollAttributesUsage.ModifyAll(Amount, 0);
 //     end;
 
@@ -946,7 +946,7 @@
 //     local procedure ValidateNICRTFLoan()
 //     begin
 //         PayrollAttributesUsage.Reset();
-//         PayrollAttributesUsage.SetRange(Code, 'NICA RF LOAN');
+//         PayrollAttributesUsage.SetRange(Code, 'RF LOAN');
 //         PayrollAttributesUsage.SetFilter(Amount, '<>%1', 0);
 //         PayrollAttributesUsage.ModifyAll("Is Loan EMI Applicable", true);
 //     end;

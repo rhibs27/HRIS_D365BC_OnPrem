@@ -373,11 +373,11 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Payroll Attributes";
         }
-        field(104; "NICA RTF (Monthly)"; Code[20])
+        field(104; "RTF (Monthly)"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
-        field(105; "NICA RTF (Lumpsum)"; Code[20])
+        field(105; "RTF (Lumpsum)"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }

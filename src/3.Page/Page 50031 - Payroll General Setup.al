@@ -629,14 +629,14 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the CIT (Lumpsum) field.';
                     ApplicationArea = All;
                 }
-                field("NICA RTF (Monthly)"; Rec."NICA RTF (Monthly)")
+                field("RTF (Monthly)"; Rec."RTF (Monthly)")
                 {
-                    ToolTip = 'Specifies the value of the NICA RTF (Monthly) field.';
+                    ToolTip = 'Specifies the value of the RTF (Monthly) field.';
                     ApplicationArea = All;
                 }
-                field("NICA RTF (Lumpsum)"; Rec."NICA RTF (Lumpsum)")
+                field("RTF (Lumpsum)"; Rec."RTF (Lumpsum)")
                 {
-                    ToolTip = 'Specifies the value of the NICA RTF (Lumpsum) field.';
+                    ToolTip = 'Specifies the value of the RTF (Lumpsum) field.';
                     ApplicationArea = All;
                 }
             }

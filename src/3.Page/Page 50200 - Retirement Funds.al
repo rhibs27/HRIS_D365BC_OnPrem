@@ -78,9 +78,9 @@ page 50200 "Retirement Funds"
                     ToolTip = 'Specifies the value of the Additional Space for RF Cont. field.';
                     ApplicationArea = All;
                 }
-                field("NICA RTF Amount (Month)"; "NICA RTF Amount (Month)")
+                field("RTF Amount (Month)"; "RTF Amount (Month)")
                 {
-                    ToolTip = 'Specifies the value of the NICA RTF Amount (Month) field.';
+                    ToolTip = 'Specifies the value of the RTF Amount (Month) field.';
                     ApplicationArea = All;
                 }
                 field("CIT Amount (Month)"; "CIT Amount (Month)")

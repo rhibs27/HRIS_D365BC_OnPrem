@@ -74,7 +74,7 @@ table 50052 "Retirement Fund"
             //               '\'
             //               '';
         }
-        field(14; "NICA RTF Amount (Month)"; Decimal)
+        field(14; "RTF Amount (Month)"; Decimal)
         {
             DataClassification = ToBeClassified;
 
@@ -97,7 +97,7 @@ table 50052 "Retirement Fund"
             DataClassification = ToBeClassified;
             Description = 'Total of (monthly*12)+ Lumpsum';
         }
-        field(17; "NICA RTF Amount (Lumpsum)"; Decimal)
+        field(17; "RTF Amount (Lumpsum)"; Decimal)
         {
             DataClassification = ToBeClassified;
 
@@ -209,8 +209,8 @@ table 50052 "Retirement Fund"
             HRMgt.OpenRFRequest(TempRF."Employee No.", RF);
             //HRMgt.OpenRFRequest(HRMgt.GetEmployeeNo(), RF);
             Rec := RF;
-            "NICA RTF Amount (Lumpsum)" := TempRF."NICA RTF Amount (Lumpsum)";
-            "NICA RTF Amount (Month)" := TempRF."NICA RTF Amount (Month)";
+            "RTF Amount (Lumpsum)" := TempRF."RTF Amount (Lumpsum)";
+            "RTF Amount (Month)" := TempRF."RTF Amount (Month)";
             "CIT Amount (Month)" := TempRF."CIT Amount (Month)";
             "CIT Amount( Lumpsum)" := TempRF."CIT Amount( Lumpsum)";
             "Approval Status" := "Approval Status"::"Pending Approval";
@@ -232,7 +232,7 @@ table 50052 "Retirement Fund"
         end;
         /*PayrollGeneralSetup.GET; //Min
         IF PayrollGeneralSetup."Enable RF Lumpsump Plan" THEN BEGIN
-          TESTFIELD("NICA RTF Amount (Lumpsum)",0);
+          TESTFIELD("RTF Amount (Lumpsum)",0);
           TESTFIELD("CIT Amount( Lumpsum)",0);
           IF "Actual Lumpsump RTF" <= 0 THEN
             ERROR('Actual Lumpsum RTF Contribution Amount must be greater then 0.');

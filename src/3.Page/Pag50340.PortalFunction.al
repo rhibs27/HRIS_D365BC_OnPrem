@@ -2294,9 +2294,9 @@ page 50340 "Portal Function"
         InsertAPINameValue('actualProjectedContribution', Format(RF."Actual/Projected Contribution"));
         InsertAPINameValue('additionalSpaceforRF', Format(RF."Additional Space for RF Cont."));
         InsertAPINameValue('projectedMonth', Format(RF."Projection Month"));
-        InsertAPINameValue('nICARTFAmount', Format(RF."NICA RTF Amount (Month)"));
+        InsertAPINameValue('nICARTFAmount', Format(RF."RTF Amount (Month)"));
         InsertAPINameValue('cITAmount', Format(RF."CIT Amount (Month)"));
-        InsertAPINameValue('nICARTFAmountLumpsum', Format(RF."NICA RTF Amount (Lumpsum)"));
+        InsertAPINameValue('nICARTFAmountLumpsum', Format(RF."RTF Amount (Lumpsum)"));
         InsertAPINameValue('cITAmountLumpsum', Format(RF."CIT Amount( Lumpsum)"));
         InsertAPINameValue('totalCommittedContribution', Format(RF."Total Committed Contribution"));
         InsertAPINameValue('totalDeduction', Format(RF."Total Deduction"));
@@ -2316,8 +2316,8 @@ page 50340 "Portal Function"
         RF: Record "Retirement Fund" temporary;
     begin
         HrMgt.OpenRFRequest(HrMgt.GetEmployeeNo(), RF);
-        RF."NICA RTF Amount (Month)" := nICARTFAmount;
-        RF."NICA RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
+        RF."RTF Amount (Month)" := nICARTFAmount;
+        RF."RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
         RF."CIT Amount (Month)" := cITAmount;
         RF."CIT Amount( Lumpsum)" := cITAmountLumpsum;
         HrMgt.CalculateRetirementFund(RF, RF."Projection Month");
@@ -2386,7 +2386,7 @@ page 50340 "Portal Function"
         if PRAttributesUsage.Get(PGSetup."CIT (Monthly)", Employee."No.") then
             CITAmt := PRAttributesUsage.Amount;
         InsertAPINameValue('cITAmount', Format(CITAmt));
-        if PRAttributesUsage.Get(PGSetup."NICA RTF (Monthly)", Employee."No.") then
+        if PRAttributesUsage.Get(PGSetup."RTF (Monthly)", Employee."No.") then
             NICAAmt := PRAttributesUsage.Amount;
         InsertAPINameValue('nICARTFAmount', Format(NICAAmt));
         CloseReturnApiValue;

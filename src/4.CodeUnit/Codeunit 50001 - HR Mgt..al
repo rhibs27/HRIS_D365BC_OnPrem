@@ -9853,7 +9853,7 @@ codeunit 50001 "HR Mgt."
 
             RF."Actual/Projected Contribution" := RF."Provident Fund Deposited" + RF."RF Contribution Deposited" + RF."Provident Fund Projected" + RF."CIT Contribution Deposited"; //Min -- Added "CIT Contribution Deposited"
             RF."Additional Space for RF Cont." := Round(RF."RF Contribution Eligible Amt" - RF."Actual/Projected Contribution", 0.01, '=');
-            //RF."Lumpsum Committed Contribution" := RF."NICA RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min
+            //RF."Lumpsum Committed Contribution" := RF."RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min
             CalculateRetirementFund(RF, RF."Projection Month");
             RF.Difference := Round(RF."RF Contribution Eligible Amt" - RF."Total Deduction", 0.01, '=');
             RF.Modify;
@@ -9865,17 +9865,17 @@ codeunit 50001 "HR Mgt."
 
     procedure CalculateRetirementFund(var RF: Record "Retirement Fund"; ProjectionMonth: Integer)
     begin
-        RF."Total Committed Contribution" := (RF."NICA RTF Amount (Month)" * (ProjectionMonth)) +
-                           RF."NICA RTF Amount (Lumpsum)" + (RF."CIT Amount (Month)" * (ProjectionMonth)) +
+        RF."Total Committed Contribution" := (RF."RTF Amount (Month)" * (ProjectionMonth)) +
+                           RF."RTF Amount (Lumpsum)" + (RF."CIT Amount (Month)" * (ProjectionMonth)) +
                            RF."CIT Amount( Lumpsum)";
 
         RF."Total Deduction" := RF."Total Committed Contribution" + RF."Actual/Projected Contribution";
 
         RF.Difference := Round(RF."RF Contribution Eligible Amt" - RF."Total Deduction", 0.01, '=');
 
-        RF."Lumpsum Committed Contribution" := RF."NICA RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min -- Calc for lumpsum comm. contri.
+        RF."Lumpsum Committed Contribution" := RF."RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min -- Calc for lumpsum comm. contri.
 
-        RF."Lumpsum Space Max Benefit" := Round(RF."Additional Space for RF Cont." - (RF."NICA RTF Amount (Month)" + RF."CIT Amount (Month)") * ProjectionMonth, 0.01, '='); //Min -- Lumpsum space Max benefit calc.
+        RF."Lumpsum Space Max Benefit" := Round(RF."Additional Space for RF Cont." - (RF."RTF Amount (Month)" + RF."CIT Amount (Month)") * ProjectionMonth, 0.01, '='); //Min -- Lumpsum space Max benefit calc.
         if RF."Lumpsum Space Max Benefit" < 0 then
             RF."Lumpsum Space Max Benefit" := 0;
     end;
@@ -9893,7 +9893,7 @@ codeunit 50001 "HR Mgt."
         Employee.Get(RetirementFund."Employee No.");
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", RetirementFund."Employee No.");
-        PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4', PRSetup."CIT (Monthly)", PRSetup."CIT (Lumpsum)", PRSetup."NICA RTF (Monthly)", PRSetup."NICA RTF (Lumpsum)");
+        PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4', PRSetup."CIT (Monthly)", PRSetup."CIT (Lumpsum)", PRSetup."RTF (Monthly)", PRSetup."RTF (Lumpsum)");
         if PayrollAttributesUsage.FindSet then
             repeat
                 case PayrollAttributesUsage.Code of
@@ -9908,22 +9908,22 @@ codeunit 50001 "HR Mgt."
                                 Employee."Lumpsum CIT (Not Actual)" := RetirementFund."CIT Amount( Lumpsum)";
                         end;
 
-                    PRSetup."NICA RTF (Monthly)":
+                    PRSetup."RTF (Monthly)":
                         begin
-                            //IF RetirementFund."NICA RTF Amount (Month)" <> 0 THEN //Min 6.9.2022
-                            PayrollAttributesUsage.Amount := RetirementFund."NICA RTF Amount (Month)";
+                            //IF RetirementFund."RTF Amount (Month)" <> 0 THEN //Min 6.9.2022
+                            PayrollAttributesUsage.Amount := RetirementFund."RTF Amount (Month)";
                         end;
 
-                    PRSetup."NICA RTF (Lumpsum)":
+                    PRSetup."RTF (Lumpsum)":
                         begin
-                            if RetirementFund."NICA RTF Amount (Lumpsum)" <> 0 then
-                                Employee."Lumpsum RF (Not Actual)" := RetirementFund."NICA RTF Amount (Lumpsum)";
+                            if RetirementFund."RTF Amount (Lumpsum)" <> 0 then
+                                Employee."Lumpsum RF (Not Actual)" := RetirementFund."RTF Amount (Lumpsum)";
                         end;
                 end;
                 PayrollAttributesUsage.Modify(true);
                 Employee.Modify;
             /* IF ((PayrollAttributesUsage.Code = PRSetup."CIT (Lumpsum)") AND (RetirementFund."CIT Amount( Lumpsum)" <> 0)) OR
-               ((PayrollAttributesUsage.Code = PRSetup."NICA RTF (Lumpsum)") AND (RetirementFund."NICA RTF Amount (Lumpsum)" <> 0)) THEN BEGIN
+               ((PayrollAttributesUsage.Code = PRSetup."RTF (Lumpsum)") AND (RetirementFund."RTF Amount (Lumpsum)" <> 0)) THEN BEGIN
                DetailedEmployeeLedgEntry.RESET;
                DetailedEmployeeLedgEntry.SETRANGE("Employee No.",RetirementFund."Employee No.");
                DetailedEmployeeLedgEntry.SETRANGE("Fiscal Year",ReturnFiscalYear(DT2DATE(RetirementFund."Requested Date")));

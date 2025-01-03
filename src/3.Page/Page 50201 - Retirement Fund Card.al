@@ -116,10 +116,10 @@ page 50201 "Retirement Fund Card"
                 group(Monthly)
                 {
                     Caption = 'Monthly';
-                    field("NICA RTF Amount (Month)"; "NICA RTF Amount (Month)")
+                    field("RTF Amount (Month)"; "RTF Amount (Month)")
                     {
-                        Caption = 'NICA RTF';
-                        ToolTip = 'Specifies the value of the NICA RTF field.';
+                        Caption = 'RTF';
+                        ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
                     field("CIT Amount (Month)"; "CIT Amount (Month)")
@@ -132,10 +132,10 @@ page 50201 "Retirement Fund Card"
                 group(Lumpsum)
                 {
                     Caption = 'Lumpsum';
-                    field("NICA RTF Amount (Lumpsum)"; "NICA RTF Amount (Lumpsum)")
+                    field("RTF Amount (Lumpsum)"; "RTF Amount (Lumpsum)")
                     {
-                        Caption = 'NICA RTF';
-                        ToolTip = 'Specifies the value of the NICA RTF field.';
+                        Caption = 'RTF';
+                        ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
                     field("CIT Amount( Lumpsum)"; "CIT Amount( Lumpsum)")

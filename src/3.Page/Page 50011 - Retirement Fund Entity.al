@@ -73,9 +73,9 @@ page 50011 "Retirement Fund Entity"
                 {
                     Editable = false;
                 }
-                field(nICARTFAmount; Rec."NICA RTF Amount (Month)") { }
+                field(nICARTFAmount; Rec."RTF Amount (Month)") { }
                 field(cITAmount; Rec."CIT Amount (Month)") { }
-                field(nICARTFAmountLumpSum; Rec."NICA RTF Amount (Lumpsum)") { }
+                field(nICARTFAmountLumpSum; Rec."RTF Amount (Lumpsum)") { }
                 field(cITAmountLumpSum; Rec."CIT Amount( Lumpsum)") { }
                 field(totalCommittedContribution; Rec."Total Committed Contribution")
                 {
