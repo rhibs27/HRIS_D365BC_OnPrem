@@ -13,7 +13,7 @@ codeunit 50015 "OverTime Mgt"
             Error('Approved Overtime exists. You cannot choose this employee.');
     end;
 
-    procedure CheckOvertimeEligibility(EmployeeActivity: Record "Employee Activity"; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
+    procedure CheckOvertimeEligibility(OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
         Workshift: Record "Employee Work Shift";
         AttendanceLog: Record "Attendance Log";
@@ -30,15 +30,15 @@ codeunit 50015 "OverTime Mgt"
         CheckInDifference := 0;
 
         AttendanceLog.Reset;
-        AttendanceLog.SetRange("Employee ID", EmployeeActivity."Employee No.");
-        AttendanceLog.SetRange(Date, EmployeeActivity."Start Date");
+        AttendanceLog.SetRange("Employee ID", OverTime."Employee No.");
+        AttendanceLog.SetRange(Date, OverTime."Start Date");
         if AttendanceLog.FindFirst then begin
             if (AttendanceLog."Check In Time" = 0T) or (AttendanceLog."Check Out Time" = 0T) then begin
                 RejectionRemarks := 'System rejected. No punch in or punch out found.';
                 exit(false);
             end;
 
-            if LeaveMgt.GetNonWokingDays(EmployeeActivity."Start Date", EmployeeActivity."End Date", EmployeeActivity."Employee No.") = 0 then begin
+            if LeaveMgt.GetNonWokingDays(OverTime."Start Date", OverTime."End Date", OverTime."Employee No.") = 0 then begin
                 if AttendanceLog."Check Out Time" >= EndTime then begin
                     if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
                         RejectionRemarks := StrSubstNo('System rejected. Working hrs is less than %1 hrs.', StandardWorkingHrs);

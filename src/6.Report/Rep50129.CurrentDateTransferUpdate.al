@@ -125,9 +125,11 @@ report 50129 "Current Date Transfer Update"
         FromDate: Date;
         ToDate: Date;
         GeneralTransferUpdate: Boolean;
-        EmployeeActivityRec: Record "Employee Activity";
+        //EmployeeActivityRec: Record "Employee Activity";
+        Transfer: Record "Employee/HR Transfer";
         EmployeeServiceHistory: Record "Employee Service History";
-        EmpActivity: Record "Employee Activity";
+        //EmpActivity: Record "Employee Activity";
+        CompLeaveOverTime: Record OverTime;
         PayrollGenSetup: Record "Payroll General Setup";
         EngNep: Record "English-Nepali Date";
         LeaveEarn: Record "Leave Earn";
@@ -135,30 +137,31 @@ report 50129 "Current Date Transfer Update"
         UpdateCompensatoryDays: Boolean;
         UpdateHolidayCounterAmount: Boolean;
         UpdateFestivalCounterAmount: Boolean;
-        EmployeeActRec: Record "Employee Activity";
+        //EmployeeActRec: Record "Employee Activity";
+        OverTime: Record OverTime;
         EmpVar: Record Employee;
 
     local procedure ApprovedTransferUpdateEmployee()
     begin
-        EmployeeActivityRec.Reset;
-        EmployeeActivityRec.SetRange("Employee No.", Employee."No.");
-        EmployeeActivityRec.SetFilter(Type, '%1|%2', EmployeeActivityRec.Type::"HR Transfer", EmployeeActivityRec.Type::"Employee Transfer");
-        EmployeeActivityRec.SetFilter("Approval Status", '%1|%2', EmployeeActivityRec."Approval Status"::Approved, EmployeeActivityRec."Approval Status"::Acknowledged);
-        EmployeeActivityRec.SetRange("Transfer Effective Date", InitialDate, InitialDate);
-        if EmployeeActivityRec.FindFirst then begin
+        Transfer.Reset;
+        Transfer.SetRange("Employee No.", Employee."No.");
+        Transfer.SetFilter(Type, '%1|%2', Transfer.Type::"HR Transfer", Transfer.Type::"Employee Transfer");
+        Transfer.SetFilter("Approval Status", '%1|%2', Transfer."Approval Status"::Approved, Transfer."Approval Status"::Acknowledged);
+        Transfer.SetRange("Transfer Effective Date", InitialDate, InitialDate);
+        if Transfer.FindFirst then begin
             EmployeeServiceHistory.Reset;
-            EmployeeServiceHistory.SetRange("Document No.", EmployeeActivityRec."No.");
+            EmployeeServiceHistory.SetRange("Document No.", Transfer."No.");
             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
-                HRMgt.ApprovedTransferUpdate(EmployeeActivityRec);
+                HRMgt.ApprovedTransferUpdate(Transfer);
         end;
     end;
 
     local procedure InsertCompensatorydaysLeave()
     begin
         CompensatoryFilter;
-        EmpActivity.CalcSums(EmpActivity."Compensatory Days");
+        CompLeaveOverTime.CalcSums(CompLeaveOverTime."Compensatory Days");
 
-        if EmpActivity."Compensatory Days" > 1 then begin
+        if CompLeaveOverTime."Compensatory Days" > 1 then begin
             EngNep.Reset;
             EngNep.SetRange("English Date", Today);
             if EngNep.FindFirst then;
@@ -169,82 +172,82 @@ report 50129 "Current Date Transfer Update"
             LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
             LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
             LeaveEarn.Validate("Posted Date", Today);
-            LeaveEarn.Validate("Balancing Days", EmpActivity."Compensatory Days");
+            LeaveEarn.Validate("Balancing Days", CompLeaveOverTime."Compensatory Days");
             LeaveEarn.Insert(true);
             CompensatoryFilter;
-            if EmpActivity.FindSet then
+            if CompLeaveOverTime.FindSet then
                 repeat
-                    EmpActivity.Validate("OT Disbursed", true);
-                    EmpActivity.Modify;
-                until EmpActivity.Next = 0;
+                    CompLeaveOverTime.Validate("OT Disbursed", true);
+                    CompLeaveOverTime.Modify;
+                until CompLeaveOverTime.Next = 0;
         end;
     end;
 
     local procedure CompensatoryFilter()
     begin
         PayrollGenSetup.Get;
-        EmpActivity.Reset;
-        EmpActivity.SetRange("Employee No.", Employee."No.");
-        EmpActivity.SetRange(Type, EmpActivity.Type::Overtime);
-        EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Approved);
-        EmpActivity.SetRange("OT Disbursed", false);
-        EmpActivity.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
-        EmpActivity.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
+        CompLeaveOverTime.Reset;
+        CompLeaveOverTime.SetRange("Employee No.", Employee."No.");
+        CompLeaveOverTime.SetRange(Type, CompLeaveOverTime.Type::Overtime);
+        CompLeaveOverTime.SetRange("Approval Status", CompLeaveOverTime."Approval Status"::Approved);
+        CompLeaveOverTime.SetRange("OT Disbursed", false);
+        CompLeaveOverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
+        CompLeaveOverTime.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
     end;
 
     local procedure UpdateCompensatoryDayCalc()
     begin
         PayrollGenSetup.Get;
         CommonFilter;
-        EmployeeActRec.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
-        EmployeeActRec.SetRange("Compensatory Days", 0);
-        if EmployeeActRec.FindSet then
+        OverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
+        OverTime.SetRange("Compensatory Days", 0);
+        if OverTime.FindSet then
             repeat
-                EmployeeActRec."Compensatory Days" := Round(EmployeeActRec."Estimated Hours" / PayrollGenSetup."Compensatory Leave Hour", 0.01, '>');
-                EmployeeActRec.Modify;
-            until EmployeeActRec.Next = 0;
+                OverTime."Compensatory Days" := Round(OverTime."Estimated Hours" / PayrollGenSetup."Compensatory Leave Hour", 0.01, '>');
+                OverTime.Modify;
+            until OverTime.Next = 0;
     end;
 
     local procedure UpdateHolidayCounterAmtCalc()
     begin
         PayrollGenSetup.Get;
         CommonFilter;
-        EmployeeActRec.SetRange("Encashment Code", PayrollGenSetup."Holiday Counter");
+        OverTime.SetRange("Encashment Code", PayrollGenSetup."Holiday Counter");
         //EmployeeActRec.SETRANGE("OT Amount",0);
-        if EmployeeActRec.FindSet then
+        if OverTime.FindSet then
             repeat
-                EmpVar.Get(EmployeeActRec."Employee No.");
+                EmpVar.Get(OverTime."Employee No.");
                 if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
-                    EmployeeActRec."OT Amount" := PayrollGenSetup."Holiday All. Amt (Contract)"
+                    OverTime."OT Amount" := PayrollGenSetup."Holiday All. Amt (Contract)"
                 else
-                    EmployeeActRec."OT Amount" := PayrollGenSetup."Holiday All. Amt (Regular)";
-                EmployeeActRec.Modify;
-            until EmployeeActRec.Next = 0;
+                    OverTime."OT Amount" := PayrollGenSetup."Holiday All. Amt (Regular)";
+                OverTime.Modify;
+            until OverTime.Next = 0;
     end;
 
     local procedure UpdateFestivalCounterAmtCalc()
     begin
         PayrollGenSetup.Get;
         CommonFilter;
-        EmployeeActRec.SetRange("Encashment Code", PayrollGenSetup."Festival Counter");
+        OverTime.SetRange("Encashment Code", PayrollGenSetup."Festival Counter");
         //EmployeeActRec.SETRANGE("OT Amount",0);
-        if EmployeeActRec.FindSet then
+        if OverTime.FindSet then
             repeat
-                EmpVar.Get(EmployeeActRec."Employee No.");
+                EmpVar.Get(OverTime."Employee No.");
                 if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
-                    EmployeeActRec."OT Amount" := PayrollGenSetup."Festival Counter(Contract)"
+                    OverTime."OT Amount" := PayrollGenSetup."Festival Counter(Contract)"
                 else
-                    EmployeeActRec."OT Amount" := PayrollGenSetup."Festival Counter(Regular)";
-                EmployeeActRec.Modify;
-            until EmployeeActRec.Next = 0;
+                    OverTime."OT Amount" := PayrollGenSetup."Festival Counter(Regular)";
+                OverTime.Modify;
+            until OverTime.Next = 0;
     end;
 
     local procedure CommonFilter()
     begin
-        EmployeeActRec.Reset;
-        EmployeeActRec.SetCurrentKey("Requested Date");
-        EmployeeActRec.SetRange(Type, EmployeeActRec.Type::Overtime);
-        EmployeeActRec.SetRange("OT Disbursed", false);
-        EmployeeActRec.SetRange("Requested Date", InitialDate, InitialDate);
+        OverTime.Reset;
+        OverTime.SetCurrentKey("Requested Date");
+        OverTime.SetRange(Type, OverTime.Type::Overtime);
+        OverTime.SetRange("OT Disbursed", false);
+        OverTime.SetRange("Requested Date", InitialDate, InitialDate);
     end;
 }

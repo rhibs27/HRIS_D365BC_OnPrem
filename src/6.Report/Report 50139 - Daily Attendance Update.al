@@ -228,14 +228,16 @@ report 50139 "Daily Attendance Update"
         ToDate: Date;
         HRSetup: Record "Human Resources Setup";
         PRSetup: Record "Payroll General Setup";
-        EmployeeActivity: Record "Employee Activity";
+        //EmployeeActivity: Record "Employee Activity";
+        Transfer: Record "Employee/HR Transfer";
         RejectionRemarks: Text;
         [InDataSet]
         ReinstateTransfer: Boolean;
         UserSetup: Record "User Setup";
         SyncEmployees: Boolean;
         GeneralTransferUpdate: Boolean;
-        EmployeeActivityRec: Record "Employee Activity";
+        //EmployeeActivityRec: Record "Employee Activity";
+        EmployeeTransferRec: Record "Employee/HR Transfer";
         EmployeeServiceHistory: Record "Employee Service History";
         SalaryLevelGradeUpdate: Boolean;
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
@@ -317,7 +319,8 @@ report 50139 "Daily Attendance Update"
 
     local procedure ScreenOvertime()
     var
-        EmployeeActivity: Record "Employee Activity";
+        //EmployeeActivity: Record "Employee Activity";
+        OverTime: Record OverTime;
         Workshift: Record "Employee Work Shift";
         StartTime: Time;
         EndTime: Time;
@@ -370,42 +373,42 @@ report 50139 "Daily Attendance Update"
                     SalaryLevelTxt += '|' + SalaryLevel.Code;
             until SalaryLevel.Next = 0;
 
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetRange(Type, EmployeeActivity.Type::Overtime);
-        EmployeeActivity.SetRange("Start Date", InitialDate);
-        EmployeeActivity.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
+        OverTime.Reset;
+        OverTime.SetRange(Type, OverTime.Type::Overtime);
+        OverTime.SetRange("Start Date", InitialDate);
+        OverTime.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
         //EmployeeActivity.SETRANGE("Employee No.",EmployeeNo);
-        EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-        if EmployeeActivity.FindFirst then
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+        if OverTime.FindFirst then
             repeat
-                if OverTimeMgt.CheckOvertimeEligibility(EmployeeActivity, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
-                    EmployeeActivity."Actual Hours" := ActualOTHrs;
-                    EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Screened);
-                    EmployeeActivity.Modify;
+                if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
+                    OverTime."Actual Hours" := ActualOTHrs;
+                    OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened);
+                    OverTime.Modify;
 
                     EmployeeAttendanceActivity.Reset;
-                    EmployeeAttendanceActivity.SetRange("Attendance Date", EmployeeActivity."Start Date");
-                    EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeActivity."Employee No.");
+                    EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
+                    EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");
                     if EmployeeAttendanceActivity.FindFirst then begin
                         EmployeeAttendanceActivity."OT Day" := 1;
                         EmployeeAttendanceActivity."OT Hrs" := ActualOTHrs;
                         EmployeeAttendanceActivity.Modify(true);
                     end;
                 end else begin
-                    EmployeeActivity."Rejection Remarks" := RejectionRemarks;
-                    EmployeeActivity."Approval Status" := EmployeeActivity."Approval Status"::Rejected;
-                    EmployeeActivity.Modify;
+                    OverTime."Rejection Remarks" := RejectionRemarks;
+                    OverTime."Approval Status" := OverTime."Approval Status"::Rejected;
+                    OverTime.Modify;
 
                     EmployeeAttendanceActivity.Reset;
-                    EmployeeAttendanceActivity.SetRange("Attendance Date", EmployeeActivity."Start Date");
-                    EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeActivity."Employee No.");
+                    EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
+                    EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");
                     if EmployeeAttendanceActivity.FindFirst then begin
                         EmployeeAttendanceActivity."OT Day" := 0;
                         EmployeeAttendanceActivity."OT Hrs" := ActualOTHrs;
                         EmployeeAttendanceActivity.Modify(true);
                     end;
                 end;
-            until EmployeeActivity.Next = 0;
+            until OverTime.Next = 0;
     end;
 
     local procedure ScreenAllowanceAssignment()
@@ -527,47 +530,48 @@ report 50139 "Daily Attendance Update"
     var
         ServiceHistory: Record "Employee Service History";
         ServiceCode: Code[20];
-        EmpActivity: Record "Employee Activity";
+        //EmpActivity: Record "Employee Activity";
+        TransferEmp: Record "Employee/HR Transfer";
         PreviousServiceHistory: Record "Employee Service History";
     begin
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetRange("Employee No.", Employee."No.");
-        EmployeeActivity.SetFilter("Transfer Category", '%1|%2', EmployeeActivity."Transfer Category"::"Temporary", EmployeeActivity."Transfer Category"::Officiating);
-        EmployeeActivity.SetFilter(Type, '%1|%2', EmployeeActivity.Type::"HR Transfer", EmployeeActivity.Type::"Employee Transfer");
-        EmployeeActivity.SetFilter("Approval Status", '%1|%2', EmployeeActivity."Approval Status"::Approved, EmployeeActivity."Approval Status"::Acknowledged); //Min -- added Filter Approved option instead of Acknowledge.
-        EmployeeActivity.SetRange("End Date", InitialDate, InitialDate);
-        if EmployeeActivity.FindFirst then begin
+        Transfer.Reset;
+        Transfer.SetRange("Employee No.", Employee."No.");
+        Transfer.SetFilter("Transfer Category", '%1|%2', Transfer."Transfer Category"::"Temporary", Transfer."Transfer Category"::Officiating);
+        Transfer.SetFilter(Type, '%1|%2', Transfer.Type::"HR Transfer", Transfer.Type::"Employee Transfer");
+        Transfer.SetFilter("Approval Status", '%1|%2', Transfer."Approval Status"::Approved, Transfer."Approval Status"::Acknowledged); //Min -- added Filter Approved option instead of Acknowledge.
+        Transfer.SetRange("End Date", InitialDate, InitialDate);
+        if Transfer.FindFirst then begin
             EmployeeServiceHistory.Reset;
             EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::"Back From Deputation");
-            EmployeeServiceHistory.SetRange("Employee No.", EmployeeActivity."Employee No.");
-            EmployeeServiceHistory.SetRange("Document No.", EmployeeActivity."No.");
+            EmployeeServiceHistory.SetRange("Employee No.", Transfer."Employee No.");
+            EmployeeServiceHistory.SetRange("Document No.", Transfer."No.");
             if not EmployeeServiceHistory.FindFirst then begin //Min 9.26.2022
-                if EmployeeActivity."Approval Status" = EmployeeActivity."Approval Status"::Acknowledged then begin
-                    EmpActivity.Reset;
-                    EmpActivity.SetRange("Employee No.", Employee."No.");
-                    EmpActivity.SetRange("Transfer Category", EmpActivity."Transfer Category"::General);
-                    EmpActivity.SetFilter(Type, '%1|%2', EmpActivity.Type::"HR Transfer", EmpActivity.Type::"Employee Transfer");
-                    EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Acknowledged);
-                    EmpActivity.SetFilter("Acknowledged Date", '>%1', EmployeeActivity."Acknowledged Date");
-                    if EmpActivity.FindFirst then
+                if Transfer."Approval Status" = Transfer."Approval Status"::Acknowledged then begin
+                    TransferEmp.Reset;
+                    TransferEmp.SetRange("Employee No.", Employee."No.");
+                    TransferEmp.SetRange("Transfer Category", TransferEmp."Transfer Category"::General);
+                    TransferEmp.SetFilter(Type, '%1|%2', TransferEmp.Type::"HR Transfer", TransferEmp.Type::"Employee Transfer");
+                    TransferEmp.SetRange("Approval Status", TransferEmp."Approval Status"::Acknowledged);
+                    TransferEmp.SetFilter("Acknowledged Date", '>%1', Transfer."Acknowledged Date");
+                    if TransferEmp.FindFirst then
                         exit;
                 end;
                 ServiceCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
-                Employee.Validate("Functional Title", EmployeeActivity."Functional Title");
-                Employee.Validate("Deputation on", EmployeeActivity."Deputation On");
+                Employee.Validate("Functional Title", Transfer."Functional Title");
+                Employee.Validate("Deputation on", Transfer."Deputation On");
                 case Employee."Deputation on" of
                     Employee."Deputation on"::Branch:
-                        Employee.Validate("Global Dimension 1 Code", EmployeeActivity."Shortcut Dimension 1 Code");
+                        Employee.Validate("Global Dimension 1 Code", Transfer."Shortcut Dimension 1 Code");
                     Employee."Deputation on"::Province:
-                        Employee.Validate("Province Code", EmployeeActivity."Province Code");
+                        Employee.Validate("Province Code", Transfer."Province Code");
                     Employee."Deputation on"::"Sub Province":
-                        Employee.Validate("Sub Province Code", EmployeeActivity."Sub Province Code");
+                        Employee.Validate("Sub Province Code", Transfer."Sub Province Code");
                     Employee."Deputation on"::Unit:
-                        Employee.Validate("Unit Code", EmployeeActivity."Unit Code");
+                        Employee.Validate("Unit Code", Transfer."Unit Code");
                     Employee."Deputation on"::"Extension Counter":
-                        Employee.Validate("Extension Counter Code", EmployeeActivity."Extension Counter Code");
+                        Employee.Validate("Extension Counter Code", Transfer."Extension Counter Code");
                     Employee."Deputation on"::Department:
-                        Employee.Validate("Department Code", EmployeeActivity.Department);
+                        Employee.Validate("Department Code", Transfer.Department);
                 end;
                 Employee.Modify;
                 if ServiceHistory.Get(ServiceCode) then begin
@@ -576,7 +580,7 @@ report 50139 "Daily Attendance Update"
                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
                     ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                     ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                    ServiceHistory.Validate("Document No.", EmployeeActivity."No."); //Min 9.26.2022
+                    ServiceHistory.Validate("Document No.", Transfer."No."); //Min 9.26.2022
                     PreviousServiceHistory.Reset;
                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
                     PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceCode);
@@ -592,14 +596,14 @@ report 50139 "Daily Attendance Update"
 
     local procedure ChangeStatusToApproveFromHold()
     begin
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetRange("Employee No.", Employee."No.");
-        EmployeeActivity.SetFilter(Type, '%1|%2', EmployeeActivity.Type::"HR Transfer", EmployeeActivity.Type::"Employee Transfer");
-        EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::"On Hold");
-        EmployeeActivity.SetRange("On Hold Date", FromDate, ToDate);
-        if EmployeeActivity.FindFirst then begin
-            EmployeeActivity."Approval Status" := EmployeeActivity."Approval Status"::Approved;
-            EmployeeActivity.Modify;
+        Transfer.Reset;
+        Transfer.SetRange("Employee No.", Employee."No.");
+        Transfer.SetFilter(Type, '%1|%2', Transfer.Type::"HR Transfer", Transfer.Type::"Employee Transfer");
+        Transfer.SetRange("Approval Status", Transfer."Approval Status"::"On Hold");
+        Transfer.SetRange("On Hold Date", FromDate, ToDate);
+        if Transfer.FindFirst then begin
+            Transfer."Approval Status" := Transfer."Approval Status"::Approved;
+            Transfer.Modify;
         end;
     end;
 
@@ -612,18 +616,18 @@ report 50139 "Daily Attendance Update"
 
     local procedure ApprovedTransferUpdateEmployee()
     begin
-        EmployeeActivityRec.Reset;
-        EmployeeActivityRec.SetRange("Employee No.", Employee."No.");
-        EmployeeActivityRec.SetFilter(Type, '%1|%2', EmployeeActivityRec.Type::"HR Transfer", EmployeeActivityRec.Type::"Employee Transfer");
-        EmployeeActivityRec.SetFilter("Approval Status", '%1|%2', EmployeeActivityRec."Approval Status"::Approved, EmployeeActivityRec."Approval Status"::Acknowledged);
-        EmployeeActivityRec.SetRange("Transfer Effective Date", InitialDate, InitialDate);
-        if EmployeeActivityRec.FindFirst then begin
+        EmployeeTransferRec.Reset;
+        EmployeeTransferRec.SetRange("Employee No.", Employee."No.");
+        EmployeeTransferRec.SetFilter(Type, '%1|%2', EmployeeTransferRec.Type::"HR Transfer", EmployeeTransferRec.Type::"Employee Transfer");
+        EmployeeTransferRec.SetFilter("Approval Status", '%1|%2', EmployeeTransferRec."Approval Status"::Approved, EmployeeTransferRec."Approval Status"::Acknowledged);
+        EmployeeTransferRec.SetRange("Transfer Effective Date", InitialDate, InitialDate);
+        if EmployeeTransferRec.FindFirst then begin
             EmployeeServiceHistory.Reset;
-            EmployeeServiceHistory.SetRange("Employee No.", EmployeeActivityRec."Employee No.");
+            EmployeeServiceHistory.SetRange("Employee No.", EmployeeTransferRec."Employee No.");
             EmployeeServiceHistory.SetFilter("Service Event", '%1|%2|%3', EmployeeServiceHistory."Service Event"::Transfer, EmployeeServiceHistory."Service Event"::"Temporary Deputation", EmployeeServiceHistory."Service Event"::"Officiating Arrangement");
-            EmployeeServiceHistory.SetRange("Document No.", EmployeeActivityRec."No.");
+            EmployeeServiceHistory.SetRange("Document No.", EmployeeTransferRec."No.");
             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
-                HRMgt.ApprovedTransferUpdate(EmployeeActivityRec);
+                HRMgt.ApprovedTransferUpdate(EmployeeTransferRec);
         end;
     end;
 

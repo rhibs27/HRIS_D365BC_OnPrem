@@ -9690,30 +9690,30 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    local procedure ValidateTransferField(EmpAct: Record "Employee Activity")
+    local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee/HR Transfer")
     var
         FunctionalTitle: Record "Functional Title";
     begin
-        Employee.Get(EmpAct."Employee No.");
-        Employee."Deputation on" := EmpAct."Deputation On (To)";
+        Employee.Get(EmployeeTransferRec."Employee No.");
+        Employee."Deputation on" := EmployeeTransferRec."Deputation On (To)";
         case Employee."Deputation on" of
             Employee."Deputation on"::Province:
-                Employee.Validate("Province Code", EmpAct."Province Code (To)");
+                Employee.Validate("Province Code", EmployeeTransferRec."Province Code (To)");
             Employee."Deputation on"::"Sub Province":
-                Employee.Validate("Sub Province Code", EmpAct."Sub Province Code (To)");
+                Employee.Validate("Sub Province Code", EmployeeTransferRec."Sub Province Code (To)");
             Employee."Deputation on"::Branch:
-                Employee.Validate("Global Dimension 1 Code", EmpAct."Shortcut Dimension 1 Code (To)");
+                Employee.Validate("Global Dimension 1 Code", EmployeeTransferRec."Shortcut Dimension 1 Code (To)");
             Employee."Deputation on"::Department:
-                Employee.Validate("Department Code", EmpAct."Department Code (To)");
+                Employee.Validate("Department Code", EmployeeTransferRec."Department Code (To)");
             Employee."Deputation on"::"Extension Counter":
-                Employee.Validate("Extension Counter Code", EmpAct."Extension Counter (To)");
+                Employee.Validate("Extension Counter Code", EmployeeTransferRec."Extension Counter (To)");
             Employee."Deputation on"::Unit:
-                Employee.Validate("Unit Code", EmpAct."Unit (To)");
+                Employee.Validate("Unit Code", EmployeeTransferRec."Unit (To)");
         end;
-        Employee."Functional Title" := EmpAct."Functional Title (To)";
-        if FunctionalTitle.Get(EmpAct."Functional Title (To)") then;
+        Employee."Functional Title" := EmployeeTransferRec."Functional Title (To)";
+        if FunctionalTitle.Get(EmployeeTransferRec."Functional Title (To)") then;
         Employee."Functional Title Desc" := FunctionalTitle.Description;
-        Employee."Last Placement Date" := EmpAct."Transfer Effective Date"; //Min -- Assign "Transfer Effective Date".
+        Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date"; //Min -- Assign "Transfer Effective Date".
         Employee.Modify;
     end;
 
@@ -10131,7 +10131,7 @@ codeunit 50001 "HR Mgt."
 
     end;
 
-    procedure UpdateMissedTransfer(var EmpAct: Record "Employee Activity")
+    procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee/HR Transfer")
     var
         ConfirmApprove: Label 'Confirm Approve?';
         ConfirmReject: Label 'Confirm Reject?';
@@ -10144,29 +10144,29 @@ codeunit 50001 "HR Mgt."
         /*TESTFIELD("Approval Status","Approval Status"::Screened);
         VALIDATE("Approval Status", "Approval Status"::Approved);
         VALIDATE("Approved Date",TODAY);*/
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::"Temporary" then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::Officiating then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::General then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::Transfer, EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        EmpAct.Modify;
-        ValidateTransferField(EmpAct);
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::"Temporary" then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::Officiating then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::General then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::Transfer, EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        EmployeeTransferRec.Modify;
+        ValidateTransferField(EmployeeTransferRec);
 
         if ServiceHistory.Get(ServiceHistoryCode) then begin
-            ServiceHistory.Validate("Functional Title (To)", EmpAct."Functional Title (To)");
+            ServiceHistory.Validate("Functional Title (To)", EmployeeTransferRec."Functional Title (To)");
             ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-            ServiceHistory.Validate("Deputation On (To)", EmpAct."Deputation On (To)");
+            ServiceHistory.Validate("Deputation On (To)", EmployeeTransferRec."Deputation On (To)");
             ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
             ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Document No.", EmpAct."No.");
+            ServiceHistory.Validate("Document No.", EmployeeTransferRec."No.");
             PreviousServiceHistory.Reset;
             PreviousServiceHistory.SetRange("Employee No.", ServiceHistory."Employee No.");
             PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceHistoryCode);
             PreviousServiceHistory.SetCurrentKey("Effective Date");
             if (PreviousServiceHistory.FindLast) then
                 if (ServiceHistory."Deputation Code (From)" = ServiceHistory."Deputation Code (To)") or
-                  (EmpAct."Transfer Category" in [EmpAct."Transfer Category"::Officiating, EmpAct."Transfer Category"::"Temporary"]) then
+                  (EmployeeTransferRec."Transfer Category" in [EmployeeTransferRec."Transfer Category"::Officiating, EmployeeTransferRec."Transfer Category"::"Temporary"]) then
                     ServiceHistory."Outstation Eligible" := PreviousServiceHistory."Outstation Eligible";
             ServiceHistory.Modify;
         end;
@@ -10175,7 +10175,7 @@ codeunit 50001 "HR Mgt."
 
     end;
 
-    procedure ApprovedTransferUpdate(var EmpAct: Record "Employee Activity")
+    procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee/HR Transfer")
     var
         ConfirmApprove: Label 'Confirm Approve?';
         ConfirmReject: Label 'Confirm Reject?';
@@ -10183,28 +10183,28 @@ codeunit 50001 "HR Mgt."
         ServiceHistory: Record "Employee Service History";
         PreviousServiceHistory: Record "Employee Service History";
     begin
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::"Temporary" then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::Officiating then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        if EmpAct."Transfer Category" = EmpAct."Transfer Category"::General then
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.", ServiceHistory."Service Event"::Transfer, EmpAct.Remarks, EmpAct."Transfer Effective Date");
-        EmpAct.Modify;
-        ValidateTransferField(EmpAct);
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::"Temporary" then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::Officiating then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        if EmployeeTransferRec."Transfer Category" = EmployeeTransferRec."Transfer Category"::General then
+            ServiceHistoryCode := AddToServiceHistory(EmployeeTransferRec."Employee No.", ServiceHistory."Service Event"::Transfer, EmployeeTransferRec.Remarks, EmployeeTransferRec."Transfer Effective Date");
+        EmployeeTransferRec.Modify;
+        ValidateTransferField(EmployeeTransferRec);
         if ServiceHistory.Get(ServiceHistoryCode) then begin
-            ServiceHistory.Validate("Functional Title (To)", EmpAct."Functional Title (To)");
+            ServiceHistory.Validate("Functional Title (To)", EmployeeTransferRec."Functional Title (To)");
             ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-            ServiceHistory.Validate("Deputation On (To)", EmpAct."Deputation On (To)");
+            ServiceHistory.Validate("Deputation On (To)", EmployeeTransferRec."Deputation On (To)");
             ServiceHistory.Validate("Deputation Code (To)", ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
             ServiceHistory.Validate("Deputation Value (To)", ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Document No.", EmpAct."No.");
+            ServiceHistory.Validate("Document No.", EmployeeTransferRec."No.");
             PreviousServiceHistory.Reset;
             PreviousServiceHistory.SetRange("Employee No.", ServiceHistory."Employee No.");
             PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceHistoryCode);
             PreviousServiceHistory.SetCurrentKey("Effective Date");
             if (PreviousServiceHistory.FindLast) then
                 if (ServiceHistory."Deputation Code (From)" = ServiceHistory."Deputation Code (To)") or
-                  (EmpAct."Transfer Category" in [EmpAct."Transfer Category"::Officiating, EmpAct."Transfer Category"::"Temporary"]) then
+                  (EmployeeTransferRec."Transfer Category" in [EmployeeTransferRec."Transfer Category"::Officiating, EmployeeTransferRec."Transfer Category"::"Temporary"]) then
                     ServiceHistory."Outstation Eligible" := PreviousServiceHistory."Outstation Eligible";
             ServiceHistory.Modify;
         end;
