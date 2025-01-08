@@ -187,7 +187,7 @@ table 50039 "Payroll Journal Line"
         {
             Caption = 'External Document No.';
         }
-        field(22; "Posting No. Series"; Code[10])
+        field(22; "Posting No. Series"; Code[20])
         {
             Caption = 'Posting No. Series';
             TableRelation = "No. Series";
@@ -842,7 +842,7 @@ table 50039 "Payroll Journal Line"
         IsChanged := OldDimSetID <> "Dimension Set ID";
     end;
 
-    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[10]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
+    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
     begin
         if NoSeriesCode = '' then
             exit;

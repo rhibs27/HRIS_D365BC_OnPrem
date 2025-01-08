@@ -38,7 +38,7 @@ table 50034 "Posted Payroll Header"
         {
             TableRelation = "Responsibility Center";
         }
-        field(9; "Pre-Assigned No. Series"; Code[10])
+        field(9; "Pre-Assigned No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
@@ -54,7 +54,7 @@ table 50034 "Posted Payroll Header"
 
         }
         field(13; "Posting No."; Code[20]) { }
-        field(14; "Posting No. Series"; Code[10])
+        field(14; "Posting No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }

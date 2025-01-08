@@ -101,7 +101,7 @@ table 50026 "Payroll Header"
         {
             TableRelation = "Responsibility Center";
         }
-        field(9; "No. Series"; Code[10])
+        field(9; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
