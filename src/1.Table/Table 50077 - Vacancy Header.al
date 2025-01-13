@@ -166,6 +166,7 @@ table 50077 "Vacancy Header"
         }
         field(31; Posted; Boolean)
         {
+            Editable = false;
             Description = 'Not Required';
         }
         field(32; "Approved Date"; Date)

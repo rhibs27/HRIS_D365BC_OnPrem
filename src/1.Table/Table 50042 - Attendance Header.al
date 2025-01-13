@@ -199,6 +199,7 @@ table 50042 "Attendance Header"
         InitRecord;
         "Assigned User ID" := UserId;
         "Document Date" := Today;
+        Status := Status::Open;
     end;
 
     trigger OnModify()

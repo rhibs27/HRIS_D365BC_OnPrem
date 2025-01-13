@@ -783,7 +783,7 @@ page 50202 "New Employee Activity Card"
 
                 trigger OnAction()
                 begin
-                    ResignationMgt.ScreenResignation(Rec);
+                    //ResignationMgt.ScreenResignation(Rec);
                     CurrPage.Close;
                 end;
             }

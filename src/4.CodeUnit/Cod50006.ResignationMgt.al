@@ -194,47 +194,47 @@ codeunit 50006 "Resignation Mgt"
             until DocumentApprover.Next = 0;
     end;
 
-    procedure ScreenResignation(var EmpAcctivity: Record "Employee Activity")
+    procedure ScreenResignation(var Resignation: Record Resignation)
     var
         ConfirmScreen: Label 'Do you want to screen this document?';
         FunctionalTitle: Record "Functional Title";
     begin
         //check authorized user
         Employee.Get(HrMgt.GetEmployeeNo());
-        if EmpAcctivity.Type = EmpAcctivity.Type::Resignation then begin
+        if Resignation.Type = Resignation.Type::Resignation then begin
             if not Employee.Screener then           //resignation approver replaced with screener
                 Error('Not authorized screener.');
-            EmpAcctivity.TestField("Approval Status", EmpAcctivity."Approval Status"::"Forwarded To HR");
+            Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
             //  EmpAct.TESTFIELD("Screener Remarks");
-            HrMgt.CheckDocumentApprover(EmpAcctivity."No.");
-            CheckResignationAttachmentMandatory(EmpAcctivity);
+            HrMgt.CheckDocumentApprover(Resignation."No.");
+            CheckResignationAttachmentMandatory(Resignation);
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            EmpAcctivity.Validate("Approval Status", EmpAcctivity."Approval Status"::Screened);
-            EmpAcctivity.Modify;
+            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            Resignation.Modify;
         end
-        else if EmpAcctivity.Type = EmpAcctivity.Type::"Travel Claim" then begin
+        else if Resignation.Type = Resignation.Type::"Travel Claim" then begin
             /*HRSetup.GET;
             Employee.RESET;
             Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
             Employee.SETRANGE("NAV Login ID", USERID);
             IF NOT Employee.FINDFIRST THEN
                 ERROR('Not authorized screener.');*///AT
-            if not (EmpAcctivity."Approval Status" = EmpAcctivity."Approval Status"::Approved) then
+            if not (Resignation."Approval Status" = Resignation."Approval Status"::Approved) then
                 Error('Approval Status must be approved before screening.');
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            EmpAcctivity.Validate("Approval Status", EmpAcctivity."Approval Status"::Screened);
-            EmpAcctivity.Modify;
-        end else if EmpAcctivity.Type = EmpAcctivity.Type::Overtime then begin
-            EmpAcctivity.TestField("Approval Status", EmpAcctivity."Approval Status"::Approved);
+            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            Resignation.Modify;
+        end else if Resignation.Type = Resignation.Type::Overtime then begin
+            Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            EmpAcctivity.Validate("Approval Status", EmpAcctivity."Approval Status"::Screened);
-            EmpAcctivity.Modify;
+            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            Resignation.Modify;
         end;
 
     end;
@@ -381,20 +381,20 @@ codeunit 50006 "Resignation Mgt"
             Resignation.Validate("Waiver Case", Resignation."Waiver Case"::Recovery);
     end;
 
-    procedure CheckResignationAttachmentMandatory(var EmpAct: Record "Employee Activity")
+    procedure CheckResignationAttachmentMandatory(var Resignation: Record Resignation)
     var
         AttachmentSetup: Record "Attachment Setup";
         IncomingDocument: Record "Incoming Document";
     begin
 
         IncomingDocument.Reset;
-        IncomingDocument.SetRange("No.", EmpAct."No.");
+        IncomingDocument.SetRange("No.", Resignation."No.");
         IncomingDocument.SetRange("File Name", '');
         if IncomingDocument.FindFirst then
             repeat
                 AttachmentSetup.Reset;
                 AttachmentSetup.SetRange(Mandatory, true);
-                AttachmentSetup.SetFilter(Type, Format(EmpAct.Type));
+                AttachmentSetup.SetFilter(Type, Format(Resignation.Type));
                 AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
                 if AttachmentSetup.FindFirst then
                     Error('Upload attachment for %1', IncomingDocument."Attachment Code");

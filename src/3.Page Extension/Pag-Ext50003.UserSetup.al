@@ -90,7 +90,7 @@ pageextension 50003 UserSetup extends "User Setup"
             field("Can View Change Log"; Rec."Can View Change Log")
             {
                 ApplicationArea = All;
-                Visible = false;
+                Visible = true;
                 ToolTip = 'Specifies the value of the Can View Change Log field.', Comment = '%';
             }
         }

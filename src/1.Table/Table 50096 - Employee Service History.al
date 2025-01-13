@@ -72,7 +72,7 @@ table 50096 "Employee Service History"
             begin
                 if FunctionalTitle.Get("Functional Title (To)") then
                     Validate("Functional Title Desc. (To)", FunctionalTitle.Description);
-                if "Functional Title (From)" <> "Functional Title (To)" then begin//KPI1.00 aakrista
+                if ("Functional Title (From)" <> "Functional Title (To)") and ("Service Event" <> "Service Event"::Appointment) then begin//KPI1.00 aakrista
                     KPIMgt.CreateAppriasalAfterEmployeeTransfer("Employee No.");
                     KPIMgt.ExpireKPITarget("Functional Title (From)", "Employee No.");
                 end;

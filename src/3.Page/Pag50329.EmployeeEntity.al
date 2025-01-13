@@ -310,6 +310,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Bank Account No.';
                 }
+                field(taxCode; Rec."Tax Code")
+                {
+                    Caption = 'Tax Code';
+                }
                 field(image; ExportEmpImage)
                 {
                     Caption = 'Employee Image';

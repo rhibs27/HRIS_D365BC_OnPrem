@@ -525,14 +525,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the System Owner field.';
 
                 }
-                field(UserName; Rec.UserName)
-                {
-                    ApplicationArea = All;
-                }
-                field(Password; Rec.password)
-                {
-                    ApplicationArea = All;
-                }
             }
         }
         addlast(Payments)
@@ -556,13 +548,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the CIT No. field.';
 
             }
-            field("CIT Office Cont. Deduction"; Rec."CIT Office Cont. Deduction")
-            {
-                ApplicationArea = All;
-                Caption = 'CIT Deduction Amount';
-                ToolTip = 'Specifies the value of the CIT Deduction Amount field.';
+            // field("CIT Office Cont. Deduction"; Rec."CIT Office Cont. Deduction")
+            // {
+            //     ApplicationArea = All;
+            //     Caption = 'CIT Deduction Amount';
+            //     ToolTip = 'Specifies the value of the CIT Deduction Amount field.';
 
-            }
+            // }
             field("PF No."; Rec."PF No.")
             {
                 ApplicationArea = All;
