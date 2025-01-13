@@ -4,6 +4,7 @@ page 50146 "Notice Bulletins"
     SourceTable = "Notice Bulletin";
     ApplicationArea = All;
     UsageCategory = History;
+    CardPageId = "Notice Card";
 
     layout
     {
@@ -26,19 +27,12 @@ page 50146 "Notice Bulletins"
                     ToolTip = 'Specifies the value of the Date field.';
                     ApplicationArea = All;
                 }
-                field(Notice; Rec.Notice)
+                field("Notice Title"; Rec."Notice Title")
                 {
                     ToolTip = 'Specifies the value of the Notice field.';
-                    ApplicationArea = All;
-                }
-                field("Image File Path"; Rec."Image File Path")
-                {
-                    ToolTip = 'Specifies the value of the Image File Path field.';
                     ApplicationArea = All;
                 }
             }
         }
     }
-
-    actions { }
 }

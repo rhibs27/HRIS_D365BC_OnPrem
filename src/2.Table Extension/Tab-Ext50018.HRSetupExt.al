@@ -97,6 +97,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         }
         field(50020; "Training Question"; Code[20])
         {
+            TableRelation = "No. Series";
             DataClassification = CustomerContent;
             Description = 'Training Question No series';
         }

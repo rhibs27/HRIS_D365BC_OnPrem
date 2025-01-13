@@ -25,19 +25,53 @@ page 50195 NoticeBulletinsEntity
                 {
                     Caption = 'Date';
                 }
-                field(imageFilePath; Rec."Image File Path")
+                field(description; ExportDescription)
                 {
-                    Caption = 'Image File Path';
+                    Caption = 'Description';
                 }
-                field(notice; Rec.Notice)
+                field(image; ExportEmpImage)
                 {
-                    Caption = 'Notice';
+                    Caption = 'Notice Image';
                 }
                 field("type"; Rec."Type")
                 {
                     Caption = 'Type';
                 }
+                field(noticeTitle; Rec."Notice Title")
+                {
+                    Caption = 'Notice Title';
+                }
             }
         }
     }
+    local procedure ExportDescription(): Text;
+    var
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        base64: Codeunit "Base64 Convert";
+    begin
+        if Rec.Description.HasValue then begin
+            Rec.CalcFields(Description);
+            TempBlob.FromRecord(Rec, Rec.FieldNo(Description));
+            TempBlob.CreateInStream(InStr);
+            exit(base64.ToBase64(InStr));
+        end;
+    end;
+
+    local procedure ExportEmpImage(): Text;
+    var
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+    begin
+        if Rec.Notice.HasValue then begin
+            if ItemTenantMedia.Get(Rec.Notice.MediaId) then begin
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
 }

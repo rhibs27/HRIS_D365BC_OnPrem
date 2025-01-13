@@ -9,8 +9,17 @@ table 50090 "Notice Bulletin"
         {
         }
         field(3; Date; Date) { }
-        field(4; Notice; Blob) { }
-        field(5; "Image File Path"; Text[100]) { }
+        field(4; Notice; Media)
+        {
+        }
+        field(6; "Notice Title"; Text[1000])
+        {
+        }
+        field(7; "Description"; Blob)
+        {
+            Caption = '"Description"';
+        }
+
     }
 
     keys
