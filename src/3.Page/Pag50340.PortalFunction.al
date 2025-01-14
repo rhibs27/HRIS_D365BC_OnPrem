@@ -372,20 +372,20 @@ page 50340 "Portal Function"
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure logIn(empNo: Code[20]; userName: Text[20]; password: Text[20]): text
-    var
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure logIn(empNo: Code[20]; userName: Text[20]; password: Text[20]): text
+    // var
 
-    begin
-        if Employee.Get(empNo) then
-            if (Employee.UserName = userName) and (Employee.password = password) then
-                exit('{"LoginMessage" : "Log in Success"}')
-            else
-                exit('{"LoginMessage" : "Log in Fail"}')
-        else
-            exit('{"LoginMessage" : "Employee not Found"}')
-    end;
+    // begin
+    //     if Employee.Get(empNo) then
+    //         if (Employee.UserName = userName) and (Employee.password = password) then
+    //             exit('{"LoginMessage" : "Log in Success"}')
+    //         else
+    //             exit('{"LoginMessage" : "Log in Fail"}')
+    //     else
+    //         exit('{"LoginMessage" : "Employee not Found"}')
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -1484,10 +1484,10 @@ page 50340 "Portal Function"
     var
         EmpActivity: Record "Employee Activity";
     begin
-        EmpActivity.Get(resignNo);
-        EmpActivity.TestField(Type, EmpActivity.Type::Resignation);
-        HrMgt.ForwardToHR(EmpActivity);
-        exit('success');
+        // EmpActivity.Get(resignNo);
+        // EmpActivity.TestField(Type, EmpActivity.Type::Resignation);
+        // HrMgt.ForwardToHR(EmpActivity);
+        // exit('success');
     end;
 
     [ServiceEnabled]

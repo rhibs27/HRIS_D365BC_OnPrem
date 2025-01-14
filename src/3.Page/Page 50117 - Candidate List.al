@@ -299,7 +299,7 @@ page 50117 "Candidate List"
             }
             group("Send Letter")
             {
-                Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
+
                 action("Send Email For Offer Letter")
                 {
                     Image = SendConfirmation;
@@ -309,6 +309,7 @@ page 50117 "Candidate List"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Send Email For Offer Letter action.';
                     ApplicationArea = All;
+                    Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
 
                     trigger OnAction()
                     begin
@@ -340,6 +341,7 @@ page 50117 "Candidate List"
                     Visible = false;
                     ToolTip = 'Executes the Send Offer Letter action.';
                     ApplicationArea = All;
+                    // Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
 
                     trigger OnAction()
                     begin
@@ -368,9 +370,10 @@ page 50117 "Candidate List"
                     PromotedCategory = Category5;
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    Visible = false;
+                    //Visible = false;
                     ToolTip = 'Executes the Send Appointment Letter action.';
                     ApplicationArea = All;
+                    Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
 
                     trigger OnAction()
                     begin
@@ -395,7 +398,7 @@ page 50117 "Candidate List"
             }
             group("Letter Accepted")
             {
-                Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
+
                 action("Offer Letter Accepted")
                 {
                     Image = Status;
@@ -405,6 +408,7 @@ page 50117 "Candidate List"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Offer Letter Accepted action.';
                     ApplicationArea = All;
+                    Visible = Rec."Candidate Type" = Rec."Candidate Type"::External;
 
                     trigger OnAction()
                     begin

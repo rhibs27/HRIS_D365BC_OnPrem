@@ -2,11 +2,15 @@ page 50268 "Interview Evaluation API"
 {
     // version HRM1.00
 
-    PageType = List;
+    PageType = API;
     SourceTable = "Evaluation Entry";
     SourceTableView = where(Type = const(Interview));
-    UsageCategory = Lists;
-    ApplicationArea = All;
+    EntityName = 'interviewEvaluationEntity';
+    EntitySetName = 'interviewEvaluationEntities';
+    APIVersion = 'v2.0';
+    DelayedInsert = true;
+    APIGroup = 'HRMS';
+    APIPublisher = 'Agile';
 
     layout
     {
@@ -14,66 +18,66 @@ page 50268 "Interview Evaluation API"
         {
             repeater(Group)
             {
-                field("No."; Rec."No.")
+                field(no; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field(Name; Rec.Name)
+                field(name; Rec.Name)
                 {
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
                 }
-                field("Attribute Code"; Rec."Attribute Code")
+                field(attributeCode; Rec."Attribute Code")
                 {
                     Editable = true;
                     ToolTip = 'Specifies the value of the Attribute Code field.';
                     ApplicationArea = All;
                 }
-                field("Attribute Description"; Rec."Attribute Description")
+                field(attributeDescription; Rec."Attribute Description")
                 {
                     ToolTip = 'Specifies the value of the Attribute Description field.';
                     ApplicationArea = All;
                 }
-                field("Interviewer Code"; Rec."Interviewer Code")
+                field(interviewerCode; Rec."Interviewer Code")
                 {
                     CaptionClass = '3,' + Interviewer1Name;
                     ToolTip = 'Specifies the value of the Interviewer Code field.';
                     ApplicationArea = All;
                 }
-                field("Interviewer Name"; Rec."Interviewer Name")
+                field(interviewerName; Rec."Interviewer Name")
                 {
                     CaptionClass = '3,' + Interviewer2Name;
                     ToolTip = 'Specifies the value of the Interviewer Name field.';
                     ApplicationArea = All;
                 }
-                field("Full Marks"; Rec."Full Marks")
+                field(fullMarks; Rec."Full Marks")
                 {
                     ToolTip = 'Specifies the value of the Full Marks field.';
                     ApplicationArea = All;
                 }
-                field(Marks; Rec.Marks)
+                field(marks; Rec.Marks)
                 {
                     CaptionClass = '3,' + Interviewer3Name;
                     ToolTip = 'Specifies the value of the Marks field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
+                field(remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Is Remarks"; Rec."Is Remarks")
+                field(isRemarks; Rec."Is Remarks")
                 {
                     ToolTip = 'Specifies the value of the Is Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Is Remark Option"; Rec."Is Remark Option")
+                field(isRemarkOption; Rec."Is Remark Option")
                 {
                     ToolTip = 'Specifies the value of the Is Remark Option field.';
                     ApplicationArea = All;
                 }
-                field(Posted; Rec.Posted)
+                field(posted; Rec.Posted)
                 {
                     ToolTip = 'Specifies the value of the Posted field.';
                     ApplicationArea = All;

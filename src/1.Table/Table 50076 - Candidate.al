@@ -567,18 +567,18 @@ table 50076 Candidate
         TestField(Status, Status::"Appointment Letter Sent");
         if not Confirm(ConfirmConvert, false) then
             exit;
-        Candidate.TestField("Job Title");
-        Candidate.TestField("Functional Title");
-        Candidate.TestField("Marital Status");
-        Candidate.TestField(Gender);
-        Candidate.TestField("Salary Grade");
-        Candidate.TestField("Employment Type");
+        Rec.TestField("Job Title");
+        Rec.TestField("Functional Title");
+        Rec.TestField("Marital Status");
+        Rec.TestField(Gender);
+        Rec.TestField("Salary Grade");
+        Rec.TestField("Employment Type");
         //EvaluationEntry.RESET;
         //EvaluationEntry.SETRANGE( "No.", "No.");
         //EvaluationEntry.CALCSUMS("Interviewer Code", "Interviewer Name", Marks);
         //IF EvaluationEntry."Interviewer Code" + EvaluationEntry."Interviewer Name" + EvaluationEntry.Marks =0 THEN
-        if not Confirm(NoEvaluationEntry, false) then
-            exit;
+        // if not Confirm(NoEvaluationEntry, false) then
+        //     exit;
 
         "Converted to Employee" := true;
         //"Vacancy Code" := WORKDATE;
@@ -588,20 +588,20 @@ table 50076 Candidate
         Employee.Init;
         Employee.TransferFields(Rec);
         Employee."No." := '';
-        Employee."Employment Type" := Candidate."Employment Type";
+        Employee."Employment Type" := Rec."Employment Type";
         Employee."Employment Date" := Today;
 
-        if Candidate."Employment Type" = Candidate."Employment Type"::Permanent then
+        if Rec."Employment Type" = Rec."Employment Type"::Permanent then
             Employee."Confirmation Date" := Today;
 
-        Employee.Validate("Salary Level", Candidate."Job Title");
-        Employee.Validate("Functional Title", Candidate."Functional Title");
-        Employee.Validate("Marital Status", Candidate."Marital Status");
-        Employee.Validate(Gender, Candidate.Gender);
-        Employee.Validate("Salary Grade", Candidate."Salary Grade");
+        Employee.Validate("Salary Level", Rec."Job Title");
+        Employee.Validate("Functional Title", Rec."Functional Title");
+        Employee.Validate("Marital Status", Rec."Marital Status");
+        Employee.Validate(Gender, Rec.Gender);
+        Employee.Validate("Salary Grade", Rec."Salary Grade");
         Employee."Converted To Emp. Date" := Today;
         Employee.Insert(true);
-        HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::Appointment, 'Appointed', Employee."Employment Date");
+        HRMgt.AddToServiceHistoryAppointment(Rec."No.", ServiceHistory."Service Event"::Appointment, 'Appointed', Employee."Employment Date", Rec."Vacancy Code", Employee."No.");
 
         EmpQualification.Reset;
         EmpQualification.SetRange("Employee No.", "No.");

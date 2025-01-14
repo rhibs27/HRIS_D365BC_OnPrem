@@ -19,6 +19,7 @@ page 50120 "Vacancy Card"
         {
             group(General)
             {
+                Editable = not Rec.Posted;
                 field("No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
@@ -116,16 +117,19 @@ page 50120 "Vacancy Card"
             }
             part(Control7; "Vacancy Subforms")
             {
+                Editable = not Rec.Posted;
                 SubPageLink = "Vacancy No." = field("No.");
                 ApplicationArea = All;
             }
             part(Control44; "Selection Commitee Sublist")
             {
+                Editable = not Rec.Posted;
                 SubPageLink = "Vacancy Code" = field("No.");
                 ApplicationArea = All;
             }
             part(Control8; "Interviewer Sublist")
             {
+                Editable = not Rec.Posted;
                 SubPageLink = "Vacancy Code" = field("No.");
                 Visible = IsPosted;
                 ApplicationArea = All;

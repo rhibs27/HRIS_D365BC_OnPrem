@@ -44,6 +44,11 @@ page 50116 "Candidate Card"
                     ToolTip = 'Specifies the value of the Initials field.';
                     ApplicationArea = All;
                 }
+                field("Job Title"; Rec."Job Title")
+                {
+                    ToolTip = 'Specifies the value of the Job Title field.';
+                    ApplicationArea = All;
+                }
                 field("Permanent Address"; Rec."Permanent Address")
                 {
                     ToolTip = 'Specifies the value of the Address field.';
@@ -76,6 +81,11 @@ page 50116 "Candidate Card"
                     ApplicationArea = All;
                 }
                 field(Gender; Rec.Gender)
+                {
+                    ToolTip = 'Specifies the value of the Gender field.';
+                    ApplicationArea = All;
+                }
+                field("Marital Status"; Rec."Marital Status")
                 {
                     ToolTip = 'Specifies the value of the Gender field.';
                     ApplicationArea = All;

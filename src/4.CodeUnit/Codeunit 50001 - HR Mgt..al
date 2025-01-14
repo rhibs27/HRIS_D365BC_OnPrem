@@ -1329,6 +1329,53 @@ codeunit 50001 "HR Mgt."
             Error('Employee %1 is not an interviewer for this Vacancy.', Employee."Full Name");
     end;
 
+    procedure GenerateInterviewerEntriesAPI(VacancyCode: Code[20]; CandidateFilter: Text; employeeCode: Code[20])
+    var
+        Candidate: Record Candidate;
+        EvaluationEntires: Record "Evaluation Entry";
+        Interviewer: Record Interviewer;
+        EvaluationAttribute: Record "Evaluation Attribute";
+        LineNo: Integer;
+    begin
+
+        Interviewer.Reset;
+        Interviewer.SetRange(Interviewer, employeeCode);
+        Interviewer.SetRange("Vacancy Code", VacancyCode);
+        if Interviewer.Find('-') then begin
+            Candidate.Reset;
+            Candidate.SetRange("Vacancy Code", VacancyCode);
+            Candidate.SetRange(Status, Candidate.Status::"Interview Scheduled");
+            Candidate.SetFilter("No.", CandidateFilter);
+            if Candidate.Find('-') then
+                repeat
+                    EvaluationAttribute.Reset;
+                    EvaluationAttribute.SetRange("Attribute Type", EvaluationAttribute."Attribute Type"::Interview);
+                    if EvaluationAttribute.Find('-') then
+                        repeat
+                            EvaluationEntires.Reset;
+                            EvaluationEntires.SetRange("Vacancy Code", VacancyCode);
+                            EvaluationEntires.SetRange("Interviewer Code", Interviewer.Interviewer);
+                            EvaluationEntires.SetRange("Attribute Code", EvaluationAttribute.Code);
+                            EvaluationEntires.SetRange(Type, EvaluationEntires.Type::Interview);
+                            EvaluationEntires.SetRange("No.", Candidate."No.");
+                            if not EvaluationEntires.FindFirst then begin
+                                EvaluationEntires.Init;
+                                EvaluationEntires.Validate("Vacancy Code", VacancyCode);
+                                EvaluationEntires.Validate(Type, EvaluationEntires.Type::Interview);
+                                EvaluationEntires.Validate("Interviewer Code", Interviewer.Interviewer);
+                                EvaluationEntires."Interviewer Name" := Interviewer."Interviewer Fullname";
+                                EvaluationEntires.Validate("No.", Candidate."No.");
+                                EvaluationEntires.Validate("Attribute Code", EvaluationAttribute.Code);
+                                EvaluationEntires.Validate("User ID", UserId);
+                                EvaluationEntires.Insert(true);
+                            end;
+                        until EvaluationAttribute.Next = 0;
+                until Candidate.Next = 0;
+        end
+        else
+            Error('Employee %1 is not an interviewer for this Vacancy.', Employee."Full Name");
+    end;
+
     procedure GenerateInterviewedCandidate(VacancyCode: Code[20])
     var
         Candidate: Record Candidate;
@@ -1465,7 +1512,7 @@ codeunit 50001 "HR Mgt."
                 end;
                 Counter := 0;
                 Clear(EvaluationEntry);
-                EvaluationEntry.SetRange("Attribute Code", 'APTITUDE');
+                //EvaluationEntry.SetRange("Attribute Code", 'APTITUDE'); commented by Santosh
                 EvaluationEntry.SetRange("No.", Candidate."No.");
                 //EvaluationEntry.SETRANGE(Posted,TRUE); //Min commented -- not required during Interviewer Name Update
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
@@ -7442,22 +7489,22 @@ codeunit 50001 "HR Mgt."
         TravelReq.Modify;
     end;
 
-    procedure ForwardToHR(var EmpAct: Record "Employee Activity")
+    procedure ForwardToHR(var Resignation: Record Resignation)
     var
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
     begin
         //check authorized user
         Employee.Get(GetEmployeeNo());
-        if not (Employee."No." = EmpAct."Employee No.") then
-            Error('Only employee %1 can forward this document to HR.', EmpAct."Employee Name");
-        CheckDocumentApprover(EmpAct."No.");
-        ResignationMgt.CheckResignationAttachmentMandatory(EmpAct);
+        if not (Employee."No." = Resignation."Employee No.") then
+            Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
+        CheckDocumentApprover(Resignation."No.");
+        ResignationMgt.CheckResignationAttachmentMandatory(Resignation);
         if GuiAllowed then
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Forwarded To HR");
-        EmpAct.Modify;
+        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+        Resignation.Modify;
     end;
 
     // procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
@@ -9265,7 +9312,7 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Option " ",Appointment,Confirmation,Transfer,"Internal Appointment","Expired Contract","Formation of Department/Unit/Functional Title","Addition in Job Function","Assignment in Job Function","Contract Renew",Resignation,"Grade Increment",Promotion,"Assigned In Functional Title","Intra Transfer","Formation Of Department Or Unit Or Function","Temporary Deputation","Back From Deputation","On The Job Training","Promotion Through Job Evaluation","Officiating Arrangement"; RemarksVar: Text; EffectiveDate: Date): Code[20]
+    procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date): Code[20]
     var
         EmpServiceHis: Record "Employee Service History";
         Candidate: Record Candidate;
@@ -9277,6 +9324,52 @@ codeunit 50001 "HR Mgt."
                     EmpServiceHis.Init;
                     EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
                     EmpServiceHis.Validate("Employee No.", Candidate."Employee No.");
+                    EmpServiceHis.Validate("Functional Title (To)", Candidate."Functional Title");
+                    EmpServiceHis.Validate("Salary Level (To)", Candidate."Job Title");
+                    EmpServiceHis.Validate("Salary Grade (From)", Candidate."Salary Grade");
+                    EmpServiceHis.Validate("Salary Grade (To)", Candidate."Salary Grade");
+                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
+                    EmpServiceHis.Validate(Remarks, RemarksVar);
+                    EmpServiceHis.Insert(true);
+                end;
+            //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
+            ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
+            ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
+            ServiceEvent::"Internal Appointment", ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Back From Deputation", ServiceEvent::"Officiating Arrangement":
+                begin
+                    Employee.Get(DocNo);
+                    EmpServiceHis.Init;
+                    EmpServiceHis.Validate("Service Event", ServiceEvent);
+                    EmpServiceHis.Validate("Employee No.", Employee."No.");
+                    EmpServiceHis.Validate("Functional Title (From)", Employee."Functional Title");
+                    EmpServiceHis.Validate("Salary Level (From)", Employee."Salary Level");
+                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
+                    EmpServiceHis.Validate("Deputation On(From)", Employee."Deputation on");
+                    EmpServiceHis.Validate("Deputation Code (From)", ExitTransferDeputationWiseCode(EmpServiceHis."Deputation On(From)", EmpServiceHis."Employee No."));
+                    EmpServiceHis.Validate("Deputation Value (From)", ExitTransferDeputationWiseValue(EmpServiceHis."Deputation On(From)", EmpServiceHis."Employee No."));
+                    EmpServiceHis.Validate(Remarks, RemarksVar);
+                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    if ServiceEvent <> ServiceEvent::"Internal Appointment" then
+                        EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
+                    EmpServiceHis.Insert(true);
+                end;
+
+        end;
+        exit(EmpServiceHis."Service History Code");
+    end;
+
+    procedure AddToServiceHistoryAppointment(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date; VacanyNo: Code[20]; EmployeeNo: Code[20]): Code[20]
+    var
+        EmpServiceHis: Record "Employee Service History";
+        Candidate: Record Candidate;
+    begin
+        case ServiceEvent of
+            ServiceEvent::Appointment:
+                begin
+                    Candidate.Get(DocNo, VacanyNo);
+                    EmpServiceHis.Init;
+                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
+                    EmpServiceHis.Validate("Employee No.", EmployeeNo);
                     EmpServiceHis.Validate("Functional Title (To)", Candidate."Functional Title");
                     EmpServiceHis.Validate("Salary Level (To)", Candidate."Job Title");
                     EmpServiceHis.Validate("Salary Grade (From)", Candidate."Salary Grade");

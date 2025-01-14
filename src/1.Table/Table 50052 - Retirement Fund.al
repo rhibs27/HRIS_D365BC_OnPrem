@@ -163,12 +163,12 @@ table 50052 "Retirement Fund"
 
             trigger OnValidate()
             begin
-                PayrollGeneralSetup.Get; //Min
-                if PayrollGeneralSetup."Enable RF Lumpsump Plan" then begin
-                    Employee.Get(HRMgt.GetEmployeeNo);
-                    if Employee."CIT No." <> '' then
-                        TestField("Actual Lumpsump CIT");
-                end;
+                // PayrollGeneralSetup.Get; //Min
+                // if PayrollGeneralSetup."Enable RF Lumpsump Plan" then begin
+                //     Employee.Get("Employee No.");
+                //     if Employee."CIT No." <> '' then
+                //         TestField("Actual Lumpsump CIT");
+                // end; commented code 1/10/25
             end;
         }
         field(29; "Actual Lumpsump RTF"; Decimal)

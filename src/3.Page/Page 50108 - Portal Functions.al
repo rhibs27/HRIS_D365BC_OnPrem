@@ -314,6 +314,115 @@ page 50108 "Portal Functions"
         end;
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure generateAttachmentAPI(leavecode: Code[20]; startDate: Date; endDate: Date; employeeNo: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        NoOfDays: Integer;
+        LeaveType: Record "Leave Type Setup";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SetRange("Employee Code", employeeNo);
+        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
+        TempIncomingDoc.SETRANGE("Leave Type Code", leavecode);
+        TempIncomingDoc.SetRange("No.", '');
+        if TempIncomingDoc.FindSet() then
+            repeat
+                if TempIncomingDoc."File Name" <> '' then
+                    Clear(TempIncomingDoc."File Name");
+            until TempIncomingDoc.Next = 0;
+        TempIncomingDoc.DeleteAll;
+        if leavecode = '' then
+            Error('Leave Code must have value');
+        LeaveType.Get(leavecode);
+        if (startDate = 0D) or (endDate = 0D) then
+            NoOfDays := 0
+        else
+            NoOfDays := endDate - startDate;
+        if LeaveType."Sick Leave" then
+            if NoOfDays < LeaveType."No. of Days for Attachment" then
+                exit;
+        //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
+        AttachmentSetup.Reset;
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+        AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+        if AttachmentSetup.Find('-') then
+            repeat
+                TempIncomingDoc.Reset;
+                TempIncomingDoc.Init;
+                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                TempIncomingDoc.Validate(Description, 'Leave Request' + ': ' + LeaveType.Description);
+                TempIncomingDoc.Validate("Employee Code", employeeNo);
+                TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                TempIncomingDoc.Insert(true);
+            until AttachmentSetup.Next = 0;
+        //END;
+        exit('sucess');
+    end;
+
+    local procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
+    var
+        EmpAttendActivity: Record "Employee Attendance & Activity";
+    begin
+        CountStartDate := 0D;
+        /*
+        AttendaceLine.RESET;
+        AttendaceLine.SETRANGE("Employee No.",EmployeeNo);
+        AttendaceLine.SETRANGE("Day Type",AttendaceLine."Day Type"::"Working Day");
+        AttendaceLine.SETRANGE("Check In Time",0T);
+        AttendaceLine.SETRANGE("Check Out Time",0T);
+        IF AttendaceLine.FIND('-') THEN
+          REPEAT
+          CountStartDate := AttendaceLine."Attendance Date";
+          EmpActivity.RESET;
+          EmpActivity.SETCURRENTKEY("Start Date");
+          EmpActivity.SETRANGE("Employee No.",EmployeeNo);
+          EmpActivity.SETFILTER(Type,'%1|%2|%3|%4',EmpActivity.Type::"Leave Request",EmpActivity.Type::"Travel Request",
+                            EmpActivity.Type::"Out of Office",EmpActivity.Type::"Bulk Cash");
+          EmpActivity.SETFILTER("Start Date",'<=%1',AttendaceLine."Attendance Date");
+          EmpActivity.SETFILTER("End Date",'>=%1',AttendaceLine."Attendance Date");    //pradhan
+          IF NOT EmpActivity.FINDFIRST THEN
+            EXIT(CountStartDate);
+        UNTIL AttendaceLine.NEXT=0;
+        EXIT(TODAY);
+        */
+
+        EmpAttendActivity.Reset;
+        EmpAttendActivity.SetRange("Employee No.", EmployeeNo);
+        EmpAttendActivity.SetRange("Day Type", EmpAttendActivity."Day Type"::"Working Day");
+        EmpAttendActivity.SetRange("Present Day", 0);
+        EmpAttendActivity.SetRange("Leave Day", 0);
+        EmpAttendActivity.SetCurrentKey("Attendance Date");
+        if EmpAttendActivity.FindFirst then
+            exit(EmpAttendActivity."Attendance Date")
+        else
+            exit(Today);
+
+        /*
+
+        Date.RESET;
+        Date.SETRANGE("Period Type",Date."Period Type"::Date);
+        Date.SETRANGE("Period Start",EmpActivity."Start Date",EmpActivity."End Date");
+        IF Date.FINDFIRST THEN BEGIN
+        REPEAT
+          IF Date."Period Start" = CountStartDate THEN
+            EXIT(0D);
+        UNTIL Date.NEXT  = 0;
+        END ELSE
+        EXIT(CountStartDate);
+        END ELSE
+        EXIT(CountStartDate);
+        END;
+
+        EXIT(CountStartDate);
+        */
+    end;
+
+
     local procedure "------Travel API---------"()
     begin
 
@@ -828,7 +937,7 @@ page 50108 "Portal Functions"
         end;
     end;
 
-    local procedure "------Loan API---------"()
+    local procedure "Loan API"()
     begin
 
     end;
@@ -1051,7 +1160,6 @@ page 50108 "Portal Functions"
             '"totalLoanAmt" :"' + DelChr(Format(totalLoanAmt), '=', ',') + '",' +
             frequencyText +
             '"eligibleLoan" : "' + DelChr(Format(EligibleLoan), '=', ',') + '"' +
-
           '}'
           );
     end;
@@ -1080,6 +1188,184 @@ page 50108 "Portal Functions"
             EmpSalaryAdv.Validate("Rejection Remark", remark);
         EmpSalaryAdv.Modify;
         LoanMgt.ApproveRejectLoanAPI(EmpSalaryAdv, isApproved, approverNo);
+    end;
+
+    local procedure CalculateFrequency(empNo: Code[20]; loanType: Text): Integer
+    var
+        EmpSalaryAdv: Record "Employee Loan/Advance";
+    begin
+        EmpSalaryAdv.Reset;
+        EmpSalaryAdv.SetRange("Employee Code", empNo);
+        EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
+        EmpSalaryAdv.SetRange(FY, HrMgt.ReturnFiscalYear(Today));
+        EmpSalaryAdv.SetFilter("Loan Type", loanType);
+        exit(EmpSalaryAdv.Count);
+    end;
+
+    local procedure CalculateEMI(empNo: Code[20]): Decimal
+    var
+        EmpSalaryAdv: Record "Employee Loan/Advance";
+        LoanOutstanding: Record "Loan Outstanding from Finacle";
+        PreviosuEMI: Decimal;
+        EMIPersonalLoan: Decimal;
+        EmpLoanInterest: Record "Employee Loan Interest";
+        Homeloan: Record "Employee Loan/Advance";
+        VehicleLoan: Decimal;
+    begin
+        LoanOutstanding.Reset;
+        LoanOutstanding.SetRange("Employee No.", empNo);
+        LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
+        LoanOutstanding.CalcSums(EMI);
+        PreviosuEMI := LoanOutstanding.EMI;
+
+        LoanOutstanding.Reset;
+        LoanOutstanding.SetRange("Employee No.", empNo);
+        LoanOutstanding.SetRange("Scheme Type", 'ODA');
+        LoanOutstanding.CalcSums("Loan Limit");
+
+        EmpLoanInterest.Reset;
+        EmpLoanInterest.SetRange("Loan Type", EmpLoanInterest."Loan Type"::"Personal Loan");
+        EmpLoanInterest.SetCurrentKey("Starting Date");
+        if EmpLoanInterest.FindLast then;
+        EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
+
+        EmpSalaryAdv.Reset;
+        EmpSalaryAdv.SetRange("Employee Code", empNo);
+        EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
+        EmpSalaryAdv.SetRange(Settled, false);
+        EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
+        EmpSalaryAdv.CalcSums(EMI);
+
+        Clear(VehicleLoan);
+        if SalaryLevel."Vehicle Loan Limit" = 0 then begin
+            Clear(LoanOutstanding);
+            LoanOutstanding.Reset;
+            LoanOutstanding.SetRange("Employee No.", empNo);
+            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
+            LoanOutstanding.CalcSums(EMI);
+            VehicleLoan := LoanOutstanding.EMI;
+        end;
+
+        /*
+          Homeloan.RESET;
+          Homeloan.SETRANGE("Employee Code", empNo);
+          Homeloan.SETRANGE("Approval Status",Homeloan."Approval Status"::Approved);
+          Homeloan.SETRANGE(Settled,FALSE);
+          Homeloan.SETRANGE("Loan Type",Homeloan."Loan Type"::"Home Loan");
+          Homeloan.SETRANGE("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
+          Homeloan.CALCSUMS(EMI);
+        */
+
+        exit(EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + Homeloan.EMI + VehicleLoan);
+    end;
+
+    local procedure CalculateGrossSalary(empNo: Code[20]): Decimal
+    begin
+        Employee.Get(empNo);
+        SalaryLevel.Get(Employee."Salary Level");
+        SalaryGrade.Get(Employee."Salary Grade");
+        if Employee."Confirmation Date" = 0D then
+            Error('Confirmation must have value in employee %1.', Employee."Full Name");
+        Evaluate(TotalServicePeriod, Format((Today - Employee."Confirmation Date") / 365));
+        TotalServicePeriod := Round(TotalServicePeriod, 0.01, '=');
+
+        exit(SalaryLevel."Basic Salary" +
+                              SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary");
+    end;
+
+    local procedure CheckDBRRatio(DbrRatio: Decimal)
+    begin
+        if CheckSalaryLevel.Rank >= SalaryLevel.Rank then begin
+            if DbrRatio > HRSetup."Below SO DBR" then
+                Error('DBR Ratio is %1 which must less than %2.', DbrRatio, HRSetup."Below SO DBR");
+        end else begin
+            if DbrRatio > HRSetup."DBR Ratio" then
+                Error('DBR Ratio is %1 which must less than %2.', DbrRatio, HRSetup."DBR Ratio");
+        end;
+    end;
+
+    local procedure CalculateLoanEMI(interestRate: Decimal; appliedLoan: Decimal; repaymentPeriod: Integer; loanType: Text; repaymentMode: Text): Decimal
+    var
+        intRate: Decimal;
+        PowerValue: Decimal;
+        EmpLoan: Record "Employee Loan/Advance";
+    begin
+        case loanType of
+            Format(EmpLoan."Loan Type"::"Salary Advance"):
+                exit(appliedLoan / repaymentPeriod);
+
+            Format(EmpLoan."Loan Type"::"Personal Loan"):
+                exit((appliedLoan * interestRate / 100) / 12);
+
+            Format(EmpLoan."Loan Type"::"Vehicle Loan"):
+                begin
+                    if repaymentPeriod > HRSetup."Max. Veh. Loan Repay Period" then
+                        Error('Repayment period exceeded.');
+                    intRate := (interestRate / 12) / 100;
+                    PowerValue := Power((1 + intRate), (repaymentPeriod * 12));
+                    if interestRate = 0 then    //changes for salary level greater than AM
+                        exit(appliedLoan / (repaymentPeriod * 12))//changes for salary level greater than AM
+                    else
+                        exit((appliedLoan * intRate * PowerValue)  //pram 1.31.2020
+                              / (PowerValue - 1));
+                end;
+
+            Format(EmpLoan."Loan Type"::"Home Loan"):
+                begin
+                    if repaymentMode = Format(EmpLoan."Repayment Mode"::"EMI Basis") then begin
+                        intRate := (interestRate / 12) / 100;
+                        PowerValue := Power((1 + intRate), (repaymentPeriod * 12));
+                        exit((appliedLoan * intRate * PowerValue)
+                            / (PowerValue - 1));
+                    end else if repaymentMode = Format(EmpLoan."Repayment Mode"::"Insurance Tieup") then
+                            exit((appliedLoan / 1000) * interestRate / 12);
+                end;
+        end;
+    end;
+
+    local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan"): Decimal
+    var
+        LoanOutstanding: Record "Loan Outstanding from Finacle";
+    begin
+        if LoanType = LoanType::"Home Loan" then begin
+            LoanOutstanding.Reset;
+            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
+            LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
+            LoanOutstanding.CalcSums("Outstanding Amount");
+            exit(Abs(LoanOutstanding."Outstanding Amount"));
+        end else if LoanType = LoanType::"Personal Loan" then begin
+            LoanOutstanding.Reset;
+            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
+            LoanOutstanding.SetRange("Loan Type", LoanType);
+            LoanOutstanding.CalcSums("Loan Limit");
+            exit(LoanOutstanding."Loan Limit");
+        end else if LoanType = LoanType::"Vehicle Loan" then begin
+            LoanOutstanding.Reset;
+            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
+            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
+            LoanOutstanding.CalcSums("Outstanding Amount");
+            exit(Abs(LoanOutstanding."Outstanding Amount"));
+        end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure updateLoan(empLoanCode: Code[20])
+    var
+        EmpLoan: Record "Employee Loan/Advance";
+    begin
+        EmpLoan.Get(empLoanCode);
+        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Open then begin
+            EmpLoan.Validate("Employee Code");
+            EmpLoan.Validate("Applied Loan/Advance", 0);
+            EmpLoan.Validate("Requested Loan Date", Today);
+            //EmpLoan.VALIDATE("Repayment Period",1); //Min Commented -- As per Sachin not req.
+            EmpLoan.Modify(true);
+        end;
+        if (EmpLoan."Approval Status" = EmpLoan."Approval Status"::Open) and EmpLoan."Returned Loan" then begin //Min 4.15.2022
+            EmpLoan.Validate("Reinstate Date", Today);
+            EmpLoan.Modify(true);
+        end;
     end;
 
     [ServiceEnabled]
@@ -1388,6 +1674,10 @@ page 50108 "Portal Functions"
         IncomingDocument.Modify;
     end;
 
+    local procedure "Allowance Assignment API"()
+    begin
+    end;
+
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure substituteAllowanceAssignment(entryNo: Integer; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20]): Text
@@ -1514,6 +1804,56 @@ page 50108 "Portal Functions"
         end;
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure retrunResignationWaiver(empNo: Code[20]; proposedDateofResignation: Date): Text
+    var
+        ResignationDays: Integer;
+        requestedDate: Date;
+    begin
+        HRSetup.Get;
+        Employee.Get(empNo);
+        case Employee."Employment Type" of
+            Employee."Employment Type"::Contract:
+                begin
+                    HRSetup.TestField("Resignation Period Contract");
+                    ResignationDays := HRSetup."Resignation Period Contract";
+                end;
+            Employee."Employment Type"::Probation:
+                begin
+                    HRSetup.TestField("Resignation Period Probation");
+                    ResignationDays := HRSetup."Resignation Period Probation";
+                end;
+
+            Employee."Employment Type"::Permanent:
+                begin
+                    HRSetup.TestField("Resignation Period Permanent");
+                    ResignationDays := HRSetup."Resignation Period Permanent";
+                end;
+        end;
+
+        if requestedDate = 0D then
+            requestedDate := Today;
+
+        if (proposedDateofResignation - requestedDate + 1) >= ResignationDays then
+            exit('{"Waiver Case" : "Normal"}')
+        else
+            exit('{"Waiver Case" : "Recovery"}')
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure sendToHR(resignNo: Code[20]): Text
+    var
+        //EmpActivity: Record "Employee Activity";
+        Resignation: Record Resignation;
+    begin
+        Resignation.Get(resignNo);
+        Resignation.TestField(Type, Resignation.Type::Resignation);
+        HrMgt.ForwardToHR(Resignation);
+        exit('success');
+    end;
+
     local procedure "------OverTime API---------"()
     begin
     end;
@@ -1569,63 +1909,6 @@ page 50108 "Portal Functions"
     begin
     end;
 
-    local procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
-    var
-        EmpAttendActivity: Record "Employee Attendance & Activity";
-    begin
-        CountStartDate := 0D;
-        /*
-        AttendaceLine.RESET;
-        AttendaceLine.SETRANGE("Employee No.",EmployeeNo);
-        AttendaceLine.SETRANGE("Day Type",AttendaceLine."Day Type"::"Working Day");
-        AttendaceLine.SETRANGE("Check In Time",0T);
-        AttendaceLine.SETRANGE("Check Out Time",0T);
-        IF AttendaceLine.FIND('-') THEN
-          REPEAT
-          CountStartDate := AttendaceLine."Attendance Date";
-          EmpActivity.RESET;
-          EmpActivity.SETCURRENTKEY("Start Date");
-          EmpActivity.SETRANGE("Employee No.",EmployeeNo);
-          EmpActivity.SETFILTER(Type,'%1|%2|%3|%4',EmpActivity.Type::"Leave Request",EmpActivity.Type::"Travel Request",
-                            EmpActivity.Type::"Out of Office",EmpActivity.Type::"Bulk Cash");
-          EmpActivity.SETFILTER("Start Date",'<=%1',AttendaceLine."Attendance Date");
-          EmpActivity.SETFILTER("End Date",'>=%1',AttendaceLine."Attendance Date");    //pradhan
-          IF NOT EmpActivity.FINDFIRST THEN
-            EXIT(CountStartDate);
-        UNTIL AttendaceLine.NEXT=0;
-        EXIT(TODAY);
-        */
-
-        EmpAttendActivity.Reset;
-        EmpAttendActivity.SetRange("Employee No.", EmployeeNo);
-        EmpAttendActivity.SetRange("Day Type", EmpAttendActivity."Day Type"::"Working Day");
-        EmpAttendActivity.SetRange("Present Day", 0);
-        EmpAttendActivity.SetRange("Leave Day", 0);
-        EmpAttendActivity.SetCurrentKey("Attendance Date");
-        if EmpAttendActivity.FindFirst then
-            exit(EmpAttendActivity."Attendance Date")
-        else
-            exit(Today);
-
-        /*
-
-        Date.RESET;
-        Date.SETRANGE("Period Type",Date."Period Type"::Date);
-        Date.SETRANGE("Period Start",EmpActivity."Start Date",EmpActivity."End Date");
-        IF Date.FINDFIRST THEN BEGIN
-        REPEAT
-          IF Date."Period Start" = CountStartDate THEN
-            EXIT(0D);
-        UNTIL Date.NEXT  = 0;
-        END ELSE
-        EXIT(CountStartDate);
-        END ELSE
-        EXIT(CountStartDate);
-        END;
-
-        EXIT(CountStartDate);
-        */
-    end;
 
     local procedure CreateNewDir(OldPathFile: Text; NewDirectoryName: Text; var AttrDir: Text)
     // PathHelper: DotNet Path;
@@ -1641,163 +1924,6 @@ page 50108 "Portal Functions"
         // AttrDir := Directory;
     end;
 
-    local procedure CalculateFrequency(empNo: Code[20]; loanType: Text): Integer
-    var
-        EmpSalaryAdv: Record "Employee Loan/Advance";
-    begin
-        EmpSalaryAdv.Reset;
-        EmpSalaryAdv.SetRange("Employee Code", empNo);
-        EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
-        EmpSalaryAdv.SetRange(FY, HrMgt.ReturnFiscalYear(Today));
-        EmpSalaryAdv.SetFilter("Loan Type", loanType);
-        exit(EmpSalaryAdv.Count);
-    end;
-
-    local procedure CalculateEMI(empNo: Code[20]): Decimal
-    var
-        EmpSalaryAdv: Record "Employee Loan/Advance";
-        LoanOutstanding: Record "Loan Outstanding from Finacle";
-        PreviosuEMI: Decimal;
-        EMIPersonalLoan: Decimal;
-        EmpLoanInterest: Record "Employee Loan Interest";
-        Homeloan: Record "Employee Loan/Advance";
-        VehicleLoan: Decimal;
-    begin
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", empNo);
-        LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
-        LoanOutstanding.CalcSums(EMI);
-        PreviosuEMI := LoanOutstanding.EMI;
-
-        LoanOutstanding.Reset;
-        LoanOutstanding.SetRange("Employee No.", empNo);
-        LoanOutstanding.SetRange("Scheme Type", 'ODA');
-        LoanOutstanding.CalcSums("Loan Limit");
-
-        EmpLoanInterest.Reset;
-        EmpLoanInterest.SetRange("Loan Type", EmpLoanInterest."Loan Type"::"Personal Loan");
-        EmpLoanInterest.SetCurrentKey("Starting Date");
-        if EmpLoanInterest.FindLast then;
-        EMIPersonalLoan := LoanOutstanding."Loan Limit" * EmpLoanInterest."Interest Rate" / 100 / 12;
-
-        EmpSalaryAdv.Reset;
-        EmpSalaryAdv.SetRange("Employee Code", empNo);
-        EmpSalaryAdv.SetRange("Approval Status", EmpSalaryAdv."Approval Status"::Approved);
-        EmpSalaryAdv.SetRange(Settled, false);
-        EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
-        EmpSalaryAdv.CalcSums(EMI);
-
-        Clear(VehicleLoan);
-        if SalaryLevel."Vehicle Loan Limit" = 0 then begin
-            Clear(LoanOutstanding);
-            LoanOutstanding.Reset;
-            LoanOutstanding.SetRange("Employee No.", empNo);
-            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
-            LoanOutstanding.CalcSums(EMI);
-            VehicleLoan := LoanOutstanding.EMI;
-        end;
-
-        /*
-          Homeloan.RESET;
-          Homeloan.SETRANGE("Employee Code", empNo);
-          Homeloan.SETRANGE("Approval Status",Homeloan."Approval Status"::Approved);
-          Homeloan.SETRANGE(Settled,FALSE);
-          Homeloan.SETRANGE("Loan Type",Homeloan."Loan Type"::"Home Loan");
-          Homeloan.SETRANGE("Repayment Mode",Homeloan."Repayment Mode"::"Insurance Tieup");
-          Homeloan.CALCSUMS(EMI);
-        */
-
-        exit(EmpSalaryAdv.EMI + PreviosuEMI + EMIPersonalLoan + Homeloan.EMI + VehicleLoan);
-    end;
-
-    local procedure CalculateGrossSalary(empNo: Code[20]): Decimal
-    begin
-        Employee.Get(empNo);
-        SalaryLevel.Get(Employee."Salary Level");
-        SalaryGrade.Get(Employee."Salary Grade");
-        if Employee."Confirmation Date" = 0D then
-            Error('Confirmation must have value in employee %1.', Employee."Full Name");
-        Evaluate(TotalServicePeriod, Format((Today - Employee."Confirmation Date") / 365));
-        TotalServicePeriod := Round(TotalServicePeriod, 0.01, '=');
-
-        exit(SalaryLevel."Basic Salary" +
-                              SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary");
-    end;
-
-    local procedure CheckDBRRatio(DbrRatio: Decimal)
-    begin
-        if CheckSalaryLevel.Rank >= SalaryLevel.Rank then begin
-            if DbrRatio > HRSetup."Below SO DBR" then
-                Error('DBR Ratio is %1 which must less than %2.', DbrRatio, HRSetup."Below SO DBR");
-        end else begin
-            if DbrRatio > HRSetup."DBR Ratio" then
-                Error('DBR Ratio is %1 which must less than %2.', DbrRatio, HRSetup."DBR Ratio");
-        end;
-    end;
-
-    local procedure CalculateLoanEMI(interestRate: Decimal; appliedLoan: Decimal; repaymentPeriod: Integer; loanType: Text; repaymentMode: Text): Decimal
-    var
-        intRate: Decimal;
-        PowerValue: Decimal;
-        EmpLoan: Record "Employee Loan/Advance";
-    begin
-        case loanType of
-            Format(EmpLoan."Loan Type"::"Salary Advance"):
-                exit(appliedLoan / repaymentPeriod);
-
-            Format(EmpLoan."Loan Type"::"Personal Loan"):
-                exit((appliedLoan * interestRate / 100) / 12);
-
-            Format(EmpLoan."Loan Type"::"Vehicle Loan"):
-                begin
-                    if repaymentPeriod > HRSetup."Max. Veh. Loan Repay Period" then
-                        Error('Repayment period exceeded.');
-                    intRate := (interestRate / 12) / 100;
-                    PowerValue := Power((1 + intRate), (repaymentPeriod * 12));
-                    if interestRate = 0 then    //changes for salary level greater than AM
-                        exit(appliedLoan / (repaymentPeriod * 12))//changes for salary level greater than AM
-                    else
-                        exit((appliedLoan * intRate * PowerValue)  //pram 1.31.2020
-                              / (PowerValue - 1));
-                end;
-
-            Format(EmpLoan."Loan Type"::"Home Loan"):
-                begin
-                    if repaymentMode = Format(EmpLoan."Repayment Mode"::"EMI Basis") then begin
-                        intRate := (interestRate / 12) / 100;
-                        PowerValue := Power((1 + intRate), (repaymentPeriod * 12));
-                        exit((appliedLoan * intRate * PowerValue)
-                            / (PowerValue - 1));
-                    end else if repaymentMode = Format(EmpLoan."Repayment Mode"::"Insurance Tieup") then
-                            exit((appliedLoan / 1000) * interestRate / 12);
-                end;
-        end;
-    end;
-
-    local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan"): Decimal
-    var
-        LoanOutstanding: Record "Loan Outstanding from Finacle";
-    begin
-        if LoanType = LoanType::"Home Loan" then begin
-            LoanOutstanding.Reset;
-            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
-            LoanOutstanding.SetFilter("Loan Type", '%1|%2', LoanOutstanding."Loan Type"::"Home Loan", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
-            LoanOutstanding.CalcSums("Outstanding Amount");
-            exit(Abs(LoanOutstanding."Outstanding Amount"));
-        end else if LoanType = LoanType::"Personal Loan" then begin
-            LoanOutstanding.Reset;
-            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
-            LoanOutstanding.SetRange("Loan Type", LoanType);
-            LoanOutstanding.CalcSums("Loan Limit");
-            exit(LoanOutstanding."Loan Limit");
-        end else if LoanType = LoanType::"Vehicle Loan" then begin
-            LoanOutstanding.Reset;
-            LoanOutstanding.SetRange("Employee No.", EmployeeCode);
-            LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Vehicle Loan");
-            LoanOutstanding.CalcSums("Outstanding Amount");
-            exit(Abs(LoanOutstanding."Outstanding Amount"));
-        end;
-    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -1808,109 +1934,13 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure generateInterviewEntries(vacancyCode: Code[20]; candidateCode: Code[20])
+    procedure generateInterviewEntries(vacancyCode: Code[20]; candidateCode: Code[20]; employeeCode: Code[20])
     begin
-        HrMgt.GenerateInterviewerEntries(vacancyCode, candidateCode);
+        HrMgt.GenerateInterviewerEntriesAPI(vacancyCode, candidateCode, employeeCode);
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure retrunResignationWaiver(empNo: Code[20]; proposedDateofResignation: Date): Text
-    var
-        ResignationDays: Integer;
-        requestedDate: Date;
-    begin
-        HRSetup.Get;
-        Employee.Get(empNo);
-        case Employee."Employment Type" of
-            Employee."Employment Type"::Contract:
-                begin
-                    HRSetup.TestField("Resignation Period Contract");
-                    ResignationDays := HRSetup."Resignation Period Contract";
-                end;
-            Employee."Employment Type"::Probation:
-                begin
-                    HRSetup.TestField("Resignation Period Probation");
-                    ResignationDays := HRSetup."Resignation Period Probation";
-                end;
 
-            Employee."Employment Type"::Permanent:
-                begin
-                    HRSetup.TestField("Resignation Period Permanent");
-                    ResignationDays := HRSetup."Resignation Period Permanent";
-                end;
-        end;
 
-        if requestedDate = 0D then
-            requestedDate := Today;
-
-        if (proposedDateofResignation - requestedDate + 1) >= ResignationDays then
-            exit('{"Waiver Case" : "Normal"}')
-        else
-            exit('{"Waiver Case" : "Recovery"}')
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure sendToHR(resignNo: Code[20]): Text
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        EmpActivity.Get(resignNo);
-        EmpActivity.TestField(Type, EmpActivity.Type::Resignation);
-        HrMgt.ForwardToHR(EmpActivity);
-        exit('success');
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure generateAttachmentAPI(leavecode: Code[20]; startDate: Date; endDate: Date; employeeNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        NoOfDays: Integer;
-        LeaveType: Record "Leave Type Setup";
-        AttachmentSetup: Record "Attachment Setup";
-    begin
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SetRange("Employee Code", employeeNo);
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        TempIncomingDoc.SETRANGE("Leave Type Code", leavecode);
-        TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.FindSet() then
-            repeat
-                if TempIncomingDoc."File Name" <> '' then
-                    Clear(TempIncomingDoc."File Name");
-            until TempIncomingDoc.Next = 0;
-        TempIncomingDoc.DeleteAll;
-        if leavecode = '' then
-            Error('Leave Code must have value');
-        LeaveType.Get(leavecode);
-        if (startDate = 0D) or (endDate = 0D) then
-            NoOfDays := 0
-        else
-            NoOfDays := endDate - startDate;
-        if LeaveType."Sick Leave" then
-            if NoOfDays < LeaveType."No. of Days for Attachment" then
-                exit;
-        //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-        AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-        if AttachmentSetup.Find('-') then
-            repeat
-                TempIncomingDoc.Reset;
-                TempIncomingDoc.Init;
-                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                TempIncomingDoc.Validate(Description, 'Leave Request' + ': ' + LeaveType.Description);
-                TempIncomingDoc.Validate("Employee Code", employeeNo);
-                TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
-                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-                TempIncomingDoc.Insert(true);
-            until AttachmentSetup.Next = 0;
-        //END;
-        exit('sucess');
-    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2579,7 +2609,7 @@ page 50108 "Portal Functions"
             repeat
                 CandidateRec."Interview By" := '';
                 EvaluationEntry.Reset;
-                EvaluationEntry.SetRange("Attribute Code", 'APTITUDE');
+                //EvaluationEntry.SetRange("Attribute Code", 'APTITUDE');
                 EvaluationEntry.SetRange("Vacancy Code", CandidateRec."Vacancy Code");
                 EvaluationEntry.SetRange("No.", CandidateRec."No.");
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
@@ -2618,25 +2648,7 @@ page 50108 "Portal Functions"
         HrMgt.ApplyForPromoiton(Candidate);
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure updateLoan(empLoanCode: Code[20])
-    var
-        EmpLoan: Record "Employee Loan/Advance";
-    begin
-        EmpLoan.Get(empLoanCode);
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Open then begin
-            EmpLoan.Validate("Employee Code");
-            EmpLoan.Validate("Applied Loan/Advance", 0);
-            EmpLoan.Validate("Requested Loan Date", Today);
-            //EmpLoan.VALIDATE("Repayment Period",1); //Min Commented -- As per Sachin not req.
-            EmpLoan.Modify(true);
-        end;
-        if (EmpLoan."Approval Status" = EmpLoan."Approval Status"::Open) and EmpLoan."Returned Loan" then begin //Min 4.15.2022
-            EmpLoan.Validate("Reinstate Date", Today);
-            EmpLoan.Modify(true);
-        end;
-    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3212,6 +3224,7 @@ page 50108 "Portal Functions"
         EmployeeTransferForRecommendation: Integer;
         EmployeeTransferForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
+        AllowanceAssignmentForApprove: Integer;
 
 
 
@@ -3241,11 +3254,7 @@ page 50108 "Portal Functions"
         Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
         Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
         SalaryAdvanceForRecommemdation := Loan.Count();
-        // Loan.Reset();
-        // Loan.SetRange(Approver, empcode);
-        // Loan.SetRange("Approval Status", Loan."Approval Status"::Recommended);
-        // Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
-        // SalaryAdvanceForApprove := Loan.Count();
+
 
         TravelRequest.Reset();
         TravelRequest.SetRange("Recommender Code", empcode);
@@ -3305,7 +3314,12 @@ page 50108 "Portal Functions"
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
-        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove +
+        AllowanceAssignment.Reset();
+        AllowanceAssignment.SetRange("Approver ID", empcode);
+        AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
+        AllowanceAssignmentForApprove := AllowanceAssignment.Count();
+
+        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
                         ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + SalaryAdvanceForRecommemdation + AttendanceMissedForRecommendation + AttendanceMissedForApprove;
 
         exit('{"leaveForRecommendation" : "' + Format(leaveForRecommendation) + '"' +
@@ -3325,6 +3339,7 @@ page 50108 "Portal Functions"
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
         ',"AttendanceMissedForRecommendation": "' + format(AttendanceMissedForRecommendation) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
+        ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;
