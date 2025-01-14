@@ -14,26 +14,38 @@ page 50349 "Notice Card"
                 Caption = 'General';
                 field("Entry No."; Rec."Entry No.")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Entry No. field.';
                     ApplicationArea = All;
                 }
                 field(Type; Rec.Type)
                 {
+                    Editable = EditableField;
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
                 }
-                field(Date; Rec.Date)
+                field("Notice Create Date"; Rec."Notice Create Date")
                 {
+                    Editable = EditableField;
                     ToolTip = 'Specifies the value of the Date field.';
                     ApplicationArea = All;
                 }
+                field("Notice End Date"; Rec."Notice End Date")
+                {
+                    Editable = EditableField;
+                    ToolTip = 'Specifies the value of the Date field.';
+                    ApplicationArea = All;
+                }
+
                 field("Notice Title"; Rec."Notice Title")
                 {
+                    Editable = EditableField;
                     ToolTip = 'Specifies the value of the Notice field.';
                     ApplicationArea = All;
                 }
                 field(Description; LargeText)
                 {
+                    Editable = EditableField;
                     Caption = 'Notice Description';
                     ApplicationArea = All;
                     MultiLine = true;
@@ -51,6 +63,7 @@ page 50349 "Notice Card"
         {
             part(Control3; "Notice Picture")
             {
+                Editable = EditableField;
                 ApplicationArea = BasicHR;
                 SubPageLink = "Entry No." = field("Entry No.");
             }
@@ -61,8 +74,15 @@ page 50349 "Notice Card"
         LargeText := GetLargeText();
     end;
 
+    trigger OnOpenPage()
+    begin
+        if Rec."Notice End Date" >= Today then
+            EditableField := true;
+    end;
+
     var
         LargeText: text;
+        EditableField: Boolean;
 
     procedure GetLargeText() NewLargeText: Text
     var

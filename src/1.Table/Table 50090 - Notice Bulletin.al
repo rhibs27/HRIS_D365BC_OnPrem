@@ -8,7 +8,8 @@ table 50090 "Notice Bulletin"
         field(2; Type; Enum "Notice Bulletin Type")
         {
         }
-        field(3; Date; Date) { }
+        field(3; "Notice Create Date"; Date) { }
+
         field(4; Notice; Media)
         {
         }
@@ -17,7 +18,10 @@ table 50090 "Notice Bulletin"
         }
         field(7; "Description"; Blob)
         {
-            Caption = '"Description"';
+            Caption = 'Description';
+        }
+        field(8; "Notice End Date"; Date)
+        {
         }
 
     }

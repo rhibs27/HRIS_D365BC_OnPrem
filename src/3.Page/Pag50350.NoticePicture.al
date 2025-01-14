@@ -31,6 +31,7 @@ page 50350 "Notice Picture"
                 Caption = 'Import';
                 Image = Import;
                 ToolTip = 'Import a picture file.';
+                Enabled = EditableField;
 
                 trigger OnAction()
                 var
@@ -58,20 +59,20 @@ page 50350 "Notice Picture"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
-                Enabled = DeleteExportEnabled;
+                Enabled = DeleteExportEnabled and EditableField;
                 Image = Export;
                 ToolTip = 'Export the picture to a file.';
 
                 trigger OnAction()
                 var
-                    DummyPictureEntity: Record "Picture Entity";
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
                     ExportPath: Text;
+                    ItemTenantMedia: Record "Tenant Media";
                 begin
                     Rec.TestField("Entry No.");
-
-                    ToFile := DummyPictureEntity.GetDefaultMediaDescription(Rec);
+                    if ItemTenantMedia.Get(Rec.Notice.MediaId) then
+                        ToFile := Format(Rec."Entry No.") + '.' + FileManagement.GetExtension(ItemTenantMedia."File Name");
                     ExportPath := TemporaryPath + Format(Rec."Entry No.") + Format(Rec.Notice.MediaId);
                     Rec.Notice.ExportFile(ExportPath);
 
@@ -82,7 +83,7 @@ page 50350 "Notice Picture"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-                Enabled = DeleteExportEnabled;
+                Enabled = DeleteExportEnabled and EditableField;
                 Image = Delete;
                 ToolTip = 'Delete the record.';
 
@@ -109,9 +110,12 @@ page 50350 "Notice Picture"
         SelectPictureTxt: Label 'Select a picture to upload';
         DeleteExportEnabled: Boolean;
         DeleteImageQst: Label 'Are you sure you want to delete the picture?';
+        EditableField: Boolean;
 
     local procedure SetEditableOnPictureActions()
     begin
         DeleteExportEnabled := Rec.Notice.HasValue();
+        if rec."Notice End Date" >= Today then
+            EditableField := true;
     end;
 }

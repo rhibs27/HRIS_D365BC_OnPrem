@@ -21,9 +21,13 @@ page 50195 NoticeBulletinsEntity
                 {
                     Caption = 'Entry No.';
                 }
-                field("date"; Rec."Date")
+                field(createDate; Rec."Notice Create Date")
                 {
-                    Caption = 'Date';
+                    Caption = 'Create Date';
+                }
+                field(expireDate; Rec."Notice Create Date")
+                {
+                    Caption = 'Expire Date';
                 }
                 field(description; ExportDescription)
                 {
@@ -64,13 +68,18 @@ page 50195 NoticeBulletinsEntity
         TempBlob: CodeUnit "Temp Blob";
         ItemTenantMedia: Record "Tenant Media";
         base64: Codeunit "Base64 Convert";
+        ImageTxt: text;
+        Extension: text;
+        fileMgt: Codeunit "File Management";
     begin
         if Rec.Notice.HasValue then begin
             if ItemTenantMedia.Get(Rec.Notice.MediaId) then begin
                 ItemTenantMedia.CalcFields(Content);
                 TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
                 TempBlob.CreateInStream(InStr);
-                exit(base64.ToBase64(InStr));
+                ImageTxt := base64.ToBase64(InStr);
+                Extension := fileMgt.GetExtension(ItemTenantMedia."File Name");
+                exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + ImageTxt + '"}');
             end;
         end;
     end;
