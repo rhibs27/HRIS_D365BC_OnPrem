@@ -136,9 +136,6 @@ table 50124 Leave
                     Clear("End Date (BS)");
                     Clear("No. of Days");
                 end;
-                if Type = Type::"Travel Claim" then begin
-                    // Clear("Out of Pocket Expense");nILESH
-                end;
             end;
         }
         field(9; "No. of Days"; Decimal)
@@ -687,11 +684,11 @@ table 50124 Leave
         if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
             exit;
 
-        EmpActFilterPageBuilder.AddRecord('Employee Activity', Rec);
-        EmpActFilterPageBuilder.ADdField('Employee Activity', "Recommender Code");
-        EmpActFilterPageBuilder.ADdField('Employee Activity', "Approver Code");
+        EmpActFilterPageBuilder.AddRecord('Leave', Rec);
+        EmpActFilterPageBuilder.ADdField('Leave', "Recommender Code");
+        EmpActFilterPageBuilder.ADdField('Leave', "Approver Code");
         EmpActFilterPageBuilder.RunModal;
-        Leave.SetView(EmpActFilterPageBuilder.GetView('Employee Activity'));
+        Leave.SetView(EmpActFilterPageBuilder.GetView('Leave'));
         RecommenderCode := Leave.GetFilter("Recommender Code");
         ApproverCode := Leave.GetFilter("Approver Code");
 

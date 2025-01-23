@@ -2,7 +2,7 @@ page 50102 "Travel Claim Lists"
 {
     // version NIC Asia1.00,Travel
 
-    CardPageId = "Travel Form";
+    CardPageId = "Travel Claim";
     Editable = false;
     PageType = List;
     PromotedActionCategories = 'New,Process,Report,SetFilter';

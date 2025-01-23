@@ -131,7 +131,7 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Travel With field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and not Rec.Extended;
                 }
                 field("Mode Of Travel"; Rec."Mode Of Travel")
                 {
@@ -312,7 +312,7 @@ page 50101 "Travel Form"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = not IsRecommended;
+                Visible = IsPending;
                 ToolTip = 'Executes the Recommend Travel Request action.';
                 ApplicationArea = All;
 
@@ -385,6 +385,7 @@ page 50101 "Travel Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
+                Visible = not IsApproved;
 
                 trigger OnAction()
                 begin
@@ -402,7 +403,7 @@ page 50101 "Travel Form"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved;
+                Visible = IsApproved and not rec.Extended;
                 ToolTip = 'Executes the Extend Travel Request action.';
                 ApplicationArea = All;
 
@@ -419,7 +420,7 @@ page 50101 "Travel Form"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved;
+                Visible = IsApproved and not rec.Extended;
                 ToolTip = 'Executes the Claim Travel action.';
                 ApplicationArea = All;
 
@@ -457,7 +458,7 @@ page 50101 "Travel Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Change Approver action.';
                 ApplicationArea = All;
-
+                Visible = IsPending or IsRecommended;
                 trigger OnAction()
                 begin
                     if Confirm(CofirmApprover) then begin //Min -- for change Travel Approver.

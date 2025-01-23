@@ -40,10 +40,10 @@ codeunit 50004 "Travel Mgt."
 
     procedure CalcExtendDays(NoOfDays: Decimal; TravelOrderNo: Code[20]): Decimal
     var
-        EmpAct: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if EmpAct.Get(TravelOrderNo) then
-            exit(EmpAct."Total No. of Days");
+        if TravelRequest.Get(TravelOrderNo) then
+            exit(TravelRequest."Total No. of Days");
     end;
 
     procedure ApplyForTravel(TravelReq: Record "Travel Request" temporary): Boolean
@@ -53,6 +53,10 @@ codeunit 50004 "Travel Mgt."
         ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
         TravelRequest2: Record "Travel Request";
         Date: Record Date;
+        SalaryLevel1: Record "Salary Level";
+        SalaryLevel: Record "Salary Level";
+        Employee: Record Employee;
+        TravelRequest1: Record "Travel Request";
     begin
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
@@ -85,11 +89,63 @@ codeunit 50004 "Travel Mgt."
 
         if TravelReq."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
+        Employee.Reset();
+        Employee.Get(TravelReq."Employee No.");
+        SalaryLevel.Get(Employee."Salary Level");
+        if TravelReq."Travel With" <> '' then begin//AT
+            Employee1.Get(TravelReq."Travel With");
+            if not SalaryLevel."Travel With Not Eligible" then
+                SalaryLevel1.Get(Employee1."Salary Level");
+        end;
 
         TravelRequest.Init;
         TravelRequest.TransferFields(TravelReq);
+        if TravelReq.extended then begin
+            TravelRequest1.Get(TravelReq."Travel Order No.");
+            TravelRequest.Validate("Travel With", TravelRequest1."Travel With");
+            TravelRequest.Validate("Travel Countries", TravelRequest1."Travel Countries");
+            // TravelRequest.Validate("Start Date", TravelRequest1."Start Date");
+            // TravelRequest.Validate("End Date", TravelReq."End Date");
+        end;
         TravelRequest.TestField("Approver Code");
         TravelRequest.Validate("Total No. of Days", TravelRequest."No. of Days" + CalcExtendDays(TravelRequest."No. of Days", TravelRequest."Travel Order No."));
+
+        if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
+            if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
+            end else begin
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
+            end;
+            if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
+            end else begin
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
+            end;
+        end
+        else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
+            if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
+
+            end else begin
+                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
+                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
+
+            end;
+            if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
+
+            end else begin
+                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
+            end;
+        end;
+
         //api>>
         if not GuiAllowed then
             if TravelRequest."Advance Cash" > 0 then
@@ -224,7 +280,7 @@ codeunit 50004 "Travel Mgt."
 
     procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Option Nepal,India,"Other Countries")
     var
-        EmpAct: Record "Employee Activity" temporary;
+        //EmpAct: Record "Employee Activity" temporary;
         TravelRequest: Record "Travel Request" temporary;
         SalaryLevel: Record "Salary Level";
         Employee1: Record Employee;
@@ -538,7 +594,6 @@ codeunit 50004 "Travel Mgt."
                 SalaryLevel1.Get(Employee1."Salary Level");
         end;
 
-
         TravelRequest.Init;
         TravelRequest.TransferFields(TravelReq);
         TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
@@ -547,13 +602,20 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Validate("Depature From", TravelRequest2."Depature From");
         TravelRequest.Validate(Description, TravelRequest2.Description);
         TravelRequest.Validate("Mode Of Travel", TravelRequest2."Mode Of Travel");
-        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelRequest2."No."));
-        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelRequest2."No."));
-        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest2."No."));
-        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest2."No."));
-        TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash");
+        // TravelRequest.Validate("Start Date", TravelRequest2."End Date" - TravelRequest2."Total No. of Days" + 1);
+        // TravelRequest.Validate("Start Date", GetTravelStartDate(TravelReq."Travel Order No."));
+        // TravelRequest.Validate("End Date", TravelReq."End Date");
+        // TravelRequest.Validate("Fooding Allowance Limit", TravelRequest2."Fooding Allowance Limit");
+        // TravelRequest.Validate("Fooding Per Day Limit", TravelRequest2."Fooding Per Day Limit");
+        // TravelRequest.Validate("Lodging Allowance Limit", TravelRequest2."Lodging Allowance Limit");
+        // TravelRequest.Validate("Lodging Per Day Limit", TravelRequest2."Lodging Per Day Limit");
+        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelReq."Travel Order No."));
+        // TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash" + TravelReq."Advance Cash");
 
         if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT

@@ -4,11 +4,13 @@ page 50093 "Travel Requests"
 
     CardPageId = "Travel Form";
     // Editable = false;
+    DeleteAllowed = false;
     PageType = List;
     SourceTable = "Travel Request";
     SourceTableView = WHERE(Type = CONST("Travel Request"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    Editable = false;
 
     layout
     {
@@ -20,11 +22,11 @@ page 50093 "Travel Requests"
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
-                    trigger OnAssistEdit()
-                    begin
-                        if Rec.AssistEdit(xRec) then
-                            CurrPage.Update();
-                    end;
+                    // trigger OnAssistEdit()
+                    // begin
+                    //     if Rec.AssistEdit(xRec) then
+                    //         CurrPage.Update();
+                    // end;
                 }
                 field("Employee No."; Rec."Employee No.")
                 {

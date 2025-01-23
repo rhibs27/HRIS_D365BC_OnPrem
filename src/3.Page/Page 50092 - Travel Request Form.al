@@ -108,6 +108,7 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the value of the Travel With field.';
                     ApplicationArea = All;
+                    Editable = extendedEdit;
                 }
             }
             group(Travel)
@@ -167,7 +168,6 @@ page 50092 "Travel Request Form"
                 }
                 field("Estimated Transportation Cost"; Rec."Estimated Transportation Cost")
                 {
-                    Editable = FieldEditable;
                     ToolTip = 'Specifies the value of the Estimated Transportation Cost field.';
                     ApplicationArea = All;
                 }
@@ -268,6 +268,15 @@ page 50092 "Travel Request Form"
     trigger OnAfterGetRecord()
     begin
         FieldEditable := Rec."Payment From" = Rec."Payment From"::Self;
+
+
+    end;
+
+    trigger OnOpenPage()
+    var
+    begin
+        if rec."Travel Order No." = '' then
+            extendedEdit := true;
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -288,4 +297,5 @@ page 50092 "Travel Request Form"
         IsApplied: Boolean;
         FieldEditable: Boolean;
         EstimatedFieldEditable: Boolean;
+        extendedEdit: Boolean;
 }
