@@ -14,16 +14,15 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         {
             trigger OnAfterValidate()
             begin
-                Clear("To Date");
-                Clear("Time Period");
+                // Clear("To Date");
+                // Clear("Time Period");
             end;
         }
         modify("To Date")
         {
             trigger OnAfterValidate()
             begin
-                Clear("To Date");
-                Clear("Time Period");
+                // Clear("Time Period");
             end;
         }
         field(50000; "Emp Qualification Type"; Enum "Emp. Qualification Type")

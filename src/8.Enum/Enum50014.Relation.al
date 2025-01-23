@@ -14,24 +14,34 @@ enum 50014 Relation
     {
         Caption = 'Mother';
     }
-    value(3; "Father In Law")
-    {
-        Caption = 'Father In Law';
-    }
-    value(4; "Mother In Law")
-    {
-        Caption = 'Mother In Law';
-    }
-    value(5; GrandFather)
+    value(4; GrandFather)
     {
         Caption = 'GrandFather';
     }
-    value(6; "Spouse Grandfather")
+    value(5; GrandMother)
     {
-        Caption = 'Spouse Grandfather';
+        Caption = 'GrandMother';
     }
-    value(7; Spouse)
+    value(6; Spouse)
     {
         Caption = 'Spouse';
     }
+    value(7; "Father In Law")
+    {
+        Caption = 'Father In Law';
+    }
+    value(8; "Mother In Law")
+    {
+        Caption = 'Mother In Law';
+    }
+
+    value(9; "Spouse Grandfather")
+    {
+        Caption = 'Spouse Grandfather';
+    }
+    value(10; "Spouse GrandMother")
+    {
+        Caption = 'Spouse GrandMother';
+    }
+
 }

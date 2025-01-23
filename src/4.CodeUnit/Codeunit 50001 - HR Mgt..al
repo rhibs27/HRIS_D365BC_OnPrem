@@ -55,7 +55,6 @@ codeunit 50001 "HR Mgt."
         EngNep: Record "English-Nepali Date";
         WorkShift: Record "Rating Scale";
         PayrollSetup: Record "Payroll General Setup";
-        "------------->": Label 'Nic Asia';
         VacancyDocCategoryTxt: Label 'Vacancy', Locked = true;
         CustVacancyCategoryTxt: Label 'Vacancy', Locked = true;
         CustVacancyCategoryDescTxt: Label 'Vacancy Documents';
@@ -153,10 +152,6 @@ codeunit 50001 "HR Mgt."
         loanMgt: Codeunit "Loan Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: CodeUnit "Travel Mgt.";
-
-    local procedure "<------------------NIC Asia------------------------>"()
-    begin
-    end;
 
     procedure MoveToMagicPath(SourceFileName: Text[1024]) DestinationFileName: Text[1024]
     var

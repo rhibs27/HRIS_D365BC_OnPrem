@@ -1,7 +1,7 @@
 enum 50113 "Qualification Type"
 {
     Extensible = true;
-    
+
     value(0; "")
     {
         Caption = '';
@@ -14,12 +14,12 @@ enum 50113 "Qualification Type"
     {
         Caption = '+2';
     }
-    value(3; "Bachelor''s")
+    value(3; "Bachelor")
     {
-        Caption = 'Bachelor''''s';
+        Caption = 'Bachelors';
     }
-    value(4; "Master''s")
+    value(4; "Masters")
     {
-        Caption = 'Master''''s';
+        Caption = 'Masters';
     }
 }

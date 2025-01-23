@@ -18,93 +18,10 @@ table 50142 Resignation
                     end else begin
                         case Type of
 
-                            //employee change no. series
-                            Type::"Changes in employee":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Employee Change No. Series");
-                                    "No. Series" := '';
-                                end;
-
-                            //for access grant
-                            Type::"Access Control":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Access Control No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for leave
-                            Type::"Leave Request":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Leave No. Series");
-                                    "No. Series" := '';
-                                end;
-
-                            //for travel request
-                            Type::"Travel Request":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Travel Request No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for travel claimed
-                            Type::"Travel Claim":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Travel Claimed No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for transfer
-                            Type::"Employee Transfer", Type::"HR Transfer":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Transfer No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for OT
-                            Type::Overtime:
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."OT No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for out of office
-                            Type::"Out of Office":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Out of office No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for bulk cash
-                            Type::"Bulk Cash":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Bulk Cash No.");
-                                    "No. Series" := '';
-                                end;
                             //for resignation
                             Type::Resignation:
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Resignation No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for medical insurance claim
-                            Type::"Medical Insurance Claim":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Medical Insurance No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //for promotion
-                            Type::Promotion:
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Promotion No.");
-                                    "No. Series" := '';
-                                end;
-
-                            //attendance missed
-                            Type::"Attendance Missed":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Attendance Missed No.");
                                     "No. Series" := '';
                                 end;
                         end;
@@ -137,28 +54,7 @@ table 50142 Resignation
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate(Ecosystem, EmpVar."Eco-System");
                     Validate("Office Code", EmpVar.Office);
-                    // if Type = Type::Overtime then begin //Min 11.18.2022
-                    //     if "Start Date" > 20221207D then begin
-                    //         PayrollGenSetup.Get;
-                    //         if EmployeeAttendanceActivity.Get("Employee No.", "Start Date") then begin
-                    //             SalaryLevelRec.Get(EmployeeAttendanceActivity."Salary Level Code");
-                    //             SalaryGrade.Get(EmployeeAttendanceActivity."Salary Grade");
-                    //             if "Encashment Code" = PayrollGenSetup.Overtime then begin
-                    //                 if EmpVar."Salary Level" = PayrollGenSetup."TA Salary Level" then
-                    //                     "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))
-                    //                 else if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
-                    //                     "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (EmpVar."Contract Salary Amount" + (SalaryGrade."Grade Percentage" / 100 * EmpVar."Contract Salary Amount")))
-                    //                 else
-                    //                     "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                    //             end else begin
-                    //                 if "Encashment Code" = PayrollGenSetup."Extra Mileage" then
-                    //                     "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                    //                 if "Encashment Code" = PayrollGenSetup."Year End Encashment" then
-                    //                     "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                    //             end;
-                    //         end;
-                    //     end;
-                    // end;
+
                     if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then begin
                         Validate("Recommender Code", EmpVar."KPI Deputation Value");
                         Validate("Recommender Name", EmpVar."Recommender Name");
@@ -200,27 +96,7 @@ table 50142 Resignation
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
-                    if Type = Type::"Leave Request" then begin
-                        if EmployeeRec."Confirmation Date" <> 0D then
-                            if "Start Date" < EmployeeRec."Confirmation Date" then
-                                Error('Cannot apply before your confirmation date.');
-                    end;
                 end;
-                //>>check for leave
-                if Type = Type::"Leave Request" then begin
-                    if EmployeeRec."Contract Expiry Date" <> 0D then
-                        if "Start Date" > EmployeeRec."Contract Expiry Date" then
-                            Error('Cannot apply leave after contract expiry date');
-                    EmpAttendanceActivity.Reset; //Min 4.11.2022
-                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                    EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
-                    if EmpAttendanceActivity.FindFirst then
-                        repeat
-                            if EmpAttendanceActivity."Present Day" = 1 then
-                                Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-                        until EmpAttendanceActivity.Next = 0;
-                end;
-                //<<check for leave
 
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -232,41 +108,6 @@ table 50142 Resignation
                     Clear("End Date");
                     Clear("End Date (BS)");
                     Validate("No. of Days", 0);
-                end;
-
-                // //for travel claim
-                // if Type = Type::"Travel Claim" then begin
-                //     Clear("Actual Travel Start Time");
-                //     Clear("Actual Travel End Time");
-                //     Clear("Out of Pocket Expense");
-                // end;
-
-                //for overtime
-                if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
-                    if "Start Date" >= Today then
-                        Error('You cannot apply OverTime in current and future date.');
-                    Validate("End Date", "Start Date");
-                end;
-                // //AT Travel Req Control
-                // if Type = Type::"Travel Request" then begin
-                //     EmpAct.Reset;
-                //     EmpAct.SetRange("Employee No.", "Employee No.");
-                //     EmpAct.SetRange(Type, EmpAct.Type::"Travel Request");
-                //     EmpAct.SetFilter("No.", '<>%1', "No.");
-                //     EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
-                //     EmpAct.SetRange("Start Date", "Start Date");
-                //     if EmpAct.FindFirst then
-                //         Error('Travel Request for Start Date = %1 already exists for %2', "Start Date", "Employee Name");
-                // end;
-                //Min 4.26.2022 -- Check for Missed Attendance.
-                if Type = Type::"Attendance Missed" then begin
-                    EmpActivityRec.Reset;
-                    EmpActivityRec.SetRange("Employee No.", "Employee No.");
-                    EmpActivityRec.SetRange(Type, EmpActivityRec.Type::"Attendance Missed");
-                    EmpActivityRec.SetRange("Start Date", Rec."Start Date");
-                    EmpActivityRec.SetFilter("Approval Status", '<>%1', EmpActivityRec."Approval Status"::Rejected);
-                    if EmpActivityRec.FindFirst then
-                        Error('Missed Attendance already applied for date %1', Rec."Start Date");
                 end;
             end;
         }
@@ -281,17 +122,6 @@ table 50142 Resignation
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
-                // if Type = Type::"Leave Request" then
-                //     TestField("Leave Code");
-                // if "End Date" <> 0D then
-                //     Validate("No. of Days", HRMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No."))
-                // else begin
-                //     Clear("End Date (BS)");
-                //     Clear("No. of Days");
-                // end;
-                // if Type = Type::"Travel Claim" then begin
-                //     Clear("Out of Pocket Expense");
-                // end;
             end;
         }
         field(9; "No. of Days"; Decimal)
@@ -300,59 +130,7 @@ table 50142 Resignation
 
             trigger OnValidate()
             begin
-                // if Type in [Type::"Travel Claim", Type::"Travel Request"] then begin
-                //     Validate("Total No. of Days", "No. of Days" + HRMgt.CalcExtendDays("No. of Days", "Travel Order No."));
-                //     SalaryLevel.Get("Salary Level Code");
-                //     if "Travel Countries" = "Travel Countries"::Nepal then begin
-                //         if "Travel With" <> '' then begin
-                //             if EmployeeRec.Get("Travel With") then//AT
-                //                 if not SalaryLevel."Travel With Not Eligible" then
-                //                     SalaryLevel1.Get(EmployeeRec."Salary Level");
-                //             if (SalaryLevel."Nepal Fooding Allowance" > SalaryLevel1."Nepal Fooding Allowance")
-                //               and (SalaryLevel."Nepal Lodging Allowance" > SalaryLevel1."Nepal Lodging Allowance") then begin
-                //                 Validate("Estimated Fooding Cost", SalaryLevel."Nepal Fooding Allowance" * "No. of Days");
-                //                 Validate("Estimated Lodging Cost", SalaryLevel."Nepal Lodging Allowance" * ("No. of Days" - 1));
-                //             end
-                //             else begin
-                //                 Validate("Estimated Fooding Cost", SalaryLevel1."Nepal Fooding Allowance" * "No. of Days");
-                //                 Validate("Estimated Lodging Cost", SalaryLevel1."Nepal Lodging Allowance" * ("No. of Days" - 1));
-                //             end;
-                //         end
-                //         else begin
-                //             Validate("Estimated Fooding Cost", SalaryLevel."Nepal Fooding Allowance" * "No. of Days");
-                //             Validate("Estimated Lodging Cost", SalaryLevel."Nepal Lodging Allowance" * ("No. of Days" - 1));
-                //         end;
-                //     end
-                //     else if "Travel Countries" = "Travel Countries"::India then begin
-                //         if "Travel With" <> '' then begin
-                //             if EmployeeRec.Get("Travel With") then//AT
-                //                 if not SalaryLevel."Travel With Not Eligible" then
-                //                     SalaryLevel1.Get(EmployeeRec."Salary Level");
-                //             if (SalaryLevel."India Fooding Allowance" > SalaryLevel1."India Fooding Allowance")
-                //               and (SalaryLevel."India Lodging Allowance" > SalaryLevel1."India Lodging Allowance") then begin
-                //                 Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
-                //                 Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
-                //             end
-                //             else begin
-                //                 Validate("Estimated Fooding Cost", SalaryLevel1."India Fooding Allowance" * "No. of Days");
-                //                 Validate("Estimated Lodging Cost", SalaryLevel1."India Lodging Allowance" * ("No. of Days" - 1));
-                //             end;
-                //         end
-                //         else begin
-                //             Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
-                //             Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
-                //         end;
-                //     end;
-                // end;
-                // if not Cancelled then
-                //     if (Type = Type::"Leave Request") and ("End Date" <> 0D) then begin
-                //         HRMgt.CheckForLimitDays("Leave Code", "No. of Days");
-                //         if LeaveTypeVar.Get("Leave Code") then;
-                //         if not LeaveTypeVar.Compensatory then
-                //             HRMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
-                //         HRMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
-                //         HRMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
-                //     end;
+
             end;
         }
         field(10; "Requested Date"; Date)
@@ -398,13 +176,6 @@ table 50142 Resignation
 
             trigger OnValidate()
             begin
-                if "Approval Status" = "Approval Status"::Approved then
-                    if Type = Type::Resignation then begin
-                        EmployeeRec.Get("Employee No.");
-                        EmployeeRec.Validate("Resignation Date", "HR Proposed Date");
-                        // EmployeeRec.VALIDATE(Status,EmployeeRec.Status::Inactive);
-                        EmployeeRec.Modify;
-                    end;
                 if "Approval Status" = "Approval Status"::Screened then begin
                     Validate("Screener Date", Today);
                     Validate("Screener ID", HRMgt.GetEmployeeNo);
@@ -830,99 +601,11 @@ table 50142 Resignation
             end else begin
                 case Type of
 
-                    //change in employee
-                    Type::"Changes in employee":
-                        begin
-                            HRSetup.TestField("Employee Change No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for access control
-                    Type::"Access Control":
-                        begin
-                            HRSetup.TestField("Access Control No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Access Control No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-
-                    //for leave
-                    Type::"Leave Request":
-                        begin
-                            HRSetup.TestField("Leave No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for travel request
-                    Type::"Travel Request":
-                        begin
-                            HRSetup.TestField("Travel Request No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Request No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for travel claim
-                    Type::"Travel Claim":
-                        begin
-                            HRSetup.TestField("Travel Claimed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Travel Claimed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for transfer
-                    Type::"Employee Transfer", Type::"HR Transfer":
-                        begin
-                            HRSetup.TestField("Transfer No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            // "Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
-                            // "Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
-                        end;
-
-                    //for overtime
-                    Type::Overtime:
-                        begin
-                            HRSetup.TestField("OT No.");
-                            NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for out of office
-                    Type::"Out of Office":
-                        begin
-                            HRSetup.TestField("Out of office No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Out of office No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for bulk cash
-                    Type::"Bulk Cash":
-                        begin
-                            HRSetup.TestField("Bulk Cash No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Bulk Cash No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
                     //for resignation
                     Type::Resignation:
                         begin
                             HRSetup.TestField("Resignation No.");
                             NoSeriesMgt.InitSeries(HRSetup."Resignation No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for medical insurance claim
-                    Type::"Medical Insurance Claim":
-                        begin
-                            HRSetup.TestField("Medical Insurance No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //for promotion
-                    Type::Promotion:
-                        begin
-                            HRSetup.TestField("Promotion No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Promotion No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
-
-                    //attendance missed
-                    Type::"Attendance Missed":
-                        begin
-                            HRSetup.TestField("Attendance Missed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            InsertAttendanceMissedAttachment;
                         end;
                 end;
             end;
@@ -930,33 +613,33 @@ table 50142 Resignation
         // InsertAttachmentLines;
     end;
 
-    local procedure InsertAttendanceMissedAttachment()
-    var
-        AttachmentMandatory: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-        AttachmentMandatory.Reset;
-        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
-        if AttachmentMandatory.FindFirst then
-            repeat
-                Clear(IncomingDocument);
-                IncomingDocument.Reset;
-                IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-                IncomingDocument.SetRange("No.", "No.");
-                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-                if not IncomingDocument.FindFirst then begin
-                    IncomingDocument.Reset;
-                    IncomingDocument.Init;
-                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-                    IncomingDocument.Description := Rec.TableName;
-                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-                    IncomingDocument."No." := "No.";
-                    IncomingDocument."Employee Code" := "Employee No.";
-                    IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-                    IncomingDocument.Insert(true);
-                end;
-            until AttachmentMandatory.Next = 0;
-    end;
+    // local procedure InsertAttendanceMissedAttachment()
+    // var
+    //     AttachmentMandatory: Record "Attachment Setup";
+    //     IncomingDocument: Record "Incoming Document";
+    // begin
+    //     AttachmentMandatory.Reset;
+    //     AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
+    //     if AttachmentMandatory.FindFirst then
+    //         repeat
+    //             Clear(IncomingDocument);
+    //             IncomingDocument.Reset;
+    //             IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
+    //             IncomingDocument.SetRange("No.", "No.");
+    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+    //             if not IncomingDocument.FindFirst then begin
+    //                 IncomingDocument.Reset;
+    //                 IncomingDocument.Init;
+    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+    //                 IncomingDocument.Description := Rec.TableName;
+    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+    //                 IncomingDocument."No." := "No.";
+    //                 IncomingDocument."Employee Code" := "Employee No.";
+    //                 IncomingDocument."Table ID" := DATABASE::"Employee Activity";
+    //                 IncomingDocument.Insert(true);
+    //             end;
+    //         until AttachmentMandatory.Next = 0;
+    // end;
 
     procedure ReopenDocument()
     var

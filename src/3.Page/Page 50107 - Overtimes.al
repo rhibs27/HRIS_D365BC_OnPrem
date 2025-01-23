@@ -1,7 +1,5 @@
 page 50107 Overtimes
 {
-    // version NIC Asia1.00,OT,Bulk Cash,Out of Office
-
     CardPageId = "Overtime Card";
     DeleteAllowed = false;
     Editable = false;
