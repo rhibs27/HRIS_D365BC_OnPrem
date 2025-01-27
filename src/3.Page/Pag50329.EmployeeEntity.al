@@ -318,6 +318,12 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Employee Image';
                 }
+                part(attachment; "Attachment Subform")
+                {
+                    EntityName = 'attachmentEntity';
+                    EntitySetName = 'attachmentEntities';
+                    SubPageLink = "Employee Code" = field("No.");
+                }
             }
         }
     }

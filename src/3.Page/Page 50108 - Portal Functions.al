@@ -56,7 +56,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure checkLogin(loginName: Code[50]; pwd: Text[80]): Text
+    procedure checkLogin(): Text
     var
         Employee: Record Employee;
         AttMissedDate: Date;
@@ -64,9 +64,13 @@ page 50108 "Portal Functions"
         disableLogin: Boolean;
         disabelLogintext: Text;
         isAdmin: Text;
+        FirstLogin: Text;
+        user: Record User;
+        WebServiceKey: text;
+        IdentityManagement: Codeunit "Identity Management";
     begin
         Employee.Reset;
-        Employee.SetRange("NAV Login ID", '' + loginName);
+        Employee.SetRange("NAV Login ID", UserId);
         Employee.SetRange(Status, Employee.Status::Active);
         if not Employee.FindFirst then
             Error(NoEmployeeMappingErr + SystemAdminTxt);
@@ -77,6 +81,11 @@ page 50108 "Portal Functions"
             isAdmin := 'True';
         if Employee."Disable Punch in" then
             disableLogin := true;
+
+        user.Reset();
+        user.SetRange("User Name", UserId);
+        user.FindFirst();
+        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         //check for transfer
         /*TransferVar.RESET; //Min -- commented since it was manage through approved, ack action and job queue.
         TransferVar.SETRANGE("Employee No.",Employee."No.");
@@ -87,6 +96,11 @@ page 50108 "Portal Functions"
           disableLogin := TRUE;*/
         //for attendance count
         AttMissedDate := Today;
+        if Employee.Login then
+            FirstLogin := 'false'
+        else
+            FirstLogin := 'true';
+
         counter := 0;
         if Employee."Attendance Missed On" <> 0D then begin
             AttendanceSetup.Get;
@@ -109,6 +123,8 @@ page 50108 "Portal Functions"
               ',"recommendercode": "' + Employee."KPI Deputation Value" +
               '","approverCode": "' + Employee."Approver Code" +
               '","isAdmin": "' + isAdmin +
+              '","firstLogin": "' + FirstLogin +
+              '","WebServiceKey": "' + WebServiceKey +
               '","functionalTitle": "' + Employee."Functional Title Desc" +
               '","employeeName": "' + Employee."Full Name" +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
@@ -444,13 +460,14 @@ page 50108 "Portal Functions"
     "departureFrom": text;
     "destination": text;
     "description": text;
+    extended: Boolean;
     "advanceCashRequired": Boolean;
     "estimatedTransportCost": Decimal;
     "estimatedConveyanceExpense": Decimal;
     "otherEstimatedCost": Decimal;
     "departureTime": Time;
     "arrivalTime": Time;
-    "extended": Boolean;
+    "travelOrderNo": Code[20];
     advanceCash: Decimal;
     "recommenderCode": Code[20];
     "approverCode": code[20]): Integer
@@ -461,6 +478,7 @@ page 50108 "Portal Functions"
         ModeOfTravelEnum: Enum "Mode Of Travel";
         TravelTypeEnum: Enum "Travel Countries";
         typeEnum: Enum "Employee Activity Type";
+        TravelRequest1: Record "Travel Request";
     begin
         Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
@@ -470,28 +488,27 @@ page 50108 "Portal Functions"
         ModeOfTravelEnum := Enum::"Mode Of Travel".FromInteger(ModeOfTravelEnum.Ordinals.Get(ModeOfTravelEnum.Names.IndexOf(modeOfTravel)));
         TravelTypeEnum := Enum::"Travel Countries".FromInteger(TravelTypeEnum.Ordinals.Get(TravelTypeEnum.Names.IndexOf(TravelType)));
         typeEnum := Enum::"Employee Activity Type".FromInteger(typeEnum.Ordinals.Get(typeEnum.Names.IndexOf(Type)));
-
         TravelRequest.Reset;
         TravelRequest.Init;
         TravelRequest.Validate(Type, typeEnum);
         TravelRequest.Validate("Employee No.", employeeNo);
+        TravelRequest.Validate("Travel Order No.", travelOrderNo);
+        TravelRequest.Validate("Travel With", travelWith);
+        TravelRequest.Validate("Travel Countries", TravelTypeEnum);
         TravelRequest.Validate("Start Date", startDate);
         TravelRequest.Validate("End Date", endDate);
         TravelRequest.Validate("Requested Date", requestedDate);
         TravelRequest.Validate("Purpose of Travel", purposeOfTravel); //Min 11.29.2022
         TravelRequest.Validate("Type Of Visit", typeOfVisitEnum);
         TravelRequest.Validate("Mode Of Travel", ModeOfTravelEnum);
-        TravelRequest.Validate("Travel Countries", TravelTypeEnum);
-        TravelRequest.Validate("Travel With", travelWith);
         TravelRequest.Validate("Depature From", departureFrom);
         TravelRequest.Validate(Destination, destination);
-        TravelRequest.Validate(Extended, extended);
+        TravelRequest.Validate(Description, description);
         TravelRequest.Validate("Advance Cash Required", advanceCashRequired);
         TravelRequest.Validate("Estimated Transportation Cost", estimatedTransportCost);
         TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
         TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
         TravelRequest.Validate("Advance Cash", advanceCash);
-        TravelRequest.Validate("Travel With", travelWith);
         TravelRequest.Validate("Depature Time", departureTime);
         TravelRequest.Validate("Arrival Time", arrivalTime);
         TravelRequest.Validate("Recommender Code", recommenderCode);
@@ -507,6 +524,8 @@ page 50108 "Portal Functions"
    "employeeNo": Code[20];
    "startDate": date;
    "endDate": date;
+   "startTime": Time;
+   "endTime": Time;
    "requestedDate": Date;
    "purposeOfTravel": text;
    "modeOfTravel": text;
@@ -551,8 +570,10 @@ page 50108 "Portal Functions"
         TravelRequest.Init;
         TravelRequest.Validate(Type, TravelRequest.Type::"Travel Claim");
         TravelRequest.Validate("Employee No.", employeeNo);
-        TravelRequest.Validate("Start Date", startDate);
+        TravelRequest.Validate("Start Date", TravelMgt.GetTravelStartDate(travelOrderNo));
         TravelRequest.Validate("End Date", endDate);
+        TravelRequest.Validate("Actual Travel Start Date", startDate);
+        TravelRequest.Validate("Actual Travel End Date", endDate);
         TravelRequest.Validate("Requested Date", requestedDate);
         TravelRequest.Validate("Purpose of Travel", purposeOfTravel); //Min 11.29.2022
         TravelRequest.Validate("Type Of Visit", typeOfVisitEnum);
@@ -570,6 +591,8 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Other Expense", otherExpense);
         TravelRequest.Validate("Road/Air Fare", roadAndAirFare);
         TravelRequest.Validate("Claimed Country", claimedCountry);
+        TravelRequest.Validate("Actual Travel Start Time", startTime);
+        TravelRequest.Validate("Actual Travel End Time", EndTime);
         TravelRequest.Validate("Total Claimed Amount", totalAllowanceClaim);
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
@@ -686,17 +709,24 @@ page 50108 "Portal Functions"
     var
         allType: Option " ",Fooding,Lodging,OutofExpense;
         travelRequest: Record "Travel Request";
+        StartDates: date;
+        AdvanceCash: Decimal;
     begin
         Employee.Get(empNo);
         SalaryLevel.Get(Employee."Salary Level");
         travelRequest.Get(empTravelNo);
+        // if travelRequest."Travel Order No." <> '' then begin
+        StartDate := TravelMgt.GetTravelStartDate(empTravelNo);
+        AdvanceCash := TravelMgt.CalculateTotalAdvance(empTravelNo);
+        // end;
         exit('{' +
-        '"totalFooding" : "' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Fooding, endDate - startDate + 1)), '=', ',') + '",' +
-          '"totalLodging" :"' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Lodging, endDate - startDate + 1)), '=', ',') + '",' +
-          '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Fooding, false, endDate - startDate + 1)), '=', ',') + '",' +
-          '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Lodging, false, endDate - startDate + 1)), '=', ',') + '",' +
+        '"totalFooding" : "' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Fooding, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"totalLodging" :"' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Lodging, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Fooding, false, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Lodging, false, endDate - StartDate + 1)), '=', ',') + '",' +
+        '"AdvanceCash" : "' + DelChr(Format(AdvanceCash), '=', ',') + '",' +
           '"outOfPocket": "' + DelChr(Format(SalaryLevel."Out of Pocket Expense" *
-                                TravelMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, startDate, endDate)), '=', ',') + '"' +
+                                TravelMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, StartDate, endDate)), '=', ',') + '"' +
           '}');
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
     end;
@@ -1510,9 +1540,11 @@ page 50108 "Portal Functions"
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         Leave: record leave;
         DocFoundEmpLeave: Boolean;
-        EmployeeActivity: Record "Employee Activity";
-        LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
-        ActivityType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee";
+        //EmployeeActivity: Record "Employee Activity";
+        //LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
+        LoanType: Enum "Loan Type";
+        //ActivityType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee";
+        ActivityType: Enum "Employee Activity Type";
         DocFoundInsurance: Boolean;
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalDocFound: Boolean;
@@ -1524,14 +1556,12 @@ page 50108 "Portal Functions"
         ServerFilePath: text;
         ServerFolderPath: text;
         File: File;
-        EmployeeActivityFolder: text;
         CleanedFileName: text;
         LoanMgt: Codeunit "Loan Mgt.";
 
 
     begin
         IncomingDoc.Get(entryNo);
-
         HRSetup.Get;
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
@@ -1546,10 +1576,10 @@ page 50108 "Portal Functions"
         end;
 
         if not DocFoundEmpLoan then begin
-            if EmployeeActivity.Get(IncomingDoc."No.") then begin
+            if EmployeeLoanAdvance.Get(IncomingDoc."No.") then begin
                 DocFoundEmpActivity := true;
-                ActivityType := EmployeeActivity.Type;
-                if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
+                // ActivityType := EmployeeLoanAdvance.Type;
+                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
                  and (IncomingDoc."File Name" <> '') then
                     Error('Attachment already exist.');
             end;
@@ -1577,7 +1607,7 @@ page 50108 "Portal Functions"
                 if Leave.Get(docNo) then begin
                     DocFoundEmpLeave := true;
                     IncomingDoc."No." := docNo;
-                    if (Leave."Approval Status" in [Leave."Approval Status"::"Pending Approval", EmployeeActivity."Approval Status"::Approved])
+                    if (Leave."Approval Status" in [Leave."Approval Status"::"Pending Approval", Leave."Approval Status"::Approved])
                      and (IncomingDoc."File Name" <> '') then
                         Error('Attachment already exist.');
                 end;
@@ -1603,9 +1633,6 @@ page 50108 "Portal Functions"
         // // TempBlob.Reset;
 
         TargetDirectory := HRSetup."Attachment Storage Location";
-        // Step 2: Construct the server folder path
-        ServerFolderPath := 'D:\HRFiles\' + EmployeeActivityFolder;
-
 
         if TargetDirectory = '' then
             Error('Attachment Storage Location is not configured.');
@@ -2032,8 +2059,6 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure submitTransferRequest(
     "employeeNo": Code[20];
-    // "startDate": date;
-    // "endDate": date;
     "proposedTransferDate": Date;
     "reasonForTransfer": text;
     "description": text;
@@ -2043,7 +2068,7 @@ page 50108 "Portal Functions"
         // TravelRequest: Record "Travel Request" temporary;
         TransferRequest: Record "Employee/HR Transfer" temporary;
     begin
-        Employee.Get(employeeNo);
+        //Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
           ERROR(OTEligibleError,Employee.FullName);*/
@@ -2383,7 +2408,6 @@ page 50108 "Portal Functions"
     procedure uploadEmployeeImage(empNo: Code[20]; ext: Text; fileBaseText: Text)
     var
         TargetDirectory: text;
-        EmployeeActivityFolder: text;
         ServerFolderPath: text;
         ServerFilePath: text;
         CleanedFileName: text;
@@ -2411,8 +2435,6 @@ page 50108 "Portal Functions"
 
         TargetDirectory := HRSetup."Attachment Storage Location";
         // Step 2: Construct the server folder path
-        ServerFolderPath := 'D:\HRFiles\' + EmployeeActivityFolder;
-
 
         if TargetDirectory = '' then
             Error('Attachment Storage Location is not configured.');
@@ -3225,9 +3247,6 @@ page 50108 "Portal Functions"
         EmployeeTransferForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
-
-
-
     begin
         Leave.Reset();
         Leave.SetRange("Recommender Code", empcode);
@@ -3254,7 +3273,6 @@ page 50108 "Portal Functions"
         Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
         Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
         SalaryAdvanceForRecommemdation := Loan.Count();
-
 
         TravelRequest.Reset();
         TravelRequest.SetRange("Recommender Code", empcode);
@@ -3306,7 +3324,7 @@ page 50108 "Portal Functions"
         AttendanceMissedForApprove := AttendanceMissed.Count();
 
         Appraisal.Reset();
-        Appraisal.SetRange("Recommender Code", empcode);
+        Appraisal.SetRange(Reviewer, empcode);
         Appraisal.SetRange(Status, Appraisal.Status::Submitted);
         AppraisalForRecommendation := Appraisal.Count();
         Appraisal.Reset();
@@ -3356,7 +3374,6 @@ page 50108 "Portal Functions"
         TourDayCount: Integer;
         EnglishNepalidate: Record "English-Nepali Date";
         StartofYear: date;
-
     begin
         Clear(StartofYear);
         Clear(AbsentDayCount);
@@ -3409,7 +3426,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure TotalLeaveCount() leavecount: Record Leave
+    procedure totalLeaveCount() leavecount: Record Leave
     var
         leave: Record Leave;
     begin
@@ -3420,6 +3437,23 @@ page 50108 "Portal Functions"
         exit(leave);
     end;
 
+    // procedure GetFilteredSalesOrders(Filter: Text): List of [Record Leave]
+    // var
+    //     SalesHeaderRec: Record "Sales Header";
+    //     FilteredSalesOrders: List of [Record "Sales Header"];
+    // begin
+    //     // Apply the filter criteria to the SalesHeaderRec
+    //     if Filter <> '' then
+    //         SalesHeaderRec.SetRange("Status", Filter);
+
+    //     // Loop through and collect filtered records
+    //     if SalesHeaderRec.FindSet() then
+    //         repeat
+    //             FilteredSalesOrders.Add(SalesHeaderRec);
+    //         until SalesHeaderRec.Next() = 0;
+
+    //     exit(FilteredSalesOrders);
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3457,5 +3491,61 @@ page 50108 "Portal Functions"
         exit(myTasks);
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure loginSuccess(employeeNo: Code[20]): Integer
+    var
+        Employee: Record Employee;
+    begin
+        Employee.Reset();
+        if Employee.Get(employeeNo) then begin
+            Employee.Login := true;
+            exit(200);
+        end;
+    end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure noticeCount() NoticeCount: Integer
+    var
+        Notice: Record "Notice Bulletin";
+    begin
+        Notice.Reset();
+        Notice.SetFilter("Notice Create Date", '<=%1', Today);
+        Notice.Setfilter("Notice End Date", '>=%1', Today);
+        NoticeCount := Notice.Count;
+        exit(NoticeCount);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    PROCEDURE InsertEmployeeAttachmentLines(empCode: Code[20]);
+    VAR
+        IncomingDocument: Record "Incoming Document";
+        AttachmentMandatory: Record "Attachment Setup";
+        Employee: Record Employee;
+    BEGIN
+        Employee.get(empCode);
+        AttachmentMandatory.RESET;
+        AttachmentMandatory.SETFILTER(Type, '%1|%2|%3|%4', AttachmentMandatory.Type::Education,
+                  AttachmentMandatory.Type::"Employee Profile", AttachmentMandatory.Type::"Work Experience",
+                  AttachmentMandatory.Type::"Complaince Requirement Forms");
+        IF AttachmentMandatory.FINDFIRST THEN
+            REPEAT
+                IncomingDocument.RESET;
+                IncomingDocument.SETRANGE("Order No.", Employee."No.");
+                IncomingDocument.SETRANGE("Attachment Code", AttachmentMandatory."Attachment Code");
+                IF NOT IncomingDocument.FINDFIRST THEN BEGIN
+                    IncomingDocument.RESET;
+                    IncomingDocument.INIT;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument.Description := Employee.TABLENAME;
+                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                    IncomingDocument."No." := Employee."No." + AttachmentMandatory."Attachment Code";
+                    IncomingDocument."Order No." := FORMAT(Employee."No.");
+                    IncomingDocument."Employee Code" := FORMAT(Employee."No.");
+                    IncomingDocument.INSERT(TRUE);
+                END;
+            UNTIL AttachmentMandatory.NEXT = 0;
+    END;
 }

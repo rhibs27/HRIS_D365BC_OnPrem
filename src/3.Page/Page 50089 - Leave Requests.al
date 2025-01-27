@@ -12,6 +12,7 @@ page 50089 "Leave Requests"
                       WHERE(Type = CONST("Leave Request"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {

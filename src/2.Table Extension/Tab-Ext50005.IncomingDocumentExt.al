@@ -2,7 +2,7 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
 {
     fields
     {
-        field(50000; "No."; Code[20])
+        field(50000; "No."; Code[50])
         {
             DataClassification = CustomerContent;
         }
