@@ -1328,18 +1328,18 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50156; Task; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            // TableRelation = "Employee Task";
-            // trigger OnValidate()
-            // var
-            //     EmployeeTask: Record "Employee Task";
-            // begin
-            //     if EmployeeTask.Get(Task) then
-            //         Validate("Task Name", EmployeeTask."Task Name");
-            // end;
-        }
+        // field(50156; Task; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     TableRelation = "Employee Task";
+        //     trigger OnValidate()
+        //     var
+        //         EmployeeTask: Record "Employee Task";
+        //     begin
+        //         if EmployeeTask.Get(Task) then
+        //             Validate("Task Name", EmployeeTask."Task Name");
+        //     end;
+        // }
         field(50157; "Task Name"; Text[100])
         {
             DataClassification = ToBeClassified;

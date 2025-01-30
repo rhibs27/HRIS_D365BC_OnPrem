@@ -3,7 +3,7 @@ page 50088 "Leave Request"
     // version NIC Asia1.00,Leave
 
     SourceTable = "Leave";
-    SourceTableTemporary = true;
+    // SourceTableTemporary = true;
     ApplicationArea = All;
 
     layout
@@ -168,35 +168,40 @@ page 50088 "Leave Request"
                               "Employee Activity Type" = field(Type);
                 ApplicationArea = All;
             }
-            group(Approval)
+            part("Approval Subform"; "Approval Entry")
             {
-                Caption = 'Approval';
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Type"; Rec."Approver Type")
-                {
-                    ToolTip = 'Specifies the value of the Approver Type field.';
-                    ApplicationArea = All;
-                }
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
             }
+            // group(Approval)
+            // {
+            //     Caption = 'Approval';
+            //     field("Recommender Code"; Rec."Recommender Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Name"; Rec."Recommender Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Code"; Rec."Approver Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Type"; Rec."Approver Type")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Type field.';
+            //         ApplicationArea = All;
+            //     }
+            //}
         }
     }
 
@@ -260,6 +265,10 @@ page 50088 "Leave Request"
 
                     until TempIncomingDoc.Next = 0;
                 TempIncomingDoc.DeleteAll;
+                Approval.Reset();
+                Approval.SetRange("Document No.", '');
+                if Approval.FindSet() then
+                    Approval.DeleteAll();
 
             end;
         end;
@@ -280,6 +289,7 @@ page 50088 "Leave Request"
         AttachmentSetup: Record "Attachment Setup";
         [InDataSet]
         IsPaternity: Boolean;
+        Approval: Record Approval;
 
     local procedure GenerateAttachment()
     begin

@@ -246,8 +246,10 @@ page 50108 "Portal Functions"
     var
         //TempEmpAct: Record "Employee Activity" temporary;
         LeaveMgt: Codeunit "Leave Mgt.";
-        tempLeave: Record Leave temporary;
+        tempLeave: Record Leave;
         docNo: text;
+        Approval: record approval;
+        Count: Integer;
     begin
         tempLeave.Reset;
         tempLeave.Init;
@@ -303,7 +305,31 @@ page 50108 "Portal Functions"
                 tempLeave.Validate("For Death Of", tempLeave."For Death Of"::Daughter);
         end;
         tempLeave.Validate("Contact No.", contactNo);
-        tempLeave.Insert;
+        tempLeave.Insert(true);
+        if recommenderCode = '' then begin
+            tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
+            tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
+            Approval.Init();
+            Approval.validate("Document No.", Templeave."No.");
+            Approval.Validate("Approver No", approverCode);
+            Approval.Validate("Document Type", tempLeave.type);
+            Approval.validate("Employee No", tempLeave."Employee No.");
+            Approval.validate("Approval Sequence", 1);
+            Approval.validate("approval Status", tempLeave."Approval Status"::Recommended);
+            Approval.insert(true);
+        end else begin
+            tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
+            tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
+            Approval.Init();
+            Approval.validate("Document No.", Templeave."No.");
+            Approval.Validate("Approver No", recommenderCode);
+            Approval.Validate("Document Type", tempLeave.type);
+            Approval.validate("Employee No", tempLeave."Employee No.");
+            Approval.validate("Approval Sequence", 1);
+            Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+            Approval.insert(true);
+        end;
+
         docNo := LeaveMgt.ApplyForLeave(tempLeave);
         if docNo <> '' then
             exit(docNo);

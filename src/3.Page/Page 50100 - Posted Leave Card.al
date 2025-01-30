@@ -142,36 +142,45 @@ page 50100 "Posted Leave Card"
                               "Leave Type Code" = field("Leave Code");
                 ApplicationArea = All;
             }
-            group(Approval)
+            part("Approval Subform"; "Approval Entry")
             {
-                Caption = 'Approval';
                 Editable = false;
-                field("Approver Type"; Rec."Approver Type")
-                {
-                    ToolTip = 'Specifies the value of the Approver Type field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type),
+                                "Approval Status" = field("Approval Status");
+                ApplicationArea = all;
             }
+            // group(Approval)
+            // {
+            //     Caption = 'Approval';
+            //     Editable = false;
+            // field("Approver Type"; Rec."Approver Type")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Type field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Code"; Rec."Recommender Code")
+            // {
+            //     ToolTip = 'Specifies the value of the Recommender Code field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     ToolTip = 'Specifies the value of the Recommender Name field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Code"; Rec."Approver Code")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Code field.';
+            //     ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
         }
     }
 
