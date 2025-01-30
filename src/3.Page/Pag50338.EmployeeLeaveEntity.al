@@ -77,4 +77,8 @@ page 50338 "Employee Leave Entity"
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("User ID", UserId);
+    end;
 }
