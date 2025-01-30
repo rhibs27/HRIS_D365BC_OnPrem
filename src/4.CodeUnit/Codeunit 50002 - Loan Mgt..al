@@ -718,13 +718,16 @@ codeunit 50002 "Loan Mgt."
             ServerFilePath := TargetDirectory + CleanedFileName + '.' + Extension;
 
             // Save the uploaded content to the server file path
-            TempBlob.CreateOutStream(OutStream);
-            CopyStream(OutStream, InStream);
+            // TempBlob.CreateOutStream(OutStream);
+
+            // CopyStream(OutStream, InStream);
             // TempBlob.ToFile(ServerFilePath); // Write the content directly to the server location
             // Write TempBlob content to server file location
-            TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+            // TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+            UploadAttachmentWithSizeLimit(InStream, 2 * 1024 * 1024);
             File.CREATE(ServerFilePath);       // Create the file on the server
             File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+
             CopyStream(OutStream, InStream);  // Write the data
             File.CLOSE;                       // Close the file
 
@@ -737,6 +740,18 @@ codeunit 50002 "Loan Mgt."
             Message('File uploaded successfully to server location: %1', ServerFilePath);
         end else
             Error('File upload canceled.');
+    end;
+
+    procedure UploadAttachmentWithSizeLimit(InStream: InStream; MaxFileSize: Integer);
+    var
+        FileSize: Integer;
+    begin
+        // Get the file size in bytes
+        FileSize := InStream.Length;
+
+        // Check if the file size exceeds the maximum limit
+        if FileSize > MaxFileSize then
+            Error('The file is %1 MB. Maximum allowed size is 2 MB.', round(FileSize / 1024 / 1024, 0.01, '='));
     end;
 
     procedure DownloadAttachment(IncomingDocument: Record "Incoming Document")
@@ -1044,7 +1059,7 @@ codeunit 50002 "Loan Mgt."
         EmployeeLoan.SetRange("Approval Status", EmployeeLoan."Approval Status"::Approved);
         EmployeeLoan.SetRange(Settled, false);
         if EmployeeLoan.FindFirst then
-            Error('Please settle previous employee loan first.');
+            Error('Please settle previous vehicle loan first.');
         CheckRankforEmployeeLoan(EmpLoan);
         //TESTFIELD("Vehicle Loan Type");
         if EmpLoan."Vehicle Loan Type" = EmpLoan."Vehicle Loan Type"::" " then

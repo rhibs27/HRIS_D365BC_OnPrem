@@ -56,6 +56,10 @@ table 50111 "Attachment Setup"
                     TestField(Type, Type::Transfer);
             end;
         }
+        field(12; "Max File Size"; Integer)
+        {
+
+        }
     }
 
     keys

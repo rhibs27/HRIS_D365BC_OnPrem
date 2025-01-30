@@ -18,7 +18,7 @@ page 50163 "Attachment Setup"
                 }
                 field("Table ID"; Rec."Table ID")
                 {
-                    Visible = false;
+                    //Visible = false;
                     ToolTip = 'Specifies the value of the Table ID field.';
                     ApplicationArea = All;
                 }
@@ -62,6 +62,10 @@ page 50163 "Attachment Setup"
                     Editable = Rec.Type = Rec.Type::Transfer;
                     ToolTip = 'Specifies the value of the Transfer Category field.';
                     ApplicationArea = All;
+                }
+                field("Max File Size"; Rec."Max File Size")
+                {
+                    Caption = 'Max File Size(In MB)';
                 }
             }
         }

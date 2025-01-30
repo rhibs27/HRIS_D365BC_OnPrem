@@ -56,7 +56,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure checkLogin(): Text
+    procedure checkLogin(loginName: Code[50]; pwd: Text[80]): Text
     var
         Employee: Record Employee;
         AttMissedDate: Date;
@@ -3226,6 +3226,8 @@ page 50108 "Portal Functions"
         TravelRequest: Record "Travel Request";
         TravelReqForRecommendation: Integer;
         TravelReqForApprove: Integer;
+        TravelClaimRecommendation: Integer;
+        TravelClaimApprove: Integer;
         Resign: Record Resignation;
         ResignForRecommendation: Integer;
         ResignForApprove: Integer;
@@ -3276,12 +3278,25 @@ page 50108 "Portal Functions"
 
         TravelRequest.Reset();
         TravelRequest.SetRange("Recommender Code", empcode);
+        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
         TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
         TravelReqForRecommendation := TravelRequest.Count();
         TravelRequest.Reset();
         TravelRequest.SetRange("Approver Code", empcode);
+        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
         TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::Recommended);
         TravelReqForApprove := TravelRequest.Count();
+
+        TravelRequest.Reset();
+        TravelRequest.SetRange("Recommender Code", empcode);
+        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Claim");
+        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        TravelClaimRecommendation := TravelRequest.Count();
+        TravelRequest.Reset();
+        TravelRequest.SetRange("Approver Code", empcode);
+        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Claim");
+        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::Recommended);
+        TravelClaimApprove := TravelRequest.Count();
 
         Resign.Reset();
         Resign.SetRange("Recommender Code", empcode);
@@ -3346,6 +3361,8 @@ page 50108 "Portal Functions"
         ',"LoanForApprove": "' + format(LoanForApprove) + '"' +
         ',"TravelReqForRecommendation": "' + format(TravelReqForRecommendation) + '"' +
         ',"TravelReqForApprove": "' + format(TravelReqForApprove) + '"' +
+        ',"TravelClaimRecommendation": "' + format(TravelClaimRecommendation) + '"' +
+        ',"TravelClaimApprove": "' + format(TravelClaimApprove) + '"' +
         ',"ResignForRecommendation": "' + format(ResignForRecommendation) + '"' +
         ',"ResignForApprove": "' + format(ResignForApprove) + '"' +
         ',"OverTimeForRecommendation": "' + format(OverTimeForRecommendation) + '"' +

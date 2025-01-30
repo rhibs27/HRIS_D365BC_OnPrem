@@ -108,15 +108,15 @@ page 50164 "Attachment Subform"
                         LoanMgt.UploadAttachment(Rec);
                     end;
 
-                    if Employee.Get(Rec."Order No.") then //employee controls
-                        LoanMgt.UploadAttachment(Rec)
+                    // if Employee.Get(Rec."Order No.") then //employee controls
+                    //     LoanMgt.UploadAttachment(Rec)
 
-                    else if EmpAct.Get(Rec."No.") then begin//resignation controls
-                                                            //EmpAct.TESTFIELD();
-                        LoanMgt.UploadAttachment(Rec)
-                    end else if EmpAct.Get(Rec."Order No.") then begin
-                        LoanMgt.UploadAttachment(Rec);
-                    end else if (Rec."Leave Type Code" <> '') then begin
+                    // else if EmpAct.Get(Rec."No.") then begin//resignation controls
+                    //                                         //EmpAct.TESTFIELD();
+                    //     LoanMgt.UploadAttachment(Rec)
+                    // end else if EmpAct.Get(Rec."Order No.") then begin
+                    //     LoanMgt.UploadAttachment(Rec); end else
+                    if (Rec."Leave Type Code" <> '') then begin
                         if Leave.Get(Rec."No.") then begin
                             IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN
                                 ERROR('Approval status must be Open.');
