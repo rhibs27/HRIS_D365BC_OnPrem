@@ -9,14 +9,14 @@ codeunit 50005 "Transfer Mgt."
         Clear(Employee);
         Employee.Get(EmpCode);
         Employee.TestField("Confirmation Date");
-        if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
-            Error(RequestError);
+        // if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
+        //     Error(RequestError); commented for testing Santosh
 
         HRSetup.Get;
-        Employee1.Reset;
-        Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee1.SetRange(Status, Employee1.Status::Active); //Min
-        if Employee.FindFirst then;
+        // Employee1.Reset;
+        // Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+        // Employee1.SetRange(Status, Employee1.Status::Active); //Min
+        // if Employee.FindFirst then;
         EmpTransfer.Init;
         EmpTransfer.Validate(Type, EmpTransfer.Type::"Employee Transfer");
         EmpTransfer.Validate("Employee No.", EmpCode);
@@ -60,6 +60,8 @@ codeunit 50005 "Transfer Mgt."
         TempEmphrtransfer.TestField(Description);
         TempEmphrtransfer.TestField("Reason for Resignation"); //here reason for transfer
         TempEmphrtransfer.TestField("Transfer Category");
+        TempEmphrtransfer.TestField(Reviewer);
+
 
         if TempEmphrtransfer."Transfer Category" = TempEmphrtransfer."Transfer Category"::"Temporary" then begin
             TempEmphrtransfer.TestField("Start Date");
@@ -937,6 +939,9 @@ codeunit 50005 "Transfer Mgt."
     begin
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) then
             Error('Approval Status must be approved or on hold');
+        if GuiAllowed then
+            if EmpHrTransfer."Notify to" <> HRMgt.GetEmployeeNo then
+                Error('You arenot Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);

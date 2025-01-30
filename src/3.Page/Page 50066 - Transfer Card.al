@@ -90,6 +90,7 @@ page 50066 "Transfer Card"
                     Editable = ForOpen;
                     ToolTip = 'Specifies the value of the Reason for Resignation field.';
                     ApplicationArea = All;
+                    Caption = 'Reason For Transfer';
                 }
                 field(Description; Rec.Description)
                 {
@@ -101,6 +102,7 @@ page 50066 "Transfer Card"
                 {
                     ToolTip = 'Specifies the value of the Notify to field.';
                     ApplicationArea = All;
+                    Editable = ForScreenButton;
                 }
             }
             group("On Hold")
@@ -447,17 +449,19 @@ page 50066 "Transfer Card"
             }
             group(Remarks)
             {
-                Editable = not ForApprove;
+                // Editable = not ForOpen and not ForApprove;
                 field("Recommender Remarks"; Rec.Remarks)
                 {
                     Editable = ForPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
+                    Caption = 'Recommender Remarks';
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
+                    Editable = ForPending or ForRecommend;
                 }
                 field("Screener Remarks"; Rec."Screener Remarks")
                 {
@@ -773,19 +777,19 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 var
-                    EmployeeAct: Record "Employee Activity";
+                    EmployeeTransfer: Record "Employee/HR Transfer";
                     PageTransferHistory: Page "Employee Transfer Requests";
                 begin
-                    EmployeeAct.Reset;
+                    EmployeeTransfer.Reset;
                     Rec.FilterGroup(2);
-                    EmployeeAct.SetFilter(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
-                    EmployeeAct.SetRange("Employee No.", Rec."Employee No.");
-                    EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Acknowledged);
+                    EmployeeTransfer.SetFilter(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
+                    EmployeeTransfer.SetRange("Employee No.", Rec."Employee No.");
+                    EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Acknowledged);
                     Rec.FilterGroup(0);
                     Clear(PageTransferHistory);
                     PageTransferHistory.ForHistoryPage;
-                    PageTransferHistory.SetTableView(EmployeeAct);
-                    PageTransferHistory.SetRecord(EmployeeAct);
+                    PageTransferHistory.SetTableView(EmployeeTransfer);
+                    PageTransferHistory.SetRecord(EmployeeTransfer);
                     PageTransferHistory.Run;
                 end;
             }
@@ -798,7 +802,7 @@ page 50066 "Transfer Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Attendance Missed action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     TempEmpActivity.DeleteAll;

@@ -137,6 +137,9 @@ page 50341 "Employee Transfer Entity"
                 field(reviewerName; Rec."Reviewer Name") { }
                 field(dateofJoiningOfTransfer; Rec."Date of Joining Of Transfer") { }
                 field(reviewerRemarks; Rec."Reviewer Remarks") { }
+                field(description; rec.Description)
+                {
+                }
 
             }
             group("Transfer Claim")
@@ -287,6 +290,7 @@ page 50341 "Employee Transfer Entity"
 
     trigger OnAfterGetRecord()
     begin
+        GetTransferName;
         SetControlAppearance;
         Rec.CalcFields("Transfer Claim Reviewer Name");
         if Employee.Get(Rec."Transfer Claim Recommender") then

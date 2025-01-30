@@ -90,8 +90,8 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
+                // if Type <> Type::Overtime then
+                //     EmployeeRec.Get("Employee No.");
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
@@ -128,6 +128,8 @@ table 50140 "Employee/HR Transfer"
         {
 
             trigger OnValidate()
+            var
+                TravelMgt: Codeunit "Travel Mgt.";
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
@@ -135,16 +137,18 @@ table 50140 "Employee/HR Transfer"
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
+                if "End Date" <> 0D then
+                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date", "Employee No."))
+                else begin
+                    Clear("End Date (BS)");
+                    Clear("No. of Days");
+                end;
             end;
         }
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
 
-            trigger OnValidate()
-            begin
-
-            end;
         }
         field(10; "Requested Date"; Date)
         {
@@ -861,17 +865,18 @@ table 50140 "Employee/HR Transfer"
         field(93; "Notify to"; Text[200])
         {
             Description = 'Transfer';
+            TableRelation = Employee where(Status = filter("Employee Status"::Active));
 
-            trigger OnLookup()
-            begin
-                Validate("Notify to", HRMgt.ReturnSelectedEmployeeCode("Notify to"));
-            end;
+            // trigger OnLookup()
+            // begin
+            //     Validate("Notify to", HRMgt.ReturnSelectedEmployeeCode("Notify to"));
+            // end;
 
-            trigger OnValidate()
-            begin
-                if StrPos("Notify to", ',') <> 0 then
-                    Error('Please use ";" instead of ","');
-            end;
+            // trigger OnValidate()
+            // begin
+            //     if StrPos("Notify to", ',') <> 0 then
+            //         Error('Please use ";" instead of ","');
+            // end;
         }
         field(94; "Transfer Category"; Enum "Transfer Category")
         {

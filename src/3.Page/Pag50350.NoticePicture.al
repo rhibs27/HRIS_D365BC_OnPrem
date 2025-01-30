@@ -38,6 +38,12 @@ page 50350 "Notice Picture"
                     FileManagement: Codeunit "File Management";
                     FileName: Text;
                     ClientFileName: Text;
+                    InStream: InStream;
+                    FileSize: Integer;
+                    MaxFileSize: Integer;
+                    AttachmentSetup: Record "Attachment Setup";
+                    TempBlob: Codeunit "Temp Blob";
+                    OutStream: OutStream;
                 begin
                     Rec.TestField("Entry No.");
 
@@ -45,9 +51,28 @@ page 50350 "Notice Picture"
                         if not Confirm(OverrideImageQst) then
                             exit;
 
+                    // Define maximum allowed file size 
+                    AttachmentSetup.Reset();
+                    AttachmentSetup.SetRange("Table ID", RecordId.TableNo);
+                    if AttachmentSetup.FindFirst() then
+                        MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;
+
                     FileName := FileManagement.UploadFile(SelectPictureTxt, ClientFileName);
                     if FileName = '' then
                         exit;
+                    // Open the uploaded file to check the size
+                    // FileManagement.GetFileInStream(FileName, InStream);
+
+                    TempBlob.CreateInStream(InStream);
+                    CopyStream(OutStream, InStream);
+                    FileSize := InStream.Length;
+                    // UploadIntoStream(,)
+                    // FileManagement.GetFileInStream(FileName); // Get the InStream for the uploaded file
+                    FileSize := InStream.Length;
+                    if FileSize > MaxFileSize then begin
+                        Error('The file is too large. The maximum allowed size is 2 MB.');
+                        exit;
+                    end;
 
                     Clear(Rec.Notice);
                     Rec.Notice.ImportFile(FileName, ClientFileName);
