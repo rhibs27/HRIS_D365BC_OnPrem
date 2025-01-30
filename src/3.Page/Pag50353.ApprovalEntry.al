@@ -1,4 +1,4 @@
-page 50333 "Approval Entry"
+page 50353 "Approval Entry"
 {
     ApplicationArea = All;
     Caption = 'Approval Entry';

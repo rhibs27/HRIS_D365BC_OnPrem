@@ -1,4 +1,4 @@
-table 50146 Approval
+table 50149 Approval
 {
     Caption = 'Approval';
     DataClassification = ToBeClassified;
