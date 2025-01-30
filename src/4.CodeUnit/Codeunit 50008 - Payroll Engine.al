@@ -329,7 +329,6 @@ codeunit 50008 "Payroll Engine"
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         //SocialSecTaxAmt:=TaxOldEmployeeSocialSecurity(Employee."No.");  //>> pradhan
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        //not needed for now nic
         /*IF TaxSetupHeader."Special Tax Exempt %" <> 0  THEN BEGIN
           NonRegularTax :=(TaxSetupHeader."Special Tax Exempt %"*(TaxAtOnceAnnualTax - AnnualTax)/ (100-TaxSetupHeader."Special Tax Exempt %"));
          AnnualTax -= NonRegularTax;
@@ -1803,7 +1802,7 @@ codeunit 50008 "Payroll Engine"
         PayrollHeader.TestField("Pay Cycle Code");
         PayrollHeader.TestField("Pay Cycle Period");
         PayrollHeader.TestField("Pay Cycle Term");
-        PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
+        PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");//attendace of prior absent day santosh
         PayCyclePeriod.TestField("Pay Date");
         Employee.Get(PayrollLine."Employee No.");
 

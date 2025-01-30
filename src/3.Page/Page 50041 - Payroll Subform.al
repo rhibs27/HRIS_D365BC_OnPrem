@@ -6,7 +6,6 @@ page 50041 "Payroll Subform"
     PageType = ListPart;
     SourceTable = "Payroll Line";
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -932,6 +931,7 @@ page 50041 "Payroll Subform"
     trigger OnOpenPage()
     begin
         InitColumnVisibility;
+        SetCurrentKey("Employee No.");
     end;
 
     var

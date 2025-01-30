@@ -188,13 +188,13 @@ table 50035 "Posted Payroll Line"
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,47';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(48; "Variable Field 50488"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,48';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(49; "Variable Field 50489"; Decimal)
         {
@@ -205,67 +205,67 @@ table 50035 "Posted Payroll Line"
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,50';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(51; "Variable Field 50491"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,52';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(52; "Variable Field 50492"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,52';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(53; "Variable Field 50493"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,53';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(54; "Variable Field 50494"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,54';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(55; "Variable Field 50495"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,55';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(56; "Variable Field 50496"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,56';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(57; "Variable Field 50497"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,57';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(58; "Variable Field 50498"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,58';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(59; "Variable Field 50499"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,59';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(60; "Variable Field 50500"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,60';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(61; "Variable Field 50501"; Decimal)
         {

@@ -171,6 +171,14 @@ table 50027 "Payroll Line"
                 GetTotalDays;
             end;
         }
+        field(168; "Absent Days Before Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
+        field(169; "Absent Days After Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
         field(16; "Absent Days"; Decimal)
         {
             Description = 'A';
@@ -275,16 +283,38 @@ table 50027 "Payroll Line"
         {
 
         }
-        field(35; "Bank Account No."; Code[20]) { }
-        field(36; "CIT No."; Code[20]) { }
-        field(37; "PF No."; Code[20]) { }
+        field(35; "Bank Account No."; Code[20])
+        {
+            Editable = false;
+        }
+        field(36; "CIT No."; Code[20])
+        {
+            Editable = false;
+        }
+        field(37; "PF No."; Code[20])
+        {
+            Editable = false;
+        }
         field(38; Division; Code[20]) { }
-        field(39; "Salary Level"; Code[20]) { }
-        field(40; "Salary Grade"; Code[20]) { }
-        field(41; "Pan No."; Code[20]) { }
+        field(39; "Salary Level"; Code[20])
+        {
+            TableRelation = "Salary Level";
+            Editable = false;
+        }
+        field(40; "Salary Grade"; Code[20])
+        {
+            TableRelation = "Salary Grade";
+            Editable = false;
+        }
+
+        field(41; "Pan No."; Code[20])
+        {
+            Editable = false;
+        }
         field(42; "Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
+            Editable = false;
         }
         field(43; Number; Integer)
         {
@@ -310,85 +340,85 @@ table 50027 "Payroll Line"
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,47';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(48; "Variable Field 50488"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,48';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(49; "Variable Field 50489"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,60024,49';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(50; "Variable Field 50490"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,50';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(51; "Variable Field 50491"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,51';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(52; "Variable Field 50492"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,52';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(53; "Variable Field 50493"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,53';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(54; "Variable Field 50494"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,54';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(55; "Variable Field 50495"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,55';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(56; "Variable Field 50496"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,56';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(57; "Variable Field 50497"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,57';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(58; "Variable Field 50498"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,58';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(59; "Variable Field 50499"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,59';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(60; "Variable Field 50500"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
             CaptionClass = '8,50027,60';
-            Description = 'added for nic';
+            Description = 'added for bank';
         }
         field(61; "Variable Field 50501"; Decimal)
         {
@@ -630,7 +660,10 @@ table 50027 "Payroll Line"
             AutoFormatType = 1;
             CaptionClass = '8,50027,100';
         }
-        field(101; "Bank Name"; Text[50]) { }
+        field(101; "Bank Name"; Text[50])
+        {
+            Editable = false;
+        }
         field(102; "Evening Counter Days"; Decimal)
         {
             Description = 'allowance assignment';
@@ -787,7 +820,7 @@ table 50027 "Payroll Line"
         }
         field(149; "Deputation On"; Enum "Deputation Type")
         {
-
+            Editable = false;
             trigger OnValidate()
             begin
                 Validate("Deputation Value", ExitTransferDeputationWise("Deputation On"));
@@ -798,6 +831,7 @@ table 50027 "Payroll Line"
         }
         field(151; "Sol ID"; Code[20])
         {
+            Editable = false;
         }
         field(152; "1% Slab"; Decimal)
         {
@@ -824,10 +858,11 @@ table 50027 "Payroll Line"
         field(159; Gender; Enum "Employee Gender")
         {
             Caption = 'Gender';
+            Editable = false;
         }
         field(160; "Marital Status"; enum "Marital Status")
         {
-
+            Editable = false;
         }
         field(161; "Total SST Paid"; Decimal) { }
         field(162; "Total Tax Remuneration Paid"; Decimal) { }
@@ -930,6 +965,11 @@ table 50027 "Payroll Line"
         EmployeeAdj: Record "Employee Payroll Adjustment";
         SettlementRecovery: Decimal;
         EmployeeLedgerEntry: Record "Employee Ledger Entry";
+        PrevAttributeAmt: Decimal;
+        CurrentAttributeAmt: Decimal;
+        CurrentAttributeAmtAbsent: Decimal;
+        PromotionFound: Boolean;
+
 
     procedure GetTotalDays()
     begin
@@ -1060,6 +1100,7 @@ table 50027 "Payroll Line"
         AttributeAmount: Decimal;
         EmpSalAdv: Record "Employee Loan/Advance";
         LoanOutstandingfromFinacle: Record "Loan Outstanding from Finacle";
+        EmployeeAttendActivity: Record "Employee Attendance & Activity";
     begin
         GetPayrollHeader;
         if not PayrollHeader.Irregular then
@@ -1071,6 +1112,7 @@ table 50027 "Payroll Line"
         BasicSalaryAfterDeduction := GetBasicSalaryAfterDeduction;
         "Late Rate" := Round("Basic Salary" / 30 / 3, 1, '=');
         Clear(SettlementRecovery);
+        Clear(PromotionFound);
         EmpSalAdv.Reset;
         EmpSalAdv.SetRange("Employee Code", "Employee No.");
         EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
@@ -1084,8 +1126,36 @@ table 50027 "Payroll Line"
         PromotionHistory.Reset;
         PromotionHistory.SetRange("Employee No.", "Employee No.");
         PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-        if PromotionHistory.FindFirst then;
-        GetGlobalAttributes; //temporary
+        if PromotionHistory.FindFirst then begin
+            PromotionFound := true;
+            //Absent Days for LWP before and after promotion
+            EmployeeAttendActivity.Reset;
+            EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            EmployeeAttendActivity.SetRange("Present Day", 0);
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
+
+            // EmployeeAttendActivity.Reset;
+            // EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            // EmployeeAttendActivity.SetRange("Present Day", 0);
+            //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+            EmployeeAttendActivity.SetRange("Attendance Date");
+            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            // EmployeeAttendActivity.SetRange("Attendance Date");
+            // // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date",);
+            // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            // EmployeeAttendActivity.CalcSums("Absent Day");
+            // Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            Rec.Modify();
+            GetGlobalAttributes; //temporary
+
+        end;
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
         //PayrollAttributesUsage.SETFILTER(Code,'PF-BENEFIT');//Min -- for Check
@@ -1124,9 +1194,9 @@ table 50027 "Payroll Line"
                             PayrollAttributesUsage.Amount := AttributeAmount;
                             PayrollAttributesUsage.Modify;
                         end;
-                        if PayrollAttributes."Deduct on Absent" then begin
+                        if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin
                             AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                        end;   //temporary
+                        end;//temporary
                         if PayrollAttributes."Differential Interest" then begin //calculate differential interest
                             LoanOutstandingfromFinacle.Reset;
                             LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
@@ -1497,6 +1567,75 @@ table 50027 "Payroll Line"
         end;
     end;
 
+    local procedure GetAmountAfterAbsentismCurrent(CalculatedAmountCurrent: Decimal; CalculatedAmountPrevious: Decimal): Decimal
+    var
+        PostedPayHeader: Record "Posted Payroll Header";
+        TotalAmount: Decimal;
+    begin
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            if not PayrollHeader.Irregular then begin
+                if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                    TotalAmount := ((CalculatedAmountCurrent / "Total Days") * ("Absent Days After Promotion")) + ((CalculatedAmountPrevious / "Total Days") * ("Absent Days After Promotion"));
+                    exit(TotalAmount) //deduct on prior absent.
+                end else
+                    exit((CalculatedAmountCurrent / ("Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+            end;
+        end else begin
+            if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                EmployeeLedgerEntry.Reset();
+                EmployeeLedgerEntry.SetRange("Employee No.", "Employee No.");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+                EmployeeLedgerEntry.SetRange(Type, EmployeeLedgerEntry.Type::Payroll);
+                if (EmployeeLedgerEntry.FindFirst) and (not (PayrollAttributes.Code in [PGSetup.Gratuity, PGSetup."Leave Encashment"])) then
+                    exit(-(CalculatedAmountCurrent / PayrollHeader."Total Days" * "Absent Days"));
+
+                if "Prior Absent Days" + "Prior Leave Days" + "Prior Present Days" = 0 then
+                    exit((CalculatedAmountCurrent / PayrollHeader."Total Days") * ("Total Days" - "Absent Days"))
+                else
+                    exit((CalculatedAmountCurrent / PayrollHeader."Total Days") * ("Total Days" - "Absent Days") +
+                        (CalculatedAmountCurrent / ("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") *
+                        (("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") - "Prior Absent Days"))) //deduct on prior absent.
+            end else
+                exit((CalculatedAmountCurrent / (PayrollHeader."Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+        end;
+    end;
+
+    local procedure GetAmountAfterAbsentismPromotionPrevious(CalculatedAmount: Decimal): Decimal
+    var
+        PostedPayHeader: Record "Posted Payroll Header";
+    begin
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            if not PayrollHeader.Irregular then begin
+                if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
+                    exit((CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
+                else
+                    exit((CalculatedAmount / ("Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+            end;
+        end else begin
+            if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                EmployeeLedgerEntry.Reset();
+                EmployeeLedgerEntry.SetRange("Employee No.", "Employee No.");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Period", PayrollHeader."Pay Cycle Period");
+                EmployeeLedgerEntry.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
+                EmployeeLedgerEntry.SetRange(Type, EmployeeLedgerEntry.Type::Payroll);
+                if (EmployeeLedgerEntry.FindFirst) and (not (PayrollAttributes.Code in [PGSetup.Gratuity, PGSetup."Leave Encashment"])) then
+                    exit(-(CalculatedAmount / PayrollHeader."Total Days" * "Absent Days"));
+
+                if "Prior Absent Days" + "Prior Leave Days" + "Prior Present Days" = 0 then
+                    exit((CalculatedAmount / PayrollHeader."Total Days") * ("Total Days" - "Absent Days"))
+                else
+                    exit((CalculatedAmount / PayrollHeader."Total Days") * ("Total Days" - "Absent Days") +
+                        (CalculatedAmount / ("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") *
+                        (("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") - "Prior Absent Days"))) //deduct on prior absent.
+            end else
+                exit((CalculatedAmount / (PayrollHeader."Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+        end;
+    end;
+
+
     procedure RoundAmount(var Amount: Decimal)
     begin
         Amount := Round(Amount, Currency."Amount Rounding Precision");
@@ -1582,6 +1721,7 @@ table 50027 "Payroll Line"
                     RecRefs.FindFirst;
                     FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                     Evaluate(AttributeAmount, Format(FieldRefs.Value));
+                    CurrentAttributeAmt := AttributeAmount;
                     if PromotionHistory."Promoted Date" <> 0D then begin
                         AttributeAmount := AttributeAmount / "Total Days" * (PayCyclePeriod."End Date" - PromotionHistory."Promoted Date" + 1);
                         RecRefs.Reset;
@@ -1592,16 +1732,18 @@ table 50027 "Payroll Line"
                         RecRefs.FindFirst;
                         FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                         Evaluate(PriorPromotionAmt, Format(FieldRefs.Value));
+                        PrevAttributeAmt := GetAmountAfterAbsentismPromotionPrevious(PriorPromotionAmt);
+                        CurrentAttributeAmtAbsent := GetAmountAfterAbsentismCurrent(CurrentAttributeAmt, PriorPromotionAmt);
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
-                        AttributeAmount := AttributeAmount + PriorPromotionAmt;
+                        AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
                     /*IF PayrollAttributes."Deduct on Absent" THEN BEGIN //pradhan -- calculating of after dedcution
-                       AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                     END;*/
+                        AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
+                    END;*/
                     RoundAmount(AttributeAmount);
                     if PayrollHeader.Type = PayrollHeader.Type::Resignation then
                         DeductForRecovery(AttributeAmount);
-                    if not PayrollHeader.Irregular then
+                    if (not PayrollHeader.Irregular) then
                         SaveValues(AttributeAmount, PayrollAttributes.Code);
                     PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
                 end;
