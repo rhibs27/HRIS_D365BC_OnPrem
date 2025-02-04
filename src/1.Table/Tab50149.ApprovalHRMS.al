@@ -1,6 +1,6 @@
-table 50149 Approval
+table 50149 "Approval HRMS"
 {
-    Caption = 'Approval';
+    Caption = 'Approval HRMS';
     DataClassification = ToBeClassified;
 
     fields
@@ -13,6 +13,7 @@ table 50149 Approval
         field(2; "Document Type"; Enum "Employee Activity Type")
         {
             Caption = 'Document Type';
+            Editable = false;
         }
         field(3; "Approver No"; Code[20])
         {
@@ -22,6 +23,8 @@ table 50149 Approval
             var
                 Employee: Record Employee;
             begin
+                if "Approver No" <> xRec."Approver No" then
+                    Clear("Approver Name");
                 if Employee.get("Approver No") then
                     Validate("Approver Name", Employee."Full Name");
             end;
@@ -34,24 +37,37 @@ table 50149 Approval
         field(5; "Approval Status"; Enum "Employee Act. Approval Status")
         {
             Caption = 'Approval Status';
+            Editable = false;
         }
         field(6; "Approval Sequence"; Integer)
         {
             Caption = 'Approval Sequence';
         }
-        // field(7; "Entry No."; Integer)
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-        // field(7; "Line No"; Integer)
-        // {
-        //     Caption = 'Line No';
-        //     Editable = false;
-        // }
         field(8; "Employee No"; Code[20])
         {
             DataClassification = ToBeClassified;
             TableRelation = Employee;
+            Editable = false;
+            trigger OnValidate()
+            var
+                ApprovalEmployee: Record Employee;
+                Employee: Record Employee;
+                ApprovalSalaryLevel: Record "Salary Level";
+                SalaryLevel: Record "Salary Level";
+            begin
+                Employee.Reset();
+                ApprovalEmployee.Reset();
+                SalaryLevel.Reset();
+                ApprovalSalaryLevel.Reset();
+                if "Approver No" = "Employee No" then
+                    Error('You cannot choose your own Employee ID as Recommender.');
+                if Employee.Get("Employee No") then;
+                if ApprovalEmployee.Get("Approver No") then;
+                if SalaryLevel.Get(Employee."Salary Level") then;
+                if ApprovalSalaryLevel.Get(ApprovalEmployee."Salary Level") then;
+                if SalaryLevel.Rank >= ApprovalSalaryLevel.Rank then
+                    Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
+            end;
         }
     }
 
@@ -64,7 +80,7 @@ table 50149 Approval
     }
     trigger OnInsert()
     var
-        Approval: Record Approval;
+        Approval: Record "Approval HRMS";
     begin
         // Approval.Reset();
         // if Approval.FindLast() then

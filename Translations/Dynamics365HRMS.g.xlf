@@ -873,45 +873,45 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Appraisal - Field Written Verbal Warning Issued - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval</source>
+        <trans-unit id="Table 1520874541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval HRMS</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 2969375748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 2969375748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Sequence</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Approval Sequence - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approval Sequence - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Approval Status - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approval Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 1865071614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 1865071614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approver Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Approver Name - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approver Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 2986118256 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 2986118256 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approver No</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Approver No - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Approver No - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Document No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Document No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 2363328873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 2363328873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Document Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Document Type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 227370865 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 1520874541 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Approval - Field Employee No - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval HRMS - Field Employee No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3248951671 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
@@ -6732,21 +6732,6 @@
           <source>Service History Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Service History Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 590654473 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Task</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Task - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 590654473 - Field 1791699764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Task Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Task - Field Task Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 590654473 - Field 1815659374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Task Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Task - Field Task Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2137842149 - NamedType 2476940767" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start time cannot be greater or equal to End time.</source>
@@ -18333,16 +18318,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit AppraisalMgt. - Method CheckAppraisalApproval - NamedType CheckReviewNotEligibleError</note>
         </trans-unit>
-        <trans-unit id="Codeunit 4102621001 - Method 334963115 - NamedType 3004040435" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The attachment exceeds 20 MB and cannot be uploaded. The current size is %1 MB.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Event Management - Method Document Attachment_OnBeforeSaveAttachment - NamedType Msg</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 4102621001 - Method 2674859197 - NamedType 3004040435" size-unit="char" translate="yes" xml:space="preserve">
-          <source>The attachment exceeds 20 MB and cannot be uploaded. The current size is %1 MB.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Event Management - Method Document Attachment_OnBeforeSaveAttachmentFromStream - NamedType Msg</note>
-        </trans-unit>
         <trans-unit id="Codeunit 4102621001 - Method 741337154 - NamedType 128634895" size-unit="char" translate="yes" xml:space="preserve">
           <source>The incoming document has already been assigned to %1 %2 (%3).</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21207,36 +21182,6 @@
           <source>Specifies the value of the Weightage (%) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Appraisal SubForm - Control Weightage (%) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Entry</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Control 2969375748 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Sequence field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Control Approval Sequence - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Control 1865071614 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approver Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Control Approver Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Control 2986118256 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approver No field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Control Approver No - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1753259445 - Control 486908828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Document No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Approval Entry - Control Document No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1211190768 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee No. field.</source>
@@ -34152,6 +34097,36 @@
           <source>Executes the Screened action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Transfer Requests - Action Screened - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>HRMS Approval Entry</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Control 2969375748 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Sequence field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control Approval Sequence - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Control 1865071614 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control Approver Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Control 2986118256 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control Approver No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 913192849 - Control 486908828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Document No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HRMS Approval Entry - Control Document No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1544502523 - Control 3558390861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Age field.</source>
@@ -56138,14 +56113,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field System Owner - Property Caption</note>
         </trans-unit>
-<<<<<<< HEAD
-        <trans-unit id="TableExtension 1028528413 - Field 3994797191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Task</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Task - Property Caption</note>
-        </trans-unit>
-=======
->>>>>>> ca817c73499eacd42557ebf1a4efc530a8a3a94d
         <trans-unit id="TableExtension 1028528413 - Field 1815659374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Task Name</source>
           <note from="Developer" annotates="general" priority="2"></note>

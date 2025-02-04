@@ -248,7 +248,7 @@ page 50108 "Portal Functions"
         LeaveMgt: Codeunit "Leave Mgt.";
         tempLeave: Record Leave;
         docNo: text;
-        Approval: record approval;
+        Approval: record "Approval HRMS";
         Count: Integer;
     begin
         tempLeave.Reset;
@@ -256,7 +256,7 @@ page 50108 "Portal Functions"
         tempLeave.Validate("Employee No.", employeeNo);
         tempLeave.Validate("Leave Code", leaveCode);
         tempLeave.Validate(Type, tempLeave.Type::"Leave Request");
-
+        tempLeave.Validate("Approval Status", tempLeave."Approval Status"::Open);
         /*
         CASE leaveType OF
           FORMAT(TempEmpAct."Leave Type"::"Full Day"):
@@ -306,7 +306,8 @@ page 50108 "Portal Functions"
         end;
         tempLeave.Validate("Contact No.", contactNo);
         tempLeave.Insert(true);
-        if recommenderCode = '' then begin
+        //For Approver Line Generate
+        if (recommenderCode = '') and (approverCode <> '') then begin
             tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
             tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
             Approval.Init();
@@ -314,12 +315,13 @@ page 50108 "Portal Functions"
             Approval.Validate("Approver No", approverCode);
             Approval.Validate("Document Type", tempLeave.type);
             Approval.validate("Employee No", tempLeave."Employee No.");
-            Approval.validate("Approval Sequence", 1);
+            Approval.validate("Approval Sequence", 2);
             Approval.validate("approval Status", tempLeave."Approval Status"::Recommended);
             Approval.insert(true);
-        end else begin
-            tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
-            tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
+        end else if (approverCode <> '') and (recommenderCode <> '') then begin
+            tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
+            tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
+            //for Recommendation
             Approval.Init();
             Approval.validate("Document No.", Templeave."No.");
             Approval.Validate("Approver No", recommenderCode);
@@ -328,8 +330,29 @@ page 50108 "Portal Functions"
             Approval.validate("Approval Sequence", 1);
             Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
             Approval.insert(true);
-        end;
-
+            // For Approval
+            Approval.Init();
+            Approval.validate("Document No.", Templeave."No.");
+            Approval.Validate("Approver No", approverCode);
+            Approval.Validate("Document Type", tempLeave.type);
+            Approval.validate("Employee No", tempLeave."Employee No.");
+            Approval.validate("Approval Sequence", 2);
+            Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+            Approval.insert(true);
+        end else if approverCode = '' then
+                Error('Approver Code must have value');
+        //     tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
+        //     tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
+        //     Approval.Init();
+        //     Approval.validate("Document No.", Templeave."No.");
+        //     Approval.Validate("Approver No", recommenderCode);
+        //     Approval.Validate("Document Type", tempLeave.type);
+        //     Approval.validate("Employee No", tempLeave."Employee No.");
+        //     Approval.validate("Approval Sequence", 2);
+        //     Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+        //     Approval.insert(true);
+        // end
+        //else
         docNo := LeaveMgt.ApplyForLeave(tempLeave);
         if docNo <> '' then
             exit(docNo);
@@ -405,6 +428,40 @@ page 50108 "Portal Functions"
         //END;
         exit('sucess');
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getLeaveAttachmentAPI(leaveNo: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        leave: Record leave;
+        NoOfDays: Integer;
+        LeaveType: Record "Leave Type Setup";
+        AttachmentSetup: Record "Attachment Setup";
+        Filename: Text;
+
+    begin
+        leave.Get(leaveNo);
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SETRANGE("No.", leaveNo);
+        If not TempIncomingDoc.FindFirst() then
+            Error('Document Not Found');
+        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        exit('{' +
+        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
+        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    end;
+    // '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
+    // '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
+    //     '}'
 
     local procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
     var
@@ -926,7 +983,6 @@ page 50108 "Portal Functions"
             Month := Format(Date2DMY(DateVar, 2));
         //year
         Year := Format(Date2DMY(DateVar, 3));
-
         exit(Year + '-' + Month + '-' + Day);
     end;
 
@@ -3275,15 +3331,21 @@ page 50108 "Portal Functions"
         EmployeeTransferForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
+        Approval: Record "Approval HRMS";
     begin
-        Leave.Reset();
-        Leave.SetRange("Recommender Code", empcode);
-        Leave.SetRange("Approval Status", Leave."Approval Status"::"Pending Approval");
-        leaveForRecommendation := leave.Count();
-        Leave.Reset();
-        Leave.SetRange("Approver Code", empcode);
-        Leave.SetRange("Approval Status", Leave."Approval Status"::Recommended);
-        leaveForApprove := leave.Count();
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Approver No", empcode);
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Pending Approval");
+        Approval.SetRange("Approval Sequence", 1);
+        leaveForRecommendation := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Approver No", empcode);
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Recommended);
+        Approval.SetRange("Approval Sequence", 2);
+        leaveForApprove := Approval.Count();
 
         Loan.Reset();
         Loan.SetRange(Recommender, empcode);

@@ -168,7 +168,7 @@ page 50088 "Leave Request"
                               "Employee Activity Type" = field(Type);
                 ApplicationArea = All;
             }
-            part("Approval Subform"; "Approval Entry")
+            part("Approval Subform"; "HRMS Approval Entry")
             {
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
@@ -289,7 +289,7 @@ page 50088 "Leave Request"
         AttachmentSetup: Record "Attachment Setup";
         [InDataSet]
         IsPaternity: Boolean;
-        Approval: Record Approval;
+        Approval: Record "Approval HRMS";
 
     local procedure GenerateAttachment()
     begin
@@ -316,6 +316,7 @@ page 50088 "Leave Request"
                 repeat
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
+                    TempIncomingDoc."No." := Rec."No.";
                     TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                     TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                     TempIncomingDoc.Validate(Description, Format(Rec.Type) + ': ' + Rec."Leave Description");

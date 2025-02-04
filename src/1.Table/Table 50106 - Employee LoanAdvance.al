@@ -559,9 +559,7 @@ table 50106 "Employee Loan/Advance"
 
     trigger OnModify()
     begin
-        if (xRec."Approval Status" = "Approval Status") and
-           (xRec.Approver = Approver) and
-          (xRec.Recommender = Recommender) then
+        if (xRec."Approval Status" = "Approval Status") and (xRec.Approver = Approver) and (xRec.Recommender = Recommender) then
             LoanMgt.CalculateFields(Rec);
     end;
 

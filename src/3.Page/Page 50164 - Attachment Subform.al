@@ -96,6 +96,7 @@ page 50164 "Attachment Subform"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Upload action.';
                 ApplicationArea = All;
+                Visible = true;
 
                 trigger OnAction()
                 var

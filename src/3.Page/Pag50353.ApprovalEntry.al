@@ -1,9 +1,9 @@
-page 50353 "Approval Entry"
+page 50353 "HRMS Approval Entry"
 {
     ApplicationArea = All;
-    Caption = 'Approval Entry';
+    Caption = 'HRMS Approval Entry';
     PageType = ListPart;
-    SourceTable = Approval;
+    SourceTable = "Approval HRMS";
     //AutoSplitKey = true;
 
     layout

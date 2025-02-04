@@ -746,6 +746,8 @@ codeunit 50000 "Leave Mgt."
                             Error('Attachment must be uploaded');
                 end;
                 TempIncomingDoc.Validate("No.", EmpActNo);
+                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                TempIncomingDoc.Validate("Employee Code", EmpNo);
                 TempIncomingDoc.Modify;
             until TempIncomingDoc.Next = 0;
     end;
@@ -753,7 +755,7 @@ codeunit 50000 "Leave Mgt."
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
         //Leavevar: Record "Leave";
-        Approval: record Approval;
+        Approval: record "Approval HRMS";
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeaveTypeSetup: Record "Leave Type Setup";
@@ -806,6 +808,7 @@ codeunit 50000 "Leave Mgt."
 
         CheckDependability(Leave."Leave Code", Leave."Employee No.");
         CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
+        Leave.Validate("User ID", UserId);
         // Leavevar.Init;
         // Leavevar.TransferFields(Leave);
         //Leavevar.TestField("Approver Code");
@@ -813,29 +816,40 @@ codeunit 50000 "Leave Mgt."
         //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
         // else
         //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
-        // Leavevar.Validate("User ID", UserId);
+        //For Approval 
         if Guiallowed then begin
             Approval.Reset();
             Approval.SetRange("Document No.", leave."No.");
-            if Approval.Count = 1 then begin
-                Leave."Approver Type" := Leave."Approver Type"::Direct;
-                Leave."Approval Status" := leave."Approval Status"::Recommended
-            end
-            else
-                Leave."Approval Status" := Leave."Approval Status"::"Pending Approval";
-            Leave.modify();
+            Approval.SetFilter("Approver Name", '%1', '');
+            Approval.Deleteall();
+            Approval.Reset();
+            Approval.SetRange("Document No.", leave."No.");
             if Approval.Findset() then
                 repeat
-                    Approval."Document Type" := leave.type;
-                    Approval."Employee No" := leave."Employee No.";
-                    Approval."Approval Status" := leave."Approval Status";
-                    approval.Modify();
+                    Approval.TestField("Approval Sequence");
+                    Approval.Validate("Document Type", leave.type);
+                    Approval.Validate("Employee No", leave."Employee No.");
+                    Approval.Validate("Approval Status", Approval."Approval Status"::"Pending Approval");
+                    Approval.Modify()
                 until approval.Next() = 0
             else
                 Error('Approver Not Found');
+            if Approval.Count = 1 then begin
+                Leave.Validate(Leave."Approver Type", Leave."Approver Type"::Direct);
+                Leave.Validate("Approval Status", leave."Approval Status"::Recommended);
+                Approval.Validate("Approval Sequence", 2);
+                Approval.Validate("Approval Status", Approval."Approval Status"::Recommended);
+            end
+            else begin
+                Leave.Validate("Approver Type", Leave."Approver Type"::"With Recommendation");
+                Leave.Validate("Approval Status", Leave."Approval Status"::"Pending Approval");
+            end;
             Approval.TestField("Approver No");
+            approval.Modify();
             AddLeaveAttachment(Leave."No.", Leave."Employee No.", Leave."Leave Code");
         end;
+
+        Leave.modify();
         HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Open, '', Leave."Employee No.", Leave."No.", 0);   //For email
         exit(Leave."No.");
     end;
@@ -895,12 +909,13 @@ codeunit 50000 "Leave Mgt."
     var
         //EmpAct: Record "Employee Activity";
         leave: Record Leave;
-        Approval: record Approval;
+        Approval: record "Approval HRMS";
     begin
         leave.Get(EmpActCode);
         leave.TestField("Approval Status", leave."Approval Status"::"Pending Approval");
         CheckEmployeeLeaveApproval(leave);
         leave.Validate("Approval Status", leave."Approval Status"::Recommended);
+        //For approval Status
         Approval.Reset();
         Approval.SetRange("Document No.", leave."No.");
         if Approval.findset() then
@@ -916,13 +931,14 @@ codeunit 50000 "Leave Mgt."
     var
         //EmpAct: Record "Employee Activity";
         leave: Record Leave;
-        Approval: record Approval;
+        Approval: record "Approval HRMS";
     begin
         leave.Get(EmpActCode);
         leave.TestField("Approval Status", leave."Approval Status"::"Pending Approval");
         CheckEmployeeLeaveApprovalAPI(leave, ApproverCode);
         leave.Validate("Approval Status", leave."Approval Status"::Recommended);
         leave.Modify;
+        //For approval Status
         Approval.Reset();
         Approval.SetRange("Document No.", leave."No.");
         if Approval.findset() then
@@ -938,7 +954,7 @@ codeunit 50000 "Leave Mgt."
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
         RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
         AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-        Approver: Record Approval;
+        Approver: Record "Approval HRMS";
     begin
         Approver.Reset();
         approver.SetRange("Document No.", leave."No.");
@@ -947,7 +963,9 @@ codeunit 50000 "Leave Mgt."
         Employee.FindFirst;
         if leave."Approver Type" = leave."Approver Type"::Direct then begin
             if not Approver.FindFirst() then
-                Error('Approver not found');
+                Error('Approver not found')
+            else
+                Approver."Approval Status" := leave."Approval Status"::Approved;
             if StrPos(approver."Approver No", Employee."No.") = 0 then
                 Error(ApproveNotEligibleError);
         end else if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then begin
@@ -959,10 +977,13 @@ codeunit 50000 "Leave Mgt."
         end else if (leave."Approval Status" = leave."Approval Status"::Recommended) then begin
             Approver.SetRange("Approval Sequence", 2);
             if not Approver.FindFirst() then
-                Error('Approver not found');
+                Error('Approver not found')
+            else
+                Approver."Approval Status" := leave."Approval Status"::Approved;
             if StrPos(approver."Approver No", Employee."No.") = 0 then
                 Error(ApproveNotEligibleError);
         end;
+        Approver.Modify();
 
         //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
         //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
@@ -974,7 +995,7 @@ codeunit 50000 "Leave Mgt."
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
         RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
         AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-        Approver: Record Approval;
+        Approver: Record "Approval HRMS";
     begin
         // Employee.Reset;
         // Employee.SetRange("No.", ApproverCode);
@@ -993,7 +1014,9 @@ codeunit 50000 "Leave Mgt."
         Employee.FindFirst;
         if leave."Approver Type" = leave."Approver Type"::Direct then begin
             if not Approver.FindFirst() then
-                Error('Approver not found');
+                Error('Approver not found')
+            else
+                Approver."Approval Status" := leave."Approval Status"::Recommended;
             if StrPos(approver."Approver No", Employee."No.") = 0 then
                 Error(ApproveNotEligibleError);
         end else if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then begin
@@ -1005,11 +1028,14 @@ codeunit 50000 "Leave Mgt."
         end else if (leave."Approval Status" = leave."Approval Status"::Recommended) then begin
             Approver.SetRange("Approval Sequence", 2);
             if not Approver.FindFirst() then
-                Error('Approver not found');
+                Error('Approver not found')
+            else
+                Approver."Approval Status" := leave."Approval Status"::Approved;
             if StrPos(approver."Approver No", Employee."No.") = 0 then
                 Error(ApproveNotEligibleError);
         end;
 
+        Approver.Modify()
         //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
         //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
         //ERROR(AcknowledgeError);
@@ -1025,7 +1051,7 @@ codeunit 50000 "Leave Mgt."
         ErrorReject: Label 'Approval Status must be in %1 or %2.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         LeaveTypeSetup: Record "Leave Type Setup";
-        Approver: record Approval;
+        Approver: record "Approval HRMS";
     //EmpAct2: Record "Employee Activity";
     begin
         leave.Get(LeaveCode);
@@ -1035,15 +1061,15 @@ codeunit 50000 "Leave Mgt."
                 leave.TestField("Approval Status", leave."Approval Status"::Recommended);
                 CheckEmployeeleaveApproval(leave);
                 leave.Validate("Approval Status", leave."Approval Status"::Approved);
-                Approver.reset();
-                Approver.SetRange("Document No.", leave."No.");
-                if Approver.FindSet() then
-                    repeat
-                        Approver."Approval Status" := Approver."Approval Status"::Approved;
-                        Approver.Modify();
-                    until Approver.Next() = 0
-                else
-                    Error('Approver not Found');
+                // Approver.reset();
+                // Approver.SetRange("Document No.", leave."No.");
+                // if Approver.FindSet() then
+                //     repeat
+                //         Approver."Approval Status" := Approver."Approval Status"::Approved;
+                //         Approver.Modify();
+                //     until Approver.Next() = 0
+                // else
+                //     Error('Approver not Found');
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Leave Code", leave."Leave Code");
                 LeaveEarn.Validate(EmpNo, leave."Employee No.");
@@ -1117,6 +1143,16 @@ codeunit 50000 "Leave Mgt."
                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
                 leave.Validate("Approval Status", leave."Approval Status"::Rejected);
                 leave.TestField("Rejection Remarks");
+                //For Status in line
+                Approver.reset();
+                Approver.SetRange("Document No.", leave."No.");
+                if Approver.Findfirst() then
+                    repeat
+                        Approver."Approval Status" := Approver."Approval Status"::Rejected;
+                        Approver.Modify();
+                    until Approver.Next() = 0
+                else
+                    Error('Approver not Found');
                 Message('The leave request has been rejected.');
             end;
         end else begin
@@ -1124,6 +1160,16 @@ codeunit 50000 "Leave Mgt."
                 leave.TestField("Approval Status", leave."Approval Status"::Recommended);
                 CheckEmployeeLeaveApproval(leave);
                 leave.Validate("Approval Status", leave."Approval Status"::Approved);
+                //For Status in line
+                Approver.reset();
+                Approver.SetRange("Document No.", leave."No.");
+                if Approver.FindSet() then
+                    repeat
+                        Approver."Approval Status" := Approver."Approval Status"::Rejected;
+                        Approver.Modify();
+                    until Approver.Next() = 0
+                else
+                    Error('Approver not Found');
                 if leave.Type = leave.Type::"Travel Request" then begin
                     //changes in employee attendance and activity
                     EmpAttendActivity.Reset;
@@ -1192,7 +1238,8 @@ codeunit 50000 "Leave Mgt."
         ErrorReject: Label 'Approval Status must be in %1 or %2.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         LeaveTypeSetup: Record "Leave Type Setup";
-        EmpAct2: Record "Employee Activity";
+        Approval: record "Approval HRMS";
+    //EmpAct2: Record "Employee Activity";
     begin
         leave.Get(LeaveCode);
         if leave.Type = leave.Type::"Leave Request" then begin
@@ -1201,6 +1248,14 @@ codeunit 50000 "Leave Mgt."
                 leave.TestField("Approval Status", leave."Approval Status"::Recommended);
                 CheckEmployeeleaveApprovalAPI(leave, ApproverCode);
                 leave.Validate("Approval Status", leave."Approval Status"::Approved);
+                //For Approval subform
+                Approval.Reset();
+                Approval.SetRange("Document No.", leave."No.");
+                if Approval.findset() then
+                    repeat
+                        Approval."Approval Status" := leave."Approval Status"::Approved;
+                        Approval.Modify();
+                    until Approval.Next() = 0;
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Leave Code", leave."Leave Code");
                 LeaveEarn.Validate(EmpNo, leave."Employee No.");
@@ -1274,6 +1329,16 @@ codeunit 50000 "Leave Mgt."
                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
                 leave.Validate("Approval Status", leave."Approval Status"::Rejected);
                 leave.TestField("Rejection Remarks");
+                //For Status in line
+                Approval.reset();
+                Approval.SetRange("Document No.", leave."No.");
+                if Approval.FindSet() then
+                    repeat
+                        Approval."Approval Status" := Approval."Approval Status"::Rejected;
+                        Approval.Modify();
+                    until Approval.Next() = 0
+                else
+                    Error('Approver not Found');
                 Message('The leave request has been rejected.');
             end;
         end else begin
@@ -1394,6 +1459,7 @@ codeunit 50000 "Leave Mgt."
                 TempIncomingDoc.Reset;
                 TempIncomingDoc.Init;
                 TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                TempIncomingDoc.Validate("No.", Leave."No.");
                 TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                 TempIncomingDoc.Validate(Description, Format(Leave.Type) + ': ' + Leave."Leave Description");
                 TempIncomingDoc.Validate("Employee Code", Leave."Employee No.");

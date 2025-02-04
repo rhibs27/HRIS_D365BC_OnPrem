@@ -25,4 +25,7 @@ enum 50115 "Organization Structure list"
     value(7; "Head Office")
     {
     }
+    value(8; "Sub-Unit")
+    {
+    }
 }

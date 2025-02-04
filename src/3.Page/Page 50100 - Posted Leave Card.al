@@ -142,13 +142,12 @@ page 50100 "Posted Leave Card"
                               "Leave Type Code" = field("Leave Code");
                 ApplicationArea = All;
             }
-            part("Approval Subform"; "Approval Entry")
+            part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
                                 "Employee No" = field("Employee No."),
-                                "Document Type" = field(Type),
-                                "Approval Status" = field("Approval Status");
+                                "Document Type" = field(Type);
                 ApplicationArea = all;
             }
             // group(Approval)

@@ -169,7 +169,7 @@ page 50176 "Employee Loan/Advance API"
                             if Rec."Loan Type" = Rec."Loan Type"::"Salary Advance" then
                                 if Rec."No." = '' then
                                     Rec.Insert(true);
-                            Rec.Modify(true);
+                            //Rec.Modify(true);
                             Commit;
                             LoanMgt.SendApprovaLoan(Rec, true);
                         end;

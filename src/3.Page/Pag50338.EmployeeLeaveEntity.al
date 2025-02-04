@@ -10,14 +10,13 @@ page 50338 "Employee Leave Entity"
     EntitySetName = 'employeeLeaveEntity';
     PageType = API;
     SourceTable = Leave;
-
     layout
     {
         area(Content)
         {
             group(General)
             {
-                field(No; Rec."No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
                 field(employeeNo; Rec."Employee No.")
                 {
@@ -75,10 +74,19 @@ page 50338 "Employee Leave Entity"
                 EntitySetName = 'attachmentEntities';
                 SubPageLink = "No." = field("No.");
             }
+            part(HRMSApproval; "HRMS Approval Entry")
+            {
+                EntityName = 'approvalEntry';
+                EntitySetName = 'approvalEntryEntities';
+                SubPageLink = "Document No." = field("No.");
+            }
         }
     }
     trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
     begin
-        Rec.SetRange("User ID", UserId);
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
     end;
 }

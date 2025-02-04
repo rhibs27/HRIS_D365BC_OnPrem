@@ -908,6 +908,27 @@ codeunit 50002 "Loan Mgt."
         exit(CleanedFileName);
     end;
 
+    procedure SanitizeFileAttachment(FileName: Text): Text
+    var
+        InvalidChars: Text[20];
+        CleanedFileName: Text;
+        CurrentChar: Char;
+        i: Integer;
+    begin
+        InvalidChars := '\';
+        // Step 2: Iterate through the characters in the file name
+        CleanedFileName := '';
+        for i := 1 to StrLen(FileName) do begin
+            CurrentChar := FileName[i];
+            // If the character is not invalid, add it to the cleaned file name
+            if StrPos(InvalidChars, FORMAT(CurrentChar)) = 0 then
+                CleanedFileName += CurrentChar
+            else
+                CleanedFileName += '/'; // Replace invalid character 
+        end;
+        exit(CleanedFileName);
+    end;
+
     local procedure CreateNewDir(OldPathFile: Text; NewDirectoryName: Text; var AttrDir: Text)
     var
     // DirectoryHelper: DotNet Directory;
