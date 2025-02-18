@@ -25,9 +25,15 @@ page 50166 "Leave Type Entity"
                 field(payType; Rec."Pay Type") { }
                 field(EmployeeNoFilter; Rec."Employee No. Filter") { }
                 field(RemainingDays; Rec."Remaining Days") { }
+                field(noOfDaysForAttachment; Rec."No. of Days for Attachment")
+                {
+                }
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.CalcFields(Rec."Remaining Days");
+    end;
 
-    actions { }
 }

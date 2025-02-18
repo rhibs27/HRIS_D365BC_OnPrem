@@ -2,7 +2,7 @@ table 50124 Leave
 {
     Caption = 'Leave';
     DataClassification = CustomerContent;
-
+    //Field 1, 16, 100 are used in ApprovalMgt Codeunit as field Ref
     fields
     {
 
@@ -50,7 +50,8 @@ table 50124 Leave
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate(Ecosystem, EmpVar."Eco-System");
                     Validate("Office Code", EmpVar.Office);
-                    "Contact No." := EmpVar."Mobile Phone No.";
+                    Validate("Deputation On", EmpVar."Deputation on");
+                    Validate("Contact No.", EmpVar."Mobile Phone No.");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -58,7 +59,6 @@ table 50124 Leave
                     // Validate("Auth. Account No.", '');//NILESH
                     Validate("Salary Level Code", '');
                 end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -113,7 +113,7 @@ table 50124 Leave
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                    // Validate("No. of Days", 0);
                 end;
             end;
         }
@@ -141,10 +141,14 @@ table 50124 Leave
         field(9; "No. of Days"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
+            var
+                HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
             begin
-
+                if GuiAllowed then
+                    leaveMgt.GenerateLeaveAttachment(rec);
+                if "No. of Days" <= 0 then
+                    Error('No of Days Cannot be zero');
                 if not Cancelled then
                     if (Type = Type::"Leave Request") and ("End Date" <> 0D) then begin
                         leaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
@@ -154,11 +158,22 @@ table 50124 Leave
                         leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
                         leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                     end;
+                case "Leave Type" of
+                    "Leave Type"::"First Half":
+                        begin
+                            if "Start Date" <> "End Date" then
+                                Error(HalfLeaveError)
+                        end;
+                    "Leave Type"::"Second Half":
+                        begin
+                            if "Start Date" <> "End Date" then
+                                Error(HalfLeaveError)
+                        end;
+                end;
             end;
         }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -184,32 +199,29 @@ table 50124 Leave
         field(14; Remarks; Text[100])
         {
 
-            trigger OnLookup()
-            begin
-                PAGE.Run(PAGE::"Employee List");
-            end;
         }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
-
+            Editable = false;
             trigger OnValidate()
             begin
-                if "Approval Status" = "Approval Status"::Approved then
-                    if "Approval Status" = "Approval Status"::Screened then begin
-                        Validate("Screener Date", Today);
-                        Validate("Screener ID", HRMgt.GetEmployeeNo);
-                    end;
-                if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                    Validate("Final Approver Date", Today);
-                    Validate("Final Approver", HRMgt.GetEmployeeNo);
-                end;
+                // if "Approval Status" = "Approval Status"::Approved then
+                //     if "Approval Status" = "Approval Status"::Screened then begin
+                //         Validate("Screener Date", Today);
+                //         Validate("Screener ID", HRMgt.GetEmployeeNo);
+                //     end;
+                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
+                //     Validate("Final Approver Date", Today);
+                //     Validate("Final Approver", HRMgt.GetEmployeeNo);
+                // end;
             end;
         }
+
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
@@ -253,76 +265,76 @@ table 50124 Leave
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(22; "Recommender Code"; Code[50])
-        {
-            TableRelation = Employee;
-            ValidateTableRelation = false;
+        // field(22; "Recommender Code"; Code[50])
+        // {
+        //     TableRelation = Employee;
+        //     ValidateTableRelation = false;
 
-            trigger OnLookup()
-            begin
-                EmpVar.Reset;
-                if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-                    if StrPos("Recommender Code", EmpVar."No.") = 0 then
-                        Validate("Recommender Code", EmpVar."No.");
-            end;
+        //     trigger OnLookup()
+        //     begin
+        //         EmpVar.Reset;
+        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
+        //             if StrPos("Recommender Code", EmpVar."No.") = 0 then
+        //                 Validate("Recommender Code", EmpVar."No.");
+        //     end;
 
-            trigger OnValidate()
-            begin
-                if "Recommender Code" = "Employee No." then
-                    Error('You cannot choose your own Employee ID as Recommender.');
-                HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
-                if "Recommender Code" = '' then
-                    Validate("Approver Type", "Approver Type"::Direct)
-                else
-                    Validate("Approver Type", "Approver Type"::"With Recommendation");
-                //requirement not fixed
-                if "Recommender Code" <> '' then begin
-                    if Type <> Type::Overtime then //Min 8.25.2022
-                        if "Recommender Code" = "Approver Code" then
-                            Error('Recommender and Approver cannot be same person.');
-                    EmployeeRec.Get("Recommender Code");
-                    if SalaryLevel.Get("Salary Level Code") then;
-                    if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                    if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                        Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                end;
-            end;
-        }
-        field(23; "Approver Code"; Code[50])
-        {
-            TableRelation = Employee;
-            ValidateTableRelation = false;
+        //     trigger OnValidate()
+        //     begin
+        //         if "Recommender Code" = "Employee No." then
+        //             Error('You cannot choose your own Employee ID as Recommender.');
+        //         HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
+        //         if "Recommender Code" = '' then
+        //             Validate("Approver Type", "Approver Type"::Direct)
+        //         else
+        //             Validate("Approver Type", "Approver Type"::"With Recommendation");
+        //         //requirement not fixed
+        //         if "Recommender Code" <> '' then begin
+        //             if Type <> Type::Overtime then //Min 8.25.2022
+        //                 if "Recommender Code" = "Approver Code" then
+        //                     Error('Recommender and Approver cannot be same person.');
+        //             EmployeeRec.Get("Recommender Code");
+        //             if SalaryLevel.Get("Salary Level Code") then;
+        //             if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+        //             if SalaryLevel.Rank >= SalaryLevel1.Rank then
+        //                 Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
+        //         end;
+        //     end;
+        // }
+        // field(23; "Approver Code"; Code[50])
+        // {
+        //     TableRelation = Employee;
+        //     ValidateTableRelation = false;
 
-            trigger OnLookup()
-            begin
-                EmpVar.Reset;
-                if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-                    if StrPos("Approver Code", EmpVar."No.") = 0 then
-                        Validate("Approver Code", EmpVar."No.");
-            end;
+        //     trigger OnLookup()
+        //     begin
+        //         EmpVar.Reset;
+        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
+        //             if StrPos("Approver Code", EmpVar."No.") = 0 then
+        //                 Validate("Approver Code", EmpVar."No.");
+        //     end;
 
-            trigger OnValidate()
-            begin
-                if "Approver Code" = "Employee No." then
-                    Error('You cannot choose your own Employee ID as Approver.');
-                //requirement not fixed
-                HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-                if "Approver Code" <> '' then begin
-                    HRSetup.Get;
-                    if EmployeeRec.Get("Recommender Code") then;
+        //     trigger OnValidate()
+        //     begin
+        //         if "Approver Code" = "Employee No." then
+        //             Error('You cannot choose your own Employee ID as Approver.');
+        //         //requirement not fixed
+        //         HRMgt.GetEmployeeName("Approver Code", "Approver Name");
+        //         if "Approver Code" <> '' then begin
+        //             HRSetup.Get;
+        //             if EmployeeRec.Get("Recommender Code") then;
 
 
-                    EmployeeRec.Get("Approver Code");
-                    HRSetup.Get;
-                    if EmployeeRec."Functional Title" <> HRSetup."HR Head Functional Title" then begin
-                        if SalaryLevel.Get("Salary Level Code") then;
-                        if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                        if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                            Error('Salary level of approver (%1) must be greater than salary level of employee (%2).', EmployeeRec."Full Name", "Employee Name");
-                    end;
-                end;
-            end;
-        }
+        //             EmployeeRec.Get("Approver Code");
+        //             HRSetup.Get;
+        //             if EmployeeRec."Functional Title" <> HRSetup."HR Head Functional Title" then begin
+        //                 if SalaryLevel.Get("Salary Level Code") then;
+        //                 if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+        //                 if SalaryLevel.Rank >= SalaryLevel1.Rank then
+        //                     Error('Salary level of approver (%1) must be greater than salary level of employee (%2).', EmployeeRec."Full Name", "Employee Name");
+        //             end;
+        //         end;
+        //     end;
+        // }
         field(24; "Employee Work Shift"; Code[10])
         {
             Editable = false;
@@ -333,14 +345,14 @@ table 50124 Leave
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(26; "Recommender Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(27; "Approver Name"; Text[50])
-        {
-            Editable = false;
-        }
+        // field(26; "Recommender Name"; Text[50])
+        // {
+        //     Editable = false;
+        // }
+        // field(27; "Approver Name"; Text[50])
+        // {
+        //     Editable = false;
+        // }
         field(28; "Extension Counter Code"; Code[20])
         {
             TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
@@ -389,63 +401,63 @@ table 50124 Leave
         {
             Editable = false;
         }
-        field(42; "Screener ID"; Code[20])
-        {
-            Editable = false;
+        // field(42; "Screener ID"; Code[20])
+        // {
+        //     Editable = false;
 
-            trigger OnValidate()
-            begin
-                if EmployeeRec.Get("Screener ID") then
-                    Validate("Screener Name", EmployeeRec."Full Name")
-                else
-                    Clear("Screener Name");
-            end;
-        }
-        field(43; "Screener Date"; Date)
-        {
-            Editable = false;
-        }
-        field(44; "Screener Name"; Text[50])
-        {
-            Editable = false;
-        }
-        field(45; "Final Approver"; Code[20])
-        {
-            Editable = false;
-            TableRelation = Employee;
+        //     trigger OnValidate()
+        //     begin
+        //         if EmployeeRec.Get("Screener ID") then
+        //             Validate("Screener Name", EmployeeRec."Full Name")
+        //         else
+        //             Clear("Screener Name");
+        //     end;
+        // }
+        // field(43; "Screener Date"; Date)
+        // {
+        //     Editable = false;
+        // }
+        // field(44; "Screener Name"; Text[50])
+        // {
+        //     Editable = false;
+        // }
+        // field(45; "Final Approver"; Code[20])
+        // {
+        //     Editable = false;
+        //     TableRelation = Employee;
 
-            trigger OnValidate()
-            begin
-                if EmployeeRec.Get("Final Approver") then
-                    Validate("Final Approver Name", EmployeeRec."Full Name")
-                else
-                    Clear("Final Approver Name");
-            end;
-        }
-        field(46; "Final Approver Name"; Text[50])
-        {
-            Description = 'S';
-            Editable = false;
-        }
-        field(47; "Final Approver Date"; Date)
-        {
-            Editable = false;
-        }
-        field(48; "Reason Code"; Code[20])
-        {
-            TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
+        //     trigger OnValidate()
+        //     begin
+        //         if EmployeeRec.Get("Final Approver") then
+        //             Validate("Final Approver Name", EmployeeRec."Full Name")
+        //         else
+        //             Clear("Final Approver Name");
+        //     end;
+        // }
+        // field(46; "Final Approver Name"; Text[50])
+        // {
+        //     Description = 'S';
+        //     Editable = false;
+        // }
+        // field(47; "Final Approver Date"; Date)
+        // {
+        //     Editable = false;
+        // }
+        // field(48; "Reason Code"; Code[20])
+        // {
+        //     TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
 
-            trigger OnValidate()
-            begin
-                if Standardtext.Get("Reason Code") then
-                    Validate("Reason Description", Standardtext.Description)
-                else
-                    Clear("Reason Description");
-            end;
-        }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
+        //     trigger OnValidate()
+        //     begin
+        //         if Standardtext.Get("Reason Code") then
+        //             Validate("Reason Description", Standardtext.Description)
+        //         else
+        //             Clear("Reason Description");
+        //     end;
+        // }
+        // field(49; "Reason Description"; Text[50])
+        // {
+        // }
         field(50; "Contact No."; Text[50])
         {
         }
@@ -457,10 +469,14 @@ table 50124 Leave
             begin
                 if "Leave Code" <> xRec."Leave Code" then begin
                     Clear("For Death Of");
+                    if GuiAllowed then
+                        leaveMgt.GenerateLeaveAttachment(Rec);
                     if LeaveTypeVar.Get("Leave Code") then begin
                         Validate("Leave Description", LeaveTypeVar.Description);
                         Validate("Pay Type", LeaveTypeVar."Pay Type");
-                        Validate("Start Date", 0D);
+                        Clear("Start Date");
+                        Clear("End Date");
+                        Clear("No. of Days");
                     end else begin
                         Clear("Leave Description");
                         Clear("Pay Type");
@@ -503,6 +519,11 @@ table 50124 Leave
                             Validate("End Time", WorkShift."End Time");
                         end;
                 end;
+                if "Leave Type" <> xRec."Leave Type" then begin
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("No. of Days");
+                end;
 
                 if "End Date" <> 0D then
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
@@ -515,7 +536,6 @@ table 50124 Leave
         field(55; "Start Time"; Time)
         {
             Description = 'also used for OT';
-
             trigger OnValidate()
             begin
             end;
@@ -523,7 +543,6 @@ table 50124 Leave
         field(56; "End Time"; Time)
         {
             Description = 'also used for OT';
-
             trigger OnValidate()
             begin
             end;
@@ -545,6 +564,13 @@ table 50124 Leave
         field(60; "LFA Paid"; Boolean)
         {
 
+        }
+        field(61; "Deputation On"; Enum "Deputation Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(100; "Status"; Text[20])
+        {
         }
 
     }
@@ -570,45 +596,47 @@ table 50124 Leave
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        Leave: Record "Leave";
-        SalaryLevel1: Record "Salary Level";
+        //Leave: Record "Leave";
+        //SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
-        INVALID: Label 'Invalid %1';
-        EmpRelative: Record "Employee Relative";
-        SystemAccessControl: Record "System Access Control";
-        AccessControlLine: Record "Access Control Request Line";
-        ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        DepartVar: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        Standardtext: Record "Standard Text";
-        BranchNameTo: Text;
-        DepartmentNameTo: Text;
-        ProvinceNameTo: Text;
-        SubProvinceNameTo: Text;
-        ExtensionNameTo: Text;
-        UnitNameTo: Text;
-        BranchName: Text;
-        DepartmentName: Text;
-        ProvinceName: Text;
-        SubProvinceName: Text;
-        ExtensionName: Text;
-        UnitName: Text;
-        FunctionalTitle: Record "Functional Title";
-        FunctionalDescFrom: Text;
-        FunctionalDescTo: Text;
+        //INVALID: Label 'Invalid %1';
+        //EmpRelative: Record "Employee Relative";
+        //SystemAccessControl: Record "System Access Control";
+        //AccessControlLine: Record "Access Control Request Line";
+        //ProvinceVar: Record Province;
+        //SubProvinceVar: Record "Sub Province";
+        //DepartVar: Record Department;
+        //EmpHie: Record "Employee Hierarchy Master";
+        //Standardtext: Record "Standard Text";
+        //BranchNameTo: Text;
+        //DepartmentNameTo: Text;
+        //ProvinceNameTo: Text;
+        //SubProvinceNameTo: Text;
+        //ExtensionNameTo: Text;
+        //UnitNameTo: Text;
+        //BranchName: Text;
+        //DepartmentName: Text;
+        //ProvinceName: Text;
+        //SubProvinceName: Text;
+        //ExtensionName: Text;
+        //UnitName: Text;
+        //FunctionalTitle: Record "Functional Title";
+        //FunctionalDescFrom: Text;
+        //FunctionalDescTo: Text;
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveError: Label 'You cannot apply leave in Present day %1.';
-        EmpActivityRec: Record "Employee Activity";
-        Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        PayrollGenSetup: Record "Payroll General Setup";
-        SalaryLevelRec: Record "Salary Level";
-        SalaryGrade: Record "Salary Grade";
-        EncashmentPeriodSetup: Record "OT Encashment Setup";
-        Error1: Label 'Cannot apply before your employment date.';
+        //EmpActivityRec: Record "Employee Activity";
+        //Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
+        //Text002: Label 'Compensatory leave has been restricted in HRMS.';
+        //EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        //PayrollGenSetup: Record "Payroll General Setup";
+        //SalaryLevelRec: Record "Salary Level";
+        //SalaryGrade: Record "Salary Grade";
+        //EncashmentPeriodSetup: Record "OT Encashment Setup";
+        //Error1: Label 'Cannot apply before your employment date.';
         leaveMgt: Codeunit "Leave Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
+        ApprovalEntry: Record "Approval HRMS";
 
     trigger OnInsert()
     begin
@@ -626,10 +654,21 @@ table 50124 Leave
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
                         end;
-
                 end;
             end;
+
+    end;
+
+    trigger OnDelete()
+    var
+
+    begin
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document No.", "No.");
+        ApprovalEntry.DeleteAll();
+
     end;
 
     procedure AssistEdit(OldLeave: Record "Leave"): Boolean
@@ -672,38 +711,101 @@ table 50124 Leave
         end;
     end;
 
-    procedure ReopenDocument()
-    var
-        EmpActFilterPageBuilder: FilterPageBuilder;
-        RecommenderCode: Code[20];
-        ApproverCode: Code[20];
-    begin
-        if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Open] then
-            Error('You cannot change Recommender and Approver of already open or approved request.');
+    // local procedure InsertLeaveApprovalStatus()
+    // var
+    //     ApprovalSetupLine: Record "Approval Setup line";
+    // begin
+    //     ApprovalSetupLine.Reset();
+    //     ApprovalSetupLine.SetRange("Request Type", Type::"Leave Request");
+    //     ApprovalSetupLine.SetRange("Deputation On", "Deputation On");
+    //     ApprovalSetupLine.SetRange("Approval Sequence", 1);
+    //     if ApprovalSetupLine.FindFirst() then
+    //         Status := ApprovalSetupLine."Approval Status";
+    // end;
+    // procedure ReopenDocument()
+    // var
+    //     EmpActFilterPageBuilder: FilterPageBuilder;
+    //     RecommenderCode: Code[20];
+    //     ApproverCode: Code[20];
+    // begin
+    //     if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Open] then
+    //         Error('You cannot change Recommender and Approver of already open or approved request.');
 
-        if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
-            exit;
+    //     if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
+    //         exit;
 
-        EmpActFilterPageBuilder.AddRecord('Leave', Rec);
-        EmpActFilterPageBuilder.ADdField('Leave', "Recommender Code");
-        EmpActFilterPageBuilder.ADdField('Leave', "Approver Code");
-        EmpActFilterPageBuilder.RunModal;
-        Leave.SetView(EmpActFilterPageBuilder.GetView('Leave'));
-        RecommenderCode := Leave.GetFilter("Recommender Code");
-        ApproverCode := Leave.GetFilter("Approver Code");
+    //     EmpActFilterPageBuilder.AddRecord('Leave', Rec);
+    //     EmpActFilterPageBuilder.ADdField('Leave', "Recommender Code");
+    //     EmpActFilterPageBuilder.ADdField('Leave', "Approver Code");
+    //     EmpActFilterPageBuilder.RunModal;
+    //     Leave.SetView(EmpActFilterPageBuilder.GetView('Leave'));
+    //     RecommenderCode := Leave.GetFilter("Recommender Code");
+    //     ApproverCode := Leave.GetFilter("Approver Code");
 
-        if (RecommenderCode = '') and (ApproverCode = '') then
-            Error('Please select either recommender or approver of the request.');
+    //     if (RecommenderCode = '') and (ApproverCode = '') then
+    //         Error('Please select either recommender or approver of the request.');
 
-        if RecommenderCode <> '' then begin
-            TestField("Approver Type", "Approver Type"::"With Recommendation");
-            Validate("Recommender Code", RecommenderCode);
-        end;
-        if ApproverCode <> '' then
-            Validate("Approver Code", ApproverCode);
-        Modify;
+    //     if RecommenderCode <> '' then begin
+    //         TestField("Approver Type", "Approver Type"::"With Recommendation");
+    //         Validate("Recommender Code", RecommenderCode);
+    //     end;
+    //     if ApproverCode <> '' then
+    //         Validate("Approver Code", ApproverCode);
+    //     Modify;
 
-        Message('The request has been update sucessfully.');
-    end;
+    //     Message('The request has been update sucessfully.');
+    // end;
+
+    // local procedure InsertApproval()
+    // var
+    //     ApprovalSetupLine: Record "Approval Setup line";
+    //     Approval: Record "Approval HRMS";
+    //     Employee: Record Employee;
+    //     EmpRequest: Record Employee;
+    //     Approval1: Record "Approval HRMS";
+    //     count: Integer;
+    // begin
+    //     EmpRequest.Reset();
+    //     EmpRequest.Get("Employee No.");
+    //     ApprovalSetupLine.Reset();
+    //     ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
+    //     ApprovalSetupLine.SetRange("Deputation On", "Deputation On");
+    //     count := 0;
+    //     if ApprovalSetupLine.Findset() then
+    //         repeat
+    //             Employee.Reset();
+    //             Employee.SetRange("Deputation On", ApprovalSetupLine."Deputation On");
+    //             if "Deputation On" = "Deputation On"::Branch then
+    //                 Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+    //             else if "Deputation On" = "Deputation On"::Department then
+    //                 Employee.SetRange("Department Code", EmpRequest."Department Code")
+    //             else if "Deputation On" = "Deputation On"::Province then
+    //                 Employee.SetRange("Province Code", EmployeeRec."Province Code");
+    //             Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+    //             if Employee.FindFirst() then begin
+    //                 Approval.Init();
+    //                 Approval.Validate("Document No.", "No.");
+    //                 Approval.Validate("Document Type", Approval."Document Type"::"Leave Request");
+    //                 Approval.Validate("Approver No", Employee."No.");
+    //                 Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
+    //                 if ApprovalSetupLine."Approval Sequence" = 1 then begin
+    //                     Approval.Validate("Approval Status", "Approval Status"::Open);
+    //                     count := count + 1;
+    //                 end else
+    //                     Approval.Validate("Approval Status", "Approval Status"::Created);
+    //                 Approval.Validate("Employee No", "Employee No.");
+    //                 Approval.Insert(true);
+    //             end;
+    //         until ApprovalSetupLine.Next() = 0
+    //     else
+    //         Error('Approval Setup not found');
+    //     if count = 0 then begin
+    //         Error('There is no approver setup for sequence 1');
+    //     end;
+    //     Approval1.Reset();
+    //     Approval1.SetRange("Document No.", "No.");
+    //     if not Approval1.FindFirst() then
+    //         Error('Approval Not Found');
+    // end;
 
 }

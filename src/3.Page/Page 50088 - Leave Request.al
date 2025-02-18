@@ -1,7 +1,6 @@
 page 50088 "Leave Request"
 {
     // version NIC Asia1.00,Leave
-
     SourceTable = "Leave";
     // SourceTableTemporary = true;
     ApplicationArea = All;
@@ -14,6 +13,7 @@ page 50088 "Leave Request"
             {
                 field("Employee No."; Rec."Employee No.")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
                 }
@@ -41,8 +41,8 @@ page 50088 "Leave Request"
                         IsBereavement := LeaveType."Bereavement Leave";
                         if IsCompensatory then
                             RemainingDays := 0;
-                        if Rec."Leave Code" <> xRec."Leave Code" then
-                            GenerateAttachment;
+                        // if Rec."Leave Code" <> xRec."Leave Code" then
+                        //     GenerateAttachment;
                         IsPaternity := LeaveType."Maternity/Paternity Leave";
                     end;
                 }
@@ -53,8 +53,6 @@ page 50088 "Leave Request"
                 }
                 field("Leave Type"; Rec."Leave Type")
                 {
-                    Editable = false;
-                    OptionCaption = 'Full Day';
                     ToolTip = 'Specifies the value of the Leave Type field.';
                     ApplicationArea = All;
                 }
@@ -68,13 +66,13 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
 
-                    trigger OnValidate()
-                    begin
-                        LeaveType.Get(Rec."Leave Code");
-                        if Rec."No. of Days" <> xRec."No. of Days" then
-                            if LeaveType."Sick Leave" then
-                                GenerateAttachment
-                    end;
+                    // trigger OnValidate()
+                    // begin
+                    //     LeaveType.Get(Rec."Leave Code");
+                    //     if Rec."No. of Days" <> xRec."No. of Days" then
+                    //         if LeaveType."Sick Leave" then
+                    //             GenerateAttachment
+                    // end;
                 }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
                 {
@@ -96,10 +94,16 @@ page 50088 "Leave Request"
                 {
                     ToolTip = 'Specifies the value of the End Time field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
+                    ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
                 field("Requested Date"; Rec."Requested Date")
@@ -144,6 +148,7 @@ page 50088 "Leave Request"
                 {
                     ToolTip = 'Specifies the value of the Contact No. field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Remaining Days"; RemainingDays)
                 {
@@ -151,13 +156,14 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the RemainingDays field.';
                     ApplicationArea = All;
                 }
-                field(BalacingRemDays; RemainingDays - Rec."No. of Days")
+                field(BalancingRemDays; RemainingDays - Rec."No. of Days")
                 {
                     Caption = 'Balancing Remaining Days';
                     Editable = false;
                     ToolTip = 'Specifies the value of the Balancing Remaining Days field.';
                     ApplicationArea = All;
                 }
+
             }
             part(Attachment; "Attachment Subform")
             {
@@ -172,6 +178,8 @@ page 50088 "Leave Request"
             {
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
+                Editable = false;
+                //Editable = SubFormEdit;
             }
             // group(Approval)
             // {
@@ -245,33 +253,35 @@ page 50088 "Leave Request"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Leave Request";
+        // if not HRSetup."Approval From Setup" then
+        //     SubFormEdit := true;
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
-        if not IsApplied then begin
-            if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('')
-            else begin
-                TempIncomingDoc.Reset;
-                TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
-                TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
-                TempIncomingDoc.SetRange("No.", '');
-                if TempIncomingDoc.Find('-') then
-                    repeat
-                        LoanMgt.DeleteAttachment(TempIncomingDoc);
-                        if TempIncomingDoc."File Name" <> '' then
-                            Clear(TempIncomingDoc."File Name");
+        // if not IsApplied then begin
+        //     if not Confirm('The data will be erased. Do you want to continue?', true) then
+        //         Error('')
+        //     else begin
+        //         TempIncomingDoc.Reset;
+        //         TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
+        //         TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
+        //         TempIncomingDoc.SetRange("No.", '');
+        //         if TempIncomingDoc.Find('-') then
+        //             repeat
+        //                 LoanMgt.DeleteAttachment(TempIncomingDoc);
+        //                 if TempIncomingDoc."File Name" <> '' then
+        //                     Clear(TempIncomingDoc."File Name");
 
-                    until TempIncomingDoc.Next = 0;
-                TempIncomingDoc.DeleteAll;
-                Approval.Reset();
-                Approval.SetRange("Document No.", '');
-                if Approval.FindSet() then
-                    Approval.DeleteAll();
+        //             until TempIncomingDoc.Next = 0;
+        //         TempIncomingDoc.DeleteAll;
+        //         Approval.Reset();
+        //         Approval.SetRange("Document No.", '');
+        //         if Approval.FindSet() then
+        //             Approval.DeleteAll();
 
-            end;
-        end;
+        //     end;
+        // end;
     end;
 
     var
@@ -290,6 +300,8 @@ page 50088 "Leave Request"
         [InDataSet]
         IsPaternity: Boolean;
         Approval: Record "Approval HRMS";
+        //SubFormEdit: Boolean;
+        HRSetup: Record "Human Resources Setup";
 
     local procedure GenerateAttachment()
     begin

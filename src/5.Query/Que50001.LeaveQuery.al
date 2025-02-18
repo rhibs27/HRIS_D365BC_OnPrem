@@ -32,11 +32,11 @@ query 50001 "Leave Query"
                 {
 
                 }
-                column(approvalStatus; "Approval Status")
+                column(approverName; "Approver Name")
                 {
 
                 }
-                column(approverName; "Approver Name")
+                column(approvalStatusLine; "Approval Status")
                 {
 
                 }
@@ -49,80 +49,67 @@ query 50001 "Leave Query"
                     DataItemLink = "No." = ApprovalHRMS."Document No.";
                     column(employeeNo; "Employee No.")
                     {
-
                     }
                     column(employeeName; "Employee Name")
                     {
-
                     }
                     column(startDate; "Start Date")
                     {
-
                     }
 
                     column(endDate; "End Date")
                     {
-
                     }
                     column(startDateBS; "Start Date (BS)")
                     {
-
                     }
                     column(endDateBS; "End Date (BS)")
                     {
-
                     }
                     column(type; Type)
                     {
-
                     }
                     column(noOfDays; "No. of Days")
                     {
-
                     }
                     column(requestedDate; "Requested Date")
                     {
-
                     }
                     column(approverType; "Approver Type")
                     {
-
                     }
                     column(leaveCode; "Leave Code")
                     {
-
                     }
                     column(leaveDescription; "Leave Description")
                     {
-
                     }
                     column(leaveType; "Leave Type")
                     {
-
                     }
                     column(compensatoryDate; "Compensatory Date")
                     {
-
                     }
                     column(childGender; "Child's Gender")
                     {
-
                     }
                     column(forDeathOf; "For Death Of")
                     {
-
                     }
                     column(contactNo; "Contact No.")
                     {
-
                     }
                     column(remarks; Remarks)
                     {
-
+                    }
+                    column(approvalStatus; "Approval Status")
+                    {
+                    }
+                    column(status; Status)
+                    {
                     }
                     column(rejectionRemarks; "Rejection Remarks")
                     {
-
                     }
                 }
             }

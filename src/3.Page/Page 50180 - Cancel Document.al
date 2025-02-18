@@ -1,7 +1,7 @@
 page 50180 "Cancel Document"
 {
     PageType = Card;
-    SourceTable = "Employee Activity";
+    SourceTable = "Cancel Document";
     ApplicationArea = All;
 
     layout
@@ -105,7 +105,10 @@ page 50180 "Cancel Document"
             }
             part(Control32; "Attachment Subform")
             {
-                SubPageLink = "No." = field("No.");
+                SubPageLink = "No." = field("No."),
+                              Type = const(" "),
+                              "Employee Code" = field("Employee No."),
+                              "Leave Type Code" = field("Leave Code");
                 SubPageView = where("No." = filter(<> ''));
                 ApplicationArea = All;
             }
@@ -159,8 +162,7 @@ page 50180 "Cancel Document"
 
                 trigger OnAction()
                 begin
-
-                    HRMgt.ApplyCancelEmployeeActivity(Rec);
+                    DocCancelMgt.ApplyCancelEmployeeActivity(Rec);
                     IsApplied := true;
                     Message('Applied');
                     CurrPage.Close;
@@ -175,7 +177,7 @@ page 50180 "Cancel Document"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve this document?', false) then begin
-                        HRMgt.ApproveRejectCancelAttendanceMissed(Rec, true);
+                        DocCancelMgt.ApproveRejectCancelAttendanceMissed(Rec, true);
                         CurrPage.Close;
                     end;
                 end;
@@ -189,7 +191,7 @@ page 50180 "Cancel Document"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject this document?', false) then begin
-                        HRMgt.ApproveRejectCancelAttendanceMissed(Rec, false);
+                        DocCancelMgt.ApproveRejectCancelAttendanceMissed(Rec, false);
                         CurrPage.Close;
                     end;
                 end;
@@ -203,27 +205,27 @@ page 50180 "Cancel Document"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to screen this document?', false) then begin
-                        HRMgt.ScreenCancelledLeave(Rec);
+                        DocCancelMgt.ScreenCancelledLeave(Rec);
                         Message('Screened');
                     end;
                 end;
             }
-            action("Change Recommender/Approver")
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = Rec.Type = Rec.Type::"Attendance Missed";
-                ToolTip = 'Executes the Change Recommender/Approver action.';
-                ApplicationArea = All;
+            // action("Change Recommender/Approver")
+            // {
+            //     Image = ReOpen;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = Rec.Type = Rec.Type::"Attendance Missed";
+            //     ToolTip = 'Executes the Change Recommender/Approver action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.ReopenDocument;
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         Rec.ReopenDocument;
+            //     end;
+            // }
         }
     }
 
@@ -255,6 +257,7 @@ page 50180 "Cancel Document"
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        DocCancelMgt: Codeunit DocCancelMgt;
         IsApplied: Boolean;
         [InDataSet]
         IsLeaveRequest: Boolean;

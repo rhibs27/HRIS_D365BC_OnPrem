@@ -5,7 +5,7 @@ page 50186 "Attendance Missed Lists"
     CardPageId = "Cancel Document";
     Editable = false;
     PageType = List;
-    SourceTable = "Employee Activity";
+    SourceTable = "Cancel Document";
     SourceTableView = WHERE(Type = CONST("Attendance Missed"));
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -106,28 +106,29 @@ page 50186 "Attendance Missed Lists"
 
                 trigger OnAction()
                 begin
-                    HRMgt.OpenCancelEmpActivity(Rec);
+                    DocCancelMgt.OpenCancelEmpActivity(Rec);
                 end;
             }
-            action("Change Recommender/Approver")
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = Rec.Type = Rec.Type::"Attendance Missed";
-                ToolTip = 'Executes the Change Recommender/Approver action.';
-                ApplicationArea = All;
+            // action("Change Recommender/Approver")
+            // {
+            //     Image = ReOpen;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = Rec.Type = Rec.Type::"Attendance Missed";
+            //     ToolTip = 'Executes the Change Recommender/Approver action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.ReopenDocument;
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         Rec.ReopenDocument;
+            //     end;
+            // }
         }
     }
 
     var
         HRMgt: Codeunit "HR Mgt.";
+        DocCancelMgt: Codeunit DocCancelMgt;
 }

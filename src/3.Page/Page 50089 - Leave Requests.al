@@ -75,26 +75,26 @@ page 50089 "Leave Requests"
                     ToolTip = 'Specifies the value of the LFA Paid field.';
                     ApplicationArea = All;
                 }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                // field("Recommender Code"; Rec."Recommender Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommender Name"; Rec."Recommender Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Name field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Code"; Rec."Approver Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Name"; Rec."Approver Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Name field.';
+                //     ApplicationArea = All;
+                // }
                 field("Compensatory Date"; Rec."Compensatory Date")
                 {
                     ToolTip = 'Specifies the value of the Compensatory Date field.';
@@ -115,14 +115,13 @@ page 50089 "Leave Requests"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = not IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the request?', false) then
-                        leaveMgt.RecommendEmployeeLeave(Rec."No.");
+                    // if Confirm('Do you want to recommend the request?', false) then
+                    //     leaveMgt.RecommendEmployeeLeave(Rec."No.");
                 end;
             }
             action("Approve Request")
@@ -132,14 +131,14 @@ page 50089 "Leave Requests"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to approve the request?', false) then
-                        leaveMgt.ApprovedRejectLeaveApproval(true, Rec."No.");
+                    // if Confirm('Do you want to approve the request?', false) then
+                    //     leaveMgt.ApprovedRejectLeaveApproval(true, Rec."No.");
                 end;
             }
             action("Reject Request")
@@ -151,28 +150,30 @@ page 50089 "Leave Requests"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want reject the request?', false) then
-                        leaveMgt.ApprovedRejectLeaveApproval(false, Rec."No.");
+                    // if Confirm('Do you want reject the request?', false) then
+                    //     leaveMgt.ApprovedRejectLeaveApproval(false, Rec."No.");
                 end;
             }
-            action(Reopen)
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Reopen action.';
-                ApplicationArea = All;
+            // action(Reopen)
+            // {
+            //     Image = ReOpen;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Reopen action.';
+            //     ApplicationArea = All;
+            //     Visible = false;
 
-                trigger OnAction()
-                begin
-                    Rec.ReopenDocument;
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         Rec.ReopenDocument;
+            //     end;
+            // }
         }
         area(Navigation)
         {
@@ -203,10 +204,10 @@ page 50089 "Leave Requests"
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -216,13 +217,14 @@ page 50089 "Leave Requests"
                 PromotedCategory = Category4;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Pending Approval action.';
+                Visible = true;
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.FilterGroup(0);
                 end;
             }
@@ -234,14 +236,15 @@ page 50089 "Leave Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
 
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)
@@ -291,19 +294,19 @@ page 50089 "Leave Requests"
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
+                    // Rec.FilterGroup(0);
                 end;
             }
         }
     }
 
-    trigger OnAfterGetRecord()
-    begin
-        IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
-    end;
+    // trigger OnAfterGetRecord()
+    // begin
+    //     IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+    // end;
 
     trigger OnOpenPage()
     begin
@@ -326,6 +329,6 @@ page 50089 "Leave Requests"
     var
         leaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
-        IsRecommended: Boolean;
+    // [InDataSet]
+    // IsRecommended: Boolean;
 }

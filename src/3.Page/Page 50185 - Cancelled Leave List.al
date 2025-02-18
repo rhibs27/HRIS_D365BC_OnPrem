@@ -5,7 +5,7 @@ page 50185 "Cancelled Leave List"
     CardPageId = "Cancel Document";
     Editable = false;
     PageType = List;
-    SourceTable = "Leave";
+    SourceTable = "Cancel Document";
     SourceTableView = WHERE(Type = CONST("Leave Request"),
                             Cancelled = CONST(true));
     UsageCategory = Lists;
@@ -70,21 +70,21 @@ page 50185 "Cancelled Leave List"
     {
         area(Processing)
         {
-            action("Cancel Document")
-            {
-                Image = Cancel;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Cancel Document action.';
-                ApplicationArea = All;
+            // action("Cancel Document")
+            // {
+            //     Image = Cancel;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Cancel Document action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    leaveMgt.OpenCancelEmpActivity(Rec);
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         leaveMgt.OpenCancelEmpActivity(Rec);
+            //     end;
+            // }
         }
     }
 

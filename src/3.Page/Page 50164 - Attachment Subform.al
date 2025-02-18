@@ -101,7 +101,7 @@ page 50164 "Attachment Subform"
                 trigger OnAction()
                 var
                     Employee: Record Employee;
-                    EmpAct: Record "Employee Activity";
+                //EmpAct: Record "Employee Activity";
                 begin
                     if EmpLoan.Get(Rec."No.") then begin //loan controls 
                         IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
@@ -157,7 +157,16 @@ page 50164 "Attachment Subform"
                 var
                     Employee: Record Employee;
                     EmpAct: Record "Employee Activity";
+
                 begin
+                    Leave.Reset();
+                    if (Rec."Leave Type Code" <> '') then begin
+                        if Leave.Get(Rec."No.") then begin
+                            IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Pending, Leave."Approval Status"::Open]) THEN
+                                ERROR('Approval status must be Open.');
+                            LoanMgt.DeleteAttachment(Rec)
+                        end;
+                    end;
                     if EmpLoan.Get(Rec."No.") then begin
                         LoanMgt.DeleteAttachment(Rec);
                     end
