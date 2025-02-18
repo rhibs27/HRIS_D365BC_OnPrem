@@ -234,8 +234,8 @@ page 50340 "Portal Function"
         tempLeave.Validate("Requested Date", Today);
         tempLeave.Validate(Remarks, remarks);
         //TempEmpAct.VALIDATE("Compensatory Date",compensatoryDate); //Min Commented --as per change req
-        tempLeave.Validate("Recommender Code", recommenderCode);
-        tempLeave.Validate("Approver Code", approverCode);
+        // tempLeave.Validate("Recommender Code", recommenderCode);
+        // tempLeave.Validate("Approver Code", approverCode);
         case childGender of
             Format(tempLeave."Child's Gender"::Male):
                 tempLeave.Validate("Child's Gender", tempLeave."Child's Gender"::Male);

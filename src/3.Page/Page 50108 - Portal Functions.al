@@ -31,6 +31,7 @@ page 50108 "Portal Functions"
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         leaveMgt: Codeunit "Leave Mgt.";
+        ApprovalMgt: Codeunit "Approver Mgt";
         OverTimeMgt: Codeunit "OverTime Mgt";
         ResignationMgt: Codeunit "Resignation Mgt";
         AppraisalMgt: Codeunit "AppraisalMgt.";
@@ -56,7 +57,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure checkLogin(loginName: Code[50]; pwd: Text[80]): Text
+    procedure checkLogin(): Text
     var
         Employee: Record Employee;
         AttMissedDate: Date;
@@ -100,7 +101,6 @@ page 50108 "Portal Functions"
             FirstLogin := 'false'
         else
             FirstLogin := 'true';
-
         counter := 0;
         if Employee."Attendance Missed On" <> 0D then begin
             AttendanceSetup.Get;
@@ -240,40 +240,165 @@ page 50108 "Portal Functions"
     begin
     end;
 
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getEmployeeApprovals(requestType: code[20]): text
+    // var
+    //     Hrsetup: Record "Human Resources Setup";
+    //     RecommenderCode: Code[250];
+    //     RecommenderName: Text[500];
+    //     ApprovalCode: Code[250];
+    //     ApproverName: Code[500];
+    //     EmployeeRequest: Record Employee;
+    //     Employee: Record Employee;
+    //     Approval: Record "Approval HRMS";
+    //     ApprovalSetupLine: Record "Approval Setup Line";
+    // begin
+    //     Hrsetup.Get();
+    //     if Hrsetup."Approval From Setup" then begin
+    //         EmployeeRequest.get(HrMgt.GetEmployeeNo());
+    //         ApprovalSetupLine.Reset();
+    //         CASE requestType OF
+    //             FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
+    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
+    //             FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
+    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
+    //             FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
+    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
+    //         END;
+    //         ApprovalSetupLine.SetRange("Deputation On", EmployeeRequest."Deputation On");
+    //         ApprovalSetupLine.SetRange("Employee Role", EmployeeRequest."Approver Role");
+    //         ApprovalSetupLine.SetRange("Approval Sequence", 1);
+    //         if ApprovalSetupLine.FindSet() then
+    //             repeat
+    //                 Employee.Reset();
+    //                 Employee.SetRange("Deputation On", ApprovalSetupLine."Deputation On");
+    //                 if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Branch then
+    //                     Employee.SetRange("Global Dimension 1 Code", EmployeeRequest."Global Dimension 1 Code")
+    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Department then
+    //                     Employee.SetRange("Department Code", EmployeeRequest."Department Code")
+    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Province then
+    //                     Employee.SetRange("Province Code", EmployeeRequest."Province Code");
+    //                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+    //                 if Employee.FindFirst() then begin
+    //                     RecommenderCode += Employee."No." + '/';
+    //                     RecommenderName += Employee."Full Name" + '/';
+    //                 end;
+    //             until ApprovalSetupLine.Next() = 0;
+
+    //         ApprovalSetupLine.SetRange("Approval Sequence");
+    //         ApprovalSetupLine.SetRange("Approval Sequence", 2);
+    //         if ApprovalSetupLine.FindSet() then
+    //             repeat
+    //                 Employee.Reset();
+    //                 Employee.SetRange("Deputation On", ApprovalSetupLine."Deputation On");
+    //                 if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Branch then
+    //                     Employee.SetRange("Global Dimension 1 Code", EmployeeRequest."Global Dimension 1 Code")
+    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Department then
+    //                     Employee.SetRange("Department Code", EmployeeRequest."Department Code")
+    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Province then
+    //                     Employee.SetRange("Province Code", EmployeeRequest."Province Code");
+    //                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+    //                 if Employee.FindFirst() then begin
+    //                     ApprovalCode += Employee."No." + '/';
+    //                     ApproverName += Employee."Full Name" + '/'
+    //                 end;
+    //             until ApprovalSetupLine.Next() = 0;
+    //         exit('{' +
+    //         '"ApprovalFromSetup" : "' + (Format('true')) + '",' +
+    //         '"RecommenderCode" : "' + (Format(RecommenderCode)) + '",' +
+    //         '"RecommenderName" : "' + (Format(RecommenderName)) + '",' +
+    //         '"ApprovalCode" : "' + (Format(ApprovalCode)) + '",' +
+    //         '"ApproverName" : "' + (Format(ApproverName)) + '"}');
+    //     end
+    //     else
+    //         exit('false')
+    // end;
+
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitLeaveRequest(employeeNo: Code[20]; leaveCode: Code[20]; startDate: Date; endDate: Date; remarks: Text; recommenderCode: Code[20]; approverCode: Code[20]; childGender: Text; forDeathof: Text; contactNo: Text): text
+    procedure getEmployeeApproval(empActType: Code[20]): text
     var
-        //TempEmpAct: Record "Employee Activity" temporary;
+        ApprovalSetupLine: Record "Approval Setup line";
+        Approval: Record "Approval HRMS";
+        Employee: Record Employee;
+        EmpRequest: Record Employee;
+        Approval1: Record "Approval HRMS";
+        ApprovalCode: Text[500];
+        ApproverName: Text[500];
+        EmployeeApproverRole: Text[500];
+        ApprovalRole: Text[500];
+    begin
+        EmpRequest.Reset();
+        EmpRequest.Get(HrMgt.GetEmployeeNo());
+        ApprovalSetupLine.Reset();
+        CASE EmpActType OF
+            FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
+            FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
+            FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
+        END;
+        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+        if ApprovalSetupLine.Findset() then
+            repeat
+                Employee.Reset();
+                Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                    Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                    Employee.SetRange("Department Code", EmpRequest."Department Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                    Employee.SetRange("Province Code", EmpRequest."Province Code");
+                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+                if Employee.FindFirst() then begin
+                    ApprovalCode += Employee."No." + '/';
+                    ApproverName += Employee."Full Name" + '/';
+                    ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
+                end;
+            until ApprovalSetupLine.Next() = 0;
+        exit('{' + '"ApprovalCode" : "' + (Format(ApprovalCode)) + '",' +
+                '"ApprovalRole" : "' + (Format(ApprovalRole)) + '",' +
+                '"ApproverName" : "' + (Format(ApproverName)) + '"}');
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitLeaveRequest(leaveCode: Code[20]; startDate: Date; leaveType: text[20]; endDate: Date; remarks: Text; childGender: Text; forDeathof: Text): text
+    var
         LeaveMgt: Codeunit "Leave Mgt.";
         tempLeave: Record Leave;
         docNo: text;
         Approval: record "Approval HRMS";
-        Count: Integer;
+        LeaveTypeSetup: Record "Leave Type Setup";
+        LeaveTable: Record "Leave";
+        LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         tempLeave.Reset;
+        HRSetup.Get();
+        LeaveMgt.CheckPendingLeave(leaveCode, HrMgt.GetEmployeeNo());
         tempLeave.Init;
-        tempLeave.Validate("Employee No.", employeeNo);
+        tempLeave.Validate("Employee No.", HrMgt.GetEmployeeNo());
         tempLeave.Validate("Leave Code", leaveCode);
-        tempLeave.Validate(Type, tempLeave.Type::"Leave Request");
-        tempLeave.Validate("Approval Status", tempLeave."Approval Status"::Open);
-        /*
         CASE leaveType OF
-          FORMAT(TempEmpAct."Leave Type"::"Full Day"):
-            TempEmpAct.VALIDATE("Leave Type",TempEmpAct."Leave Type"::"Full Day");
-          FORMAT(TempEmpAct."Leave Type"::"First Half"):
-            TempEmpAct.VALIDATE("Leave Type",TempEmpAct."Leave Type"::"First Half");
-          FORMAT(TempEmpAct."Leave Type"::"Second Half"):
-            TempEmpAct.VALIDATE("Leave Type",TempEmpAct."Leave Type"::"Second Half");
-        END;*/
-        tempLeave.Validate("Leave Type", tempLeave."Leave Type"::"Full Day");
+            FORMAT(tempLeave."Leave Type"::"Full Day"):
+                tempLeave.VALIDATE("Leave Type", tempLeave."Leave Type"::"Full Day");
+            FORMAT(tempLeave."Leave Type"::"First Half"):
+                tempLeave.VALIDATE("Leave Type", tempLeave."Leave Type"::"First Half");
+            FORMAT(tempLeave."Leave Type"::"Second Half"):
+                tempLeave.VALIDATE("Leave Type", tempLeave."Leave Type"::"Second Half");
+        END;
+        tempLeave.Validate(Type, tempLeave.Type::"Leave Request");
         tempLeave.Validate("Start Date", startDate);
         tempLeave.Validate("End Date", endDate);
         tempLeave.Validate("Requested Date", Today);
         tempLeave.Validate(Remarks, remarks);
         //TempEmpAct.VALIDATE("Compensatory Date",compensatoryDate); //Min Commented --as per change req
-        tempLeave.Validate("Recommender Code", recommenderCode);
-        tempLeave.Validate("Approver Code", approverCode);
+        // tempLeave.Validate("Recommender Code", recommenderCode);
+        // tempLeave.Validate("Approver Code", approverCode);
+
         case childGender of
             Format(tempLeave."Child's Gender"::Male):
                 tempLeave.Validate("Child's Gender", tempLeave."Child's Gender"::Male);
@@ -281,7 +406,6 @@ page 50108 "Portal Functions"
             Format(tempLeave."Child's Gender"::Female):
                 tempLeave.Validate("Child's Gender", tempLeave."Child's Gender"::Female);
         end;
-
         case forDeathof of
             Format(tempLeave."For Death Of"::Father):
                 tempLeave.Validate("For Death Of", tempLeave."For Death Of"::Father);
@@ -304,128 +428,171 @@ page 50108 "Portal Functions"
             Format(tempLeave."For Death Of"::Daughter):
                 tempLeave.Validate("For Death Of", tempLeave."For Death Of"::Daughter);
         end;
-        tempLeave.Validate("Contact No.", contactNo);
         tempLeave.Insert(true);
         //For Approver Line Generate
-        if (recommenderCode = '') and (approverCode <> '') then begin
-            tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
-            tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
-            Approval.Init();
-            Approval.validate("Document No.", Templeave."No.");
-            Approval.Validate("Approver No", approverCode);
-            Approval.Validate("Document Type", tempLeave.type);
-            Approval.validate("Employee No", tempLeave."Employee No.");
-            Approval.validate("Approval Sequence", 2);
-            Approval.validate("approval Status", tempLeave."Approval Status"::Recommended);
-            Approval.insert(true);
-        end else if (approverCode <> '') and (recommenderCode <> '') then begin
-            tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
-            tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
-            //for Recommendation
-            Approval.Init();
-            Approval.validate("Document No.", Templeave."No.");
-            Approval.Validate("Approver No", recommenderCode);
-            Approval.Validate("Document Type", tempLeave.type);
-            Approval.validate("Employee No", tempLeave."Employee No.");
-            Approval.validate("Approval Sequence", 1);
-            Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
-            Approval.insert(true);
-            // For Approval
-            Approval.Init();
-            Approval.validate("Document No.", Templeave."No.");
-            Approval.Validate("Approver No", approverCode);
-            Approval.Validate("Document Type", tempLeave.type);
-            Approval.validate("Employee No", tempLeave."Employee No.");
-            Approval.validate("Approval Sequence", 2);
-            Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
-            Approval.insert(true);
-        end else if approverCode = '' then
-                Error('Approver Code must have value');
-        //     tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
-        //     tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
-        //     Approval.Init();
-        //     Approval.validate("Document No.", Templeave."No.");
-        //     Approval.Validate("Approver No", recommenderCode);
-        //     Approval.Validate("Document Type", tempLeave.type);
-        //     Approval.validate("Employee No", tempLeave."Employee No.");
-        //     Approval.validate("Approval Sequence", 2);
-        //     Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
-        //     Approval.insert(true);
-        // end
-        //else
+        // if not HRSetup."Approval From Setup" then
+        //     if (recommenderCode = '') and (approverCode <> '') then begin
+        //         tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
+        //         tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
+        //         Approval.Init();
+        //         Approval.validate("Document No.", Templeave."No.");
+        //         Approval.Validate("Approver No", approverCode);
+        //         Approval.Validate("Document Type", tempLeave.type);
+        //         Approval.validate("Employee No", tempLeave."Employee No.");
+        //         Approval.validate("Approval Sequence", 2);
+        //         Approval.validate("approval Status", tempLeave."Approval Status"::Recommended);
+        //         Approval.insert(true);
+        //     end else if (approverCode <> '') and (recommenderCode <> '') then begin
+        //         tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
+        //         tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
+        //         //for Recommendation
+        //         Approval.Init();
+        //         Approval.validate("Document No.", Templeave."No.");
+        //         Approval.Validate("Approver No", recommenderCode);
+        //         Approval.Validate("Document Type", tempLeave.type);
+        //         Approval.validate("Employee No", tempLeave."Employee No.");
+        //         Approval.validate("Approval Sequence", 1);
+        //         Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+        //         Approval.insert(true);
+        //         // For Approval
+        //         Approval.Init();
+        //         Approval.validate("Document No.", Templeave."No.");
+        //         Approval.Validate("Approver No", approverCode);
+        //         Approval.Validate("Document Type", tempLeave.type);
+        //         Approval.validate("Employee No", tempLeave."Employee No.");
+        //         Approval.validate("Approval Sequence", 2);
+        //         Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+        //         Approval.insert(true);
+        //     end else if approverCode = '' then
+        //             Error('Approver Code must have value');
         docNo := LeaveMgt.ApplyForLeave(tempLeave);
         if docNo <> '' then
             exit(docNo);
     end;
-
+    //commented for approved only
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveEmployeeLeave(empLeaveNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
+    procedure recommendEmployeeLeave(empLeaveNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
         Leave: Record Leave;
     begin
+        // Leave.Get(empLeaveNo);
+        // if not Leave.Cancelled then begin
+        //     if isApproved and (Leave."Approval Status" = Leave."Approval Status"::"Pending Approval") then
+        //         leaveMgt.RecommendEmployeeLeave(empLeaveNo)
+        //     else begin
+        //         if not isApproved then begin
+        //             Leave.Validate("Rejection Remarks", rejectionRemarks);
+        //             Leave.Modify;
+        //         end;
+        //         leaveMgt.ApprovedRejectLeaveApproval(isApproved, empLeaveNo);
+        //     end;
+        // end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveEmployeeLeave(empLeaveNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        //EmpActivity: Record "Employee Activity";
+        Leave: Record Leave;
+        RecRef: RecordRef;
+    begin
         Leave.Get(empLeaveNo);
         if not Leave.Cancelled then begin
-            if isApproved and (Leave."Approval Status" = Leave."Approval Status"::"Pending Approval") then
-                leaveMgt.RecommendEmployeeLeaveAPI(empLeaveNo, approverCode)
-            else begin
-                if not isApproved then begin
-                    Leave.Validate("Rejection Remarks", rejectionRemarks);
-                    Leave.Modify;
-                end;
-                leaveMgt.ApprovedRejectLeaveApprovalAPI(isApproved, empLeaveNo, approverCode);
+            if not isApproved then begin
+                if rejectionRemarks = '' then
+                    Error('Rejection Remarks is empty');
+                Leave.Validate("Rejection Remarks", rejectionRemarks);
+                Leave.Modify;
             end;
+            RecRef.GetTable(Leave);
+            ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
         end;
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure generateAttachmentAPI(leavecode: Code[20]; startDate: Date; endDate: Date; employeeNo: Code[20]): Text
+    procedure generateAttachmentAPI(leaveCode: Code[20]; startDate: Date; endDate: Date): Text
     var
         TempIncomingDoc: Record "Incoming Document";
         NoOfDays: Integer;
         LeaveType: Record "Leave Type Setup";
         AttachmentSetup: Record "Attachment Setup";
     begin
+
         TempIncomingDoc.Reset;
-        TempIncomingDoc.SetRange("Employee Code", employeeNo);
+        LeaveType.Get(leaveCode);
+        TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
         TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-        TempIncomingDoc.SETRANGE("Leave Type Code", leavecode);
+        TempIncomingDoc.SETRANGE("Leave Type Code", leaveCode);
         TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.FindSet() then
+        if TempIncomingDoc.Find('-') then
             repeat
                 if TempIncomingDoc."File Name" <> '' then
                     Clear(TempIncomingDoc."File Name");
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
-        if leavecode = '' then
-            Error('Leave Code must have value');
-        LeaveType.Get(leavecode);
         if (startDate = 0D) or (endDate = 0D) then
             NoOfDays := 0
         else
             NoOfDays := endDate - startDate;
-        if LeaveType."Sick Leave" then
-            if NoOfDays < LeaveType."No. of Days for Attachment" then
-                exit;
-        //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
-        AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-        AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-        if AttachmentSetup.Find('-') then
-            repeat
-                TempIncomingDoc.Reset;
-                TempIncomingDoc.Init;
-                TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-                TempIncomingDoc.Validate(Description, 'Leave Request' + ': ' + LeaveType.Description);
-                TempIncomingDoc.Validate("Employee Code", employeeNo);
-                TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
-                TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-                TempIncomingDoc.Insert(true);
-            until AttachmentSetup.Next = 0;
-        //END;
+        // leave.TestField("Leave Code");
+        IF NoOfDays >= LeaveType."No. of Days for Attachment" THEN BEGIN
+            AttachmentSetup.Reset;
+            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+            if AttachmentSetup.Find('-') then
+                repeat
+                    TempIncomingDoc.Reset;
+                    TempIncomingDoc.Init;
+                    TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+                    //TempIncomingDoc.Validate("No.", leave."No.");
+                    TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+                    TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    TempIncomingDoc.Validate(Description, Format(LeaveType.Code) + ': ' + LeaveType.Description);
+                    TempIncomingDoc.Validate("Employee Code", HrMgt.GetEmployeeNo());
+                    TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+                    TempIncomingDoc.Insert(true);
+                until AttachmentSetup.Next = 0;
+        END;
+
+        // TempIncomingDoc.Reset;
+        // TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
+        // TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
+        // TempIncomingDoc.SETRANGE("Leave Type Code", leavecode);
+        // TempIncomingDoc.SetRange("No.", '');
+        // if TempIncomingDoc.FindSet() then
+        //     repeat
+        //         if TempIncomingDoc."File Name" <> '' then
+        //             Clear(TempIncomingDoc."File Name");
+        //     until TempIncomingDoc.Next = 0;
+        // TempIncomingDoc.DeleteAll;
+        // if leavecode = '' then
+        //     Error('Leave Code must have value');
+        // LeaveType.Get(leavecode);
+
+        // if LeaveType."Sick Leave" then
+        //     if NoOfDays < LeaveType."No. of Days for Attachment" then
+        //         exit;
+        // //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
+        // AttachmentSetup.Reset;
+        // AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+        // AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+        // if AttachmentSetup.Find('-') then
+        //     repeat
+        //         TempIncomingDoc.Reset;
+        //         TempIncomingDoc.Init;
+        //         TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
+        //         TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+        //         TempIncomingDoc.Validate(Description, 'Leave Request' + ': ' + LeaveType.Description);
+        //         TempIncomingDoc.Validate("Employee Code", HrMgt.GetEmployeeNo());
+        //         TempIncomingDoc.Validate("Leave Type Code", LeaveType.Code);
+        //         TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
+        //         TempIncomingDoc.Insert(true);
+        //     until AttachmentSetup.Next = 0;
+        // //END;
         exit('sucess');
     end;
 
@@ -439,7 +606,6 @@ page 50108 "Portal Functions"
         LeaveType: Record "Leave Type Setup";
         AttachmentSetup: Record "Attachment Setup";
         Filename: Text;
-
     begin
         leave.Get(leaveNo);
         TempIncomingDoc.Reset;
@@ -459,9 +625,21 @@ page 50108 "Portal Functions"
         '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
         '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
-    // '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
-    // '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
-    //     '}'
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure NoOfDays(startDate: date; endDate: Date; leaveCode: Code[20]; Type: text; leaveType: text; empcode: Code[20]): Decimal
+    var
+        EmployeeActivitiesType: Enum "Employee Activity Type";
+        LeaveTypeEnum: Enum "Leave Type";
+    begin
+        Evaluate(EmployeeActivitiesType, Type);
+        Evaluate(LeaveTypeEnum, leaveType);
+        if LeaveTypeEnum <> LeaveTypeEnum::"Full Day" then
+            if startDate <> endDate then
+                Error('Full and half leave cannot be applied together');
+        exit(leaveMgt.CalculateNoOfDays(startDate, endDate, LeaveCode, EmployeeActivitiesType, LeaveTypeEnum, empcode))
+    end;
 
     local procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
     var
@@ -502,7 +680,6 @@ page 50108 "Portal Functions"
             exit(Today);
 
         /*
-
         Date.RESET;
         Date.SETRANGE("Period Type",Date."Period Type"::Date);
         Date.SETRANGE("Period Start",EmpActivity."Start Date",EmpActivity."End Date");
@@ -516,7 +693,6 @@ page 50108 "Portal Functions"
         END ELSE
         EXIT(CountStartDate);
         END;
-
         EXIT(CountStartDate);
         */
     end;
@@ -594,8 +770,6 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Advance Cash", advanceCash);
         TravelRequest.Validate("Depature Time", departureTime);
         TravelRequest.Validate("Arrival Time", arrivalTime);
-        TravelRequest.Validate("Recommender Code", recommenderCode);
-        TravelRequest.Validate("Approver Code", approverCode);
         TravelRequest.Insert;
         if TravelMgt.ApplyForTravel(TravelRequest) then
             exit(200);
@@ -679,8 +853,8 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Total Claimed Amount", totalAllowanceClaim);
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
-        TravelRequest.Validate("Recommender Code", recommenderCode);
-        TravelRequest.Validate("Approver Code", approverCode);
+        // TravelRequest.Validate("Recommender Code", recommenderCode);
+        // TravelRequest.Validate("Approver Code", approverCode);
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
         TravelRequest.Insert;
         if TravelMgt.ApplyForTravelClaim(TravelRequest) then
@@ -752,15 +926,15 @@ page 50108 "Portal Functions"
         // if EmpTravel."Advance Cash Required" then
         //     EmpTravel.Validate("Advance Cash", advanceCash);
         // EmpTravel.Modify;
-        if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
-            TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
-        else begin
-            if not isApprove then begin
-                EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
-                EmpTravel.Modify;
-            end;
-            TravelMgt.ApprovedRejectTravelApprovalAPI(isApprove, empTravelNo, approverCode);
+        // if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
+        //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
+        // else begin
+        if not isApprove then begin
+            EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
+            EmpTravel.Modify;
         end;
+        TravelMgt.ApprovedRejectTravelApproval(isApprove, empTravelNo);
+        // end;
     end;
 
     [ServiceEnabled]
@@ -771,17 +945,17 @@ page 50108 "Portal Functions"
         Travel: Record "Travel Request";
     begin
         Travel.Get(empTravelNo);
-        if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
-            TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
-        else begin
-            if not isApproved then begin
-                Travel.Validate("Rejection Remarks", rejectionRemarks);
-                Travel.Modify;
-                TravelMgt.ApprovedRejectTravelApprovalAPI(isApproved, empTravelNo, approverCode);
-            end
-            else
-                TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
-        end;
+        // if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
+        //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
+        // else begin
+        if not isApproved then begin
+            Travel.Validate("Rejection Remarks", rejectionRemarks);
+            Travel.Modify;
+            TravelMgt.ApprovedRejectTravelApproval(isApproved, empTravelNo);
+        end
+        else
+            TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
+        // end;
 
     end;
 
@@ -1640,8 +1814,6 @@ page 50108 "Portal Functions"
         File: File;
         CleanedFileName: text;
         LoanMgt: Codeunit "Loan Mgt.";
-
-
     begin
         IncomingDoc.Get(entryNo);
         HRSetup.Get;
@@ -1689,7 +1861,7 @@ page 50108 "Portal Functions"
                 if Leave.Get(docNo) then begin
                     DocFoundEmpLeave := true;
                     IncomingDoc."No." := docNo;
-                    if (Leave."Approval Status" in [Leave."Approval Status"::"Pending Approval", Leave."Approval Status"::Approved])
+                    if (Leave."Approval Status" in [Leave."Approval Status"::open, Leave."Approval Status"::Approved])
                      and (IncomingDoc."File Name" <> '') then
                         Error('Attachment already exist.');
                 end;
@@ -3297,18 +3469,14 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure countForDashBoard(empcode: Code[20]): text
+    procedure countForDashBoard(): text
     var
         Leave: Record Leave;
         Loan: Record "Employee Loan/Advance";
-        leaveForRecommendation: Integer;
         leaveForApprove: Integer;
-        LoanForRecommendation: Integer;
         LoanForApprove: Integer;
         TravelRequest: Record "Travel Request";
-        TravelReqForRecommendation: Integer;
         TravelReqForApprove: Integer;
-        TravelClaimRecommendation: Integer;
         TravelClaimApprove: Integer;
         Resign: Record Resignation;
         ResignForRecommendation: Integer;
@@ -3333,134 +3501,76 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
+        Clear(leaveForApprove);
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
-        Approval.SetRange("Approver No", empcode);
-        Approval.SetRange("Approval Status", Approval."Approval Status"::"Pending Approval");
-        Approval.SetRange("Approval Sequence", 1);
-        leaveForRecommendation := Approval.Count();
-
-        Approval.Reset();
-        Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
-        Approval.SetRange("Approver No", empcode);
-        Approval.SetRange("Approval Status", Approval."Approval Status"::Recommended);
-        Approval.SetRange("Approval Sequence", 2);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         leaveForApprove := Approval.Count();
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Travel Request");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        TravelReqForApprove := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Travel Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        TravelClaimApprove := Approval.Count();
 
         Loan.Reset();
-        Loan.SetRange(Recommender, empcode);
+        Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
         Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
-        Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
-        LoanForRecommendation := Loan.Count();
-        Loan.Reset();
-        Loan.SetRange(Approver, empcode);
-        Loan.SetRange("Approval Status", Loan."Approval Status"::Recommended);
         Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
         LoanForApprove := Loan.Count();
 
-        Loan.Reset();
-        Loan.SetRange(Recommender, empcode);
-        Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
-        Loan.SetRange("Loan Type", loan."Loan Type"::"Salary Advance");
-        SalaryAdvanceForRecommemdation := Loan.Count();
-
-        TravelRequest.Reset();
-        TravelRequest.SetRange("Recommender Code", empcode);
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelReqForRecommendation := TravelRequest.Count();
-        TravelRequest.Reset();
-        TravelRequest.SetRange("Approver Code", empcode);
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::Recommended);
-        TravelReqForApprove := TravelRequest.Count();
-
-        TravelRequest.Reset();
-        TravelRequest.SetRange("Recommender Code", empcode);
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Claim");
-        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelClaimRecommendation := TravelRequest.Count();
-        TravelRequest.Reset();
-        TravelRequest.SetRange("Approver Code", empcode);
-        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Claim");
-        TravelRequest.SetRange("Approval Status", TravelRequest."Approval Status"::Recommended);
-        TravelClaimApprove := TravelRequest.Count();
 
         Resign.Reset();
-        Resign.SetRange("Recommender Code", empcode);
-        Resign.SetRange("Approval Status", Resign."Approval Status"::"Pending Approval");
-        ResignForRecommendation := Resign.Count();
-        Resign.Reset();
-        Resign.SetRange("Approver Code", empcode);
+        Resign.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
         ResignForApprove := Resign.Count();
 
         OverTime.Reset();
-        OverTime.SetRange("Recommender Code", empcode);
-        OverTime.SetRange("Approval Status", OverTime."Approval Status"::"Pending Approval");
-        OverTimeForRecommendation := OverTime.Count();
-        OverTime.Reset();
-        OverTime.SetRange("Approver Code", empcode);
+        OverTime.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         OverTime.SetRange("Approval Status", OverTime."Approval Status"::Recommended);
         OverTimeForApprove := OverTime.Count();
 
+
         EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Recommender Code", empcode);
-        EmployeeTransfer.SetRange(Type, EmployeeTransfer.Type::"Employee Transfer");
-        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::"Pending Approval");
-        EmployeeTransferForRecommendation := EmployeeTransfer.Count();
-        EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Approver Code", empcode);
+        EmployeeTransfer.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         EmployeeTransfer.SetRange(Type, EmployeeTransfer.Type::"Employee Transfer");
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Recommended);
         EmployeeTransferForApprove := EmployeeTransfer.Count();
 
         AttendanceMissed.Reset();
-        AttendanceMissed.SetRange("Recommender Code", empcode);
-        AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
-        AttendanceMissed.SetRange("Approval Status", AttendanceMissed."Approval Status"::"Pending Approval");
-        AttendanceMissedForRecommendation := AttendanceMissed.Count();
-        AttendanceMissed.Reset();
-        AttendanceMissed.SetRange("Approver Code", empcode);
+        AttendanceMissed.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
         AttendanceMissed.SetRange("Approval Status", AttendanceMissed."Approval Status"::Recommended);
         AttendanceMissedForApprove := AttendanceMissed.Count();
 
+
         Appraisal.Reset();
-        Appraisal.SetRange(Reviewer, empcode);
-        Appraisal.SetRange(Status, Appraisal.Status::Submitted);
-        AppraisalForRecommendation := Appraisal.Count();
-        Appraisal.Reset();
-        Appraisal.SetRange("Approver Code", empcode);
+        Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
         AllowanceAssignment.Reset();
-        AllowanceAssignment.SetRange("Approver ID", empcode);
+        AllowanceAssignment.SetRange("Approver ID", HrMgt.GetEmployeeNo());
         AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
-        TotalCount := leaveForRecommendation + leaveForApprove + LoanForRecommendation + LoanForApprove + TravelReqForRecommendation + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
+        TotalCount := leaveForApprove + LoanForApprove + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
                         ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + SalaryAdvanceForRecommemdation + AttendanceMissedForRecommendation + AttendanceMissedForApprove;
 
-        exit('{"leaveForRecommendation" : "' + Format(leaveForRecommendation) + '"' +
-        ',"leaveForApprove" :"' + Format(leaveForApprove) + '"' +
-        ',"LoanForRecommendation": "' + format(LoanForRecommendation) + '"' +
+        exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"LoanForApprove": "' + format(LoanForApprove) + '"' +
-        ',"TravelReqForRecommendation": "' + format(TravelReqForRecommendation) + '"' +
         ',"TravelReqForApprove": "' + format(TravelReqForApprove) + '"' +
-        ',"TravelClaimRecommendation": "' + format(TravelClaimRecommendation) + '"' +
         ',"TravelClaimApprove": "' + format(TravelClaimApprove) + '"' +
-        ',"ResignForRecommendation": "' + format(ResignForRecommendation) + '"' +
         ',"ResignForApprove": "' + format(ResignForApprove) + '"' +
-        ',"OverTimeForRecommendation": "' + format(OverTimeForRecommendation) + '"' +
         ',"OverTimeForApprove": "' + format(OverTimeForApprove) + '"' +
-        ',"AppraisalForRecommendation": "' + format(AppraisalForRecommendation) + '"' +
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
-        ',"SalaryAdvanceForRecommemdation": "' + format(SalaryAdvanceForRecommemdation) + '"' +
-        ',"EmployeeTransferForRecommendation": "' + format(EmployeeTransferForRecommendation) + '"' +
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
-        ',"AttendanceMissedForRecommendation": "' + format(AttendanceMissedForRecommendation) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
