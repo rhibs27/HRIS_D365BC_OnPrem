@@ -8,7 +8,6 @@ table 50146 "Organization structure"
         field(1; "Type"; Enum "Organization Structure list")
         {
             Caption = 'Type';
-            // TableRelation = "Organization Structure List";
             trigger OnValidate()
             var
             begin
@@ -32,58 +31,6 @@ table 50146 "Organization structure"
         {
             Editable = false;
         }
-        field(5; "Head"; Code[20])
-        {
-            Caption = 'Head';
-            TableRelation = Employee;
-            trigger OnValidate()
-            var
-                Employee: Record Employee;
-            begin
-                if Employee.Get("Head") then begin
-                    Validate("Head Name", Employee."Full Name");
-                    Validate("Head Approver ID", Employee."NAV Login ID");
-                end;
-            end;
-        }
-        field(6; "Head Name"; Text[50])
-        {
-            Caption = 'Head Name';
-            Editable = false;
-
-        }
-        field(7; "Head Approver ID"; Code[50])
-        {
-            Caption = 'Head Approver ID';
-            Editable = false;
-        }
-        field(8; "Deputy Head"; Code[20])
-        {
-            Caption = 'Deputy Head';
-            TableRelation = Employee;
-            trigger OnValidate()
-            var
-                Employee: Record Employee;
-            begin
-                if Employee.Get("Deputy Head") then begin
-                    Validate("Deputy Head Name", Employee."Full Name");
-                    Validate("Deputy Head Approver ID", Employee."NAV Login ID");
-                end;
-            end;
-        }
-        field(9; "Deputy Head Name"; Text[50])
-        {
-            Caption = 'Deputy Head Name';
-            Editable = false;
-
-        }
-        field(10; "Deputy Head Approver ID"; Code[50])
-        {
-            Caption = 'Deputy Head Approver ID';
-            Editable = false;
-        }
-
-
     }
     keys
     {

@@ -77,6 +77,14 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Visible = IsOpen;
+                }
+                field(Status; Rec.Status)
+                {
+                    Caption = 'Approval Status';
+                    ToolTip = 'Specifies the value of the Status field. ';
+                    ApplicationArea = all;
+                    Visible = IsPending;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
@@ -129,9 +137,14 @@ page 50100 "Posted Leave Card"
                 Caption = 'For Rejection';
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    Editable = true;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
                 }
             }
             part(Attachment; "Attachment Subform")
@@ -194,16 +207,16 @@ page 50100 "Posted Leave Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = not IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the request?', false) then begin
-                        Leavemgt.RecommendEmployeeLeave(Rec."No.");
-                        CurrPage.Close;
-                    end;
+                    // if Confirm('Do you want to recommend the request?', false) then begin
+                    //     Leavemgt.RecommendEmployeeLeave(Rec."No.");
+                    //     CurrPage.Close;
+                    // end;
                 end;
             }
             action("Approve Request")
@@ -213,16 +226,14 @@ page 50100 "Posted Leave Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsRecommended;
+                Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-
                     if Confirm('Do you want to approve the request?', false) then begin
-                        Leavemgt.ApprovedRejectLeaveApproval(true, Rec."No.");
-                        CurrPage.Close;
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -235,33 +246,53 @@ page 50100 "Posted Leave Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then begin
-                        Leavemgt.ApprovedRejectLeaveApproval(false, Rec."No.");
-                        CurrPage.Close;
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                        end;
                     end;
                 end;
             }
-            action(Reopen)
+            action("Cancel Leave")
             {
-                Image = ReOpen;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                ToolTip = 'Executes the Reopen action.';
+                ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-
+                //Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    Rec.ReopenDocument;
+                    if Confirm('Do you want Cancel the request?', false) then begin
+                        Leavemgt.OpenCancelEmpActivity(Rec);
+                        CurrPage.Close;
+                    end;
                 end;
             }
+            // action(Reopen)
+            // {
+            //     Image = ReOpen;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Reopen action.';
+            //     ApplicationArea = All;
+            //     trigger OnAction()
+            //     begin
+            //         Rec.ReopenDocument;
+            //     end;
+            // }
         }
     }
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.Type := Rec.Type::"Leave Request";
@@ -269,14 +300,26 @@ page 50100 "Posted Leave Card"
 
     trigger OnOpenPage()
     begin
-        IsPending := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Recommended];
-        IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if not (Rec."Approval Status" = Rec."Approval Status"::Rejected) or not (Rec."Approval Status" = Rec."Approval Status"::Approved) then
+            RejectEdit := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        //IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        //IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        RecRef.GetTable(Rec);
     end;
 
     var
-        Leavemgt: Codeunit "Leave Mgt.";
+        LeaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
+        RejectEdit: Boolean;
+
         [InDataSet]
         IsPending: Boolean;
-        IsRecommended: Boolean;
+        IsOpen: Boolean;
+        //IsApproved: Boolean;
+        IsRejected: Boolean;
+        RecRef: RecordRef;
+        ApprovalMgt: Codeunit "Approver Mgt";
 }

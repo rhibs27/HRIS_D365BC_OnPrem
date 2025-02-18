@@ -7466,23 +7466,23 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    procedure ForwardToHRforTravel(var TravelReq: Record "Travel Request")
-    var
-        ConfirmScreen: Label 'Do you want to confirm screen this document?';
-    begin
-        //check authorized user
-        Employee.Get(GetEmployeeNo());
-        if not (Employee."No." = TravelReq."Employee No.") then
-            Error('Only employee %1 can forward this document to HR.', TravelReq."Employee Name");
-        CheckDocumentApprover(TravelReq."No.");
-        TravelMgt.CheckResignationAttachmentMandatoryforTravel(TravelReq);
-        if GuiAllowed then
-            if not Confirm(ConfirmScreen, false) then
-                exit;
+    // procedure ForwardToHRforTravel(var TravelReq: Record "Travel Request")
+    // var
+    //     ConfirmScreen: Label 'Do you want to confirm screen this document?';
+    // begin
+    //     //check authorized user
+    //     Employee.Get(GetEmployeeNo());
+    //     if not (Employee."No." = TravelReq."Employee No.") then
+    //         Error('Only employee %1 can forward this document to HR.', TravelReq."Employee Name");
+    //     CheckDocumentApprover(TravelReq."No.");
+    //     TravelMgt.CheckResignationAttachmentMandatoryforTravel(TravelReq);
+    //     if GuiAllowed then
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
 
-        TravelReq.Validate("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
-        TravelReq.Modify;
-    end;
+    //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
+    //     TravelReq.Modify;
+    // end;
 
     procedure ForwardToHR(var Resignation: Record Resignation)
     var
@@ -8278,94 +8278,95 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    procedure OpenCancelEmpActivity(EmpActivity: Record "Employee Activity")
-    var
-        //Leave: Record "Leave" temporary;
-        TempEmpActivity: Record "Employee Activity" temporary;
-    begin
-        if not Confirm('Do you want to cancel document?', false) then
-            exit;
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Approved);
-        EmpActivity.TestField("Cancelled Document No.", '');
-        TempEmpActivity.Init;
-        TempEmpActivity.Validate(Cancelled, true);
-        TempEmpActivity.Validate("Employee No.", EmpActivity."Employee No.");
-        TempEmpActivity.Validate("Employee Name", EmpActivity."Employee Name");
-        TempEmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Open);
-        TempEmpActivity.Validate(Type, EmpActivity.Type);
-        TempEmpActivity.Validate("Leave Code", EmpActivity."Leave Code");
-        TempEmpActivity.Validate("Requested Date", Today);
-        TempEmpActivity.Validate("Start Date", EmpActivity."Start Date");
-        TempEmpActivity.Validate("End Date", EmpActivity."End Date");
-        TempEmpActivity.Validate("No. of Days", EmpActivity."No. of Days");
-        TempEmpActivity.Validate("Recommender Code", EmpActivity."Recommender Code");
-        TempEmpActivity.Validate("Approver Code", EmpActivity."Approver Code");
-        TempEmpActivity."Cancelled Document No." := EmpActivity."No.";
-        TempEmpActivity.Insert;
-        if PAGE.RunModal(PAGE::"Cancel Document", TempEmpActivity) = ACTION::LookupOK then;
-    end;
+    // procedure OpenCancelEmpActivity(EmpActivity: Record "Employee Activity")
+    // var
+    //     //Leave: Record "Leave" temporary;
+    //     TempEmpActivity: Record "Employee Activity" temporary;
+    // begin
+    //     if not Confirm('Do you want to cancel document?', false) then
+    //         exit;
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Approved);
+    //     EmpActivity.TestField("Cancelled Document No.", '');
+    //     TempEmpActivity.Init;
+    //     TempEmpActivity.Validate(Cancelled, true);
+    //     TempEmpActivity.Validate("Employee No.", EmpActivity."Employee No.");
+    //     TempEmpActivity.Validate("Employee Name", EmpActivity."Employee Name");
+    //     TempEmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Open);
+    //     TempEmpActivity.Validate(Type, EmpActivity.Type);
+    //     TempEmpActivity.Validate("Leave Code", EmpActivity."Leave Code");
+    //     TempEmpActivity.Validate("Requested Date", Today);
+    //     TempEmpActivity.Validate("Start Date", EmpActivity."Start Date");
+    //     TempEmpActivity.Validate("End Date", EmpActivity."End Date");
+    //     TempEmpActivity.Validate("No. of Days", EmpActivity."No. of Days");
+    //     TempEmpActivity.Validate("Recommender Code", EmpActivity."Recommender Code");
+    //     TempEmpActivity.Validate("Approver Code", EmpActivity."Approver Code");
+    //     TempEmpActivity."Cancelled Document No." := EmpActivity."No.";
+    //     TempEmpActivity.Insert;
+    //     if PAGE.RunModal(PAGE::"Cancel Document", TempEmpActivity) = ACTION::LookupOK then;
+    // end;
 
-    procedure ApplyCancelEmployeeActivity(TempEmpActivity: Record "Employee Activity" temporary)
-    var
-        EmployeeActivity: Record "Employee Activity";
-        EmployeeActivity2: Record "Employee Activity";
-        EmpAct: Record "Employee Activity";
-        LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
-    begin
-        if GuiAllowed then
-            if not Confirm('Do you want to apply the document?', false) then
-                exit;
-        if TempEmpActivity.Type = TempEmpActivity.Type::"Leave Request" then begin //Min 10.13.2022
-            EmpAct.Reset;
-            EmpAct.SetRange("Cancelled Document No.", TempEmpActivity."Cancelled Document No.");
-            EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
-            if EmpAct.FindFirst then
-                Error(LeaveCancelError, EmpAct."No.", EmpAct."Leave Code");
-        end;
-        PayrollSetup.Get;
-        if TempEmpActivity.Type = TempEmpActivity.Type::"Attendance Missed" then
-            CheckForLeaveOnAttendanceMissed(TempEmpActivity."Start Date", TempEmpActivity."End Date", TempEmpActivity."Employee No.");
-        if TempEmpActivity."No." = '' then begin
-            TempEmpActivity.TestField("Start Date");
-            if (TempEmpActivity."Start Date" >= Today) or (TempEmpActivity."End Date" >= Today) then
-                Error('Cannot apply for future date.Please check the date.');
-            if TempEmpActivity."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-                Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
-            TempEmpActivity.TestField("End Date");
-            TempEmpActivity.TestField(Remarks);
-            EmployeeActivity.Init;
-            EmployeeActivity.TransferFields(TempEmpActivity);
-            if TempEmpActivity."Recommender Code" <> '' then
-                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
-            else
-                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
+    // procedure ApplyCancelEmployeeActivity(TempEmpActivity: Record "Employee Activity" temporary)
+    // var
+    //     EmployeeActivity: Record "Employee Activity";
+    //     EmployeeActivity2: Record "Employee Activity";
+    //     EmpAct: Record "Employee Activity";
+    //     LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm('Do you want to apply the document?', false) then
+    //             exit;
+    //     if TempEmpActivity.Type = TempEmpActivity.Type::"Leave Request" then begin //Min 10.13.2022
+    //         EmpAct.Reset;
+    //         EmpAct.SetRange("Cancelled Document No.", TempEmpActivity."Cancelled Document No.");
+    //         EmpAct.SetFilter("Approval Status", '<>%1', EmpAct."Approval Status"::Rejected);
+    //         if EmpAct.FindFirst then
+    //             Error(LeaveCancelError, EmpAct."No.", EmpAct."Leave Code");
+    //     end;
+    //     PayrollSetup.Get;
+    //     if TempEmpActivity.Type = TempEmpActivity.Type::"Attendance Missed" then
+    //         CheckForLeaveOnAttendanceMissed(TempEmpActivity."Start Date", TempEmpActivity."End Date", TempEmpActivity."Employee No.");
+    //     if TempEmpActivity."No." = '' then begin
+    //         TempEmpActivity.TestField("Start Date");
+    //         if (TempEmpActivity."Start Date" >= Today) or (TempEmpActivity."End Date" >= Today) then
+    //             Error('Cannot apply for future date.Please check the date.');
+    //         if TempEmpActivity."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
+    //             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+    //         TempEmpActivity.TestField("End Date");
+    //         TempEmpActivity.TestField(Remarks);
+    //         EmployeeActivity.Init;
+    //         EmployeeActivity.TransferFields(TempEmpActivity);
+    //         if TempEmpActivity."Recommender Code" <> '' then
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
+    //         else
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
 
-            EmployeeActivity."Cancelled No." := '';
-            EmployeeActivity.Insert(true);
-        end else begin
-            EmployeeActivity.Get(TempEmpActivity."No.");
-            if EmployeeActivity."Recommender Code" <> '' then
-                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
-            else
-                EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
-            EmployeeActivity.Modify(true);
-        end;
+    //         EmployeeActivity."Cancelled No." := '';
+    //         EmployeeActivity.Insert(true);
+    //     end else begin
+    //         EmployeeActivity.Get(TempEmpActivity."No.");
+    //         if EmployeeActivity."Recommender Code" <> '' then
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
+    //         else
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
+    //         EmployeeActivity.Modify(true);
+    //     end;
 
 
-        if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then begin
-            Clear(EmployeeActivity2);
-            EmployeeActivity2.Get(TempEmpActivity."Cancelled Document No.");
-            EmployeeActivity2."Cancelled No." := EmployeeActivity."No.";
-            EmployeeActivity2.Modify;
+    //     if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then begin
+    //         Clear(EmployeeActivity2);
+    //         EmployeeActivity2.Get(TempEmpActivity."Cancelled Document No.");
+    //         EmployeeActivity2."Cancelled No." := EmployeeActivity."No.";
+    //         EmployeeActivity2.Modify;
 
-            if (EmployeeActivity."Start Date" < EmployeeActivity2."Start Date") or (EmployeeActivity."End Date" < EmployeeActivity2."Start Date") then
-                Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
+    //         if (EmployeeActivity."Start Date" < EmployeeActivity2."Start Date") or (EmployeeActivity."End Date" < EmployeeActivity2."Start Date") then
+    //             Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
 
-            if (EmployeeActivity."Start Date" > EmployeeActivity2."End Date") or (EmployeeActivity."End Date" > EmployeeActivity2."End Date") then
-                Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
+    //         if (EmployeeActivity."Start Date" > EmployeeActivity2."End Date") or (EmployeeActivity."End Date" > EmployeeActivity2."End Date") then
+    //             Error('Date must be between %1 and %2', EmployeeActivity2."Start Date", EmployeeActivity2."End Date");
 
-        end;
-    end;
+    //     end;
+    // end;
+
 
     procedure ScreenCancelledLeave(EmpAct: Record "Employee Activity")
     var
@@ -10132,39 +10133,39 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure PopUpChangingTravelApprover(TravelRequest: Record "Travel Request")
-    var
-        TravelRequestPageBuilder: FilterPageBuilder;
-        EmpTravel: Record "Employee Activity";
-    begin
-        TravelRequestPageBuilder.AddRecord('Change Approver', EmpTravel);
-        TravelRequestPageBuilder.ADdField('Change Approver', EmpTravel."Approver Code");
-        if TravelRequestPageBuilder.RunModal then begin
-            EmpTravel.SetView(TravelRequestPageBuilder.GetView('Change Approver'));
-            if EmpTravel.GetFilter("Approver Code") = '' then
-                Error('Approver Code cannot be blank.');
-            TravelRequest.Validate("Approver Code", EmpTravel.GetFilter("Approver Code"));
-            TravelRequest.Modify;
-            Message('Approver updated.');
-        end;
-    end;
+    // procedure PopUpChangingTravelApprover(TravelRequest: Record "Travel Request")
+    // var
+    //     TravelRequestPageBuilder: FilterPageBuilder;
+    //     EmpTravel: Record "Employee Activity";
+    // begin
+    //     TravelRequestPageBuilder.AddRecord('Change Approver', EmpTravel);
+    //     TravelRequestPageBuilder.ADdField('Change Approver', EmpTravel."Approver Code");
+    //     if TravelRequestPageBuilder.RunModal then begin
+    //         EmpTravel.SetView(TravelRequestPageBuilder.GetView('Change Approver'));
+    //         if EmpTravel.GetFilter("Approver Code") = '' then
+    //             Error('Approver Code cannot be blank.');
+    //         TravelRequest.Validate("Approver Code", EmpTravel.GetFilter("Approver Code"));
+    //         TravelRequest.Modify;
+    //         Message('Approver updated.');
+    //     end;
+    // end;
 
-    procedure PopUpChangingTravelRecommender(TravelRequest: Record "Travel Request")
-    var
-        TravelRequestPageBuilder: FilterPageBuilder;
-        EmpTravel: Record "Employee Activity";
-    begin
-        TravelRequestPageBuilder.AddRecord('Change Recommender', EmpTravel);
-        TravelRequestPageBuilder.ADdField('Change Recommender', EmpTravel."Recommender Code");
-        if TravelRequestPageBuilder.RunModal then begin
-            EmpTravel.SetView(TravelRequestPageBuilder.GetView('Change Recommender'));
-            if EmpTravel.GetFilter("Recommender Code") = '' then
-                Error('Recommender Code cannot be blank.');
-            TravelRequest.Validate("Recommender Code", EmpTravel.GetFilter("Recommender Code"));
-            TravelRequest.Modify;
-            Message('Recommender updated.');
-        end;
-    end;
+    // procedure PopUpChangingTravelRecommender(TravelRequest: Record "Travel Request")
+    // var
+    //     TravelRequestPageBuilder: FilterPageBuilder;
+    //     EmpTravel: Record "Employee Activity";
+    // begin
+    //     TravelRequestPageBuilder.AddRecord('Change Recommender', EmpTravel);
+    //     TravelRequestPageBuilder.ADdField('Change Recommender', EmpTravel."Recommender Code");
+    //     if TravelRequestPageBuilder.RunModal then begin
+    //         EmpTravel.SetView(TravelRequestPageBuilder.GetView('Change Recommender'));
+    //         if EmpTravel.GetFilter("Recommender Code") = '' then
+    //             Error('Recommender Code cannot be blank.');
+    //         TravelRequest.Validate("Recommender Code", EmpTravel.GetFilter("Recommender Code"));
+    //         TravelRequest.Modify;
+    //         Message('Recommender updated.');
+    //     end;
+    // end;
 
     procedure PopUpChangingJobPositionEmployee(EmployeeRec: Record Employee)
     var

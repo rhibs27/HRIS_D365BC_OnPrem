@@ -34,7 +34,7 @@ table 50149 "Approval HRMS"
             Caption = 'Approver Name';
             Editable = false;
         }
-        field(5; "Approval Status"; Enum "Employee Act. Approval Status")
+        field(5; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
             Editable = false;
@@ -69,6 +69,23 @@ table 50149 "Approval HRMS"
                     Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
             end;
         }
+        field(12; "Status"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Status Master";
+        }
+        field(13; "Approval Role"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(10; "Approved By"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(11; "Rejected By"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -77,15 +94,14 @@ table 50149 "Approval HRMS"
         {
             Clustered = true;
         }
+        key(ApprovalSequence; "Approval Sequence")
+        {
+
+        }
     }
     trigger OnInsert()
     var
         Approval: Record "Approval HRMS";
     begin
-        // Approval.Reset();
-        // if Approval.FindLast() then
-        //     "Entry No." := Approval."Entry No." + 1
-        // else
-        //     "Entry No." := 1;
     end;
 }

@@ -468,7 +468,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Approver Code field.';
-
+                }
+                field("Approver Role"; Rec."Approver Role")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Approver Code field.';
                 }
 
             }

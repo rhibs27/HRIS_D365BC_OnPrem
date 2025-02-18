@@ -1345,6 +1345,24 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = ToBeClassified;
         }
 
+        field(50158; "Approver Role"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Approval Role";
+            trigger OnValidate()
+            var
+                ApprovalRole: Record "Approval Role";
+            begin
+                if ApprovalRole.Get("Approver Role") then
+                    Validate("Approver Role Name", ApprovalRole.Description);
+            end;
+        }
+        field(50159; "Approver Role Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+
     }
     keys
     {
