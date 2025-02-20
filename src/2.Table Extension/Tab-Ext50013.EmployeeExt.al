@@ -1584,8 +1584,10 @@ tableextension 50013 "Employee Ext" extends Employee
     END;
 
     PROCEDURE TravelRequest();
+    var
+        EmployeeAct: enum "Employee Activity Type";
     BEGIN
-        TravelMgt.OpenTravelRequest("No.", FALSE, '');
+        TravelMgt.OpenTravelRequest("No.", FALSE, '', EmployeeAct::"Travel Request");
     END;
 
     procedure ChangeEmployeeJobType();

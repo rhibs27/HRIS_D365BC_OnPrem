@@ -55,6 +55,61 @@ codeunit 50017 "Approver Mgt"
             Error('Approval Not Found');
     end;
 
+    procedure InsertApprovalTemp(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
+    var
+        ApprovalSetupLine: Record "Approval Setup line";
+        Approval: Record "Approval HRMS";
+        Employee: Record Employee;
+        EmpRequest: Record Employee;
+        //Approval1: Record "Approval HRMS";
+        count: Integer;
+    begin
+        EmpRequest.Reset();
+        EmpRequest.Get(EmployeeNo);
+        ApprovalSetupLine.Reset();
+        ApprovalSetupLine.SetRange("Request Type", EmpActType);
+        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+        count := 0;
+        if ApprovalSetupLine.Findset() then
+            repeat
+                Employee.Reset();
+                Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                    Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                    Employee.SetRange("Department Code", EmpRequest."Department Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                    Employee.SetRange("Province Code", EmpRequest."Province Code");
+                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+                if Employee.FindFirst() then begin
+                    Approval.Init();
+                    Approval.Validate("Document No.", EmpActNo);
+                    Approval.Validate("Document Type", EmpActType);
+                    Approval.Validate("Approver No", Employee."No.");
+                    Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
+                    Approval.Validate(Status, ApprovalSetupLine."Approval Status");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    if ApprovalSetupLine."Approval Sequence" = 1 then begin
+                        Approval.Validate("Approval Status", "Approval Status"::Open);
+                        count := count + 1;
+                    end else
+                        Approval.Validate("Approval Status", "Approval Status"::Created);
+                    Approval.Validate("Employee No", EmployeeNo);
+                    Approval.Insert();
+                end;
+            until ApprovalSetupLine.Next() = 0
+        else
+            Error('Approval Setup not found');
+        if count = 0 then begin
+            Error('There is no approver setup for sequence 1');
+        end;
+        // Approval1.Reset();
+        // Approval1.SetRange("Document No.", EmpActNo);
+        // if not Approval1.FindFirst() then
+        //     Error('Approval Not Found');
+    end;
+
     procedure CheckApprover(EmpActNo: Code[20])
     var
         CheckApprover: Boolean;
@@ -101,17 +156,22 @@ codeunit 50017 "Approver Mgt"
                         Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
                         Approver.Validate("Approved By", HRMgt.GetEmpName());
                         RecRef.Field(100).Validate(Approver.Status);
-                        Message('Document is Approved by %1', HRMgt.GetEmpName());
                     end
                     else begin
                         Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
                         Approver.Validate("Rejected By", HRMgt.GetEmpName());
                         RecRef.Field(16).Validate(ApprovalStatusEnum::Rejected);
+                        case EmpActType of
+                            //for travel claim
+                            EmpActType::"Travel Claim":
+                                begin
+                                    TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
+                                end;
+                        end;
                         StatusMaster.Reset();
                         StatusMaster.SetRange(Rejected, true);
                         if StatusMaster.FindFirst() then begin
                             RecRef.Field(100).Validate(StatusMaster.Status);
-                            Message('Document is Rejected by %1', HRMgt.GetEmpName());
                         end
                         else
                             Error('Rejected Status not Found On Status Master Setup');
@@ -138,12 +198,14 @@ codeunit 50017 "Approver Mgt"
                         EmpActType::"Leave Request":
                             begin
                                 leaveMgt.LeaveApproved(RecRef.Field(1).Value);
-                                Message('Document is Approved by %1', HRMgt.GetEmpName());
                             end;
                         EmpActType::"Travel Request":
                             begin
-                                TravelMgt.ApprovedTravel(RecRef.Field(1).Value);
-                                Message('Document is Approved by %1', HRMgt.GetEmpName());
+                                TravelMgt.TravelApproved(RecRef.Field(1).Value);
+                            end;
+                        EmpActType::"Travel Claim":
+                            begin
+                                TravelMgt.TravelClaimApproved(RecRef.Field(1).Value);
                             end;
                     end;
                     RecRef.Modify();

@@ -32,6 +32,7 @@ table 50146 "Organization structure"
             Editable = false;
         }
     }
+
     keys
     {
         key(PK; "Type", Code)
@@ -39,4 +40,15 @@ table 50146 "Organization structure"
             Clustered = true;
         }
     }
+    trigger OnDelete()
+
+    begin
+        OrganizationStructureList.Reset();
+        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type);
+        OrganizationStructureList.SetRange(Code, OrganizationStructureList.Code);
+        OrganizationStructureList.DeleteAll();
+    end;
+
+    var
+        OrganizationStructureList: Record "Organization Structure Line";
 }

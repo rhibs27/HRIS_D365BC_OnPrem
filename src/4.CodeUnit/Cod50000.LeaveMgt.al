@@ -13,24 +13,24 @@ codeunit 50000 "Leave Mgt."
         leaveRequest.SetRange("Employee No.", EmpCode);
         leaveRequest.SetRange("Approval Status", leaveRequest."Approval Status"::open);
         if leaveRequest.Findfirst() then begin
-            if Confirm('This Employee Already open Leave Request.Do you want to Open?', false) then
-                PAGE.Run(PAGE::"Leave Request", leaveRequest)
-            else begin
-                LeaveRequest2.Init;
-                LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
-                LeaveRequest2.Validate("Employee No.", EmpCode);
-                LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
-                LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
-                LeaveRequest2.Validate("Approval Status", LeaveRequest2."Approval Status"::Open);
-                LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
-                LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
-                LeaveRequest2.Validate("Requested Date", Today);
-                LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-                LeaveRequest2.Validate(Department, Employee."Department Code");
-                LeaveRequest2.Insert(true);
-                if GuiAllowed then //NICASIA SM for Web Portal
-                    PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
-            end;
+            Message('This Employee Already has open Leave Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Leave Request", leaveRequest)
+            // else begin
+            //     LeaveRequest2.Init;
+            //     LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
+            //     LeaveRequest2.Validate("Employee No.", EmpCode);
+            //     LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
+            //     LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
+            //     LeaveRequest2.Validate("Approval Status", LeaveRequest2."Approval Status"::Open);
+            //     LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
+            //     LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
+            //     LeaveRequest2.Validate("Requested Date", Today);
+            //     LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+            //     LeaveRequest2.Validate(Department, Employee."Department Code");
+            //     LeaveRequest2.Insert(true);
+            //     if GuiAllowed then //NICASIA SM for Web Portal
+            //         PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
+            // end;
         end else begin
             LeaveRequest2.Init;
             LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
