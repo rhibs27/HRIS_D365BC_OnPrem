@@ -2,7 +2,7 @@ enum 50065 "Type Of Visit"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
         Caption = '';
     }

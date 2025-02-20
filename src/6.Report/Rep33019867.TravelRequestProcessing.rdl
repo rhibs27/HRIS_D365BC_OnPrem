@@ -3213,9 +3213,6 @@ End Function
         <Field Name="TravelClaimed_">
           <DataField>TravelClaimed_</DataField>
         </Field>
-        <Field Name="ScreenerRemarks_">
-          <DataField>ScreenerRemarks_</DataField>
-        </Field>
         <Field Name="TravelCountries_">
           <DataField>TravelCountries_</DataField>
         </Field>
@@ -3348,39 +3345,6 @@ End Function
         <Field Name="LodgingPerDayLimit_Format">
           <DataField>LodgingPerDayLimit_Format</DataField>
         </Field>
-        <Field Name="TimeDuration_">
-          <DataField>TimeDuration_</DataField>
-        </Field>
-        <Field Name="EstimatedHours_">
-          <DataField>EstimatedHours_</DataField>
-        </Field>
-        <Field Name="EstimatedHours_Format">
-          <DataField>EstimatedHours_Format</DataField>
-        </Field>
-        <Field Name="ActualHours_">
-          <DataField>ActualHours_</DataField>
-        </Field>
-        <Field Name="ActualHours_Format">
-          <DataField>ActualHours_Format</DataField>
-        </Field>
-        <Field Name="ScreenerID_">
-          <DataField>ScreenerID_</DataField>
-        </Field>
-        <Field Name="ScreenerDate_">
-          <DataField>ScreenerDate_</DataField>
-        </Field>
-        <Field Name="ScreenerName_">
-          <DataField>ScreenerName_</DataField>
-        </Field>
-        <Field Name="FinalApprover_">
-          <DataField>FinalApprover_</DataField>
-        </Field>
-        <Field Name="FinalApproverName_">
-          <DataField>FinalApproverName_</DataField>
-        </Field>
-        <Field Name="FinalApproverDate_">
-          <DataField>FinalApproverDate_</DataField>
-        </Field>
         <Field Name="TypeOfVisit_">
           <DataField>TypeOfVisit_</DataField>
         </Field>
@@ -3414,15 +3378,6 @@ End Function
         <Field Name="AdvanceCash_Format">
           <DataField>AdvanceCash_Format</DataField>
         </Field>
-        <Field Name="RecommenderName_">
-          <DataField>RecommenderName_</DataField>
-        </Field>
-        <Field Name="ApproverName_">
-          <DataField>ApproverName_</DataField>
-        </Field>
-        <Field Name="BankAccountNo_">
-          <DataField>BankAccountNo_</DataField>
-        </Field>
         <Field Name="NoofDays_">
           <DataField>NoofDays_</DataField>
         </Field>
@@ -3434,12 +3389,6 @@ End Function
         </Field>
         <Field Name="OutofPocketDailyLimit_Format">
           <DataField>OutofPocketDailyLimit_Format</DataField>
-        </Field>
-        <Field Name="RecommenderCode_">
-          <DataField>RecommenderCode_</DataField>
-        </Field>
-        <Field Name="ApproverCode_">
-          <DataField>ApproverCode_</DataField>
         </Field>
         <Field Name="PreviousTravelDescription">
           <DataField>PreviousTravelDescription</DataField>

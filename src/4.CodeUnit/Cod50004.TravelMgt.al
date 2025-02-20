@@ -1,29 +1,63 @@
 codeunit 50004 "Travel Mgt."
 {
-    procedure OpenTravelRequest(EmpCode: Code[20]; ToExtend: Boolean; TravelNo: Code[20])
+    procedure OpenTravelRequest(EmpCode: Code[20]; ToExtend: Boolean; TravelNo: Code[20]; EmployeeAct: Enum "Employee Activity Type")
     var
         // EmpAct: Record "Employee Activity" temporary;
-        TravelRequest: Record "Travel Request" temporary;
+        TravelRequest: Record "Travel Request";
         TravelRequest2: Record "Travel Request";
+        TravelRequest1: Record "Travel Request";
     //EmpAct2: Record "Employee Activity";
     begin
-        TravelRequest.Init;
-        TravelRequest.Validate("Employee No.", EmpCode);
-        TravelRequest.Validate("Functional Title", Employee."Functional Title");
-        TravelRequest.Validate(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
-        TravelRequest.Validate("Requested Date", Today);
-        Employee.Get(EmpCode);
-        TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-        TravelRequest.Validate(Department, Employee."Department Code");
+        TravelRequest1.Reset();
+        TravelRequest1.SetRange("Employee No.", EmpCode);
+        TravelRequest1.SetRange("Approval Status", TravelRequest1."Approval Status"::open);
+        TravelRequest1.SetRange(Type, EmployeeAct);
         if ToExtend then begin
-            Clear(TravelRequest2);
-            TravelRequest2.Get(TravelNo);
-            TravelRequest.Validate("Travel Order No.", TravelNo);
-            TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
+            TravelRequest1.SetRange("Travel Order No.", TravelNo);
         end;
-        TravelRequest.Insert;
-        PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
+        if TravelRequest1.Findfirst() then begin
+            Message('This Employee Already has open Travel Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Travel Request Form", TravelRequest1)
+            // else begin
+            //     TravelRequest.Init;
+            //     TravelRequest.Validate("Employee No.", EmpCode);
+            //     TravelRequest.Validate("Functional Title", Employee."Functional Title");
+            //     TravelRequest.Validate(Type, TravelRequest.Type::"Travel Request");
+            //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+            //     TravelRequest.Validate("Requested Date", Today);
+            //     Employee.Get(EmpCode);
+            //     TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+            //     TravelRequest.Validate(Department, Employee."Department Code");
+            //     if ToExtend then begin
+            //         Clear(TravelRequest2);
+            //         TravelRequest2.Get(TravelNo);
+            //         TravelRequest.Validate("Travel Order No.", TravelNo);
+            //         TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
+            //         Clear(TravelRequest."Estimated Lodging Cost");
+            //     end;
+            //     TravelRequest.Insert(true);
+            //     PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
+            // end;
+        end else begin
+            TravelRequest.Init;
+            TravelRequest.Validate("Employee No.", EmpCode);
+            TravelRequest.Validate("Functional Title", Employee."Functional Title");
+            TravelRequest.Validate(Type, TravelRequest.Type::"Travel Request");
+            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+            TravelRequest.Validate("Requested Date", Today);
+            Employee.Get(EmpCode);
+            TravelRequest.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+            TravelRequest.Validate(Department, Employee."Department Code");
+            if ToExtend then begin
+                Clear(TravelRequest2);
+                TravelRequest2.Get(TravelNo);
+                TravelRequest.Validate("Travel Order No.", TravelNo);
+                TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
+                Clear(TravelRequest."Estimated Lodging Cost");
+            end;
+            TravelRequest.Insert(true);
+            PAGE.Run(PAGE::"Travel Request Form", TravelRequest);
+        end;
     end;
 
     procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date; Empcode: Code[20]): Decimal
@@ -46,7 +80,7 @@ codeunit 50004 "Travel Mgt."
             exit(TravelRequest."Total No. of Days");
     end;
 
-    procedure ApplyForTravel(TravelReq: Record "Travel Request" temporary): Boolean
+    procedure ApplyForTravel(var TravelReq: Record "Travel Request"): Boolean
     var
         TravelRequest: Record "Travel Request";
         ConfirmTravel: Label 'Do you want to send travel request ?';
@@ -71,19 +105,18 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
         //CheckLeaveConflict(TempEmpAct."Employee No.",TempEmpAct."Start Date",TempEmpAct."End Date");
-        if TravelReq."Recommender Code" = TravelReq."Approver Code" then
-            Error('Recommender and Approver Cannot be Same.');
+        // if TravelReq."Recommender Code" = TravelReq."Approver Code" then
+        //     Error('Recommender and Approver Cannot be Same.');
         TravelRequest.Reset;
         TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
         TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetFilter("Approval Status", '<>%1', TravelRequest."Approval Status"::Rejected);
+        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open);
         TravelRequest.SetRange("Cancelled No.", '');
         TravelRequest.SetRange(Cancelled, false);
         TravelRequest.FilterGroup(-1);
         TravelRequest.SetRange("Start Date", TravelReq."Start Date", TravelReq."End Date");
         TravelRequest.SetRange("End Date", TravelReq."Start Date", TravelReq."End Date");
         TravelRequest.FilterGroup(0);
-
         if TravelRequest.Count <> 0 then
             Error('Travel request has already been requested between %1 to %2', TravelReq."Start Date", TravelReq."End Date");
 
@@ -98,65 +131,66 @@ codeunit 50004 "Travel Mgt."
                 SalaryLevel1.Get(Employee1."Salary Level");
         end;
 
-        TravelRequest.Init;
-        TravelRequest.TransferFields(TravelReq);
+        // TravelRequest.Init;
+        // TravelRequest.TransferFields(TravelReq);
         if TravelReq.extended then begin
             TravelRequest1.Get(TravelReq."Travel Order No.");
-            TravelRequest.Validate("Travel With", TravelRequest1."Travel With");
-            TravelRequest.Validate("Travel Countries", TravelRequest1."Travel Countries");
+            TravelReq.Validate("Travel With", TravelRequest1."Travel With");
+            TravelReq.Validate("Travel Countries", TravelRequest1."Travel Countries");
             // TravelRequest.Validate("Start Date", TravelRequest1."Start Date");
             // TravelRequest.Validate("End Date", TravelReq."End Date");
         end;
-        TravelRequest.TestField("Approver Code");
-        TravelRequest.Validate("Total No. of Days", TravelRequest."No. of Days" + CalcExtendDays(TravelRequest."No. of Days", TravelRequest."Travel Order No."));
+        //TravelReq.TestField("Approver Code");
+        TravelReq.Validate("Total No. of Days", TravelReq."No. of Days" + CalcExtendDays(TravelReq."No. of Days", TravelReq."Travel Order No."));
 
-        if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
+        if TravelReq."Travel Countries" = TravelReq."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
+                TravelReq.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelReq."No. of Days");
+                TravelReq.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
             end else begin
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
+                TravelReq.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelReq."No. of Days");
+                TravelReq.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
             end;
             if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
+                TravelReq.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelReq."No. of Days" - 1));
+                TravelReq.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
             end else begin
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
+                TravelReq.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelReq."No. of Days" - 1));
+                TravelReq.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
             end;
         end
-        else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
+        else if TravelReq."Travel Countries" = TravelReq."Travel Countries"::India then begin
             if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
+                TravelReq.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelReq."No. of Days");
+                TravelReq.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
 
             end else begin
-                TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
-                TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
+                TravelReq.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelReq."No. of Days");
+                TravelReq.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
 
             end;
             if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
+                TravelReq.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelReq."No. of Days" - 1));
+                TravelReq.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
 
             end else begin
-                TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
-                TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
+                TravelReq.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelReq."No. of Days" - 1));
+                TravelReq.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
             end;
         end;
 
         //api>>
         if not GuiAllowed then
-            if TravelRequest."Advance Cash" > 0 then
-                TravelRequest."Advance Cash Required" := true;
+            if TravelReq."Advance Cash" > 0 then
+                TravelReq."Advance Cash Required" := true;
         //<<api
-        if TravelRequest."Recommender Code" = '' then
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
-        else
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelRequest.Validate("User ID", UserId);
-        TravelRequest.Insert(true);
+        // if TravelReq."Recommender Code" = '' then
+        //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Recommended)
+        // else
+        //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::"Pending Approval");
+        TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
+        TravelReq.Validate("User ID", UserId);
+        TravelReq.Modify();
         if not (TravelReq."Travel Order No." = '') then begin
             TravelRequest2.Get(TravelReq."Travel Order No.");
             TravelRequest2.TestField("Approval Status", TravelRequest2."Approval Status"::Approved);
@@ -165,7 +199,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest2.Validate(Extended, true);
             TravelRequest2.Modify;
         end;
-        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type::"Travel Request", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
+        HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, '', TravelReq."Employee No.", TravelReq."No.", 0);   //For email
         Message('Travel Request has been sent for apporval.');
         exit(true);
     end;
@@ -278,7 +312,7 @@ codeunit 50004 "Travel Mgt."
     begin
     end;
 
-    procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Option Nepal,India,"Other Countries")
+    procedure OpenTravelClaimed(EmpCode: Code[20]; TravelOrderNo: Code[20]; TravelWith: Code[20]; TravelCountry: Enum "Travel Countries")
     var
         //EmpAct: Record "Employee Activity" temporary;
         TravelRequest: Record "Travel Request" temporary;
@@ -287,7 +321,13 @@ codeunit 50004 "Travel Mgt."
         SalaryLevel1: Record "Salary Level";
         //EmpAct2: Record "Employee Activity";
         TravelRequest2: Record "Travel Request";
+        ApprovalEntry: Record "Approval HRMS";
     begin
+
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
+        ApprovalEntry.SetRange("Document No.", '');
+        ApprovalEntry.DeleteAll();
         TravelRequest.Init;
         Employee.Get(EmpCode);
         SalaryLevel.Get(Employee."Salary Level");
@@ -305,6 +345,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Validate("Travel Countries", TravelCountry);
         TravelRequest.Validate("Claimed Country", Format(TravelCountry));
         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+        TravelRequest.Validate(Status, '');
         TravelRequest.Validate("Start Date", GetTravelStartDate(TravelOrderNo));
         TravelRequest.Validate("End Date", GetTravelEndDate(TravelOrderNo));
         TravelRequest.Validate("Requested Date", Today);
@@ -374,7 +415,8 @@ codeunit 50004 "Travel Mgt."
         if TravelRequest."Advance Cash" <> 0 then
             TravelRequest."Advance Cash Required" := true;
         TravelRequest.Insert;
-        PAGE.RunModal(PAGE::"Request Travel Claim", TravelRequest);
+        Commit();
+        PAGE.Run(PAGE::"Request Travel Claim", TravelRequest);
     end;
 
     procedure CalculateTotalNoDays(TravelOrderNo: Code[20]): Decimal
@@ -573,8 +615,8 @@ codeunit 50004 "Travel Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmTravel, false) then
                 exit(false);
-        if TravelReq."Recommender Code" = TravelReq."Approver Code" then
-            Error('Recommender and Approver Cannot be Same.');
+        // if TravelReq."Recommender Code" = TravelReq."Approver Code" then
+        //     Error('Recommender and Approver Cannot be Same.');
         TravelReq.TestField("Start Date");
         TravelReq.TestField("End Date");
         TravelReq.TestField("Claim Type");
@@ -615,6 +657,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelReq."Travel Order No."));
         TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelReq."Travel Order No."));
         TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelReq."Travel Order No."));
         // TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash" + TravelReq."Advance Cash");
 
         if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
@@ -655,21 +698,21 @@ codeunit 50004 "Travel Mgt."
         end;
 
         HRSetup.Get;
-        Employee1.Reset;
-        Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee1.SetRange(Status, Employee1.Status::Active); //Min
-        if Employee1.FindFirst then
-            TravelRequest.Validate("Final Approver", Employee1."No.");
-
+        // Employee1.Reset;
+        // Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+        // Employee1.SetRange(Status, Employee1.Status::Active); //Min
+        // if Employee1.FindFirst then
+        //     TravelRequest.Validate("Final Approver", Employee1."No.");
         TravelRequest.Validate("Requested Date", Today);
-        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
-        TravelRequest.Validate("User ID", UserId);
-        TravelRequest.TestField("Approver Code");
-        if TravelRequest."Recommender Code" = '' then
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
-        else
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        // TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        // TravelRequest.Validate("User ID", UserId);
+        // TravelRequest.TestField("Approver Code");
+        // if TravelRequest."Recommender Code" = '' then
+        //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
+        // else
+        //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
         TravelRequest.Validate("Total Claimed Amount");
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
         TravelRequest.Insert(true);
         HRmgt.SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
         Message('Travel Claim has been sent for apporval.');
@@ -678,26 +721,26 @@ codeunit 50004 "Travel Mgt."
         exit(true);
     end;
 
-    procedure FinalApproveForTravel(var Travel: Record "Travel Request")
-    var
-        ConfirmScreen: Label 'Do you want to confirm screen this document?';
-        FunctionalTitle: Record "Functional Title";
-    begin
-        //check authorized user
-        if Travel.Type = Travel.Type::"Travel Claim" then begin
-            HRSetup.Get;
-            if Employee.Get(HRmgt.GetEmployeeNo) then;
+    // procedure FinalApproveForTravel(var Travel: Record "Travel Request")
+    // var
+    //     ConfirmScreen: Label 'Do you want to confirm screen this document?';
+    //     FunctionalTitle: Record "Functional Title";
+    // begin
+    //     //check authorized user
+    //     if Travel.Type = Travel.Type::"Travel Claim" then begin
+    //         HRSetup.Get;
+    //         if Employee.Get(HRmgt.GetEmployeeNo) then;
 
-            if Employee."No." <> Travel."Final Approver" then
-                Error('Not authorized Approver.');//AT
-            Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Screened);
-            if not Confirm('Do you want to final approve this document?', false) then
-                exit;
+    //         if Employee."No." <> Travel."Final Approver" then
+    //             Error('Not authorized Approver.');//AT
+    //         Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Screened);
+    //         if not Confirm('Do you want to final approve this document?', false) then
+    //             exit;
 
-            Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
-            Travel.Modify;
-        end;
-    end;
+    //         Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
+    //         Travel.Modify;
+    //     end;
+    // end;
 
     procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: code[20])
     var
@@ -708,14 +751,14 @@ codeunit 50004 "Travel Mgt."
         if Travel.Type = Travel.Type::"Travel Claim" then begin
             if Employee.Get(ApproverID) then;
 
-            if Employee."No." <> Travel."Final Approver" then
-                Error('Not authorized Approver.');//AT
-            Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Recommended);
-            // if not Confirm('Do you want to final approve this document?', false) then
-            //     exit;
+            // if Employee."No." <> Travel."Final Approver" then
+            //     Error('Not authorized Approver.');//AT
+            // Travel.TestField(Travel."Approval Status", Travel."Approval Status"::Recommended);
+            // // if not Confirm('Do you want to final approve this document?', false) then
+            // //     exit;
 
-            Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
-            Travel.Modify;
+            // Travel.Validate("Approval Status", Travel."Approval Status"::"Final Approved & Forwarded to Finance Department");
+            // Travel.Modify;
         end;
     end;
 
@@ -764,73 +807,75 @@ codeunit 50004 "Travel Mgt."
         end;
     end;
 
-    procedure RecommendEmployeeTravel(EmpTravelCode: Code[20])
-    var
-        //EmpAct: Record "Employee Activity";
-        EmpTravel: Record "Travel Request";
-    begin
-        EmpTravel.Get(EmpTravelCode);
-        EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
-        CheckEmployeeTravelApproval(EmpTravel);
-        EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
-        EmpTravel.Modify;
-        Message('The document has been recommended.');
-    end;
+    // procedure RecommendEmployeeTravel(EmpTravelCode: Code[20])
+    // var
+    //     //EmpAct: Record "Employee Activity";
+    //     EmpTravel: Record "Travel Request";
+    // begin
+    //     EmpTravel.Get(EmpTravelCode);
+    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
+    //     CheckEmployeeTravelApproval(EmpTravel);
+    //     EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
+    //     EmpTravel.Modify;
+    //     Message('The document has been recommended.');
+    // end;
 
-    procedure RecommendEmployeeTravelAPI(EmpTravelCode: Code[20]; ApproverCode: Code[20])
-    var
-        //EmpAct: Record "Employee Activity";
-        EmpTravel: Record "Travel Request";
-    begin
-        EmpTravel.Get(EmpTravelCode);
-        EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
-        CheckEmployeeTravelApprovalAPI(EmpTravel, ApproverCode);
-        EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
-        EmpTravel.Modify;
-        Message('The document has been recommended.');
-    end;
+    // procedure RecommendEmployeeTravelAPI(EmpTravelCode: Code[20]; ApproverCode: Code[20])
+    // var
+    //     //EmpAct: Record "Employee Activity";
+    //     EmpTravel: Record "Travel Request";
+    // begin
+    //     EmpTravel.Get(EmpTravelCode);
+    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
+    //     CheckEmployeeTravelApprovalAPI(EmpTravel, ApproverCode);
+    //     EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
+    //     EmpTravel.Modify;
+    //     Message('The document has been recommended.');
+    // end;
 
-    local procedure CheckEmployeeTravelApproval("Travel Request": Record "Travel Request")
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        Employee.FindFirst;
-        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
-            if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
-            if StrPos("Travel Request"."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
+    // local procedure CheckEmployeeTravelApproval("Travel Request": Record "Travel Request")
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    //     Approval: Record "Approval HRMS";
+    // begin
 
-        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-        //ERROR(AcknowledgeError);
-    end;
+    //     Employee.Reset;
+    //     Employee.SetRange("NAV Login ID", UserId);
+    //     Employee.FindFirst;
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
+    //         if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
+    //             Error(RecommendNotEligibleError);
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
+    //         if StrPos("Travel Request"."Approver Code", Employee."No.") = 0 then
+    //             Error(ApproveNotEligibleError);
 
-    local procedure CheckEmployeeTravelApprovalAPI("Travel Request": Record "Travel Request"; ApproverCode: Code[20])
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    begin
-        Employee.Reset;
-        Employee.SetRange("No.", ApproverCode);
-        Employee.FindFirst;
-        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
-            if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
-            if StrPos("Travel Request"."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
+    //     //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
+    //     //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
+    //     //ERROR(AcknowledgeError);
+    // end;
 
-        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-        //ERROR(AcknowledgeError);
-    end;
+    // local procedure CheckEmployeeTravelApprovalAPI("Travel Request": Record "Travel Request"; ApproverCode: Code[20])
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    // begin
+    //     Employee.Reset;
+    //     Employee.SetRange("No.", ApproverCode);
+    //     Employee.FindFirst;
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
+    //         if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
+    //             Error(RecommendNotEligibleError);
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
+    //         if StrPos("Travel Request"."Approver Code", Employee."No.") = 0 then
+    //             Error(ApproveNotEligibleError);
+
+    //     //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
+    //     //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
+    //     //ERROR(AcknowledgeError);
+    // end;
 
     procedure ApprovedRejectTravelApproval(Approved: Boolean; TravelCode: Code[20])
     var
@@ -849,8 +894,8 @@ codeunit 50004 "Travel Mgt."
 
         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
             if Approved then begin
-                TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
-                CheckEmployeeTravelApproval(TravelRequest);
+                // TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
+                // CheckEmployeeTravelApproval(TravelRequest);
                 TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
                 if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
                     //changes in employee attendance and activity
@@ -884,10 +929,10 @@ codeunit 50004 "Travel Mgt."
                     Employee.Modify;
                 end;
 
-                HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+                //HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
                 Message('The document has been approved.');
             end else
-                if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
+                if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::Pending]) then begin
                     TravelRequest.TestField("Rejection Remarks");
                     if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
                         TravelRequest.TestField("Travel Order No.");
@@ -895,11 +940,11 @@ codeunit 50004 "Travel Mgt."
                         TravelRequest2.Validate("Travel Claimed", false);
                         TravelRequest2.Modify;
                     end;
-                    CheckEmployeeTravelApproval(TravelRequest);
-                    if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
-                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
-                    else
-                        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+                    //CheckEmployeeTravelApproval(TravelRequest);
+                    // if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending" then
+                    //     HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email Santosh
+                    // else
+                    //     HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
                     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
                     Message('The document has been rejected.');
                 end else
@@ -910,7 +955,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Modify;
     end;
 
-    procedure ApprovedRejectTravelApprovalAPI(Approved: Boolean; TravelCode: Code[20]; ApproverCode: Code[20])
+    procedure TravelApproved(TravelCode: Code[20])
     var
 
         //EmpAct: Record "Employee Activity";
@@ -920,115 +965,189 @@ codeunit 50004 "Travel Mgt."
         ErrorReject: Label 'Approval Status must be in %1 or %2.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         LeaveTypeSetup: Record "Leave Type Setup";
-        //EmpAct2: Record "Employee Activity";
+    //EmpAct2: Record "Employee Activity";
+    //TravelRequest2: Record "Travel Request";
+    begin
+        TravelRequest.Get(TravelCode);
+        // TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
+        if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+            //changes in employee attendance and activity
+            EmpAttendActivity.Reset;
+            EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
+            EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
+            if EmpAttendActivity.Find('-') then
+                repeat
+                    EmpAttendActivity."Absent Day" := 0;
+                    EmpAttendActivity."Present Day" := 1;
+                    EmpAttendActivity."Tour Day" := 1;
+                    EmpAttendActivity."Leave Day" := 0;
+                    EmpAttendActivity."Source No." := TravelRequest."No.";
+                    EmpAttendActivity."Employee Activity Found" := true;
+                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
+                    EmpAttendActivity.Modify;
+                until EmpAttendActivity.Next = 0;
+            Employee.Get(TravelRequest."Employee No.");
+            Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+            AttendanceSetup.Get;
+            Employee.Get(TravelRequest."Employee No.");
+            Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+            if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+                if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+                else
+                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            end else
+                Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            Employee.Modify;
+        end;
+        TravelRequest."Approved Date" := Today;
+        TravelRequest.Modify();
+        HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', HrMgt.getEmployeeNo(), TravelRequest."No.", 0);   //For email
+    end;
+
+    procedure TravelClaimApproved(TravelCode: Code[20])
+    var
+        TravelRequest: Record "Travel Request";
         TravelRequest2: Record "Travel Request";
     begin
         TravelRequest.Get(TravelCode);
-        if Approved then begin
-            TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
-            CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
-            TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
-            if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
-                //changes in employee attendance and activity
-                EmpAttendActivity.Reset;
-                EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
-                EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
-                if EmpAttendActivity.Find('-') then
-                    repeat
-                        EmpAttendActivity."Absent Day" := 0;
-                        EmpAttendActivity."Present Day" := 1;
-                        EmpAttendActivity."Tour Day" := 1;
-                        EmpAttendActivity."Leave Day" := 0;
-                        EmpAttendActivity."Source No." := TravelRequest."No.";
-                        EmpAttendActivity."Employee Activity Found" := true;
-                        EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-                        EmpAttendActivity.Modify;
-                    until EmpAttendActivity.Next = 0;
-                Employee.Get(TravelRequest."Employee No.");
-                Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-                AttendanceSetup.Get;
-                Employee.Get(TravelRequest."Employee No.");
-                Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
-                if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-                    if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-                    else
-                        Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-                end else
-                    Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-                Employee.Modify;
-            end;
-
-            HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
-            Message('The document has been approved.');
-        end else
-            if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
-                TravelRequest.TestField("Rejection Remarks");
-                if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
-                    TravelRequest.TestField("Travel Order No.");
-                    TravelRequest2.Get(TravelRequest."Travel Order No.");
-                    TravelRequest2.Validate("Travel Claimed", false);
-                    TravelRequest2.Modify;
-                end;
-                CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
-                if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
-                    HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
-                else
-                    HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
-                TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
-                Message('The document has been rejected.');
-            end else
-                Error('Cannot reject the document.');
-
-        TravelRequest.Posted := true;
+        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+            TravelRequest2."Travel Claimed" := true;
+        TravelRequest2.Modify();
+        TravelRequest."Travel Claimed" := true;
         TravelRequest."Approved Date" := Today;
-        TravelRequest.Modify;
+        TravelRequest.Modify();
     end;
 
-    procedure ScreenResignationforTravel(var TravelReq: Record "Travel Request")
+    procedure TravelClaimReject(TravelCode: Code[20])
     var
-        ConfirmScreen: Label 'Do you want to screen this document?';
-        FunctionalTitle: Record "Functional Title";
+        TravelRequest: Record "Travel Request";
+        TravelRequest2: Record "Travel Request";
     begin
-        //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
-        if TravelReq.Type = TravelReq.Type::Resignation then begin
-            if not Employee.Screener then           //resignation approver replaced with screener
-                Error('Not authorized screener.');
-            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
-            //  EmpAct.TESTFIELD("Screener Remarks");
-            HrMgt.CheckDocumentApprover(TravelReq."No.");
-            CheckResignationAttachmentMandatoryforTravel(TravelReq);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end
-        else if TravelReq.Type = TravelReq.Type::"Travel Claim" then begin
-            /*HRSetup.GET;
-            Employee.RESET;
-            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SETRANGE("NAV Login ID", USERID);
-            IF NOT Employee.FINDFIRST THEN
-                ERROR('Not authorized screener.');*///AT
-            if not (TravelReq."Approval Status" = TravelReq."Approval Status"::Recommended) then
-                Error('Approval Status must be Recommended before screening.');
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end else if TravelReq.Type = TravelReq.Type::Overtime then begin
-            TravelReq.TestField("Approval Status", TravelReq."Approval Status"::Approved);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
-            TravelReq.Modify;
-        end;
+        TravelRequest.Get(TravelCode);
+        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+            TravelRequest2."Travel Claimed" := false;
+        TravelRequest2.Modify();
     end;
+    // procedure ApprovedRejectTravelApprovalAPI(Approved: Boolean; TravelCode: Code[20]; ApproverCode: Code[20])
+    // var
+
+    //     //EmpAct: Record "Employee Activity";
+    //     TravelRequest: Record "Travel Request";
+    //     LeaveEarn: Record "Leave Earn";
+    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
+    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
+    //     EmpAttendActivity: Record "Employee Attendance & Activity";
+    //     LeaveTypeSetup: Record "Leave Type Setup";
+    //     //EmpAct2: Record "Employee Activity";
+    //     TravelRequest2: Record "Travel Request";
+    // begin
+    //     TravelRequest.Get(TravelCode);
+    //     if Approved then begin
+    //         TravelRequest.TestField("Approval Status", TravelRequest."Approval Status"::Recommended);
+    //         CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
+    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Approved);
+    //         if TravelRequest.Type = TravelRequest.Type::"Travel Request" then begin
+    //             //changes in employee attendance and activity
+    //             EmpAttendActivity.Reset;
+    //             EmpAttendActivity.SetRange("Employee No.", TravelRequest."Employee No.");
+    //             EmpAttendActivity.SetRange("Attendance Date", TravelRequest."Start Date", TravelRequest."End Date");
+    //             if EmpAttendActivity.Find('-') then
+    //                 repeat
+    //                     EmpAttendActivity."Absent Day" := 0;
+    //                     EmpAttendActivity."Present Day" := 1;
+    //                     EmpAttendActivity."Tour Day" := 1;
+    //                     EmpAttendActivity."Leave Day" := 0;
+    //                     EmpAttendActivity."Source No." := TravelRequest."No.";
+    //                     EmpAttendActivity."Employee Activity Found" := true;
+    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
+
+    //                     EmpAttendActivity.Modify;
+    //                 until EmpAttendActivity.Next = 0;
+    //             Employee.Get(TravelRequest."Employee No.");
+    //             Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+    //             AttendanceSetup.Get;
+    //             Employee.Get(TravelRequest."Employee No.");
+    //             Employee.Validate("Attendance Missed On", LeaveMgt.CheckLeaveCount(Employee."No."));
+    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+    //                     Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+    //                 else
+    //                     Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+    //             end else
+    //                 Employee.Validate("Attendance Missed Count", LeaveMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+    //             Employee.Modify;
+    //         end;
+
+    //         HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+    //         Message('The document has been approved.');
+    //     end else
+    //         if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
+    //             TravelRequest.TestField("Rejection Remarks");
+    //             if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
+    //                 TravelRequest.TestField("Travel Order No.");
+    //                 TravelRequest2.Get(TravelRequest."Travel Order No.");
+    //                 TravelRequest2.Validate("Travel Claimed", false);
+    //                 TravelRequest2.Modify;
+    //             end;
+    //             CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
+    //             if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
+    //                 HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
+    //             else
+    //                 HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
+    //             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Rejected);
+    //             Message('The document has been rejected.');
+    //         end else
+    //             Error('Cannot reject the document.');
+
+    //     TravelRequest.Posted := true;
+    //     TravelRequest."Approved Date" := Today;
+    //     TravelRequest.Modify;
+    // end;
+
+    // procedure ScreenResignationforTravel(var TravelReq: Record "Travel Request")
+    // var
+    //     ConfirmScreen: Label 'Do you want to screen this document?';
+    //     FunctionalTitle: Record "Functional Title";
+    // begin
+    //     //check authorized user
+    //     Employee.Get(HrMgt.GetEmployeeNo());
+    //     if TravelReq.Type = TravelReq.Type::Resignation then begin
+    //         if not Employee.Screener then           //resignation approver replaced with screener
+    //             Error('Not authorized screener.');
+    //         TravelReq.TestField("Approval Status", TravelReq."Approval Status"::"Forwarded To HR");
+    //         //  EmpAct.TESTFIELD("Screener Remarks");
+    //         HrMgt.CheckDocumentApprover(TravelReq."No.");
+    //         CheckResignationAttachmentMandatoryforTravel(TravelReq);
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
+
+    //         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+    //         TravelReq.Modify;
+    //     end
+    //     else if TravelReq.Type = TravelReq.Type::"Travel Claim" then begin
+    //         /*HRSetup.GET;
+    //         Employee.RESET;
+    //         Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
+    //         Employee.SETRANGE("NAV Login ID", USERID);
+    //         IF NOT Employee.FINDFIRST THEN
+    //             ERROR('Not authorized screener.');*///AT
+    //         if not (TravelReq."Approval Status" = TravelReq."Approval Status"::Recommended) then
+    //             Error('Approval Status must be Recommended before screening.');
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
+
+    //         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+    //         TravelReq.Modify;
+    //     end else if TravelReq.Type = TravelReq.Type::Overtime then begin
+    //         TravelReq.TestField("Approval Status", TravelReq."Approval Status"::Approved);
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
+
+    //         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Screened);
+    //         TravelReq.Modify;
+    //     end;
+    // end;
 
     procedure CheckResignationAttachmentMandatoryforTravel(var TravelReq: Record "Travel Request")
     var
@@ -1062,6 +1181,4 @@ codeunit 50004 "Travel Mgt."
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
         AttendanceSetup: Record "Attendance Setup";
-
-
 }

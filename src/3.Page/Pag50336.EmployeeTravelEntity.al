@@ -17,7 +17,7 @@ page 50336 "Employee Travel Entity"
         {
             group(General)
             {
-                field(No; Rec."No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
                 field(employeeNo; Rec."Employee No.")
                 {
@@ -42,10 +42,13 @@ page 50336 "Employee Travel Entity"
                 field(cancelledNo; Rec."Cancelled No.") { }
                 field(cancelledDocNo; Rec."Cancelled Document No.") { }
                 field(approverType; Rec."Approver Type") { }
-                field(reasonCode; Rec."Reason Code") { }
-                field(reasonDescription; Rec."Reason Description") { }
+                field(status; Rec.Status)
+                {
+                }
+                // field(reasonCode; Rec."Reason Code") { }
+                // field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
-                field(screenerRemarks; Rec."Screener Remarks") { }
+                // field(screenerRemarks; Rec."Screener Remarks") { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }
             }
             group("Travel Request")
@@ -100,20 +103,18 @@ page 50336 "Employee Travel Entity"
                 field(netReceivablePayable; Rec."Net Receivable/Payable") { }
                 field(travelClaimed; Rec."Travel Claimed") { }
             }
-            group(Approval)
-            {
-                field(recommenderCode; Rec."Recommender Code")
-                {
-                }
-                field(recommenderName; Rec."Recommender Name") { }
-                field(approverCode; Rec."Approver Code") { }
-                field(approverName; Rec."Approver Name") { }
-            }
-
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
+    end;
+
+    trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
     end;
 }

@@ -227,29 +227,37 @@ page 50095 "Request Travel Claim"
                     ApplicationArea = All;
                 }
             }
-            group(Approvals)
+            part("Approval Subform"; "HRMS Approval Entry")
             {
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
+            // group(Approvals)
+            // {
+            //     field("Recommender Code"; Rec."Recommender Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Name"; Rec."Recommender Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Code"; Rec."Approver Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
         }
     }
 
@@ -280,11 +288,36 @@ page 50095 "Request Travel Claim"
     begin
         if not IsApplied then
             if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('');
+                Error('')
+            else begin
+                // TempIncomingDoc.Reset;
+                // TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
+                // TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
+                // TempIncomingDoc.SetRange("No.", '');
+                // if TempIncomingDoc.Find('-') then
+                //     repeat
+                //         LoanMgt.DeleteAttachment(TempIncomingDoc);
+                //         if TempIncomingDoc."File Name" <> '' then
+                //             Clear(TempIncomingDoc."File Name");
+
+                //     until TempIncomingDoc.Next = 0;
+                // TempIncomingDoc.DeleteAll;
+                Approval.Reset();
+                Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
+                Approval.SetRange("Document No.", '');
+                Approval.DeleteAll();
+            end;
+    end;
+
+    trigger OnOpenPage()
+    begin
+        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Travel Claim");
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         IsApplied: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
+        Approval: Record "Approval HRMS";
 }

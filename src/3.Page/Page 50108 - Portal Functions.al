@@ -359,9 +359,9 @@ page 50108 "Portal Functions"
                     ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
                 end;
             until ApprovalSetupLine.Next() = 0;
-        exit('{' + '"ApprovalCode" : "' + (Format(ApprovalCode)) + '",' +
-                '"ApprovalRole" : "' + (Format(ApprovalRole)) + '",' +
-                '"ApproverName" : "' + (Format(ApproverName)) + '"}');
+        exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
+                '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
+                '"approverName" : "' + (Format(ApproverName)) + '"}');
     end;
 
     [ServiceEnabled]
@@ -706,8 +706,6 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure submitTravelRequest(
-    "type": Text;
-    "employeeNo": Code[20];
     "startDate": date;
     "endDate": date;
     "requestedDate": Date;
@@ -727,30 +725,27 @@ page 50108 "Portal Functions"
     "departureTime": Time;
     "arrivalTime": Time;
     "travelOrderNo": Code[20];
-    advanceCash: Decimal;
-    "recommenderCode": Code[20];
-    "approverCode": code[20]): Integer
+    advanceCash: Decimal): Integer
     var
-        TravelRequest: Record "Travel Request" temporary;
+        TravelRequest: Record "Travel Request";
         TravelMgt: Codeunit "Travel Mgt.";
         TypeOfVisitEnum: Enum "Type Of Visit";
         ModeOfTravelEnum: Enum "Mode Of Travel";
         TravelTypeEnum: Enum "Travel Countries";
-        typeEnum: Enum "Employee Activity Type";
-        TravelRequest1: Record "Travel Request";
+    //typeEnum: Enum "Employee Activity Type";
+    // TravelRequest1: Record "Travel Request";
     begin
-        Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
           ERROR(OTEligibleError,Employee.FullName);*/
         typeOfVisitEnum := Enum::"Type Of Visit".FromInteger(typeOfVisitEnum.Ordinals.Get(typeOfVisitEnum.Names.IndexOf(typeOfVisit)));
         ModeOfTravelEnum := Enum::"Mode Of Travel".FromInteger(ModeOfTravelEnum.Ordinals.Get(ModeOfTravelEnum.Names.IndexOf(modeOfTravel)));
         TravelTypeEnum := Enum::"Travel Countries".FromInteger(TravelTypeEnum.Ordinals.Get(TravelTypeEnum.Names.IndexOf(TravelType)));
-        typeEnum := Enum::"Employee Activity Type".FromInteger(typeEnum.Ordinals.Get(typeEnum.Names.IndexOf(Type)));
+        //typeEnum := Enum::"Employee Activity Type".FromInteger(typeEnum.Ordinals.Get(typeEnum.Names.IndexOf(Type)));
         TravelRequest.Reset;
         TravelRequest.Init;
-        TravelRequest.Validate(Type, typeEnum);
-        TravelRequest.Validate("Employee No.", employeeNo);
+        TravelRequest.Validate(Type, TravelRequest.Type::"Travel Request");
+        TravelRequest.Validate("Employee No.", HrMgt.GetEmployeeNo());
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
         TravelRequest.Validate("Travel With", travelWith);
         TravelRequest.Validate("Travel Countries", TravelTypeEnum);
@@ -770,7 +765,8 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Advance Cash", advanceCash);
         TravelRequest.Validate("Depature Time", departureTime);
         TravelRequest.Validate("Arrival Time", arrivalTime);
-        TravelRequest.Insert;
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
+        TravelRequest.Insert(true);
         if TravelMgt.ApplyForTravel(TravelRequest) then
             exit(200);
     end;
@@ -778,7 +774,6 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure submitTravelClaim(
-   "employeeNo": Code[20];
    "startDate": date;
    "endDate": date;
    "startTime": Time;
@@ -792,8 +787,6 @@ page 50108 "Portal Functions"
     claimType: text;
    "estimatedConveyanceExpense": Decimal;
    "otherEstimatedCost": Decimal;
-   "recommenderCode": Code[20];
-   "approverCode": code[20];
    foodingAllowance: decimal;
    lodgingAllowance: decimal;
    outOfPocketExpense: decimal;
@@ -814,7 +807,6 @@ page 50108 "Portal Functions"
         typeEnum: Enum "Employee Activity Type";
         claimTypeEnum: Enum "Claim Type";
     begin
-        Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
           ERROR(OTEligibleError,Employee.FullName);*/
@@ -826,7 +818,7 @@ page 50108 "Portal Functions"
         TravelRequest.Reset;
         TravelRequest.Init;
         TravelRequest.Validate(Type, TravelRequest.Type::"Travel Claim");
-        TravelRequest.Validate("Employee No.", employeeNo);
+        TravelRequest.Validate("Employee No.", HrMgt.GetEmployeeNo());
         TravelRequest.Validate("Start Date", TravelMgt.GetTravelStartDate(travelOrderNo));
         TravelRequest.Validate("End Date", endDate);
         TravelRequest.Validate("Actual Travel Start Date", startDate);
@@ -853,8 +845,6 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Total Claimed Amount", totalAllowanceClaim);
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
-        // TravelRequest.Validate("Recommender Code", recommenderCode);
-        // TravelRequest.Validate("Approver Code", approverCode);
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
         TravelRequest.Insert;
         if TravelMgt.ApplyForTravelClaim(TravelRequest) then
@@ -915,12 +905,22 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveTravelActivity(empTravelNo: Code[20]; isApprove: Boolean; rejectionRemarks: text; approverCode: Code[20]): Text
+    procedure approveTravelActivity(empTravelNo: Code[20]; isApproved: Boolean; rejectionRemarks: text): Text
     var
         //EmpActivity: Record "Employee Activity";
         EmpTravel: Record "Travel Request";
+        RecRef: RecordRef;
     begin
         EmpTravel.Get(empTravelNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
+            EmpTravel.Modify;
+        end;
+        RecRef.GetTable(EmpTravel);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        // EmpTravel.Get(empTravelNo);
         // EmpTravel.Validate("Start Date", startDate);
         // EmpTravel.Validate("End Date", endDate);
         // if EmpTravel."Advance Cash Required" then
@@ -929,11 +929,11 @@ page 50108 "Portal Functions"
         // if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
         //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
         // else begin
-        if not isApprove then begin
-            EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
-            EmpTravel.Modify;
-        end;
-        TravelMgt.ApprovedRejectTravelApproval(isApprove, empTravelNo);
+        // if not isApprove then begin
+        //     EmpTravel.Validate("Rejection Remarks", rejectionRemarks);
+        //     EmpTravel.Modify;
+        // end;
+        // TravelMgt.ApprovedRejectTravelApproval(isApprove, empTravelNo);
         // end;
     end;
 
@@ -942,20 +942,30 @@ page 50108 "Portal Functions"
     procedure approveEmployeeTravelClaim(empTravelNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
     var
         //EmpActivity: Record "Employee Activity";
-        Travel: Record "Travel Request";
+        TravelClaim: Record "Travel Request";
+        RecRef: RecordRef;
     begin
-        Travel.Get(empTravelNo);
-        // if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
-        //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
-        // else begin
+        TravelClaim.Get(empTravelNo);
         if not isApproved then begin
-            Travel.Validate("Rejection Remarks", rejectionRemarks);
-            Travel.Modify;
-            TravelMgt.ApprovedRejectTravelApproval(isApproved, empTravelNo);
-        end
-        else
-            TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
-        // end;
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            TravelClaim.Validate("Rejection Remarks", rejectionRemarks);
+            TravelClaim.Modify;
+        end;
+        RecRef.GetTable(TravelClaim);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        // Travel.Get(empTravelNo);
+        // // if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
+        // //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
+        // // else begin
+        // if not isApproved then begin
+        //     Travel.Validate("Rejection Remarks", rejectionRemarks);
+        //     Travel.Modify;
+        //     TravelMgt.ApprovedRejectTravelApproval(isApproved, empTravelNo);
+        // end
+        // else
+        //     TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
+        // // end;
 
     end;
 

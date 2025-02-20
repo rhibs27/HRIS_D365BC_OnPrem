@@ -77,14 +77,14 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
-                    Visible = IsOpen;
+                    Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)
                 {
                     Caption = 'Approval Status';
                     ToolTip = 'Specifies the value of the Status field. ';
                     ApplicationArea = all;
-                    Visible = IsPending;
+                    Visible = StatusView;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
@@ -267,7 +267,7 @@ page 50100 "Posted Leave Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-                //Visible = IsApproved;
+                Visible = false;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
@@ -302,8 +302,10 @@ page 50100 "Posted Leave Card"
     begin
 
         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
-        if not (Rec."Approval Status" = Rec."Approval Status"::Rejected) or not (Rec."Approval Status" = Rec."Approval Status"::Approved) then
-            RejectEdit := true;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         //IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         //IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
@@ -317,6 +319,8 @@ page 50100 "Posted Leave Card"
 
         [InDataSet]
         IsPending: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
         IsOpen: Boolean;
         //IsApproved: Boolean;
         IsRejected: Boolean;

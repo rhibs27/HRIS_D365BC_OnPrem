@@ -6,9 +6,9 @@ report 50066 "Travel Request Processing"
 
     dataset
     {
-        dataitem("Employee Activity"; "Employee Activity")
+        dataitem(TravelRequest; "Travel Request")
         {
-            DataItemTableView = where(Type = const("Travel Request"));
+            DataItemTableView = where(Type = filter(Type::"Travel Request"));
             column(CompanyInfoName; CompanyInfo.Name) { }
             column(CompanyInfoPic; CompanyInfo.Picture) { }
             column(Title; Title) { }
@@ -31,7 +31,7 @@ report 50066 "Travel Request Processing"
             column(EndDateBS_; "End Date (BS)") { }
             column(DepartmentName_; "Department Name") { }
             column(TravelClaimed_; "Travel Claimed") { }
-            column(ScreenerRemarks_; "Screener Remarks") { }
+            // column(ScreenerRemarks_; "Screener Remarks") { }
             column(TravelCountries_; "Travel Countries") { }
             column(TotalEstimatedCost_; "Total Estimated Cost") { }
             column(TotalNoofDays_; "Total No. of Days") { }
@@ -57,15 +57,15 @@ report 50066 "Travel Request Processing"
             column(LodgingAllowanceLimit_; "Lodging Allowance Limit") { }
             column(FoodingPerDayLimit_; "Fooding Per Day Limit") { }
             column(LodgingPerDayLimit_; "Lodging Per Day Limit") { }
-            column(TimeDuration_; "Time Duration") { }
-            column(EstimatedHours_; "Estimated Hours") { }
-            column(ActualHours_; "Actual Hours") { }
-            column(ScreenerID_; "Screener ID") { }
-            column(ScreenerDate_; "Screener Date") { }
-            column(ScreenerName_; "Screener Name") { }
-            column(FinalApprover_; "Final Approver") { }
-            column(FinalApproverName_; "Final Approver Name") { }
-            column(FinalApproverDate_; "Final Approver Date") { }
+            // column(TimeDuration_; "Time Duration") { }
+            // column(EstimatedHours_; "Estimated Hours") { }
+            // column(ActualHours_; "Actual Hours") { }
+            // column(ScreenerID_; "Screener ID") { }
+            // column(ScreenerDate_; "Screener Date") { }
+            // column(ScreenerName_; "Screener Name") { }
+            // column(FinalApprover_; "Final Approver") { }
+            // column(FinalApproverName_; "Final Approver Name") { }
+            // column(FinalApproverDate_; "Final Approver Date") { }
             column(TypeOfVisit_; "Type Of Visit") { }
             column(ModeOfTravel_; "Mode Of Travel") { }
             column(DepatureFrom_; "Depature From") { }
@@ -76,28 +76,28 @@ report 50066 "Travel Request Processing"
             column(Remarks_; Remarks) { }
             column(AdvanceCashRequired_; Format("Advance Cash Required")) { }
             column(AdvanceCash_; "Advance Cash") { }
-            column(RecommenderName_; "Recommender Name") { }
-            column(ApproverName_; "Approver Name") { }
-            column(BankAccountNo_; "Bank Account No.") { }
+            // column(RecommenderName_; "Recommender Name") { }
+            // column(ApproverName_; "Approver Name") { }
+            // column(BankAccountNo_; "Bank Account No.") { }
             column(NoofDays_; "No. of Days") { }
             column(OutofPocketDailyLimit_; SalaryLevel."Out of Pocket Expense") { }
-            column(RecommenderCode_; "Recommender Code") { }
-            column(ApproverCode_; "Approver Code") { }
+            // column(RecommenderCode_; "Recommender Code") { }
+            // column(ApproverCode_; "Approver Code") { }
             column(PreviousTravelDescription; PreviousTravelDescription) { }
 
             trigger OnAfterGetRecord()
             begin
                 Clear(PreviousTravelDescription);
-                if "Employee Activity".Reimbursable then
+                if TravelRequest.Reimbursable then
                     ReimbursableText := '(Reimbursable)'
                 else
                     ReimbursableText := '(Not Reimbursable)';
 
                 if SalaryLevel.Get("Salary Level Code") then;
-                if FunctionalTitle.Get("Employee Activity"."Functional Title") then;
+                if FunctionalTitle.Get(TravelRequest."Functional Title") then;
                 Clear(TravelWithVar);
                 Clear(TravelWithText);
-                if TravelWithVar.Get("Employee Activity"."Travel With") then
+                if TravelWithVar.Get(TravelRequest."Travel With") then
                     TravelWithText := StrSubstNo('%1(%2)', TravelWithVar."Full Name", TravelWithVar."No.");
 
                 PreviousTravelDescription := GetPreviousTravelDescription("Travel Order No.");
@@ -132,12 +132,13 @@ report 50066 "Travel Request Processing"
 
     local procedure GetPreviousTravelDescription(TravelOrderNo: Code[20]): Text
     var
-        PreviousTravelOrder: Record "Employee Activity";
+        //PreviousTravelOrder: Record "Employee Activity";
+        TravelRequest: Record "Travel Request";
     begin
-        if PreviousTravelOrder.Get(TravelOrderNo) then begin
-            if (PreviousTravelOrder."Travel Order No." = '') then
-                exit(PreviousTravelOrder.Description);
-            exit(GetPreviousTravelDescription(PreviousTravelOrder."Travel Order No.") + '. ' + PreviousTravelOrder.Description);
+        if TravelRequest.Get(TravelOrderNo) then begin
+            if (TravelRequest."Travel Order No." = '') then
+                exit(TravelRequest.Description);
+            exit(GetPreviousTravelDescription(TravelRequest."Travel Order No.") + '. ' + TravelRequest.Description);
         end;
     end;
 }

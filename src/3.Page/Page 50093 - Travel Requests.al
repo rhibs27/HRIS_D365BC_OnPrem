@@ -7,10 +7,12 @@ page 50093 "Travel Requests"
     DeleteAllowed = false;
     PageType = List;
     SourceTable = "Travel Request";
+    PromotedActionCategories = 'New,Process,Report,SetFilter';
     SourceTableView = WHERE(Type = CONST("Travel Request"));
     UsageCategory = Lists;
     ApplicationArea = All;
     Editable = false;
+    InsertAllowed = false;
 
     layout
     {
@@ -22,11 +24,6 @@ page 50093 "Travel Requests"
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
-                    // trigger OnAssistEdit()
-                    // begin
-                    //     if Rec.AssistEdit(xRec) then
-                    //         CurrPage.Update();
-                    // end;
                 }
                 field("Employee No."; Rec."Employee No.")
                 {
@@ -48,9 +45,19 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
-                field("Purpose of Travel"; Rec."Purpose of Travel")
+                field("Approval Status"; Rec."Approval Status")
                 {
-                    ToolTip = 'Specifies the value of the Purpose of Travel field.';
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field(Extended; Rec.Extended)
+                {
+                    ToolTip = 'Specifies the value of the Extended Travel field.';
+                    ApplicationArea = All;
+                }
+                field("Travel Claimed"; Rec."Travel Claimed")
+                {
+                    ToolTip = 'Specifies the value of the Travel Claimed field.';
                     ApplicationArea = All;
                 }
                 field("Advance Cash Required"; Rec."Advance Cash Required")
@@ -58,9 +65,9 @@ page 50093 "Travel Requests"
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field("Purpose of Travel"; Rec."Purpose of Travel")
                 {
-                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ToolTip = 'Specifies the value of the Purpose of Travel field.';
                     ApplicationArea = All;
                 }
             }
@@ -77,14 +84,14 @@ page 50093 "Travel Requests"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = not IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Travel Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the travel request?', false) then
-                        TravelMgt.RecommendEmployeeTravel(Rec."No.");
+                    // if Confirm('Do you want to recommend the travel request?', false) then
+                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
                 end;
             }
             action("Approve Travel Request")
@@ -94,14 +101,14 @@ page 50093 "Travel Requests"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Approve Travel Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the travel request?', false) then
-                        TravelMgt.ApprovedRejectTravelApproval(true, Rec."No.");
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
                 end;
             }
             action("Reject Travel Request")
@@ -113,11 +120,11 @@ page 50093 "Travel Requests"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel requet?', false) then
-                        TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
+                        ApprovalMgt.ApproveRejectDocument(RecRef, false);
                 end;
             }
         }
@@ -146,13 +153,14 @@ page 50093 "Travel Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Screened action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -168,7 +176,7 @@ page 50093 "Travel Requests"
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
                     Rec.FilterGroup(0);
                 end;
             }
@@ -180,14 +188,14 @@ page 50093 "Travel Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
 
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)
@@ -233,13 +241,13 @@ page 50093 "Travel Requests"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Final Approve action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
+                    // Rec.FilterGroup(0);
                 end;
             }
         }
@@ -247,12 +255,15 @@ page 50093 "Travel Requests"
 
     trigger OnAfterGetRecord()
     begin
-        IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        RecRef.GetTable(Rec);
     end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
         [InDataSet]
-        IsRecommended: Boolean;
+        IsPending: Boolean;
         TravelMgt: CodeUnit "Travel Mgt.";
+        ApprovalMgt: Codeunit "Approver Mgt";
+        RecRef: RecordRef;
 }

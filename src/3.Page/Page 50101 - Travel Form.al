@@ -5,6 +5,8 @@ page 50101 "Travel Form"
     PageType = Card;
     SourceTable = "Travel Request";
     ApplicationArea = All;
+    InsertAllowed = false;
+
     layout
     {
         area(Content)
@@ -15,23 +17,22 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
                 }
                 field("Start Date"; Rec."Start Date")
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }
                 field("End Date"; Rec."End Date")
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
@@ -48,7 +49,7 @@ page 50101 "Travel Form"
                 }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
                 {
-                    Editable = IsPending;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
                 }
@@ -56,31 +57,46 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the End Date (BS) field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Depature Time"; Rec."Depature Time")
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Depature Time field.';
                     ApplicationArea = All;
                 }
                 field("Arrival Time"; Rec."Arrival Time")
                 {
-                    Editable = IsPending;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Arrival Time field.';
+                    ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Visible = ApprovalStatusView;
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the "Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field(Status; Rec.Status)
+                {
+                    Caption = 'Approval Status';
+                    Editable = false;
+                    Visible = StatusView;
+                    ToolTip = 'Specifies the value of the "Approval Status field.';
                     ApplicationArea = All;
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field(Department; Rec.Department)
                 {
                     ToolTip = 'Specifies the value of the Department field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Branch Name"; Rec."Branch Name")
                 {
@@ -98,32 +114,37 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Travel Order No. field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Total No. of Days"; Rec."Total No. of Days")
                 {
                     ToolTip = 'Specifies the value of the Total No. of Days field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
                     Editable = IsPending;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
                 }
             }
             group(Travel)
             {
                 field("Travel Countries"; Rec."Travel Countries")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Travel Countries field.';
                     ApplicationArea = All;
                 }
                 field("Type Of Visit"; Rec."Type Of Visit")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Type Of Visit field.';
                     ApplicationArea = All;
                 }
@@ -135,32 +156,32 @@ page 50101 "Travel Form"
                 }
                 field("Mode Of Travel"; Rec."Mode Of Travel")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Mode Of Travel field.';
                     ApplicationArea = All;
                 }
                 field("Depature From"; Rec."Depature From")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Depature From field.';
                     ApplicationArea = All;
                 }
                 field(Destination; Rec.Destination)
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Destination field.';
                     ApplicationArea = All;
                 }
                 field(Description; Rec.Description)
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
                 field("Purpose of Travel"; Rec."Purpose of Travel")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     MultiLine = true;
                     NotBlank = true;
                     ToolTip = 'Specifies the value of the Purpose of Travel field.';
@@ -186,19 +207,19 @@ page 50101 "Travel Form"
                 }
                 field("Estimated Conveyance Expense"; Rec."Estimated Conveyance Expense")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Estimated Conveyance Expense field.';
                     ApplicationArea = All;
                 }
                 field("Other Estimated Cost"; Rec."Other Estimated Cost")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Other Estimated Cost field.';
                     ApplicationArea = All;
                 }
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
@@ -206,7 +227,7 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Total Estimated Cost field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field("Advance Cash"; Rec."Advance Cash")
                 {
@@ -218,87 +239,69 @@ page 50101 "Travel Form"
                 {
                     ToolTip = 'Specifies the value of the Auth. Account No. field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field(PurposeOfTravel; Rec."Purpose of Travel")
-                {
-                    Caption = 'Purpose Of Travel';
-                    ToolTip = 'Specifies the value of the Purpose Of Travel field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field(TypeOfVisit; Rec."Type Of Visit")
-                {
-                    Caption = 'Type Of Visit';
-                    Description = 'both request and claim';
-                    ToolTip = 'Specifies the value of the Type Of Visit field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field(ModeOfTravel; Rec."Mode Of Travel")
-                {
-                    Caption = 'Mode Of Travel';
-                    Description = 'both request and claim';
-                    ToolTip = 'Specifies the value of the Mode Of Travel field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = false;
                 }
                 field(Extended; Rec.Extended)
                 {
                     ToolTip = 'Specifies the value of the Extended field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Currency Code"; Rec."Currency Code")
-                {
-                    ToolTip = 'Specifies the value of the Currency Code field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field("Exchange Rate"; Rec."Exchange Rate")
-                {
-                    ToolTip = 'Specifies the value of the Exchange Rate field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-                field(AdvanceCash; Rec."Advance Cash")
-                {
-                    Caption = 'Advance Cash';
-                    ToolTip = 'Specifies the value of the Advance Cash field.';
-                    ApplicationArea = All;
-                    Editable = IsOpen;
-                }
-            }
-            group(Approval)
-            {
-                Editable = false;
-                field("Approval Status"; Rec."Approval Status")
-                {
                     Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
                 }
-                field("Recommender Code"; Rec."Recommender Code")
+                field("Travel Claimed"; Rec."Travel Claimed")
                 {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
+                    ToolTip = 'Specifies the value of the Extended field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                // field("Currency Code"; Rec."Currency Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Currency Code field.';
+                //     ApplicationArea = All;
+                //     Editable = IsOpen;
+                // }
+                // field("Exchange Rate"; Rec."Exchange Rate")
+                // {
+                //     ToolTip = 'Specifies the value of the Exchange Rate field.';
+                //     ApplicationArea = All;
+                //     Editable = IsOpen;
+                // }
             }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                ApplicationArea = all;
+                SubPageLink = "Document No." = field("No.");
+                Editable = false;
+            }
+            // group(Approval)
+            // {
+            //     Editable = false;
+            //     field("Approval Status"; Rec."Approval Status")
+            //     {
+            //         Editable = false;
+            //         ToolTip = 'Specifies the value of the Approval Status field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Code"; Rec."Recommender Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Name"; Rec."Recommender Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Code"; Rec."Approver Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
         }
     }
 
@@ -306,22 +309,39 @@ page 50101 "Travel Form"
     {
         area(Processing)
         {
+            action("Apply Travel Request")
+            {
+                Image = Apply;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Apply Travel Request action.';
+                ApplicationArea = All;
+                Visible = IsOpen;
+
+                trigger OnAction()
+                begin
+                    TravelMgt.ApplyForTravel(Rec);
+                    CurrPage.Close;
+                end;
+            }
             action("Recommend Travel Request")
             {
                 Image = Register;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsPending;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Travel Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the travel request?', false) then begin
-                        TravelMgt.RecommendEmployeeTravel(Rec."No.");
-                        CurrPage.Close;
-                    end;
+                    // if Confirm('Do you want to recommend the travel request?', false) then begin
+                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
+                    //     CurrPage.Close;
+                    // end;
                 end;
             }
             action("Approve Travel Request")
@@ -331,14 +351,15 @@ page 50101 "Travel Form"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsRecommended and not rec.Extended;
+                Visible = IsPending and not rec.Extended;
                 ToolTip = 'Executes the Approve Travel Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the travel request?', false) then begin
-                        TravelMgt.ApprovedRejectTravelApproval(true, Rec."No.");
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Travel Request is Approved by %1', HRMgt.GetEmpName());
                         CurrPage.Close;
                     end;
                 end;
@@ -349,14 +370,14 @@ page 50101 "Travel Form"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    TravelMgt.ScreenResignationforTravel(Rec);
-                    CurrPage.Close;
+                    // TravelMgt.ScreenResignationforTravel(Rec);
+                    // CurrPage.Close;
                 end;
             }
             action("Final Approve Request")
@@ -366,14 +387,14 @@ page 50101 "Travel Form"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsScreened;
+                Visible = false;
                 ToolTip = 'Executes the Final Approve action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    TravelMgt.FinalApproveForTravel(Rec);
-                    CurrPage.Close;
+                    // TravelMgt.FinalApproveForTravel(Rec);
+                    // CurrPage.Close;
                 end;
             }
             action("Reject Travel Request")
@@ -385,12 +406,15 @@ page 50101 "Travel Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
-                Visible = not IsApproved;
+                Visible = IsPending;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel request?', false) then begin
-                        TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
+                        Rec.TestField("Rejection Remarks");
+                        ApproverMgt.ApproveRejectDocument(RecRef, false);
+                        Message('Travel Request is Rejected by %1', HRMgt.GetEmpName());
+                        // TravelMgt.ApprovedRejectTravelApproval(false, Rec."No.");
                         CurrPage.Close;
                     end;
                 end;
@@ -403,13 +427,12 @@ page 50101 "Travel Form"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved and not rec.Extended;
+                Visible = IsApproved and not rec.Extended and not rec."Travel Claimed";
                 ToolTip = 'Executes the Extend Travel Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    TravelMgt.OpenTravelRequest(Rec."Employee No.", true, Rec."No.");
+                    TravelMgt.OpenTravelRequest(Rec."Employee No.", true, Rec."No.", Rec.Type);
                 end;
             }
             action(ClaimTravel)
@@ -420,18 +443,63 @@ page 50101 "Travel Form"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved and not rec.Extended;
+                Visible = IsApproved and not rec.Extended and not rec."Travel Claimed";
                 ToolTip = 'Executes the Claim Travel action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if not Rec.Extended then
+                    if not Rec.Extended and not rec."Travel Claimed" then
                         TravelMgt.OpenTravelClaimed(Rec."Employee No.", Rec."No.", Rec."Travel With", Rec."Travel Countries")
                     else
                         Error(ErrorExtended, Rec.GetExtendedTravelNo);
                 end;
             }
+            action("Change Approver")
+            {
+                Image = Change;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Change Approver action.';
+                ApplicationArea = All;
+                Visible = false;
+
+                trigger OnAction()
+                begin
+                    // if Confirm(CofirmApprover) then begin //Min -- for change Travel Approver.
+                    //     if Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Recommended] then
+                    //         HRMgt.PopUpChangingTravelApprover(Rec)
+                    //     else
+                    //         Error(ApproverMessage, Rec."Approval Status");
+                    // end;
+                end;
+            }
+            action("Change Recommender")
+            {
+                Image = Change;
+                Promoted = true;
+                PromotedCategory = Category4;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Change Recommender action.';
+                ApplicationArea = All;
+                Visible = false;
+
+                trigger OnAction()
+                begin
+                    // if Confirm(ConfirmRecommender) then begin //Min -- for change Travel Recommender.
+                    //     if Rec."Approval Status" = Rec."Approval Status"::"Pending Approval" then
+                    //         HRMgt.PopUpChangingTravelRecommender(Rec)
+                    //     else
+                    //         Error(RecommenderMessage, Rec."Approval Status");
+                    // end;
+                end;
+            }
+        }
+        area(Reporting)
+        {
             action("Print Report")
             {
                 Image = "Report";
@@ -447,46 +515,6 @@ page 50101 "Travel Form"
                     CurrPage.SetSelectionFilter(Rec);
                     if Confirm('Do you want to print travel request report?', false) then
                         Report.Run(Report::"Travel Request Processing", true, false, Rec);
-                end;
-            }
-            action("Change Approver")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Approver action.';
-                ApplicationArea = All;
-                Visible = IsPending or IsRecommended;
-                trigger OnAction()
-                begin
-                    if Confirm(CofirmApprover) then begin //Min -- for change Travel Approver.
-                        if Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Recommended] then
-                            HRMgt.PopUpChangingTravelApprover(Rec)
-                        else
-                            Error(ApproverMessage, Rec."Approval Status");
-                    end;
-                end;
-            }
-            action("Change Recommender")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Recommender action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    if Confirm(ConfirmRecommender) then begin //Min -- for change Travel Recommender.
-                        if Rec."Approval Status" = Rec."Approval Status"::"Pending Approval" then
-                            HRMgt.PopUpChangingTravelRecommender(Rec)
-                        else
-                            Error(RecommenderMessage, Rec."Approval Status");
-                    end;
                 end;
             }
         }
@@ -518,19 +546,21 @@ page 50101 "Travel Form"
     trigger OnOpenPage()
     begin
 
-        // if Rec."Approval Status" = Rec."Approval Status"::Open then begin
-        //     IsOpen := true;
-        // end;
 
-        IsPending := Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
-        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
-        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        // IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+        // IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
         if not GuiAllowed then begin
             Rec.SetRange(Type, Rec.Type::"Travel Request");
             Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
         end;
+        RecRef.GetTable(Rec);
 
     end;
 
@@ -543,11 +573,15 @@ page 50101 "Travel Form"
         IsApproved: Boolean;
         [InDataSet]
         IsOpen: Boolean;
-        IsScreened: Boolean;
+        //IsScreened: Boolean;
         ErrorExtended: Label 'This Travel is order is Extended. Please try Travel order No %1.';
-        [InDataSet]
-        IsRecommended: Boolean;
+        //[InDataSet]
+        //IsRecommended: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
         TravelMgt: Codeunit "Travel Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
+        RecRef: RecordRef;
         CofirmApprover: Label 'Do you want to modify approver of Travel Request ?';
         ConfirmRecommender: Label 'Do you want to modify recomender of Travel Request ?';
         ApproverMessage: Label 'Approver cannot be changed, when the travel request has been %1.';

@@ -4,7 +4,7 @@ page 50092 "Travel Request Form"
 
     PageType = Card;
     SourceTable = "Travel Request";
-    SourceTableTemporary = true;
+    // SourceTableTemporary = true;
     ApplicationArea = All;
 
     layout
@@ -28,14 +28,14 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }
-                field("Depature Time"; Rec."Depature Time")
-                {
-                    ToolTip = 'Specifies the value of the Depature Time field.';
-                    ApplicationArea = All;
-                }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
+                    ApplicationArea = All;
+                }
+                field("Depature Time"; Rec."Depature Time")
+                {
+                    ToolTip = 'Specifies the value of the Depature Time field.';
                     ApplicationArea = All;
                 }
                 field("Arrival Time"; Rec."Arrival Time")
@@ -215,29 +215,35 @@ page 50092 "Travel Request Form"
                     ApplicationArea = All;
                 }
             }
-            group(Approvals)
+            part("Approval Subform"; "HRMS Approval Entry")
             {
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                ApplicationArea = all;
+                SubPageLink = "Document No." = field("No.");
+                Editable = false;
             }
+            // group(Approvals)
+            // {
+            //     field("Recommender Code"; Rec."Recommender Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Name"; Rec."Recommender Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Code"; Rec."Approver Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
         }
     }
 
@@ -268,8 +274,6 @@ page 50092 "Travel Request Form"
     trigger OnAfterGetRecord()
     begin
         FieldEditable := Rec."Payment From" = Rec."Payment From"::Self;
-
-
     end;
 
     trigger OnOpenPage()
@@ -286,9 +290,9 @@ page 50092 "Travel Request Form"
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
-        if not IsApplied then
-            if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('');
+        // if not IsApplied then
+        //     if not Confirm('The data will be erased. Do you want to continue?', true) then
+        //         Error('');
     end;
 
     var

@@ -32,16 +32,6 @@ page 50102 "Travel Claim Lists"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("Type Of Visit"; Rec."Type Of Visit")
-                {
-                    ToolTip = 'Specifies the value of the Type Of Visit field.';
-                    ApplicationArea = All;
-                }
-                field("Salary Level"; Salarylevel.Description)
-                {
-                    ToolTip = 'Specifies the value of the Description field.';
-                    ApplicationArea = All;
-                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
@@ -52,9 +42,24 @@ page 50102 "Travel Claim Lists"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field("Type Of Visit"; Rec."Type Of Visit")
+                {
+                    ToolTip = 'Specifies the value of the Type Of Visit field.';
+                    ApplicationArea = All;
+                }
                 field("Claim Type"; Rec."Claim Type")
                 {
                     ToolTip = 'Specifies the value of the Claim Type field.';
+                    ApplicationArea = All;
+                }
+                field("Travel Claimed"; Rec."Travel Claimed")
+                {
+                    ToolTip = 'Specifies the value of the travel Claim field.';
                     ApplicationArea = All;
                 }
                 field("Advance Cash"; Rec."Advance Cash")
@@ -67,34 +72,9 @@ page 50102 "Travel Claim Lists"
                     ToolTip = 'Specifies the value of the Full Name field.';
                     ApplicationArea = All;
                 }
-                field("Travel With Salary Level"; TravelWith."Salary Level")
-                {
-                    ToolTip = 'Specifies the value of the Salary Level field.';
-                    ApplicationArea = All;
-                }
-                field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
-                {
-                    ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
-                    ApplicationArea = All;
-                }
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
-                    ApplicationArea = All;
-                }
-                field("Requested Date"; Rec."Requested Date")
-                {
-                    ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
                 field("Net Receivable/Payable"; Rec."Net Receivable/Payable")
@@ -121,14 +101,14 @@ page 50102 "Travel Claim Lists"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = not IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Travel Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend the travel claim?', false) then
-                        TravelMgt.RecommendEmployeeTravel(Rec."No.");
+                    // if Confirm('Do you want to recommend the travel claim?', false) then
+                    //     TravelMgt.RecommendEmployeeTravel(Rec."No.");
                 end;
             }
             action("Approve Travel Request")
@@ -138,7 +118,7 @@ page 50102 "Travel Claim Lists"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Approve Travel Request action.';
                 ApplicationArea = All;
 
@@ -157,7 +137,7 @@ page 50102 "Travel Claim Lists"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Travel Request action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel claim?', false) then
@@ -170,14 +150,14 @@ page 50102 "Travel Claim Lists"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsRecommended;
+                Visible = false;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    TravelMgt.ScreenResignationforTravel(Rec);
-                    CurrPage.Close;
+                    // TravelMgt.ScreenResignationforTravel(Rec);
+                    // CurrPage.Close;
                 end;
             }
             action("Final Approve Request")
@@ -187,14 +167,14 @@ page 50102 "Travel Claim Lists"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsScreened;
+                Visible = false;
                 ToolTip = 'Executes the Final Approve action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    TravelMgt.FinalApproveForTravel(Rec);
-                    CurrPage.Close;
+                    // TravelMgt.FinalApproveForTravel(Rec);
+                    // CurrPage.Close;
                 end;
             }
         }
@@ -223,13 +203,14 @@ page 50102 "Travel Claim Lists"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Screened action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -245,7 +226,7 @@ page 50102 "Travel Claim Lists"
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
                     Rec.FilterGroup(0);
                 end;
             }
@@ -257,14 +238,15 @@ page 50102 "Travel Claim Lists"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
 
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)
@@ -275,7 +257,6 @@ page 50102 "Travel Claim Lists"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Approved action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
@@ -292,7 +273,6 @@ page 50102 "Travel Claim Lists"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Rejected action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
@@ -310,13 +290,13 @@ page 50102 "Travel Claim Lists"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Final Approve action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
+                    // Rec.FilterGroup(0);
                 end;
             }
         }
@@ -346,9 +326,9 @@ page 50102 "Travel Claim Lists"
     trigger OnAfterGetRecord()
     begin
         Clear(TravelWith);
-        IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+        //IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
-        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
+        //IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
         if Salarylevel.Get(Rec."Salary Level Code") then;
         if TravelWith.Get(Rec."Travel With") then;
     end;
@@ -358,9 +338,9 @@ page 50102 "Travel Claim Lists"
         ResignationMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";
         [InDataSet]
-        IsRecommended: Boolean;
+        IsPending: Boolean;
         IsApproved: Boolean;
-        IsScreened: Boolean;
+        //IsScreened: Boolean;
         Salarylevel: Record "Salary Level";
         TravelWith: Record Employee;
 }
