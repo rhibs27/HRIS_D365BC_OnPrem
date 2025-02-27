@@ -339,6 +339,9 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
             FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
+            FORMAT(ApprovalSetupLine."Request Type"::Loan):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
+
         END;
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
@@ -1475,15 +1478,20 @@ page 50108 "Portal Functions"
     procedure approveEmpLoanSalAdv(empLoanNo: Code[20]; isApproved: Boolean; remark: Text; approverNo: Code[20])
     var
         EmpSalaryAdv: Record "Employee Loan/Advance";
+        RecRef: RecordRef;
     begin
         EmpSalaryAdv.Get(empLoanNo);
         if isApproved then begin
-            if EmpSalaryAdv."Approval Status" = EmpSalaryAdv."Approval Status"::"Pending Approval" then
+            if EmpSalaryAdv."Approval Status" = EmpSalaryAdv."Approval Status"::"Pending" then
                 EmpSalaryAdv.Validate("Recommendation Remarks", remark);
-        end else
+        end else begin
+            if remark = '' then
+                Error('Rejection Remarks is Empty');
             EmpSalaryAdv.Validate("Rejection Remark", remark);
+        end;
         EmpSalaryAdv.Modify;
-        LoanMgt.ApproveRejectLoanAPI(EmpSalaryAdv, isApproved, approverNo);
+        RecRef.GetTable(EmpSalaryAdv);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 
     local procedure CalculateFrequency(empNo: Code[20]; loanType: Text): Integer
@@ -1642,6 +1650,30 @@ page 50108 "Portal Functions"
             LoanOutstanding.CalcSums("Outstanding Amount");
             exit(Abs(LoanOutstanding."Outstanding Amount"));
         end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getLoanAttachmentAPI(LoanNo: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        Filename: Text;
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SETRANGE("No.", LoanNo);
+        If not TempIncomingDoc.FindFirst() then
+            Error('Document Not Found');
+        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        exit('{' +
+        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -1834,7 +1866,7 @@ page 50108 "Portal Functions"
         if EmployeeLoanAdvance.Get(IncomingDoc."No.") then begin
             DocFoundEmpLoan := true;
             LoanType := EmployeeLoanAdvance."Loan Type";
-            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                and (IncomingDoc."File Name" <> '') then
                 Error('Attachment already exist.');
         end;
@@ -1843,7 +1875,7 @@ page 50108 "Portal Functions"
             if EmployeeLoanAdvance.Get(IncomingDoc."No.") then begin
                 DocFoundEmpActivity := true;
                 // ActivityType := EmployeeLoanAdvance.Type;
-                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                  and (IncomingDoc."File Name" <> '') then
                     Error('Attachment already exist.');
             end;
@@ -1857,7 +1889,6 @@ page 50108 "Portal Functions"
                     Error('Attachment already exist.');
             end;
         end;
-
         if not AppraisalDocFound then begin //Min
             if AppraisalEmp.Get(IncomingDoc."No.") then begin
                 AppraisalDocFound := true;
@@ -1934,7 +1965,7 @@ page 50108 "Portal Functions"
         IncomingDocument.Get(entryNo);
         if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
             DocFoundEmpLoan := true;
-            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                and (IncomingDocument."File Name" <> '') then
                 Error('Attachment already exist.');
         end;
@@ -3484,7 +3515,9 @@ page 50108 "Portal Functions"
         Leave: Record Leave;
         Loan: Record "Employee Loan/Advance";
         leaveForApprove: Integer;
-        LoanForApprove: Integer;
+        PersonalLoanForApprove: Integer;
+        VehicleLoanForApprove: Integer;
+        HomeLoanForApprove: Integer;
         TravelRequest: Record "Travel Request";
         TravelReqForApprove: Integer;
         TravelClaimApprove: Integer;
@@ -3499,7 +3532,6 @@ page 50108 "Portal Functions"
         AppraisalForApprove: Integer;
         TotalCount: Integer;
         EmpTransfer: Record "Employee/HR Transfer";
-        SalaryAdvanceForRecommemdation: Integer;
         SalaryAdvanceForApprove: Integer;
         AttendanceMissed: Record "Employee Activity";
         AttendanceMissedForRecommendation: Integer;
@@ -3512,6 +3544,12 @@ page 50108 "Portal Functions"
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
+        Clear(TravelReqForApprove);
+        Clear(TravelClaimApprove);
+        Clear(PersonalLoanForApprove);
+        Clear(HomeLoanForApprove);
+        Clear(SalaryAdvanceForApprove);
+        Clear(VehicleLoanForApprove);
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
@@ -3529,11 +3567,40 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelClaimApprove := Approval.Count();
 
-        Loan.Reset();
-        Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
-        Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
-        Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
-        LoanForApprove := Loan.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Loan);
+        Approval.SetRange("Loan Type", Approval."Loan Type"::"Personal Loan");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        PersonalLoanForApprove := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Loan);
+        Approval.SetRange("Loan Type", Approval."Loan Type"::"Home Loan");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        HomeLoanForApprove := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Loan);
+        Approval.SetRange("Loan Type", Approval."Loan Type"::"Vehicle Loan");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        VehicleLoanForApprove := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Loan);
+        Approval.SetRange("Loan Type", Approval."Loan Type"::"Salary Advance");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        SalaryAdvanceForApprove := Approval.Count();
+
+        // Loan.Reset();
+        // Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
+        // Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
+        // Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
+        // LoanForApprove := Loan.Count();
 
 
         Resign.Reset();
@@ -3570,11 +3637,14 @@ page 50108 "Portal Functions"
         AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
-        TotalCount := leaveForApprove + LoanForApprove + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
-                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + SalaryAdvanceForRecommemdation + AttendanceMissedForRecommendation + AttendanceMissedForApprove;
+        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
+                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + +AttendanceMissedForRecommendation + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
-        ',"LoanForApprove": "' + format(LoanForApprove) + '"' +
+        ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
+        ',"HomeLoanForApprove": "' + format(HomeLoanForApprove) + '"' +
+        ',"SalaryAdvanceForApprove": "' + format(SalaryAdvanceForApprove) + '"' +
+        ',"VehicleLoanForApprove": "' + format(VehicleLoanForApprove) + '"' +
         ',"TravelReqForApprove": "' + format(TravelReqForApprove) + '"' +
         ',"TravelClaimApprove": "' + format(TravelClaimApprove) + '"' +
         ',"ResignForApprove": "' + format(ResignForApprove) + '"' +

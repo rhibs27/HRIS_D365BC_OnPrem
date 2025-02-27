@@ -123,31 +123,31 @@ page 50267 "My Tasks Mob App"
             }
             cuegroup("Salary Advance")
             {
-                field(ToRecommendSalaryAdvance; Rec."To Recommend Salary Advance")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendSalaryAdvance; Rec."To Recommend Salary Advance")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Personal Loan")
             {
-                field(ToRecommendPersonalLoan; Rec."To Recommend Personal Loan")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendPersonalLoan; Rec."To Recommend Personal Loan")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Home Loan")
             {
-                field(ToRecommendHomeLoan; Rec."To Recommend Home Loan")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendHomeLoan; Rec."To Recommend Home Loan")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Vehicle Loan")
             {
-                field(ToRecommendVehicleLoan; Rec."To Recommend Vehicle Loan")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendVehicleLoan; Rec."To Recommend Vehicle Loan")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Allowance Assignment")
             {

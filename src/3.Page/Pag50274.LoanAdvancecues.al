@@ -14,20 +14,20 @@ page 50274 "Loan & Advance cues"
                 group("Salary Advance")
                 {
                     Visible = SalaryAdvVisibility;
-                    field("To Screen Salary Advance"; Rec."To Screen Salary Advance")
-                    {
-                        Caption = 'To Screen';
-                        DrillDownPageID = "Employee Salary Advance List";
-                        ToolTip = 'Specifies the value of the To Screen field.';
-                        ApplicationArea = All;
-                    }
-                    field("To Approve Salary Advance"; Rec."To Approve Salary Advance")
-                    {
-                        Caption = 'To Approve';
-                        DrillDownPageID = "Employee Salary Advance List";
-                        ToolTip = 'Specifies the value of the To Approve field.';
-                        ApplicationArea = All;
-                    }
+                    // field("To Screen Salary Advance"; Rec."To Screen Salary Advance")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageID = "Employee Salary Advance List";
+                    //     ToolTip = 'Specifies the value of the To Screen field.';
+                    //     ApplicationArea = All;
+                    // }
+                    // field("To Approve Salary Advance"; Rec."To Approve Salary Advance")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageID = "Employee Salary Advance List";
+                    //     ToolTip = 'Specifies the value of the To Approve field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Approved Salary Advance"; Rec."Approved Salary Advance")
                     {
                         Caption = 'Approved';
@@ -49,20 +49,20 @@ page 50274 "Loan & Advance cues"
                 group("Personal Loan")
                 {
                     Visible = SalaryAdvVisibility;
-                    field("To Screen Personal Loan"; Rec."To Screen Personal Loan")
-                    {
-                        Caption = 'To Screen';
-                        DrillDownPageID = "Employee Personal Loan List";
-                        ToolTip = 'Specifies the value of the To Screen field.';
-                        ApplicationArea = All;
-                    }
-                    field("To Approve Persoanl Loan"; Rec."To Approve Persoanl Loan")
-                    {
-                        Caption = 'To Approve';
-                        DrillDownPageID = "Employee Personal Loan List";
-                        ToolTip = 'Specifies the value of the To Approve field.';
-                        ApplicationArea = All;
-                    }
+                    // field("To Screen Personal Loan"; Rec."To Screen Personal Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageID = "Employee Personal Loan List";
+                    //     ToolTip = 'Specifies the value of the To Screen field.';
+                    //     ApplicationArea = All;
+                    // }
+                    // field("To Approve Persoanl Loan"; Rec."To Approve Persoanl Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageID = "Employee Personal Loan List";
+                    //     ToolTip = 'Specifies the value of the To Approve field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Approved Persoanl Loan"; Rec."Approved Persoanl Loan")
                     {
                         Caption = 'Approved';
@@ -85,20 +85,20 @@ page 50274 "Loan & Advance cues"
                 group("Home Loan")
                 {
                     Visible = SalaryAdvVisibility;
-                    field("To Screen Home Loan"; Rec."To Screen Home Loan")
-                    {
-                        Caption = 'To Screen';
-                        DrillDownPageID = "Employee Home Loan List";
-                        ToolTip = 'Specifies the value of the To Screen field.';
-                        ApplicationArea = All;
-                    }
-                    field("To Approve Home Loan"; Rec."To Approve Home Loan")
-                    {
-                        Caption = 'To Approve';
-                        DrillDownPageID = "Employee Home Loan List";
-                        ToolTip = 'Specifies the value of the To Approve field.';
-                        ApplicationArea = All;
-                    }
+                    // field("To Screen Home Loan"; Rec."To Screen Home Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageID = "Employee Home Loan List";
+                    //     ToolTip = 'Specifies the value of the To Screen field.';
+                    //     ApplicationArea = All;
+                    // }
+                    // field("To Approve Home Loan"; Rec."To Approve Home Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageID = "Employee Home Loan List";
+                    //     ToolTip = 'Specifies the value of the To Approve field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Approved Home Loan"; Rec."Approved Home Loan")
                     {
                         Caption = 'Approved';
@@ -121,20 +121,20 @@ page 50274 "Loan & Advance cues"
                 group("Vehicle Loan")
                 {
 
-                    field("To Screen Vehicle Loan"; Rec."To Screen Vehicle Loan")
-                    {
-                        Caption = 'To Screen';
-                        DrillDownPageId = "Employee Vehicle Loan List";
-                        ToolTip = 'Specifies the value of the To Screen field.';
-                        ApplicationArea = All;
-                    }
-                    field("To Approve Vehicle Loan"; Rec."To Approve Vehicle Loan")
-                    {
-                        Caption = 'To Approve';
-                        DrillDownPageId = "Employee Vehicle Loan List";
-                        ToolTip = 'Specifies the value of the To Approve field.';
-                        ApplicationArea = All;
-                    }
+                    // field("To Screen Vehicle Loan"; Rec."To Screen Vehicle Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageId = "Employee Vehicle Loan List";
+                    //     ToolTip = 'Specifies the value of the To Screen field.';
+                    //     ApplicationArea = All;
+                    // }
+                    // field("To Approve Vehicle Loan"; Rec."To Approve Vehicle Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageId = "Employee Vehicle Loan List";
+                    //     ToolTip = 'Specifies the value of the To Approve field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Approved Vehicle Loan"; Rec."Approved Vehicle Loan")
                     {
                         Caption = 'Approved';

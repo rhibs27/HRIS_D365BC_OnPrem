@@ -233,16 +233,16 @@ page 50184 "HR Cue Entity"
             }
             cuegroup("Salary Advance")
             {
-                field(ToScreenSalaryAdvance; Rec."To Screen Salary Advance")
-                {
-                    Caption = 'To Screen';
-                    DrillDownPageId = "Employee Salary Advance List";
-                }
-                field(ToApproveSalaryAdvance; Rec."To Approve Salary Advance")
-                {
-                    Caption = 'To Approve';
-                    DrillDownPageId = "Employee Salary Advance List";
-                }
+                // field(ToScreenSalaryAdvance; Rec."To Screen Salary Advance")
+                // {
+                //     Caption = 'To Screen';
+                //     DrillDownPageId = "Employee Salary Advance List";
+                // }
+                // field(ToApproveSalaryAdvance; Rec."To Approve Salary Advance")
+                // {
+                //     Caption = 'To Approve';
+                //     DrillDownPageId = "Employee Salary Advance List";
+                // }
                 field(ApprovedSalaryAdvance; Rec."Approved Salary Advance")
                 {
                     Caption = 'Approved';
@@ -252,120 +252,121 @@ page 50184 "HR Cue Entity"
                 {
                     Caption = 'Rejected';
                     DrillDownPageId = "Employee Salary Advance List";
+                    // }
+                    // field(ToRecommendSalaryAdvance; Rec."To Recommend Salary Advance")
+                    // {
+                    //     Caption = 'To Recommend';
+                    // }
                 }
-                field(ToRecommendSalaryAdvance; Rec."To Recommend Salary Advance")
+                cuegroup("Personal Loan")
                 {
-                    Caption = 'To Recommend';
+                    // field(ToScreenPersonalLoan; Rec."To Screen Personal Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageId = "Employee Personal Loan List";
+                    // }
+                    // field(ToApprovePersoanlLoan; Rec."To Approve Persoanl Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageId = "Employee Personal Loan List";
+                    // }
+                    field(ApprovedPersoanlLoan; Rec."Approved Persoanl Loan")
+                    {
+                        Caption = 'Approved';
+                        DrillDownPageId = "Employee Personal Loan List";
+                    }
+                    field(RejectedPersonalLoan; Rec."Rejected Personal Loan")
+                    {
+                        Caption = 'Rejected';
+                        DrillDownPageId = "Employee Personal Loan List";
+                    }
+                    // field(ToRecommendPersonalLoan; Rec."To Recommend Personal Loan")
+                    // {
+                    //     Caption = 'To Recommend';
+                    // }
                 }
-            }
-            cuegroup("Personal Loan")
-            {
-                field(ToScreenPersonalLoan; Rec."To Screen Personal Loan")
+                cuegroup("Home Loan")
                 {
-                    Caption = 'To Screen';
-                    DrillDownPageId = "Employee Personal Loan List";
+                    // field(ToScreenHomeLoan; Rec."To Screen Home Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageId = "Employee Home Loan List";
+                    // }
+                    // field(ToApproveHomeLoan; Rec."To Approve Home Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageId = "Employee Home Loan List";
+                    // }
+                    field(ApprovedHomeLoan; Rec."Approved Home Loan")
+                    {
+                        Caption = 'Approved';
+                        DrillDownPageId = "Employee Home Loan List";
+                    }
+                    field(RejectedHomeLoan; Rec."Rejected Home Loan")
+                    {
+                        Caption = 'Rejected';
+                        DrillDownPageId = "Employee Home Loan List";
+                    }
+                    // field(ToRecommendHomeLoan; Rec."To Recommend Home Loan")
+                    // {
+                    //     Caption = 'To Recommend';
+                    // }
                 }
-                field(ToApprovePersoanlLoan; Rec."To Approve Persoanl Loan")
+                cuegroup("Vehicle Loan")
                 {
-                    Caption = 'To Approve';
-                    DrillDownPageId = "Employee Personal Loan List";
+                    // field(ToScreenVehicleLoan; Rec."To Screen Vehicle Loan")
+                    // {
+                    //     Caption = 'To Screen';
+                    //     DrillDownPageId = "Employee Vehicle Loan List";
+                    // }
+                    // field(ToApproveVehicleLoan; Rec."To Approve Vehicle Loan")
+                    // {
+                    //     Caption = 'To Approve';
+                    //     DrillDownPageId = "Employee Vehicle Loan List";
+                    // }
+                    field(ApprovedVehicleLoan; Rec."Approved Vehicle Loan")
+                    {
+                        Caption = 'Approved';
+                        DrillDownPageId = "Employee Vehicle Loan List";
+                    }
+                    field(RejectedVehicleLoan; Rec."Rejected Vehicle Loan")
+                    {
+                        Caption = 'Rejected';
+                        DrillDownPageId = "Employee Vehicle Loan List";
+                    }
+                    // field(ToRecommendVehicleLoan; Rec."To Recommend Vehicle Loan")
+                    // {
+                    //     Caption = 'To Recommend';
+                    // }
                 }
-                field(ApprovedPersoanlLoan; Rec."Approved Persoanl Loan")
+                cuegroup("Allowance Assignment")
                 {
-                    Caption = 'Approved';
-                    DrillDownPageId = "Employee Personal Loan List";
+                    field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
+                    {
+                        Caption = 'To Recommend';
+                    }
                 }
-                field(RejectedPersonalLoan; Rec."Rejected Personal Loan")
+                cuegroup("Transfer Claim")
                 {
-                    Caption = 'Rejected';
-                    DrillDownPageId = "Employee Personal Loan List";
+                    field(ToRecommendTransferClaim; Rec."To Recommend Transfer Claim")
+                    {
+                        DrillDownPageId = "Employee Transfer Requests";
+                    }
+                    field(ToReviewTransferClaim; Rec."To Review Transfer Claim")
+                    {
+                        DrillDownPageId = "Employee Transfer Requests";
+                    }
                 }
-                field(ToRecommendPersonalLoan; Rec."To Recommend Personal Loan")
+                cuegroup(Appraisal)
                 {
-                    Caption = 'To Recommend';
+                    field(ToReviewsAppraisal; Rec."To Reviews Appraisal") { }
+                    field(ToCheckReviewsAppraisal; Rec."To Check Reviews Appraisal") { }
                 }
-            }
-            cuegroup("Home Loan")
-            {
-                field(ToScreenHomeLoan; Rec."To Screen Home Loan")
-                {
-                    Caption = 'To Screen';
-                    DrillDownPageId = "Employee Home Loan List";
-                }
-                field(ToApproveHomeLoan; Rec."To Approve Home Loan")
-                {
-                    Caption = 'To Approve';
-                    DrillDownPageId = "Employee Home Loan List";
-                }
-                field(ApprovedHomeLoan; Rec."Approved Home Loan")
-                {
-                    Caption = 'Approved';
-                    DrillDownPageId = "Employee Home Loan List";
-                }
-                field(RejectedHomeLoan; Rec."Rejected Home Loan")
-                {
-                    Caption = 'Rejected';
-                    DrillDownPageId = "Employee Home Loan List";
-                }
-                field(ToRecommendHomeLoan; Rec."To Recommend Home Loan")
-                {
-                    Caption = 'To Recommend';
-                }
-            }
-            cuegroup("Vehicle Loan")
-            {
-                field(ToScreenVehicleLoan; Rec."To Screen Vehicle Loan")
-                {
-                    Caption = 'To Screen';
-                    DrillDownPageId = "Employee Vehicle Loan List";
-                }
-                field(ToApproveVehicleLoan; Rec."To Approve Vehicle Loan")
-                {
-                    Caption = 'To Approve';
-                    DrillDownPageId = "Employee Vehicle Loan List";
-                }
-                field(ApprovedVehicleLoan; Rec."Approved Vehicle Loan")
-                {
-                    Caption = 'Approved';
-                    DrillDownPageId = "Employee Vehicle Loan List";
-                }
-                field(RejectedVehicleLoan; Rec."Rejected Vehicle Loan")
-                {
-                    Caption = 'Rejected';
-                    DrillDownPageId = "Employee Vehicle Loan List";
-                }
-                field(ToRecommendVehicleLoan; Rec."To Recommend Vehicle Loan")
-                {
-                    Caption = 'To Recommend';
-                }
-            }
-            cuegroup("Allowance Assignment")
-            {
-                field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
-                {
-                    Caption = 'To Recommend';
-                }
-            }
-            cuegroup("Transfer Claim")
-            {
-                field(ToRecommendTransferClaim; Rec."To Recommend Transfer Claim")
-                {
-                    DrillDownPageId = "Employee Transfer Requests";
-                }
-                field(ToReviewTransferClaim; Rec."To Review Transfer Claim")
-                {
-                    DrillDownPageId = "Employee Transfer Requests";
-                }
-            }
-            cuegroup(Appraisal)
-            {
-                field(ToReviewsAppraisal; Rec."To Reviews Appraisal") { }
-                field(ToCheckReviewsAppraisal; Rec."To Check Reviews Appraisal") { }
             }
         }
     }
 
-    actions { }
+    // actions { }
 
     trigger OnOpenPage()
     begin

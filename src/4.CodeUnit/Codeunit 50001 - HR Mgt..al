@@ -3088,15 +3088,15 @@ codeunit 50001 "HR Mgt."
                     if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
                         Employee.SetRange("No.", EmpLoan."Employee Code")
                     else
-                        Employee.SetFilter("No.", '%1|%2', EmpLoan.Recommender, EmpLoan.Approver);
-                    if Employee.FindFirst then
-                        repeat
-                            Employee.TestField("Company E-Mail");
-                            // if EmailReceipientText = '' then
-                            EmailReceipientText.add(Employee."Company E-Mail");
-                        // else
-                        //     EmailReceipientText += ';' + Employee."Company E-Mail";
-                        until Employee.Next = 0;
+                        // Employee.SetFilter("No.", '%1|%2', EmpLoan.Recommender, EmpLoan.Approver); santosh
+                        if Employee.FindFirst then
+                            repeat
+                                Employee.TestField("Company E-Mail");
+                                // if EmailReceipientText = '' then
+                                EmailReceipientText.add(Employee."Company E-Mail");
+                            // else
+                            //     EmailReceipientText += ';' + Employee."Company E-Mail";
+                            until Employee.Next = 0;
                 end;
             end;
 

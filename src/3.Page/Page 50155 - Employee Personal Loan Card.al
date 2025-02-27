@@ -46,6 +46,7 @@ page 50155 "Employee Personal Loan Card"
                 {
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Gender; Rec.Gender)
                 {
@@ -75,6 +76,26 @@ page 50155 "Employee Personal Loan Card"
                 field("Confirmation Service Period"; Rec."Confirmation Service Period")
                 {
                     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
+                    ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
+                }
+                field(Status; rec.Status)
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Status field.';
+                    ApplicationArea = All;
+                    Visible = StatusView;
+                }
+                field(Screener; Rec.Screener)
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Screener field.';
                     ApplicationArea = All;
                 }
             }
@@ -149,7 +170,7 @@ page 50155 "Employee Personal Loan Card"
             }
             group("Security Documentation")
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
+                Visible = IsApproved;
                 field("Employee Citizenship No."; Rec."Employee Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Employee Citizenship No. field.';
@@ -193,7 +214,7 @@ page 50155 "Employee Personal Loan Card"
             }
             group("Facility Disbursement")
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Approved;
+                Visible = IsApproved;
                 field("Disbursement Date"; Rec."Disbursement Date")
                 {
                     ToolTip = 'Specifies the value of the Disbursement Date field.';
@@ -238,73 +259,76 @@ page 50155 "Employee Personal Loan Card"
             }
             group("Group Remarks")
             {
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    Editable = ForScreen;
-                    MultiLine = true;
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Screener Remarks"; Rec."Screener Remarks")
+                // {
+                //     Editable = ForScreen;
+                //     MultiLine = true;
+                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = FormEditable;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                {
-                    Editable = ForRecommend;
-                    ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
+                // {
+                //     Editable = ForRecommend;
+                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
-                    Editable = ForReject;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Rejection Remark field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+
                 }
             }
-            group(Approval)
+            part("Approval Subform"; "HRMS Approval Entry")
             {
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field(Recommender; Rec.Recommender)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field(Screener; Rec.Screener)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Screener field.';
-                    ApplicationArea = All;
-                }
-                field(Approver; Rec.Approver)
-                {
-                    Editable = ForScreen;
-                    ToolTip = 'Specifies the value of the Approver field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee Code"),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
+
+            //group(Approval)
+            //{
+
+            // field(Recommender; Rec.Recommender)
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender Name field.';
+            //     ApplicationArea = All;
+            // }
+            // field(Approver; Rec.Approver)
+            // {
+            //     Editable = ForScreen;
+            //     ToolTip = 'Specifies the value of the Approver field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Name"; Rec."Approver Name")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Name field.';
+            //     ApplicationArea = All;
+            // }
+            //}
         }
     }
-
     actions
     {
         area(Processing)
@@ -315,15 +339,15 @@ page 50155 "Employee Personal Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Validate Document action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ValidateDocument(Rec);
+                    if LoanMgt.ValidateDocument(Rec) then
+                        Message('Leave Document is validated');
                 end;
             }
             action("Send Approval Request")
@@ -332,7 +356,7 @@ page 50155 "Employee Personal Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
 
@@ -349,7 +373,7 @@ page 50155 "Employee Personal Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = false;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
 
@@ -363,7 +387,7 @@ page 50155 "Employee Personal Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForScreen;
+                Visible = false;
                 ToolTip = 'Executes the Screen Request action.';
                 ApplicationArea = All;
 
@@ -379,15 +403,16 @@ page 50155 "Employee Personal Loan Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, true);
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Personal Loan is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Reject Request")
@@ -397,7 +422,7 @@ page 50155 "Employee Personal Loan Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForReject;
+                Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
 
@@ -405,7 +430,14 @@ page 50155 "Employee Personal Loan Card"
                 var
                     LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, false);
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remark" = '' then
+                            Error('Rejection Remark is Empty')
+                        else begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Personal loan is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
             action("Settle Personal Loan")
@@ -414,7 +446,7 @@ page 50155 "Employee Personal Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForSettle;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Settle Personal Loan action.';
                 ApplicationArea = All;
 
@@ -431,7 +463,7 @@ page 50155 "Employee Personal Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Return action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     Rec.ReOpenDocument(Rec);
@@ -478,11 +510,12 @@ page 50155 "Employee Personal Loan Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Change Approver action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to modify approver?') then begin
-                        LoanMgt.PopUpChangingApprover(Rec);
+                        // LoanMgt.PopUpChangingApprover(Rec);
                     end;
                 end;
             }
@@ -608,6 +641,7 @@ page 50155 "Employee Personal Loan Card"
             Rec.Validate("Employee Code");
             Rec.Modify(true);
         end;
+        RecRef.GetTable(Rec);
     end;
 
     var
@@ -615,8 +649,15 @@ page 50155 "Employee Personal Loan Card"
         CreateIncomingDocFromEmailAttachment: Boolean;
         OfficeMgt: Codeunit "Office Management";
         HasIncomingDocument: Boolean;
-        FormEditable: Boolean;
+        // FormEditable: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
+        IsOpen: Boolean;
+        RecRef: RecordRef;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        IsPending: Boolean;
+        IsApproved: Boolean;
         [InDataSet]
         ForApprove: Boolean;
         [InDataSet]
@@ -626,6 +667,7 @@ page 50155 "Employee Personal Loan Card"
         ForScreen: Boolean;
         ForSettle: Boolean;
         AfterRecommendedVisible: Boolean;
+        HRMgt: Codeunit "HR Mgt.";
 
     local procedure SetControlAppearance()
     begin
@@ -634,8 +676,8 @@ page 50155 "Employee Personal Loan Card"
 
     local procedure SetLayout()
     begin
-        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
-                        Rec."Approval Status"::Open];
+        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
+        //                 Rec."Approval Status"::Open];
 
         //FormVisible := "Approval Status" IN ["Approval Status"::" ", "Approval Status"::Cancelled,
         //              "Approval Status"::Open];
@@ -648,27 +690,27 @@ page 50155 "Employee Personal Loan Card"
                     ForApprove := false;
                     ForScreen := true;
                 end;
-            Rec."Approval Status"::"Pending Approval":
+            Rec."Approval Status"::"Pending":
                 begin
                     ForRecommend := true;
                     ForReject := true;
                     ForApprove := true;
                     ForScreen := false;
                 end;
-            Rec."Approval Status"::Recommended:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := false;
-                    ForScreen := true;
-                end;
-            Rec."Approval Status"::Screened:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := true;
-                    ForScreen := false;
-                end;
+            // Rec."Approval Status"::Recommended:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := false;
+            //         ForScreen := true;
+            //     end;
+            // Rec."Approval Status"::Screened:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := true;
+            //         ForScreen := false;
+            //     end;
             Rec."Approval Status"::Rejected, Rec."Approval Status"::Approved:
                 begin
                     ForRecommend := false;
@@ -678,11 +720,18 @@ page 50155 "Employee Personal Loan Card"
                     ForSettle := true;
                 end;
         end;
-
-        if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
-                                  Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
-            AfterRecommendedVisible := true
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
         else
-            AfterRecommendedVisible := false;
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+
+        // if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
+        //                           Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
+        //     AfterRecommendedVisible := true
+        // else
+        //     AfterRecommendedVisible := false;
     end;
 }

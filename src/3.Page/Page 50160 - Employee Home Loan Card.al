@@ -30,6 +30,7 @@ page 50160 "Employee Home Loan Card"
                 {
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Branch Name"; Rec."Branch Name")
                 {
@@ -61,6 +62,20 @@ page 50160 "Employee Home Loan Card"
                 {
                     ToolTip = 'Specifies the value of the Unit Name field.';
                     ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
+                }
+                field("Status"; Rec."Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = StatusView;
                 }
             }
             group("Home Loan Parameters")
@@ -286,7 +301,7 @@ page 50160 "Employee Home Loan Card"
             }
             group("Collateral Information")
             {
-                Editable = FormEditable;
+                Editable = IsOpen;
                 field("Proposed Owner of  the Property"; Rec."Property in the name of")
                 {
                     ToolTip = 'Specifies the value of the Property in the name of field.';
@@ -340,70 +355,78 @@ page 50160 "Employee Home Loan Card"
             }
             group("Group Remarks")
             {
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    Editable = ForScreen;
-                    MultiLine = true;
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Screener Remarks"; Rec."Screener Remarks")
+                // {
+                //     Editable = ForScreen;
+                //     MultiLine = true;
+                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = FormEditable;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                {
-                    Editable = ForRecommend;
-                    ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
+                // {
+                //     Editable = ForRecommend;
+                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
-                    Editable = ForReject;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Rejection Remark field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+
                 }
             }
-            group(Approval)
+            part("Approval Subform"; "HRMS Approval Entry")
             {
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field(Recommender; Rec.Recommender)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field(Screener; Rec.Screener)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Screener field.';
-                    ApplicationArea = All;
-                }
-                field(Approver; Rec.Approver)
-                {
-                    Editable = ForScreen;
-                    ToolTip = 'Specifies the value of the Approver field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee Code"),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
+            // group(Approval)
+            // {
+            // field(Recommender; Rec.Recommender)
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender Name field.';
+            //     ApplicationArea = All;
+            // }
+            // field(Screener; Rec.Screener)
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Screener field.';
+            //     ApplicationArea = All;
+            // }
+            // field(Approver; Rec.Approver)
+            // {
+            //     Editable = ForScreen;
+            //     ToolTip = 'Specifies the value of the Approver field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Name"; Rec."Approver Name")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Name field.';
+            //     ApplicationArea = All;
+            // }
+            // }
         }
         area(FactBoxes)
         {
@@ -429,7 +452,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Validate Document action.';
                 ApplicationArea = All;
 
@@ -446,7 +469,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
 
@@ -463,7 +486,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = false;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
 
@@ -477,7 +500,7 @@ page 50160 "Employee Home Loan Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForScreen;
+                Visible = false;
                 ToolTip = 'Executes the Screen Request action.';
                 ApplicationArea = All;
 
@@ -493,15 +516,16 @@ page 50160 "Employee Home Loan Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, true);
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Home Loan is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Reject Request")
@@ -511,15 +535,20 @@ page 50160 "Employee Home Loan Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForReject;
+                Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, false);
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remark" = '' then
+                            Error('Rejection Remark is Empty')
+                        else begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Home Loan is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
             action("Settle Home Loan")
@@ -545,7 +574,7 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Return action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     Rec.ReOpenDocument(Rec);
@@ -559,7 +588,6 @@ page 50160 "Employee Home Loan Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Disburse action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.DisburseLoan;
@@ -591,11 +619,12 @@ page 50160 "Employee Home Loan Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Change Approver action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to modify approver?') then begin
-                        LoanMgt.PopUpChangingApprover(Rec);
+                        //LoanMgt.PopUpChangingApprover(Rec);
                     end;
                 end;
             }
@@ -642,7 +671,7 @@ page 50160 "Employee Home Loan Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout();
-        //LoanMgt.CalculateFields(Rec); //Min
+        LoanMgt.CalculateFields(Rec); //Min
     end;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
@@ -669,6 +698,7 @@ page 50160 "Employee Home Loan Card"
             Rec.Validate("Employee Code");
             Rec.Modify(true);
         end;
+        RecRef.GetTable(Rec);
     end;
 
     var
@@ -677,7 +707,7 @@ page 50160 "Employee Home Loan Card"
         OfficeMgt: Codeunit "Office Management";
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
-        FormEditable: Boolean;
+        // FormEditable: Boolean;
         [InDataSet]
         ForApprove: Boolean;
         [InDataSet]
@@ -687,6 +717,13 @@ page 50160 "Employee Home Loan Card"
         ForScreen: Boolean;
         ForSettle: Boolean;
         AppliedLoan: Decimal;
+        IsOpen: Boolean;
+        IsPending: Boolean;
+        IsApproved: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        RecRef: RecordRef;
+        ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
 
     local procedure SetControlAppearance()
@@ -696,10 +733,10 @@ page 50160 "Employee Home Loan Card"
 
     local procedure SetLayout()
     begin
-        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
-                        Rec."Approval Status"::Open];
-        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
-                        Rec."Approval Status"::Open];
+        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
+        //                 Rec."Approval Status"::Open];
+        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
+        //                 Rec."Approval Status"::Open];
 
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
@@ -709,27 +746,27 @@ page 50160 "Employee Home Loan Card"
                     ForApprove := false;
                     ForScreen := true;
                 end;
-            Rec."Approval Status"::"Pending Approval":
+            Rec."Approval Status"::"Pending":
                 begin
                     ForRecommend := true;
                     ForReject := true;
                     ForApprove := true;
                     ForScreen := false;
                 end;
-            Rec."Approval Status"::Recommended:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := false;
-                    ForScreen := true;
-                end;
-            Rec."Approval Status"::Screened:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := true;
-                    ForScreen := false;
-                end;
+            // Rec."Approval Status"::Recommended:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := false;
+            //         ForScreen := true;
+            //     end;
+            // Rec."Approval Status"::Screened:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := true;
+            //         ForScreen := false;
+            //     end;
             Rec."Approval Status"::Rejected:
                 begin
                     ForRecommend := false;
@@ -747,5 +784,12 @@ page 50160 "Employee Home Loan Card"
                     ForSettle := true;
                 end;
         end;
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
     end;
 }

@@ -191,23 +191,23 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(27; "To Screen Salary Advance"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Salary Advance"),
-                                                               "Approval Status" = filter(Recommended)));
-            Description = 'SalaryAdv';
-            Editable = false;
-            FieldClass = FlowField;
-        }
-        field(28; "To Approve Salary Advance"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Salary Advance"),
-                                                               "Approval Status" = filter(Screened),
-                                                               Approver = field("Employee Filter")));
-            Description = 'SalaryAdv';
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(27; "To Screen Salary Advance"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Salary Advance"),
+        //                                                        "Approval Status" = filter(Recommended)));
+        //     Description = 'SalaryAdv';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
+        // field(28; "To Approve Salary Advance"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Salary Advance"),
+        //                                                        "Approval Status" = filter(Screened),
+        //                                                        Approver = field("Employee Filter")));
+        //     Description = 'SalaryAdv';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(29; "Approved Salary Advance"; Integer)
         {
             CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Salary Advance"),
@@ -262,23 +262,23 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(36; "To Screen Personal Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Personal Loan"),
-                                                               "Approval Status" = filter(Recommended)));
-            Description = 'Personal Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
-        field(37; "To Approve Persoanl Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Personal Loan"),
-                                                               "Approval Status" = filter(Screened),
-                                                               Approver = field("Employee Filter")));
-            Description = 'Personal Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(36; "To Screen Personal Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Personal Loan"),
+        //                                                        "Approval Status" = filter(Recommended)));
+        //     Description = 'Personal Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
+        // field(37; "To Approve Persoanl Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Personal Loan"),
+        //                                                        "Approval Status" = filter(Screened),
+        //                                                        Approver = field("Employee Filter")));
+        //     Description = 'Personal Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(38; "Approved Persoanl Loan"; Integer)
         {
             CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Personal Loan"),
@@ -295,23 +295,23 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(40; "To Screen Home Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Home Loan"),
-                                                               "Approval Status" = filter(Recommended)));
-            Description = 'Home Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
-        field(41; "To Approve Home Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Home Loan"),
-                                                               "Approval Status" = filter(Screened),
-                                                               Approver = field("Employee Filter")));
-            Description = 'Home Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(40; "To Screen Home Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Home Loan"),
+        //                                                        "Approval Status" = filter(Recommended)));
+        //     Description = 'Home Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
+        // field(41; "To Approve Home Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Home Loan"),
+        //                                                        "Approval Status" = filter(Screened),
+        //                                                        Approver = field("Employee Filter")));
+        //     Description = 'Home Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(42; "Approved Home Loan"; Integer)
         {
             CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Home Loan"),
@@ -328,23 +328,23 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(44; "To Screen Vehicle Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Vehicle Loan"),
-                                                               "Approval Status" = filter(Recommended)));
-            Description = 'Vehicle Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
-        field(45; "To Approve Vehicle Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Vehicle Loan"),
-                                                               "Approval Status" = filter(Screened),
-                                                               Approver = field("Employee Filter")));
-            Description = 'Vehicle Loan';
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(44; "To Screen Vehicle Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Vehicle Loan"),
+        //                                                        "Approval Status" = filter(Recommended)));
+        //     Description = 'Vehicle Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
+        // field(45; "To Approve Vehicle Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Vehicle Loan"),
+        //                                                        "Approval Status" = filter(Screened),
+        //                                                        Approver = field("Employee Filter")));
+        //     Description = 'Vehicle Loan';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(46; "Approved Vehicle Loan"; Integer)
         {
             CalcFormula = count("Employee Loan/Advance" where("Loan Type" = filter("Vehicle Loan"),
@@ -411,34 +411,34 @@ table 50116 "HR Cue"
                                                            "Approval Status" = const(Screened)));
             FieldClass = FlowField;
         }
-        field(55; "To Recommend Salary Advance"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
-                                                               "Loan Type" = const("Salary Advance"),
-                                                               Recommender = field("Employee Filter")));
-            FieldClass = FlowField;
-        }
-        field(56; "To Recommend Home Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
-                                                               "Loan Type" = const("Home Loan"),
-                                                               Recommender = field("Employee Filter")));
-            FieldClass = FlowField;
-        }
-        field(57; "To Recommend Personal Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
-                                                               "Loan Type" = const("Personal Loan"),
-                                                               Recommender = field("Employee Filter")));
-            FieldClass = FlowField;
-        }
-        field(58; "To Recommend Vehicle Loan"; Integer)
-        {
-            CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
-                                                               "Loan Type" = const("Vehicle Loan"),
-                                                               Recommender = field("Employee Filter")));
-            FieldClass = FlowField;
-        }
+        // field(55; "To Recommend Salary Advance"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //                                                        "Loan Type" = const("Salary Advance"),
+        //                                                        Recommender = field("Employee Filter")));
+        //     FieldClass = FlowField;
+        // }
+        // field(56; "To Recommend Home Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //                                                        "Loan Type" = const("Home Loan"),
+        //                                                        Recommender = field("Employee Filter")));
+        //     FieldClass = FlowField;
+        // }
+        // field(57; "To Recommend Personal Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //                                                        "Loan Type" = const("Personal Loan"),
+        //                                                        Recommender = field("Employee Filter")));
+        //     FieldClass = FlowField;
+        // }
+        // field(58; "To Recommend Vehicle Loan"; Integer)
+        // {
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //                                                        "Loan Type" = const("Vehicle Loan"),
+        //                                                        Recommender = field("Employee Filter")));
+        //     FieldClass = FlowField;
+        // }
         field(59; "To Screen Transfer"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Employee Transfer" | "HR Transfer"),

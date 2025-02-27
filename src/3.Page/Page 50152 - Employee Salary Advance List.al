@@ -111,28 +111,28 @@ page 50152 "Employee Salary Advance List"
                     ToolTip = 'Specifies the value of the Screened Date field.';
                     ApplicationArea = All;
                 }
-                field(Recommender; Rec.Recommender)
-                {
-                    ToolTip = 'Specifies the value of the Recommender field.';
-                    ApplicationArea = All;
-                }
-                field(Approver; Rec.Approver)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approver field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                // field(Recommender; Rec.Recommender)
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Approver; Rec.Approver)
+                // {
+                //     Editable = false;
+                //     ToolTip = 'Specifies the value of the Approver field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommender Name"; Rec."Recommender Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Name field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Name"; Rec."Approver Name")
+                // {
+                //     Editable = false;
+                //     ToolTip = 'Specifies the value of the Approver Name field.';
+                //     ApplicationArea = All;
+                // }
                 field("Screener Remarks"; Rec."Screener Remarks")
                 {
                     ToolTip = 'Specifies the value of the Screener Remarks field.';
@@ -204,13 +204,14 @@ page 50152 "Employee Salary Advance List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Verified action.';
                 ApplicationArea = All;
+                Visible = true;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -226,7 +227,7 @@ page 50152 "Employee Salary Advance List"
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
                     //SETRANGE(Recommender, HRMgt.GetEmployeeNo());
                     Rec.FilterGroup(0);
                 end;
@@ -239,14 +240,14 @@ page 50152 "Employee Salary Advance List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    //SETRANGE(Approver, HRMgt.GetEmployeeNo());
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // //SETRANGE(Approver, HRMgt.GetEmployeeNo());
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)

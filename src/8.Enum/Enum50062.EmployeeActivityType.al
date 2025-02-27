@@ -65,4 +65,7 @@ enum 50062 "Employee Activity Type"
     value(15; "Insurance")
     {
     }
+    value(16; Loan)
+    {
+    }
 }

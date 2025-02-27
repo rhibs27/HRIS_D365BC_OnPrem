@@ -10,7 +10,7 @@ page 50153 "Employee Salary Advance Card"
         {
             group(General)
             {
-                Editable = FormEditable;
+                Editable = IsOpen;
                 field("Employee Code"; Rec."Employee Code")
                 {
                     Editable = false;
@@ -81,6 +81,21 @@ page 50153 "Employee Salary Advance Card"
                     ToolTip = 'Specifies the value of the Salary Advance Paid field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
+
+                }
+                field("Status"; Rec."Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = StatusView;
+                }
             }
             group("Facility Disbursement")
             {
@@ -118,21 +133,19 @@ page 50153 "Employee Salary Advance Card"
             group(Control17)
             {
                 ShowCaption = false;
+                Editable = IsOpen;
                 field("Purpose of Advance Salary"; Rec."Purpose of Advance Salary")
                 {
-                    Editable = FormEditable;
                     ToolTip = 'Specifies the value of the Purpose of Advance Salary field.';
                     ApplicationArea = All;
                 }
                 field("Requested Loan Date"; Rec."Requested Loan Date")
                 {
-                    Editable = FormEditable;
                     ToolTip = 'Specifies the value of the Requested Loan Date field.';
                     ApplicationArea = All;
                 }
                 field("Payback Months"; Rec."Payback Months")
                 {
-                    Editable = FormEditable;
                     ToolTip = 'Specifies the value of the Payback Months field.';
                     ApplicationArea = All;
 
@@ -143,7 +156,6 @@ page 50153 "Employee Salary Advance Card"
                 }
                 field("Applied Loan/Advance"; Rec."Applied Loan/Advance")
                 {
-                    Editable = not (Rec."Approval Status" = Rec."Approval Status"::Approved);
                     ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                     ApplicationArea = All;
 
@@ -161,69 +173,76 @@ page 50153 "Employee Salary Advance Card"
             }
             group("Group Remarks")
             {
+                Editable = IsPending;
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = FormEditable;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    Editable = ForScreen;
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Recommendation Remarks"; Rec."Recommendation Remarks")
-                {
-                    Editable = ForRecommend;
-                    ToolTip = 'Specifies the value of the Recommendation Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Screener Remarks"; Rec."Screener Remarks")
+                // {
+                //     Editable = ForScreen;
+                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommendation Remarks"; Rec."Recommendation Remarks")
+                // {
+                //     Editable = ForRecommend;
+                //     ToolTip = 'Specifies the value of the Recommendation Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field("Rejection Remark"; Rec."Rejection Remark")
                 {
-                    Editable = ForReject;
                     ToolTip = 'Specifies the value of the Rejection Remark field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
                 }
             }
-            group(Approval)
+            part("Approval Subform"; "HRMS Approval Entry")
             {
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field(Recommender; Rec.Recommender)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field(Screener; Rec.Screener)
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Screener field.';
-                    ApplicationArea = All;
-                }
-                field(Approver; Rec.Approver)
-                {
-                    Editable = ForScreen;
-                    ToolTip = 'Specifies the value of the Approver field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee Code"),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
+            // group(Approval)
+            // {
+
+            // field(Recommender; Rec.Recommender)
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Recommender Name field.';
+            //     ApplicationArea = All;
+            // // }
+            // field(Screener; Rec.Screener)
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Screener field.';
+            //     ApplicationArea = All;
+            // }
+            // field(Approver; Rec.Approver)
+            // {
+            //     Editable = ForScreen;
+            //     ToolTip = 'Specifies the value of the Approver field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Name"; Rec."Approver Name")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Name field.';
+            //     ApplicationArea = All;
+            // }
+            //}
         }
     }
 
@@ -254,7 +273,7 @@ page 50153 "Employee Salary Advance Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
 
@@ -271,7 +290,7 @@ page 50153 "Employee Salary Advance Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForRecommend;
+                Visible = false;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
 
@@ -285,7 +304,7 @@ page 50153 "Employee Salary Advance Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForScreen;
+                Visible = false;
                 ToolTip = 'Executes the Screen Request action.';
                 ApplicationArea = All;
 
@@ -301,15 +320,16 @@ page 50153 "Employee Salary Advance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, true);
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Salary Advance is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Reject Request")
@@ -319,15 +339,21 @@ page 50153 "Employee Salary Advance Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForReject;
+                Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
+
                 begin
-                    LoanMgt.ApproveRejectLoan(Rec, false);
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remark" = '' then
+                            Error('Rejection Remark is Empty')
+                        else begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Salary Advance is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
             action("Settle Salary Advance")
@@ -336,7 +362,7 @@ page 50153 "Employee Salary Advance Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForSettle;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Settle Salary Advance action.';
                 ApplicationArea = All;
 
@@ -353,7 +379,7 @@ page 50153 "Employee Salary Advance Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Return action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     Rec.ReOpenDocument(Rec);
@@ -386,11 +412,12 @@ page 50153 "Employee Salary Advance Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Change Approver action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to modify approver?') then begin
-                        LoanMgt.PopUpChangingApprover(Rec);
+                        //LoanMgt.PopUpChangingApprover(Rec);
                     end;
                 end;
             }
@@ -417,10 +444,10 @@ page 50153 "Employee Salary Advance Card"
 
     trigger OnAfterGetCurrRecord()
     begin
-        if Rec."Approval Status" = Rec."Approval Status"::Recommended then
-            ScreenerRemarksEditable := true
-        else
-            ScreenerRemarksEditable := false;
+        // if Rec."Approval Status" = Rec."Approval Status"::Recommended then
+        //     ScreenerRemarksEditable := true
+        // else
+        //     ScreenerRemarksEditable := false;
     end;
 
     trigger OnAfterGetRecord()
@@ -447,12 +474,13 @@ page 50153 "Employee Salary Advance Card"
             Rec.Modify(true);
         end;
         Rec.CalcFields("Salary Advance Paid");
+        RecRef.GetTable(Rec);
     end;
 
     var
         LoanMgt: Codeunit "Loan Mgt.";
-        FormEditable: Boolean;
-        FormVisible: Boolean;
+        // FormEditable: Boolean;
+        // FormVisible: Boolean;
         [InDataSet]
         ForApprove: Boolean;
         [InDataSet]
@@ -466,14 +494,22 @@ page 50153 "Employee Salary Advance Card"
         [InDataSet]
         ScreenerRemarksEditable: Boolean;
         HRSetup: Record "Human Resources Setup";
+        IsOpen: Boolean;
+        IsPending: Boolean;
+        IsApproved: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        RecRef: RecordRef;
+        ApproverMgt: Codeunit "Approver Mgt";
+        HRMgt: Codeunit "HR Mgt.";
 
     local procedure SetLayout()
     begin
-        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
-                        Rec."Approval Status"::Open];
+        // FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
+        //                 Rec."Approval Status"::Open];
 
-        FormVisible := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
-                        Rec."Approval Status"::Open];
+        // FormVisible := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
+        //                 Rec."Approval Status"::Open];
 
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
@@ -483,27 +519,27 @@ page 50153 "Employee Salary Advance Card"
                     ForApprove := false;
                     ForScreen := false;
                 end;
-            Rec."Approval Status"::"Pending Approval":
+            Rec."Approval Status"::"Pending":
                 begin
                     ForRecommend := true;
                     ForReject := true;
                     ForApprove := true;
                     ForScreen := false;
                 end;
-            Rec."Approval Status"::Recommended:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := false;
-                    ForScreen := true;
-                end;
-            Rec."Approval Status"::Screened:
-                begin
-                    ForRecommend := false;
-                    ForReject := true;
-                    ForApprove := true;
-                    ForScreen := false;
-                end;
+            // Rec."Approval Status"::Recommended:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := false;
+            //         ForScreen := true;
+            //     end;
+            // Rec."Approval Status"::Screened:
+            //     begin
+            //         ForRecommend := false;
+            //         ForReject := true;
+            //         ForApprove := true;
+            //         ForScreen := false;
+            //     end;
             Rec."Approval Status"::Rejected, Rec."Approval Status"::Approved:
                 begin
                     ForRecommend := false;
@@ -513,11 +549,18 @@ page 50153 "Employee Salary Advance Card"
                     ForSettle := true;
                 end;
         end;
-
-        if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
-                                  Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
-            AfterRecommendedVisible := true
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
         else
-            AfterRecommendedVisible := false;
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+
+        // if Rec."Approval Status" in [Rec."Approval Status"::Recommended, Rec."Approval Status"::Screened,
+        //                           Rec."Approval Status"::Approved, Rec."Approval Status"::Rejected] then
+        //     AfterRecommendedVisible := true
+        // else
+        //     AfterRecommendedVisible := false;
     end;
 }

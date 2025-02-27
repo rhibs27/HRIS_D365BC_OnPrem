@@ -4353,18 +4353,6 @@ End Function
         <Field Name="EstimatedCostofConstruction_Format">
           <DataField>EstimatedCostofConstruction_Format</DataField>
         </Field>
-        <Field Name="Recommender_">
-          <DataField>Recommender_</DataField>
-        </Field>
-        <Field Name="Approver_">
-          <DataField>Approver_</DataField>
-        </Field>
-        <Field Name="RecommenderName_">
-          <DataField>RecommenderName_</DataField>
-        </Field>
-        <Field Name="ApproverName_">
-          <DataField>ApproverName_</DataField>
-        </Field>
         <Field Name="ApprovedDate_">
           <DataField>ApprovedDate_</DataField>
         </Field>

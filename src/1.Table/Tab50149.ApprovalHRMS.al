@@ -69,6 +69,10 @@ table 50149 "Approval HRMS"
                     Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
             end;
         }
+        field(9; "Loan Type"; Enum "Loan Type")
+        {
+            DataClassification = ToBeClassified;
+        }
         field(12; "Status"; Text[20])
         {
             DataClassification = ToBeClassified;

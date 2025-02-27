@@ -34,66 +34,66 @@ page 50154 "Employee Personal Loan List"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Job Title"; Rec."Job Title")
-                {
-                    ToolTip = 'Specifies the value of the Job Title field.';
-                    ApplicationArea = All;
-                }
-                field("Job Type"; Rec."Job Type")
-                {
-                    ToolTip = 'Specifies the value of the Job Type field.';
-                    ApplicationArea = All;
-                }
-                field(Gender; Rec.Gender)
-                {
-                    ToolTip = 'Specifies the value of the Gender field.';
-                    ApplicationArea = All;
-                }
-                field("Confirmation Service Period"; Rec."Confirmation Service Period")
-                {
-                    ToolTip = 'Specifies the value of the Confirmation Service Period field.';
-                    ApplicationArea = All;
-                }
-                field("Date of Joining"; Rec."Date of Joining")
-                {
-                    ToolTip = 'Specifies the value of the Date of Joining field.';
-                    ApplicationArea = All;
-                }
-                field(Age; Rec.Age)
-                {
-                    ToolTip = 'Specifies the value of the Age field.';
-                    ApplicationArea = All;
-                }
+                // field("Job Title"; Rec."Job Title")
+                // {
+                //     ToolTip = 'Specifies the value of the Job Title field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Job Type"; Rec."Job Type")
+                // {
+                //     ToolTip = 'Specifies the value of the Job Type field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Gender; Rec.Gender)
+                // {
+                //     ToolTip = 'Specifies the value of the Gender field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Confirmation Service Period"; Rec."Confirmation Service Period")
+                // {
+                //     ToolTip = 'Specifies the value of the Confirmation Service Period field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Date of Joining"; Rec."Date of Joining")
+                // {
+                //     ToolTip = 'Specifies the value of the Date of Joining field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Age; Rec.Age)
+                // {
+                //     ToolTip = 'Specifies the value of the Age field.';
+                //     ApplicationArea = All;
+                // }
                 field("Requested Loan Date"; Rec."Requested Loan Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Loan Date field.';
                     ApplicationArea = All;
                 }
-                field("Date of Birth"; Rec."Date of Birth")
-                {
-                    ToolTip = 'Specifies the value of the Date of Birth field.';
-                    ApplicationArea = All;
-                }
-                field(Department; Rec.Department)
-                {
-                    ToolTip = 'Specifies the value of the Department field.';
-                    ApplicationArea = All;
-                }
-                field("Screened Date"; Rec."Screened Date")
-                {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
-                    ApplicationArea = All;
-                }
+                // field("Date of Birth"; Rec."Date of Birth")
+                // {
+                //     ToolTip = 'Specifies the value of the Date of Birth field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Department; Rec.Department)
+                // {
+                //     ToolTip = 'Specifies the value of the Department field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Screened Date"; Rec."Screened Date")
+                // {
+                //     ToolTip = 'Specifies the value of the Screened Date field.';
+                //     ApplicationArea = All;
+                // }
                 field(Frequency; Rec.Frequency)
                 {
                     ToolTip = 'Specifies the value of the Frequency field.';
                     ApplicationArea = All;
                 }
-                field("Gross Salary"; Rec."Gross Salary")
-                {
-                    ToolTip = 'Specifies the value of the Gross Salary field.';
-                    ApplicationArea = All;
-                }
+                // field("Gross Salary"; Rec."Gross Salary")
+                // {
+                //     ToolTip = 'Specifies the value of the Gross Salary field.';
+                //     ApplicationArea = All;
+                // }
                 field("Eligible Loan/Advance"; Rec."Eligible Loan/Advance")
                 {
                     ToolTip = 'Specifies the value of the Eligible Loan/Advance field.';
@@ -109,31 +109,31 @@ page 50154 "Employee Personal Loan List"
                     ToolTip = 'Specifies the value of the Payback Months field.';
                     ApplicationArea = All;
                 }
-                field("DBR Ratio"; Rec."DBR Ratio")
-                {
-                    ToolTip = 'Specifies the value of the DBR Ratio field.';
-                    ApplicationArea = All;
-                }
-                field(Recommender; Rec.Recommender)
-                {
-                    ToolTip = 'Specifies the value of the Recommender field.';
-                    ApplicationArea = All;
-                }
-                field(Approver; Rec.Approver)
-                {
-                    ToolTip = 'Specifies the value of the Approver field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                // field("DBR Ratio"; Rec."DBR Ratio")
+                // {
+                //     ToolTip = 'Specifies the value of the DBR Ratio field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Recommender; Rec.Recommender)
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Approver; Rec.Approver)
+                // {
+                //     ToolTip = 'Specifies the value of the Approver field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommender Name"; Rec."Recommender Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Name field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Name"; Rec."Approver Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Name field.';
+                //     ApplicationArea = All;
+                // }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
@@ -185,13 +185,14 @@ page 50154 "Employee Personal Loan List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Verified action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -203,11 +204,12 @@ page 50154 "Employee Personal Loan List"
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
 
+
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.FilterGroup(0);
                 end;
             }
@@ -219,13 +221,14 @@ page 50154 "Employee Personal Loan List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    Rec.FilterGroup(0);
+                    // Rec.FilterGroup(2);
+                    // ClearAll();
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)

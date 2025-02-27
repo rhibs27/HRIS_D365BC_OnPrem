@@ -863,12 +863,12 @@ page 50340 "Portal Function"
     begin
         EmpSalaryAdv.Get(empLoanNo);
         if isApproved then begin
-            if EmpSalaryAdv."Approval Status" = EmpSalaryAdv."Approval Status"::"Pending Approval" then
+            if EmpSalaryAdv."Approval Status" = EmpSalaryAdv."Approval Status"::"Pending" then
                 EmpSalaryAdv.Validate("Recommendation Remarks", remark);
         end else
             EmpSalaryAdv.Validate("Rejection Remark", remark);
         EmpSalaryAdv.Modify;
-        LoanMgt.ApproveRejectLoan(EmpSalaryAdv, isApproved);
+        //LoanMgt.ApproveRejectLoan(EmpSalaryAdv, isApproved);
     end;
 
     [ServiceEnabled]
@@ -985,20 +985,20 @@ page 50340 "Portal Function"
         if EmployeeLoanAdvance.Get(IncomingDoc."No.") then begin
             DocFoundEmpLoan := true;
             LoanType := EmployeeLoanAdvance."Loan Type";
-            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                and (IncomingDoc."File Name" <> '') then
                 Error('Attachment already exist.');
         end;
 
-        if not DocFoundEmpLoan then begin
-            if EmployeeActivity.Get(IncomingDoc."No.") then begin
-                DocFoundEmpActivity := true;
-                ActivityType := EmployeeActivity.Type;
-                if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
-                 and (IncomingDoc."File Name" <> '') then
-                    Error('Attachment already exist.');
-            end;
-        end;
+        // if not DocFoundEmpLoan then begin
+        //     if EmployeeActivity.Get(IncomingDoc."No.") then begin
+        //         DocFoundEmpActivity := true;
+        //         ActivityType := EmployeeActivity.Type;
+        //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeActivity."Approval Status"::Approved])
+        //          and (IncomingDoc."File Name" <> '') then
+        //             Error('Attachment already exist.');
+        //     end;
+        // end;
         if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
             if EmpInsurance.Get(IncomingDoc."No.") then begin
                 DocFoundInsurance := true;
@@ -1057,7 +1057,7 @@ page 50340 "Portal Function"
         IncomingDocument.Get(entryNo);
         if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
             DocFoundEmpLoan := true;
-            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                and (IncomingDocument."File Name" <> '') then
                 Error('Attachment already exist.');
         end;

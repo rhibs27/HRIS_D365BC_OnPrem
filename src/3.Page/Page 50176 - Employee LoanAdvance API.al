@@ -34,7 +34,7 @@ page 50176 "Employee Loan/Advance API"
                 field(unitName; Rec."Unit Name") { }
                 field(departmentName; Rec."Department Name") { }
                 field(branchName; Rec."Branch Name") { }
-                field(EMI; EMIVar)
+                field(emi; EMIVar)
                 {
                     trigger OnValidate()
                     begin
@@ -51,7 +51,7 @@ page 50176 "Employee Loan/Advance API"
                 field(appliedLoanAdvance; Rec."Applied Loan/Advance") { }
                 field(interestRate; Rec."Interest Rate") { }
                 field(paybackMonths; Rec."Payback Months") { }
-                field(DBRRatio; DBRVar)
+                field(dbrRatio; DBRVar)
                 {
                     trigger OnValidate()
                     begin
@@ -140,27 +140,30 @@ page 50176 "Employee Loan/Advance API"
                 field(returnedLoan; Rec."Returned Loan") { }
                 field(reinstateDate; Rec."Reinstate Date") { }
                 field(ageHomeLoan; Rec."Age Home Loan") { }
+                field(status; Rec.Status)
+                {
+                }
                 part(attachment; "Attachment Subform")
                 {
                     EntityName = 'attachmentEntity';
                     EntitySetName = 'attachmentEntities';
                     SubPageLink = "No." = field("No.");
                 }
-                field(recommender; Rec.Recommender) { }
-                field(recommenderName; Rec."Recommender Name") { }
-                field(approver; Rec.Approver)
-                {
-                    Editable = true;
+                // field(recommender; Rec.Recommender) { }
+                // // field(recommenderName; Rec."Recommender Name") { }
+                // field(approver; Rec.Approver)
+                // {
+                //     Editable = true;
 
-                    trigger OnValidate()
-                    begin
-                        if Rec."Loan Type" = Rec."Loan Type"::"Salary Advance" then begin
-                            Rec.Insert(true);
-                            LoanMgt.SendApprovaLoan(Rec, true);
-                        end;
-                    end;
-                }
-                field(approverName; Rec."Approver Name") { }
+                //     trigger OnValidate()
+                //     begin
+                //         if Rec."Loan Type" = Rec."Loan Type"::"Salary Advance" then begin
+                //             Rec.Insert(true);
+                //             LoanMgt.SendApprovaLoan(Rec, true);
+                //         end;
+                //     end;
+                // }
+                // field(approverName; Rec."Approver Name") { }
                 field(sendforApproval; sendforApproval)
                 {
                     trigger OnValidate()
@@ -175,6 +178,12 @@ page 50176 "Employee Loan/Advance API"
                         end;
                     end;
                 }
+                part(HRMSApproval; "HRMS Approval Entry")
+                {
+                    EntityName = 'approvalEntry';
+                    EntitySetName = 'approvalEntryEntities';
+                    SubPageLink = "Document No." = field("No.");
+                }
             }
         }
     }
@@ -186,16 +195,24 @@ page 50176 "Employee Loan/Advance API"
         DBRVar: Decimal;
         Error1: Label 'Insurance with Nepal Life Insurance is not tied up with Home Loan.';
         LoanMgt: Codeunit "Loan Mgt.";
+        HrMgt: Codeunit "HR Mgt.";
 
     trigger OnAfterGetRecord()
     begin
         approvedByBoard := Rec."Approved By Board";
         EMIVar := Round(Rec.EMI, 0.000001, '=');
-        DBRVar := Round(Rec."DBR Ratio", 0.000001, '=');
+        DBRVar := Round(Rec."DBR Ratio", 0.000001, '=')
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
+        Rec."Employee Code" := HrMgt.GetEmployeeNo();
+    end;
+
+    trigger OnOpenPage()
+
+    begin
+        Rec.SetRange("Employee Code", HrMgt.GetEmployeeNo());
     end;
 }

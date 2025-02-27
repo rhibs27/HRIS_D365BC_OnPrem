@@ -43,20 +43,22 @@ table 50106 "Employee Loan/Advance"
                     end;
             end;
         }
-        field(2; "Employee Code"; Code[20])
+        field(9; "Employee Code"; Code[20])
         {
-            TableRelation = if ("Loan Type" = filter("Salary Advance" | "Personal Loan" | "Home Loan")) Employee."No." where("Employment Type" = const(Permanent))
-            else if ("Loan Type" = filter("Vehicle Loan")) Employee."No." where("Employment Type" = const(Permanent));
+            TableRelation = Employee;
 
             trigger OnValidate()
             begin
+                Employee.Get("Employee Code");
+                if Employee."Employment Type" <> employee."Employment Type"::"Permanent" then
+                    Error('Employee is not Permanent. Cannot apply for loan/advance.');
+                if Employee.Status <> employee.Status::Active then
+                    Error('Employee is not active. Cannot apply for loan/advance.');
                 Clear(Branch);
                 Clear("Branch Name");
                 Clear("Unit Name");
                 if "Loan Type" = "Loan Type"::"Salary Advance" then
                     LoanMgt.NewSalaryAdvanceCheck("Employee Code");
-
-                Employee.Get("Employee Code");
                 Validate("Salary Level", Employee."Salary Level");
             end;
         }
@@ -85,9 +87,8 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(9; Frequency; Integer)
+        field(2; Type; Enum "Employee Activity Type")
         {
-            Editable = false;
         }
         field(10; "Gross Salary"; Decimal) { }
         field(11; FY; Code[10]) { }
@@ -106,7 +107,7 @@ table 50106 "Employee Loan/Advance"
             Editable = false;
             TableRelation = "Dimension Value".Code where("Dimension Code" = const('BRANCH'));
         }
-        field(16; "Remaining Service Period"; Decimal)
+        field(31; "Remaining Service Period"; Decimal)
         {
             Editable = false;
         }
@@ -146,7 +147,13 @@ table 50106 "Employee Loan/Advance"
         {
             Editable = false;
         }
-        field(25; Remarks; Text[250]) { }
+        field(25; Remarks; Text[250])
+        {
+            trigger OnValidate()
+            begin
+                Clear("Rejection Remark");
+            end;
+        }
         field(26; "Eligible Loan/Advance"; Decimal) { }
         field(27; "Applied Loan/Advance"; Decimal) { }
         field(28; "Payback Months"; Enum "Payback Months")
@@ -165,7 +172,7 @@ table 50106 "Employee Loan/Advance"
                 Validate(FY, HRMgt.ReturnFiscalYear("Requested Loan Date"));
             end;
         }
-        field(31; "Approval Status"; Enum "Employee Act. Approval Status")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
         }
         field(32; "Loan Type"; Enum "Loan Type")
@@ -292,67 +299,78 @@ table 50106 "Employee Loan/Advance"
 
             trigger OnValidate()
             begin
-                "Commercial Value of Property" := 0;
+                if GuiAllowed then
+                    "Commercial Value of Property" := 0;
             end;
         }
-        field(54; Recommender; Code[150])
-        {
-            TableRelation = Employee;
-
-            trigger OnValidate()
-            begin
-                if Employee.Get(Recommender) then
-                    "Recommender Name" := Employee."Full Name"
-                else
-                    Clear("Recommender Name");
-                // requirement not fixed
-                if Recommender <> '' then begin
-                    if Recommender = Approver then
-                        Error('Recommender and Approver cannot be same person.');
-                    Employee.Get(Recommender);
-                    if SalaryLevel.Get("Salary Level") then;
-                    if SalaryLevel1.Get(Employee."Salary Level") then;
-                    if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                        Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', Employee."Full Name", "Employee Name");
-                end;
-            end;
-        }
-        field(55; Approver; Code[150])
-        {
-            Editable = false;
-            TableRelation = Employee;
-
-            trigger OnValidate()
-            begin
-                if GuiAllowed then begin
-                    Employee.Get(HRMgt.GetEmployeeNo);
-                    if not Employee.Screener then
-                        Error('You are not eligible to change approver code.');
-                end;
-                if Employee.Get(Approver) then
-                    "Approver Name" := Employee."Full Name"
-                else
-                    Clear("Approver Name");
-                /* requirement not fixed
-                IF Approver <> '' THEN BEGIN
-                  IF Recommender = Approver THEN
-                   ERROR('Recommender and Approver cannot be same person.');
-                    Employee.GET(Approver);
-                  IF SalaryLevel.GET("Salary Level") THEN;
-                  IF SalaryLevel1.GET(Employee."Salary Level") THEN;
-                  IF SalaryLevel.Rank >= SalaryLevel1.Rank THEN
-                    ERROR('Salary level of approver (%1) must be greater than salary level of employee (%2)',Employee."Full Name","Employee Name");
-                END;
-                */
-            end;
-        }
-        field(56; "Recommender Name"; Text[250]) { }
-        field(57; "Approver Name"; Text[250])
+        field(54; Frequency; Integer)
         {
             Editable = false;
         }
+        // field(54; Recommender; Code[150])
+        // {
+        //     TableRelation = Employee;
+
+        //     trigger OnValidate()
+        //     begin
+        //         if Employee.Get(Recommender) then
+        //             "Recommender Name" := Employee."Full Name"
+        //         else
+        //             Clear("Recommender Name");
+        //         // requirement not fixed
+        //         if Recommender <> '' then begin
+        //             if Recommender = Approver then
+        //                 Error('Recommender and Approver cannot be same person.');
+        //             Employee.Get(Recommender);
+        //             if SalaryLevel.Get("Salary Level") then;
+        //             if SalaryLevel1.Get(Employee."Salary Level") then;
+        //             if SalaryLevel.Rank >= SalaryLevel1.Rank then
+        //                 Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', Employee."Full Name", "Employee Name");
+        //         end;
+        //     end;
+        // }
+        // field(55; Approver; Code[150])
+        // {
+        //     Editable = false;
+        //     TableRelation = Employee;
+
+        //     trigger OnValidate()
+        //     begin
+        //         if GuiAllowed then begin
+        //             Employee.Get(HRMgt.GetEmployeeNo);
+        //             if not Employee.Screener then
+        //                 Error('You are not eligible to change approver code.');
+        //         end;
+        //         if Employee.Get(Approver) then
+        //             "Approver Name" := Employee."Full Name"
+        //         else
+        //             Clear("Approver Name");
+        //         /* requirement not fixed
+        //         IF Approver <> '' THEN BEGIN
+        //           IF Recommender = Approver THEN
+        //            ERROR('Recommender and Approver cannot be same person.');
+        //             Employee.GET(Approver);
+        //           IF SalaryLevel.GET("Salary Level") THEN;
+        //           IF SalaryLevel1.GET(Employee."Salary Level") THEN;
+        //           IF SalaryLevel.Rank >= SalaryLevel1.Rank THEN
+        //             ERROR('Salary level of approver (%1) must be greater than salary level of employee (%2)',Employee."Full Name","Employee Name");
+        //         END;
+        //         */
+        //     end;
+        // }
+        // field(56; "Recommender Name"; Text[250]) { }
+        // field(57; "Approver Name"; Text[250])
+        // {
+        //     Editable = false;
+        // }
         field(58; "Approved Date"; Date) { }
-        field(59; "Rejection Remark"; Text[150]) { }
+        field(59; "Rejection Remark"; Text[150])
+        {
+            trigger OnValidate()
+            begin
+                Clear(Remarks);
+            end;
+        }
         field(60; Disbursed; Boolean)
         {
             Editable = false;
@@ -504,8 +522,12 @@ table 50106 "Employee Loan/Advance"
         }
         field(98; "Equity Financing Declaration"; Boolean) { }
         field(99; "Returned Loan"; Boolean) { }
-        field(100; "Reinstate Date"; Date) { }
-        field(101; "Age Home Loan"; Decimal) { }
+        field(100; "Status"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(101; "Reinstate Date"; Date) { }
+        field(102; "Age Home Loan"; Decimal) { }
     }
 
     keys
@@ -519,12 +541,16 @@ table 50106 "Employee Loan/Advance"
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete);
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document No.", "No.");
+        ApprovalEntry.DeleteAll();
+
     end;
 
     trigger OnInsert()
     begin
         Validate("Requested Loan Date", Today);
-
+        Validate(Type, Rec.Type::Loan);
         HRSetup.Get;
         if "No." = '' then
             case "Loan Type" of
@@ -551,7 +577,7 @@ table 50106 "Employee Loan/Advance"
                         NoSeriesMgt.InitSeries(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
             end;
-
+        ApproverMgt.InsertApprovalLoan("Employee Code", "No.", Type, "Loan Type");
         Validate("Approval Status", "Approval Status"::Open);
         LoanMgt.CalculateFields(Rec);
         CheckForAlreadyExitsLoan();
@@ -559,8 +585,8 @@ table 50106 "Employee Loan/Advance"
 
     trigger OnModify()
     begin
-        if (xRec."Approval Status" = "Approval Status") and (xRec.Approver = Approver) and (xRec.Recommender = Recommender) then
-            LoanMgt.CalculateFields(Rec);
+        // if (xRec."Approval Status" = "Approval Status") then
+        LoanMgt.CalculateFields(Rec);
     end;
 
     var
@@ -575,6 +601,8 @@ table 50106 "Employee Loan/Advance"
         SalaryLevel1: Record "Salary Level";
         ErrorSalAdv: Label 'You cannot apply before 4 month of previous salary advance approved date %1';
         ErrorFY: Label 'You cannot apply Salary Advance more than 2 times in a Fiscal Year %1.';
+        ApproverMgt: Codeunit "Approver Mgt";
+        ApprovalEntry: Record "Approval HRMS";
 
     local procedure CheckAreaofPlotFormat()
     var
@@ -617,13 +645,13 @@ table 50106 "Employee Loan/Advance"
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee Code", "Employee Code");
         EmpSalaryAdv.SetRange("Loan Type", "Loan Type");
-        if "Loan Type" in ["Loan Type"::"Personal Loan", "Loan Type"::"Home Loan"] then
+        if "Loan Type" in ["Loan Type"::"Personal Loan"] then
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1&<>%2', EmpSalaryAdv."Approval Status"::Rejected, EmpSalaryAdv."Approval Status"::Approved);
-        if "Loan Type" in ["Loan Type"::"Salary Advance", "Loan Type"::"Vehicle Loan"] then
+        if "Loan Type" in ["Loan Type"::"Salary Advance", "Loan Type"::"Vehicle Loan", "Loan Type"::"Home Loan"] then
             EmpSalaryAdv.SetFilter("Approval Status", '<>%1', EmpSalaryAdv."Approval Status"::Rejected);
         EmpSalaryAdv.SetRange(Settled, false);
         if EmpSalaryAdv.FindFirst then
-            Error('%1 already exist for employee %2.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
+            Error('%1 already exist for employee %2.Settle this Loan First.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
     end;
 
     procedure ReOpenDocument(EmpLoanAdvance: Record "Employee Loan/Advance")

@@ -52,7 +52,7 @@ codeunit 50002 "Loan Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         CompanyInfo: Record "Company Information";
         PGSetup: Record "Payroll General Setup";
-        LoanError: Label '''Your previous loan or salary advance is still pending.Please wait until your previous salary advance or loan is approved.';
+        LoanError: Label 'Your previous loan or salary advance %1 is still pending.Please wait until your previous salary advance or loan is approved.';
         // JsonTextReader: DotNet JsonTextReader;
         AcctNo: Text;
         SchemeTypeText: Text;
@@ -155,7 +155,7 @@ codeunit 50002 "Loan Mgt."
 
         CalculateDBR(EmpLoan, SalaryLevel);
 
-        InsertApprover(EmpLoan);
+        //InsertApprover(EmpLoan);
 
         InsertAttachmentLines(EmpLoan);
     end;
@@ -381,7 +381,8 @@ codeunit 50002 "Loan Mgt."
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee Code", EmpLoan."Employee Code");
         //EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
-        EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::"Pending Approval", EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
+        //EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::"Pending Approval", EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
+        EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange(Settled, false);
         //EmpSalaryAdv.SetRange("Loan Type", EmpSalaryAdv."Loan Type"::"Salary Advance");
@@ -435,36 +436,36 @@ codeunit 50002 "Loan Mgt."
 
     end;
 
-    local procedure InsertApprover(var EmpLoan: Record "Employee Loan/Advance")
-    var
-        EmployeeRec: Record Employee;
-    begin
-        if EmpLoan.Recommender = '' then begin
-            Employee.Get(EmpLoan."Employee Code");
-            EmpLoan.Validate(Recommender, Employee."Approver Code");
-        end;
-        if EmpLoan.Approver = '' then begin
-            HRSetup.Get;
-            HRSetup.TestField("HR Head Functional Title");
-            HRSetup.TestField("HR Department Code");
-            EmployeeRec.Reset;
-            EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-            EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
-            EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); //Min
-            if EmployeeRec.FindFirst then
-                EmpLoan.Validate(Approver, EmployeeRec."No.");
-        end;
-        /*
-        UpdateApproval(Employee,
-                      EmpLoan.Recommender,
-                      EmpLoan.Approver,
-                      EmpLoan."Recommender Name",
-                      EmpLoan."Approver Name",
-                      FALSE
-                     );
-                     */
+    // local procedure InsertApprover(var EmpLoan: Record "Employee Loan/Advance")//santosh commented 
+    // var
+    //     EmployeeRec: Record Employee;
+    // begin
+    //     if EmpLoan.Recommender = '' then begin
+    //         Employee.Get(EmpLoan."Employee Code");
+    //         EmpLoan.Validate(Recommender, Employee."Approver Code");
+    //     end;
+    //     if EmpLoan.Approver = '' then begin
+    //         HRSetup.Get;
+    //         HRSetup.TestField("HR Head Functional Title");
+    //         HRSetup.TestField("HR Department Code");
+    //         EmployeeRec.Reset;
+    //         EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+    //         EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
+    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); //Min
+    //         if EmployeeRec.FindFirst then
+    //             EmpLoan.Validate(Approver, EmployeeRec."No.");
+    //     end;
+    //     /*
+    //     UpdateApproval(Employee,
+    //                   EmpLoan.Recommender,
+    //                   EmpLoan.Approver,
+    //                   EmpLoan."Recommender Name",
+    //                   EmpLoan."Approver Name",
+    //                   FALSE
+    //                  );
+    //                  */
 
-    end;
+    // end;
 
     local procedure InsertAttachmentLines(var EmpLoan: Record "Employee Loan/Advance")
     var
@@ -490,6 +491,7 @@ codeunit 50002 "Loan Mgt."
                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                     IncomingDocument."No." := EmpLoan."No.";
                     IncomingDocument."Employee Code" := EmpLoan."Employee Code";
+                    IncomingDocument."Employee Activity Type" := EmpLoan.Type::Loan;
                     IncomingDocument."Table ID" := DATABASE::"Employee Loan/Advance";
                     IncomingDocument.Insert(true);
 
@@ -534,20 +536,20 @@ codeunit 50002 "Loan Mgt."
             if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
                 DocFoundEmpLoan := true;
                 LoanType := EmployeeLoanAdvance."Loan Type";
-                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
+                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                    and (IncomingDocument."File Name" <> '') then
                     Error('Attachment already exist.');
             end;
 
-            if not DocFoundEmpLoan then begin
-                if EmployeeActivity.Get(IncomingDocument."No.") then begin
-                    DocFoundEmpActivity := true;
-                    ActivityType := EmployeeActivity.Type;
-                    if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
-                     and (IncomingDocument."File Name" <> '') then
-                        Error('Attachment already exist.');
-                end;
-            end;
+            // if not DocFoundEmpLoan then begin
+            //     if EmployeeActivity.Get(IncomingDocument."No.") then begin
+            //         DocFoundEmpActivity := true;
+            //         ActivityType := EmployeeActivity.Type;
+            //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
+            //          and (IncomingDocument."File Name" <> '') then
+            //             Error('Attachment already exist.');
+            //     end;
+            // end; commented by santosh
 
             if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
                 if EmpInsurance.Get(IncomingDocument."No.") then begin
@@ -649,44 +651,44 @@ codeunit 50002 "Loan Mgt."
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
         AppraisalDocFound := false;
-        Employee.Get(HRMgt.GetEmployeeNo);
-        if not Employee.Screener then begin
-            if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
-                DocFoundEmpLoan := true;
-                //LoanType := EmployeeLoanAdvance."Loan Type";
-                if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeLoanAdvance."Approval Status"::Approved])
-                   and (IncomingDocument."File Name" <> '') then
+        //Employee.Get(HRMgt.GetEmployeeNo);
+        // if not Employee.Screener then begin
+        if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
+            DocFoundEmpLoan := true;
+            //LoanType := EmployeeLoanAdvance."Loan Type";
+            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
+               and (IncomingDocument."File Name" <> '') then
+                Error('Attachment already exist.');
+        end;
+
+        // if not DocFoundEmpLoan then begin
+        //     if EmployeeActivity.Get(IncomingDocument."No.") then begin
+        //         DocFoundEmpActivity := true;
+        //         ActivityType := EmployeeActivity.Type;
+        //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
+        //          and (IncomingDocument."File Name" <> '') then
+        //             Error('Attachment already exist.');
+        //     end;
+        // end;
+
+        // if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
+        //     if EmpInsurance.Get(IncomingDocument."No.") then begin
+        //         DocFoundInsurance := true;
+        //         if EmpInsurance.Status = EmpInsurance.Status::Screened then
+        //             Error('Cannot upload in screened insurance.');
+        //         if IncomingDocument."File Name" <> '' then
+        //             Error('Attachment already exist.');
+        //     end;
+        // end;
+        if not AppraisalDocFound then begin //Min
+            if AppraisalEmp.Get(IncomingDocument."No.") then begin
+                AppraisalDocFound := true;
+                if (AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed")
+                 and (IncomingDocument."File Name" <> '') then
                     Error('Attachment already exist.');
             end;
-
-            // if not DocFoundEmpLoan then begin
-            //     if EmployeeActivity.Get(IncomingDocument."No.") then begin
-            //         DocFoundEmpActivity := true;
-            //         ActivityType := EmployeeActivity.Type;
-            //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
-            //          and (IncomingDocument."File Name" <> '') then
-            //             Error('Attachment already exist.');
-            //     end;
-            // end;
-
-            // if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
-            //     if EmpInsurance.Get(IncomingDocument."No.") then begin
-            //         DocFoundInsurance := true;
-            //         if EmpInsurance.Status = EmpInsurance.Status::Screened then
-            //             Error('Cannot upload in screened insurance.');
-            //         if IncomingDocument."File Name" <> '' then
-            //             Error('Attachment already exist.');
-            //     end;
-            // end;
-            if not AppraisalDocFound then begin //Min
-                if AppraisalEmp.Get(IncomingDocument."No.") then begin
-                    AppraisalDocFound := true;
-                    if (AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed")
-                     and (IncomingDocument."File Name" <> '') then
-                        Error('Attachment already exist.');
-                end;
-            end;
         end;
+        ;
         case IncomingDocument."Employee Activity Type" of
             IncomingDocument."Employee Activity Type"::"Employee Transfer", IncomingDocument."Employee Activity Type"::"HR Transfer":
                 EmployeeActivityFolder := 'Transfer';
@@ -700,8 +702,14 @@ codeunit 50002 "Loan Mgt."
             // Validate File Extension
             Extension := FileMgt.GetExtension(FileName);
             if Extension = '' then
-                Error('Invalid file. Please upload a file with a valid extension.');
-
+                Error('Invalid file. Please upload jpg, png or pdf files.');
+            case LowerCase(Extension) of
+                'jpg', 'jpeg', 'png', 'pdf':
+                    begin
+                    end;
+                else
+                    Error('Invalid file extension. Please upload a file with a valid extension.');
+            end;
             // Define the server directory (ensure it is configured in your setup)
 
             TargetDirectory := HRSetup."Attachment Storage Location";
@@ -837,7 +845,7 @@ codeunit 50002 "Loan Mgt."
         if not Employee.Screener then begin
             if EmpLoan.Get(IncomingDocument."No.") then begin
                 EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::Open);
-                if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved])
+                if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
                    and (IncomingDocument."File Name" <> '') then
                     Error('Cannot delete attachment.');
             end else if EmpAct.Get(IncomingDocument."No.") then begin
@@ -959,11 +967,10 @@ codeunit 50002 "Loan Mgt."
         Error('Loan Interest setup not found for %1, Date %2', LoanType, StartingDate);
     end;
 
-    procedure ValidateDocument(var EmpLoan: Record "Employee Loan/Advance")
+    procedure ValidateDocument(var EmpLoan: Record "Employee Loan/Advance"): Boolean
     begin
         if EmpLoan."Applied Loan/Advance" <= 0 then
             Error('Requested Amount must be greater than 0');
-
         case EmpLoan."Loan Type" of
             EmpLoan."Loan Type"::"Salary Advance":
                 SalaryAdvanceValidateDocument(EmpLoan);
@@ -976,6 +983,7 @@ codeunit 50002 "Loan Mgt."
             else
                 Error('Case not handled.');
         end;
+        exit(true)
     end;
 
     procedure SalaryAdvanceValidateDocument(var EmpLoan: Record "Employee Loan/Advance")
@@ -1188,7 +1196,7 @@ codeunit 50002 "Loan Mgt."
             exit(Employee."No.");
     end;
 
-    local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan"; "No.": Code[20]): Decimal
+    local procedure GetExistingLoanAmount(EmployeeCode: Code[20]; LoanType: Enum "Loan Type"; "No.": Code[20]): Decimal
     var
         PreviousLoan: Record "Employee Loan/Advance";
         LoanOutstanding: Record "Loan Outstanding from Finacle";
@@ -1251,7 +1259,7 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.SetRange("Loan Type", EmpSalAvd."Loan Type"::"Salary Advance");
         if EmpSalAvd.FindFirst then begin
             if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
-              or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Cancelled) then
+              or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
                 if not EmpSalAvd.Settled then
                     Error('Please settle the existing salary advance.');
         end;
@@ -1285,15 +1293,15 @@ codeunit 50002 "Loan Mgt."
                 exit;
 
         HRSetup.Get;
-        Employee.Reset;
-        Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee.SetRange(Status, Employee.Status::Active); //Min
-        if Employee.FindFirst then;
-        EmpLoan.Validate(Approver, Employee."No.");
-        if not GuiAllowed then begin
+        // Employee.Reset;
+        // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+        // Employee.SetRange(Status, Employee.Status::Active); //Min
+        // if Employee.FindFirst then;
+        // EmpLoan.Validate(Approver, Employee."No.");
+        // if not GuiAllowed then begin
 
-            EmpLoan.Validate(Recommender);
-        end;
+        //     EmpLoan.Validate(Recommender);
+        // end;
         Clear(Employee);
         Employee.Get(EmpLoan."Employee Code");
 
@@ -1301,10 +1309,9 @@ codeunit 50002 "Loan Mgt."
 
         EmpLoan1.Reset;
         EmpLoan1.SetRange("Employee Code", EmpLoan."Employee Code");
-        EmpLoan1.SetFilter("Approval Status", '%1|%2|%3', EmpLoan1."Approval Status"::Recommended, EmpLoan1."Approval Status"::"Pending Approval",
-                            EmpLoan1."Approval Status"::Screened);
+        EmpLoan1.SetFilter("Approval Status", '%1', EmpLoan1."Approval Status"::Pending);
         if EmpLoan1.FindFirst then
-            Error(LoanError);
+            Error(LoanError, EmpLoan1."No.");
 
         SalaryLevel.Get(EmpLoan."Job Title");
         //control
@@ -1313,8 +1320,8 @@ codeunit 50002 "Loan Mgt."
         CalculateEligibleLoanAmount(EmpLoan);
         CalculateEMI(EmpLoan);
         CalculateDBR(EmpLoan, SalaryLevel);
-        if EmpLoan.Recommender = '' then
-            Error('Recommender must not be blank.');
+        // if EmpLoan.Recommender = '' then
+        //     Error('Recommender must not be blank.');
 
 
         if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
@@ -1325,14 +1332,15 @@ codeunit 50002 "Loan Mgt."
         if SendCancelBool then begin
             if not (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::" ", EmpLoan."Approval Status"::Open]) then
                 Error(APPROVALERROR);
-            if EmpLoan.Recommender = '' then
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            else
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::"Pending Approval");
+            EmpLoan."Approval Status" := EmpLoan."Approval Status"::Pending;
+            // if EmpLoan.Recommender = '' then
+            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
+            // else
+            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::"Pending Approval");
             EmpLoan.Modify();
             Message(APPROVALSENT);
         end else begin
-            EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::"Pending Approval");
+            EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::"Pending");
             EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Open);
             EmpLoan.Modify();
             Message(APPROVALCANCELLED);
@@ -1347,123 +1355,120 @@ codeunit 50002 "Loan Mgt."
         Verified: Label 'Document verified.';
         AlreadyVerified: Label 'Document already verfied.';
     begin
-        //screen
-        Employee.Get(GetEmployeeCode);
-        Employee.TestField(Screener);
+        //screen commented santosh
+        // Employee.Get(GetEmployeeCode);
+        // Employee.TestField(Screener);
 
-        EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::Recommended);
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then
-            Error(AlreadyVerified);
-        EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Screened);
-        EmpLoan.Validate("Screened Date", Today);
-        EmpLoan.Screener := Employee."No.";
-        EmpLoan.Modify;
-        Message(Verified);
+        // EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::Recommended);
+        // if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then
+        //     Error(AlreadyVerified);
+        // EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Screened);
+        // EmpLoan.Validate("Screened Date", Today);
+        // EmpLoan.Screener := Employee."No.";
+        // EmpLoan.Modify;
+        // Message(Verified);
     end;
 
-    procedure ApproveRejectLoan(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean)
-    var
-        Confirmation: Label 'Confirm action?';
-        Approved: Label 'Document is approved.';
-    begin
-        if GuiAllowed then
-            if not Confirm(Confirmation, false) then
-                exit;
+    // procedure ApproveRejectLoan(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean)
+    // var
+    //     Confirmation: Label 'Confirm action?';
+    //     Approved: Label 'Document is approved.';
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm(Confirmation, false) then
+    //             exit;
+    //     //control
+    //     if Approve then
+    //         ValidateDocument(EmpLoan);
+    // if not Approve then
+    //     EmpLoan.TestField("Rejection Remark")
+    // else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
+    //     Error(Approved);
+    // commented by santosh
+    // check approver
+    // CheckLoanApproval(EmpLoan);
+    //action
+    // if Approve then begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //         if EmpLoan."Recommendation Remarks" = '' then
+    //             Error('Recommendation remarks must have value');
+    //         EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
+    //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+    //         EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Approved);
+    //         if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
+    //             EmpLoan.Validate("Remaining Amount", EmpLoan."Applied Loan/Advance");
+    //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Recommended then
+    //             Error('Please verfiy loan first.');
+    // end else begin
+    //     if EmpLoan."Rejection Remark" = '' then
+    //         Error('Rejection Remarks must have value.');
+    //     if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Approved] then begin
+    //         Employee.Get(HRMgt.GetEmployeeNo);
+    //         if not Employee.Screener then
+    //             Error('You are not eligble to reject this document.');
+    //     end;
 
-        //control
-        if Approve then
-            ValidateDocument(EmpLoan);
+    //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Rejected);
 
+    // end;
+    //         EmpLoan."Approved Date" := Today;
+    //         //VALIDATE("Employee Code",HRMgt.GetEmployeeNo);
+    //         EmpLoan.Modify();
 
-        if not Approve then
-            EmpLoan.TestField("Rejection Remark")
-        else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
-            Error(Approved);
+    //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
+    //     end;
 
-        //check approver
-        CheckLoanApproval(EmpLoan);
-        //action
-        if Approve then begin
-            if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
-                if EmpLoan."Recommendation Remarks" = '' then
-                    Error('Recommendation remarks must have value');
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Approved);
-                if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
-                    EmpLoan.Validate("Remaining Amount", EmpLoan."Applied Loan/Advance");
-            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Recommended then
-                    Error('Please verfiy loan first.');
-        end else begin
-            if EmpLoan."Rejection Remark" = '' then
-                Error('Rejection Remarks must have value.');
-            if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Approved] then begin
-                Employee.Get(HRMgt.GetEmployeeNo);
-                if not Employee.Screener then
-                    Error('You are not eligble to reject this document.');
-            end;
+    // procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: code[20])
+    // var
+    //     Confirmation: Label 'Confirm action?';
+    //     Approved: Label 'Document is approved.';
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm(Confirmation, false) then
+    //             exit;
 
-            EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Rejected);
-
-        end;
-        EmpLoan."Approved Date" := Today;
-        //VALIDATE("Employee Code",HRMgt.GetEmployeeNo);
-        EmpLoan.Modify();
-
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
-    end;
-
-    procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: code[20])
-    var
-        Confirmation: Label 'Confirm action?';
-        Approved: Label 'Document is approved.';
-    begin
-        if GuiAllowed then
-            if not Confirm(Confirmation, false) then
-                exit;
-
-        //control
-        if Approve then
-            ValidateDocument(EmpLoan);
+    //     //control
+    //     if Approve then
+    //         ValidateDocument(EmpLoan);
 
 
-        if not Approve then
-            EmpLoan.TestField("Rejection Remark")
-        else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
-            Error(Approved);
+    //     if not Approve then
+    //         EmpLoan.TestField("Rejection Remark")
+    //     else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Approved then
+    //         Error(Approved);
 
-        //check approver
-        CheckLoanApprovalAPI(EmpLoan, ApproverNo);
-        //action
-        if Approve then begin
-            if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
-                if EmpLoan."Recommendation Remarks" = '' then
-                    Error('Recommendation remarks must have value');
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
-            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
-                EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Approved);
-                if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
-                    EmpLoan.Validate("Remaining Amount", EmpLoan."Applied Loan/Advance");
-            end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Recommended then
-                    Error('Please verfiy loan first.');
-        end else begin
-            if EmpLoan."Rejection Remark" = '' then
-                Error('Rejection Remarks must have value.');
-            if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Approved] then begin
-                Employee.Get(HRMgt.GetEmployeeNo);
-                if not Employee.Screener then
-                    Error('You are not eligble to reject this document.');
-            end;
+    //     //check approver
+    //     CheckLoanApprovalAPI(EmpLoan, ApproverNo);
+    //     //action
+    //     if Approve then begin
+    //         if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //             if EmpLoan."Recommendation Remarks" = '' then
+    //                 Error('Recommendation remarks must have value');
+    //             EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
+    //         end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+    //             EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Approved);
+    //             if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Salary Advance" then
+    //                 EmpLoan.Validate("Remaining Amount", EmpLoan."Applied Loan/Advance");
+    //         end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Recommended then
+    //                 Error('Please verfiy loan first.');
+    //     end else begin
+    //         if EmpLoan."Rejection Remark" = '' then
+    //             Error('Rejection Remarks must have value.');
+    //         if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Approved] then begin
+    //             Employee.Get(HRMgt.GetEmployeeNo);
+    //             if not Employee.Screener then
+    //                 Error('You are not eligble to reject this document.');
+    //         end;
 
-            EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Rejected);
+    //         EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Rejected);
 
-        end;
-        EmpLoan."Approved Date" := Today;
-        //VALIDATE("Employee Code",HRMgt.GetEmployeeNo);
-        EmpLoan.Modify();
+    //     end;
+    //     EmpLoan."Approved Date" := Today;
+    //     //VALIDATE("Employee Code",HRMgt.GetEmployeeNo);
+    //     EmpLoan.Modify();
 
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
-    end;
+    //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
+    // end;
 
     local procedure "------update approver------"()
     begin
@@ -1862,35 +1867,35 @@ codeunit 50002 "Loan Mgt."
         AllowanceLine.ModifyAll("Approved Date", Today);
     end;
 
-    local procedure CheckLoanApproval(var EmpLoan: Record "Employee Loan/Advance")
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    begin
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
-            if StrPos(EmpLoan.Recommender, GetEmployeeCode()) = 0 then
-                Error(RecommendNotEligibleError);
-        end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
-            HRSetup.Get;
-            if StrPos(EmpLoan.Approver, GetEmployeeCode()) = 0 then
-                Error(ApproveNotEligibleError);
-        end;
-    end;
+    // local procedure CheckLoanApproval(var EmpLoan: Record "Employee Loan/Advance")
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    // begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //         if StrPos(EmpLoan.Recommender, GetEmployeeCode()) = 0 then
+    //             Error(RecommendNotEligibleError);
+    //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+    //         HRSetup.Get;
+    //         if StrPos(EmpLoan.Approver, GetEmployeeCode()) = 0 then
+    //             Error(ApproveNotEligibleError);
+    //     end;
+    // end;
 
-    local procedure CheckLoanApprovalAPI(var EmpLoan: Record "Employee Loan/Advance"; ApprovalCode: Code[20])
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    begin
-        if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
-            if StrPos(EmpLoan.Recommender, ApprovalCode) = 0 then
-                Error(RecommendNotEligibleError);
-        end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
-            HRSetup.Get;
-            if StrPos(EmpLoan.Approver, ApprovalCode) = 0 then
-                Error(ApproveNotEligibleError);
-        end;
-    end;
+    // local procedure CheckLoanApprovalAPI(var EmpLoan: Record "Employee Loan/Advance"; ApprovalCode: Code[20])
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    // begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //         if StrPos(EmpLoan.Recommender, ApprovalCode) = 0 then
+    //             Error(RecommendNotEligibleError);
+    //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
+    //         HRSetup.Get;
+    //         if StrPos(EmpLoan.Approver, ApprovalCode) = 0 then
+    //             Error(ApproveNotEligibleError);
+    //     end;
+    // end;
 
     local procedure CheckAttachmentMandatory(var EmpLoan: Record "Employee Loan/Advance")
     var
@@ -2289,7 +2294,7 @@ codeunit 50002 "Loan Mgt."
     begin
     end;
 
-    procedure OpenLoan(No: Code[20]; Type: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan")
+    procedure OpenLoan(No: Code[20]; Type: Enum "Loan Type")
     var
         EmpLoanAdvance: Record "Employee Loan/Advance";
     begin
@@ -2306,7 +2311,7 @@ codeunit 50002 "Loan Mgt."
             EmpLoanAdvance.Validate("Employee Name in Nepali", Employee."Full Name (Nepali)");
             EmpLoanAdvance.Validate("Father's Name In Nepali", Employee."Father's Name (Nepali)");
             EmpLoanAdvance.Validate("Grandfather's Name In Nepali", Employee."GrandFather's Name (Nepali)");
-            EmpLoanAdvance.Validate("Approval Status", EmpLoanAdvance."Approval Status"::"Pending Approval");
+            EmpLoanAdvance.Validate("Approval Status", EmpLoanAdvance."Approval Status"::"Pending");
             EmpLoanAdvance.Insert(true);
         end;
 
@@ -2672,20 +2677,20 @@ codeunit 50002 "Loan Mgt."
     //     stream.Close();
     // end;
 
-    // local procedure GenerateLoanEMI_OR_Limit(LoanAcctNo: Code[30]; Amt: Decimal; Type: Option " ",Loan,"Loan Limit",EMI)
-    // var
-    //     LoanOutstanding: Record "Loan Outstanding from Finacle";
-    // begin
-    //     LoanOutstanding.Reset;
-    //     LoanOutstanding.SetRange("Account ID", LoanAcctNo);
-    //     if LoanOutstanding.FindFirst then begin
-    //         if Type = Type::"Loan Limit" then
-    //             LoanOutstanding."Loan Limit" := Amt
-    //         else if Type = Type::EMI then
-    //             LoanOutstanding.EMI := Amt;
-    //         LoanOutstanding.Modify;
-    //     end;
-    // end;
+    local procedure GenerateLoanEMI_OR_Limit(LoanAcctNo: Code[30]; Amt: Decimal; Type: Option " ",Loan,"Loan Limit",EMI)
+    var
+        LoanOutstanding: Record "Loan Outstanding from Finacle";
+    begin
+        LoanOutstanding.Reset;
+        LoanOutstanding.SetRange("Account ID", LoanAcctNo);
+        if LoanOutstanding.FindFirst then begin
+            if Type = Type::"Loan Limit" then
+                LoanOutstanding."Loan Limit" := Amt
+            else if Type = Type::EMI then
+                LoanOutstanding.EMI := Amt;
+            LoanOutstanding.Modify;
+        end;
+    end;
 
     procedure SendReportEmailAfterApproval(EmployeeLoanAdvance: Record "Employee Loan/Advance")
     var
@@ -2913,27 +2918,27 @@ codeunit 50002 "Loan Mgt."
         EmployeeLoan.Modify;
     end;
 
-    procedure PopUpChangingApprover(EmployeeLoan: Record "Employee Loan/Advance")
-    var
-        LoanPageBuilder: FilterPageBuilder;
-        EmpLoan: Record "Employee Loan/Advance";
-        DisbursementDate: Date;
-        DisbursedAmt: Decimal;
-    begin
-        LoanPageBuilder.AddRecord('Change Approver', EmpLoan);
-        LoanPageBuilder.ADdField('Change Approver', EmpLoan.Approver);
-        if LoanPageBuilder.RunModal then begin
-            EmpLoan.SetView(LoanPageBuilder.GetView('Change Approver'));
+    // procedure PopUpChangingApprover(EmployeeLoan: Record "Employee Loan/Advance")
+    // var
+    //     LoanPageBuilder: FilterPageBuilder;
+    //     EmpLoan: Record "Employee Loan/Advance";
+    //     DisbursementDate: Date;
+    //     DisbursedAmt: Decimal;
+    // begin
+    //     LoanPageBuilder.AddRecord('Change Approver', EmpLoan);
+    //     LoanPageBuilder.ADdField('Change Approver', EmpLoan.Approver);
+    //     if LoanPageBuilder.RunModal then begin
+    //         EmpLoan.SetView(LoanPageBuilder.GetView('Change Approver'));
 
-            if EmpLoan.GetFilter(Approver) = '' then
-                Error('Approver Code cannot be blank.');
+    //         if EmpLoan.GetFilter(Approver) = '' then
+    //             Error('Approver Code cannot be blank.');
 
-            EmployeeLoan.Validate(Approver, EmpLoan.GetFilter(Approver));
-            EmployeeLoan.Modify;
-            Message('Approver updated.');
+    //         EmployeeLoan.Validate(Approver, EmpLoan.GetFilter(Approver));
+    //         EmployeeLoan.Modify;
+    //         Message('Approver updated.');
 
-        end;
-    end;
+    //     end;
+    // end;
 
     procedure PopUpChangingApproverAllowance(AllowanceHeader: Record "Allowance Assignment Header")
     var

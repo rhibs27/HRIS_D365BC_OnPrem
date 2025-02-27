@@ -46,10 +46,10 @@ report 50051 "Loan/Salary Advance Report"
             column(AddressofOwner_; "Employee Loan/Advance"."Address of Owner") { }
             column(AreaofPlot_; "Employee Loan/Advance"."Area of Plot") { }
             column(EstimatedCostofConstruction_; "Employee Loan/Advance"."Estimated Cost of Construction") { }
-            column(Recommender_; "Employee Loan/Advance".Recommender) { }
-            column(Approver_; "Employee Loan/Advance".Approver) { }
-            column(RecommenderName_; "Employee Loan/Advance"."Recommender Name") { }
-            column(ApproverName_; "Employee Loan/Advance"."Approver Name") { }
+            // column(Recommender_; "Employee Loan/Advance".Recommender) { }
+            // column(Approver_; "Employee Loan/Advance".Approver) { }
+            // column(RecommenderName_; "Employee Loan/Advance"."Recommender Name") { }
+            // column(ApproverName_; "Employee Loan/Advance"."Approver Name") { }
             column(ApprovedDate_; "Employee Loan/Advance"."Approved Date") { }
             column(RejectionRemark_; "Employee Loan/Advance"."Rejection Remark") { }
             column(Disbursed_; "Employee Loan/Advance".Disbursed) { }
