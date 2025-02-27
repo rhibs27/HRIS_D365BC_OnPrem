@@ -40,14 +40,14 @@ page 50164 "Attachment Subform"
 
                     trigger OnDrillDown()
                     begin
-                        if Confirm('Do You Want to Download Attachment?', false) then
-                            LoanMgt.DownloadAttachment(Rec);
+                        // if Confirm('Do You Want to Download Attachment?', false) then
+                        //     LoanMgt.DownloadAttachment(Rec);
+                        page.Run(page::"Preview Attachment", Rec);
                     end;
 
                     trigger OnLookup(var Text: Text): Boolean
                     begin
-                        if Confirm('Do You Want to Download Attachment?', false) then
-                            LoanMgt.DownloadAttachment(Rec);
+                        page.Run(page::"Preview Attachment", Rec);
                     end;
 
                     // trigger OnValidate() nilesh
@@ -142,6 +142,20 @@ page 50164 "Attachment Subform"
                 begin
                     if Confirm('Do You Want to Download Attachment?', false) then
                         LoanMgt.DownloadAttachment(Rec);
+                end;
+            }
+            action(Preview)
+            {
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Download action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    page.Run(page::"Preview Attachment", Rec);
                 end;
             }
             action(Remove)
