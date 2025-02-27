@@ -116,7 +116,6 @@ query 50001 "Leave Query"
 
         }
     }
-
     trigger OnBeforeOpen()
     var
         Hrmgt: Codeunit "HR Mgt.";

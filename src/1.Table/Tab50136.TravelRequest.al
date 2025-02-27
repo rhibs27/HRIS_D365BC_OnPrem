@@ -232,6 +232,10 @@ table 50136 "Travel Request"
         }
         field(14; Remarks; Text[100])
         {
+            trigger OnValidate()
+            begin
+                Clear("Rejection Remarks");
+            end;
 
             // trigger OnLookup()
             // begin
@@ -427,6 +431,10 @@ table 50136 "Travel Request"
         }
         field(36; "Rejection Remarks"; Text[100])
         {
+            trigger OnValidate()
+            begin
+                Clear(Remarks);
+            end;
         }
         field(37; "Approved Date"; Date)
         {
@@ -876,12 +884,17 @@ table 50136 "Travel Request"
 
     trigger OnDelete()
     var
+        CannotDelete: Label 'Cannot delete document.';
 
     begin
         //for Delete Approval Entry when Document is delete Santosh
-        ApprovalEntry.Reset();
-        ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.DeleteAll();
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.DeleteAll();
+        end;
 
     end;
 

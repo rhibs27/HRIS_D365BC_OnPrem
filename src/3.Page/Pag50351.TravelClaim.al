@@ -367,130 +367,130 @@ page 50351 "Travel Claim"
                 end;
             }
         }
-        area(Navigation)
-        {
-            action(Open)
-            {
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Open action.';
-                ApplicationArea = All;
+        // area(Navigation)
+        // {
+        //     action(Open)
+        //     {
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Open action.';
+        //         ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Screened)
-            {
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screened action.';
-                ApplicationArea = All;
-                Visible = false;
+        //         trigger OnAction()
+        //         begin
+        //             Rec.FilterGroup(2);
+        //             ClearAll();
+        //             Rec.SetFilter("Approval Status", '%1|%2', Rec."Approval Status"::" ", Rec."Approval Status"::Open);
+        //             Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action(Screened)
+        //     {
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Screened action.';
+        //         ApplicationArea = All;
+        //         Visible = false;
 
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    // Rec.FilterGroup(0);
-                end;
-            }
-            action("Pending Approval")
-            {
-                Image = PendingApproval;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Pending Approval action.';
-                ApplicationArea = All;
+        //         trigger OnAction()
+        //         begin
+        //             // Rec.FilterGroup(2);
+        //             // ClearAll();
+        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+        //             // Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action("Pending Approval")
+        //     {
+        //         Image = PendingApproval;
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Pending Approval action.';
+        //         ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
-                Visible = false;
+        //         trigger OnAction()
+        //         begin
+        //             Rec.FilterGroup(2);
+        //             ClearAll();
+        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
+        //             Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action(Recommended)
+        //     {
+        //         Image = Approve;
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Recommended action.';
+        //         ApplicationArea = All;
+        //         Visible = false;
 
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+        //         trigger OnAction()
+        //         begin
+        //             // Rec.FilterGroup(2);
+        //             // ClearAll();
+        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
 
-                    // Rec.FilterGroup(0);
-                end;
-            }
-            action(Approved)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Approved action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action(Rejected)
-            {
-                Image = DeleteQtyToHandle;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Rejected action.';
-                ApplicationArea = All;
+        //             // Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action(Approved)
+        //     {
+        //         Image = Approve;
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Approved action.';
+        //         ApplicationArea = All;
+        //         trigger OnAction()
+        //         begin
+        //             Rec.FilterGroup(2);
+        //             ClearAll();
+        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
+        //             Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action(Rejected)
+        //     {
+        //         Image = DeleteQtyToHandle;
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         ToolTip = 'Executes the Rejected action.';
+        //         ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
-                    Rec.FilterGroup(0);
-                end;
-            }
-            action("Final Approve")
-            {
-                Image = Flow;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Final Approve action.';
-                ApplicationArea = All;
-                Visible = false;
+        //         trigger OnAction()
+        //         begin
+        //             Rec.FilterGroup(2);
+        //             ClearAll();
+        //             Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
+        //             Rec.FilterGroup(0);
+        //         end;
+        //     }
+        //     action("Final Approve")
+        //     {
+        //         Image = Flow;
+        //         Promoted = true;
+        //         PromotedCategory = Category4;
+        //         PromotedIsBig = true;
+        //         PromotedOnly = true;
+        //         ToolTip = 'Executes the Final Approve action.';
+        //         ApplicationArea = All;
+        //         Visible = false;
 
-                trigger OnAction()
-                begin
-                    // Rec.FilterGroup(2);
-                    // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    // Rec.FilterGroup(0);
-                end;
-            }
-        }
+        //         trigger OnAction()
+        //         begin
+        //             // Rec.FilterGroup(2);
+        //             // ClearAll();
+        //             // Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
+        //             // Rec.FilterGroup(0);
+        //         end;
+        //     }
+        // }
         area(Reporting)
         {
             action("Print Travel Claim")

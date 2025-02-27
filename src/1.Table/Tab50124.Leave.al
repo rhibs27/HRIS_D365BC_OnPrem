@@ -198,7 +198,10 @@ table 50124 Leave
         }
         field(14; Remarks; Text[100])
         {
-
+            trigger OnValidate()
+            begin
+                Clear("Rejection Remarks");
+            end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -383,6 +386,11 @@ table 50124 Leave
         }
         field(36; "Rejection Remarks"; Text[100])
         {
+            trigger OnValidate()
+
+            begin
+                Clear(Remarks);
+            end;
         }
         field(37; "Approved Date"; Date)
         {
@@ -663,12 +671,15 @@ table 50124 Leave
 
     trigger OnDelete()
     var
-
+        CannotDelete: Label 'Cannot delete document.';
     begin
-        ApprovalEntry.Reset();
-        ApprovalEntry.SetRange("Document No.", "No.");
-        ApprovalEntry.DeleteAll();
-
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.DeleteAll();
+        end;
     end;
 
     procedure AssistEdit(OldLeave: Record "Leave"): Boolean

@@ -1010,13 +1010,14 @@ codeunit 50004 "Travel Mgt."
         TravelRequest: Record "Travel Request";
         TravelRequest2: Record "Travel Request";
     begin
-        TravelRequest.Get(TravelCode);
-        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
-            TravelRequest2."Travel Claimed" := true;
-        TravelRequest2.Modify();
-        TravelRequest."Travel Claimed" := true;
-        TravelRequest."Approved Date" := Today;
-        TravelRequest.Modify();
+        if TravelRequest.Get(TravelCode) then begin
+            // if TravelRequest2.Get(TravelRequest."Travel Order No.") then
+            //     TravelRequest2."Travel Claimed" := true;
+            // TravelRequest2.Modify();
+            TravelRequest."Travel Claimed" := true;
+            TravelRequest."Approved Date" := Today;
+            TravelRequest.Modify();
+        end;
     end;
 
     procedure TravelClaimReject(TravelCode: Code[20])

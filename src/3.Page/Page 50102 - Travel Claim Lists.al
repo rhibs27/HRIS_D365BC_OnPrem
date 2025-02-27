@@ -325,12 +325,12 @@ page 50102 "Travel Claim Lists"
 
     trigger OnAfterGetRecord()
     begin
-        Clear(TravelWith);
-        //IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
-        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        // Clear(TravelWith);
+        // IsRecommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
+        // IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         //IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
-        if Salarylevel.Get(Rec."Salary Level Code") then;
-        if TravelWith.Get(Rec."Travel With") then;
+        // if Salarylevel.Get(Rec."Salary Level Code") then;
+        // if TravelWith.Get(Rec."Travel With") then;
     end;
 
     var
