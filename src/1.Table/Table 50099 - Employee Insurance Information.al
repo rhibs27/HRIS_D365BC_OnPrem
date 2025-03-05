@@ -140,7 +140,7 @@ table 50099 "Employee Insurance Information"
         IF EmpInsurance.FINDFIRST THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
         if not GuiAllowed then begin
-            LoanMgt.CheckInsuranceAttachment('', "Employee No.");
+            LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
             IncomingDoc.Reset;
             IncomingDoc.SetRange("No.", '');
             IncomingDoc.SetRange("Employee Code", "Employee No.");

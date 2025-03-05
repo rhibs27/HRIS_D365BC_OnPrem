@@ -525,6 +525,7 @@ page 50160 "Employee Home Loan Card"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Home Loan is Approved by %1', HRMgt.GetEmpName());
+                        Clear(Rec."Rejection Remark");
                     end;
                 end;
             }

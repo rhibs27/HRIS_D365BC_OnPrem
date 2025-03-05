@@ -120,7 +120,7 @@ table 50061 Appraisal
                     AppraisalMgt.OnValidateKRACategory(Rec);
             end;
         }
-        field(30; "Approved Date"; Date)
+        field(37; "Approved Date"; Date)
         {
         }
         field(31; Rating; Enum "Appraisal Rating")
@@ -140,7 +140,7 @@ table 50061 Appraisal
         field(34; "Written Verbal Warning Issued"; Text[150]) { }
         field(35; "Completion of Training"; Text[250]) { }
         field(36; "Disciplinary Actions Taken"; Text[200]) { }
-        field(37; "Commendations on File"; Text[250]) { }
+        field(30; "Commendations on File"; Text[250]) { }
         field(38; "Frequent Untidy Uniform"; Text[150]) { }
         field(39; "Uninformed Absence"; Text[200]) { }
         field(40; "No of Sick Leaves Taken"; Decimal) { }

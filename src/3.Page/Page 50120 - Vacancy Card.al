@@ -131,7 +131,7 @@ page 50120 "Vacancy Card"
             {
                 Editable = not Rec.Posted;
                 SubPageLink = "Vacancy Code" = field("No.");
-                Visible = IsPosted;
+                //Visible = not IsPosted;
                 ApplicationArea = All;
             }
         }

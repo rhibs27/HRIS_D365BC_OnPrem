@@ -1241,7 +1241,7 @@ codeunit 50002 "Loan Mgt."
     begin
         EmpLoanAdv.TestField("Approval Status", EmpLoanAdv."Approval Status"::Approved);
         Employee.Get(HRMgt.GetEmployeeNo);
-        Employee.TestField(Screener);
+        // Employee.TestField(Screener);
         EmpLoanAdv.TestField(Settled, false);
         EmpLoanAdv.Validate(Settled, true);
         EmpLoanAdv.Validate("Settlement Date", Today);
@@ -1257,11 +1257,13 @@ codeunit 50002 "Loan Mgt."
         EmpSalAvd.Reset;
         EmpSalAvd.SetRange("Employee Code", EmpCode);
         EmpSalAvd.SetRange("Loan Type", EmpSalAvd."Loan Type"::"Salary Advance");
+        EmpSalAvd.SetFilter("Approval Status", '%1|%2', EmpSalAvd."Approval Status"::Approved, EmpSalAvd."Approval Status"::Pending);
+        EmpSalAvd.SetRange(Settled, false);
         if EmpSalAvd.FindFirst then begin
-            if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
-              or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
-                if not EmpSalAvd.Settled then
-                    Error('Please settle the existing salary advance.');
+            // if (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Rejected)
+            //   or (EmpSalAvd."Approval Status" <> EmpSalAvd."Approval Status"::Canceled) then
+            //     if not EmpSalAvd.Settled then
+            Error('Please settle the existing salary advance. %1', EmpSalAvd."No.");
         end;
     end;
 

@@ -327,6 +327,7 @@ codeunit 50004 "Travel Mgt."
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
         ApprovalEntry.SetRange("Document No.", '');
+        ApprovalEntry.SetRange("Employee No", EmpCode);
         ApprovalEntry.DeleteAll();
         TravelRequest.Init;
         Employee.Get(EmpCode);

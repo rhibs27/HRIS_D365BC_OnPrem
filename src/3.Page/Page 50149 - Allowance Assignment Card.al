@@ -104,6 +104,14 @@ page 50149 "Allowance Assignment Card"
                     ApplicationArea = All;
                 }
             }
+            // part("Approval Subform"; "HRMS Approval Entry")
+            // {
+            //     Editable = false;
+            //     SubPageLink = "Document No." = field("Entry No."),
+            //                     "Employee No" = field("Employee No."),
+            //                     "Document Type" = field(Type);
+            //                                           ApplicationArea = all;
+            // }
         }
         area(FactBoxes)
         {

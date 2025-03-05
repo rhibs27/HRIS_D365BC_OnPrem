@@ -893,6 +893,7 @@ table 50136 "Travel Request"
         else begin
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
 

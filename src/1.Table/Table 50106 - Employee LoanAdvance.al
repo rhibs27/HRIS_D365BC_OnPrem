@@ -204,7 +204,7 @@ table 50106 "Employee Loan/Advance"
         {
             Description = 'Vehicle';
         }
-        field(37; "Address of Supplier"; Text[50])
+        field(58; "Address of Supplier"; Text[50])
         {
             Description = 'Vehicle';
         }
@@ -363,7 +363,7 @@ table 50106 "Employee Loan/Advance"
         // {
         //     Editable = false;
         // }
-        field(58; "Approved Date"; Date) { }
+        field(37; "Approved Date"; Date) { }
         field(59; "Rejection Remark"; Text[150])
         {
             trigger OnValidate()

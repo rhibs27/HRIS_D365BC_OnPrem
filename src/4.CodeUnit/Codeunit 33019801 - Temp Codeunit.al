@@ -1,4 +1,4 @@
-// codeunit 33019801 "Temp Codeunit"
+// codeunit 50018 "Temp Codeunit"
 // {
 //     Permissions = TableData User = rm;
 
@@ -8,85 +8,85 @@
 //         i: Integer;
 //         DailyAttQuest: Record "Daily Attendance Question";
 //     begin
-//         //UpdateNames;
-//         //DeleteAttendanceLine;
-//         //ServiceOrderPost('PKRSOR76/77-00055');
-//         //MakeNavUser('BATAS-TASK\BHASKAR');
-//         //GetServiceInvoice('PKRSOR76/77-00049');
-//         ///GetSalesInvoice('PKRSOR76/77-00066');
-//         //MakeQuoteToOrder('PKRSQO76/77-00011');
+//         UpdateNames;
+//         DeleteAttendanceLine;
+//         ServiceOrderPost('PKRSOR76/77-00055');
+//         MakeNavUser('BATAS-TASK\BHASKAR');
+//         GetServiceInvoice('PKRSOR76/77-00049');
+//         GetSalesInvoice('PKRSOR76/77-00066');
+//         MakeQuoteToOrder('PKRSQO76/77-00011');
 
-//         //MESSAGE(InsertLineFromSMS('9841891708', 'asdf'));
-//         //UpdateAttendancelog();
-//         //UpdateSalaryLevelDescription;
-//         //UpdateEmpAttendanceActivity;
-//         //UpdateEvaluationAttribute();
-//         //InsertEmployeeAttendanceActivity();
-//         //ValidateEmployeeSolID; //For Update department,branch,fucntional title
-//         //UpdateEmployeeFunctionalTitle();
-//         //UpdateSPO;
-//         //RemoveAmount();
-//         //RemovePF();
-//         //RemoveSpaceAccount();
-//         //ChangeFiscalYear();
-//         //ValidateCandidate();
-//         //ValidateEvaluationAttribute();
-//         //ValidateNICRTFLoan();
-//         //ValidateAllowanceAssignmentLine();
-//         //UpdateVaultKeyAllowance();
-//         //DeleteEmployeeAttendance();
-//         //UpdateLFA();
-//         //settledsalaryadvance();
-//         //ValidateLumpsum();
-//         //ValidateEvaluationAttribute();
-//         //UpdateHoliday();
-//         //UpdateHoliday();
-//         //CopyPayrollType();
-//         //AllowanceAssignmentStatus();
-//         //UpdateLoan;
-//         //UpdatePromotionDate; //Min for update promotion date of old employee
-//         //UpdateContactExpiryDate;
-//         //UpdateUnitEmployee;//Min --1
-//         //UpdateTransferUnitCode; //Min -- 2
-//         //UpdateTransferUnitToCode; //Min -- 3
-//         //UpdateEmployeeActivityDeputationBranch;
-//         //UpdateEmployeeActivityDeputationDepartment;
-//         //UpdateEmployeeActivityDeputationProvince;
-//         //UpdateEmployeeActivityDeputationSubProvince;
-//         //UpdateEmployeeActivityDeputationUnit;  --2
-//         //UpdateLeaveDate;
-//         //UpdateAllowanceAssignmentLine;
-//         //UpdateEmpAttendanceActivityDescription;
-//         //UpdateServiceHistory;
-//         //LeaveTypeCorr;
-//         //UpdateEmployeeLoan;
-//         //UpdatePayrollMonth;
-//         //UpdateConfirmationDate;
-//         //UpdateLeaveRequest;
-//         //KRASubformCheckReviewUpdate; //2
-//         //KRASubformCheckReview; //1
-//         //ConfirmationEligibleUpdate;
-//         //UpdateEmployeeRFActual;
-//         //UpdatepayrollLineSelected;
-//         //UpdateFoodingAllowance;
-//         //UpdateCandidate;
-//         //UpdatePrevLoan;
-//         //UpdateInterviewBy;
-//         //UpdateApproverSalaryAdv;
-//         //UpdateTrainingApprovalStatus;
-//         //HideAppraisal;
-//         //KRASubformCheckReviewUpdateFirst;
-//         //KRASubformFinalReviewersUpdateSecond;
-//         //UpdateContactExpiryDateTest;
-//         //UpdateEcoSystem;
-//         //UpdateEcoSystemBlank;
-//         //TravelClaimCorr;
-//         //UpdateLeaveDays;
-//         //UpdateTravelOrderNo;
-//         //UpdateCloseLeaveEarn;
-//         //UpdatedOTDisbursed;
-//         //UpdateWeekEmpAttendanceActivity;
-//         //ValidateEmployeeFunctionalTitle;
+//         MESSAGE(InsertLineFromSMS('9841891708', 'asdf'));
+//         UpdateAttendancelog();
+//         UpdateSalaryLevelDescription;
+//         UpdateEmpAttendanceActivity;
+//         UpdateEvaluationAttribute();
+//         InsertEmployeeAttendanceActivity();
+//         ValidateEmployeeSolID; //For Update department,branch,fucntional title
+//         UpdateEmployeeFunctionalTitle();
+//         UpdateSPO;
+//         RemoveAmount();
+//         RemovePF();
+//         RemoveSpaceAccount();
+//         ChangeFiscalYear();
+//         ValidateCandidate();
+//         ValidateEvaluationAttribute();
+//         ValidateNICRTFLoan();
+//         ValidateAllowanceAssignmentLine();
+//         UpdateVaultKeyAllowance();
+//         DeleteEmployeeAttendance();
+//         UpdateLFA();
+//         settledsalaryadvance();
+//         ValidateLumpsum();
+//         ValidateEvaluationAttribute();
+//         UpdateHoliday();
+//         UpdateHoliday();
+//         CopyPayrollType();
+//         AllowanceAssignmentStatus();
+//         UpdateLoan;
+//         UpdatePromotionDate; //Min for update promotion date of old employee
+//         UpdateContactExpiryDate;
+//         UpdateUnitEmployee;//Min --1
+//         UpdateTransferUnitCode; //Min -- 2
+//         UpdateTransferUnitToCode; //Min -- 3
+//         UpdateEmployeeActivityDeputationBranch;
+//         UpdateEmployeeActivityDeputationDepartment;
+//         UpdateEmployeeActivityDeputationProvince;
+//         UpdateEmployeeActivityDeputationSubProvince;
+//         UpdateEmployeeActivityDeputationUnit;  --2
+//         UpdateLeaveDate;
+//         UpdateAllowanceAssignmentLine;
+//         UpdateEmpAttendanceActivityDescription;
+//         UpdateServiceHistory;
+//         LeaveTypeCorr;
+//         UpdateEmployeeLoan;
+//         UpdatePayrollMonth;
+//         UpdateConfirmationDate;
+//         UpdateLeaveRequest;
+//         KRASubformCheckReviewUpdate; //2
+//         KRASubformCheckReview; //1
+//         ConfirmationEligibleUpdate;
+//         UpdateEmployeeRFActual;
+//         UpdatepayrollLineSelected;
+//         UpdateFoodingAllowance;
+//         UpdateCandidate;
+//         UpdatePrevLoan;
+//         UpdateInterviewBy;
+//         UpdateApproverSalaryAdv;
+//         UpdateTrainingApprovalStatus;
+//         HideAppraisal;
+//         KRASubformCheckReviewUpdateFirst;
+//         KRASubformFinalReviewersUpdateSecond;
+//         UpdateContactExpiryDateTest;
+//         UpdateEcoSystem;
+//         UpdateEcoSystemBlank;
+//         TravelClaimCorr;
+//         UpdateLeaveDays;
+//         UpdateTravelOrderNo;
+//         UpdateCloseLeaveEarn;
+//         UpdatedOTDisbursed;
+//         UpdateWeekEmpAttendanceActivity;
+//         ValidateEmployeeFunctionalTitle;
 //         Message('Success');
 //     end;
 
@@ -463,9 +463,9 @@
 //         InStream: InStream;
 //         OutputText: Text;
 //         Buffer: Text;
-//         // bytes: DotNet ;
-//         // Convert: DotNet ;
-//         // MemoryStream: DotNet ;
+//     // bytes: DotNet ;
+//     // Convert: DotNet ;
+//     // MemoryStream: DotNet ;
 //     begin
 //         ServiceInvoiceHdr.Reset;
 //         ServiceInvoiceHdr.SetRange("Order No.", OrderNo);
