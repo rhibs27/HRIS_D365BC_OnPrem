@@ -94,7 +94,7 @@ table 50149 "Approval HRMS"
 
     keys
     {
-        key(PK; "Document No.", "Approver No")
+        key(PK; "Document No.", "Approver No", "Employee No")
         {
             Clustered = true;
         }
@@ -103,9 +103,4 @@ table 50149 "Approval HRMS"
 
         }
     }
-    trigger OnInsert()
-    var
-        Approval: Record "Approval HRMS";
-    begin
-    end;
 }

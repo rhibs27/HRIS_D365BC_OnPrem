@@ -2,10 +2,10 @@ page 50186 "Attendance Missed Lists"
 {
     // version NIC Asia1.00,Leave
 
-    CardPageId = "Cancel Document";
+    CardPageId = "Attendance missed Card";
     Editable = false;
     PageType = List;
-    SourceTable = "Cancel Document";
+    SourceTable = "Attendance Missed";
     SourceTableView = WHERE(Type = CONST("Attendance Missed"));
     UsageCategory = Lists;
     ApplicationArea = All;
@@ -61,31 +61,7 @@ page 50186 "Attendance Missed Lists"
                     ToolTip = 'Specifies the value of the Approver Type field.';
                     ApplicationArea = All;
                 }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
-                field("Reason Description"; Rec."Reason Description")
-                {
-                    ToolTip = 'Specifies the value of the Reason Description field.';
-                    ApplicationArea = All;
-                }
+
             }
         }
     }
@@ -106,7 +82,7 @@ page 50186 "Attendance Missed Lists"
 
                 trigger OnAction()
                 begin
-                    DocCancelMgt.OpenCancelEmpActivity(Rec);
+                    DocCancelMgt.OpenAttendanceMissed(Rec);
                 end;
             }
             // action("Change Recommender/Approver")
@@ -130,5 +106,5 @@ page 50186 "Attendance Missed Lists"
 
     var
         HRMgt: Codeunit "HR Mgt.";
-        DocCancelMgt: Codeunit DocCancelMgt;
+        DocCancelMgt: Codeunit "AttendanceMiss Mgt";
 }

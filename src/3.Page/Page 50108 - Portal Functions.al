@@ -236,6 +236,58 @@ page 50108 "Portal Functions"
         HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, approverCode);
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20])
+    var
+        //CancelDocument: Record "Cancel Document";
+        AttendanceMissed: Record "Attendance Missed";
+        Employee: Record Employee;
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+        PayrollSetup: Record "Payroll General Setup";
+    begin
+        PayrollSetup.Get();
+        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, endDate, HrMgt.GetEmployeeNo());
+        AttendanceMissed.Init;
+        AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
+        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+        AttendanceMissed.Validate("Requested Date", Today);
+        AttendanceMissed.Validate("Reason Code", reasonCode);
+        AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
+        AttendanceMissed.Validate("Start Date", startDate);
+        AttendanceMissed.Validate("End Date", endDate);
+        AttendanceMissed.Validate(Remarks, remarks);
+        if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
+            Error('Cannot apply for future date.Please check the date.');
+        if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
+            Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+        AttendanceMissed.TestField("Start Date");
+        AttendanceMissed.TestField("End Date");
+        AttendanceMissed.TestField(Remarks);
+        AttendanceMissed.Insert(true);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveRejectMissedAttendance(missedAttendanceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        Leave: Record Leave;
+        RecRef: RecordRef;
+        cancelDocument: Record "Cancel Document";
+    begin
+        cancelDocument.Get(missedAttendanceNo);
+        if not cancelDocument.Cancelled then begin
+            if not isApproved then begin
+                if rejectionRemarks = '' then
+                    Error('Rejection Remarks is empty');
+                cancelDocument.Validate("Rejection Remarks", rejectionRemarks);
+                cancelDocument.Modify;
+            end;
+            RecRef.GetTable(cancelDocument);
+            ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        end;
+    end;
+
     local procedure "------Leave API---------"()
     begin
     end;
@@ -341,6 +393,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
             FORMAT(ApprovalSetupLine."Request Type"::Loan):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
+            FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
 
         END;
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
@@ -3512,13 +3566,10 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure countForDashBoard(): text
     var
-        Leave: Record Leave;
-        Loan: Record "Employee Loan/Advance";
         leaveForApprove: Integer;
         PersonalLoanForApprove: Integer;
         VehicleLoanForApprove: Integer;
         HomeLoanForApprove: Integer;
-        TravelRequest: Record "Travel Request";
         TravelReqForApprove: Integer;
         TravelClaimApprove: Integer;
         Resign: Record Resignation;
@@ -3533,8 +3584,6 @@ page 50108 "Portal Functions"
         TotalCount: Integer;
         EmpTransfer: Record "Employee/HR Transfer";
         SalaryAdvanceForApprove: Integer;
-        AttendanceMissed: Record "Employee Activity";
-        AttendanceMissedForRecommendation: Integer;
         AttendanceMissedForApprove: Integer;
         EmployeeTransfer: Record "Employee/HR Transfer";
         EmployeeTransferForRecommendation: Integer;
@@ -3550,11 +3599,13 @@ page 50108 "Portal Functions"
         Clear(HomeLoanForApprove);
         Clear(SalaryAdvanceForApprove);
         Clear(VehicleLoanForApprove);
+        Clear(AttendanceMissedForApprove);
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         leaveForApprove := Approval.Count();
+
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
@@ -3596,6 +3647,12 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         SalaryAdvanceForApprove := Approval.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Attendance Missed");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        AttendanceMissedForApprove := Approval.Count();
+
         // Loan.Reset();
         // Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
         // Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
@@ -3620,13 +3677,6 @@ page 50108 "Portal Functions"
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Recommended);
         EmployeeTransferForApprove := EmployeeTransfer.Count();
 
-        AttendanceMissed.Reset();
-        AttendanceMissed.SetRange("Approver Code", HrMgt.GetEmployeeNo());
-        AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
-        AttendanceMissed.SetRange("Approval Status", AttendanceMissed."Approval Status"::Recommended);
-        AttendanceMissedForApprove := AttendanceMissed.Count();
-
-
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
@@ -3638,7 +3688,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
         TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
-                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + +AttendanceMissedForRecommendation + AttendanceMissedForApprove;
+                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +

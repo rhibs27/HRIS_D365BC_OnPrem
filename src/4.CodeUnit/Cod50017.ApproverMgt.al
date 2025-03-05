@@ -1,5 +1,14 @@
 codeunit 50017 "Approver Mgt"
 {
+
+    // >> Fixed Field  ID used on ALL Table For RECRef >> Santosh 2025-03-04
+    // >>RecRef.Field(1) = Document No.
+    // >>RecRef.Field(2) = Document Type    
+    // >>RecRef.Field(16) = Approval Status
+    // >>RecRef.Field(37) = Approved Date
+    // >>RecRef.Field(100) = Status 
+    // >> warning: don't Change the Field ID on the Table>>
+    // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
     procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -55,6 +64,7 @@ codeunit 50017 "Approver Mgt"
             Error('Approval Not Found');
     end;
 
+    // >> Insert Approval for Loan >> Santosh 2025-03-04 >>
     procedure InsertApprovalLoan(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; LoanType: Enum "Loan Type")
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -117,7 +127,6 @@ codeunit 50017 "Approver Mgt"
         Approval: Record "Approval HRMS";
         Employee: Record Employee;
         EmpRequest: Record Employee;
-        //Approval1: Record "Approval HRMS";
         count: Integer;
     begin
         EmpRequest.Reset();
@@ -166,6 +175,7 @@ codeunit 50017 "Approver Mgt"
         //     Error('Approval Not Found');
     end;
 
+    // >> Check  valid Login Approver for Approve >> Santosh 2025-03-04 >>
     procedure CheckApprover(EmpActNo: Code[20])
     var
         CheckApprover: Boolean;
@@ -184,6 +194,7 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
+    // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean)
     var
         Approver: Record "Approval HRMS";
@@ -220,6 +231,7 @@ codeunit 50017 "Approver Mgt"
                                     TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
                                 end;
                         end;
+                        // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
                         StatusMaster.SetRange(Rejected, true);
                         if StatusMaster.FindFirst() then begin
@@ -244,7 +256,9 @@ codeunit 50017 "Approver Mgt"
                         Approver2.Modify;
                     until Approver2.Next() = 0
                 else begin
+                    // If no next approval step found then set the status to approved
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Approved);
+                    RecRef.Field(37).Validate(Today);
                     RecRef.Modify();
                     case EmpActType of
                         //for leave
@@ -260,6 +274,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 TravelMgt.TravelClaimApproved(RecRef.Field(1).Value);
                             end;
+                        EmpActType::"Attendance Missed":
+                            begin
+                                AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -271,5 +289,6 @@ codeunit 50017 "Approver Mgt"
         HRMgt: Codeunit "HR Mgt.";
         leaveMgt: Codeunit "Leave Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
+        AttendanceMissed: Codeunit "AttendanceMiss mgt";
 
 }

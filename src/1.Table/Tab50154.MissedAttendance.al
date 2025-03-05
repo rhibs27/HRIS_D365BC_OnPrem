@@ -1,6 +1,6 @@
-table 50153 "Cancel Document"
+table 50154 "Attendance Missed"
 {
-    Caption = 'Cancel Document';
+    Caption = 'Attendance Missed';
     DataClassification = ToBeClassified;
     fields
     {
