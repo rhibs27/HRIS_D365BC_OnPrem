@@ -34,7 +34,7 @@ table 50094 "Attendance Log"
         }
         field(2; Date; Date) { }
         field(3; "Check In Time"; Time) { }
-        field(4; MachineCode; Code[20]) { }
+        field(4; "Machine Code"; Integer) { }
         field(5; "Employee Name"; Text[50])
         {
             Editable = false;
@@ -53,7 +53,7 @@ table 50094 "Attendance Log"
             Editable = false;
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Machine Center"; Code[10])
+        field(8; "Biometrics Attendance"; Boolean)
         {
             Editable = false;
         }
@@ -70,11 +70,21 @@ table 50094 "Attendance Log"
         {
             AutoIncrement = true;
         }
-        field(12; "Machine Emp. Code"; Code[20]) { }
+        field(12; "Machine Emp. Code"; Code[20])
+        {
+            trigger OnValidate()
+            var
+            begin
+                Employee.Reset();
+                Employee.SetRange("Attendance Device ID", "Machine Code");
+                Employee.SetRange("Employee Attendance ID", "Machine Emp. Code");
+                if Employee.FindFirst() then
+                    Validate("Employee ID", Employee."No.");
+            end;
+        }
         field(13; "Department Code"; Code[20]) { }
         field(14; "Check Out Time"; Time)
         {
-            Description = 'NICASIA';
         }
         field(15; Status; Enum "Attendance Status")
         {
@@ -137,7 +147,7 @@ table 50094 "Attendance Log"
 
     keys
     {
-        key(Key1; "Machine Emp. Code", Date, "Check In Time", "Entry No.") { }
+        key(Key1; "Machine Emp. Code", Date, "Employee ID") { }
         key(Key2; "Employee ID") { }
     }
 
@@ -147,7 +157,6 @@ table 50094 "Attendance Log"
     begin
         "Assigned User ID" := UserId;
         "Creation Date" := Today;
-
         UpdateDelayed; //pram
     end;
 

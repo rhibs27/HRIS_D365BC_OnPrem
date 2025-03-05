@@ -152,6 +152,15 @@ page 50194 "Attendance Logs"
                     Message('You do not have authority to change Attendance Log.');
                 end;
             }
+            action(Delete)
+            {
+                trigger OnAction()
+                var
+                    AttendanceLog: Record "Attendance Log";
+                begin
+                    AttendanceLog.DeleteAll();
+                end;
+            }
         }
     }
 

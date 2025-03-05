@@ -32,8 +32,10 @@ page 50166 "Leave Type Entity"
         }
     }
     trigger OnOpenPage()
+    var
+        Hrmgt: Codeunit "HR Mgt.";
     begin
-        Rec.CalcFields(Rec."Remaining Days");
+        rec.SetFilter("Employee No. Filter", Hrmgt.GetEmployeeNo());
     end;
 
 }

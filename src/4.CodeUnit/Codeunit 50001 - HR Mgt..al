@@ -106,11 +106,11 @@ codeunit 50001 "HR Mgt."
         DimensionValue: Record "Dimension Value";
         TempInt: Integer;
         Employee1: Record Employee;
-        // SQLConnectionMgt: Codeunit "SQL Connection Mgt";
-        // SQLConnection: DotNet SqlConnection;
-        // SQLCommand: DotNet SqlCommand;
-        // SQLParameter: DotNet SqlParameter;
-        // SQLDataReader: DotNet SqlDataReader;
+        SQLConnectionMgt: Codeunit "SQL Connection Mgt";
+        SQLConnection: DotNet SqlConnection;
+        SQLCommand: DotNet SqlCommand;
+        SQLParameter: DotNet SqlParameter;
+        SQLDataReader: DotNet SqlDataReader;
         SQLCommandType: Option StoredProcedure,TableDirect,Text;
         commandtext: Text;
         reader: Text;
@@ -8553,22 +8553,28 @@ codeunit 50001 "HR Mgt."
 
     procedure OpenAttendanceMissed(EmpCode: Code[20])
     var
-        TempEmpActivity: Record "Employee Activity" temporary;
+        //TempEmpActivity: Record "Employee Activity" temporary;
+        CancelDocument: Record "Cancel Document" temporary;
+        ApprovalEntry: Record "Approval HRMS";
     begin
         if not Confirm('Do you want to apply for attendance missed?', false) then
             exit;
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Attendance Missed");
+        ApprovalEntry.SetRange("Employee No", EmpCode);
+        ApprovalEntry.SetRange("Document No.", '');
+        ApprovalEntry.DeleteAll();
         Employee.Get(EmpCode);
-        TempEmpActivity.Init;
-        //TempEmpActivity.VALIDATE(Cancelled,TRUE);
-        TempEmpActivity.Validate("Employee No.", EmpCode);
-        TempEmpActivity.Validate("Employee Name", Employee."Full Name");
-        TempEmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Open);
-        TempEmpActivity.Validate(Type, TempEmpActivity.Type::"Attendance Missed");
-        TempEmpActivity.Validate("Requested Date", Today);
-        TempEmpActivity.Validate("Recommender Code", Employee."KPI Deputation Value");
-        TempEmpActivity.Validate("Approver Code", Employee."Approver Code");
-        TempEmpActivity.Insert;
-        if PAGE.RunModal(PAGE::"Cancel Document", TempEmpActivity) = ACTION::LookupOK then;
+        CancelDocument.Init;
+        CancelDocument.Validate("Employee No.", EmpCode);
+        CancelDocument.Validate("Employee Name", Employee."Full Name");
+        CancelDocument.Validate("Approval Status", CancelDocument."Approval Status"::Open);
+        CancelDocument.Validate(Type, CancelDocument.Type::"Attendance Missed");
+        CancelDocument.Validate("Requested Date", Today);
+        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
+        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
+        CancelDocument.Insert;
+        PAGE.Run(PAGE::"Cancel Document", CancelDocument);
     end;
 
     local procedure CheckForLeaveOnAttendanceMissed(StartDate: Date; EndDate: Date; EmpCode: Code[20])
@@ -8599,7 +8605,7 @@ codeunit 50001 "HR Mgt."
     begin
         ConnectSQL();
         DailyAttendanceQuestion.Reset;
-        DailyAttendanceQuestion.SetRange("Sync to Portal", true);
+        //DailyAttendanceQuestion.SetRange("Sync to Portal", true);
         if DailyAttendanceQuestion.FindFirst then
             repeat
                 DailyAttendanceQuestion.TestField(Question);
@@ -8650,15 +8656,15 @@ codeunit 50001 "HR Mgt."
 
         SetupSQLCommand;
 
-        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        // SQLCommand.ExecuteNonQuery;
+        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure InsertAttendanceQuestion(var DailyAttendanceQuestion: Record "Daily Attendance Question")
@@ -8675,26 +8681,26 @@ codeunit 50001 "HR Mgt."
             '@Option3,@Option4,@Correct_Answer,@Date,@IsPunchInQuestion)';
 
         SetupSQLCommand;
-        //SQLCommand.Parameters.AddWithValue('@Entry_No',FORMAT(DailyAttendanceQuestion."Entry No."));
-        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        // SQLCommand.ExecuteNonQuery;
+        SQLCommand.Parameters.AddWithValue('@Entry_No', FORMAT(DailyAttendanceQuestion."Entry No."));
+        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure ConnectSQL()
     begin
-        // SQLConnectionMgt.SetupSQLConnection(SQLConnection);
+        SQLConnectionMgt.SetupSQLConnection(SQLConnection);
     end;
 
     local procedure DisconnectSQL()
     begin
-        // SQLConnectionMgt.CloseSQLConnection(SQLConnection);
+        SQLConnectionMgt.CloseSQLConnection(SQLConnection);
     end;
 
     local procedure ClearSQLCommand()
@@ -8704,7 +8710,7 @@ codeunit 50001 "HR Mgt."
 
     local procedure SetupSQLCommand()
     begin
-        // SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
+        SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
     end;
 
     local procedure ReadAttendanceQuestionFromHRportal(QuestionDate: Date; IsPuchInQuest: Boolean)
@@ -8718,9 +8724,8 @@ codeunit 50001 "HR Mgt."
                         SpaceTxt + AndText + SpaceTxt + 'IsPunchInQuestion' + '=''' + IsPunchQuestion + '''';
 
         SetupSQLCommand;
-
-        // SQLDataReader := SQLCommand.ExecuteReader;
-        // SQLDataReader.Read;
+        SQLDataReader := SQLCommand.ExecuteReader;
+        SQLDataReader.Read;
     end;
 
     procedure SyncEmployee()
@@ -8747,10 +8752,10 @@ codeunit 50001 "HR Mgt."
             '(@EmployeeID,@EmployeeName,@EmployeeBOD)';
 
         SetupSQLCommand;
-        // SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
-        // SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
-        // SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
-        // SQLCommand.ExecuteNonQuery;
+        SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
+        SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
+        SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
+        SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure DeletePortalEmployee()
@@ -8762,6 +8767,65 @@ codeunit 50001 "HR Mgt."
         SetupSQLCommand;
         // SQLCommand.ExecuteNonQuery;
     end;
+
+    // procedure SyncUpdateEmployeeAttendance();
+    // var
+    //     AttenSetup: Record "Attendance Setup";
+    // begin
+    //     AttenSetup.Get();
+    //     //CompInfo.Get;
+    //     SQLConnectionMgt.SetupSQLConnection(SQLConnection);
+
+    //     if FromDate = 0D then
+    //         FromDate := CalcDate(AttenSetup."Sync Attendance From", Today);
+    //     if (ToDate = 0D) and (DeviceID = 0) then
+    //         ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[AttendanceLogs]', 'InputDate', FromDate))
+    //     else
+    //         if (ToDate <> 0D) and (DeviceID = 0) then
+    //             ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate))
+    //         else
+    //             if (ToDate = 0D) and (DeviceID <> 0) then
+    //                 ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[AttendanceLogs]', 'InputDate', FromDate, 'DeviceID', DeviceID))
+    //             else
+    //                 if (ToDate <> 0D) and (DeviceID <> 0) then
+    //                     ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
+
+    //     InsertUpdateEmpAttendance;
+    //     CloseSQLConnection(SQLConnection);
+    // end;
+
+    // local procedure InsertUpdateEmpAttendance();
+    // var
+    //     AttendanceLog: Record "Attendance Log";
+    //     AttendanceLog1: Record "Attendance Log";
+    //     MachineId: Integer;
+    //     MachineIdCode: Text;
+    // begin
+    //     while SQLDataReader.Read do begin
+    //         MachineIdCode := SQLDataReader.GetValue(2);
+    //         MachineId := 0;
+    //         Evaluate(MachineId, MachineIdCode);
+    //         if not AttendanceLog1.Get(MachineId, DT2Date(SQLDataReader.GetValue(3)), DT2Time(SQLDataReader.GetValue(3))) then
+    //             if MachineId <> 0 then begin
+    //                 Clear(AttendanceLog);
+    //                 AttendanceLog.Init;
+    //                 AttendanceLog.Validate("Machine Emp. Code", format(MachineId));
+    //                 AttendanceLog.Validate("Attendance Date", DT2DATE(SQLDataReader.GetValue(3)));
+    //                 AttendanceLog.Validate("Attendance Time", DT2TIME(SQLDataReader.GetValue(3)));
+    //                 AttendanceLog.Validate("Device ID", SQLDataReader.GetValue(1));
+    //                 AttendanceLog."Biometrics Attendance" := true;
+    //                 if AttendanceLog.Insert then;
+    //             end
+
+    //             else
+    //                 if AttendanceLog1.Get(MachineId, DT2Date(SQLDataReader.GetValue(3)), DT2Time(SQLDataReader.GetValue(3))) then begin
+
+    //                     AttendanceLog1.Validate("Device ID", SQLDataReader.GetValue(1));
+    //                     AttendanceLog1.Modify();
+    //                 end;
+    //     end;
+    //     Commit;
+    // end;
 
     local procedure "-----Access Control----"()
     begin
@@ -10771,9 +10835,6 @@ codeunit 50001 "HR Mgt."
         //>>Aakrista KPI1.0
     end;
 
-    // trigger SQLCommand::StatementCompleted(sender: Variant; e: DotNet StatementCompletedEventArgs)
-    // begin
-    // end;
 
     // trigger SQLCommand::Disposed(sender: Variant; e: DotNet EventArgs)
     // begin

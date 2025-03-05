@@ -1361,7 +1361,14 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-
+        field(50160; "Attendance Device ID"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50161; "Employee Attendance ID"; Text[20])
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
