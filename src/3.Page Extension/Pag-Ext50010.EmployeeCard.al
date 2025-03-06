@@ -529,6 +529,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the System Owner field.';
 
                 }
+                field("Attendance Device ID"; Rec."Attendance Device ID")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Attendance Device ID field.';
+
+                }
+                field("Employee Attendance ID"; Rec."Employee Attendance ID")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee Attendance ID field.';
+
+                }
             }
         }
         addlast(Payments)
@@ -791,6 +803,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             }
             part(EmployeeLeaveDays; "Employee Leave Days")
             {
+                Editable = false;
                 ApplicationArea = All;
                 //SubPageLink = 
                 SubPageView = WHERE("Remaining Days" = FILTER(> 0));
@@ -894,7 +907,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
                 }
 
-                action("Request Attendace Missed")
+                action("Request Attendance Missed")
                 {
                     ApplicationArea = All;
                     Promoted = true;

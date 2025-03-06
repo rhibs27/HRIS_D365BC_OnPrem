@@ -1,5 +1,5 @@
-/*
-codeunit 50003 "SQL Connection Mgt"
+
+codeunit 50018 "SQL Connection Mgt"
 {
     trigger OnRun()
     begin
@@ -20,7 +20,7 @@ codeunit 50003 "SQL Connection Mgt"
     procedure CloseSQLConnection(var SQLConnection: DotNet SqlConnection)
     begin
         SQLConnection.Close;
-        SQLConnection.Dispose;
+        // SQLConnection.Dispose;
     end;
 
     procedure GetConnectionString() ConnStr: Text[250]
@@ -40,13 +40,22 @@ codeunit 50003 "SQL Connection Mgt"
                 //';Column Encryption Setting=enabled;' +
                 ';User ID=' + SQLUserID + ';Password=' + SQLPassword;
         end else begin
+            // ConnStr := 'Provider=SQLOLEDB;' +
+            //             'Initial Catalog=' + UpperCase(DatabaseName) +
+            //             ';Data Source=' + UpperCase(ServerName) +
+            //             ';User ID=' + SQLUserID +
+            //             ';Password=' + SQLPassword +
+            //             ';Persist Security Info=True;';
             ConnStr :=
                 'Server=' + ServerName + ';' +
-                'Database="' + DatabaseName + '";' +
-                //';Integrated Security=true' +
-                //';Column Encryption Setting=enabled;' +
-                'Uid=' + SQLUserID + ';' +
-                'Pwd=' + SQLPassword + ';';
+                'Database=' + DatabaseName + ';' +
+                'Integrated Security=' + 'false' + ';' +
+                'Trusted_Connection =' + 'True' + ';' +
+                'encrypt=' + 'false' + ';' +
+                'MultipleActiveResultSets=' + 'True' + ';' +
+                'User ID=' + SQLUserID + ';' +
+                'Persist Security Info =' + ' True' + ';' +
+                'password=' + SQLPassword + ';';
         end;
 
         exit(ConnStr);
@@ -60,7 +69,7 @@ codeunit 50003 "SQL Connection Mgt"
         Clear(DatabaseName);
         Clear(SQLUserID);
         Clear(SQLPassword);
-
+        HRSetup.get();
         ServerName := HRSetup."Portal Server";
         DatabaseName := HRSetup."Portal Database";
         SQLUserID := HRSetup."Portal SQL User";
@@ -75,4 +84,3 @@ codeunit 50003 "SQL Connection Mgt"
         //SQLCommand.CommandType := SQLCommandType;
     end;
 }
-*/

@@ -4,8 +4,8 @@ page 50240 "Attendance Activity Entity"
 
     DeleteAllowed = false;
     Editable = false;
-    EntityName = 'AttendanceActivityEntity';
-    EntitySetName = 'AttendanceActivityEntities';
+    EntityName = 'attendanceActivityEntity';
+    EntitySetName = 'attendanceActivityEntities';
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = API;
@@ -22,24 +22,30 @@ page 50240 "Attendance Activity Entity"
         {
             repeater(Group)
             {
-                field(EmployeeNo; Rec."Employee No.") { }
-                field(EmployeeName; Rec."Employee Name") { }
-                field(AttendanceDate; Rec."Attendance Date") { }
-                field(DayType; Rec."Day Type") { }
-                field(CheckInTime; getTimeinFormat(Rec."Check In Time")) { }
-                field(CheckOutTime; getTimeinFormat(Rec."Check Out Time")) { }
-                field(LateRemarks; Rec."Late Remarks") { }
-                field(HolidayRemarks; Rec."Holiday Remarks") { }
-                field(PresentDay; Rec."Present Day") { }
-                field(SourceNo; Rec."Source No.") { }
-                field(LeaveDay; Rec."Leave Day") { }
-                field(TourDay; Rec."Tour Day") { }
+                field(employeeNo; Rec."Employee No.") { }
+                field(employeeName; Rec."Employee Name") { }
+                field(attendanceDate; Rec."Attendance Date") { }
+                field(dayType; Rec."Day Type") { }
+                field(checkInTime; getTimeinFormat(Rec."Check In Time")) { }
+                field(checkOutTime; getTimeinFormat(Rec."Check Out Time")) { }
+                field(lateRemarks; Rec."Late Remarks") { }
+                field(holidayRemarks; Rec."Holiday Remarks") { }
+                field(presentDay; Rec."Present Day") { }
+                field(sourceNo; Rec."Source No.") { }
+                field(leaveDay; Rec."Leave Day") { }
+                field(tourDay; Rec."Tour Day") { }
 
             }
         }
     }
 
-    actions { }
+    trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("Attendance Date", false);
+    end;
 
     local procedure getTimeinFormat(varTime: Time): Text
     var

@@ -1723,6 +1723,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Assigned User ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1360624493 - Field 2600415616 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Biometrics Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Biometrics Attendance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1360624493 - Field 2648433944 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Check In Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1778,20 +1783,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Late Remarks - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1360624493 - Field 423926106 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Machine Center</source>
+        <trans-unit id="Table 1360624493 - Field 3554807092 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Machine Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Machine Center - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Machine Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1360624493 - Field 642559130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Machine Emp. Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Machine Emp. Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1360624493 - Field 2285852948 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>MachineCode</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field MachineCode - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1360624493 - Field 1129404523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Night Shift Check Out Time</source>
@@ -2307,6 +2307,11 @@
           <source>Primary Key</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Primary Key - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 557018098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sync Attendance From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Sync Attendance From - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2922227932 - Field 431202129 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type of Integration</source>
@@ -19643,6 +19648,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType NoRecommender</note>
         </trans-unit>
+        <trans-unit id="Codeunit 731959137 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Either server or database information not found.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit SQL Connection Attendance - NamedType NoServerInfoError</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 731959137 - NamedType 261601535" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select * from </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit SQL Connection Attendance - NamedType ReadCommandTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1166164602 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Either server or database information not found.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit SQL Connection Mgt - NamedType NoServerInfoError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1148580165 - NamedType 1912282637" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot Approve HR Transfer of Effective Date %1 in %2.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22717,6 +22737,11 @@
           <source>Specifies the value of the Deactivate Punch in Count field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Deactivate Punch in Count - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 557018098 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Sync Attendance From field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Sync Attendance From - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 431202129 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type of Integration field.</source>
@@ -51948,6 +51973,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 835573025 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sql Connection Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 835573025 - Control 1019546919 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Device Id</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control deviceId - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 835573025 - Control 837247550 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control FromDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 835573025 - Control 4137594593 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control ToDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 835573025 - Control 335124840 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Device ID in old log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control UpdateDeviceID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3428219872 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Staff Allowance Details</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53158,10 +53208,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Appraisal - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 3738822239 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+        <trans-unit id="PageExtension 866835530 - Action 3705923653 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Request Attendace Missed action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Attendace Missed - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Attendance Missed - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2676040374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Request Leave action.</source>
@@ -53898,10 +53948,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Unit Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 920509406 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Attendance Device ID field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Attendance Device ID - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 1493862997 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Disable Punch in field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Disable Punch in - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2907643468 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Employee Attendance ID field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3295648008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Resignation Approver field.</source>
@@ -55483,6 +55543,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Assigned User ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 920509406 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Attendance Device ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Attendance Device ID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2561991859 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Attendance Missed Count</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55677,6 +55742,11 @@
           <source>Emergency Mobile No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Emergency Mobile No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Employee Attendance ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Employee Attendance ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 728117621 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Employee No. (Nepali)</source>

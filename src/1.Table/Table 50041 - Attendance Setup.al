@@ -57,6 +57,10 @@ table 50041 "Attendance Setup"
             end;
         }
         field(14; "Activate Punch in Date"; Date) { }
+        field(15; "Sync Attendance From"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

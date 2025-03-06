@@ -623,18 +623,18 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
-        field(50131; "Portal Server"; Code[25])
+        field(50131; "Portal Server"; Code[30])
         {
             DataClassification = CustomerContent;
         }
-        field(50132; "Portal Database"; Code[20])
+        field(50132; "Portal Database"; text[50])
         {
             DataClassification = CustomerContent;
         }
-        field(50133; "Portal SQL User"; Text[4]) { DataClassification = CustomerContent; }
+        field(50133; "Portal SQL User"; Text[10]) { DataClassification = CustomerContent; }
         field(50134; "Portal SQL Password"; Text[20])
         {
-            // ExtendedDatatype = Masked;
+            ExtendedDatatype = Masked;
             DataClassification = CustomerContent;
         }
         field(50135; "Max. Veh. Loan Repay Period"; Decimal)

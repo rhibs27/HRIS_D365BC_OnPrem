@@ -53,6 +53,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of the Activate Punch in Date field.';
                     ApplicationArea = All;
                 }
+                field("Sync Attendance From"; Rec."Sync Attendance From")
+                {
+                    ToolTip = 'Specifies the value of the Sync Attendance From field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
