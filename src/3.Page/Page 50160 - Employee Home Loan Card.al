@@ -140,11 +140,13 @@ page 50160 "Employee Home Loan Card"
                     }
                     field("Purpose of Housing Loan"; Rec."Purpose of Housing Loan")
                     {
+                        showMandatory = true;
                         ToolTip = 'Specifies the value of the Purpose of Housing Loan field.';
                         ApplicationArea = All;
                     }
                     field("Repayment Mode"; Rec."Repayment Mode")
                     {
+                        showMandatory = true;
                         ToolTip = 'Specifies the value of the Repayment Mode field.';
                         ApplicationArea = All;
                     }
@@ -160,6 +162,7 @@ page 50160 "Employee Home Loan Card"
                     }
                     field("Estimated Cost of Construction"; Rec."Estimated Cost of Construction")
                     {
+                        showMandatory = true;
                         ToolTip = 'Specifies the value of the Estimated Cost of Construction field.';
                         ApplicationArea = All;
 
@@ -170,6 +173,7 @@ page 50160 "Employee Home Loan Card"
                     }
                     field("Repayment Period"; Rec."Repayment Period")
                     {
+                        showMandatory = true;
                         ToolTip = 'Specifies the value of the Repayment Period field.';
                         ApplicationArea = All;
 
@@ -185,6 +189,7 @@ page 50160 "Employee Home Loan Card"
                     }
                     field("Applied Loan"; Rec."Applied Loan/Advance")
                     {
+                        showMandatory = true;
                         ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                         ApplicationArea = All;
 
@@ -304,46 +309,55 @@ page 50160 "Employee Home Loan Card"
                 Editable = IsOpen;
                 field("Proposed Owner of  the Property"; Rec."Property in the name of")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Property in the name of field.';
                     ApplicationArea = All;
                 }
                 field("Name of Spouse"; Rec."Name of Spouse")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Name of Spouse field.';
                     ApplicationArea = All;
                 }
                 field("Existing Owner of the Property"; Rec."Name of Owner")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Name of Owner field.';
                     ApplicationArea = All;
                 }
                 field("Address of Existing Owner"; Rec."Address of Owner")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Address of Owner field.';
                     ApplicationArea = All;
                 }
                 field("Complete Address of Property"; Rec."Complete Address of Property")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Complete Address of Property field.';
                     ApplicationArea = All;
                 }
                 field("Area Format"; Rec."Area Format")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Area Format field.';
                     ApplicationArea = All;
                 }
                 field("Area of Plot"; Rec."Area of Plot")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Area of Plot field.';
                     ApplicationArea = All;
                 }
                 field("Plot No. of Property"; Rec."Plot No. of Property")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Plot No. of Property field.';
                     ApplicationArea = All;
                 }
                 field("Proposed Owner (Nepali)"; Rec."Proposed Owner (Nepali)")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Proposed Owner (Nepali) field.';
                     ApplicationArea = All;
                 }
