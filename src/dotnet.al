@@ -1,11 +1,11 @@
 
 dotnet
 {
-    // assembly("System.Data")
-    // {
-    //     type(System.Data.DataSet; SQLDataSet) { }
+    assembly("System.Data")
+    {
+        type(System.Data.DataSet; SQLDataSet) { }
 
-    // }
+    }
 
     assembly("Microsoft.Data.SqlClient")
     {
@@ -45,6 +45,6 @@ dotnet
     //     type(System.CodeDom.Compiler.CompilerResults; CompilerResultVar) { }
     //     type(Microsoft.CSharp.CSharpCodeProvider; CsharpProviderVar) { }
     //     type(System.Net.NetworkCredential; NetworkCredintialVar) { }
-    //     // type(System.Data.SqlClient.SqlConnection; SqlConnectionVar) { }
+    //     type(System.Data.SqlClient.SqlConnection; SqlConnectionVar) { }
     // }
 }

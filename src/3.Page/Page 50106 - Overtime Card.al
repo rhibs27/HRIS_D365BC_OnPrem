@@ -85,14 +85,20 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Updated Payroll Line field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
             }
-            part(Attachment; "Attachment Subform")
-            {
-                SubPageLink = "No." = field("No."),
-                              Type = const(" "),
-                              "Employee Code" = field("Employee No.");
-                ApplicationArea = All;
-            }
+            // part(Attachment; "Attachment Subform")
+            // {
+            //     SubPageLink = "No." = field("No."),
+            //                   Type = const(" "),
+            //                   "Employee Code" = field("Employee No.");
+            //     ApplicationArea = All;
+            // }
             group(Control6)
             {
                 Caption = 'Remarks';
@@ -103,12 +109,12 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Reason for OT field.';
                     ApplicationArea = All;
                 }
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    Editable = ForScreen;
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Screener Remarks"; Rec."Screener Remarks")
+                // {
+                //     Editable = ForScreen;
+                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+                //     ApplicationArea = All;
+                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     Editable = ForReject;
@@ -116,36 +122,30 @@ page 50106 "Overtime Card"
                     ApplicationArea = All;
                 }
             }
-            group(Approval)
-            {
-                Caption = 'Approval';
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
-            }
+            // group(Approval)
+            // {
+            //     Caption = 'Approval';
+            //     field("Recommender Code"; Rec."Recommender Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Recommender Name"; Rec."Recommender Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Recommender Name field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Code"; Rec."Approver Code")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Code field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Approver Name"; Rec."Approver Name")
+            //     {
+            //         ToolTip = 'Specifies the value of the Approver Name field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
         }
     }
 
@@ -181,7 +181,7 @@ page 50106 "Overtime Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForRecommend;
+                Visible = false;
                 ToolTip = 'Executes the Recommend Request action.';
                 ApplicationArea = All;
 
@@ -196,7 +196,8 @@ page 50106 "Overtime Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForScreen;
+                // Visible = ForScreen;
+                Visible = false;
                 ToolTip = 'Executes the Screen Request action.';
                 ApplicationArea = All;
 
@@ -212,7 +213,7 @@ page 50106 "Overtime Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                Visible = ispending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
@@ -284,11 +285,13 @@ page 50106 "Overtime Card"
         ForReject: Boolean;
         ForApprove: Boolean;
         ForScreen: Boolean;
+        IsPending: Boolean;
 
     local procedure SetLayout()
     begin
         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
                         Rec."Approval Status"::Open];
+        // IsPending:=rec."Approval Status"=rec."Approval Status"::"Pending";
 
         case Rec."Approval Status" of
             Rec."Approval Status"::Rejected, Rec."Approval Status"::Open:

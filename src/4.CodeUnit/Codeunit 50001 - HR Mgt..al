@@ -2907,7 +2907,7 @@ codeunit 50001 "HR Mgt."
             exit(Employee."Full Name");
     end;
 
-    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Access Control","Attendance Missed",,,Training,"Medical Insurance",,,,"Candiadte offer letter",Appraisal,"Loan Attachment","Allowance Assignment"; TypeOpt: Option " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,,,,,,"On Hold"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
+    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Access Control","Attendance Missed",Training,"Medical Insurance","Candiadte offer letter",Appraisal,"Loan Attachment","Allowance Assignment"; TypeOpt: Option " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,"On Hold"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
     var
         EmailTemplate: Record "Email Template";
         Footer: Text;
@@ -6109,12 +6109,12 @@ codeunit 50001 "HR Mgt."
     // end;
     procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
     begin
-        if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
-            Error('You are not eligible to recommend this document');
-        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
-        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
-        EmpHrTransfer.Modify;
-        Message('Document has been recommended');
+        // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
+        //     Error('You are not eligible to recommend this document');
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+        // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
+        // EmpHrTransfer.Modify;
+        // Message('Document has been recommended');
     end;
 
     // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
@@ -6131,12 +6131,12 @@ codeunit 50001 "HR Mgt."
     // end;
     procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
     begin
-        if EmpHrTransfer.Reviewer <> employeeNo then
-            Error('You are not elibile to review this document');
-        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
-        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Reviewed);
-        EmpHrTransfer.Modify;
-        Message('Document has been reviewed.');
+        // if EmpHrTransfer.Reviewer <> employeeNo then
+        //     Error('You are not elibile to review this document');
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
+        // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Reviewed);
+        // EmpHrTransfer.Modify;
+        // Message('Document has been reviewed.');
     end;
 
     // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
@@ -8551,31 +8551,32 @@ codeunit 50001 "HR Mgt."
     end;
 
 
-    procedure OpenAttendanceMissed(EmpCode: Code[20])
-    var
-        //TempEmpActivity: Record "Employee Activity" temporary;
-        CancelDocument: Record "Cancel Document" temporary;
-        ApprovalEntry: Record "Approval HRMS";
-    begin
-        if not Confirm('Do you want to apply for attendance missed?', false) then
-            exit;
-        ApprovalEntry.Reset();
-        ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Attendance Missed");
-        ApprovalEntry.SetRange("Employee No", EmpCode);
-        ApprovalEntry.SetRange("Document No.", '');
-        ApprovalEntry.DeleteAll();
-        Employee.Get(EmpCode);
-        CancelDocument.Init;
-        CancelDocument.Validate("Employee No.", EmpCode);
-        CancelDocument.Validate("Employee Name", Employee."Full Name");
-        CancelDocument.Validate("Approval Status", CancelDocument."Approval Status"::Open);
-        CancelDocument.Validate(Type, CancelDocument.Type::"Attendance Missed");
-        CancelDocument.Validate("Requested Date", Today);
-        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
-        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
-        CancelDocument.Insert;
-        PAGE.Run(PAGE::"Cancel Document", CancelDocument);
-    end;
+    // procedure OpenAttendanceMissed(EmpCode: Code[20])
+    // var
+    //     //TempEmpActivity: Record "Employee Activity" temporary;
+    //     //CancelDocument: Record "Cancel Document" temporary;
+    //     AttendanceMissed: Record "Attendance Missed" temporary;
+    //     ApprovalEntry: Record "Approval HRMS";
+    // begin
+    //     if not Confirm('Do you want to apply for attendance missed?', false) then
+    //         exit;
+    //     ApprovalEntry.Reset();
+    //     ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Attendance Missed");
+    //     ApprovalEntry.SetRange("Employee No", EmpCode);
+    //     ApprovalEntry.SetRange("Document No.", '');
+    //     ApprovalEntry.DeleteAll();
+    //     Employee.Get(EmpCode);
+    //     AttendanceMissed.Init;
+    //     AttendanceMissed.Validate("Employee No.", EmpCode);
+    //     AttendanceMissed.Validate("Employee Name", Employee."Full Name");
+    //     AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Open);
+    //     AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+    //     AttendanceMissed.Validate("Requested Date", Today);
+    //     // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
+    //     // CancelDocument.Validate("Approver Code", Employee."Approver Code");
+    //     AttendanceMissed.Insert;
+    //     PAGE.Run(PAGE::"Attendance Missed", AttendanceMissed);
+    // end;
 
     local procedure CheckForLeaveOnAttendanceMissed(StartDate: Date; EndDate: Date; EmpCode: Code[20])
     var

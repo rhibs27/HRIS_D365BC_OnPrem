@@ -2705,6 +2705,7 @@ page 50108 "Portal Functions"
         AttachmentSetup: Record "Attachment Setup";
         Filename: Text;
     begin
+
         TempIncomingDoc.Reset;
         TempIncomingDoc.SETRANGE("No.", TransferCode);
         If not TempIncomingDoc.FindFirst() then
