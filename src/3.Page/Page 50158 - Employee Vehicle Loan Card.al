@@ -39,6 +39,7 @@ page 50158 "Employee Vehicle Loan Card"
                 }
                 field("Job Title(Desgination)"; Rec."Job Title")
                 {
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
@@ -118,6 +119,7 @@ page 50158 "Employee Vehicle Loan Card"
                 field("Purpose of Loan"; Rec."Purpose of Loan")
                 {
                     Editable = true;
+                    ShowMandatory = true;
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
                 }
@@ -157,6 +159,7 @@ page 50158 "Employee Vehicle Loan Card"
                 field("Vehicle Loan Type"; Rec."Vehicle Loan Type")
                 {
                     Editable = true;
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Vehicle Loan Type field.';
                     ApplicationArea = All;
                 }
@@ -182,16 +185,19 @@ page 50158 "Employee Vehicle Loan Card"
                 Editable = IsOpen;
                 field("Vehicle Purchase Type"; Rec."Vehicle Purchase Type")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Vehicle Purchase Type field.';
                     ApplicationArea = All;
                 }
                 field("Name of Supplier"; Rec."Name of Supplier")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Name of Supplier field.';
                     ApplicationArea = All;
                 }
                 field("Address of Supplier"; Rec."Address of Supplier")
                 {
+                    showMandatory = true;
                     ToolTip = 'Specifies the value of the Address of Supplier field.';
                     ApplicationArea = All;
                 }
@@ -470,6 +476,7 @@ page 50158 "Employee Vehicle Loan Card"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Vehicle Loan is Approved by %1', HRMgt.GetEmpName());
+                        clear(Rec."Rejection Remark");
                     end;
                 end;
             }

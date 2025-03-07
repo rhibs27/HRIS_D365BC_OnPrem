@@ -145,10 +145,12 @@ page 50155 "Employee Personal Loan Card"
                 }
                 field("Purpose of Loan"; Rec."Purpose of Loan")
                 {
+                    ShowMandatory = true;
                     Editable = true;
                     MultiLine = true;
                     ToolTip = 'Specifies the value of the Purpose of Loan field.';
                     ApplicationArea = All;
+
                 }
                 field("Applied Loan"; Rec."Applied Loan/Advance")
                 {
@@ -412,6 +414,7 @@ page 50155 "Employee Personal Loan Card"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
                         Message('Personal Loan is Approved by %1', HRMgt.GetEmpName());
+                        clear(Rec."Rejection Remark");
                     end;
                 end;
             }

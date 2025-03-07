@@ -30,8 +30,10 @@ page 50153 "Employee Salary Advance Card"
                 }
                 field("Job Title"; Rec."Job Title")
                 {
+                    ShowMandatory = true;
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Job Type"; Rec."Job Type")
                 {
@@ -74,6 +76,7 @@ page 50153 "Employee Salary Advance Card"
                 {
                     ToolTip = 'Specifies the value of the EMI field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Salary Advance Paid"; Rec."Salary Advance Paid")
                 {
@@ -138,6 +141,7 @@ page 50153 "Employee Salary Advance Card"
                 {
                     ToolTip = 'Specifies the value of the Purpose of Advance Salary field.';
                     ApplicationArea = All;
+                    ShowMandatory = true;
                 }
                 field("Requested Loan Date"; Rec."Requested Loan Date")
                 {
@@ -148,6 +152,7 @@ page 50153 "Employee Salary Advance Card"
                 {
                     ToolTip = 'Specifies the value of the Payback Months field.';
                     ApplicationArea = All;
+                    ShowMandatory = true;
 
                     trigger OnValidate()
                     begin
@@ -158,6 +163,7 @@ page 50153 "Employee Salary Advance Card"
                 {
                     ToolTip = 'Specifies the value of the Applied Loan/Advance field.';
                     ApplicationArea = All;
+                    ShowMandatory = true;
 
                     trigger OnValidate()
                     begin
