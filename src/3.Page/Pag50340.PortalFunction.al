@@ -1630,28 +1630,28 @@ page 50340 "Portal Function"
         EmpHrTransfer.Get(empActivityNo);
         if isApproved then begin
             case EmpHrTransfer."Approval Status" of
-                EmpHrTransfer."Approval Status"::"Pending Approval":
+                EmpHrTransfer."Approval Status"::"Pending":
                     begin
                         EmpHrTransfer.Remarks := remark;
                         HrMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
                     end;
 
-                EmpHrTransfer."Approval Status"::Recommended:
-                    begin
-                        EmpHrTransfer."Reviewer Remarks" := remark;
-                        HrMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
-                    end;
+            // EmpHrTransfer."Approval Status"::Recommended:
+            //     begin
+            //         EmpHrTransfer."Reviewer Remarks" := remark;
+            //         HrMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
+            //     end;
 
-                EmpHrTransfer."Approval Status"::Reviewed:
-                    begin
-                        EmpHrTransfer."Screener Remarks" := remark;
-                        TransferMgt.ScreenTransfer(EmpHrTransfer);
-                    end;
+            // EmpHrTransfer."Approval Status"::Reviewed:
+            //     begin
+            //         EmpHrTransfer."Screener Remarks" := remark;
+            //         TransferMgt.ScreenTransfer(EmpHrTransfer);
+            //     end;
 
-                EmpActivity."Approval Status"::Screened:
-                    begin
-                        TransferMgt.ApproveTransfer(EmpHrTransfer);
-                    end;
+            // EmpActivity."Approval Status"::Screened:
+            //     begin
+            //         TransferMgt.ApproveTransfer(EmpHrTransfer);
+            //     end;
             end;
         end else begin
             EmpActivity."Rejection Remarks" := remark;

@@ -14,7 +14,7 @@ page 50066 "Transfer Card"
         {
             group(General)
             {
-                Editable = ForOpen;
+                Editable = ISOpen;
                 field("No."; Rec."No.")
                 {
                     Editable = false;
@@ -47,11 +47,11 @@ page 50066 "Transfer Card"
                         GetTransferEditibility;
                     end;
                 }
-                field(Type; Rec.Type)
+                field("Transfer Propose Date"; rec."Transfer Propose Date")
                 {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Type field.';
+                    ToolTip = 'Specifies the value of the "Transfer Propose Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Start Date"; Rec."Start Date")
                 {
@@ -76,25 +76,44 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Curr. Placement Period(Month) field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    Visible = ApprovalStatusView;
+                }
+                field(Status; Rec.Status)
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Status field.';
+                    ApplicationArea = All;
+                    Visible = StatusView;
+                }
+                field("Requested Date"; Rec."Requested Date")
+                {
+                    Editable = false;
+                    Visible = not IsOpen;
+                }
             }
             group(Transfer)
             {
                 field("Transfer Effective Date"; Rec."Transfer Effective Date")
                 {
-                    Editable = not ForAck;
+                    Editable = IsApproved and not rec."Is Transfer Details Added";
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.';
                     ApplicationArea = All;
                 }
-                field("Reason For Transfer"; Rec."Reason for Resignation")
+                field("Reason For Transfer"; Rec."Reason for transfer")
                 {
-                    Editable = ForOpen;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Reason for Resignation field.';
                     ApplicationArea = All;
                     Caption = 'Reason For Transfer';
                 }
                 field(Description; Rec.Description)
                 {
-                    Editable = ForOpen;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
@@ -102,12 +121,12 @@ page 50066 "Transfer Card"
                 {
                     ToolTip = 'Specifies the value of the Notify to field.';
                     ApplicationArea = All;
-                    Editable = ForScreenButton;
+                    Editable = IsApproved and not rec."Is Transfer Details Added";
                 }
             }
             group("On Hold")
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::"On Hold";
+                Visible = IsHold;
                 field("On Hold Date"; Rec."On Hold Date")
                 {
                     ToolTip = 'Specifies the value of the On Hold Date field.';
@@ -121,7 +140,7 @@ page 50066 "Transfer Card"
             }
             group(Cancelled)
             {
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Cancelled;
+                Visible = Rec."Approval Status" = Rec."Approval Status"::Canceled;
                 field("Cancelled Date"; Rec."Cancelled Date")
                 {
                     ToolTip = 'Specifies the value of the Cancelled Date field.';
@@ -135,12 +154,11 @@ page 50066 "Transfer Card"
             }
             group(Placement)
             {
-                Editable = not ForApprove;
-                Visible = ForReview;
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.';
                     ApplicationArea = All;
+                    Editable = IsApproved and not rec."Is Transfer Details Added";
 
                     trigger OnValidate()
                     begin
@@ -152,7 +170,7 @@ page 50066 "Transfer Card"
             group(Control61)
             {
                 ShowCaption = false;
-                Visible = ForReview;
+                Visible = IsApproved or IsACK or IsHold;
                 group("Current Placement")
                 {
                     Editable = false;
@@ -281,11 +299,12 @@ page 50066 "Transfer Card"
                 }
                 group("Proposed Placement")
                 {
+                    Editable = not Rec."Is Transfer Details Added" and IsApproved;
                     field("Deputation On (To)"; Rec."Deputation On (To)")
                     {
                         ToolTip = 'Specifies the value of the Deputation On (To) field.';
                         ApplicationArea = All;
-                        Editable = ForScreenButton;
+                        Editable = IsApproved and not rec."Is Transfer Details Added";
 
                         trigger OnValidate()
                         begin
@@ -314,7 +333,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
                         ApplicationArea = All;
-                        Editable = ForScreenButton;
+                        Editable = IsApproved and not rec."Is Transfer Details Added";
 
                         trigger OnValidate()
                         begin
@@ -324,7 +343,7 @@ page 50066 "Transfer Card"
                     field(FunctionalTitleTo; FunctionalDescTo)
                     {
                         Caption = 'Functional Title Description(To)';
-                        Editable = ForScreen;
+                        //Editable = ForScreen;
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
                         ApplicationArea = All;
                     }
@@ -444,88 +463,91 @@ page 50066 "Transfer Card"
             part(Attachment; "Attachment Subform")
             {
                 SubPageLink = "No." = field("No.");
-                Visible = ForApprove;
+                Visible = IsApproved and rec."Is Transfer Details Added" or IsACK or IsHold;
                 ApplicationArea = All;
             }
             group(Remarks)
             {
                 // Editable = not ForOpen and not ForApprove;
-                field("Recommender Remarks"; Rec.Remarks)
-                {
-                    Editable = ForPending;
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                    Caption = 'Recommender Remarks';
-                }
+                // field("Recommender Remarks"; Rec.Remarks)
+                // {
+                //     Editable = IsPending;
+                //     ToolTip = 'Specifies the value of the Remarks field.';
+                //     ApplicationArea = All;
+                //     Caption = 'Recommender Remarks';
+                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
-                    Editable = ForPending or ForRecommend;
+                    Editable = IsPending;
+                    trigger OnValidate()
+                    var
+                        myInt: Integer;
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
                 }
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    Editable = (ForReview);
-                    Visible = ForReview;
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Reviewer Remarks"; Rec."Reviewer Remarks")
-                {
-                    Editable = (ForRecommend) and (Rec."Approval Status" = Rec."Approval Status"::Recommended);
-                    Visible = ForRecommend;
-                    ToolTip = 'Specifies the value of the Reviewer Remarks field.';
-                    ApplicationArea = All;
-                }
+                // field("Screener Remarks"; Rec."Screener Remarks")
+                // {
+                //     // Editable = (ForReview);
+                //     // Visible = ForReview;
+                //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Reviewer Remarks"; Rec."Reviewer Remarks")
+                // {
+                //     // Editable = (ForRecommend) and (Rec."Approval Status" = Rec."Approval Status"::Recommended);
+                //     Visible = ForRecommend;
+                //     ToolTip = 'Specifies the value of the Reviewer Remarks field.';
+                //     ApplicationArea = All;
+                // }
             }
-            group(Approval)
-            {
-                Editable = ForOpen;
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    Visible = Rec.Type = Rec.Type::"Employee Transfer";
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    Visible = Rec.Type = Rec.Type::"Employee Transfer";
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
-                field(Reviewer; Rec.Reviewer)
-                {
-                    // Visible = Rec.Type = Rec.Type::"Employee Transfer";
-                    ToolTip = 'Specifies the value of the Reviewer field.';
-                    ApplicationArea = All;
-                }
-                field("Reviewer Name"; Rec."Reviewer Name")
-                {
-                    Visible = Rec.Type = Rec.Type::"Employee Transfer";
-                    ToolTip = 'Specifies the value of the Reviewer Name field.';
-                    ApplicationArea = All;
-                }
-            }
+            // group(Approval)
+            // {
+            // Editable = ForOpen;
+
+            // field("Recommender Code"; Rec."Recommender Code")
+            // {
+            //     Visible = Rec.Type = Rec.Type::"Employee Transfer";
+            //     ToolTip = 'Specifies the value of the Recommender Code field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     Visible = Rec.Type = Rec.Type::"Employee Transfer";
+            //     ToolTip = 'Specifies the value of the Recommender Name field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Code"; Rec."Approver Code")
+            // {
+            //     Editable = false;
+            //     ToolTip = 'Specifies the value of the Approver Code field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Approver Name"; Rec."Approver Name")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver Name field.';
+            //     ApplicationArea = All;
+            // }
+            // field(Reviewer; Rec.Reviewer)
+            // {
+            //     // Visible = Rec.Type = Rec.Type::"Employee Transfer";
+            //     ToolTip = 'Specifies the value of the Reviewer field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Reviewer Name"; Rec."Reviewer Name")
+            // {
+            //     Visible = Rec.Type = Rec.Type::"Employee Transfer";
+            //     ToolTip = 'Specifies the value of the Reviewer Name field.';
+            //     ApplicationArea = All;
+            // }
+            // }
             group("Incoming Branch")
             {
-                Visible = ForApprove;
+                Visible = not IsOpen or not IsPending;
+                Editable = IsApproved and rec."Is Transfer Details Added";
                 field("Date of Joining Of Transfer"; Rec."Date of Joining Of Transfer")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining Of Transfer field.';
@@ -539,7 +561,10 @@ page 50066 "Transfer Card"
             }
             group(Relocation)
             {
-                field("Relocation Distance"; Rec."Relocation Distance")
+                Visible = IsApproved and rec."Is Transfer Details Added";
+                Editable = IsApproved and rec."Is Transfer Details Added" and not isACK;
+                field("Relocation Distance";
+                Rec."Relocation Distance")
                 {
                     ToolTip = 'Specifies the value of the Relocation Distance field.';
                     ApplicationArea = All;
@@ -550,6 +575,14 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Relocation Allowance field.';
                     ApplicationArea = All;
                 }
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
         }
     }
@@ -579,20 +612,20 @@ page 50066 "Transfer Card"
                     end;
                 end;
             }
-            action(Recommend)
+            action("Confirm Transfer Details")
             {
-                Image = SendConfirmation;
+                Image = Insert;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
-                ToolTip = 'Executes the Recommend action.';
+                Visible = IsApproved and not rec."Is Transfer Details Added";
+                ToolTip = 'Executes the action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to recommend this document?', false) then begin
-                        TransferMgt.RecommendTransfer(Rec);
+                    if Confirm('Do you want to Confirm this document?', false) then begin
+                        TransferMgt.ConfirmTransferDetails(Rec);
                         CurrPage.Close;
                     end;
                 end;
@@ -603,10 +636,9 @@ page 50066 "Transfer Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Recommended;
+                Visible = false;
                 ToolTip = 'Executes the Review action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to review this document?', false) then begin
@@ -621,7 +653,8 @@ page 50066 "Transfer Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ForScreenButton;
+                // Visible = ForScreenButton;
+                visible = false;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
@@ -640,14 +673,15 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
+                Visible = IsPending;
+                // Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve this document?', false) then begin
-                        TransferMgt.ApproveTransfer(Rec);
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Transfer is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -658,7 +692,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                Visible = rec."Is Transfer Details Added" and IsApproved;
                 ToolTip = 'Executes the Hold Transfer action.';
                 ApplicationArea = All;
 
@@ -677,15 +711,16 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove;
+                // Visible = ForApprove;
+                Visible = false;
                 ToolTip = 'Executes the Cancel Transfer action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to cancel this document?', false) then begin
-                        TransferMgt.CancelTransfer(Rec);
-                        CurrPage.Close;
+                        // TransferMgt.CancelTransfer(Rec);
+                        // CurrPage.Close;
                     end;
                 end;
             }
@@ -696,14 +731,19 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = not (Rec."Approval Status" = Rec."Approval Status"::Open);
+                Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject this document?', false) then begin
-                        TransferMgt.RejectTransfer(Rec);
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Transfer is Rejected by %1', HRMgt.GetEmpName());
+                        end;
                     end;
                 end;
             }
@@ -714,7 +754,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ForApprove or (Rec."Approval Status" = Rec."Approval Status"::"On Hold");
+                Visible = (IsHold or IsApproved) and rec."Is Transfer Details Added";
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
 
@@ -723,23 +763,23 @@ page 50066 "Transfer Card"
                     TransferMgt.AcknowledgeTransfer(Rec);
                 end;
             }
-            action("Access Control")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = ForApprove;
-                ToolTip = 'Executes the Access Control action.';
-                ApplicationArea = All;
+            // action("Access Control")
+            // {
+            //     Image = Register;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Access Control action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to open access control card?', false) then
-                        HRMgt.OpenGrantAccessControlFromTransfer(Rec."No.");
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to open access control card?', false) then
+            //             HRMgt.OpenGrantAccessControlFromTransfer(Rec."No.");
+            //     end;
+            // }
             action("Transfer Claim")
             {
                 Image = CreateForm;
@@ -749,15 +789,19 @@ page 50066 "Transfer Card"
                 RunObject = page "Transfer Claim Form";
                 RunPageLink = "No." = field("No.");
                 RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
-                Visible = ForApprove;
+                Visible = IsACK;
                 ToolTip = 'Executes the Transfer Claim action.';
                 ApplicationArea = All;
+                trigger OnAction()
+                begin
+
+                end;
             }
             action("Return Transfer")
             {
                 ToolTip = 'Executes the Return Transfer action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to return this document?', false) then begin
@@ -820,15 +864,16 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
+                // Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
+                Visible = false;
                 ToolTip = 'Executes the Change Approver action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to modify approver?') then begin
-                        TransferMgt.PopUpChangingTransferApprover(Rec);
-                    end;
+                    // if Confirm('Do you want to modify approver?') then begin
+                    //     TransferMgt.PopUpChangingTransferApprover(Rec);
+                    // end;
                 end;
             }
             action("Update Missed Transfer")
@@ -861,14 +906,21 @@ page 50066 "Transfer Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        OnNewTransferRecord;
+        // OnNewTransferRecord;
     end;
 
     trigger OnOpenPage()
     begin
+        case rec.Type of
+            rec.Type::"Attendance Missed":
+                begin
+                    ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
+                end;
+        end;
         SetLayout;
         GetTransferName;
         Rec.CalcFields("Outgoing Reporting Person Name");
+        RecRef.GetTable(Rec);
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -878,7 +930,14 @@ page 50066 "Transfer Card"
         if Rec."Approval Status" = Rec."Approval Status"::Open then
             if not IsApplied then
                 if not Confirm('The data will be erased.Do you want to continue?', false) then
-                    Error('');
+                    Error('')
+                else begin
+                    Approval.Reset();
+                    Approval.SetRange("Document No.", '');
+                    Approval.setRange("Document Type", Approval."Document Type"::"Employee Transfer");
+                    Approval.SetRange("Employee No", Rec."Employee No.");
+                    Approval.DeleteAll();
+                end;
     end;
 
     var
@@ -886,20 +945,8 @@ page 50066 "Transfer Card"
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
-        IsApplied: Boolean;
-        [InDataSet]
-        ForRecommend: Boolean;
-        [InDataSet]
-        ForApprove: Boolean;
-        [InDataSet]
-        ForReview: Boolean;
-        [InDataSet]
-        ForScreen: Boolean;
-        [InDataSet]
-        ForPending: Boolean;
-        [InDataSet]
-        ForOpen: Boolean;
-        [InDataSet]
+        Approval: Record "Approval HRMS";
+
         ProvinceEdit: Boolean;
         [InDataSet]
         DepartEdit: Boolean;
@@ -937,56 +984,47 @@ page 50066 "Transfer Card"
         FunctionalTitle: Record "Functional Title";
         FunctionalDescFrom: Text;
         FunctionalDescTo: Text;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        IsPending: Boolean;
+        IsOpen: Boolean;
+        IsApproved: Boolean;
+        IsApplied: Boolean;
+        IsHold: Boolean;
+        IsACK: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
+        RecRef: RecordRef;
+
 
     local procedure SetLayout()
     begin
-        if Rec.Type = Rec.Type::"Employee Transfer" then begin
-            if Rec."Approval Status" = Rec."Approval Status"::Reviewed then
-                ForScreenButton := true
-            else
-                ForScreenButton := false;
-        end else if Rec.Type = Rec.Type::"HR Transfer" then begin
-            if Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "] then
-                ForScreenButton := true
-            else
-                ForScreenButton := false;
-        end;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        IsHold := Rec."Approval Status" = Rec."Approval Status"::"On Hold";
+        IsACK := rec."Approval Status" = rec."Approval Status"::Acknowledged;
+        RecRef.GetTable(Rec);
 
-        case Rec."Approval Status" of
-            Rec."Approval Status"::Open:
-                ForOpen := true;
-            Rec."Approval Status"::"Pending Approval":
-                ForPending := true;
-            Rec."Approval Status"::Recommended:
-                ForRecommend := true;
-            Rec."Approval Status"::Reviewed:
-                begin
-                    ForRecommend := true;
-                    ForReview := true;
-                end;
-            Rec."Approval Status"::Approved, Rec."Approval Status"::"On Hold":
-                begin
-                    ForApprove := true;
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
-            Rec."Approval Status"::Screened:
-                begin
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
-
-            Rec."Approval Status"::Acknowledged:
-                begin
-                    ForApprove := true;
-                    ForAck := true;
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
-        end;
+        // case Rec."Approval Status" of
+        //     Rec."Approval Status"::Open:
+        //         IsOpen := true;
+        //     Rec."Approval Status"::"Pending":
+        //         ISPending := true;
+        //     Rec."Approval Status"::Approved, Rec."Approval Status"::"On Hold":
+        //         begin
+        //             ISPending := true;
+        //             ISApproved := true;
+        //         end;
+        //     Rec."Approval Status"::Acknowledged:
+        //         begin
+        //             IsApproved := true;
+        //             IsPending := true;
+        //         end;
+        // end;
         if Rec.Type in [Rec.Type::"HR Transfer", Rec.Type::"Employee Transfer"] then begin //Min 12.11.2022
             if Rec."Approval Status" = Rec."Approval Status"::Approved then
                 ForAck := true;
@@ -1057,11 +1095,11 @@ page 50066 "Transfer Card"
             UnitEdit := true;
         end;
 
-        if Rec.Type = Rec.Type::"HR Transfer" then begin
-            ForReview := true;
-            if Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "] then
-                ForOpen := true;
-        end;
+        // if Rec.Type = Rec.Type::"HR Transfer" then begin
+        //     ForReview := true;
+        //     if Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "] then
+        //         ForOpen := true;
+        // end;
     end;
 
     local procedure GetTransferName()
@@ -1150,25 +1188,25 @@ page 50066 "Transfer Card"
         TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General]; //Min 12.09.2022 -- General Option added;
     end;
 
-    local procedure OnNewTransferRecord()
-    begin
-        Rec.FilterGroup(2);
-        TypeFilter := Rec.GetFilter(Type);
-        Rec.FilterGroup(0);
-        case TypeFilter of
-            Format(Rec.Type::"Employee Transfer"):
-                Rec.Type := Rec.Type::"Employee Transfer";
+    // local procedure OnNewTransferRecord()
+    // begin
+    //     Rec.FilterGroup(2);
+    //     TypeFilter := Rec.GetFilter(Type);
+    //     Rec.FilterGroup(0);
+    //     case TypeFilter of
+    //         Format(Rec.Type::"Employee Transfer"):
+    //             Rec.Type := Rec.Type::"Employee Transfer";
 
-            Format(Rec.Type::"HR Transfer"):
-                Rec.Type := Rec.Type::"HR Transfer";
-        end;
-        Rec."Approval Status" := Rec."Approval Status"::Open;
-        HRSetup.Get;
-        Employee.Reset;
-        Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee.SetRange("Department Code", HRSetup."HR Department Code");
-        Employee.SetRange(Status, Employee.Status::Active); //Min
-        if Employee.FindFirst then
-            Rec.Validate("Approver Code", Employee."No.");
-    end;
+    //         Format(Rec.Type::"HR Transfer"):
+    //             Rec.Type := Rec.Type::"HR Transfer";
+    //     end;
+    //     Rec."Approval Status" := Rec."Approval Status"::Open;
+    //     HRSetup.Get;
+    //     Employee.Reset;
+    //     Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+    //     Employee.SetRange("Department Code", HRSetup."HR Department Code");
+    //     Employee.SetRange(Status, Employee.Status::Active); //Min
+    //     if Employee.FindFirst then
+    //         Rec.Validate("Approver Code", Employee."No.");
+    // end;
 }

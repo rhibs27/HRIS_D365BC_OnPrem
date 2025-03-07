@@ -155,7 +155,6 @@ page 50362 "Attendance Missed"
         IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
-        RecRef.GetTable(Rec);
         case rec.Type of
             rec.Type::"Attendance Missed":
                 begin
@@ -192,7 +191,6 @@ page 50362 "Attendance Missed"
         ApproverMgt: Codeunit "Approver Mgt";
         IsPending: Boolean;
         Approval: Record "Approval HRMS";
-        RecRef: RecordRef;
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
 }

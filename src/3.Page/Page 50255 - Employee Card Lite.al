@@ -1036,7 +1036,7 @@ page 50255 "Employee Card Lite"
 
                     trigger OnAction()
                     begin
-                        HRMgt.OpenAttendanceMissed(Rec."No.");
+                        AttendanceMissedMgt.OpenAttendanceMissed(Rec."No.");
                     end;
                 }
                 action("Out of Office Forms")
@@ -1940,6 +1940,7 @@ page 50255 "Employee Card Lite"
         ServiceHistory: Record "Employee Service History";
         PGSetup: Record "Payroll General Setup";
         HRMgmt: Codeunit "HR Mgt.";
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
 
 
     local procedure SetNoFieldVisible()

@@ -70,21 +70,21 @@ page 50186 "Attendance Missed Lists"
     {
         area(Processing)
         {
-            action("Cancel Document")
-            {
-                Image = Cancel;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Cancel Document action.';
-                ApplicationArea = All;
+            // action("Cancel Document")
+            // {
+            //     Image = Cancel;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Cancel Document action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    DocCancelMgt.OpenAttendanceMissed(Rec);
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         DocCancelMgt.OpenAttendanceMissed(Rec);
+            //     end;
+            // }
             // action("Change Recommender/Approver")
             // {
             //     Image = ReOpen;

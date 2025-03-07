@@ -105,7 +105,7 @@ page 50176 "Employee Loan/Advance API"
                 field(vehicleMolel; Rec."Vehicle Model") { }
                 field(transportationManagement; Rec."Transportation Management off.") { }
                 field(vehicleEngineNo; Rec."Vehicle Engine No.") { }
-                field(CompleteAddressofProperty; Rec."Complete Address of Property") { }
+                field(completeAddressofProperty; Rec."Complete Address of Property") { }
                 field(vehicleChasisNo; Rec."Vehicle Chasis No.") { }
                 field(vehicleRegistration; Rec."Vehicle Registration No.") { }
                 field(disbursedAmount; Rec."Disbursed Amount") { }

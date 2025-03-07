@@ -917,7 +917,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Request Attendace Missed action.';
                     trigger OnAction()
                     begin
-                        HRMgt.OpenAttendanceMissed(Rec."No.");
+                        AttendanceMissedMgt.OpenAttendanceMissed(Rec."No.");
                     end;
                 }
                 action("Out of Office Forms")
@@ -1716,6 +1716,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         ServiceHistory: Record "Employee Service History";
         PGSetup: Record "Payroll General Setup";
         TransferMgt: Codeunit "Transfer Mgt.";
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
 
 
     trigger OnOpenPage()

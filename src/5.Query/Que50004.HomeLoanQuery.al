@@ -112,7 +112,7 @@ query 50004 "Home Loan Query"
                     column(vehicleMolel; "Vehicle Model") { }
                     column(transportationManagement; "Transportation Management off.") { }
                     column(vehicleEngineNo; "Vehicle Engine No.") { }
-                    column(CompleteAddressofProperty; "Complete Address of Property") { }
+                    column(completeAddressofProperty; "Complete Address of Property") { }
                     column(vehicleChasisNo; "Vehicle Chasis No.") { }
                     column(vehicleRegistration; "Vehicle Registration No.") { }
                     column(disbursedAmount; "Disbursed Amount") { }
@@ -144,7 +144,6 @@ query 50004 "Home Loan Query"
                     }
                     column(EMI; EMI)
                     {
-
                     }
                 }
             }

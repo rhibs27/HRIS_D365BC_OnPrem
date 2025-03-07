@@ -31,6 +31,12 @@ page 50240 "Attendance Activity Entity"
                 field(lateRemarks; Rec."Late Remarks") { }
                 field(holidayRemarks; Rec."Holiday Remarks") { }
                 field(presentDay; Rec."Present Day") { }
+                field(weekOffDay; Rec."Week Off Day")
+                {
+                }
+                field(absentDay; Rec."Absent Day")
+                {
+                }
                 field(sourceNo; Rec."Source No.") { }
                 field(leaveDay; Rec."Leave Day") { }
                 field(tourDay; Rec."Tour Day") { }

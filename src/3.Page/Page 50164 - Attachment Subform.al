@@ -107,7 +107,9 @@ page 50164 "Attachment Subform"
                         IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
                             ERROR('Approval status must be Open.');
                         LoanMgt.UploadAttachment(Rec);
-                    end;
+                    end else
+                        LoanMgt.UploadAttachment(Rec);
+
 
                     // if Employee.Get(Rec."Order No.") then //employee controls
                     //     LoanMgt.UploadAttachment(Rec)

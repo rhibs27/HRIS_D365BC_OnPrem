@@ -273,19 +273,73 @@ page 50108 "Portal Functions"
     var
         Leave: Record Leave;
         RecRef: RecordRef;
-        cancelDocument: Record "Cancel Document";
+        AttendanceMissed: Record "Attendance Missed";
     begin
-        cancelDocument.Get(missedAttendanceNo);
-        if not cancelDocument.Cancelled then begin
-            if not isApproved then begin
-                if rejectionRemarks = '' then
-                    Error('Rejection Remarks is empty');
-                cancelDocument.Validate("Rejection Remarks", rejectionRemarks);
-                cancelDocument.Modify;
-            end;
-            RecRef.GetTable(cancelDocument);
-            ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        AttendanceMissed.Get(missedAttendanceNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            AttendanceMissed.Validate("Rejection Remarks", rejectionRemarks);
+            AttendanceMissed.Modify;
         end;
+        RecRef.GetTable(AttendanceMissed);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getEmployeeApproval(empActType: Code[20]): text
+    var
+        ApprovalSetupLine: Record "Approval Setup line";
+        Approval: Record "Approval HRMS";
+        Employee: Record Employee;
+        EmpRequest: Record Employee;
+        Approval1: Record "Approval HRMS";
+        ApprovalCode: Text[500];
+        ApproverName: Text[500];
+        EmployeeApproverRole: Text[500];
+        ApprovalRole: Text[500];
+    begin
+        EmpRequest.Reset();
+        EmpRequest.Get(HrMgt.GetEmployeeNo());
+        ApprovalSetupLine.Reset();
+        CASE EmpActType OF
+            FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
+            FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
+            FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
+            FORMAT(ApprovalSetupLine."Request Type"::Loan):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
+            FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
+            FORMAT(ApprovalSetupLine."Request Type"::"Employee Transfer"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Transfer");
+        END;
+        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+        if ApprovalSetupLine.Findset() then
+            repeat
+                Employee.Reset();
+                Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                    Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                    Employee.SetRange("Department Code", EmpRequest."Department Code")
+                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                    Employee.SetRange("Province Code", EmpRequest."Province Code");
+                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+                if Employee.FindFirst() then begin
+                    ApprovalCode += Employee."No." + '/';
+                    ApproverName += Employee."Full Name" + '/';
+                    ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
+                end;
+            until ApprovalSetupLine.Next() = 0;
+        exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
+                '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
+                '"approverName" : "' + (Format(ApproverName)) + '"}');
     end;
 
     local procedure "------Leave API---------"()
@@ -367,59 +421,7 @@ page 50108 "Portal Functions"
     //         exit('false')
     // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getEmployeeApproval(empActType: Code[20]): text
-    var
-        ApprovalSetupLine: Record "Approval Setup line";
-        Approval: Record "Approval HRMS";
-        Employee: Record Employee;
-        EmpRequest: Record Employee;
-        Approval1: Record "Approval HRMS";
-        ApprovalCode: Text[500];
-        ApproverName: Text[500];
-        EmployeeApproverRole: Text[500];
-        ApprovalRole: Text[500];
-    begin
-        EmpRequest.Reset();
-        EmpRequest.Get(HrMgt.GetEmployeeNo());
-        ApprovalSetupLine.Reset();
-        CASE EmpActType OF
-            FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
-            FORMAT(ApprovalSetupLine."Request Type"::Loan):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
-            FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
 
-        END;
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
-        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-        if ApprovalSetupLine.Findset() then
-            repeat
-                Employee.Reset();
-                Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                    Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                    Employee.SetRange("Department Code", EmpRequest."Department Code")
-                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                    Employee.SetRange("Province Code", EmpRequest."Province Code");
-                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-                if Employee.FindFirst() then begin
-                    ApprovalCode += Employee."No." + '/';
-                    ApproverName += Employee."Full Name" + '/';
-                    ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
-                end;
-            until ApprovalSetupLine.Next() = 0;
-        exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
-                '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
-                '"approverName" : "' + (Format(ApproverName)) + '"}');
-    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2407,12 +2409,9 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure submitTransferRequest(
-    "employeeNo": Code[20];
     "proposedTransferDate": Date;
     "reasonForTransfer": text;
-    "description": text;
-    "recommenderCode": Code[20];
-    "reviewer": text): Integer
+    "description": text): Integer
     var
         // TravelRequest: Record "Travel Request" temporary;
         TransferRequest: Record "Employee/HR Transfer" temporary;
@@ -2424,12 +2423,10 @@ page 50108 "Portal Functions"
         TransferRequest.Reset;
         TransferRequest.Init;
         TransferRequest.Validate(Type, TransferRequest.Type::"Employee Transfer");
-        TransferRequest.Validate("Employee No.", employeeNo);
-        TransferRequest.Validate("Transfer Effective Date", ProposedTransferDate);
+        TransferRequest.Validate("Employee No.", HrMgt.GetEmployeeNo());
+        TransferRequest.Validate("Transfer Propose Date", ProposedTransferDate);
         TransferRequest.Validate(Description, description);
-        TransferRequest.Validate("Reason for Resignation", reasonForTransfer);
-        TransferRequest.Validate("Recommender Code", recommenderCode);
-        TransferRequest.Validate(Reviewer, reviewer);
+        TransferRequest.Validate("Reason for Transfer", reasonForTransfer);
         TransferRequest.Insert;
         if TransferMgt.SendTransferApproval(TransferRequest) then
             exit(200);
@@ -2438,42 +2435,54 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; remark: Text; employeeNo: Code[20])
+    procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
         EmpHrTransfer: Record "Employee/HR Transfer";
+        RecRef: RecordRef;
     begin
         EmpHrTransfer.Get(empActivityNo);
-        if isApproved then begin
-            case EmpHrTransfer."Approval Status" of
-                EmpHrTransfer."Approval Status"::"Pending Approval":
-                    begin
-                        EmpHrTransfer.Remarks := remark;
-                        TransferMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
-                    end;
+        // if isApproved then begin
+        //     case EmpHrTransfer."Approval Status" of
+        //         EmpHrTransfer."Approval Status"::"Pending":
+        //             begin
+        //                 EmpHrTransfer.Remarks := remark;
+        //                 TransferMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
+        //             end;
+        //             Leave.Get(empLeaveNo);
 
-                EmpHrTransfer."Approval Status"::Recommended:
-                    begin
-                        EmpHrTransfer."Reviewer Remarks" := remark;
-                        TransferMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
-                    end;
-
-                EmpHrTransfer."Approval Status"::Reviewed:
-                    begin
-                        EmpHrTransfer."Screener Remarks" := remark;
-                        TransferMgt.ScreenTransferAPI(EmpHrTransfer, employeeNo);
-                    end;
-
-                EmpHrTransfer."Approval Status"::Screened:
-                    begin
-                        TransferMgt.ApproveTransferAPI(EmpHrTransfer, employeeNo);
-                    end;
-            end;
-        end else begin
-            EmpHrTransfer."Rejection Remarks" := remark;
-            TransferMgt.RejectTransferAPI(EmpHrTransfer, employeeNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            EmpHrTransfer.Validate("Rejection Remarks", rejectionRemarks);
+            EmpHrTransfer.Modify;
         end;
+        RecRef.GetTable(EmpHrTransfer);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+
+
+        // EmpHrTransfer."Approval Status"::Recommended:
+        //     begin
+        //         EmpHrTransfer."Reviewer Remarks" := remark;
+        //         TransferMgt.ReviewTransferAPI(EmpHrTransfer, employeeNo);
+        //     end;
+
+        // EmpHrTransfer."Approval Status"::Reviewed:
+        //     begin
+        //         EmpHrTransfer."Screener Remarks" := remark;
+        //         TransferMgt.ScreenTransferAPI(EmpHrTransfer, employeeNo);
+        //     end;
+
+        // EmpHrTransfer."Approval Status"::Screened:
+        //     begin
+        //         TransferMgt.ApproveTransferAPI(EmpHrTransfer, employeeNo);
+        //     end;
     end;
+    // end else begin
+    //     EmpHrTransfer."Rejection Remarks" := remark;
+    //     // TransferMgt.RejectTransferAPI(EmpHrTransfer, employeeNo);
+    // end;
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2686,6 +2695,31 @@ page 50108 "Portal Functions"
         end;
 
         exit(RemoteAreaAllow);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getTransferAttachmentAPI(TransferCode: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+        Filename: Text;
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SETRANGE("No.", TransferCode);
+        If not TempIncomingDoc.FindFirst() then
+            Error('Document Not Found');
+        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        exit('{' +
+        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -3582,12 +3616,11 @@ page 50108 "Portal Functions"
         AppraisalForRecommendation: Integer;
         AppraisalForApprove: Integer;
         TotalCount: Integer;
-        EmpTransfer: Record "Employee/HR Transfer";
         SalaryAdvanceForApprove: Integer;
         AttendanceMissedForApprove: Integer;
-        EmployeeTransfer: Record "Employee/HR Transfer";
-        EmployeeTransferForRecommendation: Integer;
         EmployeeTransferForApprove: Integer;
+        TransferAcknowledgeForApprove: Integer;
+        EmployeeTransfer: Record "Employee/HR Transfer";
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
@@ -3653,6 +3686,17 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         AttendanceMissedForApprove := Approval.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Employee Transfer");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        EmployeeTransferForApprove := Approval.Count();
+
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Notify to", HrMgt.GetEmployeeNo());
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
+        EmployeeTransfer.SetRange("Is Transfer Details Added", true);
+        TransferAcknowledgeForApprove := EmployeeTransfer.Count();
         // Loan.Reset();
         // Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
         // Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
@@ -3671,11 +3715,6 @@ page 50108 "Portal Functions"
         OverTimeForApprove := OverTime.Count();
 
 
-        EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Approver Code", HrMgt.GetEmployeeNo());
-        EmployeeTransfer.SetRange(Type, EmployeeTransfer.Type::"Employee Transfer");
-        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Recommended);
-        EmployeeTransferForApprove := EmployeeTransfer.Count();
 
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
@@ -3687,7 +3726,7 @@ page 50108 "Portal Functions"
         AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
-        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForRecommendation + EmployeeTransferForApprove + AllowanceAssignmentForApprove +
+        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove +
                         ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
@@ -3702,6 +3741,7 @@ page 50108 "Portal Functions"
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
+        ',"TransferAcknowledgeForApprove": "' + format(TransferAcknowledgeForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 

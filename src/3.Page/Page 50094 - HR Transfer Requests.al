@@ -44,16 +44,16 @@ page 50094 "HR Transfer Requests"
                     ToolTip = 'Specifies the value of the Transfer Category field.';
                     ApplicationArea = All;
                 }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
+                // field("Recommender Code"; Rec."Recommender Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Code"; Rec."Approver Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Code field.';
+                //     ApplicationArea = All;
+                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -151,13 +151,14 @@ page 50094 "HR Transfer Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Screened action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    ClearAll();
-                    Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // ClearAll();
+                    // Rec.FilterGroup(2);
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action("Pending Approval")
@@ -173,8 +174,8 @@ page 50094 "HR Transfer Requests"
                 begin
                     ClearAll();
                     Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
-                    Rec.SetRange("Recommender Code", HRMgt.GetEmployeeNo());
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
+                    // Rec.SetRange("Recommender Code", HRMgt.GetEmployeeNo());
                     Rec.FilterGroup(0);
                 end;
             }
@@ -186,14 +187,15 @@ page 50094 "HR Transfer Requests"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    ClearAll();
-                    Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    Rec.SetRange("Approver Code", HRMgt.GetEmployeeNo());
-                    Rec.FilterGroup(0);
+                    // ClearAll();
+                    // Rec.FilterGroup(2);
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.SetRange("Approver Code", HRMgt.GetEmployeeNo());
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Reviewed)
@@ -203,14 +205,15 @@ page 50094 "HR Transfer Requests"
                 PromotedCategory = Process;
                 ToolTip = 'Executes the Reviewed action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
-                    ClearAll();
-                    Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Reviewed);
-                    Rec.SetRange(Reviewer, HRMgt.GetEmployeeNo());
-                    Rec.FilterGroup(0);
+                    // ClearAll();
+                    // Rec.FilterGroup(2);
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Reviewed);
+                    // Rec.SetRange(Reviewer, HRMgt.GetEmployeeNo());
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)

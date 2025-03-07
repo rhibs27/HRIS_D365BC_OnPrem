@@ -285,6 +285,24 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
+    procedure IsFinalApprover(DocNo: Code[20]): Boolean
+    var
+        Approver: Record "Approval HRMS";
+        approver1: Record "Approval HRMS";
+    begin
+        Approver.Reset();
+        Approver.SetRange("Document No.", DocNo);
+        Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
+        if Approver.FindFirst() then begin
+            Approver1.SetRange("Document No.", DocNo);
+            Approver1.SetRange("Approval Sequence", Approver."Approval Sequence" + 1);
+            if Approver1.FindFirst() then
+                exit(false)
+            else
+                exit(true)
+        end;
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         leaveMgt: Codeunit "Leave Mgt.";

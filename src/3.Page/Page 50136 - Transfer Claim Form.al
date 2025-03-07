@@ -177,7 +177,6 @@ page 50136 "Transfer Claim Form"
                 Visible = false;
                 ToolTip = 'Executes the Update Allowance action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     TransferMgt.CalculateAllowance(Rec);
@@ -263,11 +262,11 @@ page 50136 "Transfer Claim Form"
         end else
             IsOpen := true;
 
-        if ReasonCode.Get(Rec."No.") then begin
-            TransferClaimReviewerRemarks := ReasonCode."Transf. Claim Reviewer Remarks";
-            TransferClaimRecommenderRemarks := ReasonCode."Transf. Claim Recomm. Remarks";
-            TransferClaimApproverRemarks := ReasonCode."Transf. Claim Apporver Remarks";
-        end;
+        // if ReasonCode.Get(Rec."No.") then begin
+        //     TransferClaimReviewerRemarks := ReasonCode."Transf. Claim Reviewer Remarks";
+        //     TransferClaimRecommenderRemarks := ReasonCode."Transf. Claim Recomm. Remarks";
+        //     TransferClaimApproverRemarks := ReasonCode."Transf. Claim Apporver Remarks";
+        // end;
     end;
 
     var

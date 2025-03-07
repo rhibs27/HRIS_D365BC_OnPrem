@@ -40,31 +40,31 @@ codeunit 50016 "AttendanceMiss Mgt"
         if PAGE.RunModal(PAGE::"Cancel Document", CancelDocumentTemp) = ACTION::LookupOK then;
     end;
 
-    procedure OpenAttendanceMissed(AttendanceMissed: Record "Attendance Missed")
+    procedure OpenAttendanceMissed(EmpCode: Code[20])
     var
-        //Leave: Record "Leave" temporary;
-        AttendanceMissedTemp: Record "Employee Activity" temporary;
+        //TempEmpActivity: Record "Employee Activity" temporary;
+        //CancelDocument: Record "Cancel Document" temporary;
+        AttendanceMissed: Record "Attendance Missed" temporary;
+        ApprovalEntry: Record "Approval HRMS";
     begin
-        if not Confirm('Do you want to cancel document?', false) then
+        if not Confirm('Do you want to apply for attendance missed?', false) then
             exit;
-        AttendanceMissed.TestField("Approval Status", AttendanceMissed."Approval Status"::Approved);
-        AttendanceMissed.TestField("Cancelled Document No.", '');
-        AttendanceMissedTemp.Init;
-        AttendanceMissedTemp.Validate(Cancelled, true);
-        AttendanceMissedTemp.Validate("Employee No.", AttendanceMissed."Employee No.");
-        AttendanceMissedTemp.Validate("Employee Name", AttendanceMissed."Employee Name");
-        AttendanceMissedTemp.Validate("Approval Status", AttendanceMissedTemp."Approval Status"::Open);
-        AttendanceMissedTemp.Validate(Type, AttendanceMissed.Type);
-        AttendanceMissedTemp.Validate("Leave Code", AttendanceMissed."Leave Code");
-        AttendanceMissedTemp.Validate("Requested Date", Today);
-        AttendanceMissedTemp.Validate("Start Date", AttendanceMissed."Start Date");
-        AttendanceMissedTemp.Validate("End Date", AttendanceMissed."End Date");
-        AttendanceMissedTemp.Validate("No. of Days", AttendanceMissed."No. of Days");
-        // CancelDocumentTemp.Validate("Recommender Code", CancelDocument."Recommender Code");
-        // CancelDocumentTemp.Validate("Approver Code", CancelDocument."Approver Code");
-        AttendanceMissedTemp."Cancelled Document No." := AttendanceMissed."No.";
-        AttendanceMissedTemp.Insert;
-        if PAGE.RunModal(PAGE::"Attendance Missed", AttendanceMissedTemp) = ACTION::LookupOK then;
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Attendance Missed");
+        ApprovalEntry.SetRange("Employee No", EmpCode);
+        ApprovalEntry.SetRange("Document No.", '');
+        ApprovalEntry.DeleteAll();
+        Employee.Get(EmpCode);
+        AttendanceMissed.Init;
+        AttendanceMissed.Validate("Employee No.", EmpCode);
+        AttendanceMissed.Validate("Employee Name", Employee."Full Name");
+        AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Open);
+        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+        AttendanceMissed.Validate("Requested Date", Today);
+        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
+        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
+        AttendanceMissed.Insert;
+        PAGE.Run(PAGE::"Attendance Missed", AttendanceMissed);
     end;
 
 

@@ -55,7 +55,7 @@ page 50257 "HR Transfer API"
                 {
                     Editable = not ForAck;
                 }
-                field(reasonForTransfer; Rec."Reason for Resignation")
+                field(reasonForTransfer; Rec."Reason for Transfer")
                 {
                     Editable = ForOpen;
                 }
@@ -189,270 +189,270 @@ page 50257 "HR Transfer API"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action("Send Approval Request")
-            {
-                Image = SendApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = (Rec."Approval Status" = Rec."Approval Status"::Open) and (Rec.Type = Rec.Type::"Employee Transfer");
+    // actions
+    // {
+    //     area(Processing)
+    //     {
+    //         action("Send Approval Request")
+    //         {
+    //             Image = SendApprovalRequest;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             Visible = (Rec."Approval Status" = Rec."Approval Status"::Open) and (Rec.Type = Rec.Type::"Employee Transfer");
 
-                trigger OnAction()
-                var
-                    ConfirmTransfer: Label 'Do you want to send transfer request ?';
-                begin
-                    if Confirm(ConfirmTransfer, false) then begin
-                        TransferMgt.SendTransferApproval(Rec);
-                        IsApplied := true;
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Recommend)
-            {
-                Image = SendConfirmation;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+    //             trigger OnAction()
+    //             var
+    //                 ConfirmTransfer: Label 'Do you want to send transfer request ?';
+    //             begin
+    //                 if Confirm(ConfirmTransfer, false) then begin
+    //                     TransferMgt.SendTransferApproval(Rec);
+    //                     IsApplied := true;
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action(Recommend)
+    //         {
+    //             Image = SendConfirmation;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             Visible = Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to recommend this document?', false) then begin
-                        TransferMgt.RecommendTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Review)
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Recommended;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to recommend this document?', false) then begin
+    //                     TransferMgt.RecommendTransfer(Rec);
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action(Review)
+    //         {
+    //             Image = Register;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             Visible = Rec."Approval Status" = Rec."Approval Status"::Recommended;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to review this document?', false) then begin
-                        TransferMgt.ReviewTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Screen)
-            {
-                Image = "Action";
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = ForScreenButton;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to review this document?', false) then begin
+    //                     TransferMgt.ReviewTransfer(Rec);
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action(Screen)
+    //         {
+    //             Image = "Action";
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             Visible = ForScreenButton;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to screen this document?', false) then begin
-                        TransferMgt.ScreenTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action("Approve Request")
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to screen this document?', false) then begin
+    //                     TransferMgt.ScreenTransfer(Rec);
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action("Approve Request")
+    //         {
+    //             Image = Approve;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to approve this document?', false) then begin
-                        TransferMgt.ApproveTransfer(Rec);
-                    end;
-                end;
-            }
-            action("Hold Transfer")
-            {
-                Image = Stop;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = ForApprove;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to approve this document?', false) then begin
+    //                     TransferMgt.ApproveTransfer(Rec);
+    //                 end;
+    //             end;
+    //         }
+    //         action("Hold Transfer")
+    //         {
+    //             Image = Stop;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = ForApprove;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to hold this document?', false) then begin
-                        TransferMgt.HoldTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action("Cancel Transfer")
-            {
-                Image = Cancel;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = ForApprove;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to hold this document?', false) then begin
+    //                     TransferMgt.HoldTransfer(Rec);
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action("Cancel Transfer")
+    //         {
+    //             Image = Cancel;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = ForApprove;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to cancel this document?', false) then begin
-                        TransferMgt.CancelTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action("Reject Request")
-            {
-                Image = Reject;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = not (Rec."Approval Status" = Rec."Approval Status"::Open);
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to cancel this document?', false) then begin
+    //                     TransferMgt.CancelTransfer(Rec);
+    //                     CurrPage.Close;
+    //                 end;
+    //             end;
+    //         }
+    //         action("Reject Request")
+    //         {
+    //             Image = Reject;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = not (Rec."Approval Status" = Rec."Approval Status"::Open);
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to reject this document?', false) then begin
-                        TransferMgt.RejectTransfer(Rec);
-                    end;
-                end;
-            }
-            action("Acknowledge Transfer")
-            {
-                Image = Alerts;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = ForApprove or (Rec."Approval Status" = Rec."Approval Status"::"On Hold");
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to reject this document?', false) then begin
+    //                     TransferMgt.RejectTransfer(Rec);
+    //                 end;
+    //             end;
+    //         }
+    //         action("Acknowledge Transfer")
+    //         {
+    //             Image = Alerts;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = ForApprove or (Rec."Approval Status" = Rec."Approval Status"::"On Hold");
 
-                trigger OnAction()
-                begin
-                    TransferMgt.AcknowledgeTransfer(Rec);
-                end;
-            }
-            action("Access Control")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = ForApprove;
+    //             trigger OnAction()
+    //             begin
+    //                 TransferMgt.AcknowledgeTransfer(Rec);
+    //             end;
+    //         }
+    //         action("Access Control")
+    //         {
+    //             Image = Register;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = ForApprove;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to open access control card?', false) then
-                        HRMgt.OpenGrantAccessControlFromTransfer(Rec."No.");
-                end;
-            }
-            action("Transfer Claim")
-            {
-                Image = CreateForm;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                RunObject = page "Transfer Claim Form";
-                RunPageLink = "No." = field("No.");
-                RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
-                Visible = ForApprove;
-            }
-            action("Return Transfer")
-            {
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to return this document?', false) then begin
-                        TransferMgt.ReturnTransfer(Rec);
-                    end;
-                end;
-            }
-            action("Transfer History")
-            {
-                Image = History;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = not ForAck;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to open access control card?', false) then
+    //                     HRMgt.OpenGrantAccessControlFromTransfer(Rec."No.");
+    //             end;
+    //         }
+    //         action("Transfer Claim")
+    //         {
+    //             Image = CreateForm;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             RunObject = page "Transfer Claim Form";
+    //             RunPageLink = "No." = field("No.");
+    //             RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
+    //             Visible = ForApprove;
+    //         }
+    //         action("Return Transfer")
+    //         {
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to return this document?', false) then begin
+    //                     TransferMgt.ReturnTransfer(Rec);
+    //                 end;
+    //             end;
+    //         }
+    //         action("Transfer History")
+    //         {
+    //             Image = History;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             Visible = not ForAck;
 
-                trigger OnAction()
-                var
-                    EmployeeAct: Record "Employee Activity";
-                    PageTransferHistory: Page "Employee Transfer Requests";
-                begin
-                    EmployeeAct.Reset;
-                    Rec.FilterGroup(2);
-                    EmployeeAct.SetFilter(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
-                    EmployeeAct.SetRange("Employee No.", Rec."Employee No.");
-                    EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Acknowledged);
-                    Rec.FilterGroup(0);
-                    Clear(PageTransferHistory);
-                    PageTransferHistory.ForHistoryPage;
-                    PageTransferHistory.SetTableView(EmployeeAct);
-                    PageTransferHistory.SetRecord(EmployeeAct);
-                    PageTransferHistory.Run;
-                end;
-            }
-            action("Attendance Missed")
-            {
-                Image = AddWatch;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
+    //             trigger OnAction()
+    //             var
+    //                 EmployeeAct: Record "Employee Activity";
+    //                 PageTransferHistory: Page "Employee Transfer Requests";
+    //             begin
+    //                 EmployeeAct.Reset;
+    //                 Rec.FilterGroup(2);
+    //                 EmployeeAct.SetFilter(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
+    //                 EmployeeAct.SetRange("Employee No.", Rec."Employee No.");
+    //                 EmployeeAct.SetRange("Approval Status", EmployeeAct."Approval Status"::Acknowledged);
+    //                 Rec.FilterGroup(0);
+    //                 Clear(PageTransferHistory);
+    //                 PageTransferHistory.ForHistoryPage;
+    //                 PageTransferHistory.SetTableView(EmployeeAct);
+    //                 PageTransferHistory.SetRecord(EmployeeAct);
+    //                 PageTransferHistory.Run;
+    //             end;
+    //         }
+    //         action("Attendance Missed")
+    //         {
+    //             Image = AddWatch;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
 
-                trigger OnAction()
-                begin
-                    TempEmpActivity.DeleteAll;
-                    TempEmpActivity.Init;
-                    TempEmpActivity.Validate("Employee No.", Rec."Employee No.");
-                    TempEmpActivity.Validate(Type, EmployeeActivity.Type::"Attendance Missed");
-                    TempEmpActivity.Insert;
-                    Page.Run(Page::"Cancel Document", TempEmpActivity);
-                end;
-            }
-            action("Change Approver")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
+    //             trigger OnAction()
+    //             begin
+    //                 TempEmpActivity.DeleteAll;
+    //                 TempEmpActivity.Init;
+    //                 TempEmpActivity.Validate("Employee No.", Rec."Employee No.");
+    //                 TempEmpActivity.Validate(Type, EmployeeActivity.Type::"Attendance Missed");
+    //                 TempEmpActivity.Insert;
+    //                 Page.Run(Page::"Cancel Document", TempEmpActivity);
+    //             end;
+    //         }
+    //         action("Change Approver")
+    //         {
+    //             Image = Change;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to modify approver?') then begin
-                        TransferMgt.PopUpChangingTransferApprover(Rec);
-                    end;
-                end;
-            }
-            action("Update Missed Transfer")
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = false;
+    //             trigger OnAction()
+    //             begin
+    //                 if Confirm('Do you want to modify approver?') then begin
+    //                     TransferMgt.PopUpChangingTransferApprover(Rec);
+    //                 end;
+    //             end;
+    //         }
+    //         action("Update Missed Transfer")
+    //         {
+    //             Image = Approve;
+    //             Promoted = true;
+    //             PromotedCategory = Process;
+    //             PromotedIsBig = true;
+    //             PromotedOnly = true;
+    //             Visible = false;
 
-                trigger OnAction()
-                begin
-                    /*IF CONFIRM('Do you want to Update this document?',FALSE) THEN BEGIN
-                      HRMgt.UpdateMissedTransfer(Rec); //Min
-                    END;*/
-                end;
-            }
-        }
-    }
+    //             trigger OnAction()
+    //             begin
+    //                 /*IF CONFIRM('Do you want to Update this document?',FALSE) THEN BEGIN
+    //                   HRMgt.UpdateMissedTransfer(Rec); //Min
+    //                 END;*/
+    //             end;
+    //         }
+    // }
+    // }
 
     trigger OnAfterGetRecord()
     begin
@@ -463,7 +463,7 @@ page 50257 "HR Transfer API"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        OnNewTransferRecord;
+        // OnNewTransferRecord;
     end;
 
     trigger OnOpenPage()
@@ -543,10 +543,10 @@ page 50257 "HR Transfer API"
     local procedure SetLayout()
     begin
         if Rec.Type = Rec.Type::"Employee Transfer" then begin
-            if Rec."Approval Status" = Rec."Approval Status"::Reviewed then
-                ForScreenButton := true
-            else
-                ForScreenButton := false;
+            // if Rec."Approval Status" = Rec."Approval Status"::Reviewed then
+            //     ForScreenButton := true
+            // else
+            //     ForScreenButton := false;
         end else if Rec.Type = Rec.Type::"HR Transfer" then begin
             if Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "] then
                 ForScreenButton := true
@@ -557,37 +557,37 @@ page 50257 "HR Transfer API"
         case Rec."Approval Status" of
             Rec."Approval Status"::Open:
                 ForOpen := true;
-            Rec."Approval Status"::"Pending Approval":
+            Rec."Approval Status"::"Pending":
                 ForPending := true;
-            Rec."Approval Status"::Recommended:
-                ForRecommend := true;
-            Rec."Approval Status"::Reviewed:
-                begin
-                    ForRecommend := true;
-                    ForReview := true;
-                end;
-            Rec."Approval Status"::Approved, Rec."Approval Status"::"On Hold":
-                begin
-                    ForApprove := true;
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
-            Rec."Approval Status"::Screened:
-                begin
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
+        // Rec."Approval Status"::Recommended:
+        //     ForRecommend := true;
+        // Rec."Approval Status"::Reviewed:
+        //     begin
+        //         ForRecommend := true;
+        //         ForReview := true;
+        //     end;
+        // Rec."Approval Status"::Approved, Rec."Approval Status"::"On Hold":
+        //     begin
+        //         ForApprove := true;
+        //         ForRecommend := true;
+        //         ForScreen := true;
+        //         ForReview := true;
+        //     end;
+        // Rec."Approval Status"::Screened:
+        //     begin
+        //         ForRecommend := true;
+        //         ForScreen := true;
+        //         ForReview := true;
+        //     end;
 
-            Rec."Approval Status"::Acknowledged:
-                begin
-                    ForApprove := true;
-                    ForAck := true;
-                    ForRecommend := true;
-                    ForScreen := true;
-                    ForReview := true;
-                end;
+        // Rec."Approval Status"::Acknowledged:
+        //     begin
+        //         ForApprove := true;
+        //         ForAck := true;
+        //         ForRecommend := true;
+        //         ForScreen := true;
+        //         ForReview := true;
+        //     end;
         end;
 
         case Rec."Deputation On (To)" of
@@ -749,24 +749,24 @@ page 50257 "HR Transfer API"
         TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary"];
     end;
 
-    local procedure OnNewTransferRecord()
-    begin
-        Rec.FilterGroup(2);
-        TypeFilter := Rec.GetFilter(Type);
-        Rec.FilterGroup(0);
-        case TypeFilter of
-            Format(Rec.Type::"Employee Transfer"):
-                Rec.Type := Rec.Type::"Employee Transfer";
+    // local procedure OnNewTransferRecord()
+    // begin
+    //     Rec.FilterGroup(2);
+    //     TypeFilter := Rec.GetFilter(Type);
+    //     Rec.FilterGroup(0);
+    //     case TypeFilter of
+    //         Format(Rec.Type::"Employee Transfer"):
+    //             Rec.Type := Rec.Type::"Employee Transfer";
 
-            Format(Rec.Type::"HR Transfer"):
-                Rec.Type := Rec.Type::"HR Transfer";
-        end;
-        Rec."Approval Status" := Rec."Approval Status"::Open;
-        HRSetup.Get;
-        Employee.Reset;
-        Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        Employee.SetRange("Department Code", HRSetup."HR Department Code");
-        if Employee.FindFirst then
-            Rec.Validate("Approver Code", Employee."No.");
-    end;
+    //         Format(Rec.Type::"HR Transfer"):
+    //             Rec.Type := Rec.Type::"HR Transfer";
+    //     end;
+    //     Rec."Approval Status" := Rec."Approval Status"::Open;
+    //     HRSetup.Get;
+    //     Employee.Reset;
+    //     Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+    //     Employee.SetRange("Department Code", HRSetup."HR Department Code");
+    //     if Employee.FindFirst then
+    //         Rec.Validate("Approver Code", Employee."No.");
+    // end;
 }
