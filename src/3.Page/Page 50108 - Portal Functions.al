@@ -301,9 +301,13 @@ page 50108 "Portal Functions"
         EmployeeApproverRole: Text[500];
         ApprovalRole: Text[500];
     begin
+        Clear(ApprovalCode);
+        Clear(ApproverName);
+        Clear(ApprovalRole);
         EmpRequest.Reset();
         EmpRequest.Get(HrMgt.GetEmployeeNo());
         ApprovalSetupLine.Reset();
+        // Get the Approval according to Activity type  << Santosh << 11-3-25
         CASE EmpActType OF
             FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
@@ -317,7 +321,14 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
             FORMAT(ApprovalSetupLine."Request Type"::"Employee Transfer"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Transfer");
+            FORMAT(ApprovalSetupLine."Request Type"::OverTime):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::OverTime);
+            FORMAT(ApprovalSetupLine."Request Type"::"Transfer Claim"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Transfer Claim");
+            else
+                Error('Approval Setup Not found');
         END;
+        // Get approval from employee table based on deputaion type and approval role << santosh>> 11-3-25
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         if ApprovalSetupLine.Findset() then
@@ -2238,49 +2249,69 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(employeeNo: Code[20]; OTDate: Date; reasonforOT: Text; recommenderCode: Code[20]; approverCode: Code[20]; estimatedHrs: Decimal; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; estimatedHrs: Decimal; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
         OverTimeMgt: codeUnit "OverTime Mgt";
     begin
-        Employee.Get(employeeNo);
+        Employee.Get(HrMgt.GetEmployeeNo());
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
           ERROR(OTEligibleError,Employee.FullName);*/
         Overtime.Reset;
         Overtime.Init;
         Overtime.Validate(Type, Overtime.Type::Overtime);
-        Overtime.Validate("Employee No.", employeeNo);
+        Overtime.Validate("Employee No.", HrMgt.GetEmployeeNo());
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
         Overtime.Validate("Estimated Hours", estimatedHrs);
         Overtime.Validate("Requested Date", Today);
         Overtime.Validate(Remarks, reasonforOT);
-        Overtime.Validate("Recommender Code", recommenderCode);
-        Overtime.Validate("Approver Code", approverCode);
+        // Overtime.Validate("Recommender Code", recommenderCode);
+        // Overtime.Validate("Approver Code", approverCode);
         Overtime.Insert;
         if OverTimeMgt.ApplyForOverTimeApprovalForms(Overtime) then
             exit(200);
     end;
 
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    // var
+    //     //EmpActivity: Record "Employee Activity";
+    //     OverTime: Record OverTime;
+    // begin
+    //     OverTime.Get(empOverTimeNo);
+    //     if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending") then
+    //         OverTimeMgt.RecommendEmployeeOverTimeAPI(empOverTimeNo, approvalCode)
+    //     else begin
+    //         if not isApproved then begin
+    //             OverTime.Validate("Rejection Remarks", rejectionRemarks);
+    //             OverTime.Modify;
+    //         end;
+    //         OverTimeMgt.ApprovedRejectOverTimeApprovalAPI(isApproved, empOverTimeNo, approvalCode);
+    //     end;
+    // end;
+
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approvalCode: Code[20])
+    procedure approveEmployeeOverTime(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
         OverTime: Record OverTime;
+        RecRef: RecordRef;
     begin
         OverTime.Get(empOverTimeNo);
-        if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval") then
-            OverTimeMgt.RecommendEmployeeOverTimeAPI(empOverTimeNo, approvalCode)
-        else begin
-            if not isApproved then begin
-                OverTime.Validate("Rejection Remarks", rejectionRemarks);
-                OverTime.Modify;
-            end;
-            OverTimeMgt.ApprovedRejectOverTimeApprovalAPI(isApproved, empOverTimeNo, approvalCode);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            OverTime.Validate("Rejection Remarks", rejectionRemarks);
+            OverTime.Modify;
         end;
+        RecRef.GetTable(OverTime);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+
     end;
 
     local procedure "---API1.00 END"()
@@ -2442,15 +2473,6 @@ page 50108 "Portal Functions"
         RecRef: RecordRef;
     begin
         EmpHrTransfer.Get(empActivityNo);
-        // if isApproved then begin
-        //     case EmpHrTransfer."Approval Status" of
-        //         EmpHrTransfer."Approval Status"::"Pending":
-        //             begin
-        //                 EmpHrTransfer.Remarks := remark;
-        //                 TransferMgt.RecommendTransferAPI(EmpHrTransfer, employeeNo);
-        //             end;
-        //             Leave.Get(empLeaveNo);
-
         if not isApproved then begin
             if rejectionRemarks = '' then
                 Error('Rejection Remarks is empty');
@@ -2499,203 +2521,238 @@ page 50108 "Portal Functions"
         TransferMgt.AcknowledgeTransfer(EmployeeTransfer);
     end;
 
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])
+    // var
+    //     //EmpActivity: Record "Employee Activity";
+    //     EmployeeTransfer: Record "Employee/HR Transfer";
+    //     TransferMgt: Codeunit "Transfer Mgt.";
+    // begin
+    //     EmployeeTransfer.Get(empActivityNo);
+    //     TransferMgt.ApproveRejectTransferClaim(isApproved, EmployeeTransfer, remarks);
+    // end;
+
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])
+    procedure RequestTransferClaim(empActivityNo: Code[20]; relocationDistance: Decimal; BMAFDistance: Decimal; outstationDistance: Decimal)
     var
         //EmpActivity: Record "Employee Activity";
+        BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
+        UnauthorizedApprover: Label 'You are not authorized to approve.';
+        EmployeeTransfer1: Record "Employee/HR Transfer";
         EmployeeTransfer: Record "Employee/HR Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
-        EmployeeTransfer.Get(empActivityNo);
-        TransferMgt.ApproveRejectTransferClaimAPI(isApproved, EmployeeTransfer, remarks, employeeNo);
+        EmployeeTransfer1.Get(empActivityNo);
+        // EmployeeTransfer1.Get(EmpHrTransfer."Transfer Request No");
+        // EmployeeTransfer1."Transfer Claim" := true;
+        // EmployeeTransfer1.Modify();
+        EmployeeTransfer1.TestField("Approval Status", EmployeeTransfer1."Approval Status"::Acknowledged);
+        EmployeeTransfer1."Transfer Claim" := true;
+        EmployeeTransfer1.Modify();
+        EmployeeTransfer.Init;
+        EmployeeTransfer.TransferFields(EmployeeTransfer1);
+        EmployeeTransfer."No." := '';
+        EmployeeTransfer."Approved Date" := 0D;
+        EmployeeTransfer.Validate("Transfer Request No", EmployeeTransfer1."No.");
+        EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
+        EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
+        EmployeeTransfer.Validate("Requested Date", Today);
+        EmployeeTransfer.Insert(true);
+        EmployeeTransfer.Validate("Relocation Distance", relocationDistance);
+        EmployeeTransfer.Validate("BMAF Distance", BMAFDistance);
+        EmployeeTransfer.Validate("Outstation Distance", outstationDistance);
+        if (EmployeeTransfer."Outstation/Discomfort Allow." <> 0) and (EmployeeTransfer."BM Accomodation Allow." <> 0) then
+            Error(BMandOutStationError)
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure returnTrasferClaim(empTransferNo: Code[20]; relocationDis: Decimal; oustationDis: Decimal; bMAFDis: Decimal): Text
+    procedure returnTrasferClaim(empTransferNo: Code[20]; relocationDis: Decimal; outstationDis: Decimal; bMAFDis: Decimal): Text
     var
         // EmpActivity: Record "Employee Activity";
         EmployeeTransfer: Record "Employee/HR Transfer";
+        TransferMgt: Codeunit "Transfer Mgt.";
     begin
         HRSetup.Get;
         EmployeeTransfer.Get(empTransferNo);
         exit('{' +
-        '"relocationAllowance" : "' + Format(CalculateRelocationAllowance(EmployeeTransfer, relocationDis)) + '",' +
-        '"outstationAllowance" : "' + Format(CalculateOutstationAllowance(EmployeeTransfer, oustationDis)) + '",' +
-        '"bMAFAllowance" : "' + Format(CalculateBMAccomodationAllowance(EmployeeTransfer, bMAFDis)) + '",' +
-        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
-        '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
-        '"remoteAreaAllownce" : "' + Format(CalculateRemoteAreaAllowance(EmployeeTransfer)) + '"' +
+        '"relocationAllowance" : "' + Format(TransferMgt.CalculateRelocationAllowance(EmployeeTransfer, relocationDis)) + '",' +
+        '"outstationAllowance" : "' + Format(TransferMgt.CalculateOutstationAllowance(EmployeeTransfer, outstationDis)) + '",' +
+        '"bMAFAllowance" : "' + Format(TransferMgt.CalculateBMAccomodationAllowance(EmployeeTransfer, bMAFDis)) + '",' +
+        '"officiatingAllowance" : "' + Format(TransferMgt.CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
+        // '"officiatingAllowance" : "' + Format(CalculateOfficiatingAllowance(EmployeeTransfer)) + '",' +
+        '"remoteAreaAllownce" : "' + Format(TransferMgt.CalculateRemoteAreaAllowance(EmployeeTransfer)) + '"' +
         '}');
     end;
 
-    local procedure CalculateRelocationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
-    var
-        DimensionValueCurrent: Record "Dimension Value";
-        SalaryLevel: Record "Salary Level";
-        DimensionValue: Record "Dimension Value";
-        RelocationAllowance: Decimal;
-    begin
-        if relocationDistance = 0 then begin
-            RelocationAllowance := 0;
-            exit(RelocationAllowance);
-            ;
-        end;
+    // local procedure CalculateRelocationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
+    // var
+    //     DimensionValueCurrent: Record "Dimension Value";
+    //     SalaryLevel: Record "Salary Level";
+    //     DimensionValue: Record "Dimension Value";
+    //     RelocationAllowance: Decimal;
+    // begin
+    //     if relocationDistance = 0 then begin
+    //         RelocationAllowance := 0;
+    //         exit(RelocationAllowance);
+    //         ;
+    //     end;
 
-        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
-        if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
-            exit;
-        if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
-                exit;
+    //     if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
+    //     if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
+    //         exit;
+    //     if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
+    //         if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
+    //             exit;
 
-        HRSetup.TestField("Relocation Dist. Criteria (H)");
-        HRSetup.TestField("Relocation Dist. Criteria (T)");
-        Employee.Get(EmployeeTransfer."Employee No.");
-        SalaryLevel.Get(Employee."Salary Level");
+    //     HRSetup.TestField("Relocation Dist. Criteria (H)");
+    //     HRSetup.TestField("Relocation Dist. Criteria (T)");
+    //     Employee.Get(EmployeeTransfer."Employee No.");
+    //     SalaryLevel.Get(Employee."Salary Level");
 
-        if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
+    //     if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
 
-            if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
-                if relocationDistance >= HRSetup."Relocation Dist. Criteria (H)" then
-                    RelocationAllowance := SalaryLevel."Basic Salary";
-            end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
-                if relocationDistance >= HRSetup."Relocation Dist. Criteria (T)" then
-                    RelocationAllowance := SalaryLevel."Basic Salary";
-            end;
-        end;
-        exit(RelocationAllowance);
-    end;
+    //         if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
+    //             if relocationDistance >= HRSetup."Relocation Dist. Criteria (H)" then
+    //                 RelocationAllowance := SalaryLevel."Basic Salary";
+    //         end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
+    //             if relocationDistance >= HRSetup."Relocation Dist. Criteria (T)" then
+    //                 RelocationAllowance := SalaryLevel."Basic Salary";
+    //         end;
+    //     end;
+    //     exit(RelocationAllowance);
+    // end;
 
-    local procedure CalculateOutstationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; outstationDistance: Decimal): Decimal
-    var
-        DimensionValueCurrent: Record "Dimension Value";
-        SalaryLevel: Record "Salary Level";
-        DimensionValue: Record "Dimension Value";
-        outstationAllow: Decimal;
-    begin
-        if outstationDistance = 0 then begin
-            outstationAllow := 0;
-            exit(outstationAllow);
-        end;
-        Employee.Get(EmployeeTransfer."Employee No.");
-        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            exit;
-        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
-        if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
-            exit;
-        if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
-                exit;
+    // local procedure CalculateOutstationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; outstationDistance: Decimal): Decimal
+    // var
+    //     DimensionValueCurrent: Record "Dimension Value";
+    //     SalaryLevel: Record "Salary Level";
+    //     DimensionValue: Record "Dimension Value";
+    //     outstationAllow: Decimal;
+    // begin
+    //     if outstationDistance = 0 then begin
+    //         outstationAllow := 0;
+    //         exit(outstationAllow);
+    //     end;
+    //     Employee.Get(EmployeeTransfer."Employee No.");
+    //     if Employee."Employment Type" = Employee."Employment Type"::Contract then
+    //         exit;
+    //     if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then;
+    //     if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
+    //         exit;
+    //     if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
+    //         if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
+    //             exit;
 
-        HRSetup.TestField("Outstation Dist. Criteria (H)");
-        HRSetup.TestField("Outstation Dist. Criteria (T)");
-        SalaryLevel.Get(Employee."Salary Level");
+    //     HRSetup.TestField("Outstation Dist. Criteria (H)");
+    //     HRSetup.TestField("Outstation Dist. Criteria (T)");
+    //     SalaryLevel.Get(Employee."Salary Level");
 
-        // TESTFIELD(outstationDistance);
-        if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
-            if outstationDistance >= HRSetup."Outstation Dist. Criteria (H)" then
-                outstationAllow := SalaryLevel."Basic Salary" * 25 / 100;
-        end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
-            if outstationDistance >= HRSetup."Outstation Dist. Criteria (T)" then
-                outstationAllow := SalaryLevel."Basic Salary" * 25 / 100;
-        end;
-        exit(outstationAllow)
-    end;
+    //     // TESTFIELD(outstationDistance);
+    //     if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
+    //         if outstationDistance >= HRSetup."Outstation Dist. Criteria (H)" then
+    //             outstationAllow := SalaryLevel."Basic Salary" * 25 / 100;
+    //     end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
+    //         if outstationDistance >= HRSetup."Outstation Dist. Criteria (T)" then
+    //             outstationAllow := SalaryLevel."Basic Salary" * 25 / 100;
+    //     end;
+    //     exit(outstationAllow)
+    // end;
 
-    local procedure CalculateBMAccomodationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
-    var
-        DimensionValueCurrent: Record "Dimension Value";
-        RemoteArea: Record "Remote Area Category";
-        PGSetup: Record "Payroll General Setup";
-        DimensionValue: Record "Dimension Value";
-        BMAccomodationAllow: Decimal;
-    begin
-        if BMAFDistance = 0 then begin
-            BMAccomodationAllow := 0;
-            exit(BMAccomodationAllow);
-        end;
-        PGSetup.Get;
-        PGSetup.TestField("BM Functional Title");
-        if EmployeeTransfer."Functional Title (To)" <> PGSetup."BM Functional Title" then
-            exit;
-        if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then
-            if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
-                exit(BMAccomodationAllow);
-        if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
-                exit(BMAccomodationAllow);
+    // local procedure CalculateBMAccomodationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
+    // var
+    //     DimensionValueCurrent: Record "Dimension Value";
+    //     RemoteArea: Record "Remote Area Category";
+    //     PGSetup: Record "Payroll General Setup";
+    //     DimensionValue: Record "Dimension Value";
+    //     BMAccomodationAllow: Decimal;
+    // begin
+    //     if BMAFDistance = 0 then begin
+    //         BMAccomodationAllow := 0;
+    //         exit(BMAccomodationAllow);
+    //     end;
+    //     PGSetup.Get;
+    //     PGSetup.TestField("BM Functional Title");
+    //     if EmployeeTransfer."Functional Title (To)" <> PGSetup."BM Functional Title" then
+    //         exit;
+    //     if DimensionValueCurrent.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code") then
+    //         if not DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then
+    //             exit(BMAccomodationAllow);
+    //     if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
+    //         if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
+    //             exit(BMAccomodationAllow);
 
-        HRSetup.TestField("BMAF Dist. Criteria (H)");
-        HRSetup.TestField("BMAF Dist. Criteria (T)");
-        if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
-                //  TESTFIELD(BMAFDistance);
-                if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
-                    if BMAFDistance >= HRSetup."BMAF Dist. Criteria (H)" then
-                        BMAccomodationAllow := RemoteArea."BM Accomodation Amount";
-                end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
-                    if BMAFDistance >= HRSetup."BMAF Dist. Criteria (T)" then
-                        BMAccomodationAllow := RemoteArea."BM Accomodation Amount";
-                end;
-            end;
-        end;
-        exit(BMAccomodationAllow);
-    end;
+    //     HRSetup.TestField("BMAF Dist. Criteria (H)");
+    //     HRSetup.TestField("BMAF Dist. Criteria (T)");
+    //     if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
+    //         if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
+    //             //  TESTFIELD(BMAFDistance);
+    //             if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
+    //                 if BMAFDistance >= HRSetup."BMAF Dist. Criteria (H)" then
+    //                     BMAccomodationAllow := RemoteArea."BM Accomodation Amount";
+    //             end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
+    //                 if BMAFDistance >= HRSetup."BMAF Dist. Criteria (T)" then
+    //                     BMAccomodationAllow := RemoteArea."BM Accomodation Amount";
+    //             end;
+    //         end;
+    //     end;
+    //     exit(BMAccomodationAllow);
+    // end;
 
-    local procedure CalculateOfficiatingAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
-    var
-        SalaryLevel1: Record "Salary Level";
-        GrossSalary: Decimal;
-        SalaryLevel: Record "Salary Level";
-        SalaryGrade: Record "Salary Grade";
-        OfficiatingAllow: Decimal;
-    begin
-        Employee.Get(EmployeeTransfer."Employee No.");
-        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            exit;
-        if EmployeeTransfer."Transfer Type" <> EmployeeTransfer."Transfer Type"::"Intra Provincial" then
-            exit;
-        Employee.Get(EmployeeTransfer."Employee No.");
-        SalaryLevel.Get(Employee."Salary Level");
+    // local procedure CalculateOfficiatingAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
+    // var
+    //     SalaryLevel1: Record "Salary Level";
+    //     GrossSalary: Decimal;
+    //     SalaryLevel: Record "Salary Level";
+    //     SalaryGrade: Record "Salary Grade";
+    //     OfficiatingAllow: Decimal;
+    // begin
+    //     Employee.Get(EmployeeTransfer."Employee No.");
+    //     if Employee."Employment Type" = Employee."Employment Type"::Contract then
+    //         exit;
+    //     if EmployeeTransfer."Transfer Type" <> EmployeeTransfer."Transfer Type"::"Intra Provincial" then
+    //         exit;
+    //     Employee.Get(EmployeeTransfer."Employee No.");
+    //     SalaryLevel.Get(Employee."Salary Level");
 
-        SalaryLevel1.Reset;
-        SalaryLevel1.SetCurrentKey(Rank);
-        SalaryLevel1.SetFilter(Rank, '>%1', SalaryLevel.Rank);
-        if SalaryLevel1.FindFirst then begin
-            SalaryGrade.Get(0);
-            GrossSalary := SalaryLevel1."Basic Salary" +
-                            SalaryLevel1.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel1."Basic Salary";
-            OfficiatingAllow := GrossSalary;
-        end;
-        exit(OfficiatingAllow);
-    end;
+    //     SalaryLevel1.Reset;
+    //     SalaryLevel1.SetCurrentKey(Rank);
+    //     SalaryLevel1.SetFilter(Rank, '>%1', SalaryLevel.Rank);
+    //     if SalaryLevel1.FindFirst then begin
+    //         SalaryGrade.Get(0);
+    //         GrossSalary := SalaryLevel1."Basic Salary" +
+    //                         SalaryLevel1.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel1."Basic Salary";
+    //         OfficiatingAllow := GrossSalary;
+    //     end;
+    //     exit(OfficiatingAllow);
+    // end;
 
-    local procedure CalculateRemoteAreaAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
-    var
-        GrossSalary: Decimal;
-        SalaryLevel: Record "Salary Level";
-        SalaryGrade: Record "Salary Grade";
-        RemoteArea: Record "Remote Area Category";
-        DimensionValue: Record "Dimension Value";
-        RemoteAreaAllow: Decimal;
-    begin
-        if DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then begin
-            if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
-                Employee.Get(EmployeeTransfer."Employee No.");
-                SalaryLevel.Get(Employee."Salary Level");
-                SalaryGrade.Get(Employee."Salary Grade");
-                GrossSalary := SalaryLevel."Basic Salary" +
-                                  SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary";
-                RemoteAreaAllow := RemoteArea."Remote allowance Percentage" / 100 * GrossSalary;
-                if RemoteArea."Remote Allowance Amount" < RemoteAreaAllow then
-                    RemoteAreaAllow := RemoteArea."Remote Allowance Amount";
-            end;
-        end;
+    // local procedure CalculateRemoteAreaAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
+    // var
+    //     GrossSalary: Decimal;
+    //     SalaryLevel: Record "Salary Level";
+    //     SalaryGrade: Record "Salary Grade";
+    //     RemoteArea: Record "Remote Area Category";
+    //     DimensionValue: Record "Dimension Value";
+    //     RemoteAreaAllow: Decimal;
+    // begin
+    //     if DimensionValue.Get('BRANCH', EmployeeTransfer."Shortcut Dimension 1 Code (To)") then begin
+    //         if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
+    //             Employee.Get(EmployeeTransfer."Employee No.");
+    //             SalaryLevel.Get(Employee."Salary Level");
+    //             SalaryGrade.Get(Employee."Salary Grade");
+    //             GrossSalary := SalaryLevel."Basic Salary" +
+    //                               SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary";
+    //             RemoteAreaAllow := RemoteArea."Remote allowance Percentage" / 100 * GrossSalary;
+    //             if RemoteArea."Remote Allowance Amount" < RemoteAreaAllow then
+    //                 RemoteAreaAllow := RemoteArea."Remote Allowance Amount";
+    //         end;
+    //     end;
 
-        exit(RemoteAreaAllow);
-    end;
+    //     exit(RemoteAreaAllow);
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3611,7 +3668,6 @@ page 50108 "Portal Functions"
         ResignForRecommendation: Integer;
         ResignForApprove: Integer;
         OverTime: Record OverTime;
-        OverTimeForRecommendation: Integer;
         OverTimeForApprove: Integer;
         Appraisal: Record Appraisal;
         AppraisalForRecommendation: Integer;
@@ -3621,6 +3677,7 @@ page 50108 "Portal Functions"
         AttendanceMissedForApprove: Integer;
         EmployeeTransferForApprove: Integer;
         TransferAcknowledgeForApprove: Integer;
+        TransferClaimForApprove: Integer;
         EmployeeTransfer: Record "Employee/HR Transfer";
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
@@ -3693,11 +3750,24 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeTransferForApprove := Approval.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Overtime);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        OverTimeForApprove := Approval.Count();
+
         EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Notify to", HrMgt.GetEmployeeNo());
+        EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
         EmployeeTransfer.SetRange("Is Transfer Details Added", true);
         TransferAcknowledgeForApprove := EmployeeTransfer.Count();
+
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Transfer Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        TransferClaimForApprove := Approval.Count();
         // Loan.Reset();
         // Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
         // Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
@@ -3710,10 +3780,7 @@ page 50108 "Portal Functions"
         Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
         ResignForApprove := Resign.Count();
 
-        OverTime.Reset();
-        OverTime.SetRange("Approver Code", HrMgt.GetEmployeeNo());
-        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Recommended);
-        OverTimeForApprove := OverTime.Count();
+
 
 
 
@@ -3728,7 +3795,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
         TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove +
-                        ResignForRecommendation + ResignForApprove + OverTimeForRecommendation + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
+                        ResignForRecommendation + ResignForApprove + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -3737,6 +3804,7 @@ page 50108 "Portal Functions"
         ',"VehicleLoanForApprove": "' + format(VehicleLoanForApprove) + '"' +
         ',"TravelReqForApprove": "' + format(TravelReqForApprove) + '"' +
         ',"TravelClaimApprove": "' + format(TravelClaimApprove) + '"' +
+        ',"TransferClaimForApprove": "' + format(TransferClaimForApprove) + '"' +
         ',"ResignForApprove": "' + format(ResignForApprove) + '"' +
         ',"OverTimeForApprove": "' + format(OverTimeForApprove) + '"' +
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +

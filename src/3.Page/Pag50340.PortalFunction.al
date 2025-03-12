@@ -1186,8 +1186,8 @@ page 50340 "Portal Function"
         Overtime.Validate("Employee No.", employeeNo);
         Overtime.Validate("Requested Date", Today);
         Overtime.Validate(Remarks, reasonforOT);
-        Overtime.Validate("Recommender Code", recommenderCode);
-        Overtime.Validate("Approver Code", approverCode);
+        // Overtime.Validate("Recommender Code", recommenderCode);
+        // Overtime.Validate("Approver Code", approverCode);
         Overtime.Insert;
         if OverTimeMgt.ApplyForOverTimeApprovalForms(Overtime) then
             exit(200);

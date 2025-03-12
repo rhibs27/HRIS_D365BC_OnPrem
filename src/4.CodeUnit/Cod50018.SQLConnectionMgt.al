@@ -81,6 +81,6 @@ codeunit 50018 "SQL Connection Mgt"
         SQLCommand := SQLConnection.CreateCommand();
         // SQLCommand.CommandText := commandtext;
         // SQLCommand.CommandTimeout := 15;
-        //SQLCommand.CommandType := SQLCommandType;
+        // SQLCommand.CommandType := SQLCommandType;
     end;
 }

@@ -230,6 +230,10 @@ codeunit 50017 "Approver Mgt"
                                 begin
                                     TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
                                 end;
+                            EmpActType::"Transfer Claim":
+                                begin
+                                    TransferMgt.RejectTransferClaim(RecRef.Field(1).Value);
+                                end;
                         end;
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
@@ -278,6 +282,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
                             end;
+                        EmpActType::"Transfer Claim":
+                            begin
+                                TransferMgt.ApproveTransferClaim(RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -308,5 +316,6 @@ codeunit 50017 "Approver Mgt"
         leaveMgt: Codeunit "Leave Mgt.";
         TravelMgt: Codeunit "Travel Mgt.";
         AttendanceMissed: Codeunit "AttendanceMiss mgt";
+        TransferMgt: Codeunit "Transfer Mgt.";
 
 }

@@ -94,7 +94,7 @@ table 50149 "Approval HRMS"
 
     keys
     {
-        key(PK; "Document No.", "Approver No", "Employee No")
+        key(PK; "Document No.", "Approver No", "Employee No", "Document Type")
         {
             Clustered = true;
         }

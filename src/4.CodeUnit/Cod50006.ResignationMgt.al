@@ -284,50 +284,50 @@ codeunit 50006 "Resignation Mgt"
 
     end;
 
-    procedure ScreenResignationForOvertime(var Overtime: Record "OverTime")
-    var
-        ConfirmScreen: Label 'Do you want to screen this document?';
-        FunctionalTitle: Record "Functional Title";
-    begin
-        //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
-        if Overtime.Type = Overtime.Type::Resignation then begin
-            if not Employee.Screener then           //resignation approver replaced with screener
-                Error('Not authorized screener.');
-            Overtime.TestField("Approval Status", Overtime."Approval Status"::"Forwarded To HR");
-            //  EmpAct.TESTFIELD("Screener Remarks");
-            HrMgt.CheckDocumentApprover(Overtime."No.");
-            CheckResignationAttachmentMandatoryForOvertime(Overtime);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
+    // procedure ScreenResignationForOvertime(var Overtime: Record "OverTime")
+    // var
+    //     ConfirmScreen: Label 'Do you want to screen this document?';
+    //     FunctionalTitle: Record "Functional Title";
+    // begin
+    //     //check authorized user
+    //     Employee.Get(HrMgt.GetEmployeeNo());
+    //     if Overtime.Type = Overtime.Type::Resignation then begin
+    //         if not Employee.Screener then           //resignation approver replaced with screener
+    //             Error('Not authorized screener.');
+    //         Overtime.TestField("Approval Status", Overtime."Approval Status"::"Forwarded To HR");
+    //         //  EmpAct.TESTFIELD("Screener Remarks");
+    //         HrMgt.CheckDocumentApprover(Overtime."No.");
+    //         CheckResignationAttachmentMandatoryForOvertime(Overtime);
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
 
-            Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
-            Overtime.Modify;
-        end
-        else if Overtime.Type = Overtime.Type::"Travel Claim" then begin
-            /*HRSetup.GET;
-            Employee.RESET;
-            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SETRANGE("NAV Login ID", USERID);
-            IF NOT Employee.FINDFIRST THEN
-                ERROR('Not authorized screener.');*///AT
-            if not (Overtime."Approval Status" = Overtime."Approval Status"::Approved) then
-                Error('Approval Status must be approved before screening.');
-            if not Confirm(ConfirmScreen, false) then
-                exit;
+    //         Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
+    //         Overtime.Modify;
+    //     end
+    //     else if Overtime.Type = Overtime.Type::"Travel Claim" then begin
+    //         /*HRSetup.GET;
+    //         Employee.RESET;
+    //         Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
+    //         Employee.SETRANGE("NAV Login ID", USERID);
+    //         IF NOT Employee.FINDFIRST THEN
+    //             ERROR('Not authorized screener.');*///AT
+    //         if not (Overtime."Approval Status" = Overtime."Approval Status"::Approved) then
+    //             Error('Approval Status must be approved before screening.');
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
 
-            Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
-            Overtime.Modify;
-        end else if Overtime.Type = Overtime.Type::Overtime then begin
-            Overtime.TestField("Approval Status", Overtime."Approval Status"::Approved);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
+    //         Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
+    //         Overtime.Modify;
+    //     end else if Overtime.Type = Overtime.Type::Overtime then begin
+    //         Overtime.TestField("Approval Status", Overtime."Approval Status"::Approved);
+    //         if not Confirm(ConfirmScreen, false) then
+    //             exit;
 
-            Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
-            Overtime.Modify;
-        end;
+    //         Overtime.Validate("Approval Status", Overtime."Approval Status"::Screened);
+    //         Overtime.Modify;
+    //     end;
 
-    end;
+    // end;
 
     procedure ForwardToHRForResignation(var Resignation: Record "Resignation")
     var

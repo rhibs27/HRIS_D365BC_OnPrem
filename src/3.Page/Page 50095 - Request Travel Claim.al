@@ -305,6 +305,7 @@ page 50095 "Request Travel Claim"
                 Approval.Reset();
                 Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
                 Approval.SetRange("Document No.", '');
+                Approval.SetRange("Employee No", Rec."Employee No.");
                 Approval.DeleteAll();
             end;
     end;
