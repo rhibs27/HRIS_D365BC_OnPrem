@@ -581,18 +581,20 @@ codeunit 50005 "Transfer Mgt."
     var
         BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
         UnauthorizedApprover: Label 'You are not authorized to approve.';
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer1: Record "Employee/HR Transfer";
     begin
-        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
         if (EmpHrTransfer."Outstation/Discomfort Allow." <> 0) and (EmpHrTransfer."BM Accomodation Allow." <> 0) then
             Error(BMandOutStationError);
-
-        //IF GetEmployeeNo <> "Transfer Claim Recommender" THEN
-        //ERROR(UnauthorizedApprover);
-        if EmpHrTransfer."Transfer Claim Recommender" = '' then
-            EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended)
-        else
-            EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval");
-        EmpHrTransfer.Modify(true);
+        EmployeeTransfer1.Get(EmpHrTransfer."Transfer Request No");
+        EmployeeTransfer1."Transfer Claim" := true;
+        EmployeeTransfer1.Modify();
+        EmployeeTransfer.Init();
+        EmployeeTransfer.TransferFields(EmpHrTransfer);
+        EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
+        EmployeeTransfer.Insert(true);
+        if GuiAllowed then
+            Message('Document has been sent for approval.');
     end;
 
     local procedure CheckTransferClaimApproval(EmpHrTransfer: Record "Employee/HR Transfer")
@@ -601,110 +603,47 @@ codeunit 50005 "Transfer Mgt."
         RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
         AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
     begin
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        Employee.FindFirst;
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
-            if StrPos(EmpHrTransfer."Transfer Claim Recommender", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
-            if StrPos(EmpHrTransfer."Transfer Claim Reviewer", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then
-            if not Employee.Screener then
-                Error(ApproveNotEligibleError);
+        // Employee.Reset;
+        // Employee.SetRange("NAV Login ID", UserId);
+        // Employee.FindFirst;
+        // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
+        //     if StrPos(EmpHrTransfer."Transfer Claim Recommender", Employee."No.") = 0 then
+        //         Error(RecommendNotEligibleError);
+        // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
+        //     if StrPos(EmpHrTransfer."Transfer Claim Reviewer", Employee."No.") = 0 then
+        //         Error(ApproveNotEligibleError);
+        // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then
+        //     if not Employee.Screener then
+        //         Error(ApproveNotEligibleError);
     end;
 
-    local procedure CheckTransferClaimApprovalAPI(EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    begin
-        Employee.Reset;
-        Employee.SetRange("No.", employeeNo);
-        Employee.FindFirst;
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
-            if StrPos(EmpHrTransfer."Transfer Claim Recommender", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
-            if StrPos(EmpHrTransfer."Transfer Claim Reviewer", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then
-            if not Employee.Screener then
-                Error(ApproveNotEligibleError);
-    end;
+    // local procedure CheckTransferClaimApprovalAPI(EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    // begin
+    // Employee.Reset;
+    // Employee.SetRange("No.", employeeNo);
+    // Employee.FindFirst;
+    // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
+    //     if StrPos(EmpHrTransfer."Transfer Claim Recommender", Employee."No.") = 0 then
+    //         Error(RecommendNotEligibleError);
+    // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
+    //     if StrPos(EmpHrTransfer."Transfer Claim Reviewer", Employee."No.") = 0 then
+    //         Error(ApproveNotEligibleError);
+    // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then
+    //     if not Employee.Screener then
+    //         Error(ApproveNotEligibleError);
+    // end;
 
     procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text)
     var
         ServiceHistory: Record "Employee Service History";
         ReasonCode: Record "Reason Code";
     begin
-        CheckTransferClaimApproval(EmpHrTransfer);
-        //CheckEmployeeActivityApproval(EmpAct);
-        if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
-            if ReasonCode.Get(EmpHrTransfer."No.") then begin
-                ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
-                ReasonCode.Modify;
-            end else begin
-                ReasonCode.Init;
-                ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
-                ReasonCode.Validate(Code, EmpHrTransfer."No.");
-                ReasonCode.Insert;
-            end;
-        end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
-            if ReasonCode.Get(EmpHrTransfer."No.") then begin
-                ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
-                ReasonCode.Modify;
-            end else begin
-                ReasonCode.Init;
-                ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
-                ReasonCode.Validate(Code, EmpHrTransfer."No.");
-                ReasonCode.Insert;
-            end;
-        end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
-            if ReasonCode.Get(EmpHrTransfer."No.") then begin
-                ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
-                ReasonCode.Modify;
-            end else begin
-                ReasonCode.Init;
-                ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
-                ReasonCode.Validate(Code, EmpHrTransfer."No.");
-                ReasonCode.Insert;
-            end;
-        end;
-
-        if Approve then begin
-            if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended)
-            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Reviewed)
-
-            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Approved);
-                ServiceHistory.Reset;
-                ServiceHistory.SetRange("Document No.", EmpHrTransfer."No.");
-                if ServiceHistory.FindFirst then begin
-                    if EmpHrTransfer."Outstation/Discomfort Allow." <> 0 then
-                        ServiceHistory."Outstation Eligible" := true;
-                    ServiceHistory.Modify;
-                end;
-            end;
-        end
-        else begin
-            EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Open);
-        end;
-
-        EmpHrTransfer.Modify;
-    end;
-
-    procedure ApproveRejectTransferClaimAPI(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text; employeeNo: Code[20])
-    var
-        ServiceHistory: Record "Employee Service History";
-        ReasonCode: Record "Reason Code";
-    begin
-        CheckTransferClaimApprovalAPI(EmpHrTransfer, employeeNo);
-        //CheckEmployeeActivityApproval(EmpAct);
+        // CheckTransferClaimApproval(EmpHrTransfer);
+        // //CheckEmployeeActivityApproval(EmpAct);
         // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
         //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
         //         ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
@@ -737,33 +676,125 @@ codeunit 50005 "Transfer Mgt."
         //     end;
         // end;
 
-        if Approve then begin
-            if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended);
-                EmpHrTransfer.Validate("Transf. Claim Recomm. Remarks", remarksText);
-            end
-            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Reviewed);
-                EmpHrTransfer.Validate("Transf. Claim Reviewer Remarks", remarksText);
-            end
-            else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
-                EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Approved);
-                EmpHrTransfer.Validate("Transf. Claim Approver Remarks", remarksText);
-                EmpHrTransfer.Modify();
-                ServiceHistory.Reset;
-                ServiceHistory.SetRange("Document No.", EmpHrTransfer."No.");
-                if ServiceHistory.FindFirst then begin
-                    if EmpHrTransfer."Outstation/Discomfort Allow." <> 0 then
-                        ServiceHistory."Outstation Eligible" := true;
-                    ServiceHistory.Modify;
-                end;
-            end;
-        end
-        else begin
-            EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Open);
-        end;
+        // if Approve then begin
+        //     if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then
+        //         EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended)
+        //     else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then
+        //         EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Reviewed)
+
+        //     else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
+        //         EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Approved);
+        //         ServiceHistory.Reset;
+        //         ServiceHistory.SetRange("Document No.", EmpHrTransfer."No.");
+        //         if ServiceHistory.FindFirst then begin
+        //             if EmpHrTransfer."Outstation/Discomfort Allow." <> 0 then
+        //                 ServiceHistory."Outstation Eligible" := true;
+        //             ServiceHistory.Modify;
+        //         end;
+        //     end;
+        // end
+        // else begin
+        //     EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Open);
+        // end;
+
         EmpHrTransfer.Modify;
     end;
+
+    procedure ApproveTransferClaim(transferClaimNo: code[20])
+    var
+        TransferClaim: Record "Employee/HR Transfer";
+        ServiceHistory: Record "Employee Service History";
+    begin
+        TransferClaim.Get(transferClaimNo);
+        if TransferClaim."Outstation/Discomfort Allow." <> 0 then begin
+            ServiceHistory.Reset;
+            ServiceHistory.SetRange("Document No.", TransferClaim."Transfer Request No");
+            if ServiceHistory.FindFirst then begin
+                ServiceHistory."Outstation Eligible" := true;
+                ServiceHistory.Modify;
+            end;
+        end;
+    end;
+
+    procedure RejectTransferClaim(transferClaimNo: code[20])
+    var
+        TransferClaim: Record "Employee/HR Transfer";
+        TransferClaim2: Record "Employee/HR Transfer";
+    begin
+        TransferClaim.Get(transferClaimNo);
+        if TransferClaim2.Get(TransferClaim."Transfer Request No") then
+            TransferClaim2."Transfer Claim" := false;
+        TransferClaim2.Modify();
+    end;
+
+
+    // end;
+    // procedure ApproveRejectTransferClaimAPI(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text; employeeNo: Code[20])
+    // var
+    //     ServiceHistory: Record "Employee Service History";
+    //     ReasonCode: Record "Reason Code";
+    // begin
+    // CheckTransferClaimApprovalAPI(EmpHrTransfer, employeeNo);
+    //CheckEmployeeActivityApproval(EmpAct);
+    // if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
+    //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+    //         ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
+    //         ReasonCode.Modify;
+    //     end else begin
+    //         ReasonCode.Init;
+    //         ReasonCode.Validate("Transf. Claim Recomm. Remarks", remarksText);
+    //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+    //         ReasonCode.Insert;
+    //     end;
+    // end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
+    //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+    //         ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
+    //         ReasonCode.Modify;
+    //     end else begin
+    //         ReasonCode.Init;
+    //         ReasonCode.Validate("Transf. Claim Reviewer Remarks", remarksText);
+    //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+    //         ReasonCode.Insert;
+    //     end;
+    // end else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
+    //     if ReasonCode.Get(EmpHrTransfer."No.") then begin
+    //         ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
+    //         ReasonCode.Modify;
+    //     end else begin
+    //         ReasonCode.Init;
+    //         ReasonCode.Validate("Transf. Claim Apporver Remarks", remarksText);
+    //         ReasonCode.Validate(Code, EmpHrTransfer."No.");
+    //         ReasonCode.Insert;
+    //     end;
+    // end;
+
+    //     if Approve then begin
+    //         if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::"Pending Approval" then begin
+    //             EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Recommended);
+    //             EmpHrTransfer.Validate("Transf. Claim Recomm. Remarks", remarksText);
+    //         end
+    //         else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Recommended then begin
+    //             EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Reviewed);
+    //             EmpHrTransfer.Validate("Transf. Claim Reviewer Remarks", remarksText);
+    //         end
+    //         else if EmpHrTransfer."Transfer Allowance Approval" = EmpHrTransfer."Transfer Allowance Approval"::Reviewed then begin
+    //             EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Approved);
+    //             EmpHrTransfer.Validate("Transf. Claim Approver Remarks", remarksText);
+    //             EmpHrTransfer.Modify();
+    //             ServiceHistory.Reset;
+    //             ServiceHistory.SetRange("Document No.", EmpHrTransfer."No.");
+    //             if ServiceHistory.FindFirst then begin
+    //                 if EmpHrTransfer."Outstation/Discomfort Allow." <> 0 then
+    //                     ServiceHistory."Outstation Eligible" := true;
+    //                 ServiceHistory.Modify;
+    //             end;
+    //         end;
+    //     end
+    //     else begin
+    //         EmpHrTransfer.Validate("Transfer Allowance Approval", EmpHrTransfer."Transfer Allowance Approval"::Open);
+    //     end;
+    //     EmpHrTransfer.Modify;
+    // end;
 
     procedure ReturnTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
     begin
@@ -816,20 +847,20 @@ codeunit 50005 "Transfer Mgt."
 
         // GetTransferClaimApprover(EmpAct);
 
-        CalculateRelocationAllowance(EmpTransfer);
+        EmpTransfer."Relocation Allow." := CalculateRelocationAllowance(EmpTransfer, EmpTransfer."Relocation Distance");
 
-        CalculateOutstationAllowance(EmpTransfer);
+        EmpTransfer."Outstation/Discomfort Allow." := CalculateOutstationAllowance(EmpTransfer, EmpTransfer."Outstation Distance");
 
-        CalculateBMAccomodationAllowance(EmpTransfer);
+        EmpTransfer."BM Accomodation Allow." := CalculateBMAccomodationAllowance(EmpTransfer, EmpTransfer."BMAF Distance");
 
-        CalculateOfficiatingAllowance(EmpTransfer);
+        EmpTransfer."Officiating Allow." := CalculateOfficiatingAllowance(EmpTransfer);
 
-        CalculateRemoteAreaAllowance(EmpTransfer);
+        EmpTransfer."Remote Area Allow." := CalculateRemoteAreaAllowance(EmpTransfer);
 
         EmpTransfer.Modify;
     end;
 
-    local procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         LevelWiseAttribute: Record "Level Wise Attributes";
@@ -840,35 +871,32 @@ codeunit 50005 "Transfer Mgt."
         HRSetup.TestField("Relocation Dist. Criteria (T)");
         Employee.Get(EmpTransfer."Employee No.");
         LevelWiseAttribute.Get(Employee."Salary Grade", Employee."Salary Level");
-        if EmpTransfer."Relocation Distance" = 0 then begin
-            EmpTransfer."Relocation Allow." := 0;
-            exit;
+        if relocationDistance = 0 then begin
+            exit(0);
         end;
         if Employee."Inside/Outisde Valley" = Employee."Inside/Outisde Valley"::Outside then begin
             if Employee."Posting Region" = Employee."Posting Region"::Hilly then begin
-                if EmpTransfer."Relocation Distance" >= HRSetup."Relocation Dist. Criteria (H)" then
-                    EmpTransfer."Relocation Allow." := LevelWiseAttribute."Total Basic Salary";
+                if relocationDistance >= HRSetup."Relocation Dist. Criteria (H)" then
+                    exit(LevelWiseAttribute."Total Basic Salary");
             end else if Employee."Posting Region" = Employee."Posting Region"::Terai then begin
-                if EmpTransfer."Relocation Distance" >= HRSetup."Relocation Dist. Criteria (T)" then
-                    EmpTransfer."Relocation Allow." := LevelWiseAttribute."Total Basic Salary";
+                if relocationDistance >= HRSetup."Relocation Dist. Criteria (T)" then
+                    exit(LevelWiseAttribute."Total Basic Salary");
             end;
         end;
     end;
 
-    local procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee/HR Transfer"; outStationDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         LevelWiseAttribute: Record "Level Wise Attributes";
     begin
-        if EmpTransfer."Outstation Distance" = 0 then begin
+        if outStationDistance = 0 then begin
             EmpTransfer."Outstation/Discomfort Allow." := 0;
-            exit;
+            exit(0);
         end;
         Employee.Get(EmpTransfer."Employee No.");
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            exit;
-
-
+            exit(0);
         HRSetup.Get;
         HRSetup.TestField("Outstation Dist. Criteria (H)");
         HRSetup.TestField("Outstation Dist. Criteria (T)");
@@ -876,23 +904,22 @@ codeunit 50005 "Transfer Mgt."
 
         // TESTFIELD("Outstation Distance");
         if Employee."Posting Region" = Employee."Posting Region"::Hilly then begin
-            if EmpTransfer."Outstation Distance" >= HRSetup."Outstation Dist. Criteria (H)" then
-                EmpTransfer."Outstation/Discomfort Allow." := LevelWiseAttribute."Total Basic Salary" * 25 / 100;
+            if outStationDistance >= HRSetup."Outstation Dist. Criteria (H)" then
+                exit(LevelWiseAttribute."Total Basic Salary" * 25 / 100);
         end else if Employee."Posting Region" = Employee."Posting Region"::Terai then begin
-            if EmpTransfer."Outstation Distance" >= HRSetup."Outstation Dist. Criteria (T)" then
-                EmpTransfer."Outstation/Discomfort Allow." := LevelWiseAttribute."Total Basic Salary" * 25 / 100;
+            if outStationDistance >= HRSetup."Outstation Dist. Criteria (T)" then
+                exit(LevelWiseAttribute."Total Basic Salary" * 25 / 100);
         end;
     end;
 
-    local procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         RemoteArea: Record "Remote Area Category";
         PGSetup: Record "Payroll General Setup";
     begin
-        if EmpTransfer."BMAF Distance" = 0 then begin
-            EmpTransfer."BM Accomodation Allow." := 0;
-            exit;
+        if BMAFDistance = 0 then begin
+            exit(0);
         end;
         PGSetup.Get;
         PGSetup.TestField("BM Functional Title");
@@ -903,7 +930,7 @@ codeunit 50005 "Transfer Mgt."
                 exit;
         if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
             if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
-                exit;
+                exit(0);
 
         HRSetup.Get;
         HRSetup.TestField("BMAF Dist. Criteria (H)");
@@ -912,17 +939,17 @@ codeunit 50005 "Transfer Mgt."
             if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
                 //  TESTFIELD("BMAF Distance");
                 if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
-                    if EmpTransfer."BMAF Distance" >= HRSetup."BMAF Dist. Criteria (H)" then
-                        EmpTransfer."BM Accomodation Allow." := RemoteArea."BM Accomodation Amount";
+                    if BMAFDistance >= HRSetup."BMAF Dist. Criteria (H)" then
+                        exit(RemoteArea."BM Accomodation Amount");
                 end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
-                    if EmpTransfer."BMAF Distance" >= HRSetup."BMAF Dist. Criteria (T)" then
-                        EmpTransfer."BM Accomodation Allow." := RemoteArea."BM Accomodation Amount";
+                    if BMAFDistance >= HRSetup."BMAF Dist. Criteria (T)" then
+                        exit(RemoteArea."BM Accomodation Amount");
                 end;
             end;
         end;
     end;
 
-    local procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee/HR Transfer"): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         SalaryLevel1: Record "Salary Level";
@@ -932,12 +959,11 @@ codeunit 50005 "Transfer Mgt."
     begin
         Employee.Get(EmpTransfer."Employee No.");
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            exit;
+            exit(0);
         if EmpTransfer."Transfer Type" <> EmpTransfer."Transfer Type"::"Intra Provincial" then
-            exit;
+            exit(0);
         Employee.Get(EmpTransfer."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
-
         SalaryLevel1.Reset;
         SalaryLevel1.SetCurrentKey(Rank);
         SalaryLevel1.SetFilter(Rank, '>%1', SalaryLevel.Rank);
@@ -945,11 +971,11 @@ codeunit 50005 "Transfer Mgt."
             SalaryGrade.Get(0);
             GrossSalary := SalaryLevel1."Basic Salary" +
                             SalaryLevel1.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel1."Basic Salary";
-            EmpTransfer."Officiating Allow." := GrossSalary;
+            exit(GrossSalary);
         end;
     end;
 
-    local procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee/HR Transfer"): Decimal
     var
         DimensionValueCurrent: Record "Dimension Value";
         SalaryLevel1: Record "Salary Level";
@@ -957,6 +983,7 @@ codeunit 50005 "Transfer Mgt."
         SalaryLevel: Record "Salary Level";
         SalaryGrade: Record "Salary Grade";
         RemoteArea: Record "Remote Area Category";
+        RemoteAreaAllowance: Decimal;
     begin
         if DimensionValue.Get('BRANCH', EmpTransfer."Shortcut Dimension 1 Code (To)") then begin
             if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
@@ -965,10 +992,10 @@ codeunit 50005 "Transfer Mgt."
                 SalaryGrade.Get(Employee."Salary Grade");
                 GrossSalary := SalaryLevel."Basic Salary" +
                                   SalaryLevel.Allowance + SalaryGrade."Grade Percentage" / 100 * SalaryLevel."Basic Salary";
-                EmpTransfer."Remote Area Allow." := RemoteArea."Remote allowance Percentage" / 100 * GrossSalary;
+                RemoteAreaAllowance := RemoteArea."Remote allowance Percentage" / 100 * GrossSalary;
                 if RemoteArea."Remote Allowance Amount" < EmpTransfer."Remote Area Allow." then
-                    EmpTransfer."Remote Area Allow." := RemoteArea."Remote Allowance Amount";
-
+                    RemoteAreaAllowance := RemoteArea."Remote Allowance Amount";
+                exit(RemoteAreaAllowance);
             end;
         end;
     end;
@@ -991,7 +1018,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer."Is Transfer Details Added" then
             Error('Approval Status must be approved or on hold');
-        if EmpHrTransfer."Notify to" <> HRMgt.GetEmployeeNo then
+        if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
             Error('You arenot Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
@@ -1070,6 +1097,34 @@ codeunit 50005 "Transfer Mgt."
             ReinstateTransfer(EmpAct);
         END;*/ //Min 1.1 >>
 
+    end;
+
+    procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])
+    var
+        //EmpAct: Record "Employee Activity" temporary;
+        EmployeeTransfer: Record "Employee/HR Transfer" temporary;
+        EmployeeTransfer2: Record "Employee/HR Transfer";
+        Approval: Record "Approval HRMS";
+    begin
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+        EmployeeTransfer2.get(TransferOrderNo);
+        EmployeeTransfer2.TestField("Approval Status", EmployeeTransfer2."Approval Status"::Acknowledged);
+        EmployeeTransfer.Init;
+        EmployeeTransfer.TransferFields(EmployeeTransfer2);
+        EmployeeTransfer."No." := '';
+        EmployeeTransfer."Approved Date" := 0D;
+        EmployeeTransfer.Validate("Transfer Request No", EmployeeTransfer2."No.");
+        EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
+        // EmployeeTransfer.Validate("Employee No.", EmpCode);
+        EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Open);
+        EmployeeTransfer.Validate("Requested Date", Today);
+        EmployeeTransfer.Insert;
+        Commit();
+        PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer);
     end;
 
     // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")
