@@ -68,4 +68,8 @@ enum 50062 "Employee Activity Type"
     value(16; Loan)
     {
     }
+    value(17; "Transfer Claim")
+    {
+        Caption = 'Transfer Claim';
+    }
 }
