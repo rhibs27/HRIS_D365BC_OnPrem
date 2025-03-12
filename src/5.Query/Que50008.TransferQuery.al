@@ -47,7 +47,7 @@ query 50008 "Transfer Query"
                 dataitem(EmployeeTransfer; "Employee/HR Transfer")
                 {
                     DataItemLink = "No." = ApprovalHRMS."Document No.";
-                    column(number; "No.") { }
+                    // column(number; "No.") { }
                     column(type; Type)
                     {
                     }
@@ -117,7 +117,6 @@ query 50008 "Transfer Query"
                     column(relocationDistance; "Relocation Distance") { }
                     column(outstationDistance; "Outstation Distance") { }
                     column(BMAFDistance; "BMAF Distance") { }
-                    column(transferAllowanceApproval; "Transfer Allowance Approval") { }
                 }
 
             }
