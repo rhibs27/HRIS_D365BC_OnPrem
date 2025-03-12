@@ -362,7 +362,6 @@ report 50139 "Daily Attendance Update"
         end;
 
         StandardWorkingHrs := (EndTime - StartTime) / 3600000;
-
         SalaryLevel.Reset;
         SalaryLevel.SetRange("OT Attachment Mandatory", true);
         if SalaryLevel.FindFirst then
@@ -383,9 +382,8 @@ report 50139 "Daily Attendance Update"
             repeat
                 if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
                     OverTime."Actual Hours" := ActualOTHrs;
-                    OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened);
+                    // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
                     OverTime.Modify;
-
                     EmployeeAttendanceActivity.Reset;
                     EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
                     EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");

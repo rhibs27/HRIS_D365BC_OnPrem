@@ -6018,7 +6018,7 @@ codeunit 50001 "HR Mgt."
 
         EmpActivity.Init;
         EmpActivity.TransferFields(TempEmpActivity);
-        EmpActivity.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending Approval");
+        EmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::"Pending Approval");
         EmpActivity.Validate("User ID", UserId);
         EmpActivity.Insert(true);
         // AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");

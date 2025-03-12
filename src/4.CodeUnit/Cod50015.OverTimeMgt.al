@@ -38,7 +38,7 @@ codeunit 50015 "OverTime Mgt"
                 exit(false);
             end;
 
-            if LeaveMgt.GetNonWokingDays(OverTime."Start Date", OverTime."End Date", OverTime."Employee No.") = 0 then begin
+            if LeaveMgt.GetNonWokingDays(OverTime."Start Date", 0D, OverTime."Employee No.") = 0 then begin
                 if AttendanceLog."Check Out Time" >= EndTime then begin
                     if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
                         RejectionRemarks := StrSubstNo('System rejected. Working hrs is less than %1 hrs.', StandardWorkingHrs);
@@ -116,8 +116,14 @@ codeunit 50015 "OverTime Mgt"
         OverTime: Record OverTime temporary;
         SalaryLevel: Record "Salary Level";
         OTEligibleError: Label 'Employee %1 is not eligible for OT.';
+        Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Employee Transfer");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
         Employee.Get(EmpCode);
         SalaryLevel.Get(Employee."Salary Level");
         if not SalaryLevel."OT Eligible" then
@@ -140,9 +146,9 @@ codeunit 50015 "OverTime Mgt"
         OverTime: Record OverTime;
     begin
         OverTime.Get(EmpOverTimeCode);
-        OverTime.TestField("Approval Status", OverTime."Approval Status"::"Pending Approval");
+        OverTime.TestField("Approval Status", OverTime."Approval Status"::"Pending");
         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-        OverTime.Validate("Approval Status", OverTime."Approval Status"::Recommended);
+        // OverTime.Validate("Approval Status", OverTime."Approval Status"::Recommended);
         OverTime.Modify;
         Message('The document has been recommended.');
     end;
@@ -157,24 +163,24 @@ codeunit 50015 "OverTime Mgt"
 
     begin
         OverTime.Get(EmpOverTimeCode);
-        if Approved then begin
-            OverTime.TestField("Approval Status", OverTime."Approval Status"::Recommended);
-            CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-            OverTime.Validate("Approval Status", OverTime."Approval Status"::Approved);
-            HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-            Message('The document has been approved.');
-        end else
-            if (OverTime."Approval Status" in [OverTime."Approval Status"::"Pending Approval", OverTime."Approval Status"::Recommended]) then begin
-                OverTime.TestField("Rejection Remarks");
-                CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-                if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
-                    HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Recommender Code", OverTime."No.", 0)  //For email
-                else
-                    HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-                OverTime.Validate("Approval Status", OverTime."Approval Status"::Rejected);
-                Message('The document has been rejected.');
-            end else
-                Error('Cannot reject the document.');
+        // if Approved then begin
+        //     OverTime.TestField("Approval Status", OverTime."Approval Status"::Recommended);
+        //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
+        //     OverTime.Validate("Approval Status", OverTime."Approval Status"::Approved);
+        //     HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
+        //     Message('The document has been approved.');
+        // end else
+        //     if (OverTime."Approval Status" in [OverTime."Approval Status"::"Pending Approval", OverTime."Approval Status"::Recommended]) then begin
+        //         OverTime.TestField("Rejection Remarks");
+        //         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
+        //         if OverTime."Approval Status" = OverTime."Approval Status"::"Pending" then
+        //             HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Recommender Code", OverTime."No.", 0); //For email
+        //         // else
+        //         //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
+        //         OverTime.Validate("Approval Status", OverTime."Approval Status"::Rejected);
+        //         Message('The document has been rejected.');
+        //     end else
+        //         Error('Cannot reject the document.');
         OverTime.Posted := true;
         OverTime."Approved Date" := Today;
         OverTime.Modify;
@@ -185,15 +191,15 @@ codeunit 50015 "OverTime Mgt"
         ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
         RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
     begin
-        Employee.Reset;
-        Employee.SetRange("No.", employeeNo);
-        Employee.FindFirst;
-        if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
-            if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-        if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then
-            if StrPos(OverTime."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
+        // Employee.Reset;
+        // Employee.SetRange("No.", employeeNo);
+        // Employee.FindFirst;
+        // if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
+        //     if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
+        //         Error(RecommendNotEligibleError);
+        // if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then
+        //     if StrPos(OverTime."Approver Code", Employee."No.") = 0 then
+        //         Error(ApproveNotEligibleError);
 
         //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
         //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
@@ -213,7 +219,7 @@ codeunit 50015 "OverTime Mgt"
             if not Confirm(ConfirmForm, false) then
                 exit;
         TempOvertime.TestField("Start Date");
-        TempOvertime.TestField("End Date");
+        // TempOvertime.TestField("End Date");
         TempOvertime.TestField("Estimated Hours");
         //TempEmpAct.TESTFIELD(Remarks);
         PayrollSetup.Get;
@@ -245,18 +251,16 @@ codeunit 50015 "OverTime Mgt"
                         Error('Please enter reason for OT before submitting.');
                 end;
         end;
-
         // if TempOvertime."No. of Days" <= 0 then
         //     Error(ErrorNoOfDays); santosh commented for over time
 
         EmpOvertime.Init;
         EmpOvertime.TransferFields(TempOvertime);
-        EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending Approval");
+        EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending");
         EmpOvertime.Validate("User ID", UserId);
         EmpOvertime.Insert(true);
-        OverTimeMgt.AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");
+        //OverTimeMgt.AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No."); no require attachment
         Message('Document has been sent for apporval.');
-
         case EmpOvertime.Type of
             EmpOvertime.Type::"Out of Office":
                 HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpOvertime.Type::"Out of Office", EmpOvertime."Approval Status"::Open, '', EmpOvertime."Employee No.", EmpOvertime."No.", 0);   //For email

@@ -71,12 +71,12 @@ codeunit 50019 "SQL Connection Attendance"
     //     SQLPassword := 'Agile@123';
     // end;
 
-    // procedure SetupSQLCommand(SQLConnection: DotNet SqlConnectionVar; SQLCommand: DotNet SqlCommandVar; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text);
-    // begin
-    //     SQLCommand := SQLConnection.CreateCommand;
-    //     SQLCommand.CommandText := commandtext;
-    //     SQLCommand.CommandTimeout := 15;
-    // end;
+    procedure SetupSQLCommand(SQLConnection: DotNet SqlConnection; SQLCommand: DotNet SqlCommand; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text);
+    begin
+        SQLCommand := SQLConnection.CreateCommand;
+        // SQLCommand.CommandText := commandtext;
+        // SQLCommand.CommandTimeout := 15;
+    end;
 
     local procedure ReadRecords(TableName: Text);
     begin

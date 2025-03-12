@@ -43,6 +43,18 @@ page 50107 Overtimes
                     ToolTip = 'Specifies the value of the OT Date field.';
                     ApplicationArea = All;
                 }
+                field("Check In Time"; Rec."Check In Time")
+                {
+                    Caption = 'Check In Time';
+                    ToolTip = 'Specifies the value of the Check In Time field.';
+                    ApplicationArea = All;
+                }
+                field("Check Out Time"; Rec."Check Out Time")
+                {
+                    Caption = 'Check Out Time';
+                    ToolTip = 'Specifies the value of the Check Out Time field.';
+                    ApplicationArea = All;
+                }
                 field("Estimated Hours"; Rec."Estimated Hours")
                 {
                     ToolTip = 'Specifies the value of the Estimated Hours field.';
@@ -69,26 +81,26 @@ page 50107 Overtimes
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
                 }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Name field.';
-                    ApplicationArea = All;
-                }
+                // field("Approver Code"; Rec."Approver Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Name"; Rec."Approver Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Name field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommender Code"; Rec."Recommender Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Recommender Name"; Rec."Recommender Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Name field.';
+                //     ApplicationArea = All;
+                // }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
@@ -153,22 +165,23 @@ page 50107 Overtimes
                     Rec.FilterGroup(0);
                 end;
             }
-            action(Screened)
-            {
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screened action.';
-                ApplicationArea = All;
+            // action(Screened)
+            // {
+            //     Promoted = true;
+            //     PromotedCategory = Category4;
+            //     PromotedIsBig = true;
+            //     ToolTip = 'Executes the Screened action.';
+            //     ApplicationArea = All;
+            //     Visible=false;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         Rec.FilterGroup(2);
+            //         ClearAll();
+            //         Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+            //         Rec.FilterGroup(0);
+            //     end;
+            // }
             action("Pending Approval")
             {
                 Image = PendingApproval;
@@ -177,33 +190,32 @@ page 50107 Overtimes
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.FilterGroup(0);
                 end;
             }
-            action(Recommended)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Recommended action.';
-                ApplicationArea = All;
+            // action(Recommended)
+            // {
+            //     Image = Approve;
+            //     Promoted = true;
+            //     PromotedCategory = Category4;
+            //     PromotedIsBig = true;
+            //     ToolTip = 'Executes the Recommended action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+            //     trigger OnAction()
+            //     begin
+            //         Rec.FilterGroup(2);
+            //         ClearAll();
+            //         Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
 
-                    Rec.FilterGroup(0);
-                end;
-            }
+            //         Rec.FilterGroup(0);
+            //     end;
+            // }
             action(Approved)
             {
                 Image = Approve;
@@ -238,25 +250,25 @@ page 50107 Overtimes
                     Rec.FilterGroup(0);
                 end;
             }
-            action("Final Approve")
-            {
-                Image = Flow;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = false;
-                ToolTip = 'Executes the Final Approve action.';
-                ApplicationArea = All;
+            // action("Final Approve")
+            // {
+            //     Image = Flow;
+            //     Promoted = true;
+            //     PromotedCategory = Category4;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Final Approve action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    Rec.FilterGroup(2);
-                    ClearAll();
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
-                    Rec.FilterGroup(0);
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         Rec.FilterGroup(2);
+            //         ClearAll();
+            //         Rec.SetRange("Approval Status", Rec."Approval Status"::"Final Approved & Forwarded to Finance Department");
+            //         Rec.FilterGroup(0);
+            //     end;
+            // }
         }
     }
 }

@@ -6,14 +6,14 @@ query 50009 "Incoming Transfer Query"
     EntityName = 'incomingTransferApproval';
     EntitySetName = 'incomingTransferApprovalEntity';
     QueryType = API;
-    OrderBy = descending(number);
+    OrderBy = descending(no);
 
     elements
     {
         dataitem(EmployeeTransfer; "Employee/HR Transfer")
         {
             //general
-            column(number; "No.") { }
+            column(no; "No.") { }
             column(type; Type)
             {
             }
@@ -87,9 +87,9 @@ query 50009 "Incoming Transfer Query"
             column(description; Description) { }
 
             column(transferRemarks; "Transfer Remarks") { }
-            column(transferClaimReviewer; "Transfer Claim Reviewer") { }
-            column(transferClaimRecommender; "Transfer Claim Recommender") { }
-            column(transferClaimReviewerName; "Transfer Claim Reviewer Name") { }
+            // column(transferClaimReviewer; "Transfer Claim Reviewer") { }
+            // column(transferClaimRecommender; "Transfer Claim Recommender") { }
+            // column(transferClaimReviewerName; "Transfer Claim Reviewer Name") { }
             column(relocationAllow; "Relocation Allow.") { }
             column(outstationDiscomfortAllow; "Outstation/Discomfort Allow.") { }
             column(BMAccomodationAllow; "BM Accomodation Allow.") { }
@@ -98,7 +98,10 @@ query 50009 "Incoming Transfer Query"
             column(relocationDistance; "Relocation Distance") { }
             column(outstationDistance; "Outstation Distance") { }
             column(BMAFDistance; "BMAF Distance") { }
-            column(transferAllowanceApproval; "Transfer Allowance Approval") { }
+            column(transferClaim; "Transfer Claim")
+            {
+            }
+            // column(transferAllowanceApproval; "Transfer Allowance Approval") { }
         }
 
     }
