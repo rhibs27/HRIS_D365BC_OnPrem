@@ -95,6 +95,11 @@ page 50066 "Transfer Card"
                     Editable = false;
                     Visible = not IsOpen;
                 }
+                field("Transfer Claims"; rec."Transfer Claim")
+                {
+                    Caption = 'Transfer Claim';
+                    Visible = IsACK;
+                }
             }
             group(Transfer)
             {
@@ -627,6 +632,7 @@ page 50066 "Transfer Card"
                     if Confirm('Do you want to Confirm this document?', false) then begin
                         TransferMgt.ConfirmTransferDetails(Rec);
                         CurrPage.Close;
+                        Message('Success');
                     end;
                 end;
             }
@@ -786,15 +792,18 @@ page 50066 "Transfer Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                RunObject = page "Transfer Claim Form";
-                RunPageLink = "No." = field("No.");
-                RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
+                // RunObject = page "Transfer Claim Form";
+                // RunPageLink = "No." = field("No.");
+                // RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
                 Visible = IsACK;
                 ToolTip = 'Executes the Transfer Claim action.';
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
-
+                    if not rec."Transfer Claim" then
+                        TransferMgt.OpenTransferClaim(Rec."Employee No.", Rec."No.")
+                    else
+                        Error('Transfer is already claimed');
                 end;
             }
             action("Return Transfer")

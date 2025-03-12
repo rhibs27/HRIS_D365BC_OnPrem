@@ -148,15 +148,15 @@ page 50341 "Employee Transfer Entity"
                 field(description; rec.Description)
                 {
                 }
+                field(transferClaim;Rec."Transfer Claim")
+                {
+                }
 
             }
             group("Transfer Claim")
             {
                 field(transferRemarks; Rec."Transfer Remarks") { }
-                field(transferClaimReviewer; Rec."Transfer Claim Reviewer") { }
-                field(transferClaimRecommender; Rec."Transfer Claim Recommender") { }
-                field(transferClaimReviewerName; Rec."Transfer Claim Reviewer Name") { }
-                field(transferClaimRecommenderName; RecommederName) { }
+                // field(transferClaimRecommenderName; RecommederName) { }
                 field(relocationAllow; Rec."Relocation Allow.") { }
                 field(outstationDiscomfortAllow; Rec."Outstation/Discomfort Allow.") { }
                 field(BMAccomodationAllow; Rec."BM Accomodation Allow.") { }
@@ -165,19 +165,22 @@ page 50341 "Employee Transfer Entity"
                 field(relocationDistance; Rec."Relocation Distance") { }
                 field(outstationDistance; Rec."Outstation Distance") { }
                 field(BMAFDistance; Rec."BMAF Distance") { }
-                field(transferAllowanceApproval; Rec."Transfer Allowance Approval") { }
-                field(forTransferClaimApproval; forTransferClaimApproval)
+                field(transferRequestNo;Rec."Transfer Request No")
                 {
-                    trigger OnValidate()
-                    begin
-                        if Rec.Type in [Rec.Type::"Employee Transfer", Rec.Type::"HR Transfer"] then
-                            if forTransferClaimApproval then
-                                TransferMgt.RequestTransferAllowanceClaim(Rec);
-                    end;
                 }
+                // field(transferAllowanceApproval; Rec."Transfer Allowance Approval") { }
+                // field(forTransferClaimApproval; forTransferClaimApproval)
+                // {
+                //     trigger OnValidate()
+                //     begin
+                //         if Rec.Type in [Rec.Type::"Employee Transfer", Rec.Type::"HR Transfer",Rec.Type::"Transfer Claim"] then
+                //             if forTransferClaimApproval then
+                //                 TransferMgt.RequestTransferAllowanceClaim(Rec);
+                //     end;
+                // }
             }
-            group(Approval)
-            {
+            // group(Approval)
+            // {
                 // field(recommenderCode; Rec."Recommender Code")
                 // {
                 //     trigger OnValidate()
@@ -204,52 +207,21 @@ page 50341 "Employee Transfer Entity"
                 // {
                 //     ApplicationArea = All;
                 // }
-                field(transferClaimApporverRemarks; TransferClaimApproverRemarks)
-                {
-                    trigger OnValidate()
-                    begin
-                        if ReasonCode.Get(Rec."No.") then begin
-                            ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
-                            ReasonCode.Modify;
-                        end else begin
-                            ReasonCode.Init;
-                            ReasonCode.Validate(Code, Rec."No.");
-                            ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
-                            ReasonCode.Insert;
-                        end;
-                    end;
-                }
-                field(transferClaimRecommenderRemarks; TransferClaimRecommenderRemarks)
-                {
-                    trigger OnValidate()
-                    begin
-                        if ReasonCode.Get(Rec."No.") then begin
-                            ReasonCode."Transf. Claim Recomm. Remarks" := TransferClaimRecommenderRemarks;
-                            ReasonCode.Modify;
-                        end else begin
-                            ReasonCode.Init;
-                            ReasonCode.Validate(Code, Rec."No.");
-                            ReasonCode."Transf. Claim Recomm. Remarks" := TransferClaimRecommenderRemarks;
-                            ReasonCode.Insert;
-                        end;
-                    end;
-                }
-                field(transferClaimReviewerRemarks; TransferClaimReviewerRemarks)
-                {
-                    trigger OnValidate()
-                    begin
-                        if ReasonCode.Get(Rec."No.") then begin
-                            ReasonCode."Transf. Claim Reviewer Remarks" := TransferClaimReviewerRemarks;
-                            ReasonCode.Modify;
-                        end else begin
-                            ReasonCode.Init;
-                            ReasonCode.Validate(Code, Rec."No.");
-                            ReasonCode."Transf. Claim Reviewer Remarks" := TransferClaimReviewerRemarks;
-                            ReasonCode.Insert;
-                        end;
-                    end;
-                }
-            }
+                // field(transferClaimApporverRemarks; TransferClaimApproverRemarks)
+                // {
+                //     trigger OnValidate()
+                //     begin
+                //         if ReasonCode.Get(Rec."No.") then begin
+                //             ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
+                //             ReasonCode.Modify;
+                //         end else begin
+                //             ReasonCode.Init;
+                //             ReasonCode.Validate(Code, Rec."No.");
+                //             ReasonCode."Transf. Claim Apporver Remarks" := TransferClaimApproverRemarks;
+                //             ReasonCode.Insert;
+                //         end;
+                //     end;
+                // }
             part(Attachment; "Attachment Subform")
             {
                 EntityName = 'attachmentEntity';
@@ -303,11 +275,11 @@ page 50341 "Employee Transfer Entity"
     begin
         GetTransferName;
         //SetControlAppearance;
-        Rec.CalcFields("Transfer Claim Reviewer Name");
-        if Employee.Get(Rec."Transfer Claim Recommender") then
-            RecommederName := Employee."Full Name"
-        else
-            RecommederName := '';
+        // Rec.CalcFields("Transfer Claim Reviewer Name");
+        // if Employee.Get(Rec."Transfer Claim Recommender") then
+        //     RecommederName := Employee."Full Name"
+        // else
+        //     RecommederName := '';
 
         // if ReasonCode.Get(Rec."Reason Code") then begin
         //     TransferClaimReviewerRemarks := ReasonCode."Transf. Claim Reviewer Remarks";

@@ -18,7 +18,7 @@ table 50140 "Employee/HR Transfer"
                     end else begin
                         case Type of
                             //for transfer
-                            Type::"Employee Transfer", Type::"HR Transfer":
+                            Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Transfer No.");
                                     "No. Series" := '';
@@ -667,8 +667,9 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if "Relocation Allow." > xRec."Relocation Allow." then
-                    Error('Invalid Amount.');
+                if GuiAllowed then
+                    if "Relocation Allow." > xRec."Relocation Allow." then
+                        Error('Invalid Amount.');
             end;
         }
         field(68; "Outstation/Discomfort Allow."; Decimal)
@@ -677,8 +678,9 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if "Outstation/Discomfort Allow." > xRec."Outstation/Discomfort Allow." then
-                    Error('Invalid Amount.');
+                if GuiAllowed then
+                    if "Outstation/Discomfort Allow." > xRec."Outstation/Discomfort Allow." then
+                        Error('Invalid Amount.');
             end;
         }
         field(69; "BM Accomodation Allow."; Decimal)
@@ -687,8 +689,9 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if "BM Accomodation Allow." > xRec."BM Accomodation Allow." then
-                    Error('Invalid Amount.');
+                if GuiAllowed then
+                    if "BM Accomodation Allow." > xRec."BM Accomodation Allow." then
+                        Error('Invalid Amount.');
             end;
         }
         field(70; "Remote Area Allow."; Decimal)
@@ -697,8 +700,9 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if "Remote Area Allow." > xRec."Remote Area Allow." then
-                    Error('Invalid Amount.');
+                if GuiAllowed then
+                    if "Remote Area Allow." > xRec."Remote Area Allow." then
+                        Error('Invalid Amount.');
             end;
         }
         field(71; "Officiating Allow."; Decimal)
@@ -707,8 +711,9 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                if "Officiating Allow." > xRec."Officiating Allow." then
-                    Error('Invalid Amount.');
+                if GuiAllowed then
+                    if "Officiating Allow." > xRec."Officiating Allow." then
+                        Error('Invalid Amount.');
             end;
         }
         field(72; "Relocation Distance"; Decimal)
@@ -738,16 +743,16 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        field(75; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
-        {
-            Description = 'Transfer';
-        }
-        field(76; "Transfer Claim Recommender"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = Employee;
-            ValidateTableRelation = false;
-        }
+        // field(75; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
+        // {
+        //     Description = 'Transfer';
+        // }
+        // field(76; "Transfer Claim Recommender"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = Employee;
+        //     ValidateTableRelation = false;
+        // }
         field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
@@ -764,23 +769,23 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(78; "Transfer Claim Reviewer"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = Employee;
-        }
+        // field(78; "Transfer Claim Reviewer"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = Employee;
+        // }
         field(79; "Acknowledged Date"; Date)
         {
             Description = 'Transfer';
             Editable = false;
         }
-        field(80; "Transfer Claim Reviewer Name"; Text[30])
-        {
-            CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Transfer Claim Reviewer")));
-            Description = 'Transfer';
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(80; "Transfer Claim Reviewer Name"; Text[30])
+        // {
+        //     CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Transfer Claim Reviewer")));
+        //     Description = 'Transfer';
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(81; "Outgoing Reporting Person Name"; Text[30])
         {
             CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
@@ -936,6 +941,16 @@ table 50140 "Employee/HR Transfer"
         {
             DataClassification = ToBeClassified;
         }
+        field(103; "Transfer Request No"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(104; "Transfer Claim"; Boolean)
+        {
+            Editable = false;
+        }
+
         field(198; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
@@ -946,19 +961,18 @@ table 50140 "Employee/HR Transfer"
             DataClassification = ToBeClassified;
             TableRelation = "Dimension Value".Code;
         }
-        field(200; "Transf. Claim Recomm. Remarks"; Text[50])
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(201; "Transf. Claim Reviewer Remarks"; Text[50])
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(202; "Transf. Claim Approver Remarks"; Text[50])
-        {
-            DataClassification = ToBeClassified;
-        }
-
+        // field(200; "Transf. Claim Recomm. Remarks"; Text[50])
+        // {
+        //     DataClassification = ToBeClassified;
+        // }
+        // field(201; "Transf. Claim Reviewer Remarks"; Text[50])
+        // {
+        //     DataClassification = ToBeClassified;
+        // }
+        // field(202; "Transf. Claim Approver Remarks"; Text[50])
+        // {
+        //     DataClassification = ToBeClassified;
+        // }
     }
     keys
     {
@@ -989,7 +1003,7 @@ table 50140 "Employee/HR Transfer"
                             NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
                         end;
                     //for transfer
-                    Type::"Employee Transfer", Type::"HR Transfer":
+                    Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
                         begin
                             HRSetup.TestField("Transfer No.");
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
@@ -1001,6 +1015,21 @@ table 50140 "Employee/HR Transfer"
             end;
         InsertAttachmentLines;
     end;
+
+    trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
+        ApprovalEntry: Record "Approval HRMS";
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.DeleteAll();
+        end;
+    end;
+
 
     local procedure InsertAttachmentLines()
     var
