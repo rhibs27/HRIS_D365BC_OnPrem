@@ -101,15 +101,22 @@ page 50164 "Attachment Subform"
                 trigger OnAction()
                 var
                     Employee: Record Employee;
+                    EmployeeTransfer: Record "Employee/HR Transfer";
                 //EmpAct: Record "Employee Activity";
                 begin
                     if EmpLoan.Get(Rec."No.") then begin //loan controls 
                         IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
                             ERROR('Approval status must be Open.');
                         LoanMgt.UploadAttachment(Rec);
+                    end else if EmployeeTransfer.Get(Rec."No.") then begin
+                        EmployeeTransfer.TestField("Transfer Claim", false);
+                        if (EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved) then
+                            if HrMgt.GetEmployeeNo() = rec."Employee Code" then
+                                LoanMgt.UploadAttachment(Rec)
+                            else
+                                Error('You arenot Allowed to Upload attachment');
                     end else
                         LoanMgt.UploadAttachment(Rec);
-
 
                     // if Employee.Get(Rec."Order No.") then //employee controls
                     //     LoanMgt.UploadAttachment(Rec)
@@ -127,8 +134,6 @@ page 50164 "Attachment Subform"
                         end else
                             LoanMgt.UploadAttachment(Rec);
                     end;
-
-
                 end;
             }
             action(Download)
@@ -219,4 +224,5 @@ page 50164 "Attachment Subform"
         Candidate: Record Candidate;
         [InDataSet]
         isGUIAllowed: Boolean;
+        HrMgt: Codeunit "HR Mgt.";
 }

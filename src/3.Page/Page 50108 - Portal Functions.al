@@ -2137,7 +2137,7 @@ page 50108 "Portal Functions"
         Resignation.Validate("Proposed Date of Resignation", proposedDateOfResignation); //Min 11.29.2022
         Resignation.Validate("Reason Code", reasonCode);
         Resignation.Validate("Reason for Resignation", reasonForResignation);
-        Resignation.Validate("Recommender Code", recommenderCode);
+        // Resignation.Validate("Recommender Code", recommenderCode);
         Resignation.Validate("Apply for Waiver", applyForWaiver);
         Resignation.Insert;
         if ResignationMgt.SendResignationApproval(Resignation) then
@@ -2153,7 +2153,7 @@ page 50108 "Portal Functions"
         DocumentApprover: Record "Document Approver";
     begin
         Resignation.Get(docNo);
-        Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended);
+        //Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended);
         DocumentApprover.Reset;
         DocumentApprover.SetRange("Document No.", Resignation."No.");
         DocumentApprover.SetRange("Employee No.", employeeNo);
@@ -2249,7 +2249,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; estimatedHrs: Decimal; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOThrs: Decimal; eveningOThrs: Decimal; OTAmount: Decimal; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
@@ -2265,7 +2265,10 @@ page 50108 "Portal Functions"
         Overtime.Validate("Employee No.", HrMgt.GetEmployeeNo());
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
-        Overtime.Validate("Estimated Hours", estimatedHrs);
+        Overtime.Validate("Actual OT Hours", actualOTHrs);
+        Overtime.Validate("Morning OT Hours", morningOThrs);
+        Overtime.Validate("Evening OT Hours", eveningOTHrs);
+        Overtime.Validate("OT Amount", OTAmount);
         Overtime.Validate("Requested Date", Today);
         Overtime.Validate(Remarks, reasonforOT);
         // Overtime.Validate("Recommender Code", recommenderCode);
@@ -2312,6 +2315,106 @@ page 50108 "Portal Functions"
         RecRef.GetTable(OverTime);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
 
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure checkOverTimedetails(overTimeDate: date; encashmentCode: Code[20]): text
+    var
+        WorkShift: Record "Employee Work Shift";
+        StartTime: Time;
+        EndTime: Time;
+        StandardWorkingHrs: Decimal;
+        ActualOTHrs: Decimal;
+        RejectionRemarks: Text;
+        MorningOTHrs: Decimal;
+        EveningOTHrs: Decimal;
+        TotalOTHrs: Decimal;
+        CheckInDifference: Decimal;
+        EmployeeAttendance: Record "Employee Attendance & Activity";
+        OTAmount: Decimal;
+    begin
+        if overTimeDate >= Today then
+            Error('You cannot apply OverTime in current and future date.');
+        Workshift.Reset;
+        Workshift.FindFirst;
+        Workshift.TestField("Start Time");
+        Workshift.TestField("End Time");
+        Workshift.TestField("Friday End Time");
+        Workshift.TestField("Winter Start Date");
+        Workshift.TestField("Winter End Date");
+        Workshift.TestField("Winter End Time");
+        StartTime := 0T;
+        EndTime := 0T;
+        OTAmount := 0;
+        StandardWorkingHrs := 0;
+        StartTime := WorkShift."Start Time";
+        if HRMgt.IsWinter(overTimeDate, Workshift) then begin
+            if HRMgt.IsFriday(overTimeDate) then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."Winter End Time";
+        end else begin
+            if HRMgt.IsFriday(overTimeDate) then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."End Time";
+        end;
+        StandardWorkingHrs := (EndTime - StartTime) / 3600000;
+        HRSetup.Get;
+        HRSetup.TestField("OT eligible hour");
+        MorningOTHrs := 0;
+        EveningOTHrs := 0;
+        TotalOTHrs := 0;
+        CheckInDifference := 0;
+        EmployeeAttendance.Reset;
+
+        if EmployeeAttendance.get(HrMgt.GetEmployeeNo(), overTimeDate) then begin
+            if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                Error('Check in or Check out not found.');
+            end;
+            if LeaveMgt.GetNonWokingDays(overTimeDate, 0D, HrMgt.GetEmployeeNo()) = 0 then begin
+                // if AttendanceLog."Check Out Time" >= EndTime then begin
+                if (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") < StandardWorkingHrs then begin
+                    Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
+                end;
+                if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check In Time" <= StartTime) then
+                    MorningOTHrs := Round((StartTime - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
+
+                if MorningOTHrs < HRSetup."OT eligible hour" then
+                    MorningOTHrs := 0;
+
+                if (EmployeeAttendance."Check Out Time" <> 0T) and (EmployeeAttendance."Check Out Time" > EndTime) then
+                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 1, '<');
+
+                if EmployeeAttendance."Check In Time" > StartTime then begin
+                    CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 1, '<');
+                    EveningOTHrs -= CheckInDifference;
+                end;
+                if EveningOTHrs < HRSetup."OT eligible hour" then
+                    EveningOTHrs := 0;
+                TotalOTHrs := MorningOTHrs + EveningOTHrs;
+
+            end else begin
+                TotalOTHrs := (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000;
+                if TotalOTHrs < HRSetup."OT eligible hour" then
+                    Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
+            end;
+        end else
+            Error('Attendance Log not found.');
+        if TotalOTHrs <> 0 then
+            OTAmount := OverTimeMgt.OTAmountCalculate(HrMgt.GetEmployeeNo(), overTimeDate, encashmentCode, TotalOTHrs);
+        exit(
+       '{' +
+         '"totalOTHrs" : "' + DelChr(Format(TotalOTHrs)) + '",' +
+         '"checkInTime" : "' + DelChr(getTimeinFormat(EmployeeAttendance."Check In Time"), '=', ',') + '",' +
+         '"checkOutTime" : "' + delchr(getTimeinFormat(EmployeeAttendance."Check Out Time"), '=', ',') + '",' +
+         '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
+         '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
+         '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
+
+        //      '"OTAmount" : "' + Format(OTAmount) +
+        //    '}')
     end;
 
     local procedure "---API1.00 END"()
@@ -2554,6 +2657,7 @@ page 50108 "Portal Functions"
         EmployeeTransfer.Init;
         EmployeeTransfer.TransferFields(EmployeeTransfer1);
         EmployeeTransfer."No." := '';
+        EmployeeTransfer.Status := '';
         EmployeeTransfer."Approved Date" := 0D;
         EmployeeTransfer.Validate("Transfer Request No", EmployeeTransfer1."No.");
         EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
@@ -3775,10 +3879,10 @@ page 50108 "Portal Functions"
         // LoanForApprove := Loan.Count();
 
 
-        Resign.Reset();
-        Resign.SetRange("Approver Code", HrMgt.GetEmployeeNo());
-        Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
-        ResignForApprove := Resign.Count();
+        // Resign.Reset();
+        // Resign.SetRange("Approver Code", HrMgt.GetEmployeeNo());
+        // Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
+        // ResignForApprove := Resign.Count();
 
 
 

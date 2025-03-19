@@ -309,7 +309,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Deputation On (To) field.';
                         ApplicationArea = All;
-                        Editable = IsApproved and not rec."Is Transfer Details Added";
+                        // Editable = IsApproved and not rec."Is Transfer Details Added";
 
                         trigger OnValidate()
                         begin

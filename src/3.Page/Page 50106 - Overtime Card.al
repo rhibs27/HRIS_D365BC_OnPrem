@@ -59,10 +59,20 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Estimated Hours field.';
                     ApplicationArea = All;
                 }
-                field("Actual Hours"; Rec."Actual Hours")
+                field("Actual OT Hours"; Rec."Actual OT Hours")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Actual Hours field.';
+                    ApplicationArea = All;
+                }
+                field("Morning OT Hours"; Rec."Morning OT Hours")
+                {
+                    ToolTip = 'Specifies the value of the Morning OT Hours field.';
+                    ApplicationArea = All;
+                }
+                field("Evening OT Hours"; Rec."Evening OT Hours")
+                {
+                    ToolTip = 'Specifies the value of the Evening OT Hours field.';
                     ApplicationArea = All;
                 }
                 field("Encashment Code"; Rec."Encashment Code")
@@ -136,7 +146,7 @@ page 50106 "Overtime Card"
                 // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    Editable = ForReject;
+                    Editable = IsPending;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
                 }
@@ -312,7 +322,7 @@ page 50106 "Overtime Card"
             else begin
                 Approval.Reset();
                 Approval.SetRange("Document No.", '');
-                Approval.setRange("Document Type", Approval."Document Type"::"Employee Transfer");
+                Approval.setRange("Document Type", Approval."Document Type"::Overtime);
                 Approval.SetRange("Employee No", Rec."Employee No.");
                 Approval.DeleteAll();
             end;
@@ -325,7 +335,7 @@ page 50106 "Overtime Card"
         IsApplied: Boolean;
         FormEditable: Boolean;
         // ForRecommend: Boolean;
-        ForReject: Boolean;
+        // ForReject: Boolean;
         ForApprove: Boolean;
         // ForScreen: Boolean;
         IsPending: Boolean;

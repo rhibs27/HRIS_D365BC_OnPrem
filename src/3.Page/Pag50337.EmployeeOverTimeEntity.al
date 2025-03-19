@@ -23,21 +23,21 @@ page 50337 "Employee OverTime Entity"
                 {
                 }
                 field(employeeName; Rec."Employee Name") { }
-                field(salaryLevel; Rec."Salary Level Code") { }
-                field(department; Rec.Department) { }
-                field(departmentName; Rec."Department Name") { }
-                field(branchCode; Rec."Shortcut Dimension 1 Code") { }
-                field(branchName; Rec."Branch Name") { }
-                field(functionalTitle; Rec."Functional Title") { }
+                // field(salaryLevel; Rec."Salary Level Code") { }
+                // field(department; Rec.Department) { }
+                // field(departmentName; Rec."Department Name") { }
+                // field(branchCode; Rec."Shortcut Dimension 1 Code") { }
+                // field(branchName; Rec."Branch Name") { }
+                // field(functionalTitle; Rec."Functional Title") { }
                 field(startDate; Rec."Start Date") { }
                 field(startDateBS; Rec."Start Date (BS)") { }
                 field(checkInTime; getTimeinFormat(Rec."Check In Time")) { }
                 field(checkOutTime; getTimeinFormat(Rec."Check Out Time")) { }
                 // field(noOfDays; Rec."No. of Days") { }
                 field(requestedDate; Rec."Requested Date") { }
-                field(fiscalYear; Rec."Fiscal Year") { }
+                // field(fiscalYear; Rec."Fiscal Year") { }
                 field(approvalStatus; Rec."Approval Status") { }
-                field(cancelled; Rec.Cancelled) { }
+                // field(cancelled; Rec.Cancelled) { }
                 // field(cancelledNo; Rec."Cancelled No.") { }
                 // field(cancelledDocNo; Rec."Cancelled Document No.") { }
                 // field(approverType; Rec."Approver Type") { }
@@ -52,11 +52,18 @@ page 50337 "Employee OverTime Entity"
             group(Overtime)
             {
                 field(timeDuration; Rec."Time Duration") { }
-                field(actualHours; Rec."Actual Hours") { }
+                field(actualHours; Rec."Actual OT Hours") { }
                 field(estimatedHours; Rec."Estimated Hours") { }
                 field(encashmentCode; Rec."Encashment Code") { }
                 field(oTAmount; Rec."OT Amount") { }
                 field(oTDisbursed; Rec."OT Disbursed") { }
+                field(morningOThrs; Rec."Morning OT Hours")
+                {
+                }
+                field(eveningOThrs; Rec."Evening OT Hours")
+                {
+                }
+
             }
             // part(Attachment; "Attachment Subform")
             // {

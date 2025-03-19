@@ -70,28 +70,7 @@ table 50141 OverTime
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate(Ecosystem, EmpVar."Eco-System");
                     Validate("Office Code", EmpVar.Office);
-                    if Type = Type::Overtime then begin //Min 11.18.2022
-                        if "Start Date" > 20221207D then begin
-                            PayrollGenSetup.Get;
-                            if EmployeeAttendanceActivity.Get("Employee No.", "Start Date") then begin
-                                SalaryLevelRec.Get(EmpVar."Salary Level");
-                                SalaryGrade.Get(EmpVar."Salary Grade");
-                                if "Encashment Code" = PayrollGenSetup.Overtime then begin
-                                    if EmpVar."Salary Level" = PayrollGenSetup."TA Salary Level" then
-                                        "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))
-                                    else if EmpVar."Employment Type" = EmpVar."Employment Type"::Contract then
-                                        "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (EmpVar."Contract Salary Amount" + (SalaryGrade."Grade Percentage" / 100 * EmpVar."Contract Salary Amount")))
-                                    else
-                                        "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                                end else begin
-                                    if "Encashment Code" = PayrollGenSetup."Extra Mileage" then
-                                        "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                                    if "Encashment Code" = PayrollGenSetup."Year End Encashment" then
-                                        "OT Amount" := (("Estimated Hours" * PayrollGenSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                                end;
-                            end;
-                        end;
-                    end;
+                    //OTAmountCalculate();
                     // "Bank Account No." := EmpVar."Bank Account No.";
                     // "Contact No." := EmpVar."Mobile Phone No.";
 
@@ -103,6 +82,8 @@ table 50141 OverTime
                     // Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
+                HRSetup.Get();
+                Validate("OT Eligible Hours", HRSetup."OT eligible hour");
 
             end;
         }
@@ -146,28 +127,27 @@ table 50141 OverTime
                 //     Clear("End Date (BS)");
                 //     Validate("No. of Days", 0);
                 // end;
-
+                EmployeeAttendance.Reset;
+                if EmployeeAttendance.get("Employee No.", "Start Date") then begin
+                    if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                        Error('No punch in or punch out found.');
+                    end
+                    else begin
+                        Validate("Check In Time", EmployeeAttendance."Check In Time");
+                        Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                    end;
+                end else
+                    Error('No Attendance Found on %1', rec."Start Date");
                 //for overtime
-                if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
-                    if "Start Date" >= Today then
-                        Error('You cannot apply OverTime in current and future date.');
-                    // Validate("End Date", "Start Date");
-                    EmployeeAttendance.Reset;
-                    EmployeeAttendance.SetRange("Employee No.", Rec."Employee No.");
-                    EmployeeAttendance.SetRange("Attendance Date", Rec."Start Date");
-                    if EmployeeAttendance.FindFirst then begin
-                        if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
-                            Error('No punch in or punch out found.');
-                        end
-                        else begin
-                            Validate("Check In Time", EmployeeAttendance."Check In Time");
-                            Validate("Check Out Time", EmployeeAttendance."Check Out Time");
-                        end;
-                    end else
-                        Error('No Attendance Found on %1', rec."Start Date");
-
-
-                end;
+                if GuiAllowed then
+                    if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
+                        if "Start Date" >= Today then
+                            Error('You cannot apply OverTime in current and future date.');
+                        // Validate("End Date", "Start Date");
+                        //Add Control for OverTime and OverTime Request is Allowed for already attendance date <<santosh<< /3/17/2025/<<
+                        OverTimeMgt.CheckOvertime(Rec);
+                        Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
+                    end;
             end;
         }
         field(8; "Check In Time"; Time)
@@ -504,6 +484,10 @@ table 50141 OverTime
         field(51; "Estimated Hours"; Decimal)
         {
 
+        }
+
+        field(52; "Actual OT Hours"; Decimal)
+        {
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -511,10 +495,6 @@ table 50141 OverTime
                     if "Estimated Hours" < HRSetup."OT eligible hour" then
                         Error('You cannot submit overtime less than %1 hour(s).', HRSetup."OT eligible hour");
             end;
-        }
-
-        field(52; "Actual Hours"; Decimal)
-        {
         }
         // field(53; "HR Proposed Date"; Date)
         // {
@@ -612,7 +592,6 @@ table 50141 OverTime
 
         //InsertAttachmentLines;
     end;
-
     // local procedure InsertAttendanceMissedAttachment()
     // var
     //     AttachmentMandatory: Record "Attachment Setup";
@@ -648,6 +627,7 @@ table 50141 OverTime
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
+        OverTimeMgt: Codeunit "OverTime Mgt";
         // HRMgt: Codeunit "HR Mgt.";
         // LeaveTypeVar: Record "Leave Type Setup";
         // WorkShift: Record "Employee Work Shift";

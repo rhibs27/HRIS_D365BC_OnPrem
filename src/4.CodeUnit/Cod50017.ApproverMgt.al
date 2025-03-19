@@ -286,6 +286,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 TransferMgt.ApproveTransferClaim(RecRef.Field(1).Value);
                             end;
+                        EmpActType::Overtime:
+                            begin
+                                OverTimeMgt.ApproveOverTime(RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -317,5 +321,6 @@ codeunit 50017 "Approver Mgt"
         TravelMgt: Codeunit "Travel Mgt.";
         AttendanceMissed: Codeunit "AttendanceMiss mgt";
         TransferMgt: Codeunit "Transfer Mgt.";
+        OverTimeMgt: Codeunit "OverTime Mgt";
 
 }

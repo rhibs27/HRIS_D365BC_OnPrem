@@ -7498,7 +7498,7 @@ codeunit 50001 "HR Mgt."
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+        //Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR"); <<Santosh Commented
         Resignation.Modify;
     end;
 

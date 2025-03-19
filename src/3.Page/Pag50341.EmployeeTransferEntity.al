@@ -164,7 +164,7 @@ page 50341 "Employee Transfer Entity"
                 field(officiatingAllow; Rec."Officiating Allow.") { }
                 field(relocationDistance; Rec."Relocation Distance") { }
                 field(outstationDistance; Rec."Outstation Distance") { }
-                field(BMAFDistance; Rec."BMAF Distance") { }
+                field(bmafDistance; Rec."BMAF Distance") { }
                 field(transferRequestNo;Rec."Transfer Request No")
                 {
                 }

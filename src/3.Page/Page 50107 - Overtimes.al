@@ -59,8 +59,9 @@ page 50107 Overtimes
                 {
                     ToolTip = 'Specifies the value of the Estimated Hours field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
-                field("Actual Hours"; Rec."Actual Hours")
+                field("Actual Hours"; Rec."Actual OT Hours")
                 {
                     ToolTip = 'Specifies the value of the Actual Hours field.';
                     ApplicationArea = All;

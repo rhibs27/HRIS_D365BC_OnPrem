@@ -13,9 +13,9 @@ codeunit 50015 "OverTime Mgt"
             Error('Approved Overtime exists. You cannot choose this employee.');
     end;
 
-    procedure CheckOvertimeEligibility(OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
+    procedure CheckOvertimeEligibility(var OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
-        Workshift: Record "Employee Work Shift";
+        WorkShift: Record "Employee Work Shift";
         AttendanceLog: Record "Attendance Log";
         MorningOTHrs: Decimal;
         EveningOTHrs: Decimal;
@@ -34,56 +34,55 @@ codeunit 50015 "OverTime Mgt"
         AttendanceLog.SetRange(Date, OverTime."Start Date");
         if AttendanceLog.FindFirst then begin
             if (AttendanceLog."Check In Time" = 0T) or (AttendanceLog."Check Out Time" = 0T) then begin
-                RejectionRemarks := 'System rejected. No punch in or punch out found.';
-                exit(false);
+                Error('Check in or Check out not found.');
+                //exit(false);
             end;
-
             if LeaveMgt.GetNonWokingDays(OverTime."Start Date", 0D, OverTime."Employee No.") = 0 then begin
-                if AttendanceLog."Check Out Time" >= EndTime then begin
-                    if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
-                        RejectionRemarks := StrSubstNo('System rejected. Working hrs is less than %1 hrs.', StandardWorkingHrs);
-                        exit(false);
-                    end;
-
-                    if (AttendanceLog."Check In Time" <> 0T) and (AttendanceLog."Check In Time" <= StartTime) then
-                        MorningOTHrs := Round((StartTime - AttendanceLog."Check In Time") / 3600000, 1, '<');
-
-                    if MorningOTHrs < HRSetup."OT eligible hour" then
-                        MorningOTHrs := 0;
-
-                    if (AttendanceLog."Check Out Time" <> 0T) and (AttendanceLog."Check Out Time" > EndTime) then
-                        EveningOTHrs := Round((AttendanceLog."Check Out Time" - EndTime) / 3600000, 1, '<');
-
-                    if AttendanceLog."Check In Time" > StartTime then begin
-                        CheckInDifference := Round((AttendanceLog."Check In Time" - StartTime) / 3600000, 1, '<');
-                        EveningOTHrs -= CheckInDifference;
-                    end;
-
-                    if EveningOTHrs < HRSetup."OT eligible hour" then
-                        EveningOTHrs := 0;
-
-                    TotalOTHrs := MorningOTHrs + EveningOTHrs;
-
-                end else begin
-                    RejectionRemarks := 'System rejected. Punch out does not exceed standard punch out time.';
-                    exit(false);
+                // if AttendanceLog."Check Out Time" >= EndTime then begin
+                if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
+                    Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
+                    //exit(false);
                 end;
+                if (AttendanceLog."Check In Time" <> 0T) and (AttendanceLog."Check In Time" <= StartTime) then
+                    MorningOTHrs := Round((StartTime - AttendanceLog."Check In Time") / 3600000, 1, '<');
+
+                if MorningOTHrs < HRSetup."OT eligible hour" then
+                    MorningOTHrs := 0;
+
+                if (AttendanceLog."Check Out Time" <> 0T) and (AttendanceLog."Check Out Time" > EndTime) then
+                    EveningOTHrs := Round((AttendanceLog."Check Out Time" - EndTime) / 3600000, 1, '<');
+
+                if AttendanceLog."Check In Time" > StartTime then begin
+                    CheckInDifference := Round((AttendanceLog."Check In Time" - StartTime) / 3600000, 1, '<');
+                    EveningOTHrs -= CheckInDifference;
+                end;
+                if EveningOTHrs < HRSetup."OT eligible hour" then
+                    EveningOTHrs := 0;
+                OverTime."Morning OT Hours" := MorningOTHrs;
+                OverTime."Evening OT Hours" := EveningOTHrs;
+                TotalOTHrs := MorningOTHrs + EveningOTHrs;
+                // end else begin
+                //     RejectionRemarks := 'System rejected. Punch out does not exceed standard punch out time.';
+                //     exit(false);
+                // end;
             end else begin
                 TotalOTHrs := (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") / 3600000;
                 if TotalOTHrs < HRSetup."OT eligible hour" then
-                    TotalOTHrs := 0;
+                    Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
+                //TotalOTHrs := 0;
             end;
         end else begin
-            RejectionRemarks := 'System rejected. Attendance Log not found.';
-            exit(false);
+            Error('Attendance Log not found.');
+            // exit(false);
         end;
+        exit(true);
 
-        if TotalOTHrs <> 0 then
-            exit(true)
-        else begin
-            RejectionRemarks := 'System rejected. OT hours does not meet OT eligible hour.';
-            exit(false);
-        end;
+        // if TotalOTHrs <> 0 then
+        //     exit(true)
+        // else begin
+        //     RejectionRemarks := 'System rejected. OT hours does not meet OT eligible hour.';
+        //     exit(false);
+        // end;
     end;
 
     procedure AddOvertimeAttachment(EmpActNo: Code[20]; EmpNo: Code[20])
@@ -121,7 +120,7 @@ codeunit 50015 "OverTime Mgt"
         Clear(Employee);
         Approval.Reset();
         Approval.SetRange("Document No.", '');
-        Approval.setRange("Document Type", Approval."Document Type"::"Employee Transfer");
+        Approval.setRange("Document Type", Approval."Document Type"::Overtime);
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
         Employee.Get(EmpCode);
@@ -220,7 +219,7 @@ codeunit 50015 "OverTime Mgt"
                 exit;
         TempOvertime.TestField("Start Date");
         // TempOvertime.TestField("End Date");
-        TempOvertime.TestField("Estimated Hours");
+        TempOvertime.TestField("Actual OT Hours");
         //TempEmpAct.TESTFIELD(Remarks);
         PayrollSetup.Get;
         PayrollSetup.TestField("Friday Counter");
@@ -292,6 +291,136 @@ codeunit 50015 "OverTime Mgt"
         PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
+    procedure CheckOvertime(var OverTime: Record OverTime)
+    var
+        WorkShift: Record "Employee Work Shift";
+        StartTime: Time;
+        EndTime: Time;
+        StandardWorkingHrs: Decimal;
+        ActualOTHrs: Decimal;
+        RejectionRemarks: Text;
+    // SalaryLevel: Record "Salary Level";
+    // SalaryLevelTxt: Text;
+    begin
+        // if not UpdateOvertime then
+        //     exit;
+
+        Workshift.Reset;
+        Workshift.FindFirst;
+        Workshift.TestField("Start Time");
+        Workshift.TestField("End Time");
+        Workshift.TestField("Friday End Time");
+        Workshift.TestField("Winter Start Date");
+        Workshift.TestField("Winter End Date");
+        Workshift.TestField("Winter End Time");
+        StartTime := 0T;
+        EndTime := 0T;
+        StandardWorkingHrs := 0;
+        // SalaryLevelTxt := '';
+        StartTime := WorkShift."Start Time";
+
+        if HRMgt.IsWinter(OverTime."Start Date", Workshift) then begin
+            if HRMgt.IsFriday(OverTime."Start Date") then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."Winter End Time";
+        end else begin
+            if HRMgt.IsFriday(OverTime."Start Date") then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."End Time";
+        end;
+
+        StandardWorkingHrs := (EndTime - StartTime) / 3600000;
+
+        // SalaryLevel.Reset;
+        // SalaryLevel.SetRange("OT Attachment Mandatory", true);
+        // if SalaryLevel.FindFirst then
+        //     repeat
+        //         if SalaryLevelTxt = '' then
+        //             SalaryLevelTxt := SalaryLevel.Code
+        //         else
+        //             SalaryLevelTxt += '|' + SalaryLevel.Code;
+        //     until SalaryLevel.Next = 0;
+
+        // OverTime.Reset;
+        // OverTime.SetRange(Type, OverTime.Type::Overtime);
+        // OverTime.SetRange("Start Date", InitialDate);
+        // OverTime.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
+        // //EmployeeActivity.SETRANGE("Employee No.",EmployeeNo);
+        // OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+        // if OverTime.FindFirst then
+        //     repeat
+        if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
+            OverTime."Actual OT Hours" := ActualOTHrs;
+            // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
+            OverTime.Modify;
+        end;
+        // else begin
+        //     OverTime."Rejection Remarks" := RejectionRemarks;
+        //     OverTime."Approval Status" := OverTime."Approval Status"::Rejected;
+        //     OverTime.Modify;
+
+        //     EmployeeAttendanceActivity.Reset;
+        //     EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
+        //     EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");
+        //     if EmployeeAttendanceActivity.FindFirst then begin
+        //         EmployeeAttendanceActivity."OT Day" := 0;
+        //         EmployeeAttendanceActivity."OT Hrs" := ActualOTHrs;
+        //         EmployeeAttendanceActivity.Modify(true);
+        //     end;
+        // end;
+        // until OverTime.Next = 0;
+
+    end;
+
+    procedure OTAmountCalculate(employeeNo: Code[20]; OverTimeDate: Date; EncashmentCode: Code[20]; ActualOTHours: Decimal): Decimal
+    var
+        SalaryLevelRec: Record "Salary Level";
+        SalaryGrade: Record "Salary Grade";
+        OTAmount: Decimal;
+    begin
+        Employee.Reset();
+        Employee.Get(employeeNo);
+        if OverTimeDate > 20221207D then begin
+            PayrollSetup.Get;
+            if EmployeeAttendanceActivity.Get(employeeNo, OverTimeDate) then begin
+                SalaryLevelRec.Get(Employee."Salary Level");
+                SalaryGrade.Get(Employee."Salary Grade");
+                if EncashmentCode = PayrollSetup.Overtime then begin
+                    if Employee."Salary Level" = PayrollSetup."TA Salary Level" then
+                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."TA OT Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."TA OT Basic Salary")))
+                    else if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (Employee."Contract Salary Amount" + (SalaryGrade."Grade Percentage" / 100 * Employee."Contract Salary Amount")))
+                    else
+                        OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
+                end;
+                // else begin
+                //     if EncashmentCode = PayrollSetup."Extra Mileage" then
+                //         OTAmount := ((ActualOTHours * PayrollSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
+                //     if EncashmentCode = PayrollSetup."Year End Encashment" then
+                //         OTAmount := ((ActualOTHours * PayrollSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
+                // end;
+                exit(OTAmount);
+            end;
+        end;
+    end;
+
+    procedure ApproveOverTime(overTimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+    begin
+        OverTime.Get(overTimeNo);
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
+        EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");
+        if EmployeeAttendanceActivity.Findfirst then begin
+            EmployeeAttendanceActivity."OT Day" := 1;
+            EmployeeAttendanceActivity."OT Hrs" := overTime."Actual OT Hours";
+            EmployeeAttendanceActivity.Modify(true);
+        end;
+    end;
+
     var
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
@@ -299,6 +428,8 @@ codeunit 50015 "OverTime Mgt"
         PayrollSetup: Record "Payroll General Setup";
         HRMgt: Codeunit "HR Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+
 
 
 

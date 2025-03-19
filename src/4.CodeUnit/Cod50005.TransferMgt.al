@@ -1121,6 +1121,7 @@ codeunit 50005 "Transfer Mgt."
         EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
         // EmployeeTransfer.Validate("Employee No.", EmpCode);
         EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Open);
+        EmployeeTransfer.Validate(Status, '');
         EmployeeTransfer.Validate("Requested Date", Today);
         EmployeeTransfer.Insert;
         Commit();

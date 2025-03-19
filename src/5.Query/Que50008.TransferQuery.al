@@ -116,7 +116,7 @@ query 50008 "Transfer Query"
                     column(officiatingAllow; "Officiating Allow.") { }
                     column(relocationDistance; "Relocation Distance") { }
                     column(outstationDistance; "Outstation Distance") { }
-                    column(BMAFDistance; "BMAF Distance") { }
+                    column(bmafDistance; "BMAF Distance") { }
                 }
 
             }
