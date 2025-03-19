@@ -1,8 +1,6 @@
 table 50094 "Attendance Log"
 {
     // version AMS6.1.0
-
-    //  -----jagesh maharjan<10-August-2013>
     // * Machine Emp. Code
     // * Employee Name
     // - Two fields Added

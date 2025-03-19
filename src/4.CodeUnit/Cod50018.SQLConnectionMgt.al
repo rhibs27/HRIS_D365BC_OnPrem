@@ -79,8 +79,8 @@ codeunit 50018 "SQL Connection Mgt"
     procedure SetupSQLCommand(SQLConnection: DotNet SqlConnection; SQLCommand: DotNet SqlCommand; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text)
     begin
         SQLCommand := SQLConnection.CreateCommand();
-        // SQLCommand.CommandText := commandtext;
-        // SQLCommand.CommandTimeout := 15;
+        SQLCommand.CommandText := commandtext;
+        SQLCommand.CommandTimeout := 15;
         // SQLCommand.CommandType := SQLCommandType;
     end;
 }

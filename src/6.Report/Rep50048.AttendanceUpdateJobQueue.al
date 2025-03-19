@@ -375,7 +375,7 @@ report 50048 "Attendance Update Job Queue"
         if OverTime.FindFirst then
             repeat
                 if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
-                    OverTime."Actual Hours" := ActualOTHrs;
+                    OverTime."Actual OT Hours" := ActualOTHrs;
                     // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
                     OverTime.Modify;
                     EmployeeAttendanceActivity.Reset;

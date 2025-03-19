@@ -74,8 +74,8 @@ codeunit 50019 "SQL Connection Attendance"
     procedure SetupSQLCommand(SQLConnection: DotNet SqlConnection; SQLCommand: DotNet SqlCommand; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text);
     begin
         SQLCommand := SQLConnection.CreateCommand;
-        // SQLCommand.CommandText := commandtext;
-        // SQLCommand.CommandTimeout := 15;
+        SQLCommand.CommandText := commandtext;
+        SQLCommand.CommandTimeout := 15;
     end;
 
     local procedure ReadRecords(TableName: Text);
