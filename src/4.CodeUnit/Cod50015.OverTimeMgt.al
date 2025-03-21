@@ -16,7 +16,8 @@ codeunit 50015 "OverTime Mgt"
     procedure CheckOvertimeEligibility(var OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
         WorkShift: Record "Employee Work Shift";
-        AttendanceLog: Record "Attendance Log";
+        // AttendanceLog: Record "Attendance Log";
+        EmployeeAttendance: Record "Employee Attendance & Activity";
         MorningOTHrs: Decimal;
         EveningOTHrs: Decimal;
         CheckInDifference: Decimal;
@@ -29,31 +30,31 @@ codeunit 50015 "OverTime Mgt"
         TotalOTHrs := 0;
         CheckInDifference := 0;
 
-        AttendanceLog.Reset;
-        AttendanceLog.SetRange("Employee ID", OverTime."Employee No.");
-        AttendanceLog.SetRange(Date, OverTime."Start Date");
-        if AttendanceLog.FindFirst then begin
-            if (AttendanceLog."Check In Time" = 0T) or (AttendanceLog."Check Out Time" = 0T) then begin
+        EmployeeAttendance.Reset;
+        EmployeeAttendance.SetRange("Employee No.", OverTime."Employee No.");
+        EmployeeAttendance.SetRange("Attendance Date", OverTime."Start Date");
+        if EmployeeAttendance.FindFirst then begin
+            if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
                 Error('Check in or Check out not found.');
                 //exit(false);
             end;
             if LeaveMgt.GetNonWokingDays(OverTime."Start Date", OverTime."Start Date", OverTime."Employee No.") = 0 then begin
                 // if AttendanceLog."Check Out Time" >= EndTime then begin
-                if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
+                if (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") < StandardWorkingHrs then begin
                     Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
                     //exit(false);
                 end;
-                if (AttendanceLog."Check In Time" <> 0T) and (AttendanceLog."Check In Time" <= StartTime) then
-                    MorningOTHrs := Round((StartTime - AttendanceLog."Check In Time") / 3600000, 1, '<');
+                if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check In Time" <= StartTime) then
+                    MorningOTHrs := Round((StartTime - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
 
                 if MorningOTHrs < HRSetup."OT eligible hour" then
                     MorningOTHrs := 0;
 
-                if (AttendanceLog."Check Out Time" <> 0T) and (AttendanceLog."Check Out Time" > EndTime) then
-                    EveningOTHrs := Round((AttendanceLog."Check Out Time" - EndTime) / 3600000, 1, '<');
+                if (EmployeeAttendance."Check Out Time" <> 0T) and (EmployeeAttendance."Check Out Time" > EndTime) then
+                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 1, '<');
 
-                if AttendanceLog."Check In Time" > StartTime then begin
-                    CheckInDifference := Round((AttendanceLog."Check In Time" - StartTime) / 3600000, 1, '<');
+                if EmployeeAttendance."Check In Time" > StartTime then begin
+                    CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 1, '<');
                     EveningOTHrs -= CheckInDifference;
                 end;
                 if EveningOTHrs < HRSetup."OT eligible hour" then
@@ -66,7 +67,7 @@ codeunit 50015 "OverTime Mgt"
                 //     exit(false);
                 // end;
             end else begin
-                TotalOTHrs := Round((AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") / 3600000, 1, '<');
+                TotalOTHrs := Round((EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
                 if TotalOTHrs < HRSetup."OT eligible hour" then
                     Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
                 //TotalOTHrs := 0;
