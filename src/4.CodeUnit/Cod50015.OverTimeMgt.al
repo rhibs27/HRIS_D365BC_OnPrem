@@ -37,7 +37,7 @@ codeunit 50015 "OverTime Mgt"
                 Error('Check in or Check out not found.');
                 //exit(false);
             end;
-            if LeaveMgt.GetNonWokingDays(OverTime."Start Date", 0D, OverTime."Employee No.") = 0 then begin
+            if LeaveMgt.GetNonWokingDays(OverTime."Start Date", OverTime."Start Date", OverTime."Employee No.") = 0 then begin
                 // if AttendanceLog."Check Out Time" >= EndTime then begin
                 if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
                     Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
@@ -66,7 +66,7 @@ codeunit 50015 "OverTime Mgt"
                 //     exit(false);
                 // end;
             end else begin
-                TotalOTHrs := (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") / 3600000;
+                TotalOTHrs := Round((AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") / 3600000, 1, '<');
                 if TotalOTHrs < HRSetup."OT eligible hour" then
                     Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
                 //TotalOTHrs := 0;

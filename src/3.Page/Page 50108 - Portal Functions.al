@@ -325,6 +325,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::OverTime);
             FORMAT(ApprovalSetupLine."Request Type"::"Transfer Claim"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Transfer Claim");
+            FORMAT(ApprovalSetupLine."Request Type"::Resignation):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Resignation);
             else
                 Error('Approval Setup Not found');
         END;
@@ -538,27 +540,6 @@ page 50108 "Portal Functions"
         docNo := LeaveMgt.ApplyForLeave(tempLeave);
         if docNo <> '' then
             exit(docNo);
-    end;
-    //commented for approved only
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure recommendEmployeeLeave(empLeaveNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
-    var
-        //EmpActivity: Record "Employee Activity";
-        Leave: Record Leave;
-    begin
-        // Leave.Get(empLeaveNo);
-        // if not Leave.Cancelled then begin
-        //     if isApproved and (Leave."Approval Status" = Leave."Approval Status"::"Pending Approval") then
-        //         leaveMgt.RecommendEmployeeLeave(empLeaveNo)
-        //     else begin
-        //         if not isApproved then begin
-        //             Leave.Validate("Rejection Remarks", rejectionRemarks);
-        //             Leave.Modify;
-        //         end;
-        //         leaveMgt.ApprovedRejectLeaveApproval(isApproved, empLeaveNo);
-        //     end;
-        // end;
     end;
 
     [ServiceEnabled]
@@ -2123,7 +2104,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitResignation(employeeNo: Code[20]; requestedDate: Date; proposedDateOfResignation: Date; reasonCode: Code[20]; reasonForResignation: text; recommenderCode: Code[20]; applyForWaiver: Boolean): Integer
+    procedure submitResignation(proposedDateOfResignation: Date; reasonCode: Code[20]; reasonForResignation: text; applyForWaiver: Boolean): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Resignation: Record Resignation temporary;
@@ -2131,9 +2112,9 @@ page 50108 "Portal Functions"
     begin
         Resignation.Reset;
         Resignation.Init;
-        Resignation.Validate("Employee No.", employeeNo);
+        Resignation.Validate("Employee No.", HrMgt.GetEmployeeNo());
         Resignation.Validate(Type, Resignation.Type::Resignation);
-        Resignation.Validate("Requested Date", requestedDate);
+        Resignation.Validate("Requested Date", Today);
         Resignation.Validate("Proposed Date of Resignation", proposedDateOfResignation); //Min 11.29.2022
         Resignation.Validate("Reason Code", reasonCode);
         Resignation.Validate("Reason for Resignation", reasonForResignation);
@@ -2146,17 +2127,17 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveResignationDoc(docNo: Code[20]; remarks: Text; isApproved: Boolean; employeeNo: code[20])
+    procedure approveResignationDoc(docNo: Code[20]; remarks: Text; isApproved: Boolean)
     var
         //EmpActivity: Record "Employee Activity";
-        Resignation: Record Resignation;
+        // Resignation: Record Resignation;
         DocumentApprover: Record "Document Approver";
     begin
-        Resignation.Get(docNo);
+        // Resignation.Get(docNo);
         //Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended);
         DocumentApprover.Reset;
-        DocumentApprover.SetRange("Document No.", Resignation."No.");
-        DocumentApprover.SetRange("Employee No.", employeeNo);
+        DocumentApprover.SetRange("Document No.", docNo);
+        DocumentApprover.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         if DocumentApprover.FindFirst then begin
             if isApproved then begin
                 DocumentApprover.Validate(Remarks, remarks);
@@ -2173,24 +2154,33 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveEmployeeResignation(empResignNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    procedure approveEmployeeResignation(empResignNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
         Resignation: Record Resignation;
+        RecRef: RecordRef;
     begin
         Resignation.Get(empResignNo);
-        if Resignation.Type = Resignation.Type::Resignation then begin
-            if isApproved then begin
-                Resignation.Validate(Remarks, rejectionRemarks);
-                Resignation.Modify;
-                ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
-            end else begin
-                Resignation.Validate("Rejection Remarks", rejectionRemarks);
-                Resignation.Modify;
-                ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
-            end;
-            exit;
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            Resignation.Validate("Rejection Remarks", rejectionRemarks);
+            Resignation.Modify;
         end;
+        RecRef.GetTable(Resignation);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        // if Resignation.Type = Resignation.Type::Resignation then begin
+        //     if isApproved then begin
+        //         Resignation.Validate(Remarks, rejectionRemarks);
+        //         Resignation.Modify;
+        //         ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
+        //     end else begin
+        //         Resignation.Validate("Rejection Remarks", rejectionRemarks);
+        //         Resignation.Modify;
+        //         ResignationMgt.ApproveRejectResignationAPI(isApproved, Resignation, employeeNo);
+        //     end;
+        //     exit;
+        // end;
     end;
 
     [ServiceEnabled]
@@ -2373,7 +2363,7 @@ page 50108 "Portal Functions"
             if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
                 Error('Check in or Check out not found.');
             end;
-            if LeaveMgt.GetNonWokingDays(overTimeDate, 0D, HrMgt.GetEmployeeNo()) = 0 then begin
+            if LeaveMgt.GetNonWokingDays(overTimeDate, overTimeDate, HrMgt.GetEmployeeNo()) = 0 then begin
                 // if AttendanceLog."Check Out Time" >= EndTime then begin
                 if (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") < StandardWorkingHrs then begin
                     Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
@@ -2396,7 +2386,7 @@ page 50108 "Portal Functions"
                 TotalOTHrs := MorningOTHrs + EveningOTHrs;
 
             end else begin
-                TotalOTHrs := (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000;
+                TotalOTHrs := Round((EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
                 if TotalOTHrs < HRSetup."OT eligible hour" then
                     Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
             end;
@@ -3768,10 +3758,7 @@ page 50108 "Portal Functions"
         HomeLoanForApprove: Integer;
         TravelReqForApprove: Integer;
         TravelClaimApprove: Integer;
-        Resign: Record Resignation;
-        ResignForRecommendation: Integer;
         ResignForApprove: Integer;
-        OverTime: Record OverTime;
         OverTimeForApprove: Integer;
         Appraisal: Record Appraisal;
         AppraisalForRecommendation: Integer;
@@ -3783,6 +3770,8 @@ page 50108 "Portal Functions"
         TransferAcknowledgeForApprove: Integer;
         TransferClaimForApprove: Integer;
         EmployeeTransfer: Record "Employee/HR Transfer";
+        DocumentApprover: Record "Document Approver";
+        ResignClearanceForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
@@ -3795,6 +3784,7 @@ page 50108 "Portal Functions"
         Clear(SalaryAdvanceForApprove);
         Clear(VehicleLoanForApprove);
         Clear(AttendanceMissedForApprove);
+        Clear(ResignClearanceForApprove);
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
@@ -3872,20 +3862,18 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TransferClaimForApprove := Approval.Count();
-        // Loan.Reset();
-        // Loan.SetRange(Recommender, HrMgt.GetEmployeeNo());
-        // Loan.SetRange("Approval Status", Loan."Approval Status"::"Pending Approval");
-        // Loan.SetFilter("Loan Type", '<>%1', loan."Loan Type"::"Salary Advance");
-        // LoanForApprove := Loan.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Resignation);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        ResignForApprove := Approval.Count();
 
-        // Resign.Reset();
-        // Resign.SetRange("Approver Code", HrMgt.GetEmployeeNo());
-        // Resign.SetRange("Approval Status", Resign."Approval Status"::Recommended);
-        // ResignForApprove := Resign.Count();
-
-
-
+        DocumentApprover.Reset();
+        DocumentApprover.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        DocumentApprover.SetRange("Document Type", DocumentApprover."Document Type"::Resignation);
+        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
+        ResignClearanceForApprove := DocumentApprover.Count();
 
 
         Appraisal.Reset();
@@ -3898,8 +3886,8 @@ page 50108 "Portal Functions"
         AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
-        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove +
-                        ResignForRecommendation + ResignForApprove + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
+        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -3910,6 +3898,7 @@ page 50108 "Portal Functions"
         ',"TravelClaimApprove": "' + format(TravelClaimApprove) + '"' +
         ',"TransferClaimForApprove": "' + format(TransferClaimForApprove) + '"' +
         ',"ResignForApprove": "' + format(ResignForApprove) + '"' +
+        ',"ResignClearanceForApprove": "' + format(ResignClearanceForApprove) + '"' +
         ',"OverTimeForApprove": "' + format(OverTimeForApprove) + '"' +
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
