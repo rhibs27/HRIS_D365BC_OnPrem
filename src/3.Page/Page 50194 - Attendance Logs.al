@@ -2,7 +2,7 @@ page 50194 "Attendance Logs"
 {
     // version AMS6.1.0
 
-    Editable = false;
+    // Editable = false;
     PageType = List;
     SourceTable = "Attendance Log";
     UsageCategory = Lists;
