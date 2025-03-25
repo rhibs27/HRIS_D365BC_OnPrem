@@ -121,6 +121,7 @@ codeunit 50017 "Approver Mgt"
             Error('Approval Not Found');
     end;
 
+    // << Insert Approval in temporary table <<
     procedure InsertApprovalTemp(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -169,10 +170,6 @@ codeunit 50017 "Approver Mgt"
         if count = 0 then begin
             Error('There is no approver setup for sequence 1');
         end;
-        // Approval1.Reset();
-        // Approval1.SetRange("Document No.", EmpActNo);
-        // if not Approval1.FindFirst() then
-        //     Error('Approval Not Found');
     end;
 
     // >> Check  valid Login Approver for Approve >> Santosh 2025-03-04 >>
@@ -290,6 +287,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 OverTimeMgt.ApproveOverTime(RecRef.Field(1).Value);
                             end;
+                        EmpActType::Resignation:
+                            begin
+                                ResignationMgt.ApproveResignation(RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -322,5 +323,6 @@ codeunit 50017 "Approver Mgt"
         AttendanceMissed: Codeunit "AttendanceMiss mgt";
         TransferMgt: Codeunit "Transfer Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        ResignationMgt: Codeunit "Resignation Mgt";
 
 }

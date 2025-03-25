@@ -19,7 +19,7 @@ table 50076 Candidate
                     NoSeriesMgt.TestManual(HumanResSetup."Candidate Nos.");
                     "No. Series" := '';
                 end;
-                HRMgt.InsertAttachmentLines("No.", 'CV');
+                // HRMgt.InsertAttachmentLines("No.", 'CV');
             end;
         }
         field(2; "First Name"; Text[30])

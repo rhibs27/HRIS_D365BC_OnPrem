@@ -62,7 +62,8 @@ table 50149 "Approval HRMS"
                 if "Approver No" = "Employee No" then
                     Error('You cannot choose your own Employee ID as Recommender.');
                 if Employee.Get("Employee No") then;
-                if ApprovalEmployee.Get("Approver No") then;
+                if not ApprovalEmployee.Get("Approver No") then
+                    Error('Approver Not Found');
                 if SalaryLevel.Get(Employee."Salary Level") then;
                 if ApprovalSalaryLevel.Get(ApprovalEmployee."Salary Level") then;
                 if SalaryLevel.Rank >= ApprovalSalaryLevel.Rank then

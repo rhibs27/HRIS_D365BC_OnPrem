@@ -1,29 +1,36 @@
 codeunit 50006 "Resignation Mgt"
 {
-    procedure OpenResignationRequest(EmpCode3: Code[10])
+    procedure OpenResignationRequest(EmpCode: Code[20])
     var
         //EmpAct4: Record "Employee Activity" temporary;
         Resignation2: Record Resignation temporary;
-
         RequestError: Label 'You are not eligible to request for a transfer.';
         //EmpAct: Record "Employee Activity";
         Resignation: Record Resignation;
+        Approval: Record "Approval HRMS";
     begin
+        Clear(Employee);
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::Resignation);
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+        Employee.Get(EmpCode);
         Resignation.Reset;
-        Resignation.SetRange("Employee No.", EmpCode3);
+        Resignation.SetRange("Employee No.", EmpCode);
         Resignation.SetRange(Type, Resignation.Type::Resignation);
-        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Cancelled, Resignation."Approval Status"::Rejected);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
+        // Resignation.SetFilter("Approval Status", '<>%1', Resignation."Approval Status"::Rejected);
         if Resignation.FindLast then begin
             PAGE.Run(PAGE::"Resignation Card", Resignation);
             exit;
         end;
-
-        Clear(Employee);
-        Employee.Get(EmpCode3);
-
+        Employee.Get(EmpCode);
         Resignation2.Init;
+        Resignation2.Validate("Employee No.", EmpCode);
         Resignation2.Validate(Type, Resignation2.Type::Resignation);
-        Resignation2.Validate("Employee No.", EmpCode3);
+        Resignation2.Validate("Approval Status", Resignation2."Approval Status"::Open);
+        Resignation2.Validate("Requested Date", Today);
         Resignation2.Insert;
         PAGE.Run(PAGE::"Resignation Card", Resignation2);
     end;
@@ -44,7 +51,7 @@ codeunit 50006 "Resignation Mgt"
         Resignation.Reset;
         Resignation.SetRange("Employee No.", TempResignation."Employee No.");
         Resignation.SetRange(Type, Resignation.Type::Resignation);
-        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Cancelled, Resignation."Approval Status"::Rejected);
+        Resignation.SetFilter("Approval Status", '<>%1&<>%2', Resignation."Approval Status"::Canceled, Resignation."Approval Status"::Rejected);
         if Resignation.FindFirst then
             Error('Employee %1 has already send request for resignation', Resignation."Employee Name");
 
@@ -56,30 +63,30 @@ codeunit 50006 "Resignation Mgt"
         Resignation.Reset;
         Resignation.Init;
         Resignation.TransferFields(TempResignation);
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending Approval");
+        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Pending");
         Resignation.Validate("User ID", UserId);
 
         Employee.Get(Resignation."Employee No.");
         //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
-        Resignation.Validate("Approver Code", HrMgt.GetHrHead());
+        // Resignation.Validate("Approver Code", HrMgt.GetHrHead());
 
-        if Resignation."Recommender Code" = '' then
-            Error(NoRecommender, Resignation.FieldCaption("Recommender Code"));
+        // if Resignation."Recommender Code" = '' then
+        //     Error(NoRecommender, Resignation.FieldCaption("Recommender Code"));
 
         if Resignation."Requested Date" = 0D then
             Resignation."Requested Date" := Today;
 
-        Resignation."Supervisor Proposed Date" := Resignation."Proposed Date of Resignation";
+        //Resignation."Supervisor Proposed Date" := Resignation."Proposed Date of Resignation";
         Resignation."HR Proposed Date" := Resignation."Proposed Date of Resignation";
 
         Resignation.Insert(true);
 
-        HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type));//attachment
-        InsertResignationApprover(Resignation); //resignation approver
+        //HrMgt.InsertAttachmentLines(Resignation."No.", Format(Resignation.Type), Resignation."Employee No.");//attachment
+        // InsertResignationApprover(Resignation); //resignation approver
 
         HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Open, '', Resignation."Employee No.", Resignation."No.", 0);   //For email
-        if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval") then
-            HrMgt.ResignationEmailSend(Resignation."Employee No."); //Min 4.28.2022
+        // if (Resignation.Type = Resignation.Type::Resignation) and (Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval") then
+        //     HrMgt.ResignationEmailSend(Resignation."Employee No."); //Min 4.28.2022
         Message(ApprovalRequestSent);
         exit(true);
     end;
@@ -88,71 +95,72 @@ codeunit 50006 "Resignation Mgt"
     var
         ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
     begin
-        Resignation.TestField("Approval Status", Resignation."Approval Status"::"Pending Approval");
+        Resignation.TestField("Approval Status", Resignation."Approval Status"::"Pending");
         if not Confirm(ConfirmCancel, false) then
             exit;
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::Cancelled);
+        //Resignation.Validate("Approval Status", Resignation."Approval Status"::Cancelled);
         Resignation.Modify(true);
     end;
 
-    procedure ApproveRejectResignation(Approve: Boolean; var Resignation: Record "Resignation")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-        EmailTemplate: Record "Email Template";
-        ServiceHistory: Record "Employee Service History";
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-        AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    begin
-        //CheckEmployeeActivityApproval(EmpAct); //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo);
+    // procedure ApproveRejectResignation(Approve: Boolean; var Resignation: Record "Resignation")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    //     EmailTemplate: Record "Email Template";
+    //     ServiceHistory: Record "Employee Service History";
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
+    // begin
+    //     //CheckEmployeeActivityApproval(EmpAct); //check authorized user
+    //     Employee.Get(HrMgt.GetEmployeeNo);
 
-        if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then
-            if StrPos(Resignation."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
+    //     if Resignation."Approval Status" = Resignation."Approval Status"::"Pending" then
+    //         if StrPos(Resignation."Recommender Code", Employee."No.") = 0 then
+    //             Error(RecommendNotEligibleError);
 
-        if Resignation."Approval Status" = Resignation."Approval Status"::Recommended then begin
-            if not Employee.Screener then
-                Error('You are not eligible to reject this document.');
-        end;
-        if Resignation."Approval Status" = Resignation."Approval Status"::Screened then
-            if StrPos(Resignation."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
+    //     if Resignation."Approval Status" = Resignation."Approval Status"::Recommended then begin
+    //         if not Employee.Screener then
+    //             Error('You are not eligible to reject this document.');
+    //     end;
+    //     if Resignation."Approval Status" = Resignation."Approval Status"::Screened then
+    //         if StrPos(Resignation."Approver Code", Employee."No.") = 0 then
+    //             Error(ApproveNotEligibleError);
 
-        if Approve then begin
-            if GuiAllowed then
-                if not Confirm(ConfirmApprove, false) then
-                    exit;
-            if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then begin
-                Resignation.Validate("Approval Status", Resignation."Approval Status"::Recommended);
-                HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 0);
-                HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 2);
-            end else if Resignation."Approval Status" = Resignation."Approval Status"::Screened then begin
-                if Resignation."Approver Code" <> HrMgt.GetEmployeeNo then
-                    Error('Your are not eligible to approve this document.');
-                Resignation.Validate("Approval Status", Resignation."Approval Status"::Approved);
-                HrMgt.AddToServiceHistory(Resignation."Employee No.", ServiceHistory."Service Event"::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
-            end else if Resignation."Approval Status" = Resignation."Approval Status"::"Forwarded To HR" then
-                    Message('Document must be screened');
-        end
-        else begin
-            if GuiAllowed then
-                if not Confirm(ConfirmReject, false) then
-                    exit;
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Rejected);
-            HrMgt.ResignationRejectEmailSend(Resignation."Employee No.");//Abhiral 12.20.2022
-        end;
-        Resignation.Modify;
-    end;
+    //     if Approve then begin
+    //         if GuiAllowed then
+    //             if not Confirm(ConfirmApprove, false) then
+    //                 exit;
+    //         if Resignation."Approval Status" = Resignation."Approval Status"::"Pending" then begin
+    //             //Resignation.Validate("Approval Status", Resignation."Approval Status"::Recommended);
+    //             HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 0);
+    //             HrMgt.SendMailFromTemplate(DATABASE::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 2);
+    //         end else if Resignation."Approval Status" = Resignation."Approval Status"::Screened then begin
+    //             // if Resignation."Approver Code" <> HrMgt.GetEmployeeNo then
+    //             Error('Your are not eligible to approve this document.');
+    //             Resignation.Validate("Approval Status", Resignation."Approval Status"::Approved);
+    //             HrMgt.AddToServiceHistory(Resignation."Employee No.", ServiceHistory."Service Event"::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
+    //         end else if Resignation."Approval Status" = Resignation."Approval Status"::"Forwarded To HR" then
+    //                 Message('Document must be screened');
+    //     end
+    //     else begin
+    //         if GuiAllowed then
+    //             if not Confirm(ConfirmReject, false) then
+    //                 exit;
+    //         Resignation.Validate("Approval Status", Resignation."Approval Status"::Rejected);
+    //         HrMgt.ResignationRejectEmailSend(Resignation."Employee No.");//Abhiral 12.20.2022
+    //     end;
+    //     Resignation.Modify;
+    // end;
 
     procedure InsertResignationApprover(var Resignation: Record "Resignation")
     var
         ResignationApprover: Record "Document Approver";
         Employee: Record Employee;
-        EmpFieldRef: FieldRef;
-        EmpRecordRef: RecordRef;
+    // EmpFieldRef: FieldRef;
+    // EmpRecordRef: RecordRef;
     begin
+        Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
         Employee.Reset;
         Employee.SetRange("Resignation Approver", true);
         if Employee.FindFirst then
@@ -170,7 +178,6 @@ codeunit 50006 "Resignation Mgt"
                     ResignationApprover.Validate("Functional Title", Employee."Functional Title");
                     ResignationApprover.Insert(true);
                 end;
-
             until Employee.Next = 0;
     end;
 
@@ -204,14 +211,14 @@ codeunit 50006 "Resignation Mgt"
         if Resignation.Type = Resignation.Type::Resignation then begin
             if not Employee.Screener then           //resignation approver replaced with screener
                 Error('Not authorized screener.');
-            Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+            // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
             //  EmpAct.TESTFIELD("Screener Remarks");
             HrMgt.CheckDocumentApprover(Resignation."No.");
             CheckResignationAttachmentMandatory(Resignation);
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end
         else if Resignation.Type = Resignation.Type::"Travel Claim" then begin
@@ -226,59 +233,14 @@ codeunit 50006 "Resignation Mgt"
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end else if Resignation.Type = Resignation.Type::Overtime then begin
             Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
             if not Confirm(ConfirmScreen, false) then
                 exit;
 
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end;
-
-    end;
-
-    procedure ScreenResignationFoResignation(var Resignation: Record "Resignation")
-    var
-        ConfirmScreen: Label 'Do you want to screen this document?';
-        FunctionalTitle: Record "Functional Title";
-    begin
-        //check authorized user
-        Employee.Get(HrMgt.GetEmployeeNo());
-        if Resignation.Type = Resignation.Type::Resignation then begin
-            if not Employee.Screener then           //resignation approver replaced with screener
-                Error('Not authorized screener.');
-            Resignation.TestField("Approval Status", Resignation."Approval Status"::Recommended); //status change by santosh
-            //  EmpAct.TESTFIELD("Screener Remarks");
-            HrMgt.CheckDocumentApprover(Resignation."No.");
-            CheckResignationAttachmentMandatoryForResignation(Resignation);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end
-        else if Resignation.Type = Resignation.Type::"Travel Claim" then begin
-            /*HRSetup.GET;
-            Employee.RESET;
-            Employee.SETRANGE("Functional Title", HRSetup."HR Head Functional Title");
-            Employee.SETRANGE("NAV Login ID", USERID);
-            IF NOT Employee.FINDFIRST THEN
-                ERROR('Not authorized screener.');*///AT
-            if not (Resignation."Approval Status" = Resignation."Approval Status"::Approved) then
-                Error('Approval Status must be approved before screening.');
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
-            Resignation.Modify;
-        end else if Resignation.Type = Resignation.Type::Overtime then begin
-            Resignation.TestField("Approval Status", Resignation."Approval Status"::Approved);
-            if not Confirm(ConfirmScreen, false) then
-                exit;
-
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
+            // Resignation.Validate("Approval Status", Resignation."Approval Status"::Screened);
             Resignation.Modify;
         end;
 
@@ -338,12 +300,11 @@ codeunit 50006 "Resignation Mgt"
         if not (Employee."No." = Resignation."Employee No.") then
             Error('Only employee %1 can forward this document to HR.', Resignation."Employee Name");
         HrMgt.CheckDocumentApprover(Resignation."No.");
-        CheckResignationAttachmentMandatoryForResignation(Resignation);
+        CheckResignationAttachmentMandatory(Resignation);
         if GuiAllowed then
             if not Confirm(ConfirmScreen, false) then
                 exit;
-
-        Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+        // Resignation.Validate("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
         Resignation.Modify;
     end;
 
@@ -402,48 +363,6 @@ codeunit 50006 "Resignation Mgt"
             until IncomingDocument.Next = 0;
     end;
 
-    local procedure CheckResignationAttachmentMandatoryForResignation(var Resignation: Record "Resignation")
-    var
-        AttachmentSetup: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-
-        IncomingDocument.Reset;
-        IncomingDocument.SetRange("No.", Resignation."No.");
-        IncomingDocument.SetRange("File Name", '');
-        if IncomingDocument.FindFirst then
-            repeat
-                AttachmentSetup.Reset;
-                AttachmentSetup.SetRange(Mandatory, true);
-                AttachmentSetup.SetFilter(Type, Format(Resignation.Type));
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                if AttachmentSetup.FindFirst then
-                    Error('Upload attachment for %1', IncomingDocument."Attachment Code");
-
-            until IncomingDocument.Next = 0;
-    end;
-
-    local procedure CheckResignationAttachmentMandatoryForOvertime(var OverTime: Record "OverTime")
-    var
-        AttachmentSetup: Record "Attachment Setup";
-        IncomingDocument: Record "Incoming Document";
-    begin
-
-        IncomingDocument.Reset;
-        IncomingDocument.SetRange("No.", OverTime."No.");
-        IncomingDocument.SetRange("File Name", '');
-        if IncomingDocument.FindFirst then
-            repeat
-                AttachmentSetup.Reset;
-                AttachmentSetup.SetRange(Mandatory, true);
-                AttachmentSetup.SetFilter(Type, Format(OverTime.Type));
-                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
-                if AttachmentSetup.FindFirst then
-                    Error('Upload attachment for %1', IncomingDocument."Attachment Code");
-
-            until IncomingDocument.Next = 0;
-    end;
-
     procedure UpdateResign(EmpCode: Code[20])
     var
         ResignPageBuilder: FilterPageBuilder;
@@ -466,7 +385,7 @@ codeunit 50006 "Resignation Mgt"
 
     procedure ReturnResignation(Resignation: Record "Resignation")
     begin
-        Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
+        // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
         if Confirm('Do you want to return resignation?', false) then begin
             Resignation.Validate("Approval Status", Resignation."Approval Status"::Open);
             Resignation.Modify;
@@ -474,54 +393,17 @@ codeunit 50006 "Resignation Mgt"
         end;
     end;
 
-    procedure ApproveRejectResignationAPI(Approve: Boolean; var Resignation: Record Resignation; employeeNo: Code[20])
+
+    procedure ApproveResignation(resignationCode: Code[100])
     var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-        EmailTemplate: Record "Email Template";
-        ServiceHistory: Record "Employee Service History";
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+        Resignation: Record Resignation;
+        ServiceEvent: Enum "Service Event";
     begin
-        //CheckEmployeeActivityApproval(EmpAct); //check authorized user
-        Employee.Get(employeeNo);
+        Resignation.Get(resignationCode);
+        InsertResignationApprover(Resignation); //resignation clearance approver
+        HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
+        HrMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
 
-        if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then
-            if StrPos(Resignation."Recommender Code", Employee."No.") = 0 then
-                Error(RecommendNotEligibleError);
-
-        if Resignation."Approval Status" = Resignation."Approval Status"::Recommended then begin
-            if not Employee.Screener then
-                Error('You are not eligible to reject this document.');
-        end;
-        if Resignation."Approval Status" = Resignation."Approval Status"::Screened then
-            if StrPos(Resignation."Approver Code", Employee."No.") = 0 then
-                Error(ApproveNotEligibleError);
-
-        if Approve then begin
-            if GuiAllowed then
-                if not Confirm(ConfirmApprove, false) then
-                    exit;
-            if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then begin
-                Resignation.Validate("Approval Status", Resignation."Approval Status"::Recommended);
-                HrMgt.SendMailFromTemplate(Database::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 0);
-                HrMgt.SendMailFromTemplate(Database::Resignation, EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 2);
-            end else if Resignation."Approval Status" = Resignation."Approval Status"::Screened then begin
-                if Resignation."Approver Code" <> employeeNo then
-                    Error('Your are not eligible to approve this document.');
-                Resignation.Validate("Approval Status", Resignation."Approval Status"::Approved);
-                HrMgt.AddToServiceHistory(Resignation."Employee No.", ServiceHistory."Service Event"::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
-            end else if Resignation."Approval Status" = Resignation."Approval Status"::"Forwarded To HR" then
-                    Message('Document must be screened');
-        end
-        else begin
-            if GuiAllowed then
-                if not Confirm(ConfirmReject, false) then
-                    exit;
-            Resignation.Validate("Approval Status", Resignation."Approval Status"::Rejected);
-            HrMgt.ResignationRejectEmailSend(Resignation."Employee No.");//Abhiral 12.20.2022
-        end;
-        Resignation.Modify;
     end;
 
     var

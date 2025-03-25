@@ -7032,61 +7032,61 @@ codeunit 50001 "HR Mgt."
     //     PAGE.Run(PAGE::"Resignation Card", EmpAct4);
     // end;
 
-    procedure SendResignationApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean
-    var
-        //Resignation: Record "Resignation";
-        EmpAct: record "Employee Activity";
-        ConfirmResign: Label 'Do you want to send resignation request?';
-        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-        ApprovalRequestSent: Label 'Resignation request approval has been sent.';
-        NoRecommender: Label 'No %1.';
-        ResignationDays: Integer;
-    begin
-        if GuiAllowed then
-            if not Confirm(ConfirmResign, false) then
-                exit;
-        EmpAct.Reset;
-        EmpAct.SetRange("Employee No.", TempEmpAct."Employee No.");
-        EmpAct.SetRange(Type, EmpAct.Type::Resignation);
-        EmpAct.SetFilter("Approval Status", '<>%1&<>%2', EmpAct."Approval Status"::Cancelled, EmpAct."Approval Status"::Rejected);
-        if EmpAct.FindFirst then
-            Error('Employee %1 has already send request for resignation', EmpAct."Employee Name");
+    // procedure SendResignationApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean
+    // var
+    //     //Resignation: Record "Resignation";
+    //     EmpAct: record "Employee Activity";
+    //     ConfirmResign: Label 'Do you want to send resignation request?';
+    //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
+    //     ApprovalRequestSent: Label 'Resignation request approval has been sent.';
+    //     NoRecommender: Label 'No %1.';
+    //     ResignationDays: Integer;
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm(ConfirmResign, false) then
+    //             exit;
+    //     EmpAct.Reset;
+    //     EmpAct.SetRange("Employee No.", TempEmpAct."Employee No.");
+    //     EmpAct.SetRange(Type, EmpAct.Type::Resignation);
+    //     EmpAct.SetFilter("Approval Status", '<>%1&<>%2', EmpAct."Approval Status"::Cancelled, EmpAct."Approval Status"::Rejected);
+    //     if EmpAct.FindFirst then
+    //         Error('Employee %1 has already send request for resignation', EmpAct."Employee Name");
 
-        TempEmpAct.TestField("Proposed Date of Resignation");
-        TempEmpAct.TestField("Reason for Resignation");
-        TempEmpAct.TestField("Reason Code");
+    //     TempEmpAct.TestField("Proposed Date of Resignation");
+    //     TempEmpAct.TestField("Reason for Resignation");
+    //     TempEmpAct.TestField("Reason Code");
 
-        Clear(EmpAct);
-        EmpAct.Reset;
-        EmpAct.Init;
-        EmpAct.TransferFields(TempEmpAct);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
-        EmpAct.Validate("User ID", UserId);
+    //     Clear(EmpAct);
+    //     EmpAct.Reset;
+    //     EmpAct.Init;
+    //     EmpAct.TransferFields(TempEmpAct);
+    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.Validate("User ID", UserId);
 
-        Employee.Get(EmpAct."Employee No.");
-        //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
-        EmpAct.Validate("Approver Code", GetHrHead());
+    //     Employee.Get(EmpAct."Employee No.");
+    //     //EmpAct.VALIDATE("Recommender Code", Employee."Recommender Code");
+    //     EmpAct.Validate("Approver Code", GetHrHead());
 
-        if EmpAct."Recommender Code" = '' then
-            Error(NoRecommender, EmpAct.FieldCaption("Recommender Code"));
+    //     if EmpAct."Recommender Code" = '' then
+    //         Error(NoRecommender, EmpAct.FieldCaption("Recommender Code"));
 
-        if EmpAct."Requested Date" = 0D then
-            EmpAct."Requested Date" := Today;
+    //     if EmpAct."Requested Date" = 0D then
+    //         EmpAct."Requested Date" := Today;
 
-        EmpAct."Supervisor Proposed Date" := EmpAct."Proposed Date of Resignation";
-        EmpAct."HR Proposed Date" := EmpAct."Proposed Date of Resignation";
+    //     EmpAct."Supervisor Proposed Date" := EmpAct."Proposed Date of Resignation";
+    //     EmpAct."HR Proposed Date" := EmpAct."Proposed Date of Resignation";
 
-        EmpAct.Insert(true);
+    //     EmpAct.Insert(true);
 
-        InsertAttachmentLines(EmpAct."No.", Format(EmpAct.Type));//attachment
-        //InsertResignationApprover(Resignation); //resignation approver
+    //     InsertAttachmentLines(EmpAct."No.", Format(EmpAct.Type));//attachment
+    //     //InsertResignationApprover(Resignation); //resignation approver
 
-        SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-        if (EmpAct.Type = EmpAct.Type::Resignation) and (EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval") then
-            ResignationEmailSend(EmpAct."Employee No."); //Min 4.28.2022
-        Message(ApprovalRequestSent);
-        exit(true);
-    end;
+    //     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+    //     if (EmpAct.Type = EmpAct.Type::Resignation) and (EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval") then
+    //         ResignationEmailSend(EmpAct."Employee No."); //Min 4.28.2022
+    //     Message(ApprovalRequestSent);
+    //     exit(true);
+    // end;
 
     // procedure CancelResignationApproval(var Resignation: Record "Resignation")
     // var
@@ -7199,13 +7199,13 @@ codeunit 50001 "HR Mgt."
         EmpAct.Modify;
     end;
 
-    procedure InsertAttachmentLines(DocumentNo: Code[20]; TypeOption: Text)
+    procedure InsertAttachmentLines(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
     var
         IncomingDocument: Record "Incoming Document";
         AttachmentMandatory: Record "Attachment Setup";
     begin
         AttachmentMandatory.Reset;
-        AttachmentMandatory.SetFilter(Type, TypeOption);
+        AttachmentMandatory.SetFilter(Type, Format(employeeAct));
         if AttachmentMandatory.FindFirst then
             repeat
                 IncomingDocument.Reset;
@@ -7217,8 +7217,8 @@ codeunit 50001 "HR Mgt."
                     IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                     IncomingDocument."No." := DocumentNo;
-                    IncomingDocument."Order No." := DocumentNo;
-                    IncomingDocument."Employee Code" := DocumentNo;
+                    IncomingDocument."Employee Activity Type" := employeeAct;
+                    IncomingDocument."Employee Code" := employeeNo;
                     IncomingDocument.Insert(true);
                 end;
             until AttachmentMandatory.Next = 0;

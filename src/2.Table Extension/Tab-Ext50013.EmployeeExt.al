@@ -1597,6 +1597,7 @@ tableextension 50013 "Employee Ext" extends Employee
         TravelMgt.OpenTravelRequest("No.", FALSE, '', EmployeeAct::"Travel Request");
     END;
 
+
     procedure ChangeEmployeeJobType();
     begin
         if Confirm('Do you want to confirm employee %1 ?', false, "Full Name") then begin

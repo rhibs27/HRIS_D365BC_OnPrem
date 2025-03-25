@@ -239,8 +239,8 @@ page 50171 "Temp Employee Activity Entity"
                 {
                     trigger OnValidate()
                     begin
-                        if Rec.Type = Rec.Type::Resignation then
-                            HRMgt.SendResignationApproval(Rec);
+                        // if Rec.Type = Rec.Type::Resignation then
+                        // HRMgt.SendResignationApproval(Rec);
                         // if Rec.Type = Rec.Type::"Employee Transfer" then
                         //     TransferMgt.SendTransferApproval(Rec);
                     end;

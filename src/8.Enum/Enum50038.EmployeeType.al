@@ -18,4 +18,8 @@ enum 50038 "Employee Type"
     {
         Caption = 'Contract';
     }
+    value(4; Temporary)
+    {
+        Caption = 'Temporary';
+    }
 }

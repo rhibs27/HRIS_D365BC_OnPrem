@@ -54,16 +54,16 @@ page 50068 "Resignation List"
                     ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;
                 }
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    ToolTip = 'Specifies the value of the Recommender Code field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                    ApplicationArea = All;
-                }
+                // field("Recommender Code"; Rec."Recommender Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Recommender Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Code"; Rec."Approver Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Code field.';
+                //     ApplicationArea = All;
+                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -105,7 +105,7 @@ page 50068 "Resignation List"
                 begin
                     ClearAll();
                     Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.FilterGroup(0);
                 end;
             }
@@ -116,13 +116,13 @@ page 50068 "Resignation List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Verified action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    ClearAll();
-                    Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
-                    Rec.FilterGroup(0);
+                    // ClearAll();
+                    // Rec.FilterGroup(2);
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Screened);
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Recommended)
@@ -133,14 +133,14 @@ page 50068 "Resignation List"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Recommended action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
-                    ClearAll();
-                    Rec.FilterGroup(2);
-                    Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
-                    Rec.SetRange("Approver Code", HRMgt.GetEmployeeNo());
-                    Rec.FilterGroup(0);
+                    // ClearAll();
+                    // Rec.FilterGroup(2);
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Recommended);
+                    // Rec.SetRange("Approver Code", HRMgt.GetEmployeeNo());
+                    // Rec.FilterGroup(0);
                 end;
             }
             action(Approved)

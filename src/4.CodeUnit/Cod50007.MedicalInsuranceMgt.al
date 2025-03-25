@@ -56,7 +56,7 @@ codeunit 50007 "MedicalInsurance Mgt"
 
         EmpAct.Insert(true);
 
-        HRMgt.InsertAttachmentLines(EmpAct."No.", Format(EmpAct.Type));//attachment
+        HRMgt.InsertAttachmentLines(EmpAct."No.", EmpAct.Type, EmpAct."Employee No.");//attachment
         // ResignationMgt.InsertResignationApprover(EmpAct); //resignation approver
 
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email

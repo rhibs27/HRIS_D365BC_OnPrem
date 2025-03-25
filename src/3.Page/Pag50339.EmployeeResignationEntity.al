@@ -10,18 +10,17 @@ page 50339 "Employee Resignation Entity"
     EntitySetName = 'employeeResignationEntity';
     PageType = API;
     SourceTable = Resignation;
-
     layout
     {
         area(Content)
         {
             group(General)
             {
-                field(No; Rec."No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
                 field(employeeNo; Rec."Employee No.")
                 {
-                    Editable = true;
+                    // Editable = true;
                 }
                 field(employeeName; Rec."Employee Name") { }
                 field(salaryLevel; Rec."Salary Level Code") { }
@@ -34,24 +33,27 @@ page 50339 "Employee Resignation Entity"
                 field(startDateBS; Rec."Start Date (BS)") { }
                 field(endDate; Rec."End Date") { }
                 field(endDateBS; Rec."End Date (BS)") { }
-                field(noOfDays; Rec."No. of Days") { }
+                // field(noOfDays; Rec."No. of Days") { }
                 field(requestedDate; Rec."Requested Date") { }
                 field(fiscalYear; Rec."Fiscal Year") { }
                 field(approvalStatus; Rec."Approval Status") { }
                 field(cancelled; Rec.Cancelled) { }
-                field(cancelledNo; Rec."Cancelled No.") { }
-                field(cancelledDocNo; Rec."Cancelled Document No.") { }
-                field(approverType; Rec."Approver Type") { }
+                // field(cancelledNo; Rec."Cancelled No.") { }
+                // field(cancelledDocNo; Rec."Cancelled Document No.") { }
+                // field(approverType; Rec."Approver Type") { }
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
-                field(screenerRemarks; Rec."Screener Remarks") { }
+                // field(screenerRemarks; Rec."Screener Remarks") { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }
+                field(status; Rec.Status)
+                {
+                }
             }
             group(Resignation)
             {
                 field(proposedDateOfResignation; Rec."Proposed Date of Resignation") { }
-                field(supervisorProposedDate; Rec."Supervisor Proposed Date") { }
+                // field(supervisorProposedDate; Rec."Supervisor Proposed Date") { }
                 field(hRProposedDate; Rec."HR Proposed Date") { }
                 field(waiverCase; Rec."Waiver Case") { }
                 field(reasonForResignation; Rec."Reason for Resignation") { }
@@ -64,37 +66,40 @@ page 50339 "Employee Resignation Entity"
                 EntitySetName = 'attachmentEntities';
                 SubPageLink = "No." = field("No.");
             }
-            part(docApproverEntities; "Document Approver Resignation")
-            {
-                EntityName = 'docApproverEntity';
-                EntitySetName = 'docApproverEntities';
-                SubPageLink = "Document No." = field("No.");
-            }
-            group(Approval)
-            {
-                field(recommenderCode; Rec."Recommender Code")
-                {
-                }
-                field(recommenderName; Rec."Recommender Name") { }
-                field(approverCode; Rec."Approver Code") { }
-                field(approverName; Rec."Approver Name") { }
-            }
+            // part(docApproverEntities; "Document Approver Resignation")
+            // {
+            //     EntityName = 'docApproverEntity';
+            //     EntitySetName = 'docApproverEntities';
+            //     SubPageLink = "Document No." = field("No.");
+            // }
+            // group(Approval)
+            // {
+            // field(recommenderCode; Rec."Recommender Code")
+            // {
+            // }
+            // field(recommenderName; Rec."Recommender Name") { }
+            // field(approverCode; Rec."Approver Code") { }
+            // field(approverName; Rec."Approver Name") { }
+            // }
 
         }
     }
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Rec."Approval Status" := Rec."Approval Status"::Open;
-    end;
+    // trigger OnNewRecord(BelowxRec: Boolean)
+    // begin
+    //     Rec."Approval Status" := Rec."Approval Status"::Open;
+    // end;
 
     trigger OnOpenPage()
     begin
         SetControlAppearance;
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
     end;
 
     var
         ClearanceStatement: Text;
         HRSetup: Record "Human Resources Setup";
+        HrMgt: Codeunit "HR Mgt.";
 
     local procedure SetControlAppearance()
     var
@@ -128,49 +133,49 @@ page 50339 "Employee Resignation Entity"
                     else
                         Rec.SetFilter("No.", EmpActFilter);
                     Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
+                    // Rec.SetRange("Approver Code", EmpVar."No.");
+                    // Rec.SetRange("Recommender Code", EmpVar."No.");
                     Rec.FilterGroup(0);
                 end;
             end;
         end;
 
-        if Rec.Type = Rec.Type::"Access Control" then begin
-            Clear(EmpActFilter);
-            EmpVar.Reset;
-            EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
-            if EmpVar.FindFirst then begin
-                if not EmpVar."System Owner" then begin
-                    Rec.FilterGroup(-1);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    Rec.FilterGroup(0);
-                end else begin
-                    AccessControlLine.Reset;
-                    //AccessControlLine.SETRANGE("Document No.","No.");
-                    if AccessControlLine.FindFirst then
-                        repeat
-                            SystemAccessControl.Reset;
-                            SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
-                            SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
-                            SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
-                            if SystemAccessControl.FindFirst then begin
-                                if EmpActFilter = '' then
-                                    EmpActFilter := AccessControlLine."Document No."
-                                else
-                                    EmpActFilter += '|' + AccessControlLine."Document No.";
-                            end;
-                        until AccessControlLine.Next = 0;
-                    Rec.FilterGroup(-1);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    if EmpActFilter <> '' then
-                        Rec.SetFilter("No.", EmpActFilter);
-                    Rec.FilterGroup(0);
-                end;
-            end;
-        end;
+        //     if Rec.Type = Rec.Type::"Access Control" then begin
+        //         Clear(EmpActFilter);
+        //         EmpVar.Reset;
+        //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
+        //         if EmpVar.FindFirst then begin
+        //             if not EmpVar."System Owner" then begin
+        //                 Rec.FilterGroup(-1);
+        //                 Rec.SetRange("Employee No.", EmpVar."No.");
+        //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
+        //                 // Rec.SetRange("Approver Code", EmpVar."No.");
+        //                 Rec.FilterGroup(0);
+        //             end else begin
+        //                 AccessControlLine.Reset;
+        //                 //AccessControlLine.SETRANGE("Document No.","No.");
+        //                 if AccessControlLine.FindFirst then
+        //                     repeat
+        //                         SystemAccessControl.Reset;
+        //                         SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
+        //                         SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
+        //                         SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
+        //                         if SystemAccessControl.FindFirst then begin
+        //                             if EmpActFilter = '' then
+        //                                 EmpActFilter := AccessControlLine."Document No."
+        //                             else
+        //                                 EmpActFilter += '|' + AccessControlLine."Document No.";
+        //                         end;
+        //                     until AccessControlLine.Next = 0;
+        //                 Rec.FilterGroup(-1);
+        //                 Rec.SetRange("Employee No.", EmpVar."No.");
+        //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
+        //                 // Rec.SetRange("Approver Code", EmpVar."No.");
+        //                 if EmpActFilter <> '' then
+        //                     Rec.SetFilter("No.", EmpActFilter);
+        //                 Rec.FilterGroup(0);
+        //             end;
+        //         end;
+        //     end;
     end;
 }

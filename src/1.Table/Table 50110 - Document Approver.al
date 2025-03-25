@@ -1,7 +1,6 @@
 table 50110 "Document Approver"
 {
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Document No."; Code[20]) { }
@@ -18,7 +17,7 @@ table 50110 "Document Approver"
         }
         field(4; "Employee Name"; Text[100])
         {
-            Editable = true;
+            Editable = false;
         }
         field(5; Remarks; Text[100])
         {
@@ -93,7 +92,7 @@ table 50110 "Document Approver"
             if "Employee No." <> HRMgt.GetEmployeeNo() then
                 Error(Unauthorized);
 
-        //IF "Approval Status" = "Approval Status"::Approved THEN
-        Validate("Approved Date", Today);
+        IF "Approval Status" = "Approval Status"::Approved THEN
+            Validate("Approved Date", Today);
     end;
 }

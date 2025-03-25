@@ -2233,6 +2233,35 @@ page 50108 "Portal Functions"
         exit('success');
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getResignAttachmentAPI(ResignNo: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        Resignation: Record Resignation;
+        // // NoOfDays: Integer;
+        // LeaveType: Record "Leave Type Setup";
+        AttachmentSetup: Record "Attachment Setup";
+        Filename: Text;
+    begin
+        Resignation.Get(ResignNo);
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SETRANGE("No.", ResignNo);
+        If not TempIncomingDoc.FindFirst() then
+            Error('Document Not Found');
+        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        exit('{' +
+        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    end;
+
     local procedure "------OverTime API---------"()
     begin
     end;

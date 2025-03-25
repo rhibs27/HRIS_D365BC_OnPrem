@@ -15,11 +15,13 @@ page 50070 "Document Approver Resignation"
                 {
                     ToolTip = 'Specifies the value of the Document No. field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Employee No."; Rec."Employee No.")
                 {
@@ -31,11 +33,13 @@ page 50070 "Document Approver Resignation"
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Approved Date"; Rec."Approved Date")
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Remarks; Rec.Remarks)
                 {
@@ -51,7 +55,7 @@ page 50070 "Document Approver Resignation"
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
-                    Editable = true;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
@@ -87,7 +91,6 @@ page 50070 "Document Approver Resignation"
             }
         }
     }
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec.SetRange("Document Type", Rec."Document Type"::Resignation);

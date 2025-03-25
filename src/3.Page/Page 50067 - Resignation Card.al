@@ -15,7 +15,7 @@ page 50067 "Resignation Card"
             {
                 field("Employee No."; Rec."Employee No.")
                 {
-                    Editable = true;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Employee No. field.';
                     ApplicationArea = All;
                 }
@@ -33,12 +33,34 @@ page 50067 "Resignation Card"
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
+                    Visible = ApprovalStatusView;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                // field(Remarks; Rec.Remarks)
+                // {
+                //     Caption = 'Supervisor Remarks';
+                //     ToolTip = 'Specifies the value of the Supervisor Remarks field.';
+                //     ApplicationArea = All;
+                // }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
+                    ApplicationArea = All;
+                    Editable = IsPending;
+                }
+                field(Status; rec.Status)
+                {
+                    Editable = false;
+                    Visible = StatusView;
+                    Caption = 'Approval Status';
+                    ToolTip = 'Specifies the value of the Status field.';
                     ApplicationArea = All;
                 }
             }
@@ -108,30 +130,33 @@ page 50067 "Resignation Card"
                     Caption = 'Resignation Details';
                     field("Proposed Date of Resignation"; Rec."Proposed Date of Resignation")
                     {
-                        Caption = 'Proposed Date of Closed of Business Hour';
+                        // Caption = 'Proposed Date of Closed of Business Hour';
                         ToolTip = 'Specifies the value of the Proposed Date of Closed of Business Hour field.';
                         ApplicationArea = All;
+                        Editable = IsOpen;
                     }
-                    field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
-                    {
-                        Editable = not DocumentEditable;
-                        ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
-                        ApplicationArea = All;
-                    }
+                    // field("Supervisor Proposed Date"; Rec."Supervisor Proposed Date")
+                    // {
+                    //     Editable = not DocumentEditable;
+                    //     ToolTip = 'Specifies the value of the Supervisor Proposed Date field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Reason Code"; Rec."Reason Code")
                     {
+
                         ToolTip = 'Specifies the value of the Reason Code field.';
                         ApplicationArea = All;
+                        Editable = IsOpen;
                     }
                     field("HR Proposed Date"; Rec."HR Proposed Date")
                     {
-                        Editable = not DocumentEditable;
+                        Editable = IsPending;
                         ToolTip = 'Specifies the value of the HR Proposed Date field.';
                         ApplicationArea = All;
                     }
                     field("Waiver Case"; Rec."Waiver Case")
                     {
-                        Editable = not DocumentEditable;
+                        Editable = IsOpen;
                         ToolTip = 'Specifies the value of the Waiver Case field.';
                         ApplicationArea = All;
                     }
@@ -151,51 +176,54 @@ page 50067 "Resignation Card"
                     {
                         ToolTip = 'Specifies the value of the Reason for Resignation field.';
                         ApplicationArea = All;
+                        Editable = IsOpen;
                     }
                 }
             }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
+            }
             part(Attachment; "Attachment Subform")
             {
-                SubPageLink = "No." = field("No.");
+                Visible = IsApproved;
+                SubPageLink = "No." = field("No."),
+                                "Employee Code" = field("Employee No."),
+                                "Document Type" = field(Type);
                 ApplicationArea = All;
             }
-            group(Approver)
-            {
-                Caption = 'Approver';
-                field("Recommender Code"; Rec."Recommender Code")
-                {
-                    Caption = 'Supervisor Code';
-                    ToolTip = 'Specifies the value of the Supervisor Code field.';
-                    ApplicationArea = All;
-                }
-                field("Recommender Name"; Rec."Recommender Name")
-                {
-                    Caption = 'Supervisor Name';
-                    ToolTip = 'Specifies the value of the Supervisor Name field.';
-                    ApplicationArea = All;
-                }
-                field(Remarks; Rec.Remarks)
-                {
-                    Caption = 'Supervisor Remarks';
-                    ToolTip = 'Specifies the value of the Supervisor Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Rejection Remarks"; Rec."Rejection Remarks")
-                {
-                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Screener Remarks"; Rec."Screener Remarks")
-                {
-                    ToolTip = 'Specifies the value of the Screener Remarks field.';
-                    ApplicationArea = All;
-                }
-            }
+            // group(Approver)
+            // {
+            //     Caption = 'Approver';
+            // field("Recommender Code"; Rec."Recommender Code")
+            // {
+            //     Caption = 'Supervisor Code';
+            //     ToolTip = 'Specifies the value of the Supervisor Code field.';
+            //     ApplicationArea = All;
+            // }
+            // field("Recommender Name"; Rec."Recommender Name")
+            // {
+            //     Caption = 'Supervisor Name';
+            //     ToolTip = 'Specifies the value of the Supervisor Name field.';
+            //     ApplicationArea = All;
+            // }
+
+            // field("Screener Remarks"; Rec."Screener Remarks")
+            // {
+            //     ToolTip = 'Specifies the value of the Screener Remarks field.';
+            //     ApplicationArea = All;
+            // }
+            // }
+
             part("Resign Clearance Verifier"; "Document Approver Resignation")
             {
                 Caption = 'Resign Clearance Verifier';
                 SubPageLink = "Document No." = field("No.");
-                Visible = ApprovalSent;
+                Visible = IsApproved;
                 ApplicationArea = All;
             }
         }
@@ -211,13 +239,14 @@ page 50067 "Resignation Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = not ApprovalSent;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
                     ResignationMgt.SendResignationApproval(Rec);
+                    IsApplied := true;
                     CurrPage.Close();
                 end;
             }
@@ -229,6 +258,7 @@ page 50067 "Resignation Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Cancel Resignation Request action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -241,13 +271,14 @@ page 50067 "Resignation Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ApprovalSent;
+                // Visible = ApprovalSent;
+                Visible = false;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    ResignationMgt.ScreenResignationFoResignation(Rec);
+                    ResignationMgt.ScreenResignation(Rec);
                 end;
             }
             action("Approve Request")
@@ -257,13 +288,16 @@ page 50067 "Resignation Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ApprovalSent;
+                Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    ResignationMgt.ApproveRejectResignation(true, Rec);
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Resignation is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
             action("Reject Request")
@@ -273,13 +307,20 @@ page 50067 "Resignation Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ApprovalSent;
+                Visible = IsPending;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    ResignationMgt.ApproveRejectResignation(false, Rec);
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Resignation is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
             action("Forward to HR")
@@ -303,7 +344,7 @@ page 50067 "Resignation Card"
                 PromotedCategory = "Report";
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsSettled;
+                // Visible = IsSettled;
                 ToolTip = 'Executes the Settlement action.';
                 ApplicationArea = All;
 
@@ -329,7 +370,7 @@ page 50067 "Resignation Card"
 
                 trigger OnAction()
                 begin
-                    Rec.Validate("Approval Status", Rec."Approval Status"::Settled);
+                    // Rec.Validate("Approval Status", Rec."Approval Status"::Settled);
                 end;
             }
             action("Document Approval")
@@ -339,7 +380,8 @@ page 50067 "Resignation Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = Recommended;
+                // Visible = Recommended;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Document Approval action.';
                 ApplicationArea = All;
 
@@ -347,15 +389,18 @@ page 50067 "Resignation Card"
                 var
                     DocumentApprover: Record "Document Approver";
                 begin
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Recommended);
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
                     if Confirm('Do you want to approve this resignation.', false) then begin
                         DocumentApprover.Reset;
                         DocumentApprover.SetRange("Document No.", Rec."No.");
                         DocumentApprover.SetRange("Employee No.", HRMgt.GetEmployeeNo);
+                        DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
                         if DocumentApprover.FindFirst then begin
                             DocumentApprover.Validate("Approval Status", DocumentApprover."Approval Status"::Approved);
                             DocumentApprover.Modify;
-                        end;
+                            Message('Resignation Document is Approved by %1', HRMgt.GetEmpName());
+                        end else
+                            Error('You arenot Eligible To Approve');
                     end;
                 end;
             }
@@ -366,7 +411,8 @@ page 50067 "Resignation Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = ApprovalSent;
+                // Visible = ApprovalSent;
+                Visible = false;
                 ToolTip = 'Executes the Return Resignation action.';
                 ApplicationArea = All;
 
@@ -402,6 +448,22 @@ page 50067 "Resignation Card"
     trigger OnOpenPage()
     begin
         SetLayout();
+        if IsOpen then
+            ApprovalMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::Resignation);
+    end;
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    begin
+        IF NOT IsApplied and IsOpen THEN
+            IF NOT CONFIRM('The data will be erased. Do you want to continue?', TRUE) THEN
+                ERROR('')
+            else begin
+                Approval.Reset();
+                Approval.SetRange("Document No.", '');
+                Approval.setRange("Document Type", Approval."Document Type"::Resignation);
+                Approval.SetRange("Employee No", Rec."Employee No.");
+                Approval.DeleteAll();
+            end;
     end;
 
     var
@@ -410,17 +472,33 @@ page 50067 "Resignation Card"
         ResignationMgt: Codeunit "Resignation Mgt";
         ApprovalSent: Boolean;
         [InDataSet]
-        DocumentEditable: Boolean;
-        Recommended: Boolean;
-        IsSettled: Boolean;
+        //DocumentEditable: Boolean;
+        IsRejected: Boolean;
+        IsPending: Boolean;
         IsApproved: Boolean;
+        IsOpen: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        RecRef: RecordRef;
+        ApprovalMgt: Codeunit "Approver Mgt";
+        Approval: Record "Approval HRMS";
+        IsApplied: Boolean;
+
 
     local procedure SetLayout()
     begin
         ApprovalSent := not (Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "]);
-        DocumentEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
-        Recommended := Rec."Approval Status" = Rec."Approval Status"::Recommended;
-        IsSettled := Rec."Approval Status" = Rec."Approval Status"::Settled;
+        //DocumentEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        RecRef.GetTable(Rec);
+        if IsRejected then
+            CurrPage.Editable := false;
     end;
 }
