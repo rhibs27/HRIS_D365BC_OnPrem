@@ -1,6 +1,5 @@
 page 50351 "Travel Claim"
 {
-    // version NIC Asia1.00,Travel
 
     PageType = Card;
     SourceTable = "Travel Request";

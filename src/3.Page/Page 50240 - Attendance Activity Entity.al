@@ -1,6 +1,6 @@
 page 50240 "Attendance Activity Entity"
 {
-    // version ATM.19.01.01,APINICASIA1.00
+
 
     DeleteAllowed = false;
     Editable = false;

@@ -1,9 +1,9 @@
-page 50288 "KPI Setup Functional (NIC)"
+page 50288 "KPI Setup Functional Bank"
 {
     // version KPI1.00
 
     PageType = List;
-    SourceTable = "KPI Setup NIC";
+    SourceTable = "KPI Setup Bank";
     ApplicationArea = All;
 
     layout

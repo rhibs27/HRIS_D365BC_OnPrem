@@ -1,7 +1,6 @@
 table 50072 "Training Budget Header"
 {
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Entry No."; Integer)

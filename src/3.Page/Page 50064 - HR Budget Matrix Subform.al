@@ -1,7 +1,5 @@
 page 50064 "HR Budget Matrix Subform"
 {
-    // version NIC Asia1.00
-
     PageType = ListPart;
     SourceTable = "Functional Title";
     ApplicationArea = All;

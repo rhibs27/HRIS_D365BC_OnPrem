@@ -1,7 +1,5 @@
 table 50069 "Training Header"
 {
-    // version NIC Asia1.00,Training
-
     DataCaptionFields = "No.", Description;
     LookupPageId = "Training Lists";
     DataClassification = CustomerContent;

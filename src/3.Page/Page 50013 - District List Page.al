@@ -1,12 +1,9 @@
 page 50013 "District List Page"
 {
-    // version NIC Asia1.0
-
     PageType = List;
     SourceTable = District;
     ApplicationArea = All;
     UsageCategory = Lists;
-
     layout
     {
         area(Content)

@@ -1,7 +1,5 @@
 table 50013 "Training Calendar"
 {
-    // version NIC Asia1.00,Training
-
     DrillDownPageId = "Training Calendar Lists";
     LookupPageId = "Training Calendar Lists";
     DataClassification = CustomerContent;

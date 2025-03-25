@@ -1,6 +1,6 @@
 page 50233 "Employee Qualification Entity"
 {
-    // version APINICASIA1.00
+
 
     PageType = ListPart;
     SourceTable = "Employee Qualification";

@@ -1,6 +1,5 @@
 report 50023 "Travel Settlement"
 {
-    // version ATNICASIA1.00
 
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019824.TravelSettlement.rdl';

@@ -3,7 +3,7 @@ page 50289 "KPI Setup Department (NIC)"
     // version KPI1.00
 
     PageType = List;
-    SourceTable = "KPI Setup NIC";
+    SourceTable = "KPI Setup Bank";
     ApplicationArea = All;
 
     layout

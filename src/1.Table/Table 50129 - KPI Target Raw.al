@@ -23,7 +23,7 @@ table 50129 "KPI Target Raw"
         }
         field(3; "KPI Code"; Code[20])
         {
-            TableRelation = "KPI Master NIC";
+            TableRelation = "KPI Master";
 
             trigger OnValidate()
             begin
@@ -68,6 +68,6 @@ table 50129 "KPI Target Raw"
     fieldgroups { }
 
     var
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master";
         DepartmentRec: Record Department;
 }

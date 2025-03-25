@@ -1,6 +1,6 @@
 page 50258 "Portal Tasks API"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'PortalTask';
     EntitySetName = 'PortalTasks';

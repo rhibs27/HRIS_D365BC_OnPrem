@@ -3,7 +3,7 @@ page 50292 "KPI Appriasal Province"
     // version KPI1.00
 
     PageType = Card;
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
     ApplicationArea = All;
 
     layout
@@ -138,7 +138,7 @@ page 50292 "KPI Appriasal Province"
     end;
 
     var
-        KPIAppriasalLine: Record "KPI Appraisal (NIC) Lines";
+        KPIAppriasalLine: Record "KPI Appraisal Bank Lines";
 
     local procedure GetNextAccPeriodStartDate(CurrentDate: Date): Date
     var

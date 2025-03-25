@@ -1,6 +1,5 @@
 page 50282 "Employee List API"
 {
-    // version NAVW113.00/KPI1.00
 
     // //Min Feb-4-2022 -- For Calculate "Contact Remaining Days".
     // //Min Feb-4-2022 -- Added Field "Resignation Date",Satus in "Employee List" Page.

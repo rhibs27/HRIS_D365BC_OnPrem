@@ -1,7 +1,5 @@
 page 50090 "Bulk Cash"
 {
-    // version NIC Asia1.00,OT,Bulk Cash,Out of Office
-
     CardPageId = "New Employee Activity Card";
     DeleteAllowed = false;
     Editable = false;

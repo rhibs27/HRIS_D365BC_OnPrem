@@ -1,7 +1,5 @@
 table 50066 "Leave Type Setup"
 {
-    // version NIC Asia1.00,Leave
-
     LookupPageId = "Leave Type Setup";
     DataClassification = CustomerContent;
 

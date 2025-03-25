@@ -1,6 +1,5 @@
 page 50100 "Posted Leave Card"
 {
-    // version NIC Asia1.00,Leave
     SourceTable = "Leave";
     ApplicationArea = All;
     InsertAllowed = false;

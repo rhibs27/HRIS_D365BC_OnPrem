@@ -1,8 +1,6 @@
 table 50051 "Required Emp In Branch"
 {
     DataClassification = CustomerContent;
-    // version NIC Asia 1.0,Recruitement (Matrix)
-
     fields
     {
         field(1; "Code"; Code[20])

@@ -1,7 +1,5 @@
 page 50166 "Leave Type Entity"
 {
-    // version APINICASIA1.00
-
     DeleteAllowed = false;
     EntityName = 'leavetypesetup';
     EntitySetName = 'leavetypesetups';

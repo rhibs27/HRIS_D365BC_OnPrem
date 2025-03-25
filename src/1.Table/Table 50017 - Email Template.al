@@ -1,8 +1,6 @@
 table 50017 "Email Template"
 {
     DataClassification = CustomerContent;
-    // version NP16.04
-
     fields
     {
         field(1; "Code"; Code[20]) { }

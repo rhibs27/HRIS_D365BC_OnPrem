@@ -9,7 +9,7 @@ page 50281 "KPI Masters API"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "KPI Master NIC";
+    SourceTable = "KPI Master Bank";
 
     layout
     {

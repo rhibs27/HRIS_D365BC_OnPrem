@@ -1,7 +1,5 @@
 page 50016 "Facilitator Pool Lists"
 {
-    // version NIC Asia1.00,Training
-
     AutoSplitKey = true;
     PageType = List;
     SourceTable = "Facilitator Pool";

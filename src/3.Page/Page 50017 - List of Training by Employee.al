@@ -1,6 +1,5 @@
 page 50017 "List of Training by Employee"
 {
-    // version NIC Asia1.00,Training
 
     Editable = false;
     PageType = List;

@@ -24,7 +24,7 @@ table 50077 "Vacancy Header"
         field(3; "Reference No."; Text[30])
         {
             Editable = false;
-            TableRelation = "Recruitement Memo"."Reference No.";
+            TableRelation = "Recruitment Memo"."Reference No.";
         }
         field(4; "Date of Request"; Date)
         {
@@ -183,7 +183,7 @@ table 50077 "Vacancy Header"
         field(35; "Memo No."; Code[20])
         {
             Editable = false;
-            TableRelation = "Recruitement Memo";
+            TableRelation = "Recruitment Memo";
         }
         field(36; Status; Enum "Vacancy Header Status")
         {

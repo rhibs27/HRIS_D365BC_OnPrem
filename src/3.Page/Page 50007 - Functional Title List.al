@@ -154,7 +154,7 @@ page 50007 "Functional Title List"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                RunObject = page "KPI Setup Functional (NIC)";
+                RunObject = page "KPI Setup Functional Bank";
                 RunPageLink = Code = field(Code);
                 ToolTip = 'Executes the KPI Setup action.';
                 ApplicationArea = All;

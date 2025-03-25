@@ -1,7 +1,5 @@
 page 50101 "Travel Form"
 {
-    // version NIC Asia1.00,Travel
-
     PageType = Card;
     SourceTable = "Travel Request";
     ApplicationArea = All;

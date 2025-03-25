@@ -98,13 +98,8 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             TableRelation = "Functional Title";
         }
-        modify("Bank Branch No.")
-        {
-            TableRelation = "BOD-EOD Header";
-        }
         modify("Bank Account No.")
         {
-            TableRelation = "BOD-EOD Header";
             trigger OnAfterValidate()
             begin
                 TestField("CIF ID");

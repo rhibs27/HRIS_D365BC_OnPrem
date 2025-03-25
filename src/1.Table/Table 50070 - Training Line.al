@@ -1,8 +1,6 @@
 table 50070 "Training Line"
 {
     DataClassification = CustomerContent;
-    // version NIC Asia1.00,Training
-
     fields
     {
         field(1; "Training No."; Code[20]) { }

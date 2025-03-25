@@ -1,6 +1,5 @@
 page 50214 "Employee Leave Days-HR Cue"
 {
-    // version NIC Asia1.00,Leave
 
     PageType = ListPart;
     SourceTable = "Leave Type Setup";

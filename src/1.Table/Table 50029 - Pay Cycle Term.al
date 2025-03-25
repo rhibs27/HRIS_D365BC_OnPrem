@@ -1,7 +1,5 @@
 table 50029 "Pay Cycle Term"
 {
-    // version PRM19.01.01
-
     DrillDownPageId = "Pay Cycle Term";
     LookupPageId = "Pay Cycle Term";
     DataClassification = CustomerContent;

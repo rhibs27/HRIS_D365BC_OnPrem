@@ -1,7 +1,5 @@
 table 50020 "Salary Level"
 {
-    // version PRM19.01.01
-
     DrillDownPageId = "Salary Levels";
     LookupPageId = "Salary Levels";
     DataClassification = CustomerContent;

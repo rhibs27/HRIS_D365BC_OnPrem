@@ -1,7 +1,5 @@
 page 50181 "Vacancy API"
 {
-    // version HRM1.00,APINICASIA1.00
-
     EntityName = 'vacancyEntity';
     EntitySetName = 'vacancyEntities';
     InsertAllowed = false;

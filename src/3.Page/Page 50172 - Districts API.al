@@ -1,7 +1,5 @@
 page 50172 "Districts API"
 {
-    // version APINICASIA1.00
-
     EntityName = 'districts';
     EntitySetName = 'districts';
     PageType = API;

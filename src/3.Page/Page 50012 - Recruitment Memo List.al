@@ -4,7 +4,7 @@ page 50012 "Recruitment Memo List"
 
     CardPageId = "Recruitment Card";
     PageType = List;
-    SourceTable = "Recruitement Memo";
+    SourceTable = "Recruitment Memo";
     UsageCategory = Lists;
     ApplicationArea = All;
 

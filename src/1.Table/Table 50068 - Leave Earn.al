@@ -1,8 +1,6 @@
 table 50068 "Leave Earn"
 {
     DataClassification = CustomerContent;
-    // version NIC Asia1.00,Leave
-
     fields
     {
         field(1; "Entry No."; Code[20])

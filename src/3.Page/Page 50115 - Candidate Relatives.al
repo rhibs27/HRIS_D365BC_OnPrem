@@ -1,7 +1,5 @@
 page 50115 "Candidate Relatives"
 {
-    // version NAVW113.00
-
     AutoSplitKey = true;
     Caption = 'Employee Relatives';
     DataCaptionFields = "Employee No.";

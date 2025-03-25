@@ -9,7 +9,7 @@ page 50278 "KPI Appriasal Prev. Quarter"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
 
     layout
     {
@@ -111,6 +111,6 @@ page 50278 "KPI Appriasal Prev. Quarter"
     end;
 
     var
-        KPIAppriasalLine: Record "KPI Appraisal (NIC) Lines";
+        KPIAppriasalLine: Record "KPI Appraisal Bank Lines";
         KPIRatingSetup: Record "KPI Rating Setup";
 }

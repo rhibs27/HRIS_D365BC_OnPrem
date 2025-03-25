@@ -1,7 +1,5 @@
 page 50014 "Training Master"
 {
-    // version NIC Asia1.00,Training
-
     PageType = List;
     SourceTable = "Training Master";
     UsageCategory = Lists;

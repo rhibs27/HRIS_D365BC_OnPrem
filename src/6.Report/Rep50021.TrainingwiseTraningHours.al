@@ -1,7 +1,5 @@
 report 50021 "Training wise Traning Hours"
 {
-    // version ATNICASIA1.00
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019822.TrainingwiseTraningHours.rdl';
     Caption = 'Training wise Traning Hours';

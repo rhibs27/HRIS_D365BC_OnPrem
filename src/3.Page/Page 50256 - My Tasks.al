@@ -1,6 +1,6 @@
 page 50256 "My Tasks"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'myTask';
     EntitySetName = 'myTasks';

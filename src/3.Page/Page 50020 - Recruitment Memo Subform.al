@@ -14,9 +14,9 @@ page 50020 "Recruitment Memo Subform"
         {
             repeater(Group)
             {
-                field("Funtional Title"; Rec."Funtional Title")
+                field("Functional Title"; Rec."Functional Title")
                 {
-                    ToolTip = 'Specifies the value of the Funtional Title field.';
+                    ToolTip = 'Specifies the value of the Functional Title field.';
                     ApplicationArea = All;
 
                     trigger OnValidate()
@@ -117,7 +117,7 @@ page 50020 "Recruitment Memo Subform"
     end;
 
     var
-        RecruitementMemo: Record "Recruitement Memo";
+        RecruitementMemo: Record "Recruitment Memo";
         ProvinanceVisible: Boolean;
-        RecruitHdr: Record "Recruitement Memo";
+        RecruitHdr: Record "Recruitment Memo";
 }

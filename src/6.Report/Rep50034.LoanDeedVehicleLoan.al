@@ -1,7 +1,5 @@
 report 50034 "Loan Deed Vehicle Loan"
 {
-    // version NIC Asia,Vehicle Loan
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019835.LoanDeedVehicleLoan.rdl';
     WordLayout = './src/6.Report/Rep33019835.LoanDeedVehicleLoan.docx';

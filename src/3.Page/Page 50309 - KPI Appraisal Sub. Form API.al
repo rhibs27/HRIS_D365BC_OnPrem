@@ -7,7 +7,7 @@ page 50309 "KPI Appraisal Sub. Form API"
     //The property 'EntitySetName' can only be set if the property 'PageType' is set to 'API'
     //EntitySetName = 'kpiappriasalprovlines';
     PageType = ListPart;
-    SourceTable = "KPI Appraisal (NIC) Lines";
+    SourceTable = "KPI Appraisal Bank Lines";
     ApplicationArea = All;
 
     layout

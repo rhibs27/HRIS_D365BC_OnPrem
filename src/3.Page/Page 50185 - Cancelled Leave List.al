@@ -1,6 +1,6 @@
 page 50185 "Cancelled Leave List"
 {
-    // version NIC Asia1.00,Leave
+
 
     CardPageId = "Cancel Document";
     Editable = false;

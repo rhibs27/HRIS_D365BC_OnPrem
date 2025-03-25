@@ -1,6 +1,5 @@
 page 50175 "Employee Training API"
 {
-    // version NIC Asia1.00,Training,APINICASIA1.00
 
     //The property 'EntityName' can only be set if the property 'PageType' is set to 'API'
     //EntityName = 'employeeTrainingEntity';

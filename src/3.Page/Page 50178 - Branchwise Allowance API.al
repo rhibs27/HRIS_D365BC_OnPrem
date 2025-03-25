@@ -1,6 +1,5 @@
 page 50178 "Branchwise Allowance API"
 {
-    // version APINICASIA1.00
 
     EntityName = 'branchwiseAllowanceEntity';
     EntitySetName = 'branchwiseAllowanceEntities';

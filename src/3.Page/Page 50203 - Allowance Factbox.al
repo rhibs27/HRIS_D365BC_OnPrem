@@ -1,6 +1,6 @@
 page 50203 "Allowance Factbox"
 {
-    // version ATNICASIA1.00
+
 
     PageType = ListPart;
     SourceTable = "Payroll Attributes";

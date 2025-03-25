@@ -1,7 +1,5 @@
 report 50022 "Travel Request"
 {
-    // version ATNICASIA1.00
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019823.TravelRequest.rdl';
     Caption = 'Travel Request';

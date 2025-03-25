@@ -3,7 +3,7 @@ page 50296 "KPI Appraisal Department"
     // version KPI1.00
 
     PageType = Card;
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
     ApplicationArea = All;
 
     layout

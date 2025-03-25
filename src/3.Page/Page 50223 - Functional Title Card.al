@@ -109,12 +109,12 @@ page 50223 "Functional Title Card"
                     ApplicationArea = All;
                 }
             }
-            part(Control13; "Access Control Subform")
-            {
-                SubPageLink = Type = const("Funtional Title"),
-                              Code = field(Code);
-                ApplicationArea = All;
-            }
+            // part(Control13; "Access Control Subform")
+            // {
+            //     SubPageLink = Type = const("Funtional Title"),
+            //                   Code = field(Code);
+            //     ApplicationArea = All;
+            // }
         }
     }
 

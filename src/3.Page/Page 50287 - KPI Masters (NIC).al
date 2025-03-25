@@ -3,7 +3,7 @@ page 50287 "KPI Masters (NIC)"
     // version KPI1.00
 
     PageType = List;
-    SourceTable = "KPI Master NIC";
+    SourceTable = "KPI Master Bank";
     ApplicationArea = All;
 
     layout

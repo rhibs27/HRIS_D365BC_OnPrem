@@ -1,7 +1,5 @@
 page 50087 "Leave Type Setup"
 {
-    // version NIC Asia1.00,Leave
-
     DeleteAllowed = false;
     PageType = List;
     SourceTable = "Leave Type Setup";

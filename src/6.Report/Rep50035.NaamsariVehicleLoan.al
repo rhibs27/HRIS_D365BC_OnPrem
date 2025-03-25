@@ -1,7 +1,5 @@
 report 50035 "Naamsari Vehicle Loan"
 {
-    // version NIC Asia,Vehicle Loan
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019836.NaamsariVehicleLoan.rdl';
     PdfFontEmbedding = Default;

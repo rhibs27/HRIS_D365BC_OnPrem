@@ -1,7 +1,6 @@
 table 50081 "Job Desc./Spec. Entry"
 {
     // version HRM1.00
-
     Caption = 'Job Description/Specification';
     DrillDownPageId = "Retirement Fund Entity";
     LookupPageId = "Retirement Fund Entity";

@@ -328,8 +328,10 @@ page 50329 "Employee Entity"
         }
     }
     trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
     begin
-        // GraphMgtEmployee.UpdateIntegrationRecords(TRUE);
+        Rec.SetRange("No.", HrMgt.GetEmployeeNo());
     end;
 
     trigger OnAfterGetRecord()

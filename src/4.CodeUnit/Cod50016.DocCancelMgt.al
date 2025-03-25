@@ -64,7 +64,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
         // CancelDocument.Validate("Approver Code", Employee."Approver Code");
         AttendanceMissed.Insert;
-        PAGE.Run(PAGE::"Attendance Missed", AttendanceMissed);
+        PAGE.Run(PAGE::"Attendance Missed card", AttendanceMissed);
     end;
 
 

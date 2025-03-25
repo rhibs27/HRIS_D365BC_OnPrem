@@ -1,6 +1,6 @@
 page 50231 "Event Calendar API Lists"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'eventCalendarEntity';
     EntitySetName = 'eventCalendarEntities';

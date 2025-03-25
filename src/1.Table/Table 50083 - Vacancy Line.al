@@ -2,7 +2,6 @@ table 50083 "Vacancy Line"
 {
     DataClassification = CustomerContent;
     // version HRM1.00
-
     fields
     {
         field(1; "Vacancy No."; Code[20]) { }

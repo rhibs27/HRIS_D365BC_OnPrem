@@ -1,7 +1,5 @@
 page 50104 "Training Question Setup"
 {
-    // version NIC Asia1.00,Training
-
     AutoSplitKey = true;
     PageType = List;
     SourceTable = "Employee Question Setup";

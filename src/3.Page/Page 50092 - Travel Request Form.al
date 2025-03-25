@@ -1,7 +1,5 @@
 page 50092 "Travel Request Form"
 {
-    // version NIC Asia1.00,Travel
-
     PageType = Card;
     SourceTable = "Travel Request";
     // SourceTableTemporary = true;

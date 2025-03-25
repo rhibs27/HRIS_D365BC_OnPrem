@@ -1,6 +1,5 @@
 page 50184 "HR Cue Entity"
 {
-    // version ATNICASIA1.00
 
     EntityName = 'hrCueEntity';
     EntitySetName = 'hrCueEntities';

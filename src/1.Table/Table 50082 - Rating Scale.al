@@ -1,7 +1,6 @@
 table 50082 "Rating Scale"
 {
     // version HRM1.00
-
     Caption = 'Rating Scale';
     DrillDownPageId = "Rating Scale";
     LookupPageId = "Rating Scale";

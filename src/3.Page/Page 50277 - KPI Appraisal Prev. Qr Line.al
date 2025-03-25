@@ -3,7 +3,7 @@ page 50277 "KPI Appraisal Prev. Qr Line"
     // version KPI1.00
 
     PageType = ListPart;
-    SourceTable = "KPI Appraisal (NIC) Lines";
+    SourceTable = "KPI Appraisal Bank Lines";
     ApplicationArea = All;
 
     layout

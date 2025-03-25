@@ -1,7 +1,5 @@
 page 50096 "Trainee Subform"
 {
-    // version NIC Asia1.00,Training
-
     AutoSplitKey = true;
     PageType = ListPart;
     RefreshOnActivate = true;

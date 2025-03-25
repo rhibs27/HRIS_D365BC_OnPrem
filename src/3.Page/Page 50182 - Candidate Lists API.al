@@ -1,7 +1,5 @@
 page 50182 "Candidate Lists API"
 {
-    // version HRM1.00,APINICASIA1.00
-
     EntityName = 'candidateList';
     EntitySetName = 'candidateLists';
     InsertAllowed = false;

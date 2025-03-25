@@ -1,6 +1,6 @@
 page 50199 "HR Manager Role Center"
 {
-    // version ATNICASIA1.00
+
 
     PageType = RoleCenter;
     PromotedActionCategories = 'New,Process,Report,Employee Activity,Employee Loan';
@@ -55,13 +55,12 @@ page 50199 "HR Manager Role Center"
     {
         area(embedding)
         {
-            action("Employee Lite")
-            {
-                ApplicationArea = Basic, Suite;
-                Image = List;
-                RunObject = page "Employee Lite";
-                ToolTip = 'Executes the Employee Lite action.';
-            }
+            // action("Employee Lite")
+            // {
+            //     ApplicationArea = Basic, Suite;
+            //     Image = List;
+            //     ToolTip = 'Executes the Employee Lite action.';
+            // }
             action(Employees)
             {
                 ApplicationArea = Basic, Suite;

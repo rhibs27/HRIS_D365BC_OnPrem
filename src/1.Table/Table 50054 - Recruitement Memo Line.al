@@ -5,13 +5,13 @@ table 50054 "Recruitement Memo Line"
     fields
     {
         field(1; "Memo No."; Code[20]) { }
-        field(2; "Funtional Title"; Code[20])
+        field(2; "Functional Title"; Code[20])
         {
             TableRelation = "Functional Title";
 
             trigger OnValidate()
             begin
-                if FunctionalTitleVar.Get("Funtional Title") then
+                if FunctionalTitleVar.Get("Functional Title") then
                     Validate("Functional Title Description", FunctionalTitleVar.Description)
                 else
                     Validate("Functional Title Description", '');
@@ -88,7 +88,7 @@ table 50054 "Recruitement Memo Line"
 
     keys
     {
-        key(Key1; "Memo No.", "Funtional Title", "Line No.") { }
+        key(Key1; "Memo No.", "Functional Title", "Line No.") { }
     }
 
     fieldgroups { }
@@ -97,10 +97,10 @@ table 50054 "Recruitement Memo Line"
     begin
         RecruitmentLine.Reset;
         RecruitmentLine.SetRange("Memo No.", "Memo No.");
-        RecruitmentLine.SetRange("Funtional Title", "Funtional Title");
+        RecruitmentLine.SetRange("Functional Title", "Functional Title");
         RecruitmentLine.SetRange("Province Code", "Province Code");
         if RecruitmentLine.FindFirst then
-            Error('Recruitment line for province %1 of functional title %2 already exist.', "Funtional Title", "Province Name");
+            Error('Recruitment line for province %1 of functional title %2 already exist.', "Functional Title", "Province Name");
     end;
 
     var

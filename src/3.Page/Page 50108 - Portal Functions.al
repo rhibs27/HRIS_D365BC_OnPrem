@@ -1,6 +1,5 @@
 page 50108 "Portal Functions"
 {
-    // version APINICASIA1.00
     PageType = API;
     APIPublisher = 'Agile';
     APIGroup = 'HRMS';
@@ -2523,36 +2522,36 @@ page 50108 "Portal Functions"
         Clear(fname);
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveRejectAccessControl(empActivityNo: Code[20]; isApproved: Boolean; remark: Text)
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        EmpActivity.Get(empActivityNo);
-        if isApproved then begin
-            if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
-                EmpActivity.Remarks := remark;
-                HrMgt.RecommendAccessControl(EmpActivity);
-            end else
-                Error('Approval Status must be pending or recommended.');
-        end else begin
-            EmpActivity."Rejection Remarks" := remark;
-            HrMgt.RejectAccessControl(EmpActivity);
-        end;
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveRejectAccessControl(empActivityNo: Code[20]; isApproved: Boolean; remark: Text)
+    // var
+    //     EmpActivity: Record "Employee Activity";
+    // begin
+    //     EmpActivity.Get(empActivityNo);
+    //     if isApproved then begin
+    //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
+    //             EmpActivity.Remarks := remark;
+    //             HrMgt.RecommendAccessControl(EmpActivity);
+    //         end else
+    //             Error('Approval Status must be pending or recommended.');
+    //     end else begin
+    //         EmpActivity."Rejection Remarks" := remark;
+    //         HrMgt.RejectAccessControl(EmpActivity);
+    //     end;
+    // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveRejectAccessControlLine(empActivityNo: Code[20]; lineNo: Integer; isApproved: Boolean)
-    var
-        AccessControlLine: Record "Access Control Request Line";
-    begin
-        AccessControlLine.SetRange("Document No.", empActivityNo);
-        AccessControlLine.SetRange("Line No.", lineNo);
-        AccessControlLine.FindFirst;
-        HrMgt.ApproveRejectScreenAccessControl(AccessControlLine, isApproved);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveRejectAccessControlLine(empActivityNo: Code[20]; lineNo: Integer; isApproved: Boolean)
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    // begin
+    //     AccessControlLine.SetRange("Document No.", empActivityNo);
+    //     AccessControlLine.SetRange("Line No.", lineNo);
+    //     AccessControlLine.FindFirst;
+    //     HrMgt.ApproveRejectScreenAccessControl(AccessControlLine, isApproved);
+    // end;
 
     local procedure "------Transfer API---------"()
     begin

@@ -1,8 +1,6 @@
 table 50067 "Employee Activity"
 {
     DataClassification = CustomerContent;
-    // version NIC Asia1.00,Leave,Travel
-
     // Fields for Leave (50000-50099)
     // Fields for Travel (60000-60099)
     //             travel request (60000-60049)
@@ -1579,19 +1577,19 @@ table 50067 "Employee Activity"
         field(169; Whatsapp; Code[10])
         {
         }
-        field(170; "Request Case"; Enum "Request Case")
-        {
-            Description = 'Access Control';
+        // field(170; "Request Case"; Enum "Request Case")
+        // {
+        //     Description = 'Access Control';
 
-            trigger OnValidate()
-            begin
-                if "Request Case" <> xRec."Request Case" then begin
-                    AccessControlLine.Reset;
-                    AccessControlLine.SetRange("Document No.", "No.");
-                    AccessControlLine.DeleteAll;
-                end;
-            end;
-        }
+        // trigger OnValidate()
+        // begin
+        //     if "Request Case" <> xRec."Request Case" then begin
+        //         AccessControlLine.Reset;
+        //         AccessControlLine.SetRange("Document No.", "No.");
+        //         AccessControlLine.DeleteAll;
+        //     end;
+        // end;
+        // }
         field(171; "Date of Joining Of Transfer"; Date)
         {
             Description = 'Transfer';
@@ -1924,7 +1922,7 @@ table 50067 "Employee Activity"
         EmployeeRec: Record Employee;
         INVALID: Label 'Invalid %1';
         EmpRelative: Record "Employee Relative";
-        AccessControlLine: Record "Access Control Request Line";
+        // AccessControlLine: Record "Access Control Request Line";
         ProvinceVar: Record Province;
         SubProvinceVar: Record "Sub Province";
         DepartVar: Record Department;

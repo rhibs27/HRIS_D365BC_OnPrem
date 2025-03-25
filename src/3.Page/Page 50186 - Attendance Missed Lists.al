@@ -1,6 +1,6 @@
 page 50186 "Attendance Missed Lists"
 {
-    // version NIC Asia1.00,Leave
+
 
     CardPageId = "Attendance missed Card";
     Editable = false;

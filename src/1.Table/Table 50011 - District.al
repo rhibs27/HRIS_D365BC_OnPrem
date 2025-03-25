@@ -1,7 +1,5 @@
 table 50011 District
 {
-    // version NIC Asia1.00
-
     LookupPageId = "District List Page";
     DataClassification = CustomerContent;
 

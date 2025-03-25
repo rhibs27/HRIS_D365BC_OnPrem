@@ -7,7 +7,7 @@ report 50074 "Recruitment Memo"
 
     dataset
     {
-        dataitem("Recruitement Memo"; "Recruitement Memo")
+        dataitem("Recruitement Memo"; "Recruitment Memo")
         {
             column(ReferenceNo_RecruitementMemo; "Reference No.") { }
             column(Subject_RecruitementMemo; Subject) { }
@@ -34,7 +34,7 @@ report 50074 "Recruitment Memo"
             {
                 DataItemLink = "Memo No." = field("Memo No.");
                 column(MemoNo_RecruitementMemoLine; "Memo No.") { }
-                column(FuntionalTitle_RecruitementMemoLine; "Funtional Title") { }
+                column(FunctionalTitle_RecruitementMemoLine; "Functional Title") { }
                 column(SalaryLevelCode_RecruitementMemoLine; "Salary Level Code") { }
                 column(SalaryLevelDescription_RecruitementMemoLine; "Salary Level Description") { }
                 column(Location_RecruitementMemoLine; Location) { }

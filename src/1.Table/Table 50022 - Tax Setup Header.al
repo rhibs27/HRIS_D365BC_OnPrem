@@ -1,10 +1,5 @@
 table 50022 "Tax Setup Header"
 {
-    // version PRM19.01.01ss
-
-    // pradhan modification
-    //   field added no 6 and 7 (3rd Dec 2019)
-
     DrillDownPageId = "Tax Setup List";
     LookupPageId = "Tax Setup List";
     DataClassification = CustomerContent;

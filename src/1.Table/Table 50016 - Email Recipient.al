@@ -1,8 +1,6 @@
 table 50016 "Agile Email Recipient"
 {
     DataClassification = CustomerContent;
-    // version NP16.04
-
     fields
     {
         field(1; "Email Template Code"; Code[20])

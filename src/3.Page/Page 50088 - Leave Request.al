@@ -1,6 +1,5 @@
 page 50088 "Leave Request"
 {
-    // version NIC Asia1.00,Leave
     SourceTable = "Leave";
     // SourceTableTemporary = true;
     ApplicationArea = All;

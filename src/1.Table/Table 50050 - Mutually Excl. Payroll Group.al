@@ -1,8 +1,6 @@
 table 50050 "Mutually Excl. Payroll Group"
 {
     DataClassification = CustomerContent;
-    // version NU
-
     fields
     {
         field(1; Type; Code[20]) { }

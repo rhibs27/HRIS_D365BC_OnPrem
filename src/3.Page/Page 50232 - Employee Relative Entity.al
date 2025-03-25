@@ -1,6 +1,6 @@
 page 50232 "Employee Relative Entity"
 {
-    // version APINICASIA1.00
+
 
     DelayedInsert = true;
     //The property 'EntityName' can only be set if the property 'PageType' is set to 'API'

@@ -9,7 +9,7 @@ page 50312 "KPI Setup Functional API"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "KPI Setup NIC";
+    SourceTable = "KPI Setup Bank";
 
     layout
     {

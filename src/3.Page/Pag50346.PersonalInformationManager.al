@@ -1,7 +1,5 @@
 page 50346 "Personal Information Manager"
 {
-    // version ATNICASIA1.00
-
     PageType = RoleCenter;
     PromotedActionCategories = 'New,Process,Report,Employee Activity,Employee Loan';
     ApplicationArea = All;
@@ -59,7 +57,7 @@ page 50346 "Personal Information Manager"
             {
                 ApplicationArea = Basic, Suite;
                 Image = List;
-                RunObject = page "Employee Lite";
+                // RunObject = page "Employee Lite";
                 ToolTip = 'Executes the Employee Lite action.';
             }
             action(Employees)

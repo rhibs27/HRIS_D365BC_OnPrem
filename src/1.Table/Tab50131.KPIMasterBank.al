@@ -1,4 +1,4 @@
-table 50131 "KPI Master NIC"
+table 50131 "KPI Master Bank"
 {
     DataClassification = CustomerContent;
     // version KPI1.00

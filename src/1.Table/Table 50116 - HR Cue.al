@@ -569,7 +569,7 @@ table 50116 "HR Cue"
         }
         field(79; "To Check Reviews KPI"; Integer)
         {
-            CalcFormula = count("KPI Appraisal Header NIC" where(Status = const("Check Reviewed")));
+            CalcFormula = count("KPI Appraisal Header Bank" where(Status = const("Check Reviewed")));
             Description = 'KPI1.00';
             Editable = false;
             FieldClass = FlowField;

@@ -4,7 +4,7 @@ page 50291 "KPI Appraisals (NIC) List"
 
     CardPageId = "KPI Appriasal Province";
     PageType = List;
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
     ApplicationArea = All;
 
     layout

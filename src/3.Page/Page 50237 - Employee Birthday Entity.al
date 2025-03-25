@@ -1,6 +1,5 @@
 page 50237 "Employee Birthday Entity"
 {
-    // version APINICASIA1.00
 
     EntityName = 'employeeBirthdayEntity';
     EntitySetName = 'employeeBirthdayEntities';

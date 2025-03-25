@@ -1,7 +1,5 @@
 table 50014 "Facilitator Pool"
 {
-    // version NIC Asia1.00,Training
-
     DrillDownPageId = "Facilitator Pool Lists";
     LookupPageId = "Facilitator Pool Lists";
     DataClassification = CustomerContent;

@@ -1,7 +1,5 @@
 page 50179 "Allowance Assign Subfrom API"
 {
-    // version APINICASIA1.00
-
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = ListPart;

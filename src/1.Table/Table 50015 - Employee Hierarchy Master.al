@@ -1,7 +1,5 @@
 table 50015 "Employee Hierarchy Master"
 {
-    // version NIC Asia1.00
-
     Caption = 'Employee Hierarchy Master';
     DataClassification = CustomerContent;
 

@@ -1,7 +1,5 @@
 table 50076 Candidate
 {
-    // version HRM1.00
-
     Caption = 'Candidate';
     DataCaptionFields = "No.", "First Name", "Middle Name", "Last Name";
     DataClassification = CustomerContent;

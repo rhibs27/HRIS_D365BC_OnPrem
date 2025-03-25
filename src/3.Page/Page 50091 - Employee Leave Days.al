@@ -1,7 +1,5 @@
 page 50091 "Employee Leave Days"
 {
-    // version NIC Asia1.00,Leave
-
     PageType = ListPart;
     SourceTable = "Leave Type Setup";
     ApplicationArea = All;

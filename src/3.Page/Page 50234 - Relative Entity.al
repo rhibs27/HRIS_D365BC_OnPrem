@@ -1,7 +1,5 @@
 page 50234 "Relative Entity"
 {
-    // version APINICASIA1.00
-
     EntityName = 'relativeEntity';
     EntitySetName = 'relativeEntities';
     PageType = API;

@@ -1,8 +1,6 @@
 table 50023 "Tax Setup Line"
 {
     DataClassification = CustomerContent;
-    // version PRM19.01.01
-
     fields
     {
         field(1; "Code"; Code[20])

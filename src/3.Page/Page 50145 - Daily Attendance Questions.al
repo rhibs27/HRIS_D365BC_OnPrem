@@ -5,7 +5,6 @@ page 50145 "Daily Attendance Questions"
     SourceTable = "Daily Attendance Question";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)

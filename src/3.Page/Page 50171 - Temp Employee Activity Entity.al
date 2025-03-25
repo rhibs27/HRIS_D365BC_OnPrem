@@ -1,7 +1,5 @@
 page 50171 "Temp Employee Activity Entity"
 {
-    // version APINICASIA1.00
-
     EntityName = 'tempemployeeactivity';
     EntitySetName = 'tempemployeeactivities';
     PageType = API;

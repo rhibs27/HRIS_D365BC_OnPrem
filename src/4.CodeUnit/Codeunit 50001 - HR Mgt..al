@@ -404,9 +404,9 @@ codeunit 50001 "HR Mgt."
 
     procedure PostRecruitement(MemoNo: Code[20])
     var
-        Recruitement: Record "Recruitement Memo";
+        Recruitment: Record "Recruitment Memo";
         VacaHeadaer: Record "Vacancy Header";
-        RecruitementLine: Record "Recruitement Memo Line";
+        RecruitmentLine: Record "Recruitement Memo Line";
         DocNo: Text;
         NoMgt: Codeunit "NoSeriesManagement";
         VacancyLine: Record "Vacancy Line";
@@ -416,36 +416,35 @@ codeunit 50001 "HR Mgt."
         SelectionCommitee: Record "Selection Commitee";
         LineNo: Integer;
     begin
-        if Recruitement.Get(MemoNo) then begin
+        if Recruitment.Get(MemoNo) then begin
             HRSetup.Get;
-            Recruitement.TestField(Posted, false);
-            Recruitement.TestField("Reference No.");
-            Recruitement.TestField(Subject);
-            Recruitement.TestField(Type);
-            RecruitementLine.Reset;
-            RecruitementLine.SetRange("Memo No.", Recruitement."Memo No.");
+            Recruitment.TestField(Posted, false);
+            Recruitment.TestField("Reference No.");
+            Recruitment.TestField(Subject);
+            Recruitment.TestField(Type);
+            RecruitmentLine.Reset;
+            RecruitmentLine.SetRange("Memo No.", Recruitment."Memo No.");
 
             //for recruitment (external vacancy)
-            if (Recruitement.Type = Recruitement.Type::External) then begin
-                if RecruitementLine.Find('-') then
+            if (Recruitment.Type = Recruitment.Type::External) then begin
+                if RecruitmentLine.Find('-') then
                     repeat
                         VacaHeadaer.Reset;
-                        VacaHeadaer.SetRange("Memo No.", Recruitement."Memo No.");
-                        VacaHeadaer.SetRange("Functional Title", RecruitementLine."Funtional Title");
+                        VacaHeadaer.SetRange("Memo No.", Recruitment."Memo No.");
+                        VacaHeadaer.SetRange("Functional Title", RecruitmentLine."Functional Title");
                         if VacaHeadaer.FindFirst then
-                            Error('Vacancy Already Created for Memo No.: %1', Recruitement."Memo No.")
+                            Error('Vacancy Already Created for Memo No.: %1', Recruitment."Memo No.")
                         else begin
                             DocNo := NoMgt.GetNextNo(HRSetup."Vacancy Nos.", Today, true);
                             VacaHeadaer.Init;
                             VacaHeadaer.Validate("No.", DocNo);
                             VacaHeadaer.Validate(Status, VacaHeadaer.Status::Applied);
-                            VacaHeadaer.Validate("Memo No.", Recruitement."Memo No.");
-                            VacaHeadaer.Validate("Reference No.", Recruitement."Reference No.");
-                            VacaHeadaer.Validate("Functional Title", RecruitementLine."Funtional Title");
+                            VacaHeadaer.Validate("Reference No.", Recruitment."Reference No.");
+                            VacaHeadaer.Validate("Functional Title", RecruitmentLine."Functional Title");
                             VacaHeadaer.Validate("Approval Status", VacaHeadaer."Approval Status"::open);
-                            VacaHeadaer.Validate(Location, RecruitementLine.Location);
-                            VacaHeadaer.Validate("Date of Request", Recruitement."Date of Request");
-                            VacaHeadaer.Validate(Type, Recruitement.Type);
+                            VacaHeadaer.Validate(Location, RecruitmentLine.Location);
+                            VacaHeadaer.Validate("Date of Request", Recruitment."Date of Request");
+                            VacaHeadaer.Validate(Type, Recruitment.Type);
                             VacaHeadaer.Insert;
                             Employee.Reset;
                             Employee.SetRange("Selection committee", true);
@@ -457,16 +456,16 @@ codeunit 50001 "HR Mgt."
                                     SelectionCommitee.Validate(Email, Employee."Company E-Mail");
                                     SelectionCommitee.Insert(true);
                                 until Employee.Next = 0;
-                            if RecruitementLine."Salary Level Code" <> '' then begin
+                            if RecruitmentLine."Salary Level Code" <> '' then begin
                                 SalaryLevel.Reset;
-                                SalaryLevel.SetFilter(Code, RecruitementLine."Salary Level Code");
+                                SalaryLevel.SetFilter(Code, RecruitmentLine."Salary Level Code");
                                 if SalaryLevel.Find('-') then
                                     repeat
                                         VacancyLine.Init;
                                         VacancyLine.Validate("Vacancy No.", DocNo);
                                         VacancyLine.Validate("Salary Level", SalaryLevel.Code);
-                                        VacancyLine.Validate("Functional Title", RecruitementLine."Funtional Title");
-                                        VacancyLine.Validate("No. of People", RecruitementLine."Required No.");
+                                        VacancyLine.Validate("Functional Title", RecruitmentLine."Functional Title");
+                                        VacancyLine.Validate("No. of People", RecruitmentLine."Required No.");
                                         VacancyLine.Validate("Banking Experince", SalaryLevel."Banking Experience");
                                         VacancyLine.Validate("Non Banking Experince", SalaryLevel."Non-Banking Experience");
                                         VacancyLine.Validate("Minimum Age", SalaryLevel."Minimum Age");
@@ -476,32 +475,32 @@ codeunit 50001 "HR Mgt."
                                     until SalaryLevel.Next = 0;
                             end;
                         end;
-                        RecruitementLine."Vacancy No." := VacaHeadaer."No.";
-                        RecruitementLine.Modify;
-                    until RecruitementLine.Next = 0;
+                        RecruitmentLine."Vacancy No." := VacaHeadaer."No.";
+                        RecruitmentLine.Modify;
+                    until RecruitmentLine.Next = 0;
             end else begin
                 //for promotion (internal)
                 TempRecruLine.DeleteAll;
                 LineNo := 0;
-                if RecruitementLine.Find('-') then
+                if RecruitmentLine.Find('-') then
                     repeat
                         LineNo += 10000;
                         TempRecruLine.Reset;
-                        TempRecruLine.SetRange("Salary Level Code", RecruitementLine."Salary Level Code");
+                        TempRecruLine.SetRange("Salary Level Code", RecruitmentLine."Salary Level Code");
                         if TempRecruLine.FindFirst then begin
                             //VacaHeadaer.RESET;
                             //VacaHeadaer.SETRANGE("Memo No.","Memo No.");
-                            //VacaHeadaer.SETRANGE("Salary Level Code",RecruitementLine."Salary Level Code");
+                            //VacaHeadaer.SETRANGE("Salary Level Code",RecruitmentLine."Salary Level Code");
                             //IF VacaHeadaer.FINDFIRST THEN BEGIN
                             FunctionalTitle.Reset;
-                            FunctionalTitle.SetFilter(Code, RecruitementLine."Funtional Title");
+                            FunctionalTitle.SetFilter(Code, RecruitmentLine."Functional Title");
                             if FunctionalTitle.Find('-') then
                                 repeat
                                     VacancyLine.Init;
                                     VacancyLine.Validate("Vacancy No.", TempRecruLine."Vacancy No.");
                                     VacancyLine.Validate("Functional Title", FunctionalTitle.Code);
-                                    VacancyLine.Validate("Salary Level", RecruitementLine."Salary Level Code");
-                                    VacancyLine.Validate("No. of People", RecruitementLine."Required No.");
+                                    VacancyLine.Validate("Salary Level", RecruitmentLine."Salary Level Code");
+                                    VacancyLine.Validate("No. of People", RecruitmentLine."Required No.");
                                     VacancyLine.Insert;
                                 until FunctionalTitle.Next = 0
 
@@ -510,12 +509,12 @@ codeunit 50001 "HR Mgt."
                             VacaHeadaer.Init;
                             VacaHeadaer.Validate(Status, VacaHeadaer.Status::Applied);
                             VacaHeadaer.Validate("No.", DocNo);
-                            VacaHeadaer.Validate("Memo No.", Recruitement."Memo No.");
-                            VacaHeadaer.Validate("Reference No.", Recruitement."Reference No.");
-                            VacaHeadaer.Validate("Salary Level Code", RecruitementLine."Salary Level Code");
+                            VacaHeadaer.Validate("Memo No.", Recruitment."Memo No.");
+                            VacaHeadaer.Validate("Reference No.", Recruitment."Reference No.");
+                            VacaHeadaer.Validate("Salary Level Code", RecruitmentLine."Salary Level Code");
                             VacaHeadaer.Validate("Approval Status", VacaHeadaer."Approval Status"::open);
-                            VacaHeadaer.Validate(Location, RecruitementLine.Location);
-                            VacaHeadaer.Validate(Type, Recruitement.Type);
+                            VacaHeadaer.Validate(Location, RecruitmentLine.Location);
+                            VacaHeadaer.Validate(Type, Recruitment.Type);
                             VacaHeadaer.Insert(true);
                             Employee.Reset;
                             Employee.SetRange("Selection committee", true);
@@ -528,35 +527,35 @@ codeunit 50001 "HR Mgt."
                                     SelectionCommitee.Insert(true);
                                 until Employee.Next = 0;
                             TempRecruLine.Init;
-                            TempRecruLine."Salary Level Code" := RecruitementLine."Salary Level Code";
+                            TempRecruLine."Salary Level Code" := RecruitmentLine."Salary Level Code";
                             TempRecruLine."Vacancy No." := DocNo;
                             TempRecruLine."Memo No." := '1';
                             TempRecruLine."Line No." := LineNo;
                             TempRecruLine.Insert;
-                            if RecruitementLine."Funtional Title" <> '' then begin
+                            if RecruitmentLine."Functional Title" <> '' then begin
                                 FunctionalTitle.Reset;
-                                FunctionalTitle.SetFilter(Code, RecruitementLine."Funtional Title");
+                                FunctionalTitle.SetFilter(Code, RecruitmentLine."Functional Title");
                                 if FunctionalTitle.Find('-') then
                                     repeat
                                         VacancyLine.Init;
                                         VacancyLine.Validate("Vacancy No.", DocNo);
                                         VacancyLine.Validate("Functional Title", FunctionalTitle.Code);
-                                        VacancyLine.Validate("Salary Level", RecruitementLine."Salary Level Code");
-                                        VacancyLine.Validate("No. of People", RecruitementLine."Required No.");
+                                        VacancyLine.Validate("Salary Level", RecruitmentLine."Salary Level Code");
+                                        VacancyLine.Validate("No. of People", RecruitmentLine."Required No.");
                                         VacancyLine.Insert;
                                     until FunctionalTitle.Next = 0;
                             end;
                         end;
-                        RecruitementLine."Vacancy No." := VacaHeadaer."No.";
-                        RecruitementLine.Modify;
+                        RecruitmentLine."Vacancy No." := VacaHeadaer."No.";
+                        RecruitmentLine.Modify;
 
-                    until RecruitementLine.Next = 0;
+                    until RecruitmentLine.Next = 0;
             end;
 
-            Recruitement."Posting Date" := Today;
-            Recruitement.Posted := true;
-            Recruitement.Modify;
-            Message('Recruitemet Memo has been posted');
+            Recruitment."Posting Date" := Today;
+            Recruitment.Posted := true;
+            Recruitment.Modify;
+            Message('Recruitment Memo has been posted');
             TempRecruLine.DeleteAll;
         end;
     end;
@@ -2989,9 +2988,9 @@ codeunit 50001 "HR Mgt."
             //employee activities
             if (DocumentNo <> '') and (TableNo = DATABASE::"Employee Activity") then begin
                 EmployeeActivity.Get(DocumentNo);
-                if EmployeeActivity.Type = EmployeeActivity.Type::"Access Control" then
-                    EmailReceipientText.add(GetAddressAccessControl(EmployeeActivity))
-                else if (DocumentType = DocumentType::Transfer) and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Cancelled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
+                //if EmployeeActivity.Type = EmployeeActivity.Type::"Access Control" then
+                //EmailReceipientText.add(GetAddressAccessControl(EmployeeActivity))
+                if (DocumentType = DocumentType::Transfer) and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Cancelled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
                     EmailCCReceipent.Add('');
                     Employee.Reset;
                     EmployeeActivity.TestField("Incoming Supervisior");
@@ -3274,11 +3273,11 @@ codeunit 50001 "HR Mgt."
                                         GetTransferBody(EmployeeActivity);
                                     end;
 
-                                DocumentType::"Access Control":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        GetAccessControlBody(EmployeeActivity);
-                                    end;
+                                // DocumentType::"Access Control":
+                                //     begin
+                                //         EmployeeActivity.Get(DocumentNo);
+                                //         // GetAccessControlBody(EmployeeActivity);
+                                //     end;
                                 DocumentType::"Attendance Missed":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
@@ -8828,335 +8827,335 @@ codeunit 50001 "HR Mgt."
     //     Commit;
     // end;
 
-    local procedure "-----Access Control----"()
-    begin
-    end;
+    // local procedure "-----Access Control----"()
+    // begin
+    // end;
 
-    procedure OpenGrantAccessControl(EmpCode: Code[20])
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        Employee.Get(EmpCode);
-        EmpActivity.Init;
-        EmpActivity.Validate(Type, EmpActivity.Type::"Access Control");
-        EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Open);
-        EmpActivity."Requested Date" := Today;
-        EmpActivity.Validate("Employee No.", EmpCode);
-        EmpActivity."User ID" := UserId;
-        EmpActivity.Validate("Recommender Code", Employee."KPI Deputation Value");
-        EmpActivity.Insert(true);
-        PAGE.Run(PAGE::"Access Control Employee", EmpActivity);
-    end;
+    // procedure OpenGrantAccessControl(EmpCode: Code[20])
+    // var
+    //     EmpActivity: Record "Employee Activity";
+    // begin
+    //     Employee.Get(EmpCode);
+    //     EmpActivity.Init;
+    //     EmpActivity.Validate(Type, EmpActivity.Type::"Access Control");
+    //     EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Open);
+    //     EmpActivity."Requested Date" := Today;
+    //     EmpActivity.Validate("Employee No.", EmpCode);
+    //     EmpActivity."User ID" := UserId;
+    //     EmpActivity.Validate("Recommender Code", Employee."KPI Deputation Value");
+    //     EmpActivity.Insert(true);
+    //     PAGE.Run(PAGE::"Access Control Employee", EmpActivity);
+    // end;
 
-    procedure GenerateAccessControl(EmpActivity: Record "Employee Activity")
-    var
-        AccessControlDetails: Record "Access Control Details";
-        AccessControlLine: Record "Access Control Request Line";
-        LineNo: Integer;
-    begin
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Open);
-        Employee.Get(EmpActivity."Employee No.");
-        AccessControlLine.Reset;
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        AccessControlLine.DeleteAll;
-        Clear(AccessControlLine);
-        AccessControlDetails.Reset;
-        AccessControlDetails.SetRange(Type, AccessControlDetails.Type::"Funtional Title");
-        AccessControlDetails.SetRange(Code, Employee."Functional Title");
-        LineNo := 0;
-        if AccessControlDetails.Find('-') then
-            repeat
-                LineNo += 10000;
-                AccessControlLine.Init;
-                AccessControlLine.Validate("Document No.", EmpActivity."No.");
-                AccessControlLine.Validate("Line No.", LineNo);
-                AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
-                AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
-                AccessControlLine.Validate(Status, AccessControlLine.Status::open);
-                AccessControlLine.Validate("System Type", AccessControlDetails."System Type Code");
-                AccessControlLine.Insert;
-            until AccessControlDetails.Next = 0;
-    end;
+    // procedure GenerateAccessControl(EmpActivity: Record "Employee Activity")
+    // var
+    //     AccessControlDetails: Record "Access Control Details";
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     LineNo: Integer;
+    // begin
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Open);
+    //     Employee.Get(EmpActivity."Employee No.");
+    //     AccessControlLine.Reset;
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     AccessControlLine.DeleteAll;
+    //     Clear(AccessControlLine);
+    //     AccessControlDetails.Reset;
+    //     AccessControlDetails.SetRange(Type, AccessControlDetails.Type::"Funtional Title");
+    //     AccessControlDetails.SetRange(Code, Employee."Functional Title");
+    //     LineNo := 0;
+    //     if AccessControlDetails.Find('-') then
+    //         repeat
+    //             LineNo += 10000;
+    //             AccessControlLine.Init;
+    //             AccessControlLine.Validate("Document No.", EmpActivity."No.");
+    //             AccessControlLine.Validate("Line No.", LineNo);
+    //             AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
+    //             AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
+    //             AccessControlLine.Validate(Status, AccessControlLine.Status::open);
+    //             AccessControlLine.Validate("System Type", AccessControlDetails."System Type Code");
+    //             AccessControlLine.Insert;
+    //         until AccessControlDetails.Next = 0;
+    // end;
 
-    procedure SendAccessControlApproval(EmpActivity: Record "Employee Activity")
-    var
-        AccessControlLine: Record "Access Control Request Line";
-    begin
-        EmpActivity.TestField("Request Case");
-        EmpActivity.TestField("Recommender Code");
+    // procedure SendAccessControlApproval(EmpActivity: Record "Employee Activity")
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    // begin
+    //     EmpActivity.TestField("Request Case");
+    //     EmpActivity.TestField("Recommender Code");
 
-        AccessControlLine.Reset;
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        AccessControlLine.SetRange("Access Type", AccessControlLine."Access Type"::" ");
-        if AccessControlLine.FindFirst then
-            Error('Access type cannot be blank');
+    //     AccessControlLine.Reset;
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     AccessControlLine.SetRange("Access Type", AccessControlLine."Access Type"::" ");
+    //     if AccessControlLine.FindFirst then
+    //         Error('Access type cannot be blank');
 
 
-        EmpActivity."Approval Status" := EmpActivity."Approval Status"::"Pending Approval";
-        EmpActivity.Modify;
+    //     EmpActivity."Approval Status" := EmpActivity."Approval Status"::"Pending Approval";
+    //     EmpActivity.Modify;
 
-        Message('Document has been sent for approval');
-    end;
+    //     Message('Document has been sent for approval');
+    // end;
 
-    procedure RecommendAccessControl(EmpActivity: Record "Employee Activity")
-    begin
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
-        if EmpActivity."Recommender Code" <> GetEmployeeNo then
-            Error('You are not eligible to recommend this document');
+    // procedure RecommendAccessControl(EmpActivity: Record "Employee Activity")
+    // begin
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
+    //     if EmpActivity."Recommender Code" <> GetEmployeeNo then
+    //         Error('You are not eligible to recommend this document');
 
-        EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Recommended);
-        EmpActivity.Modify;
-        Message('Doucment has been recommended.');
-    end;
+    //     EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Recommended);
+    //     EmpActivity.Modify;
+    //     Message('Doucment has been recommended.');
+    // end;
 
-    procedure RejectAccessControl(EmpActivity: Record "Employee Activity")
-    var
-        AccessControlLine: Record "Access Control Request Line";
-    begin
-        Employee.Get(GetEmployeeNo);
-        if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then
-            if EmpActivity."Recommender Code" <> Employee."No." then
-                Error('You are not eligible to reject this document');
-        EmpActivity.TestField("Rejection Remarks");
-        if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Recommended then
-            if not Employee.Screener then
-                Error('You are not eligible to reject this document.');
+    // procedure RejectAccessControl(EmpActivity: Record "Employee Activity")
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    // begin
+    //     Employee.Get(GetEmployeeNo);
+    //     if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then
+    //         if EmpActivity."Recommender Code" <> Employee."No." then
+    //             Error('You are not eligible to reject this document');
+    //     EmpActivity.TestField("Rejection Remarks");
+    //     if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Recommended then
+    //         if not Employee.Screener then
+    //             Error('You are not eligible to reject this document.');
 
-        EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Rejected);
-        EmpActivity.Modify;
-        Clear(AccessControlLine);
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
-    end;
+    //     EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Rejected);
+    //     EmpActivity.Modify;
+    //     Clear(AccessControlLine);
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
+    // end;
 
-    procedure ScreenAccessControl(EmpActivity: Record "Employee Activity")
-    var
-        AccessControlLine: Record "Access Control Request Line";
-        EmailTemplate: Record "Email Template";
-    begin
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Recommended);
-        Employee.Get(GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to recommend this document');
+    // procedure ScreenAccessControl(EmpActivity: Record "Employee Activity")
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     EmailTemplate: Record "Email Template";
+    // begin
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Recommended);
+    //     Employee.Get(GetEmployeeNo);
+    //     if not Employee.Screener then
+    //         Error('You are not eligible to recommend this document');
 
-        Clear(AccessControlLine);
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
+    //     Clear(AccessControlLine);
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
 
-        EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Screened);
-        EmpActivity.Modify;
+    //     EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Screened);
+    //     EmpActivity.Modify;
 
-        SendMailFromTemplate(DATABASE::"Employee Activity", EmailTemplate."Document Type"::"Access Control", EmailTemplate.Type::" ", '', '', EmpActivity."No.", 0);
-        Message('Doucment has been screened.');
-    end;
+    //     SendMailFromTemplate(DATABASE::"Employee Activity", EmailTemplate."Document Type"::"Access Control", EmailTemplate.Type::" ", '', '', EmpActivity."No.", 0);
+    //     Message('Doucment has been screened.');
+    // end;
 
-    procedure ApproveRejectScreenAccessControl(AccessControlLine: Record "Access Control Request Line"; IsApproved: Boolean)
-    var
-        AccessControlDetails: Record "Access Control Details";
-        EmpActivity: Record "Employee Activity";
-        AccessControlLine2: Record "Access Control Request Line";
-        SystemAccess: Record "System Access Control";
-        LineNo: Integer;
-    begin
-        Employee.Get(GetEmployeeNo);
-        SystemAccess.Reset;
-        SystemAccess.SetRange("Type of Masters", SystemAccess."Type of Masters"::"System Control Setup");
-        SystemAccess.SetRange(Code, AccessControlLine."System Type");
-        SystemAccess.SetRange("System Department Owner", Employee."Department Code");
-        if (not SystemAccess.FindFirst) or (not Employee."System Owner") then
-            Error('You are not eligible to approve or reject ');
-        EmpActivity.Get(AccessControlLine."Document No.");
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Screened);
-        if IsApproved then begin
-            AccessControlLine.Status := AccessControlLine.Status::approved;
-            if AccessControlLine."Access Type" = AccessControlLine."Access Type"::Grant then begin
-                AccessControlDetails.Reset;
-                AccessControlDetails.SetRange(Type, AccessControlDetails.Type::Employee);
-                AccessControlDetails.SetRange(Code, AccessControlLine."Employee No.");
-                if AccessControlDetails.FindLast then
-                    LineNo := AccessControlDetails."Line No." + 10000;
+    // procedure ApproveRejectScreenAccessControl(AccessControlLine: Record "Access Control Request Line"; IsApproved: Boolean)
+    // var
+    //     AccessControlDetails: Record "Access Control Details";
+    //     EmpActivity: Record "Employee Activity";
+    //     AccessControlLine2: Record "Access Control Request Line";
+    //     SystemAccess: Record "System Access Control";
+    //     LineNo: Integer;
+    // begin
+    //     Employee.Get(GetEmployeeNo);
+    //     SystemAccess.Reset;
+    //     SystemAccess.SetRange("Type of Masters", SystemAccess."Type of Masters"::"System Control Setup");
+    //     SystemAccess.SetRange(Code, AccessControlLine."System Type");
+    //     SystemAccess.SetRange("System Department Owner", Employee."Department Code");
+    //     if (not SystemAccess.FindFirst) or (not Employee."System Owner") then
+    //         Error('You are not eligible to approve or reject ');
+    //     EmpActivity.Get(AccessControlLine."Document No.");
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Screened);
+    //     if IsApproved then begin
+    //         AccessControlLine.Status := AccessControlLine.Status::approved;
+    //         if AccessControlLine."Access Type" = AccessControlLine."Access Type"::Grant then begin
+    //             AccessControlDetails.Reset;
+    //             AccessControlDetails.SetRange(Type, AccessControlDetails.Type::Employee);
+    //             AccessControlDetails.SetRange(Code, AccessControlLine."Employee No.");
+    //             if AccessControlDetails.FindLast then
+    //                 LineNo := AccessControlDetails."Line No." + 10000;
 
-                AccessControlDetails.Reset;
-                AccessControlDetails.Init;
-                AccessControlDetails.Validate(Type, AccessControlDetails.Type::Employee);
-                AccessControlDetails.Validate(Code, AccessControlLine."Employee No.");
-                AccessControlDetails.Validate(Description, AccessControlLine."Employee Name");
-                AccessControlDetails.Validate("System Type Code", SystemAccess.Code);
-                AccessControlDetails.Validate("System Type Name", SystemAccess.Name);
-                AccessControlDetails.Validate("System Category Code", SystemAccess."System Category Code");
-                AccessControlDetails.Validate("System Category Name", SystemAccess."System Category Name");
-                AccessControlDetails.Validate("Line No.", LineNo);
-                AccessControlDetails.Validate("Granted Date", Today);
-                AccessControlDetails.Insert;
-            end else if AccessControlLine."Access Type" = AccessControlLine."Access Type"::Remove then begin
-                AccessControlDetails.Reset;
-                AccessControlDetails.SetRange(Type, AccessControlDetails.Type::Employee);
-                AccessControlDetails.SetRange(Code, AccessControlLine."Employee No.");
-                AccessControlDetails.SetRange("System Type Code", AccessControlLine."System Type");
-                if AccessControlDetails.FindFirst then
-                    AccessControlDetails.Delete;
-            end;
-        end else
-            AccessControlLine.Status := AccessControlLine.Status::rejected;
+    //             AccessControlDetails.Reset;
+    //             AccessControlDetails.Init;
+    //             AccessControlDetails.Validate(Type, AccessControlDetails.Type::Employee);
+    //             AccessControlDetails.Validate(Code, AccessControlLine."Employee No.");
+    //             AccessControlDetails.Validate(Description, AccessControlLine."Employee Name");
+    //             AccessControlDetails.Validate("System Type Code", SystemAccess.Code);
+    //             AccessControlDetails.Validate("System Type Name", SystemAccess.Name);
+    //             AccessControlDetails.Validate("System Category Code", SystemAccess."System Category Code");
+    //             AccessControlDetails.Validate("System Category Name", SystemAccess."System Category Name");
+    //             AccessControlDetails.Validate("Line No.", LineNo);
+    //             AccessControlDetails.Validate("Granted Date", Today);
+    //             AccessControlDetails.Insert;
+    //         end else if AccessControlLine."Access Type" = AccessControlLine."Access Type"::Remove then begin
+    //             AccessControlDetails.Reset;
+    //             AccessControlDetails.SetRange(Type, AccessControlDetails.Type::Employee);
+    //             AccessControlDetails.SetRange(Code, AccessControlLine."Employee No.");
+    //             AccessControlDetails.SetRange("System Type Code", AccessControlLine."System Type");
+    //             if AccessControlDetails.FindFirst then
+    //                 AccessControlDetails.Delete;
+    //         end;
+    //     end else
+    //         AccessControlLine.Status := AccessControlLine.Status::rejected;
 
-        AccessControlLine."Approved By" := GetEmployeeNo;
-        AccessControlLine."Approved Date" := Today;
-        AccessControlLine.Modify;
-        AccessControlLine2.Reset;
-        AccessControlLine2.SetRange("Document No.", AccessControlLine."Document No.");
-        AccessControlLine2.SetFilter("Line No.", '<>%1', AccessControlLine."Line No.");
-        AccessControlLine2.SetRange(Status, AccessControlLine2.Status::"pending approval");
-        if not AccessControlLine2.FindFirst then begin
-            EmpActivity."Approval Status" := EmpActivity."Approval Status"::Approved;
-            EmpActivity.Modify;
-        end;
-    end;
+    //     AccessControlLine."Approved By" := GetEmployeeNo;
+    //     AccessControlLine."Approved Date" := Today;
+    //     AccessControlLine.Modify;
+    //     AccessControlLine2.Reset;
+    //     AccessControlLine2.SetRange("Document No.", AccessControlLine."Document No.");
+    //     AccessControlLine2.SetFilter("Line No.", '<>%1', AccessControlLine."Line No.");
+    //     AccessControlLine2.SetRange(Status, AccessControlLine2.Status::"pending approval");
+    //     if not AccessControlLine2.FindFirst then begin
+    //         EmpActivity."Approval Status" := EmpActivity."Approval Status"::Approved;
+    //         EmpActivity.Modify;
+    //     end;
+    // end;
 
-    procedure AccessControlEmployeeSelection(EmpActivity: Record "Employee Activity")
-    var
-        AccessControlLine: Record "Access Control Request Line";
-        PageSelectionAccessControl: Page "Access Control Selection";
-    begin
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Open);
-        AccessControlLine.Reset;
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        AccessControlLine.DeleteAll;
-        Commit;
-        Clear(PageSelectionAccessControl);
-        PageSelectionAccessControl.SetDocNo(EmpActivity."No.");
-        PageSelectionAccessControl.RunModal;
-    end;
+    // procedure AccessControlEmployeeSelection(EmpActivity: Record "Employee Activity")
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     PageSelectionAccessControl: Page "Access Control Selection";
+    // begin
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Open);
+    //     AccessControlLine.Reset;
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     AccessControlLine.DeleteAll;
+    //     Commit;
+    //     Clear(PageSelectionAccessControl);
+    //     PageSelectionAccessControl.SetDocNo(EmpActivity."No.");
+    //     PageSelectionAccessControl.RunModal;
+    // end;
 
-    procedure GetAddressAccessControl(EmpActivity: Record "Employee Activity") EmailAddress: Text
-    var
-        AccessControlLine: Record "Access Control Request Line";
-        TempEmployee: Record Employee temporary;
-        SystemAccess: Record "System Access Control";
-    begin
-        TempEmployee.Reset;
-        TempEmployee.DeleteAll;
-        Clear(EmailAddress);
-        AccessControlLine.Reset;
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        if AccessControlLine.Find('-') then
-            repeat
-                SystemAccess.Reset;
-                SystemAccess.SetRange("Type of Masters", SystemAccess."Type of Masters"::"System Control Setup");
-                SystemAccess.SetRange(Code, AccessControlLine."System Type");
-                if SystemAccess.FindFirst then;
-                Employee.Reset;
-                Employee.SetRange("System Owner", true);
-                Employee.SetRange("Department Code", SystemAccess."System Department Owner");
-                if Employee.Find('-') then
-                    repeat
-                        TempEmployee.Reset;
-                        if not TempEmployee.Get(Employee."No.") then begin
-                            TempEmployee.Init;
-                            TempEmployee.Validate("No.", Employee."No.");
-                            TempEmployee.Insert(true);
-                            if EmailAddress = '' then
-                                EmailAddress := Employee."Company E-Mail"
-                            else
-                                EmailAddress += ';' + Employee."Company E-Mail";
-                        end;
-                    until Employee.Next = 0;
-            until AccessControlLine.Next = 0;
-    end;
+    // procedure GetAddressAccessControl(EmpActivity: Record "Employee Activity") EmailAddress: Text
+    // var
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     TempEmployee: Record Employee temporary;
+    //     SystemAccess: Record "System Access Control";
+    // begin
+    //     TempEmployee.Reset;
+    //     TempEmployee.DeleteAll;
+    //     Clear(EmailAddress);
+    //     AccessControlLine.Reset;
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     if AccessControlLine.Find('-') then
+    //         repeat
+    //             SystemAccess.Reset;
+    //             SystemAccess.SetRange("Type of Masters", SystemAccess."Type of Masters"::"System Control Setup");
+    //             SystemAccess.SetRange(Code, AccessControlLine."System Type");
+    //             if SystemAccess.FindFirst then;
+    //             Employee.Reset;
+    //             Employee.SetRange("System Owner", true);
+    //             Employee.SetRange("Department Code", SystemAccess."System Department Owner");
+    //             if Employee.Find('-') then
+    //                 repeat
+    //                     TempEmployee.Reset;
+    //                     if not TempEmployee.Get(Employee."No.") then begin
+    //                         TempEmployee.Init;
+    //                         TempEmployee.Validate("No.", Employee."No.");
+    //                         TempEmployee.Insert(true);
+    //                         if EmailAddress = '' then
+    //                             EmailAddress := Employee."Company E-Mail"
+    //                         else
+    //                             EmailAddress += ';' + Employee."Company E-Mail";
+    //                     end;
+    //                 until Employee.Next = 0;
+    //         until AccessControlLine.Next = 0;
+    // end;
 
-    local procedure GetAccessControlBody(EmpActivity: Record "Employee Activity")
-    var
-        BodyText1: Text;
-        AccessControlLine: Record "Access Control Request Line";
-    begin
-        BodyText1 := '<table style="width:100%">' +
-               '<tr>' +
-                 '<td><strong>' + AccessControlLine.FieldCaption("Employee No.") + '</strong></td>' +
-                 '<td><strong>' + AccessControlLine.FieldCaption("Employee Name") + '</strong></td>' +
-                 '<td><strong>' + AccessControlLine.FieldCaption("System Type Name") + '</strong></td>' +
-                 '<td><strong>' + AccessControlLine.FieldCaption("System Category Name") + '</strong></td>' +
-                 '<td><strong>' + AccessControlLine.FieldCaption("Access Type") + '</strong></td>' +
-               '</tr>';
+    // local procedure GetAccessControlBody(EmpActivity: Record "Employee Activity")
+    // var
+    //     BodyText1: Text;
+    //     AccessControlLine: Record "Access Control Request Line";
+    // begin
+    //     BodyText1 := '<table style="width:100%">' +
+    //            '<tr>' +
+    //              '<td><strong>' + AccessControlLine.FieldCaption("Employee No.") + '</strong></td>' +
+    //              '<td><strong>' + AccessControlLine.FieldCaption("Employee Name") + '</strong></td>' +
+    //              '<td><strong>' + AccessControlLine.FieldCaption("System Type Name") + '</strong></td>' +
+    //              '<td><strong>' + AccessControlLine.FieldCaption("System Category Name") + '</strong></td>' +
+    //              '<td><strong>' + AccessControlLine.FieldCaption("Access Type") + '</strong></td>' +
+    //            '</tr>';
 
-        AccessControlLine.Reset;
-        AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-        if AccessControlLine.Find('-') then
-            repeat
-                BodyText1 += '<tr>' +
-                                '<td>' + AccessControlLine."Employee No." + '</td>' +
-                                '<td>' + AccessControlLine."Employee Name" + '</td>' +
-                                '<td>' + AccessControlLine."System Type Name" + '</td>' +
-                                '<td>' + AccessControlLine."System Category Name" + '</td>' +
-                                '<td>' + Format(AccessControlLine."Access Type") + '</td>' +
-                              '</tr>';
-            until AccessControlLine.Next = 0;
-        BodyText1 += '</table>';
-        CodeunitEmailMessage.AppendToBody(EmpActivity.FieldCaption("Request Case") + Colon + Format(EmpActivity."Request Case") + '<br>');
-        CodeunitEmailMessage.AppendToBody(EmpActivity.FieldCaption("Requested Date") + Colon + Format(EmpActivity."Requested Date") + '<br>');
-        CodeunitEmailMessage.AppendToBody('<br>' + BodyText1 + '<br>');
-    end;
+    //     AccessControlLine.Reset;
+    //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
+    //     if AccessControlLine.Find('-') then
+    //         repeat
+    //             BodyText1 += '<tr>' +
+    //                             '<td>' + AccessControlLine."Employee No." + '</td>' +
+    //                             '<td>' + AccessControlLine."Employee Name" + '</td>' +
+    //                             '<td>' + AccessControlLine."System Type Name" + '</td>' +
+    //                             '<td>' + AccessControlLine."System Category Name" + '</td>' +
+    //                             '<td>' + Format(AccessControlLine."Access Type") + '</td>' +
+    //                           '</tr>';
+    //         until AccessControlLine.Next = 0;
+    //     BodyText1 += '</table>';
+    //     CodeunitEmailMessage.AppendToBody(EmpActivity.FieldCaption("Request Case") + Colon + Format(EmpActivity."Request Case") + '<br>');
+    //     CodeunitEmailMessage.AppendToBody(EmpActivity.FieldCaption("Requested Date") + Colon + Format(EmpActivity."Requested Date") + '<br>');
+    //     CodeunitEmailMessage.AppendToBody('<br>' + BodyText1 + '<br>');
+    // end;
 
-    procedure OpenGrantAccessControlFromTransfer(EmpActNo: Code[20])
-    var
-        EmpActivity: Record "Employee Activity";
-        TransferEmpActivity: Record "Employee Activity";
-        AccessControlDetail: Record "Access Control Details";
-        AccessControlLine: Record "Access Control Request Line";
-        LineNo: Integer;
-    begin
-        TransferEmpActivity.Get(EmpActNo);
-        TransferEmpActivity.TestField(Type, TransferEmpActivity.Type::"Employee Transfer");
-        EmpActivity.Reset;
-        EmpActivity.SetRange("Travel Order No.", EmpActNo);
-        if not EmpActivity.FindFirst then begin
-            Employee.Get(TransferEmpActivity."Employee No.");
-            EmpActivity.Init;
-            EmpActivity.Validate(Type, EmpActivity.Type::"Access Control");
-            EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Open);
-            EmpActivity."Requested Date" := Today;
-            EmpActivity.Validate("Request Case", EmpActivity."Request Case"::Transfer);
-            EmpActivity.Validate("Employee No.", TransferEmpActivity."Employee No.");
-            EmpActivity."Travel Order No." := TransferEmpActivity."No.";    //transfer no. tracking
-            EmpActivity."User ID" := UserId;
-            EmpActivity.Validate("Recommender Code", Employee."KPI Deputation Value");
-            EmpActivity.Insert(true);
-            LineNo := 0;
+    // procedure OpenGrantAccessControlFromTransfer(EmpActNo: Code[20])
+    // var
+    //     EmpActivity: Record "Employee Activity";
+    //     TransferEmpActivity: Record "Employee Activity";
+    //     AccessControlDetail: Record "Access Control Details";
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     LineNo: Integer;
+    // begin
+    //     TransferEmpActivity.Get(EmpActNo);
+    //     TransferEmpActivity.TestField(Type, TransferEmpActivity.Type::"Employee Transfer");
+    //     EmpActivity.Reset;
+    //     EmpActivity.SetRange("Travel Order No.", EmpActNo);
+    //     if not EmpActivity.FindFirst then begin
+    //         Employee.Get(TransferEmpActivity."Employee No.");
+    //         EmpActivity.Init;
+    //         EmpActivity.Validate(Type, EmpActivity.Type::"Access Control");
+    //         EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Open);
+    //         EmpActivity."Requested Date" := Today;
+    //         EmpActivity.Validate("Request Case", EmpActivity."Request Case"::Transfer);
+    //         EmpActivity.Validate("Employee No.", TransferEmpActivity."Employee No.");
+    //         EmpActivity."Travel Order No." := TransferEmpActivity."No.";    //transfer no. tracking
+    //         EmpActivity."User ID" := UserId;
+    //         EmpActivity.Validate("Recommender Code", Employee."KPI Deputation Value");
+    //         EmpActivity.Insert(true);
+    //         LineNo := 0;
 
-            AccessControlDetail.Reset;
-            AccessControlDetail.SetRange(Type, AccessControlDetail.Type::Employee);
-            AccessControlDetail.SetRange(Code, Employee."No.");
-            if AccessControlDetail.FindFirst then
-                repeat
-                    LineNo += 10000;
-                    AccessControlLine.Init;
-                    AccessControlLine.Validate("Document No.", EmpActivity."No.");
-                    AccessControlLine.Validate("Line No.", LineNo);
-                    AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
-                    AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
-                    AccessControlLine.Validate(Status, AccessControlLine.Status::open);
-                    AccessControlLine.Validate("System Type", AccessControlDetail."System Type Code");
-                    AccessControlLine.Validate("Access Type", AccessControlLine."Access Type"::Remove);
-                    AccessControlLine.Insert;
-                until AccessControlDetail.Next = 0;
+    //         AccessControlDetail.Reset;
+    //         AccessControlDetail.SetRange(Type, AccessControlDetail.Type::Employee);
+    //         AccessControlDetail.SetRange(Code, Employee."No.");
+    //         if AccessControlDetail.FindFirst then
+    //             repeat
+    //                 LineNo += 10000;
+    //                 AccessControlLine.Init;
+    //                 AccessControlLine.Validate("Document No.", EmpActivity."No.");
+    //                 AccessControlLine.Validate("Line No.", LineNo);
+    //                 AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
+    //                 AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
+    //                 AccessControlLine.Validate(Status, AccessControlLine.Status::open);
+    //                 AccessControlLine.Validate("System Type", AccessControlDetail."System Type Code");
+    //                 AccessControlLine.Validate("Access Type", AccessControlLine."Access Type"::Remove);
+    //                 AccessControlLine.Insert;
+    //             until AccessControlDetail.Next = 0;
 
-            AccessControlDetail.Reset;
-            AccessControlDetail.SetRange(Type, AccessControlDetail.Type::"Funtional Title");
-            AccessControlDetail.SetRange(Code, TransferEmpActivity."Functional Title (To)");
-            if AccessControlDetail.FindFirst then
-                repeat
-                    LineNo += 10000;
-                    AccessControlLine.Init;
-                    AccessControlLine.Validate("Document No.", EmpActivity."No.");
-                    AccessControlLine.Validate("Line No.", LineNo);
-                    AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
-                    AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
-                    AccessControlLine.Validate(Status, AccessControlLine.Status::open);
-                    AccessControlLine.Validate("System Type", AccessControlDetail."System Type Code");
-                    AccessControlLine.Validate("Access Type", AccessControlLine."Access Type"::Grant);
-                    AccessControlLine.Insert;
-                until AccessControlDetail.Next = 0;
-        end;
-        PAGE.Run(PAGE::"Access Control Employee", EmpActivity);
-    end;
+    //         AccessControlDetail.Reset;
+    //         AccessControlDetail.SetRange(Type, AccessControlDetail.Type::"Funtional Title");
+    //         AccessControlDetail.SetRange(Code, TransferEmpActivity."Functional Title (To)");
+    //         if AccessControlDetail.FindFirst then
+    //             repeat
+    //                 LineNo += 10000;
+    //                 AccessControlLine.Init;
+    //                 AccessControlLine.Validate("Document No.", EmpActivity."No.");
+    //                 AccessControlLine.Validate("Line No.", LineNo);
+    //                 AccessControlLine.Validate("Employee No.", EmpActivity."Employee No.");
+    //                 AccessControlLine.Validate("Employee Name", EmpActivity."Employee Name");
+    //                 AccessControlLine.Validate(Status, AccessControlLine.Status::open);
+    //                 AccessControlLine.Validate("System Type", AccessControlDetail."System Type Code");
+    //                 AccessControlLine.Validate("Access Type", AccessControlLine."Access Type"::Grant);
+    //                 AccessControlLine.Insert;
+    //             until AccessControlDetail.Next = 0;
+    //     end;
+    //     PAGE.Run(PAGE::"Access Control Employee", EmpActivity);
+    // end;
 
     procedure sendChangeforEmpforApproval(TempEmpActivity: Record "Employee Activity" temporary)
     var

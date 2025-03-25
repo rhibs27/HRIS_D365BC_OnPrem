@@ -1,7 +1,5 @@
-table 50053 "Recruitement Memo"
+table 50053 "Recruitment Memo"
 {
-    // version NIC Asia 1.0,Recruitement
-
     DrillDownPageId = "Recruitment Memo List";
     LookupPageId = "Recruitment Memo List";
     DataClassification = CustomerContent;
@@ -94,9 +92,9 @@ table 50053 "Recruitement Memo"
         RecruitementLine: Record "Recruitement Memo Line";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
-        RecruitmentMemo: Record "Recruitement Memo";
+        RecruitmentMemo: Record "Recruitment Memo";
 
-    procedure AssistEdit(OldRecruitmentMemo: Record "Recruitement Memo"): Boolean
+    procedure AssistEdit(OldRecruitmentMemo: Record "Recruitment Memo"): Boolean
     begin
         RecruitmentMemo := Rec;
         HRSetup.Get;

@@ -1,7 +1,6 @@
 table 50084 "Rolewise Job Description"
 {
     // version HRM1.00
-
     DataCaptionFields = "Role Code", "Job Description Code";
     DrillDownPageId = "Leave Earn";
     LookupPageId = "Leave Earn";

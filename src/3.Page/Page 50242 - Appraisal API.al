@@ -1,6 +1,5 @@
 page 50242 "Appraisal API"
 {
-    // version APINICASIA1.00
 
     DelayedInsert = true;
     EntityName = 'appraisalEntity';

@@ -4,7 +4,7 @@ page 50297 "KPI Appraisals Department"
 
     CardPageId = "Extension Counter Entity";
     PageType = List;
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
     ApplicationArea = All;
 
     layout

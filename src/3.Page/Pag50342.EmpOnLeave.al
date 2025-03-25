@@ -41,8 +41,6 @@ page 50342 EmpOnLeave
         }
     }
     trigger OnOpenPage()
-    var
-
     begin
         Rec.SetFilter("Start Date", '<=%1', Today);
         Rec.Setfilter("End Date", '>=%1', Today);

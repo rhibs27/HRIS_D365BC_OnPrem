@@ -1,7 +1,5 @@
 page 50006 "Quick Links API"
 {
-    // version APINICASIA1.00
-
     EntityName = 'quickLinkEntity';
     EntitySetName = 'quickLinkEntities';
     PageType = API;

@@ -1,7 +1,5 @@
 report 50036 "Offer Letter Vehicle Loan"
 {
-    // version NIC Asia,Vehicle Loan
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019837.OfferLetterVehicleLoan.rdl';
     ApplicationArea = All;

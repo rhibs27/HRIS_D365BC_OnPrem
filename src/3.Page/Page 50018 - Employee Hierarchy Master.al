@@ -1,7 +1,5 @@
 page 50018 "Employee Hierarchy Master"
 {
-    // version NIC Asia1.00,Training
-
     Caption = 'Employee Hierarchy Master';
     PageType = List;
     SourceTable = "Employee Hierarchy Master";

@@ -1,7 +1,5 @@
 page 50089 "Leave Requests"
 {
-    // version NIC Asia1.00,Leave
-
     CardPageId = "Posted Leave Card";
     Editable = false;
     PageType = List;

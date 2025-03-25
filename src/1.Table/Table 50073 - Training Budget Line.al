@@ -1,7 +1,6 @@
 table 50073 "Training Budget Line"
 {
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Training Header Entry No."; Integer)

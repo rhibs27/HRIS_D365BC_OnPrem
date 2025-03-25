@@ -1,4 +1,4 @@
-table 50134 "KPI Appraisal (NIC) Lines"
+table 50134 "KPI Appraisal Bank Lines"
 {
     DataClassification = CustomerContent;
     // version KPI1.00

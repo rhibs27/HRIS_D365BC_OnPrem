@@ -1,6 +1,5 @@
 table 50028 "Pay Cycle"
 {
-    // version PRM19.01.01
 
     DrillDownPageId = "Pay Cycle";
     LookupPageId = "Pay Cycle";

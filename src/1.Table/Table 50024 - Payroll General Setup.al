@@ -1,8 +1,6 @@
 table 50024 "Payroll General Setup"
 {
     DataClassification = CustomerContent;
-    // version PRM19.01.01
-
     fields
     {
         field(1; "Primary Key"; Code[10]) { }

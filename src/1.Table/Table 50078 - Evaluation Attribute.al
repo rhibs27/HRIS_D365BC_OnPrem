@@ -2,7 +2,6 @@ table 50078 "Evaluation Attribute"
 {
     DataClassification = CustomerContent;
     // version HRM1.00
-
     fields
     {
         field(1; "Attribute Type"; Enum "Evaluation Attribute Type")

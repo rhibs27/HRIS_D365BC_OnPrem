@@ -2,7 +2,6 @@ table 50079 Interviewer
 {
     DataClassification = CustomerContent;
     // version HRM1.00
-
     fields
     {
         field(1; "Vacancy Code"; Code[20])

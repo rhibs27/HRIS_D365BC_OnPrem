@@ -1,6 +1,5 @@
 page 50133 "Select Employee List"
 {
-    // version IME Remit
 
     DeleteAllowed = false;
     InsertAllowed = false;

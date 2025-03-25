@@ -2,7 +2,7 @@ table 50136 "Travel Request"
 {
     Caption = 'Travel Request';
     DataClassification = ToBeClassified;
-    //Field 1, 16, 100 are used in ApprovalMgt Codeunit as field Ref
+    //Field 1,2,16,36,100 are used in ApprovalMgt Codeunit as field Ref
     fields
     {
         field(1; "No."; Code[20])

@@ -1,6 +1,6 @@
 page 50236 "Province Entity"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'provinceEntity';
     EntitySetName = 'provinceEntities';

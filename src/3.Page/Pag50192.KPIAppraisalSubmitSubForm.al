@@ -3,7 +3,7 @@ page 50192 "KPI Appraisal Submit Sub Form"
     ApplicationArea = All;
     Caption = 'KPI Appraisal Submit Sub Form';
     PageType = ListPart;
-    SourceTable = "KPI Appraisal (NIC) Lines";
+    SourceTable = "KPI Appraisal Bank Lines";
 
     layout
     {

@@ -1,7 +1,5 @@
 table 50032 "Detailed Employee Ledg. En PRM"
 {
-    // version PRM19.01.01,NU
-
     DrillDownPageId = "Detailed Emp. Ledg. en PRM";
     LookupPageId = "Detailed Emp. Ledg. en PRM";
     DataClassification = CustomerContent;

@@ -618,6 +618,21 @@ table 50142 Resignation
         // InsertAttachmentLines;
     end;
 
+    trigger OnDelete()
+    var
+        ApprovalEntry: Record "Approval HRMS";
+        CannotDelete: Label 'Cannot delete document.';
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
+    end;
+
     // local procedure InsertAttendanceMissedAttachment()
     // var
     //     AttachmentMandatory: Record "Attachment Setup";

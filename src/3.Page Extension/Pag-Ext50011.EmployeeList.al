@@ -195,7 +195,7 @@ pageextension 50011 "Employee List" extends "Employee List"
             action("KPI Setup")
             {
                 ApplicationArea = All;
-                RunObject = page "KPI Setup Functional (NIC)";
+                RunObject = page "KPI Setup Functional Bank";
                 RunPageLink = Type = const("Department Central & Province Level"), Code = field("No.");
                 Promoted = true;
                 PromotedIsBig = true;

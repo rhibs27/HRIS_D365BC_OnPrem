@@ -14,8 +14,8 @@ table 50088 "Job Title Line"
             trigger OnValidate()
             begin
                 if "Job Type" = "Job Type"::"Job Specification" then begin
-                    Qualifiaction.Get(Code);
-                    Description := Qualifiaction.Description;
+                    Qualification.Get(Code);
+                    Description := Qualification.Description;
                 end;
             end;
         }
@@ -34,5 +34,5 @@ table 50088 "Job Title Line"
     fieldgroups { }
 
     var
-        Qualifiaction: Record Qualification;
+        Qualification: Record Qualification;
 }

@@ -1,6 +1,5 @@
 table 50021 "Level Wise Attributes"
 {
-    // version PRM19.01.01
 
     DrillDownPageId = "Posted Employee Activities";
     LookupPageId = "Posted Employee Activities";

@@ -553,8 +553,8 @@ table 50143 "Medical Insurance Claim"
         EmployeeRec: Record Employee;
         INVALID: Label 'Invalid %1';
         EmpRelative: Record "Employee Relative";
-        SystemAccessControl: Record "System Access Control";
-        AccessControlLine: Record "Access Control Request Line";
+        // SystemAccessControl: Record "System Access Control";
+        // AccessControlLine: Record "Access Control Request Line";
         ProvinceVar: Record Province;
         SubProvinceVar: Record "Sub Province";
         DepartVar: Record Department;

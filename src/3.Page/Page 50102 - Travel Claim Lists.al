@@ -1,7 +1,5 @@
 page 50102 "Travel Claim Lists"
 {
-    // version NIC Asia1.00,Travel
-
     CardPageId = "Travel Claim";
     Editable = false;
     PageType = List;

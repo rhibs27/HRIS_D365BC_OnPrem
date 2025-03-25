@@ -1,7 +1,5 @@
 page 50099 "Trainer Subform"
 {
-    // version NIC Asia1.00,Training
-
     AutoSplitKey = true;
     PageType = ListPart;
     SourceTable = "Training Line";

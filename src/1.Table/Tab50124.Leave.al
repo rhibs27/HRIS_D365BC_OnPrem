@@ -2,7 +2,7 @@ table 50124 Leave
 {
     Caption = 'Leave';
     DataClassification = CustomerContent;
-    //Field 1, 16, 100 are used in ApprovalMgt Codeunit as field Ref
+    //Field 1,2,16,37 100 are used in ApprovalMgt Codeunit as field Ref << Santosh 3.25.2025
     fields
     {
 
@@ -678,6 +678,7 @@ table 50124 Leave
         else begin
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
     end;

@@ -1,7 +1,5 @@
 table 50026 "Payroll Header"
 {
-    // version PRM19.01.01
-
     DrillDownPageId = "Payroll Plan List";
     LookupPageId = "Payroll Plan List";
     DataClassification = CustomerContent;

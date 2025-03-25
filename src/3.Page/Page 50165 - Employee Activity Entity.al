@@ -1,7 +1,5 @@
 page 50165 "Employee Activity Entity"
 {
-    // version APINICASIA1.00
-
     EntityName = 'employeeactivity';
     EntitySetName = 'employeeactivities';
     PageType = API;
@@ -268,10 +266,10 @@ page 50165 "Employee Activity Entity"
                 field(clearnceStatement; ClearnceStatement) { }
                 field(applyForWaiver; Rec."Apply for Waiver") { }
             }
-            group("Access Control")
-            {
-                field(requestCase; Rec."Request Case") { }
-            }
+            // group("Access Control")
+            // {
+            //     field(requestCase; Rec."Request Case") { }
+            // }
             part(Attachment; "Attachment Subform")
             {
                 EntityName = 'attachmentEntity';
@@ -284,12 +282,12 @@ page 50165 "Employee Activity Entity"
                 EntitySetName = 'docApproverEntities';
                 SubPageLink = "Document No." = field("No.");
             }
-            part(reqAccessControlEmployeeEntities; "Access Control Emp Subforms")
-            {
-                EntityName = 'reqAccessControlEmployeeEntity';
-                EntitySetName = 'reqAccessControlEmployeeEntities';
-                SubPageLink = "Document No." = field("No.");
-            }
+            // part(reqAccessControlEmployeeEntities; "Access Control Emp Subforms")
+            // {
+            //     EntityName = 'reqAccessControlEmployeeEntity';
+            //     EntitySetName = 'reqAccessControlEmployeeEntities';
+            //     SubPageLink = "Document No." = field("No.");
+            // }
             group(Insurance)
             {
                 field(insuranceClaim; Rec."Insurance Claim") { }
@@ -318,18 +316,18 @@ page 50165 "Employee Activity Entity"
             {
                 field(recommendercode; Rec."Recommender Code")
                 {
-                    trigger OnValidate()
-                    begin
-                        if Rec.Type = Rec.Type::"Access Control" then begin
-                            HRSetup.Get;
-                            Employee.Reset;
-                            Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-                            if Employee.FindFirst then;
-                            Rec.Validate("Approver Code", Employee."No.");
-                            HRMgt.SendAccessControlApproval(Rec);
-                            Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
-                        end;
-                    end;
+                    // trigger OnValidate()
+                    // begin
+                    //     if Rec.Type = Rec.Type::"Access Control" then begin
+                    //         HRSetup.Get;
+                    //         Employee.Reset;
+                    //         Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
+                    //         if Employee.FindFirst then;
+                    //         Rec.Validate("Approver Code", Employee."No.");
+                    //         HRMgt.SendAccessControlApproval(Rec);
+                    //         Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                    //     end;
+                    // end;
                 }
                 field(recommnedername; Rec."Recommender Name") { }
                 field(approvercode; Rec."Approver Code") { }
@@ -395,7 +393,7 @@ page 50165 "Employee Activity Entity"
 
     trigger OnAfterGetRecord()
     begin
-        SetControlAppearance;
+        //SetControlAppearance;
         Rec.CalcFields("Transfer Claim Reviewer Name");
         if Employee.Get(Rec."Transfer Claim Recommender") then
             RecommederName := Employee."Full Name"
@@ -416,7 +414,7 @@ page 50165 "Employee Activity Entity"
 
     trigger OnOpenPage()
     begin
-        SetControlAppearance;
+        //SetControlAppearance;
     end;
 
     var
@@ -445,83 +443,83 @@ page 50165 "Employee Activity Entity"
         TransferClaimApproverRemarks: Text;
         ReasonCode: Record "Reason Code";
 
-    local procedure SetControlAppearance()
-    var
-        EmpVar: Record Employee;
-        DocApprover: Record "Document Approver";
-        EmpActFilter: Text;
-        AccessControlLine: Record "Access Control Request Line";
-        SystemAccessControl: Record "System Access Control";
-    begin
+    // local procedure SetControlAppearance()
+    // var
+    //     EmpVar: Record Employee;
+    //     DocApprover: Record "Document Approver";
+    //     EmpActFilter: Text;
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     SystemAccessControl: Record "System Access Control";
+    // begin
 
-        if Rec.Type = Rec.Type::Resignation then begin
-            HRSetup.Get;
-            ClearnceStatement := HRSetup."Clearance Statement I" + HRSetup."Clearance Statement II";
-            Clear(EmpActFilter);
-            EmpVar.Reset;
-            EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
-            if EmpVar.FindFirst then begin
-                DocApprover.Reset;
-                DocApprover.SetRange("Document Type", DocApprover."Document Type"::Resignation);
-                DocApprover.SetRange("Employee No.", EmpVar."No.");
-                if DocApprover.Find('-') then begin
-                    repeat
-                        if EmpActFilter = '' then
-                            EmpActFilter := DocApprover."Document No."
-                        else
-                            EmpActFilter += '|' + DocApprover."Document No.";
-                    until DocApprover.Next = 0;
-                    Rec.FilterGroup(-1);
-                    if EmpActFilter = '' then
-                        Rec.SetRange("No.", EmpActFilter)
-                    else
-                        Rec.SetFilter("No.", EmpActFilter);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.FilterGroup(0);
-                end;
-            end;
-        end;
+    //     if Rec.Type = Rec.Type::Resignation then begin
+    //         HRSetup.Get;
+    //         ClearnceStatement := HRSetup."Clearance Statement I" + HRSetup."Clearance Statement II";
+    //         Clear(EmpActFilter);
+    //         EmpVar.Reset;
+    //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
+    //         if EmpVar.FindFirst then begin
+    //             DocApprover.Reset;
+    //             DocApprover.SetRange("Document Type", DocApprover."Document Type"::Resignation);
+    //             DocApprover.SetRange("Employee No.", EmpVar."No.");
+    //             if DocApprover.Find('-') then begin
+    //                 repeat
+    //                     if EmpActFilter = '' then
+    //                         EmpActFilter := DocApprover."Document No."
+    //                     else
+    //                         EmpActFilter += '|' + DocApprover."Document No.";
+    //                 until DocApprover.Next = 0;
+    //                 Rec.FilterGroup(-1);
+    //                 if EmpActFilter = '' then
+    //                     Rec.SetRange("No.", EmpActFilter)
+    //                 else
+    //                     Rec.SetFilter("No.", EmpActFilter);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 Rec.FilterGroup(0);
+    //             end;
+    //         end;
+    //     end;
 
-        if Rec.Type = Rec.Type::"Access Control" then begin
-            Clear(EmpActFilter);
-            EmpVar.Reset;
-            EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
-            if EmpVar.FindFirst then begin
-                if not EmpVar."System Owner" then begin
-                    Rec.FilterGroup(-1);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    Rec.FilterGroup(0);
-                end else begin
-                    AccessControlLine.Reset;
-                    //AccessControlLine.SETRANGE("Document No.","No.");
-                    if AccessControlLine.FindFirst then
-                        repeat
-                            SystemAccessControl.Reset;
-                            SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
-                            SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
-                            SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
-                            if SystemAccessControl.FindFirst then begin
-                                if EmpActFilter = '' then
-                                    EmpActFilter := AccessControlLine."Document No."
-                                else
-                                    EmpActFilter += '|' + AccessControlLine."Document No.";
-                            end;
-                        until AccessControlLine.Next = 0;
-                    Rec.FilterGroup(-1);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.SetRange("Approver Code", EmpVar."No.");
-                    if EmpActFilter <> '' then
-                        Rec.SetFilter("No.", EmpActFilter);
-                    Rec.FilterGroup(0);
-                end;
-            end;
-        end;
-    end;
+    //     if Rec.Type = Rec.Type::"Access Control" then begin
+    //         Clear(EmpActFilter);
+    //         EmpVar.Reset;
+    //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
+    //         if EmpVar.FindFirst then begin
+    //             if not EmpVar."System Owner" then begin
+    //                 Rec.FilterGroup(-1);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 Rec.FilterGroup(0);
+    //             end else begin
+    //                 AccessControlLine.Reset;
+    //                 //AccessControlLine.SETRANGE("Document No.","No.");
+    //                 if AccessControlLine.FindFirst then
+    //                     repeat
+    //                         SystemAccessControl.Reset;
+    //                         SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
+    //                         SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
+    //                         SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
+    //                         if SystemAccessControl.FindFirst then begin
+    //                             if EmpActFilter = '' then
+    //                                 EmpActFilter := AccessControlLine."Document No."
+    //                             else
+    //                                 EmpActFilter += '|' + AccessControlLine."Document No.";
+    //                         end;
+    //                     until AccessControlLine.Next = 0;
+    //                 Rec.FilterGroup(-1);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 if EmpActFilter <> '' then
+    //                     Rec.SetFilter("No.", EmpActFilter);
+    //                 Rec.FilterGroup(0);
+    //             end;
+    //         end;
+    //     end;
+    // end;
 
     local procedure GetTransferName()
     var

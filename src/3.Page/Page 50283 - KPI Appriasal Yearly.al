@@ -10,7 +10,7 @@ page 50283 "KPI Appriasal Yearly"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
 
     layout
     {
@@ -105,11 +105,11 @@ page 50283 "KPI Appriasal Yearly"
     end;
 
     var
-        KPIAppriasalLine: Record "KPI Appraisal (NIC) Lines";
+        KPIAppriasalLine: Record "KPI Appraisal Bank Lines";
         KPIRatingSetup: Record "KPI Rating Setup";
         YearlyKPIScore: Decimal;
-        KPIAppriasalRecord: Record "KPI Appraisal Header NIC";
+        KPIAppriasalRecord: Record "KPI Appraisal Header Bank";
         NetKPIScore: Decimal;
-        KPIAppriasalRecord1: Record "KPI Appraisal Header NIC";
+        KPIAppriasalRecord1: Record "KPI Appraisal Header Bank";
         NoOfAppriasalPeriod: Integer;
 }

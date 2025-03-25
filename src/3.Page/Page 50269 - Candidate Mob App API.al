@@ -1,6 +1,6 @@
 page 50269 "Candidate Mob App API"
 {
-    // version HRM1.00,APINICASIA1.00
+
 
     EntityName = 'candidateListEntity';
     EntitySetName = 'candidateListEntities';

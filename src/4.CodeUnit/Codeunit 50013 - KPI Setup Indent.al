@@ -24,7 +24,7 @@ codeunit 50013 "KPI Setup Indent"
         Window: Dialog;
         AccNo: array[10] of Code[20];
         i: Integer;
-        KPISetup: Record "KPI Setup NIC";
+        KPISetup: Record "KPI Setup Bank";
 
     [Scope('Personalization')]
     procedure Indent()

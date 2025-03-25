@@ -1,7 +1,5 @@
 report 50037 "Promissory Note Vehicle Loan"
 {
-    // version NIC Asia,Vehicle Loan
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019838.PromissoryNoteVehicleLoan.rdl';
     ApplicationArea = All;

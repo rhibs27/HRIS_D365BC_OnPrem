@@ -1,7 +1,5 @@
 page 50093 "Travel Requests"
 {
-    // version NIC Asia1.00,Travel
-
     CardPageId = "Travel Form";
     // Editable = false;
     DeleteAllowed = false;

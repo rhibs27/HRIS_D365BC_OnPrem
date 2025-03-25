@@ -1,7 +1,7 @@
 page 50021 "Recruitment Card"
 {
     PageType = Card;
-    SourceTable = "Recruitement Memo";
+    SourceTable = "Recruitment Memo";
     ApplicationArea = All;
 
     layout
@@ -120,5 +120,5 @@ page 50021 "Recruitment Card"
 
     var
         HRMgt: Codeunit "HR Mgt.";
-        RecruitementMemo: Record "Recruitement Memo";
+        RecruitementMemo: Record "Recruitment Memo";
 }

@@ -1,7 +1,5 @@
 page 50097 "Training Card"
 {
-    // version NIC Asia1.00,Training
-
     PageType = Card;
     SourceTable = "Training Header";
     ApplicationArea = All;

@@ -4,7 +4,6 @@ table 50138 Department
     DataClassification = CustomerContent;
     // LookupPageID = Page "Department" ;
     // DrillDownPageID = Page "Department";
-
     fields
     {
         field(1; "Code"; Code[20])

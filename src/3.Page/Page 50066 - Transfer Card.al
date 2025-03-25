@@ -1,7 +1,5 @@
 page 50066 "Transfer Card"
 {
-    // version NIC Asia1.00
-
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
     // //Min 12.11.2022 -- for uneditable transfer effective date
 

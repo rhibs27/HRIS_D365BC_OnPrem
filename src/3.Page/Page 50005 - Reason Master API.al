@@ -1,7 +1,5 @@
 page 50005 "Reason Master API"
 {
-    // version APINICASIA1.00
-
     EntityName = 'reasonMasterEntity';
     EntitySetName = 'reasonMasterEntities';
     PageType = API;

@@ -1,7 +1,5 @@
 report 50020 "Trainer Traning Hours"
 {
-    // version ATNICASIA1.00
-
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019821.TrainerTraningHours.rdl';
     Caption = 'Trainee Traning Hours';

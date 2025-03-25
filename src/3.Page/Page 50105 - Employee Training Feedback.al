@@ -1,7 +1,5 @@
 page 50105 "Employee Training Feedback"
 {
-    // version NIC Asia1.00,Training
-
     AutoSplitKey = true;
     DeleteAllowed = false;
     InsertAllowed = false;

@@ -1,44 +1,43 @@
-page 50230 "System Control Seup API"
-{
-    // version APINICASIA1.00
+// page 50230 "System Control Seup API"
+// {
 
-    EntityName = 'systemAccessControlEntity';
-    EntitySetName = 'systemAccessControlEntities';
-    PageType = API;
-    APIVersion = 'v2.0';
-    DelayedInsert = true;
-    APIGroup = 'HRMS';
-    APIPublisher = 'Agile';
-    SourceTable = "System Access Control";
-    SourceTableView = where("Type of Masters" = const("System Control Setup"));
+//     EntityName = 'systemAccessControlEntity';
+//     EntitySetName = 'systemAccessControlEntities';
+//     PageType = API;
+//     APIVersion = 'v2.0';
+//     DelayedInsert = true;
+//     APIGroup = 'HRMS';
+//     APIPublisher = 'Agile';
+//     SourceTable = "System Access Control";
+//     SourceTableView = where("Type of Masters" = const("System Control Setup"));
 
-    layout
-    {
-        area(Content)
-        {
-            repeater(Group)
-            {
-                field(systemTypeCode; Rec.Code) { }
-                field(systemTypeName; Rec.Name)
-                {
-                    Editable = false;
-                }
-                field(systemCategoryCode; Rec."System Category Code")
-                {
-                    Editable = false;
-                }
-                field(systemCategoryName; Rec."System Category Name") { }
-                field(systemDepartmentOwner; Rec."System Department Owner") { }
-                field(departmentName; Rec."Department Name") { }
-                field(systemOwnerEmailID; Rec."System Owner Email ID") { }
-            }
-        }
-    }
+//     layout
+//     {
+//         area(Content)
+//         {
+//             repeater(Group)
+//             {
+//                 field(systemTypeCode; Rec.Code) { }
+//                 field(systemTypeName; Rec.Name)
+//                 {
+//                     Editable = false;
+//                 }
+//                 field(systemCategoryCode; Rec."System Category Code")
+//                 {
+//                     Editable = false;
+//                 }
+//                 field(systemCategoryName; Rec."System Category Name") { }
+//                 field(systemDepartmentOwner; Rec."System Department Owner") { }
+//                 field(departmentName; Rec."Department Name") { }
+//                 field(systemOwnerEmailID; Rec."System Owner Email ID") { }
+//             }
+//         }
+//     }
 
-    actions { }
+//     actions { }
 
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Rec."Type of Masters" := Rec."Type of Masters"::"System Control Setup";
-    end;
-}
+//     trigger OnNewRecord(BelowxRec: Boolean)
+//     begin
+//         Rec."Type of Masters" := Rec."Type of Masters"::"System Control Setup";
+//     end;
+// }

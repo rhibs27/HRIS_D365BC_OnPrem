@@ -1,7 +1,5 @@
 table 50010 "Functional Title"
 {
-    // version NIC Asia1.00/KPI1.00
-
     DrillDownPageId = "Functional Title List";
     LookupPageId = "Functional Title List";
     DataClassification = CustomerContent;

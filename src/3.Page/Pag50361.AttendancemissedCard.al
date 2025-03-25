@@ -145,6 +145,7 @@ page 50361 "Attendance missed Card"
                 begin
                     DocCancelMgt.ApplyAttendanceMissed(Rec);
                     Message('Applied');
+                    IsApplied := true;
                     CurrPage.Close;
                 end;
             }
@@ -212,6 +213,23 @@ page 50361 "Attendance missed Card"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
+        if IsOpen then
+            ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+    end;
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    begin
+        if Rec."Approval Status" = Rec."Approval Status"::Open then
+            if not IsApplied then
+                if not Confirm('The data will be erased. Do you want to continue?', true) then
+                    Error('')
+                else begin
+                    Approval.Reset();
+                    Approval.SetRange("Document No.", '');
+                    Approval.setRange("Document Type", Approval."Document Type"::"Attendance Missed");
+                    Approval.SetRange("Employee No", Rec."Employee No.");
+                    Approval.DeleteAll();
+                end;
     end;
 
 
@@ -228,5 +246,6 @@ page 50361 "Attendance missed Card"
         RecRef: RecordRef;
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
+        IsApplied: Boolean;
 }
 

@@ -1,7 +1,5 @@
 page 50067 "Resignation Card"
 {
-    // version NIC Asia1.00
-
     DeleteAllowed = false;
     InsertAllowed = false;
     SourceTable = "Resignation";

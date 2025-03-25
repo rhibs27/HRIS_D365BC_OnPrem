@@ -1,6 +1,6 @@
 page 50257 "HR Transfer API"
 {
-    // version NIC Asia1.00
+
 
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
 

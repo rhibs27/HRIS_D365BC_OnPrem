@@ -1,4 +1,4 @@
-table 50132 "KPI Setup NIC"
+table 50132 "KPI Setup Bank"
 {
     DataClassification = CustomerContent;
     // version KPI1.00
@@ -17,7 +17,7 @@ table 50132 "KPI Setup NIC"
         }
         field(3; "KPI Code"; Code[20])
         {
-            TableRelation = "KPI Master NIC";
+            TableRelation = "KPI Master Bank";
 
             trigger OnValidate()
             begin
@@ -70,5 +70,5 @@ table 50132 "KPI Setup NIC"
     fieldgroups { }
 
     var
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master bank";
 }

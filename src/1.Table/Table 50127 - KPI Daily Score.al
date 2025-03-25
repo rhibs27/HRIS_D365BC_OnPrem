@@ -11,7 +11,7 @@ table 50127 "KPI Daily Score"
         }
         field(2; "KPI Code"; Code[20])
         {
-            TableRelation = "KPI Master NIC";
+            TableRelation = "KPI Master Bank";
 
             trigger OnValidate()
             begin
@@ -134,8 +134,8 @@ table 50127 "KPI Daily Score"
     fieldgroups { }
 
     var
-        KPIMaster: Record "KPI Master NIC";
-        KPISetup: Record "KPI Setup NIC";
+        KPIMaster: Record "KPI Master Bank";
+        KPISetup: Record "KPI Setup Bank";
         EmployeeRec: Record Employee;
         KPITargetRaw: Record "KPI Target Raw";
         KPIMgt: Codeunit "KPI Mgt.";

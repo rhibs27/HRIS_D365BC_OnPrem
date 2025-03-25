@@ -1,7 +1,6 @@
 table 50027 "Payroll Line"
 {
     DataClassification = CustomerContent;
-    // version PRM19.01.01
 
     // //Min 3.20.2022 -- IsValidComponent,function commented because, data filter does not match according condition applied on these function.
 

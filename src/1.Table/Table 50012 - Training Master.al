@@ -1,7 +1,5 @@
 table 50012 "Training Master"
 {
-    // version NIC Asia1.00,Training
-
     DrillDownPageId = "Training Master";
     LookupPageId = "Training Master";
     DataClassification = CustomerContent;

@@ -91,7 +91,7 @@ page 50339 "Employee Resignation Entity"
 
     trigger OnOpenPage()
     begin
-        SetControlAppearance;
+        // SetControlAppearance;
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         Rec.SetAscending("No.", false);
     end;
@@ -101,81 +101,81 @@ page 50339 "Employee Resignation Entity"
         HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
 
-    local procedure SetControlAppearance()
-    var
-        EmpVar: Record Employee;
-        DocApprover: Record "Document Approver";
-        EmpActFilter: Text;
-        AccessControlLine: Record "Access Control Request Line";
-        SystemAccessControl: Record "System Access Control";
-    begin
+    // local procedure SetControlAppearance()
+    // var
+    //     EmpVar: Record Employee;
+    //     DocApprover: Record "Document Approver";
+    //     EmpActFilter: Text;
+    //     AccessControlLine: Record "Access Control Request Line";
+    //     SystemAccessControl: Record "System Access Control";
+    // begin
 
-        if Rec.Type = Rec.Type::Resignation then begin
-            HRSetup.Get;
-            ClearanceStatement := HRSetup."Clearance Statement I" + HRSetup."Clearance Statement II";
-            Clear(EmpActFilter);
-            EmpVar.Reset;
-            EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
-            if EmpVar.FindFirst then begin
-                DocApprover.Reset;
-                DocApprover.SetRange("Document Type", DocApprover."Document Type"::Resignation);
-                DocApprover.SetRange("Employee No.", EmpVar."No.");
-                if DocApprover.Find('-') then begin
-                    repeat
-                        if EmpActFilter = '' then
-                            EmpActFilter := DocApprover."Document No."
-                        else
-                            EmpActFilter += '|' + DocApprover."Document No.";
-                    until DocApprover.Next = 0;
-                    Rec.FilterGroup(-1);
-                    if EmpActFilter = '' then
-                        Rec.SetRange("No.", EmpActFilter)
-                    else
-                        Rec.SetFilter("No.", EmpActFilter);
-                    Rec.SetRange("Employee No.", EmpVar."No.");
-                    // Rec.SetRange("Approver Code", EmpVar."No.");
-                    // Rec.SetRange("Recommender Code", EmpVar."No.");
-                    Rec.FilterGroup(0);
-                end;
-            end;
-        end;
+    //     if Rec.Type = Rec.Type::Resignation then begin
+    //         HRSetup.Get;
+    //         ClearanceStatement := HRSetup."Clearance Statement I" + HRSetup."Clearance Statement II";
+    //         Clear(EmpActFilter);
+    //         EmpVar.Reset;
+    //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
+    //         if EmpVar.FindFirst then begin
+    //             DocApprover.Reset;
+    //             DocApprover.SetRange("Document Type", DocApprover."Document Type"::Resignation);
+    //             DocApprover.SetRange("Employee No.", EmpVar."No.");
+    //             if DocApprover.Find('-') then begin
+    //                 repeat
+    //                     if EmpActFilter = '' then
+    //                         EmpActFilter := DocApprover."Document No."
+    //                     else
+    //                         EmpActFilter += '|' + DocApprover."Document No.";
+    //                 until DocApprover.Next = 0;
+    //                 Rec.FilterGroup(-1);
+    //                 if EmpActFilter = '' then
+    //                     Rec.SetRange("No.", EmpActFilter)
+    //                 else
+    //                     Rec.SetFilter("No.", EmpActFilter);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 // Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 Rec.FilterGroup(0);
+    //             end;
+    //         end;
+    //     end;
 
-        //     if Rec.Type = Rec.Type::"Access Control" then begin
-        //         Clear(EmpActFilter);
-        //         EmpVar.Reset;
-        //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
-        //         if EmpVar.FindFirst then begin
-        //             if not EmpVar."System Owner" then begin
-        //                 Rec.FilterGroup(-1);
-        //                 Rec.SetRange("Employee No.", EmpVar."No.");
-        //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
-        //                 // Rec.SetRange("Approver Code", EmpVar."No.");
-        //                 Rec.FilterGroup(0);
-        //             end else begin
-        //                 AccessControlLine.Reset;
-        //                 //AccessControlLine.SETRANGE("Document No.","No.");
-        //                 if AccessControlLine.FindFirst then
-        //                     repeat
-        //                         SystemAccessControl.Reset;
-        //                         SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
-        //                         SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
-        //                         SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
-        //                         if SystemAccessControl.FindFirst then begin
-        //                             if EmpActFilter = '' then
-        //                                 EmpActFilter := AccessControlLine."Document No."
-        //                             else
-        //                                 EmpActFilter += '|' + AccessControlLine."Document No.";
-        //                         end;
-        //                     until AccessControlLine.Next = 0;
-        //                 Rec.FilterGroup(-1);
-        //                 Rec.SetRange("Employee No.", EmpVar."No.");
-        //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
-        //                 // Rec.SetRange("Approver Code", EmpVar."No.");
-        //                 if EmpActFilter <> '' then
-        //                     Rec.SetFilter("No.", EmpActFilter);
-        //                 Rec.FilterGroup(0);
-        //             end;
-        //         end;
-        //     end;
-    end;
+    //     if Rec.Type = Rec.Type::"Access Control" then begin
+    //         Clear(EmpActFilter);
+    //         EmpVar.Reset;
+    //         EmpVar.SetRange("No.", Rec.GetFilter("Employee No."));
+    //         if EmpVar.FindFirst then begin
+    //             if not EmpVar."System Owner" then begin
+    //                 Rec.FilterGroup(-1);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 // Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 Rec.FilterGroup(0);
+    //             end else begin
+    //                 AccessControlLine.Reset;
+    //                 //AccessControlLine.SETRANGE("Document No.","No.");
+    //                 if AccessControlLine.FindFirst then
+    //                     repeat
+    //                         SystemAccessControl.Reset;
+    //                         SystemAccessControl.SetRange(Code, AccessControlLine."System Type");
+    //                         SystemAccessControl.SetRange("Type of Masters", SystemAccessControl."Type of Masters"::"System Control Setup");
+    //                         SystemAccessControl.SetRange("System Department Owner", EmpVar."Department Code");
+    //                         if SystemAccessControl.FindFirst then begin
+    //                             if EmpActFilter = '' then
+    //                                 EmpActFilter := AccessControlLine."Document No."
+    //                             else
+    //                                 EmpActFilter += '|' + AccessControlLine."Document No.";
+    //                         end;
+    //                     until AccessControlLine.Next = 0;
+    //                 Rec.FilterGroup(-1);
+    //                 Rec.SetRange("Employee No.", EmpVar."No.");
+    //                 // Rec.SetRange("Recommender Code", EmpVar."No.");
+    //                 // Rec.SetRange("Approver Code", EmpVar."No.");
+    //                 if EmpActFilter <> '' then
+    //                     Rec.SetFilter("No.", EmpActFilter);
+    //                 Rec.FilterGroup(0);
+    //             end;
+    //         end;
+    //     end;
+    // end;
 }

@@ -13,7 +13,7 @@ report 50142 "Generate KPI"
 
             trigger OnAfterGetRecord()
             var
-                AppHdr: Record "KPI Appraisal Header NIC";
+                AppHdr: Record "KPI Appraisal Header Bank";
             begin
                 if Employee."Employment Type" = Employee."Employment Type"::Contract then
                     exit;
@@ -68,5 +68,5 @@ report 50142 "Generate KPI"
 
     var
         Quarterly: Option Q1,Q2,Q3,Q4;
-        AppriasalHeader: Record "KPI Appraisal Header NIC";
+        AppriasalHeader: Record "KPI Appraisal Header Bank";
 }

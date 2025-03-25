@@ -1,7 +1,5 @@
 page 50176 "Employee Loan/Advance API"
 {
-    // version NIC Asia1.00,Loan/Advance,APINICASIA1.00
-
     DelayedInsert = true;
     EntityName = 'employeeLoanAdvEntity';
     EntitySetName = 'employeeLoanAdvEntities';

@@ -1,7 +1,5 @@
 table 50025 "Payroll Attributes"
 {
-    // version PRM19.01.01
-
     DrillDownPageId = "Payroll Attributes";
     LookupPageId = "Payroll Attributes";
     DataClassification = CustomerContent;

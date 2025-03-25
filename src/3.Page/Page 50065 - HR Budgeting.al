@@ -1,6 +1,5 @@
 page 50065 "HR Budgeting"
 {
-    // version NIC Asia1.00
 
     UsageCategory = History;
     ApplicationArea = All;

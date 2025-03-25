@@ -30,4 +30,8 @@ enum 50015 "Deputation Type"
     {
         Caption = 'Department';
     }
+    value(7; "Head Office")
+    {
+        Caption = 'Head Office';
+    }
 }

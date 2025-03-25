@@ -782,12 +782,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 SubPageLink = "Employee Code" = FIELD("No.");
 
             }
-            part(AccessControlSubform; "Access Control Subform")
-            {
-                ApplicationArea = All;
-                SubPageLink = Type = CONST(Employee), Code = FIELD("No.");
-                Editable = false;
-            }
+            // part(AccessControlSubform; "Access Control Subform")
+            // {
+            //     ApplicationArea = All;
+            //     SubPageLink = Type = CONST(Employee), Code = FIELD("No.");
+            //     Editable = false;
+            // }
             part(AttachmentSubform; "Attachment Subform")
             {
                 Caption = 'Attachments';
@@ -1164,21 +1164,21 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                     end;
                 }
-                action("Access Control")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    Visible = false;
-                    PromotedIsBig = true;
-                    Image = Register;
-                    PromotedCategory = Category6;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Access Control action.';
-                    trigger OnAction()
-                    begin
-                        HRMgt.OpenGrantAccessControl(Rec."No.");
-                    end;
-                }
+                // action("Access Control")
+                // {
+                //     ApplicationArea = All;
+                //     Promoted = true;
+                //     Visible = false;
+                //     PromotedIsBig = true;
+                //     Image = Register;
+                //     PromotedCategory = Category6;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Access Control action.';
+                //     trigger OnAction()
+                //     begin
+                //         HRMgt.OpenGrantAccessControl(Rec."No.");
+                //     end;
+                // }
                 action("Transfer History")
                 {
                     ApplicationArea = All;
@@ -1204,25 +1204,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         PageTransferHistory.RUN;
                     end;
                 }
-                action("Access Control History")
-                {
-                    ApplicationArea = All;
-                    RunObject = Page "Access Control History";
-                    RunPageView = WHERE(Status = CONST(approved));
-                    RunPageLink = "Employee No." = FIELD("No.");
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = History;
-                    PromotedCategory = Category6;
-                    PromotedOnly = true;
-                    RunPageMode = View;
-                    ToolTip = 'Executes the Access Control History action.';
+                // action("Access Control History")
+                // {
+                //     ApplicationArea = All;
+                //     RunObject = Page "Access Control History";
+                //     RunPageView = WHERE(Status = CONST(approved));
+                //     RunPageLink = "Employee No." = FIELD("No.");
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = History;
+                //     PromotedCategory = Category6;
+                //     PromotedOnly = true;
+                //     RunPageMode = View;
+                //     ToolTip = 'Executes the Access Control History action.';
 
-                    trigger OnAction()
-                    begin
+                //     trigger OnAction()
+                //     begin
 
-                    end;
-                }
+                //     end;
+                // }
                 action("Show Leave Earn")
                 {
                     ApplicationArea = All;

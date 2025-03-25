@@ -2,7 +2,6 @@ table 50140 "Employee/HR Transfer"
 {
     Caption = 'Employee/Hr Transfer';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -1026,6 +1025,7 @@ table 50140 "Employee/HR Transfer"
         else begin
             ApprovalEntry.Reset();
             ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
         end;
     end;

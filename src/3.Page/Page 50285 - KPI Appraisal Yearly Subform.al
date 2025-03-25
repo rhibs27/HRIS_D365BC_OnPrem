@@ -3,7 +3,7 @@ page 50285 "KPI Appraisal Yearly Subform"
     // version KPI1.00
 
     PageType = ListPart;
-    SourceTable = "KPI Appraisal (NIC) Lines";
+    SourceTable = "KPI Appraisal Bank Lines";
     ApplicationArea = All;
 
     layout
@@ -102,9 +102,9 @@ page 50285 "KPI Appraisal Yearly Subform"
 
     var
         YearlyKPIScore: Decimal;
-        KPIAppriasalRecordLine: Record "KPI Appraisal (NIC) Lines";
-        KPIAppriasalRec: Record "KPI Appraisal Header NIC";
+        KPIAppriasalRecordLine: Record "KPI Appraisal Bank Lines";
+        KPIAppriasalRec: Record "KPI Appraisal Header Bank";
         NetKPIScore: Decimal;
-        KPIAppriasalRecordLine1: Record "KPI Appraisal (NIC) Lines";
+        KPIAppriasalRecordLine1: Record "KPI Appraisal Bank Lines";
         NoOfAppriasalPeriod: Decimal;
 }

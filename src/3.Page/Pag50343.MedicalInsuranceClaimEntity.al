@@ -11,7 +11,6 @@ page 50343 "Medical Insurance Claim Entity"
     PageType = API;
     SourceTable = "Medical Insurance Claim";
     SourceTableTemporary = true;
-
     layout
     {
         area(Content)

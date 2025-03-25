@@ -1,6 +1,6 @@
 page 50243 "KRA Subform Entity"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'kRASubformEntity';
     EntitySetName = 'kRASubformEntities';

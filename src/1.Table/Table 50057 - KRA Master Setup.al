@@ -1,7 +1,5 @@
 table 50057 "KRA Master Setup"
 {
-    // version NIC Asia 1.0,Recruitement
-
     DrillDownPageId = "KRA Master Setup";
     LookupPageId = "KRA Master Setup";
     DataClassification = CustomerContent;

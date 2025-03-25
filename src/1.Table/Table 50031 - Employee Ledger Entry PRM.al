@@ -1,6 +1,5 @@
 table 50031 "Employee Ledger Entry PRM"
 {
-    // version PRM19.01.01,NU
 
     DrillDownPageId = "Employee Ledger Entries PRM";
     LookupPageId = "Employee Ledger Entries PRM";

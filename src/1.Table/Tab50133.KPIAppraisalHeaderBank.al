@@ -1,4 +1,4 @@
-table 50133 "KPI Appraisal Header NIC"
+table 50133 "KPI Appraisal Header Bank"
 {
     DataClassification = CustomerContent;
     // version KPI1.00
@@ -214,12 +214,12 @@ table 50133 "KPI Appraisal Header NIC"
         HumanResSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         Employee: Record Employee;
-        KPISetup: Record "KPI Setup NIC";
-        KPIAppraisalLine: Record "KPI Appraisal (NIC) Lines";
+        KPISetup: Record "KPI Setup Bank";
+        KPIAppraisalLine: Record "KPI Appraisal Bank Lines";
         DepartmentTable: Record Department;
         FunctionalTitle: Record "Functional Title";
         KPIMgt: Codeunit "KPI Mgt.";
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master Bank";
 
     local procedure InsertAppraisalLine()
     var

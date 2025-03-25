@@ -1,6 +1,6 @@
 report 50018 "Payment Memo"
 {
-    // version ATNICASIA1.00
+
 
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019819.PaymentMemo.rdl';

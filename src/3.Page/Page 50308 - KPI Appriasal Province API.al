@@ -10,7 +10,7 @@ page 50308 "KPI Appriasal Province API"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "KPI Appraisal Header NIC";
+    SourceTable = "KPI Appraisal Header Bank";
 
     layout
     {
@@ -104,7 +104,7 @@ page 50308 "KPI Appriasal Province API"
     end;
 
     var
-        KPIAppriasalLine: Record "KPI Appraisal (NIC) Lines";
+        KPIAppriasalLine: Record "KPI Appraisal Bank Lines";
         AccountingPeriod: Record "Accounting Period";
         KPIRatingSetup: Record "KPI Rating Setup";
 

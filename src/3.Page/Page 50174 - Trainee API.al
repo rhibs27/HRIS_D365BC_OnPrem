@@ -1,6 +1,5 @@
 page 50174 "Trainee API"
 {
-    // version NIC Asia1.00,Training,APINICASIA1.00
 
     AutoSplitKey = true;
     EntityName = 'traineeEntity';

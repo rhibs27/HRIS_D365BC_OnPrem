@@ -1,6 +1,6 @@
 page 50202 "New Employee Activity Card"
 {
-    // version ATNICASIA1.00
+
 
     DeleteAllowed = false;
     Editable = true;

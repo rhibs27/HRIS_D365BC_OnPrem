@@ -13,7 +13,7 @@ codeunit 50012 "KPI Mgt."
         RemoteAreaCategory: Record "Remote Area Category";
         CategoryIncentive: Decimal;
         Province: Record Province;
-        AppriasalHeader: Record "KPI Appraisal Header NIC";
+        AppriasalHeader: Record "KPI Appraisal Header Bank";
         AccountingPeriod: Record "Accounting Period";
         EngNepDate: Record "English-Nepali Date";
         DateRec: Record Date;
@@ -23,11 +23,11 @@ codeunit 50012 "KPI Mgt."
         KPIDailyScore1: Record "KPI Daily Score";
         DeptCode: Code[20];
         Department: Record Department;
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master Bank";
 
     procedure DailyKPIScoreCalculationIndv(EmpCode: Code[20])
     var
-        AppriasalLine: Record "KPI Appraisal (NIC) Lines";
+        AppriasalLine: Record "KPI Appraisal Bank Lines";
     begin
         KPIDailyScore.Reset;
         KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Employee);
@@ -80,7 +80,7 @@ codeunit 50012 "KPI Mgt."
 
     procedure EligibleForIncentive(EmplCode: Code[20]): Boolean
     var
-        AppriasalHdr: Record "KPI Appraisal Header NIC";
+        AppriasalHdr: Record "KPI Appraisal Header Bank";
         KPIratingSetup: Record "KPI Rating Setup";
         KPIDailyScore: Record "KPI Daily Score";
         KPIDailyScore1: Record "KPI Daily Score";
@@ -115,7 +115,7 @@ codeunit 50012 "KPI Mgt."
     procedure CalculateLocationIncentive(EmpCode: Code[20]): Decimal
     var
         LocationIncentive: Decimal;
-        AppriasalHdr: Record "KPI Appraisal Header NIC";
+        AppriasalHdr: Record "KPI Appraisal Header Bank";
         EmpRec: Record Employee;
         DailyScore: Decimal;
     begin
@@ -143,14 +143,14 @@ codeunit 50012 "KPI Mgt."
 
     procedure InsertDeptScoreForEmployee(EmpCode: Code[20])
     var
-        KPIAppriasalHdr: Record "KPI Appraisal Header NIC";
-        AppriasalLine: Record "KPI Appraisal (NIC) Lines";
-        KPIAppriasalDept: Record "KPI Appraisal Header NIC";
+        KPIAppriasalHdr: Record "KPI Appraisal Header Bank";
+        AppriasalLine: Record "KPI Appraisal Bank Lines";
+        KPIAppriasalDept: Record "KPI Appraisal Header Bank";
         DailyScore: Decimal;
         KPIDailyIncentive: Record "KPI Daily Incentive";
         KPIDailyScore: Record "KPI Daily Score";
         EmpRec: Record Employee;
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master Bank";
     begin
         if EmpRec.Get(EmpCode) then begin
             DeptCode := EmpRec."KPI Deputation Value";
@@ -185,7 +185,7 @@ codeunit 50012 "KPI Mgt."
 
     procedure CreateAppriasalAfterEmployeeTransfer(EmployeeCode: Code[20])
     var
-        AppriasalHdr: Record "KPI Appraisal Header NIC";
+        AppriasalHdr: Record "KPI Appraisal Header Bank";
         AccountingPeriod: Record "Accounting Period";
     begin
         AppriasalHdr.Init;
@@ -290,8 +290,8 @@ codeunit 50012 "KPI Mgt."
 
     procedure closekpiquarter(AppriasalCode: Code[20])
     var
-        KPIAppriasalLine: Record "KPI Appraisal (NIC) Lines";
-        KPIAppriasalHdr: Record "KPI Appraisal Header NIC";
+        KPIAppriasalLine: Record "KPI Appraisal Bank Lines";
+        KPIAppriasalHdr: Record "KPI Appraisal Header Bank";
     begin
         KPIAppriasalLine.Reset;
         KPIAppriasalLine.SetRange("Appraisal Code", AppriasalCode);
@@ -364,7 +364,7 @@ codeunit 50012 "KPI Mgt."
     procedure InsertAdjustmentKPIScore(EmpCode: Code[20]; ExcessScore: Decimal)
     var
         KPIDailyScore: Record "KPI Daily Score";
-        KPIMaster: Record "KPI Master NIC";
+        KPIMaster: Record "KPI Master Bank";
         KPICode: Code[20];
         KPIDescription: Text;
     begin
@@ -542,8 +542,8 @@ codeunit 50012 "KPI Mgt."
 
     procedure calculatefinalscoreforprobatation(AppraisalCode: Code[20])
     var
-        AppraisalHdr: Record "KPI Appraisal Header NIC";
-        AppraisalLine: Record "KPI Appraisal (NIC) Lines";
+        AppraisalHdr: Record "KPI Appraisal Header Bank";
+        AppraisalLine: Record "KPI Appraisal Bank Lines";
         ProbScore: Decimal;
         KPIratingSetup: Record "KPI Rating Setup";
     begin

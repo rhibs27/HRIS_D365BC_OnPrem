@@ -1,7 +1,5 @@
 page 50015 "Training Calendar Lists"
 {
-    // version NIC Asia1.00,Training
-
     PageType = List;
     SourceTable = "Training Calendar";
     UsageCategory = Lists;

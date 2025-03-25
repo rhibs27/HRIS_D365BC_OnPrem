@@ -1,6 +1,6 @@
 page 50267 "My Tasks Mob App"
 {
-    // version APINICASIA1.00
+
 
     EntityName = 'MyTasksMobApp';
     EntitySetName = 'MyTasksMobApps';

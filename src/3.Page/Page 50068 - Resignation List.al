@@ -1,7 +1,5 @@
 page 50068 "Resignation List"
 {
-    // version NIC Asia1.00
-
     CardPageId = "Resignation Card";
     DeleteAllowed = false;
     Editable = false;

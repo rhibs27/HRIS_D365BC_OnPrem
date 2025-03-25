@@ -6,7 +6,7 @@ report 50076 "Internal Vacancy Memo"
 
     dataset
     {
-        dataitem("Recruitement Memo"; "Recruitement Memo")
+        dataitem("Recruitement Memo"; "Recruitment Memo")
         {
             DataItemTableView = where(Type = const(Internal));
             column(CompanyInfoName; CompanyInfo.Name) { }
