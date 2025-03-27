@@ -23,6 +23,10 @@ table 50090 "Notice Bulletin"
         field(8; "Notice End Date"; Date)
         {
         }
+        field(9; "Attachment type"; Enum "Attachment Setup Type")
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
 

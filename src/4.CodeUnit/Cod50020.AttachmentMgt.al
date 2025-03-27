@@ -264,6 +264,9 @@ codeunit 50020 "Attachment Mgt."
     begin
         // Define maximum allowed file size 
         AttachmentSetup.Reset();
+        // if TableID = 0 then
+        //     AttachmentSetup.SetRange(Type, AttachmentSetupType)
+        // else
         AttachmentSetup.SetRange("Table ID", TableID);
         if AttachmentSetup.FindFirst() then
             MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;

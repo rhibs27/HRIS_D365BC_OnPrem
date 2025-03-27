@@ -18,6 +18,7 @@ table 50002 "Language Proficiency"
         field(3; Language; Text[20])
         {
             Caption = 'Language';
+            TableRelation = Language;
         }
         field(4; Speaking; Enum "Payback Months")
         {

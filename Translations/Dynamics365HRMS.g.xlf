@@ -10773,6 +10773,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Mutually Excl. Payroll Group - Field Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2276530373 - Field 711052675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Notice Bulletin - Field Attachment type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2276530373 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26112,196 +26117,6 @@
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Control No - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3254300328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>E&amp;mployee</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action E&amp;mployee - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1235454278 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View or add a picture of the employee or, for example, the company's logo.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action &amp;Picture - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1235454278 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>&amp;Picture</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action &amp;Picture - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 591007867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the list of relatives that are registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action &amp;Relatives - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 591007867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>&amp;Relatives</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action &amp;Relatives - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3812731140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View absence information for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action A&amp;bsences - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3812731140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>A&amp;bsences</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action A&amp;bsences - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1536197423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View categorized absence information for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Absences by Ca&amp;tegories - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1536197423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Absences by Ca&amp;tegories</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Absences by Ca&amp;tegories - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3915550385 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the list of addresses that are registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action AlternativeAddresses - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3915550385 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>&amp;Alternate Addresses</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action AlternativeAddresses - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3000180178 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View or add comments for the record.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Co&amp;mments - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3000180178 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Co&amp;mments</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Co&amp;mments - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3133964540 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the list of any confidential information that is registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Co&amp;nfidential Information - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3133964540 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Co&amp;nfidential Information</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Co&amp;nfidential Information - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3088815929 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View confidential information that is registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Con&amp;fidential Info. Overview - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3088815929 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Con&amp;fidential Info. Overview</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Con&amp;fidential Info. Overview - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 2173385693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dimensions</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Dimensions - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1990766644 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View or edit dimensions for a group of records. You can assign dimension codes to transactions to distribute costs and analyze historical information.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Dimensions-&amp;Multiple - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1990766644 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dimensions-&amp;Multiple</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Dimensions-&amp;Multiple - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 937422408 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View or edit the single set of dimensions that are set up for the selected record.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Dimensions-Single - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 937422408 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Dimensions-Single</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Dimensions-Single - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3256966095 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Work Experience</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Employee Work Experience - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 2649481008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the list of miscellaneous articles that are registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Mi&amp;sc. Article Information - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 2649481008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Mi&amp;sc. Article Information</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Mi&amp;sc. Article Information - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 106601596 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View miscellaneous articles that are registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Misc. Articles &amp;Overview - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 106601596 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Misc. Articles &amp;Overview</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Misc. Articles &amp;Overview - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 947957056 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Open the list of qualifications that are registered for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Q&amp;ualifications - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 947957056 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Q&amp;ualifications</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Q&amp;ualifications - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1391257448 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Register absence for the employee.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Absence Registration - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1391257448 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Absence Registration</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Absence Registration - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 3974687899 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Generate New Employee Card</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Generate New Employee Card - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1111476699 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View the history of transactions that have been posted for the selected record.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Ledger E&amp;ntries - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1111476699 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Ledger E&amp;ntries</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Ledger E&amp;ntries - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 2179725014 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View employee ledger entries for the selected record with remaining amount that have not been paid yet.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action PayEmployee - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 2179725014 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Pay Employee</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action PayEmployee - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1145153898 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Retirement Fund</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action Retirement Fund - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 362852628 - Action 1768857747 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sync Employees To Portal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee List API - Action SycnEmployeesToPortal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3538867068 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
@@ -49138,15 +48953,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Document Attachment Details - Action Preview Attachment - Property Caption</note>
         </trans-unit>
-        <trans-unit id="PageExtension 219593816 - Control 760877769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 219593816">
-          <source>Specifies the value of the Qualification Doc. Type field.</source>
+        <trans-unit id="PageExtension 219593816 - Control 337701178 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 219593816">
+          <source>Specifies the value of the Attachment Document Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Document Attachment Details - Control Qualification Doc. Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 219593816 - Control 2188626633 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 219593816">
-          <source>Specifies the value of the Qualification Level field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Document Attachment Details - Control Qualification Level - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Document Attachment Details - Control Attachment Document Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 3256966095 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Work Experience action.</source>
@@ -51333,15 +51143,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Dimension Value Ext - Field Sub-Province - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1431060665 - Field 760877769 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
-          <source>Qualification Doc. Type</source>
+        <trans-unit id="TableExtension 1431060665 - Field 337701178 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
+          <source>Attachment Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Doc. Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1431060665 - Field 2188626633 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
-          <source>Qualification Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Qualification Level - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Document Attachment Ext - Field Attachment Document Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - NamedType 960505862" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
           <source>!|@|#|$|%|&amp;|*|(|)|_|-|+|=| |?|/|\</source>
@@ -53847,6 +53652,11 @@
           <source>Leave Request</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Leave Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 2950050790 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Notice</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Notice - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3277438729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Out of Office</source>

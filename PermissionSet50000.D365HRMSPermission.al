@@ -487,7 +487,6 @@ permissionset 50000 D365HRMSPermission
         page "Employee Leave Type" = X,
         page "Employee Leave Type Part" = X,
         page "Employee Ledger Entries PRM" = X,
-        page "Employee List API" = X,
         page "Employee Loan Interest" = X,
         page "Employee Loan/Advance API" = X,
         page "Employee Payroll Adjustment" = X,

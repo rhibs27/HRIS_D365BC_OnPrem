@@ -98,4 +98,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Appraisal';
     }
+    value(25; "Notice")
+    {
+        Caption = 'Notice';
+    }
 }

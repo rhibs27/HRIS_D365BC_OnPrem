@@ -1027,7 +1027,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'References';
-                Image = ReferenceData;
+                Image = Relationship;
                 Promoted = true;
                 PromotedCategory = Process;
                 RunObject = Page References;

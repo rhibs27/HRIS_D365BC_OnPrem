@@ -44,8 +44,8 @@ table 50146 "Organization structure"
 
     begin
         OrganizationStructureList.Reset();
-        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type);
-        OrganizationStructureList.SetRange(Code, OrganizationStructureList.Code);
+        OrganizationStructureList.SetRange(Type, Type);
+        OrganizationStructureList.SetRange(Code, Code);
         OrganizationStructureList.DeleteAll();
     end;
 

@@ -17,8 +17,7 @@ page 50001 "Employee Work Qualification"
                     ToolTip = 'Specifies the value of the Qualification Code field.';
                     ApplicationArea = All;
                     Caption = 'Experience Code';
-                    trigger OnLookup(var
-                                         Text: Text): Boolean
+                    trigger OnLookup(var Text: Text): Boolean
                     var
                         QualificationRec: Record "Qualification";
                     begin

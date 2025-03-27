@@ -1,24 +1,28 @@
 pageextension 50009 "Document Attachment Details" extends "Document Attachment Details"
 {
+
     layout
     {
         addafter("Document Flow Sales")
         {
-            field("Qualification Doc. Type"; Rec."Qualification Doc. Type")
+            field("Attachment Document Type"; Rec."Attachment Document Type")
             {
                 ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Qualification Doc. Type field.';
+                ToolTip = 'Specifies the value of the Attachment Document Type field.';
                 trigger OnValidate()
-
                 begin
                     CurrPage.Update;
                 end;
-            }
-            field("Qualification Level"; Rec."Qualification Level")
-            {
-                ApplicationArea = All;
-                Editable = QualificationLevelEditable;
-                ToolTip = 'Specifies the value of the Qualification Level field.';
+
+                trigger OnLookup(var Text: Text): Boolean
+                var
+                    AttachmentSetup: Record "Attachment Setup";
+                begin
+                    AttachmentSetup.Reset();
+                    AttachmentSetup.SetRange(Type, AttachmentSetup.type::"Employee Profile");
+                    if Page.RunModal(Page::"Attachment Setup", AttachmentSetup) = Action::LookupOK then
+                        Rec."Attachment Document Type" := AttachmentSetup."Attachment Code";
+                end;
             }
         }
     }
@@ -54,10 +58,6 @@ pageextension 50009 "Document Attachment Details" extends "Document Attachment D
 
     begin
         //>>Qualification Level Editable on condition
-        if Rec."Qualification Doc. Type" = Rec."Qualification Doc. Type"::Work then
-            QualificationLevelEditable := false
-        else
-            QualificationLevelEditable := true;
     end;
 
     local procedure returnAttachmentBase64(): Text;
