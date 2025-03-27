@@ -1,16 +1,34 @@
 pageextension 50010 "Employee Card" extends "Employee Card"
 {
+    PromotedActionCategoriesML = ENU = 'New,Process,Report,,Loan,History,Others';
     layout
     {
         modify("No.")
         {
             Caption = 'Employee No.';
         }
+        movebefore(Gender; "Birth Date")
         modify("Birth Date")
         {
             Caption = 'Date of Birth (A.D.)';
         }
         modify("Union Membership No.")
+        {
+            visible = false;
+        }
+        modify(Initials)
+        {
+            visible = false;
+        }
+        modify(Personal)
+        {
+            Visible = false;
+        }
+        modify("Balance (LCY)")
+        {
+            visible = false;
+        }
+        modify("Search Name")
         {
             visible = false;
         }
@@ -24,6 +42,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Visible = false;
         }
         modify("Employee Posting Group")
+        {
+            Visible = false;
+        }
+        modify("Currency Code")
+        {
+            Visible = false;
+        }
+        modify(IBAN)
+        {
+            Visible = false;
+        }
+        modify("SWIFT Code")
+        {
+            Visible = false;
+        }
+        modify(Control1905767507)
         {
             Visible = false;
         }
@@ -88,54 +122,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Marital Status field.';
 
             }
-            field("Citizen Number"; Rec."Citizen Number")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizen Number field.';
 
-            }
-            field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
-
-            }
-            field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
-
-            }
-            field("Citizenship No. (Nepali)"; Rec."Citizenship No. (Nepali)")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship No. (Nepali) field.';
-
-            }
-            field("VDC/Municipality (Nepali)"; Rec."VDC/Municipality (Nepali)")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
-
-            }
-            field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
-
-            }
-            field("Citizenship Date(Nepali)"; Rec."Citizenship Date(Nepali)")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship Date(Nepali) field.';
-
-            }
-            field("Passport Number"; Rec."Passport Number")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Passport Number field.';
-
-            }
             field("Blood Group"; Rec."Blood Group")
             {
                 ApplicationArea = All;
@@ -189,12 +176,58 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Facebook Url field.';
+            }
+        }
+        addafter(General)
+        {
+            group("Document Information")
+            {
+                field("Citizen Number"; Rec."Citizen Number")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizen Number field.';
+
+                }
+                field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
+
+                }
+                field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
+
+                }
+                field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
+
+                }
+                field("Passport Number"; Rec."Passport Number")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Passport Number field.';
+
+                }
+                field("NID No"; Rec."NID No")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the National Identity Number field.';
+                }
+                field("Driving License No."; Rec."Driving License No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Driving License Number field.';
+                }
 
             }
         }
         addlast("Address & Contact")
         {
-            group("Parmanent Address")
+            group("Permanent Address")
             {
                 field("Permanent District"; Rec."Permanent District")
                 {
@@ -464,11 +497,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Last Placement Date field.';
 
                 }
-                field("Approver Code"; Rec."Approver Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Approver Code field.';
-                }
+                // field("Approver Code"; Rec."Approver Code")
+                // {
+                //     Visible = false;
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the Approver Code field.';
+                // }
                 field("Approver Role"; Rec."Approver Role")
                 {
                     ApplicationArea = All;
@@ -496,6 +530,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Mother''s Name (Nepali) field.';
 
                 }
+                field("Citizenship No. (Nepali)"; Rec."Citizenship No. (Nepali)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizenship No. (Nepali) field.';
+
+                }
+                field("VDC/Municipality (Nepali)"; Rec."VDC/Municipality (Nepali)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
+
+                }
+                field("Citizenship Date(Nepali)"; Rec."Citizenship Date(Nepali)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Citizenship Date(Nepali) field.';
+
+                }
+
             }
             group(Permission)
             {
@@ -505,24 +558,24 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Disable Punch in field.';
 
                 }
-                field(Screener; Rec.Screener)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Screener field.';
+                // field(Screener; Rec.Screener)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the Screener field.';
 
-                }
+                // }
                 field("Resignation Approver"; Rec."Resignation Approver")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
 
                 }
-                field("Selection committee"; Rec."Selection committee")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Selection committee field.';
+                // field("Selection committee"; Rec."Selection committee")
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the Selection committee field.';
 
-                }
+                // }
                 field("System Owner"; Rec."System Owner")
                 {
                     ApplicationArea = All;
@@ -580,6 +633,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             }
             field("PF Contribution"; Rec."PF Contribution")
             {
+                Visible = false;
                 ApplicationArea = All;
                 Caption = 'PF Deduction %';
                 ToolTip = 'Specifies the value of the PF Deduction % field.';
@@ -689,11 +743,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Premium Property Insurance field.', Comment = '%';
                 }
-                field("Assigned User ID"; Rec."Assigned User ID")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Assigned User ID field.', Comment = '%';
-                }
+                // field("Assigned User ID"; Rec."Assigned User ID")
+                // {
+                //     Visible = false;
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the Assigned User ID field.', Comment = '%';
+                // }
                 field("Contract Salary Amount"; Rec."Contract Salary Amount")
                 {
                     ApplicationArea = All;
@@ -774,57 +829,133 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the KPI Deputation field.', Comment = '%';
                 }
             }
-            part(PayrollAttributesUsage; "Payroll Attributes Usage")
-            {
-                ApplicationArea = All;
-                SubPageView = WHERE(Subtype = FILTER("Employer Contribution" | "Employee Contribution" | CIT | "Lump Sum Contribution" | RF),
-                                  Type = CONST(Deduction));
-                SubPageLink = "Employee Code" = FIELD("No.");
+            // part(PayrollAttributesUsage; "Payroll Attributes Usage")
+            // {
+            //     ApplicationArea = All;
+            //     SubPageView = WHERE(Subtype = FILTER("Employer Contribution" | "Employee Contribution" | CIT | "Lump Sum Contribution" | RF),
+            //                       Type = CONST(Deduction));
+            //     SubPageLink = "Employee Code" = FIELD("No.");
 
-            }
+            // }
             // part(AccessControlSubform; "Access Control Subform")
             // {
             //     ApplicationArea = All;
             //     SubPageLink = Type = CONST(Employee), Code = FIELD("No.");
             //     Editable = false;
             // }
-            part(AttachmentSubform; "Attachment Subform")
-            {
-                Caption = 'Attachments';
-                SubPageLink = "Order No." = FIELD("No.");
-                ApplicationArea = All;
+            // part(AttachmentSubform; "Attachment Subform")
+            // {
+            //     Caption = 'Attachments';
+            //     SubPageLink = "Order No." = FIELD("No.");
+            //     ApplicationArea = All;
 
-            }
-            part(LoanOutstandingSubform; "Loan Outstanding Subform")
-            {
-                ApplicationArea = All;
-                SubPageLink = "Employee No." = FIELD("No.");
+            // }
+            // part(LoanOutstandingSubform; "Loan Outstanding Subform")
+            // {
+            //     ApplicationArea = All;
+            //     SubPageLink = "Employee No." = FIELD("No.");
 
-            }
+            // }
+            // part(EmployeeLeaveDays; "Employee Leave Days")
+            // {
+            //     Editable = false;
+            //     ApplicationArea = All;
+            //     //SubPageLink = 
+            //     SubPageView = WHERE("Remaining Days" = FILTER(> 0));
+            //     SubPageLink = "Employee No. Filter" = FIELD("No.");
+            // }
+        }
+        moveafter(Control3; "Attached Documents")
+
+        addafter(Control1905767507)
+        {
             part(EmployeeLeaveDays; "Employee Leave Days")
             {
+                ApplicationArea = all;
                 Editable = false;
-                ApplicationArea = All;
-                //SubPageLink = 
                 SubPageView = WHERE("Remaining Days" = FILTER(> 0));
                 SubPageLink = "Employee No. Filter" = FIELD("No.");
             }
         }
+
     }
     actions
     {
-        addafter("Q&ualifications")
+        modify("Q&ualifications")
         {
-            action("Employee Work Experience")
-            {
-                ApplicationArea = All;
-                Caption = 'Work Experience';
-                RunObject = Page "Employee Work Qualification";
-                RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = CONST(Work), "Master Type" = CONST(Employee);
-                Image = Certificate;
-                ToolTip = 'Executes the Work Experience action.';
-            }
+            Promoted = true;
+            PromotedCategory = Process;
         }
+        modify("Ledger E&ntries")
+        {
+            Promoted = true;
+            PromotedCategory = Process;
+        }
+
+        modify(Dimensions)
+        {
+            Promoted = true;
+            PromotedCategory = Process;
+        }
+        modify(Attachments)
+        {
+            Promoted = true;
+            PromotedCategory = Process;
+        }
+        modify("&Relatives")
+        {
+            Promoted = true;
+            PromotedCategory = Process;
+        }
+        modify("&Picture")
+        {
+            Visible = false;
+        }
+        modify("Sent Emails")
+        {
+            Visible = false;
+        }
+        modify(Contact)
+        {
+            Visible = false;
+        }
+        modify(Email)
+        {
+            Visible = false;
+        }
+        modify(AlternativeAddresses)
+        {
+            Visible = false;
+        }
+        modify("Co&mments")
+        {
+            Visible = false;
+        }
+        modify("&Confidential Information")
+        {
+            Visible = false;
+        }
+        modify("A&bsences")
+        {
+            Visible = false;
+        }
+        modify("Mi&sc. Article Information")
+        {
+            Visible = false;
+        }
+        modify("Misc. Articles &Overview")
+        {
+            Visible = false;
+        }
+        modify("Absences by Ca&tegories")
+        {
+            Visible = false;
+        }
+        modify("Co&nfidential Info. Overview")
+        {
+            Visible = false;
+        }
+
         addafter("Co&nfidential Info. Overview")
         {
             action("Pay Employee")
@@ -845,6 +976,91 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 end;
             }
+            action("Permission Needed Leave")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                Image = PreviewChecks;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Permission Needed Leave action.';
+
+                trigger OnAction()
+                begin
+                    IF CONFIRM('Do you want to grant HR permission Leave for this employee?', FALSE) THEN BEGIN
+                        CurrPage.SETSELECTIONFILTER(Rec);
+                        REPORT.RUN(REPORT::"Grant Permission Needed Leave", TRUE, FALSE, Rec);
+                    END;
+                end;
+            }
+            action("Generate New Employee Card")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedIsBig = true;
+                Image = Archive;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Generate New Employee Card action.';
+                Visible = false;
+
+                trigger OnAction()
+                begin
+                    IF NOT CONFIRM('Do you want to create new employee card?', FALSE) THEN
+                        EXIT;
+                    Employee.GenerateNewEmployeeCard(Rec);
+                end;
+            }
+            action("Language Proficiency")
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Language Proficiency';
+                Image = Language;
+                Promoted = true;
+                PromotedCategory = Process;
+                RunObject = Page "Language Proficiency";
+                RunPageLink = "Employee Code" = field("No.");
+                ToolTip = 'Open the list of Language Proficiency of the employee.';
+            }
+            action(References)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'References';
+                Image = ReferenceData;
+                Promoted = true;
+                PromotedCategory = Process;
+                RunObject = Page References;
+                RunPageLink = "Employee Code" = field("No.");
+                ToolTip = 'Open the list of References of the employee.';
+            }
+            action("Employee Work Experience")
+            {
+                ApplicationArea = All;
+                Caption = 'Work Experience';
+                Promoted = true;
+                PromotedCategory = Process;
+                RunObject = Page "Employee Work Qualification";
+                RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = CONST(Work), "Master Type" = CONST(Employee);
+                Image = Certificate;
+                ToolTip = 'Executes the Work Experience action.';
+            }
+            action("Payroll Attributes Usage")
+            {
+                ApplicationArea = All;
+                RunObject = Page "Payroll Attributes Usage";
+                RunPageLink = "Employee Code" = FIELD("No.");
+                Promoted = true;
+                PromotedIsBig = true;
+                Image = Components;
+                PromotedCategory = Process;
+                ToolTip = 'Executes the Payroll Attributes Usage action.';
+                trigger OnAction()
+                begin
+
+                end;
+            }
+
         }
         addafter("Pay Employee")
         {
@@ -1037,6 +1253,86 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
                     end;
                 }
+                action("Promote Employee")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Post;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Promote Employee action.';
+
+                    trigger OnAction()
+                    begin
+                        IF CONFIRM('Do you want to promote employee %1 ?', FALSE, Rec."Full Name") THEN
+                            HRMgt.UpdatePromotion(Rec."No.");
+                    end;
+                }
+                action("Contract Renew")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = ContactReference;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Contract Renew action.';
+                    trigger OnAction()
+                    begin
+                        IF CONFIRM('Do you want to renew the contract?', FALSE) THEN
+                            HRMgt.PopUpForContractRenew(Rec);
+                    end;
+                }
+                action("Generate Leave Balance")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = GiroPlus;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Generate Leave Balance action.';
+                    trigger OnAction()
+                    begin
+                        Employee.RESET;
+                        Employee.SETRANGE("No.", Rec."No.");
+                        REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                    end;
+                }
+                action("Confirmation Employee")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Confirm;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Confirmation Employee action.';
+                    trigger OnAction()
+                    begin
+                        Employee.RESET;
+                        Employee.SETRANGE("No.", Rec."No.");
+                        Employee.FINDFIRST;
+                        Employee.TESTFIELD("Employment Type", Rec."Employment Type"::Probation);
+                        REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                    end;
+                }
+                action("Request Retirement Fund")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Allocate;
+                    PromotedCategory = Category4;
+                    ToolTip = 'Executes the Request Retirement Fund action.';
+                    trigger OnAction()
+                    begin
+                        Rec.RFRequest;
+                    end;
+                }
+
+
             }
         }
         addafter("Request Appraisal")
@@ -1107,27 +1403,30 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         LoanMgt.OpenLoan(Rec."No.", Type::"Home Loan");
                     end;
                 }
+                action("Update Loan Details")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = UpdateXML;
+                    PromotedCategory = Category5;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Update Loan Details action.';
+                    Visible = false;
+                    trigger OnAction()
+                    begin
+                        Employee.RESET;
+                        Employee.SETRANGE("No.", Rec."No.");
+                        IF Employee.FINDFIRST THEN
+                            REPORT.RUNMODAL(REPORT::"Emp Loan Outstanding Update", TRUE, FALSE, Employee);
+                    end;
+                }
             }
         }
         addafter("Request Home Loan")
         {
             group("Other Information")
             {
-                action("Payroll Attributes Usage")
-                {
-                    ApplicationArea = All;
-                    RunObject = Page "Payroll Attributes Usage";
-                    RunPageLink = "Employee Code" = FIELD("No.");
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Components;
-                    PromotedCategory = Category6;
-                    ToolTip = 'Executes the Payroll Attributes Usage action.';
-                    trigger OnAction()
-                    begin
-
-                    end;
-                }
                 action("Training History")
                 {
                     ApplicationArea = All;
@@ -1289,7 +1588,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category7;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Save action.';
-
+                    Visible = false;
                     trigger OnAction()
                     begin
                         CheckEmployee;
@@ -1355,72 +1654,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             HRMgt.PopUpForJobAddition(Rec);
                     end;
                 }
-                action("Contract Renew")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = ContactReference;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Contract Renew action.';
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to renew the contract?', FALSE) THEN
-                            HRMgt.PopUpForContractRenew(Rec);
-                    end;
-                }
-                action("Generate New Employee Card")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Archive;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Generate New Employee Card action.';
-
-                    trigger OnAction()
-                    begin
-                        IF NOT CONFIRM('Do you want to create new employee card?', FALSE) THEN
-                            EXIT;
-                        Employee.GenerateNewEmployeeCard(Rec);
-                    end;
-                }
-                action("Permsission Needed Leave")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = PreviewChecks;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Permsission Needed Leave action.';
-
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to grant HR permission Leave for this employee?', FALSE) THEN BEGIN
-                            CurrPage.SETSELECTIONFILTER(Rec);
-                            REPORT.RUN(REPORT::"Grant Permission Needed Leave", TRUE, FALSE, Rec);
-                        END;
-                    end;
-                }
-                action("Promote Employee")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Post;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Promote Employee action.';
-
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to promote employee %1 ?', FALSE, Rec."Full Name") THEN
-                            HRMgt.UpdatePromotion(Rec."No.");
-                    end;
-                }
                 action("UpdatePRAttributes")
                 {
                     ApplicationArea = All;
@@ -1452,57 +1685,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             PayrollEngine.InsertPayrollAttributes;
                     end;
                 }
-                action("Confirmation Employee")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Confirm;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Confirmation Employee action.';
-                    trigger OnAction()
-                    begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        Employee.FINDFIRST;
-                        Employee.TESTFIELD("Employment Type", Rec."Employment Type"::Probation);
-                        REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                    end;
-                }
-                action("Update Loan Details")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = UpdateXML;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Update Loan Details action.';
-                    trigger OnAction()
-                    begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        IF Employee.FINDFIRST THEN
-                            REPORT.RUNMODAL(REPORT::"Emp Loan Outstanding Update", TRUE, FALSE, Employee);
-                    end;
-                }
-                action("Generate Leave Balance")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = GiroPlus;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Generate Leave Balance action.';
-                    trigger OnAction()
-                    begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                    end;
-                }
                 action("Leave Earn (Contract)")
                 {
                     ApplicationArea = All;
@@ -1520,20 +1702,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         LeaveMgt.CreateLeaveEarnContract(Rec);
                     end;
                 }
-                action("Insert Mandatory Attachments")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Insert;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Insert Mandatory Attachments action.';
-                    trigger OnAction()
-                    begin
-                        InsertAttachmentLines(Rec);
-                    end;
-                }
+                // action("Insert Mandatory Attachments")
+                // {
+                //     ApplicationArea = All;
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = Insert;
+                //     PromotedCategory = Category7;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Insert Mandatory Attachments action.';
+                //     trigger OnAction()
+                //     begin
+                //         InsertAttachmentLines(Rec);
+                //     end;
+                // }
                 action("Upate Employment Date")
                 {
                     ApplicationArea = All;
@@ -1671,22 +1853,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 end;
             }
-            group("Retirement Fund")
-            {
-                action("Request Retirement Fund")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Allocate;
-                    PromotedCategory = Category8;
-                    ToolTip = 'Executes the Request Retirement Fund action.';
-                    trigger OnAction()
-                    begin
-                        Rec.RFRequest;
-                    end;
-                }
-            }
         }
 
     }
@@ -1771,34 +1937,34 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Fieldvisible1 := FALSE;
     END;
 
-    LOCAL PROCEDURE InsertAttachmentLines(VAR Emp: Record Employee);
-    VAR
-        IncomingDocument: Record "Incoming Document";
-        AttachmentMandatory: Record "Attachment Setup";
-    BEGIN
-        AttachmentMandatory.RESET;
-        AttachmentMandatory.SETFILTER(Type, '%1|%2|%3|%4', AttachmentMandatory.Type::Education,
-                  AttachmentMandatory.Type::"Employee Profile", AttachmentMandatory.Type::"Work Experience",
-                  AttachmentMandatory.Type::"Complaince Requirement Forms");
-        IF AttachmentMandatory.FINDFIRST THEN
-            REPEAT
-                IncomingDocument.RESET;
-                IncomingDocument.SETRANGE("Order No.", Emp."No.");
-                IncomingDocument.SETRANGE("Attachment Code", AttachmentMandatory."Attachment Code");
-                IF NOT IncomingDocument.FINDFIRST THEN BEGIN
-                    IncomingDocument.RESET;
-                    IncomingDocument.INIT;
-                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-                    IncomingDocument.Description := Emp.TABLENAME;
-                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-                    //IncomingDocument."Order No." := Emp."No.";
-                    IncomingDocument."Order No." := FORMAT(Emp."No.");
-                    IncomingDocument."Employee Code" := FORMAT(Emp."No.");
-                    IncomingDocument.INSERT(TRUE);
+    // LOCAL PROCEDURE InsertAttachmentLines(VAR Emp: Record Employee);
+    // VAR
+    //     IncomingDocument: Record "Incoming Document";
+    //     AttachmentMandatory: Record "Attachment Setup";
+    // BEGIN
+    //     AttachmentMandatory.RESET;
+    //     AttachmentMandatory.SETFILTER(Type, '%1|%2|%3|%4', AttachmentMandatory.Type::Education,
+    //               AttachmentMandatory.Type::"Employee Profile", AttachmentMandatory.Type::"Work Experience",
+    //               AttachmentMandatory.Type::"Complaince Requirement Forms");
+    //     IF AttachmentMandatory.FINDFIRST THEN
+    //         REPEAT
+    //             IncomingDocument.RESET;
+    //             IncomingDocument.SETRANGE("Order No.", Emp."No.");
+    //             IncomingDocument.SETRANGE("Attachment Code", AttachmentMandatory."Attachment Code");
+    //             IF NOT IncomingDocument.FINDFIRST THEN BEGIN
+    //                 IncomingDocument.RESET;
+    //                 IncomingDocument.INIT;
+    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+    //                 IncomingDocument.Description := Emp.TABLENAME;
+    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+    //                 //IncomingDocument."Order No." := Emp."No.";
+    //                 IncomingDocument."Order No." := FORMAT(Emp."No.");
+    //                 IncomingDocument."Employee Code" := FORMAT(Emp."No.");
+    //                 IncomingDocument.INSERT(TRUE);
 
-                END;
-            UNTIL AttachmentMandatory.NEXT = 0;
-    END;
+    //             END;
+    //         UNTIL AttachmentMandatory.NEXT = 0;
+    // END;
 
     LOCAL PROCEDURE SetFieldEnable();
     BEGIN

@@ -1,13 +1,11 @@
 page 50001 "Employee Work Qualification"
 {
     // Pradhan modification
-
     AutoSplitKey = true;
     PageType = List;
     SourceTable = "Employee Qualification";
     SourceTableView = where("Emp Qualification Type" = const(Work));
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -16,9 +14,19 @@ page 50001 "Employee Work Qualification"
             {
                 field("Qualification Code"; Rec."Qualification Code")
                 {
-                    TableRelation = Qualification.Code where(Type = filter(Work));
                     ToolTip = 'Specifies the value of the Qualification Code field.';
                     ApplicationArea = All;
+                    Caption = 'Experience Code';
+                    trigger OnLookup(var
+                                         Text: Text): Boolean
+                    var
+                        QualificationRec: Record "Qualification";
+                    begin
+                        QualificationRec.Reset();
+                        QualificationRec.SetFilter(Type, '<>%1', QualificationRec.type::Education);
+                        if Page.RunModal(Page::Qualifications, QualificationRec) = Action::LookupOK then
+                            Rec."Qualification Code" := QualificationRec.Code;
+                    end;
                 }
                 field(Description; Rec.Description)
                 {
@@ -70,8 +78,14 @@ page 50001 "Employee Work Qualification"
                 }
             }
         }
+
         area(FactBoxes)
         {
+            part(Attachment; "Qualification Attachment")
+            {
+                ApplicationArea = BasicHR;
+                SubPageLink = "Employee No." = field("Employee No."), "Line No." = field("Line No.");
+            }
             systempart(Control12; Links)
             {
                 Visible = false;
@@ -89,28 +103,28 @@ page 50001 "Employee Work Qualification"
     {
         area(Processing)
         {
-            action("Preview Attachment")
-            {
-                Image = PrintCover;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Preview Attachment action.';
-                ApplicationArea = All;
+            // action("Preview Attachment")
+            // {
+            //     Image = PrintCover;
+            //     Promoted = true;
+            //     PromotedCategory = Category4;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Preview Attachment action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    DocuAttach.Reset;
-                    DocuAttach.SetRange("Table ID", Database::Employee);
-                    DocuAttach.SetRange("No.", Rec."Employee No.");
-                    DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
-                    DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
-                    DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
-                    if DocuAttach.FindFirst then
-                        DocuAttach.Export(true);
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         DocuAttach.Reset;
+            //         DocuAttach.SetRange("Table ID", Database::Employee);
+            //         DocuAttach.SetRange("No.", Rec."Employee No.");
+            //         DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
+            //         DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
+            //         DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
+            //         if DocuAttach.FindFirst then
+            //             DocuAttach.Export(true);
+            //     end;
+            // }
         }
     }
 

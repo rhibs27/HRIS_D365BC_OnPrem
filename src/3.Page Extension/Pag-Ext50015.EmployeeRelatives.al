@@ -2,6 +2,11 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
 {
     layout
     {
+        modify("Relative's Employee No.")
+        {
+            Visible = true;
+            Editable = rec.Employee_BOD = rec.Employee_BOD::Employee;
+        }
         addafter("Relative's Employee No.")
         {
             field(Address; Rec.Address)
@@ -63,6 +68,11 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
+            }
+            field(Employee_BOD; Rec.Employee_BOD)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Employee_BOD Relation field.';
             }
         }
     }

@@ -20,10 +20,27 @@ pageextension 50009 "Document Attachment Details" extends "Document Attachment D
                 Editable = QualificationLevelEditable;
                 ToolTip = 'Specifies the value of the Qualification Level field.';
             }
-            field("Qualification Doc. No."; Rec."Qualification Doc. No.")
+        }
+    }
+    actions
+    {
+        addafter(Preview)
+        {
+            action("Preview Attachment")
             {
+                Caption = 'Preview';
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Preview action.';
                 ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Qualification Doc. No. field.';
+
+                trigger OnAction()
+                begin
+                    PreviewAttachment.PreviewAttachment(returnAttachmentBase64());
+                    PreviewAttachment.Run();
+                end;
             }
         }
     }
@@ -43,6 +60,24 @@ pageextension 50009 "Document Attachment Details" extends "Document Attachment D
             QualificationLevelEditable := true;
     end;
 
+    local procedure returnAttachmentBase64(): Text;
+    var
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+    begin
+        if Rec."Document Reference ID".HasValue then begin
+            if ItemTenantMedia.Get(Rec."Document Reference ID".MediaId) then begin
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
+
     var
         QualificationLevelEditable: Boolean;
+        PreviewAttachment: page "Preview Attachment";
 }

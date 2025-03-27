@@ -1,4 +1,4 @@
-enum 50155 "Emp. Qualification Type"
+enum 50155 "Emp. Document Type"
 {
     Extensible = true;
 
@@ -10,8 +10,13 @@ enum 50155 "Emp. Qualification Type"
     {
         Caption = 'Education';
     }
+
     value(2; Work)
     {
         Caption = 'Work';
+    }
+    value(3; Achievement)
+    {
+        Caption = 'Achievement';
     }
 }

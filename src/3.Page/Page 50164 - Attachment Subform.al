@@ -32,22 +32,24 @@ page 50164 "Attachment Subform"
                     ToolTip = 'Specifies the value of the File Name field.';
                     ApplicationArea = All;
                     Caption = 'File Name';
-                    trigger OnAssistEdit()
-                    begin
-                        if Confirm('Do You Want to Download Attachment?', false) then
-                            LoanMgt.DownloadAttachment(Rec);
-                    end;
+                    // trigger OnAssistEdit()
+                    // begin
+                    //     if Confirm('Do You Want to Download Attachment?', false) then
+                    //         LoanMgt.DownloadAttachment(Rec);
+                    // end;
 
                     trigger OnDrillDown()
                     begin
                         // if Confirm('Do You Want to Download Attachment?', false) then
                         //     LoanMgt.DownloadAttachment(Rec);
-                        page.Run(page::"Preview Attachment", Rec);
+                        PreviewAttachment.PreviewAttachment(returnAttachmentBase64(Rec."No.", Rec."Entry No."));
+                        PreviewAttachment.Run();
                     end;
 
                     trigger OnLookup(var Text: Text): Boolean
                     begin
-                        page.Run(page::"Preview Attachment", Rec);
+                        PreviewAttachment.PreviewAttachment(returnAttachmentBase64(Rec."No.", Rec."Entry No."));
+                        PreviewAttachment.Run();
                     end;
 
                     // trigger OnValidate() nilesh
@@ -157,12 +159,13 @@ page 50164 "Attachment Subform"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                ToolTip = 'Executes the Download action.';
+                ToolTip = 'Executes the Preview action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    page.Run(page::"Preview Attachment", Rec);
+                    PreviewAttachment.PreviewAttachment(returnAttachmentBase64(Rec."No.", Rec."Entry No."));
+                    PreviewAttachment.Run();
                 end;
             }
             action(Remove)
@@ -217,6 +220,31 @@ page 50164 "Attachment Subform"
             isGUIAllowed := false;
     end;
 
+    local procedure returnAttachmentBase64(docNo: Code[20]; entryNo: Integer): Text
+    var
+        IncomingDoc: Record "Incoming Document";
+        FilePath: Text;
+        FileName: text;
+        File: File;
+        FileMgt: Codeunit "File Management";
+        Base64: Codeunit "Base64 Convert";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
+        instream: InStream;
+    begin
+        IncomingDoc.Reset();
+        if docNo <> '' then
+            IncomingDoc.SetRange("No.", docNo);
+        IncomingDoc.SetRange("Entry No.", entryNo);
+        IncomingDoc.FindFirst();
+        FilePath := IncomingDoc."File Name"; // Ensure this stores the server file path
+        if FilePath = '' then
+            Error('File path not specified for this document.');
+        // Open the file and read it into an InStream
+        File.OPEN(FilePath);
+        File.CREATEINSTREAM(InStream);
+        exit(Base64.ToBase64(instream, false));
+    end;
+
     var
         LoanMgt: Codeunit "Loan Mgt.";
         EmpLoan: Record "Employee Loan/Advance";
@@ -225,4 +253,5 @@ page 50164 "Attachment Subform"
         [InDataSet]
         isGUIAllowed: Boolean;
         HrMgt: Codeunit "HR Mgt.";
+        PreviewAttachment: Page "Preview Attachment";
 }

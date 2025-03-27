@@ -25,7 +25,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
                 // Clear("Time Period");
             end;
         }
-        field(50000; "Emp Qualification Type"; Enum "Emp. Qualification Type")
+        field(50000; "Emp Qualification Type"; Enum "Emp. Document Type")
         {
             DataClassification = CustomerContent;
         }
@@ -63,6 +63,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         }
         field(50012; CGPA; Decimal)
         { DataClassification = CustomerContent; }
+        field(50013; Attachment; Media)
+        {
+        }
     }
     keys { }
     trigger OnInsert()

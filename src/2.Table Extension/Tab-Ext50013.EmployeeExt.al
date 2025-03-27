@@ -231,12 +231,12 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Employee Work Shift";
             DataClassification = CustomerContent;
         }
-        field(50007; "Assigned User ID"; Code[50])
-        {
-            TableRelation = "User Setup";
-            DataClassification = CustomerContent;
-            Caption = 'Assigned User ID';
-        }
+        // field(50007; "Assigned User ID"; Code[50])
+        // {
+        //     TableRelation = "User Setup";
+        //     DataClassification = CustomerContent;
+        //     Caption = 'Assigned User ID';
+        // }
         field(50008; "Total Earning"; Decimal)
         {
             FieldClass = FlowField;
@@ -273,7 +273,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             TableRelation = "Tax Setup Header";
             DataClassification = CustomerContent;
-            Editable = false;
+            Editable = true;
         }
         field(50013; "Total Medical Re-Imbursement"; Decimal)
         {
@@ -692,11 +692,11 @@ tableextension 50013 "Employee Ext" extends Employee
 
             Editable = false;
         }
-        field(50069; Screener; Boolean)
-        {
-            DataClassification = CustomerContent;
-            Description = 'Loan';
-        }
+        // field(50069; Screener; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        //     Description = 'Loan';
+        // }
         field(50070; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
@@ -717,21 +717,21 @@ tableextension 50013 "Employee Ext" extends Employee
                 //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
             end;
         }
-        field(50072; "Approver Code"; Code[20])
-        {
-            TableRelation = Employee;
-            ValidateTableRelation = false;
-            DataClassification = CustomerContent;
+        // field(50072; "Approver Code"; Code[20])
+        // {
+        //     TableRelation = Employee;
+        //     ValidateTableRelation = false;
+        //     DataClassification = CustomerContent;
 
-            trigger OnValidate()
-            begin
-                HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-            end;
-        }
-        field(50073; "Recommender Name"; Text[50])
-        { DataClassification = CustomerContent; }
-        field(50074; "Approver Name"; Text[50])
-        { DataClassification = CustomerContent; }
+        //     trigger OnValidate()
+        //     begin
+        //         HRMgt.GetEmployeeName("Approver Code", "Approver Name");
+        //     end;
+        // }
+        // field(50073; "Recommender Name"; Text[50])
+        // { DataClassification = CustomerContent; }
+        // field(50074; "Approver Name"; Text[50])
+        // { DataClassification = CustomerContent; }
         field(50075; "Service Period"; Integer)
         { DataClassification = CustomerContent; }
         field(50076; "Converted To Emp. Date"; Date)
@@ -1141,10 +1141,10 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50120; "Selection committee"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
+        // field(50120; "Selection committee"; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        // }
         field(50121; "Citizenship No. (Nepali)"; Text[10])
         {
             DataClassification = CustomerContent;
@@ -1323,6 +1323,14 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
+        field(50156; "NID No"; Code[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50157; "Driving License No."; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         // field(50156; Task; Code[20])
         // {
         //     DataClassification = ToBeClassified;
@@ -1335,10 +1343,10 @@ tableextension 50013 "Employee Ext" extends Employee
         //             Validate("Task Name", EmployeeTask."Task Name");
         //     end;
         // }
-        field(50157; "Task Name"; Text[100])
-        {
-            DataClassification = ToBeClassified;
-        }
+        // field(50157; "Task Name"; Text[100])
+        // {
+        //     DataClassification = ToBeClassified;
+        // }
 
         field(50158; "Approver Role"; Code[20])
         {
@@ -1364,7 +1372,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {
@@ -1501,7 +1508,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 NewEmployee.Insert(true);
                 CurrentEmployee.Status := CurrentEmployee.Status::Terminated; //CurrentEmployee.Status::Retired;
                 CurrentEmployee.Modify;
-
                 PayrollAttributeUsage.Reset;
                 PayrollAttributeUsage.SetRange("Employee Code", CurrentEmployee."No.");
                 if PayrollAttributeUsage.FindFirst then begin

@@ -22,4 +22,8 @@ enum 50106 "Payback Months"
     {
         Caption = '4';
     }
+    value(5; "5")
+    {
+        Caption = '5';
+    }
 }

@@ -2,6 +2,18 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
 {
     layout
     {
+        modify("Qualification Code")
+        {
+            trigger OnLookup(var Text: Text): Boolean
+            var
+                QualificationRec: Record "Qualification";
+            begin
+                QualificationRec.Reset();
+                QualificationRec.SetRange(Type, QualificationRec.type::Education);
+                if Page.RunModal(Page::Qualifications, QualificationRec) = Action::LookupOK then
+                    Rec."Qualification Code" := QualificationRec.Code;
+            end;
+        }
         addbefore(Description)
         {
             field("Qualification Type"; Rec."Qualification Type")
@@ -44,38 +56,52 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 end;
             }
         }
-    }
-    actions
-    {
-        addafter("Q&ualification Overview")
+        addfirst(factboxes)
         {
-            action("Preview Attachment")
+            part(Attachment; "Qualification Attachment")
             {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = PrintCover;
-                PromotedCategory = Category4;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Preview Attachment action.';
-                trigger OnAction()
-                begin
-                    DocuAttach.Reset;
-                    DocuAttach.SetRange("Table ID", Database::Employee);
-                    DocuAttach.SetRange("No.", Rec."Employee No.");
-                    DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
-                    DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
-                    DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
-                    if DocuAttach.FindFirst then
-                        DocuAttach.Export(true);
-                end;
+                Caption = 'Attachment';
+                ApplicationArea = BasicHR;
+                SubPageLink = "Employee No." = field("Employee No."), "Line No." = field("Line No.");
             }
         }
     }
+    // actions
+    // {
+    //     addafter("Q&ualification Overview")
+    //     {
+    //         action("Preview Attachment")
+    //         {
+    //             ApplicationArea = All;
+    //             Promoted = true;
+    //             PromotedIsBig = true;
+    //             Image = PrintCover;
+    //             PromotedCategory = Category4;
+    //             PromotedOnly = true;
+    //             ToolTip = 'Executes the Preview Attachment action.';
+    //             trigger OnAction()
+    //             begin
+    //                 DocuAttach.Reset;
+    //                 DocuAttach.SetRange("Table ID", Database::Employee);
+    //                 DocuAttach.SetRange("No.", Rec."Employee No.");
+    //                 DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
+    //                 DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
+    //                 // DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
+    //                 if DocuAttach.FindFirst then
+    //                     DocuAttach.Export(true);
+    //             end;
+    //         }
+    //     }
+    // }
     trigger OnClosePage()
     begin
         Clear(EmployeeQualification);
         EmployeeQualification.Reset;
+    end;
+
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("Emp Qualification Type", Rec."Emp Qualification Type"::Education);
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)

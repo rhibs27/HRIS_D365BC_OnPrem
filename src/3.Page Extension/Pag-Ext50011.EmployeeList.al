@@ -176,233 +176,233 @@ pageextension 50011 "Employee List" extends "Employee List"
     }
     actions
     {
-        addafter("E&mployee")
-        {
-            action("Payroll Attributes Usage")
-            {
-                ApplicationArea = All;
-                RunObject = page "Payroll Attributes Usage";
-                RunPageLink = "Employee Code" = field("No.");
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Components;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Payroll Attributes Usage action.';
-                trigger OnAction()
-                begin
-                end;
-            }
-            action("KPI Setup")
-            {
-                ApplicationArea = All;
-                RunObject = page "KPI Setup Functional Bank";
-                RunPageLink = Type = const("Department Central & Province Level"), Code = field("No.");
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Components;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the KPI Setup action.';
-                trigger OnAction()
-                begin
-                end;
-            }
-        }
-        addafter("Q&ualifications")
-        {
-            action("Employee Work Experience")
-            {
-                ApplicationArea = All;
-                Caption = 'Work Experience';
-                RunObject = page "Employee Work Qualification";
-                RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = filter(Education);
-                Image = Certificate;
-                ToolTip = 'Executes the Work Experience action.';
-                trigger OnAction()
-                begin
-                end;
-            }
-        }
-        addafter(PayEmployee)
-        {
-            action("Generate New Employee Card")
-            {
-                // ApplicationArea = All;
-                Caption = 'Generate New Employee Card';
-                ApplicationArea = Basic, Suite;
-                Promoted = true;
-                Image = Archive;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Generate New Employee Card action.';
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to create new employee card?', false) then
-                        exit;
-                    Employee.GenerateNewEmployeeCard(Rec);
-                end;
-            }
-            action("Test Approval")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Executes the Test Approval action.';
+        // addafter("E&mployee")
+        // {
+        //     action("Payroll Attributes Usage")
+        //     {
+        //         ApplicationArea = All;
+        //         RunObject = page "Payroll Attributes Usage";
+        //         RunPageLink = "Employee Code" = field("No.");
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = Components;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Payroll Attributes Usage action.';
+        //         trigger OnAction()
+        //         begin
+        //         end;
+        //     }
+        //     action("KPI Setup")
+        //     {
+        //         ApplicationArea = All;
+        //         RunObject = page "KPI Setup Functional Bank";
+        //         RunPageLink = Type = const("Department Central & Province Level"), Code = field("No.");
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = Components;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the KPI Setup action.';
+        //         trigger OnAction()
+        //         begin
+        //         end;
+        //     }
+        // }
+        // addafter("Q&ualifications")
+        // {
+        //     action("Employee Work Experience")
+        //     {
+        //         ApplicationArea = All;
+        //         Caption = 'Work Experience';
+        //         RunObject = page "Employee Work Qualification";
+        //         RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = filter(Education);
+        //         Image = Certificate;
+        //         ToolTip = 'Executes the Work Experience action.';
+        //         trigger OnAction()
+        //         begin
+        //         end;
+        //     }
+        // }
+        // addafter(PayEmployee)
+        // {
+        //     action("Generate New Employee Card")
+        //     {
+        //         // ApplicationArea = All;
+        //         Caption = 'Generate New Employee Card';
+        //         ApplicationArea = Basic, Suite;
+        //         Promoted = true;
+        //         Image = Archive;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Generate New Employee Card action.';
+        //         trigger OnAction()
+        //         begin
+        //             if not Confirm('Do you want to create new employee card?', false) then
+        //                 exit;
+        //             Employee.GenerateNewEmployeeCard(Rec);
+        //         end;
+        //     }
+        //     action("Test Approval")
+        //     {
+        //         ApplicationArea = All;
+        //         ToolTip = 'Executes the Test Approval action.';
 
-                trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
-                    Temp1: Code[150];
-                    Temp2: Code[150];
-                    Temp3: Text;
-                    Temp4: Text;
-                begin
-                    LoanMgt.UpdateApproval(Rec, Temp1, Temp2, Temp3, Temp4, true);
-                end;
-            }
-            action("Generate Leave Balance")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = GiroPlus;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Generate Leave Balance action.';
-                trigger OnAction()
-                begin
-                    Employee.Reset;
-                    Employee.SetRange("No.", Rec."No.");
-                    Report.RunModal(REPORT::"Generate Leave Balance", true, false, Employee);
-                end;
-            }
-            action("Update Approval Code")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = CoupledUser;
-                PromotedCategory = Category4;
-                ToolTip = 'Executes the Update Approval Code action.';
-                trigger OnAction()
-                begin
-                    Employee.Reset;
-                    Employee.SetRange("No.", Rec."No.");
-                    Report.Run(Report::"Employee Approval Report", true, true, Employee);
-                end;
-            }
-            action(Temp)
-            {
-                ApplicationArea = All;
-                ToolTip = 'Executes the Temp action.';
+        //         trigger OnAction()
+        //         var
+        //             LoanMgt: Codeunit "Loan Mgt.";
+        //             Temp1: Code[150];
+        //             Temp2: Code[150];
+        //             Temp3: Text;
+        //             Temp4: Text;
+        //         begin
+        //             LoanMgt.UpdateApproval(Rec, Temp1, Temp2, Temp3, Temp4, true);
+        //         end;
+        //     }
+        //     action("Generate Leave Balance")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = GiroPlus;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Generate Leave Balance action.';
+        //         trigger OnAction()
+        //         begin
+        //             Employee.Reset;
+        //             Employee.SetRange("No.", Rec."No.");
+        //             Report.RunModal(REPORT::"Generate Leave Balance", true, false, Employee);
+        //         end;
+        //     }
+        //     action("Update Approval Code")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = CoupledUser;
+        //         PromotedCategory = Category4;
+        //         ToolTip = 'Executes the Update Approval Code action.';
+        //         trigger OnAction()
+        //         begin
+        //             Employee.Reset;
+        //             Employee.SetRange("No.", Rec."No.");
+        //             Report.Run(Report::"Employee Approval Report", true, true, Employee);
+        //         end;
+        //     }
+        //     // action(Temp)
+        //     // {
+        //     //     ApplicationArea = All;
+        //     //     ToolTip = 'Executes the Temp action.';
 
-                trigger OnAction()
-                begin
-                    Employee.Reset;
-                    if Employee.FindFirst then
-                        repeat
-                            Employee.Validate("Recommender Name");
-                            Employee.Validate("Approver Code");
-                            Employee.Modify;
-                        until Employee.Next = 0;
+        //     //     trigger OnAction()
+        //     //     begin
+        //     //         Employee.Reset;
+        //     //         if Employee.FindFirst then
+        //     //             repeat
+        //     //                 Employee.Validate("Recommender Name");
+        //     //                 Employee.Validate("Approver Code");
+        //     //                 Employee.Modify;
+        //     //             until Employee.Next = 0;
 
-                    Message('done.');
-                end;
-            }
-            action("Leave Earn (Contract)")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                Image = EditFilter;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Leave Earn (Contract) action.';
-                trigger OnAction()
-                begin
-                    LeaveMgt.CreateLeaveEarnContract(Rec);
-                end;
-            }
-            action("Attendance & Activities")
-            {
-                ApplicationArea = All;
-                RunObject = page "Employee Attendance & Activity";
-                RunPageLink = "Employee No." = field("No.");
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = BookingsLogo;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Attendance & Activities action.';
-                trigger OnAction()
-                begin
-                end;
-            }
-            action("Portal Attendance")
-            {
-                ApplicationArea = All;
-                RunObject = page "Attendance Logs";
-                RunPageLink = "Employee ID" = field("No.");
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = BulletList;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Portal Attendance action.';
-                trigger OnAction()
-                begin
-                end;
-            }
-            action("Resign Employee")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = VoidCheck;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Resign Employee action.';
-                trigger OnAction()
-                begin
-                    IF CONFIRM('Do you want to terminate %1 ?', FALSE, Rec."Full Name") THEN
-                        ResignationMgt.UpdateResign(Rec."No.");
-                end;
-            }
-            action("Insert Payroll Attributes")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = AddContacts;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Insert Payroll Attributes action.';
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to update payroll attributes usage ?', false) then
-                        PayrollEngine.InsertPayrollAttributes;
-                end;
-            }
-            action(SycnEmployeesToPortal)
-            {
-                ApplicationArea = All;
-                Caption = 'Sync Employees To Portal';
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = AddWatch;
-                PromotedCategory = Process;
-                ToolTip = 'Executes the Sync Employees To Portal action.';
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to sync employees to portal?', false) then begin
-                        HRMgt.SyncEmployee();
-                        Message('Success');
-                    end;
-                end;
-            }
-            action("Request Retirement Fund")
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Allocate;
-                PromotedCategory = Category8;
-                ToolTip = 'Executes the Request Retirement Fund action.';
-                trigger OnAction()
-                begin
-                    Rec.RFRequest;
-                end;
-            }
-        }
+        //     //         Message('done.');
+        //     //     end;
+        //     // }
+        //     action("Leave Earn (Contract)")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         Image = EditFilter;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Leave Earn (Contract) action.';
+        //         trigger OnAction()
+        //         begin
+        //             LeaveMgt.CreateLeaveEarnContract(Rec);
+        //         end;
+        //     }
+        //     action("Attendance & Activities")
+        //     {
+        //         ApplicationArea = All;
+        //         RunObject = page "Employee Attendance & Activity";
+        //         RunPageLink = "Employee No." = field("No.");
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = BookingsLogo;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Attendance & Activities action.';
+        //         trigger OnAction()
+        //         begin
+        //         end;
+        //     }
+        //     action("Portal Attendance")
+        //     {
+        //         ApplicationArea = All;
+        //         RunObject = page "Attendance Logs";
+        //         RunPageLink = "Employee ID" = field("No.");
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = BulletList;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Portal Attendance action.';
+        //         trigger OnAction()
+        //         begin
+        //         end;
+        //     }
+        //     action("Resign Employee")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = VoidCheck;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Resign Employee action.';
+        //         trigger OnAction()
+        //         begin
+        //             IF CONFIRM('Do you want to terminate %1 ?', FALSE, Rec."Full Name") THEN
+        //                 ResignationMgt.UpdateResign(Rec."No.");
+        //         end;
+        //     }
+        //     action("Insert Payroll Attributes")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = AddContacts;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Insert Payroll Attributes action.';
+        //         trigger OnAction()
+        //         begin
+        //             if Confirm('Do you want to update payroll attributes usage ?', false) then
+        //                 PayrollEngine.InsertPayrollAttributes;
+        //         end;
+        //     }
+        //     action(SycnEmployeesToPortal)
+        //     {
+        //         ApplicationArea = All;
+        //         Caption = 'Sync Employees To Portal';
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = AddWatch;
+        //         PromotedCategory = Process;
+        //         ToolTip = 'Executes the Sync Employees To Portal action.';
+        //         trigger OnAction()
+        //         begin
+        //             if Confirm('Do you want to sync employees to portal?', false) then begin
+        //                 HRMgt.SyncEmployee();
+        //                 Message('Success');
+        //             end;
+        //         end;
+        //     }
+        //     action("Request Retirement Fund")
+        //     {
+        //         ApplicationArea = All;
+        //         Promoted = true;
+        //         PromotedIsBig = true;
+        //         Image = Allocate;
+        //         PromotedCategory = Category8;
+        //         ToolTip = 'Executes the Request Retirement Fund action.';
+        //         trigger OnAction()
+        //         begin
+        //             Rec.RFRequest;
+        //         end;
+        //     }
+        // }
     }
     trigger OnOpenPage()
 

@@ -2,9 +2,9 @@ enum 50113 "Qualification Type"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; SLC)
     {
@@ -16,10 +16,18 @@ enum 50113 "Qualification Type"
     }
     value(3; "Bachelor")
     {
-        Caption = 'Bachelors';
+        Caption = 'Bachelor';
     }
     value(4; "Masters")
     {
-        Caption = 'Masters';
+        Caption = 'Master';
+    }
+    value(5; "PHD")
+    {
+        Caption = 'PHD';
+    }
+    value(6; "Others")
+    {
+        Caption = 'Others';
     }
 }

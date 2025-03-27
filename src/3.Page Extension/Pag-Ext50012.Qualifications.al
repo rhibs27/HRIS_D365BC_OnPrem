@@ -15,6 +15,7 @@ pageextension 50012 Qualifications extends Qualifications
             }
             field("Qualification Type"; Rec."Qualification Type")
             {
+                Visible = QualificationTypeEditable;
                 ApplicationArea = All;
                 Editable = QualificationTypeEditable;
                 ToolTip = 'Specifies the value of the Qualification Type field.';
@@ -29,10 +30,10 @@ pageextension 50012 Qualifications extends Qualifications
     trigger OnAfterGetRecord()
     begin
         //>>condition for Qualification Type
-        if Rec.Type = Rec.Type::Work then
-            QualificationTypeEditable := false
+        if Rec.Type = Rec.Type::Education then
+            QualificationTypeEditable := true
         else
-            QualificationTypeEditable := true;
+            QualificationTypeEditable := false;
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)

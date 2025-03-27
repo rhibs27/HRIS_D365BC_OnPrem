@@ -290,10 +290,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'KPI Deputation Value';
                 }
-                field(approverCode; Rec."Approver Code")
-                {
-                    Caption = 'Approver Code';
-                }
+                // field(approverCode; Rec."Approver Code")
+                // {
+                //     Caption = 'Approver Code';
+                // }
                 field(facebookUrl; Rec."Facebook Url")
                 {
                     Caption = 'Facebook Url';

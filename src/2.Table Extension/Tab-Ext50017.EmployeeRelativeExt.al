@@ -87,6 +87,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
+        field(50016; Employee_BOD; Enum "Employee/BOD Relation")
+        {
+            DataClassification = CustomerContent;
+        }
     }
     trigger OnDelete()
     var

@@ -2,7 +2,7 @@ tableextension 50014 "Qualification Ext" extends Qualification
 {
     fields
     {
-        field(50000; "Type"; Enum "Emp. Qualification Type")
+        field(50000; "Type"; Enum "Emp. document Type")
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
