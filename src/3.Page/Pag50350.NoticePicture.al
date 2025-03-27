@@ -12,7 +12,7 @@ page 50350 "Notice Picture"
     {
         area(Content)
         {
-            field(Notice; Rec.Notice)
+            field(Attachment; Rec.Notice.HasValue())
             {
                 ToolTip = 'Specifies the value of the Notice field.';
             }
@@ -37,47 +37,47 @@ page 50350 "Notice Picture"
                 var
                     FileManagement: Codeunit "File Management";
                     FileName: Text;
-                    ClientFileName: Text;
                     InStream: InStream;
-                    FileSize: Integer;
-                    MaxFileSize: Integer;
-                    AttachmentSetup: Record "Attachment Setup";
-                    TempBlob: Codeunit "Temp Blob";
-                    OutStream: OutStream;
+                    AttachmentMgt: Codeunit "Attachment Mgt.";
+                    Extension: Text;
                 begin
                     Rec.TestField("Entry No.");
 
                     if Rec.Notice.HasValue() then
                         if not Confirm(OverrideImageQst) then
                             exit;
-
-                    // Define maximum allowed file size 
-                    AttachmentSetup.Reset();
-                    AttachmentSetup.SetRange("Table ID", RecordId.TableNo);
-                    if AttachmentSetup.FindFirst() then
-                        MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;
-
-                    FileName := FileManagement.UploadFile(SelectPictureTxt, ClientFileName);
-                    if FileName = '' then
-                        exit;
-                    // Open the uploaded file to check the size
-                    // FileManagement.GetFileInStream(FileName, InStream);
-
-                    TempBlob.CreateInStream(InStream);
-                    CopyStream(OutStream, InStream);
-                    FileSize := InStream.Length;
-                    // UploadIntoStream(,)
-                    // FileManagement.GetFileInStream(FileName); // Get the InStream for the uploaded file
-                    FileSize := InStream.Length;
-                    if FileSize > MaxFileSize then begin
-                        Error('The file is too large. The maximum allowed size is 2 MB.');
-                        exit;
+                    if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FileName, InStream) then begin
+                        // check file size 
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStream, RecordId.TableNo);
+                        // Check File Extension
+                        Extension := FileManagement.GetExtension(FileName);
+                        if Extension = '' then
+                            Error('Invalid file. Please upload jpg, png or pdf files.');
+                        case LowerCase(Extension) of
+                            'jpg', 'jpeg', 'png', 'pdf':
+                                begin
+                                end;
+                            else
+                                Error('Invalid file extension. Please upload jpg, png or pdf files.');
+                        end;
+                        Clear(Rec.Notice);
+                        Rec.Notice.ImportStream(InStream, FileName);
+                        Rec.Modify(true);
                     end;
+                end;
+            }
+            action(Preview)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Preview';
+                Enabled = DeleteExportEnabled;
+                Image = view;
+                ToolTip = 'View the Attachment';
 
-                    Clear(Rec.Notice);
-                    Rec.Notice.ImportFile(FileName, ClientFileName);
-                    Rec.Modify(true);
-                    if FileManagement.DeleteServerFile(FileName) then;
+                trigger OnAction()
+                begin
+                    PreviewAttachment.PreviewAttachment(returnAttachmentBase64());
+                    PreviewAttachment.Run();
                 end;
             }
             action(ExportFile)
@@ -136,6 +136,24 @@ page 50350 "Notice Picture"
         DeleteExportEnabled: Boolean;
         DeleteImageQst: Label 'Are you sure you want to delete the picture?';
         EditableField: Boolean;
+        PreviewAttachment: page "Preview Attachment";
+
+    local procedure returnAttachmentBase64(): Text;
+    var
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+    begin
+        if Rec.Notice.HasValue then begin
+            if ItemTenantMedia.Get(Rec.Notice.MediaId) then begin
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
 
     local procedure SetEditableOnPictureActions()
     begin

@@ -35,6 +35,7 @@ page 50108 "Portal Functions"
         ResignationMgt: Codeunit "Resignation Mgt";
         AppraisalMgt: Codeunit "AppraisalMgt.";
         FileManagement: Codeunit "File Management";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
         EligibleLoan: Decimal;
@@ -120,7 +121,6 @@ page 50108 "Portal Functions"
               '",' + '"count" : "' + Format(counter) + '"' +
               ',"disableLogin" : "' + disabelLogintext + '"' +
               ',"recommendercode": "' + Employee."KPI Deputation Value" +
-              '","approverCode": "' + Employee."Approver Code" +
               '","isAdmin": "' + isAdmin +
               '","firstLogin": "' + FirstLogin +
               '","WebServiceKey": "' + WebServiceKey +
@@ -662,7 +662,7 @@ page 50108 "Portal Functions"
         TempIncomingDoc.SETRANGE("No.", leaveNo);
         If not TempIncomingDoc.FindFirst() then
             Error('Document Not Found');
-        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
         exit('{' +
         '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
           '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
@@ -1710,7 +1710,7 @@ page 50108 "Portal Functions"
         TempIncomingDoc.SETRANGE("No.", LoanNo);
         If not TempIncomingDoc.FindFirst() then
             Error('Document Not Found');
-        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
         exit('{' +
         '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
           '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
@@ -1902,7 +1902,7 @@ page 50108 "Portal Functions"
         ServerFolderPath: text;
         File: File;
         CleanedFileName: text;
-        LoanMgt: Codeunit "Loan Mgt.";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
     begin
         IncomingDoc.Get(entryNo);
         HRSetup.Get;
@@ -1982,7 +1982,7 @@ page 50108 "Portal Functions"
         if not TargetDirectory.EndsWith('\') then
             TargetDirectory := TargetDirectory + '\';
 
-        CleanedFileName := LoanMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
+        CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
 
         // Construct server file path with unique name
         ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
@@ -2038,7 +2038,7 @@ page 50108 "Portal Functions"
             end;
         end;
 
-        LoanMgt.DeleteAttachment(IncomingDocument);
+        AttachmentMgt.DeleteAttachment(IncomingDocument);
         IncomingDocument."File Name" := '';
         IncomingDocument.Modify;
     end;
@@ -2248,7 +2248,7 @@ page 50108 "Portal Functions"
         TempIncomingDoc.SETRANGE("No.", ResignNo);
         If not TempIncomingDoc.FindFirst() then
             Error('Document Not Found');
-        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
         exit('{' +
         '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
           '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
@@ -2889,7 +2889,7 @@ page 50108 "Portal Functions"
         TempIncomingDoc.SETRANGE("No.", TransferCode);
         If not TempIncomingDoc.FindFirst() then
             Error('Document Not Found');
-        Filename := LoanMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
         exit('{' +
         '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
           '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +

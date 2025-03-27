@@ -48,7 +48,7 @@ page 50183 "Sample Attachments"
 
                 trigger OnAction()
                 begin
-                    LoanMgt.UploadAttachment(Rec);
+                    AttachmentMgt.UploadAttachment(Rec);
                     CurrPage.Update;
                 end;
             }
@@ -64,7 +64,7 @@ page 50183 "Sample Attachments"
 
                 trigger OnAction()
                 begin
-                    LoanMgt.DownloadAttachment(Rec);
+                    AttachmentMgt.DownloadAttachment(Rec);
                 end;
             }
             action(Remove)
@@ -79,7 +79,7 @@ page 50183 "Sample Attachments"
 
                 trigger OnAction()
                 begin
-                    LoanMgt.DeleteAttachment(Rec);
+                    AttachmentMgt.DeleteAttachment(Rec);
                     CurrPage.Update;
                 end;
             }
@@ -92,5 +92,5 @@ page 50183 "Sample Attachments"
     end;
 
     var
-        LoanMgt: Codeunit "Loan Mgt.";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
 }

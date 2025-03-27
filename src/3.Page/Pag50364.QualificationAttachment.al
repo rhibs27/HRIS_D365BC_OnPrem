@@ -34,23 +34,17 @@ page 50364 "Qualification Attachment"
                 var
                     Extension: Text;
                     FileMgt: Codeunit "File Management";
-                    ClientFileName: Text;
-                    FileSize: Integer;
-                    MaxFileSize: Integer;
-                    AttachmentSetup: Record "Attachment Setup";
                     InStreamPic: InStream;
                     FromFileName: Text;
-                    loanMgt: Codeunit "Loan Mgt.";
+                    AttachmentMgt: Codeunit "Attachment Mgt.";
                 begin
                     // Rec.TestField("Entry No.");
-
                     if Rec.Attachment.HasValue() then
                         if not Confirm(OverrideImageQst) then
                             exit;
-
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
                         // check file size 
-                        loanMgt.CheckAttachmentSizeLimit(InStreamPic, RecordId.TableNo);
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, RecordId.TableNo);
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then
@@ -62,11 +56,24 @@ page 50364 "Qualification Attachment"
                             else
                                 Error('Invalid file extension. Please upload jpg, png or pdf files.');
                         end;
-
                         Clear(Rec.Attachment);
                         Rec.Attachment.ImportStream(InStreamPic, FromFileName);
                         Rec.Modify(true);
                     end;
+                end;
+            }
+            action(Preview)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Preview';
+                Enabled = DeleteExportEnabled;
+                Image = view;
+                ToolTip = 'View the Attachment';
+
+                trigger OnAction()
+                begin
+                    PreviewAttachment.PreviewAttachment(returnAttachmentBase64());
+                    PreviewAttachment.Run();
                 end;
             }
             action(ExportFile)
@@ -107,20 +114,6 @@ page 50364 "Qualification Attachment"
                         exit;
                     Clear(Rec.Attachment);
                     Rec.Modify(true);
-                end;
-            }
-            action(Preview)
-            {
-                ApplicationArea = Basic, Suite;
-                Caption = 'Preview';
-                Enabled = DeleteExportEnabled;
-                Image = view;
-                ToolTip = 'View the Attachment';
-
-                trigger OnAction()
-                begin
-                    PreviewAttachment.PreviewAttachment(returnAttachmentBase64());
-                    PreviewAttachment.Run();
                 end;
             }
         }

@@ -430,7 +430,7 @@ table 50076 Candidate
         IncomingDocument.Reset;
         IncomingDocument.SetRange("No.", Candidate."No.");
         if IncomingDocument.FindFirst then begin
-            LoanMgt.DeleteAttachment(IncomingDocument);
+            AttachmentMgt.DeleteAttachment(IncomingDocument);
             // IncomingDocument.DELETE;
         end;
     end;
@@ -472,7 +472,8 @@ table 50076 Candidate
         Qualification: Record Qualification;
         HRMgt: Codeunit "HR Mgt.";
         IncomingDocument: Record "Incoming Document";
-        LoanMgt: Codeunit "Loan Mgt.";
+        // LoanMgt: Codeunit "Loan Mgt.";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
         FunctionalTitle: Record "Functional Title";
         EvaluationAttributes: Record "Evaluation Attribute";
         ServiceHistory: Record "Employee Service History";

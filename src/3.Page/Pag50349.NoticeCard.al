@@ -76,8 +76,13 @@ page 50349 "Notice Card"
 
     trigger OnOpenPage()
     begin
-        if Rec."Notice End Date" >= Today then
-            EditableField := true;
+        if rec."Notice End Date" = 0D then
+            EditableField := true
+        else if Rec."Notice End Date" >= Today then
+            EditableField := true
+        else
+            EditableField := false;
+
     end;
 
     var

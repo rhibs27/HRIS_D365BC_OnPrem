@@ -109,16 +109,16 @@ page 50164 "Attachment Subform"
                     if EmpLoan.Get(Rec."No.") then begin //loan controls 
                         IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
                             ERROR('Approval status must be Open.');
-                        LoanMgt.UploadAttachment(Rec);
+                        AttachmentMgt.UploadAttachment(Rec);
                     end else if EmployeeTransfer.Get(Rec."No.") then begin
                         EmployeeTransfer.TestField("Transfer Claim", false);
                         if (EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved) then
                             if HrMgt.GetEmployeeNo() = rec."Employee Code" then
-                                LoanMgt.UploadAttachment(Rec)
+                                AttachmentMgt.UploadAttachment(Rec)
                             else
                                 Error('You arenot Allowed to Upload attachment');
                     end else
-                        LoanMgt.UploadAttachment(Rec);
+                        AttachmentMgt.UploadAttachment(Rec);
 
                     // if Employee.Get(Rec."Order No.") then //employee controls
                     //     LoanMgt.UploadAttachment(Rec)
@@ -132,9 +132,9 @@ page 50164 "Attachment Subform"
                         if Leave.Get(Rec."No.") then begin
                             IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN
                                 ERROR('Approval status must be Open.');
-                            LoanMgt.UploadAttachment(Rec);
+                            AttachmentMgt.UploadAttachment(Rec);
                         end else
-                            LoanMgt.UploadAttachment(Rec);
+                            AttachmentMgt.UploadAttachment(Rec);
                     end;
                 end;
             }
@@ -150,7 +150,7 @@ page 50164 "Attachment Subform"
                 trigger OnAction()
                 begin
                     if Confirm('Do You Want to Download Attachment?', false) then
-                        LoanMgt.DownloadAttachment(Rec);
+                        AttachmentMgt.DownloadAttachment(Rec);
                 end;
             }
             action(Preview)
@@ -188,16 +188,16 @@ page 50164 "Attachment Subform"
                         if Leave.Get(Rec."No.") then begin
                             IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Pending, Leave."Approval Status"::Open]) THEN
                                 ERROR('Approval status must be Open.');
-                            LoanMgt.DeleteAttachment(Rec)
+                            AttachmentMgt.DeleteAttachment(Rec)
                         end;
                     end;
                     if EmpLoan.Get(Rec."No.") then begin
-                        LoanMgt.DeleteAttachment(Rec);
+                        AttachmentMgt.DeleteAttachment(Rec);
                     end
                     else if Employee.Get(Rec."Order No.") then
-                        LoanMgt.DeleteAttachment(Rec)
+                        AttachmentMgt.DeleteAttachment(Rec)
                     else if Candidate.Get(Rec."No.") then
-                        LoanMgt.DeleteAttachment(Rec)
+                        AttachmentMgt.DeleteAttachment(Rec)
                     else if EmpAct.Get(Rec."No.") then begin
                         //EmpAct.TESTFIELD();
                         if EmpAct.Type in [EmpAct.Type::"Employee Transfer", EmpAct.Type::"HR Transfer"] then begin
@@ -205,7 +205,7 @@ page 50164 "Attachment Subform"
                                 Error('Acknowledge transfer attachment cannot be deleted.');
                         end else if EmpAct."Approval Status" = EmpAct."Approval Status"::Approved then
                                 Error('Cannot delete attachment of approved doucment.');
-                        LoanMgt.DeleteAttachment(Rec);
+                        AttachmentMgt.DeleteAttachment(Rec);
                     end;
                 end;
             }
@@ -247,6 +247,7 @@ page 50164 "Attachment Subform"
 
     var
         LoanMgt: Codeunit "Loan Mgt.";
+        AttachmentMgt: Codeunit "Attachment Mgt.";
         EmpLoan: Record "Employee Loan/Advance";
         Leave: Record Leave;
         Candidate: Record Candidate;
