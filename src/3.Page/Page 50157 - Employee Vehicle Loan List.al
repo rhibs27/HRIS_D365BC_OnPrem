@@ -251,7 +251,7 @@ page 50157 "Employee Vehicle Loan List"
 
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    // Rec.ReOpenDocument(Rec);
                 end;
             }
         }

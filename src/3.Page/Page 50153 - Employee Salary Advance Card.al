@@ -388,7 +388,7 @@ page 50153 "Employee Salary Advance Card"
                 Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
             action(Disbursed)

@@ -792,8 +792,8 @@ codeunit 50004 "Travel Mgt."
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         Employee.FindFirst;
-        if not Employee.Screener then
-            Error('You are not eligible to return this document.');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to return this document.');
         if Confirm('Do you want to return travel claim?', false) then begin
             EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Open);
             EmpActivityRec.Reset; //Min -- For re-initiate returned travel claim.

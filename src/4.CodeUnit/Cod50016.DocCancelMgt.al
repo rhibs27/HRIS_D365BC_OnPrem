@@ -207,8 +207,8 @@ codeunit 50016 "AttendanceMiss Mgt"
         CancelDocument.TestField("Approval Status", CancelDocument."Approval Status"::Approved);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         Employee.Get(HRMgt.GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to screen this document.');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to screen this document.');
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
             //LeaveEarn.RESET;
             LeaveEarn.Init;

@@ -425,7 +425,7 @@ table 50044 "Employee Activity Details"
             IsApprover := UserSetup."Approval Administrator";
             if not IsApprover then begin
                 if Employee.Get("Manager ID") then begin
-                    if Employee."Assigned User ID" = UserId then
+                    if Employee."NAV Login ID" = UserId then
                         IsApprover := true;
                 end;
             end;

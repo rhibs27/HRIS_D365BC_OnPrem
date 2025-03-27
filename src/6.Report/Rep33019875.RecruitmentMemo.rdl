@@ -3069,8 +3069,8 @@ End Function
         <Field Name="MemoNo_RecruitementMemoLine">
           <DataField>MemoNo_RecruitementMemoLine</DataField>
         </Field>
-        <Field Name="FuntionalTitle_RecruitementMemoLine">
-          <DataField>FuntionalTitle_RecruitementMemoLine</DataField>
+        <Field Name="FunctionalTitle_RecruitementMemoLine">
+          <DataField>FunctionalTitle_RecruitementMemoLine</DataField>
         </Field>
         <Field Name="SalaryLevelCode_RecruitementMemoLine">
           <DataField>SalaryLevelCode_RecruitementMemoLine</DataField>

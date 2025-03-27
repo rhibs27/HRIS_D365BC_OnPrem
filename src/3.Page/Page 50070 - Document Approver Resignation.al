@@ -82,8 +82,8 @@ page 50070 "Document Approver Resignation"
                 begin
                     if Confirm('Do you want to return rejected record?', false) then begin
                         Employee.Get(HRMgt.GetEmployeeNo);
-                        if not Employee.Screener then
-                            Error('You are not eligible.');
+                        // if not Employee.Screener then
+                        //     Error('You are not eligible.');
                         Rec."Approval Status" := Rec."Approval Status"::Open;
                         Rec.Modify;
                     end;

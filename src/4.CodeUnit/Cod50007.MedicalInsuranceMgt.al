@@ -40,7 +40,7 @@ codeunit 50007 "MedicalInsurance Mgt"
         EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
         EmpAct.Validate("User ID", UserId);
         Employee.Get(EmpAct."Employee No.");
-        EmpAct.Validate("Recommender Code", Employee."Approver Code");
+        // EmpAct.Validate("Recommender Code", Employee."Approver Code");
         EmpAct.Validate("Approver Code", HRMgt.GetHrHead());
 
         if EmpAct."Recommender Code" = '' then

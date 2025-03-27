@@ -7,7 +7,7 @@ table 50087 "Selection Commitee"
         field(1; "Vacancy Code"; Code[20]) { }
         field(2; "Employee No"; Code[20])
         {
-            TableRelation = Employee where("Selection committee" = const(true));
+            //TableRelation = Employee where("Selection committee" = const(true));
 
             trigger OnValidate()
             begin

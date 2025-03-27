@@ -529,7 +529,7 @@ page 50158 "Employee Vehicle Loan Card"
                 Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
             action(Disburse)

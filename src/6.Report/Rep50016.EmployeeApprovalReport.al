@@ -44,11 +44,11 @@ report 50016 "Employee Approval Report"
 
                 LoanMgt.UpdateApproval(Employee, Temp1, Temp2, Temp3, Temp4, false);
 
-                if UpdateEmployee then begin
-                    Employee.Validate("KPI Deputation Value", CopyStr(Temp1, 1, 20));
-                    Employee.Validate("Approver Code", CopyStr(Temp2, 1, 20));
-                    Modify;
-                end;
+                // if UpdateEmployee then begin
+                //     Employee.Validate("KPI Deputation Value", CopyStr(Temp1, 1, 20));
+                //     Employee.Validate("Approver Code", CopyStr(Temp2, 1, 20));
+                //     Modify;
+                // end;
 
                 Clear(Emp1);
                 Clear(Emp2);

@@ -654,21 +654,21 @@ table 50106 "Employee Loan/Advance"
             Error('%1 already exist for employee %2.Settle this Loan First.', EmpSalaryAdv."Loan Type", EmpSalaryAdv."No.");
     end;
 
-    procedure ReOpenDocument(EmpLoanAdvance: Record "Employee Loan/Advance")
-    var
-        Employee: Record Employee;
-    begin
-        //TESTFIELD("Approval Status","Approval Status"::Recommended);
-        Employee.Get(HRMgt.GetEmployeeNo);
-        if not Employee.Screener then
-            Error('Only screener can return these documents.');
-        if not Confirm('Do you want to return the document?', false) then
-            exit;
-        EmpLoanAdvance."Approval Status" := EmpLoanAdvance."Approval Status"::Open;
-        EmpLoanAdvance."Returned Loan" := true; //Min -- For Identify Return Document.
-        EmpLoanAdvance.Modify;
-        Message('The document has been returned.');
-    end;
+    // procedure ReOpenDocument(EmpLoanAdvance: Record "Employee Loan/Advance")
+    // var
+    //     Employee: Record Employee;
+    // begin
+    //     //TESTFIELD("Approval Status","Approval Status"::Recommended);
+    //     Employee.Get(HRMgt.GetEmployeeNo);
+    //     if not Employee.Screener then
+    //         Error('Only screener can return these documents.');
+    //     if not Confirm('Do you want to return the document?', false) then
+    //         exit;
+    //     EmpLoanAdvance."Approval Status" := EmpLoanAdvance."Approval Status"::Open;
+    //     EmpLoanAdvance."Returned Loan" := true; //Min -- For Identify Return Document.
+    //     EmpLoanAdvance.Modify;
+    //     Message('The document has been returned.');
+    // end;
 
     procedure DisburseLoan()
     begin

@@ -447,7 +447,7 @@ codeunit 50001 "HR Mgt."
                             VacaHeadaer.Validate(Type, Recruitment.Type);
                             VacaHeadaer.Insert;
                             Employee.Reset;
-                            Employee.SetRange("Selection committee", true);
+                            // Employee.SetRange("Selection committee", true);
                             if Employee.Find('-') then
                                 repeat
                                     SelectionCommitee.Init;
@@ -517,7 +517,7 @@ codeunit 50001 "HR Mgt."
                             VacaHeadaer.Validate(Type, Recruitment.Type);
                             VacaHeadaer.Insert(true);
                             Employee.Reset;
-                            Employee.SetRange("Selection committee", true);
+                            // Employee.SetRange("Selection committee", true);
                             if Employee.Find('-') then
                                 repeat
                                     SelectionCommitee.Init;
@@ -7165,8 +7165,8 @@ codeunit 50001 "HR Mgt."
                 Error(RecommendNotEligibleError);
 
         if EmpAct."Approval Status" = EmpAct."Approval Status"::Recommended then begin
-            if not Employee.Screener then
-                Error('You are not eligible to reject this document.');
+            // if not Employee.Screener then
+            //     Error('You are not eligible to reject this document.');
         end;
         if EmpAct."Approval Status" = EmpAct."Approval Status"::Screened then
             if StrPos(EmpAct."Approver Code", Employee."No.") = 0 then
@@ -8375,8 +8375,8 @@ codeunit 50001 "HR Mgt."
         EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Approved);
         EmpAct.TestField(Type, EmpAct.Type::"Leave Request");
         Employee.Get(GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to screen this document.');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to screen this document.');
         if EmpAct.Type = EmpAct.Type::"Leave Request" then begin
             //LeaveEarn.RESET;
             LeaveEarn.Init;
@@ -9172,8 +9172,8 @@ codeunit 50001 "HR Mgt."
         Employee.Get(GetEmployeeNo);
         EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
 
-        if not Employee.Screener then
-            Error('You are not eligible to approve');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to approve');
         if IsApproved then begin
             EmpActivity."Approval Status" := EmpActivity."Approval Status"::Approved;
             Employee."Address 2" := EmpActivity."Temporary Address";
@@ -9827,8 +9827,8 @@ codeunit 50001 "HR Mgt."
         AllowanceAssignmentLine2: Record "Allowance Assignment Line";
     begin
         Employee.Get(GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to reject this allowance');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to reject this allowance');
         AllowanceAssignmentPageBuilder.AddRecord('Reject Allowance Assignment', AllowanceAssignmentLine2);
         AllowanceAssignmentPageBuilder.ADdField('Reject Allowance Assignment', AllowanceAssignmentLine2."Rejection Remarks");
         if AllowanceAssignmentPageBuilder.RunModal then begin

@@ -56,12 +56,12 @@ table 50143 "Medical Insurance Claim"
                     Validate(Ecosystem, EmpVar."Eco-System");
                     Validate("Office Code", EmpVar.Office);
 
-                    if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then begin
-                        Validate("Recommender Code", EmpVar."KPI Deputation Value");
-                        Validate("Recommender Name", EmpVar."Recommender Name");
-                        Validate("Approver Code", EmpVar."Approver Code");
-                        Validate("Approver Name", EmpVar."Approver Name");
-                    end;
+                    // if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then begin
+                    //     Validate("Recommender Code", EmpVar."KPI Deputation Value");
+                    //     Validate("Recommender Name", EmpVar."Recommender Name");
+                    //     Validate("Approver Code", EmpVar."Approver Code");
+                    //     Validate("Approver Name", EmpVar."Approver Name");
+                    // end;
                     "Bank Account No." := EmpVar."Bank Account No.";
                     "Contact No." := EmpVar."Mobile Phone No.";
 

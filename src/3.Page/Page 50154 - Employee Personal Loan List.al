@@ -290,7 +290,7 @@ page 50154 "Employee Personal Loan List"
 
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
         }

@@ -191,8 +191,8 @@ codeunit 50005 "Transfer Mgt."
             EmpHrTransfer."Deputation On (To)"::Unit:
                 EmpHrTransfer.TestField("Unit (To)");
         end;
-        if not Employee.Screener then
-            Error('You are not eligible to screen this document');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to screen this document');
         // if EmpHrTransfer.Type = EmpHrTransfer.Type::"Employee Transfer" then
         //     EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Reviewed)
         // else if EmpHrTransfer.Type = EmpHrTransfer.Type::"HR Transfer" then
@@ -408,8 +408,8 @@ codeunit 50005 "Transfer Mgt."
         EmpServiceActivityRec: Record "Employee Service History";
     begin
         Employee.Get(HRMgt.GetEmployeeNo);
-        if not Employee.Screener then
-            Error('You are not eligible to put this document on hold');
+        // if not Employee.Screener then
+        //     Error('You are not eligible to put this document on hold');
         EmpTransfer.TestField("Approval Status", EmpTransfer."Approval Status"::Approved);
 
         TransferPageBuilder.AddRecord('Transfer Document', EmpTransfer);

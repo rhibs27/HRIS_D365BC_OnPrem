@@ -106,7 +106,7 @@ table 50080 "Evaluation Entry"
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         if Employee.FindFirst then
-            if not Employee.Screener then
+            // if not Employee.Screener then
                 TestField(Posted, false);
         "User ID" := UserId;
         "Modified Date" := Today;

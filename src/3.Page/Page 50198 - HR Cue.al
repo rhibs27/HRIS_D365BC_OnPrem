@@ -597,8 +597,8 @@ page 50198 "HR Cue"
         Employee.SetRange("NAV Login ID", UserId);
         if Employee.FindFirst then
             Rec.SetFilter("User Filter", Employee."No.");
-        if not Employee.Screener then
-            Rec.SetRange("Employee Filter", Employee."No.");
+        // if not Employee.Screener then
+        //     Rec.SetRange("Employee Filter", Employee."No.");
 
         UserSetup.Reset;
         UserSetup.SetRange("User ID", UserId);

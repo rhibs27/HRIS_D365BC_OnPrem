@@ -209,8 +209,8 @@ codeunit 50006 "Resignation Mgt"
         //check authorized user
         Employee.Get(HrMgt.GetEmployeeNo());
         if Resignation.Type = Resignation.Type::Resignation then begin
-            if not Employee.Screener then           //resignation approver replaced with screener
-                Error('Not authorized screener.');
+            // if not Employee.Screener then           //resignation approver replaced with screener
+            //     Error('Not authorized screener.');
             // Resignation.TestField("Approval Status", Resignation."Approval Status"::"Forwarded To HR");
             //  EmpAct.TESTFIELD("Screener Remarks");
             HrMgt.CheckDocumentApprover(Resignation."No.");

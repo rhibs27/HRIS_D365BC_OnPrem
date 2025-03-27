@@ -288,7 +288,7 @@ page 50159 "Employee Home Loan List"
 
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
         }

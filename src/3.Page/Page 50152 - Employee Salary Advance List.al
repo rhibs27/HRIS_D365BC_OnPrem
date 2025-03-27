@@ -308,7 +308,7 @@ page 50152 "Employee Salary Advance List"
 
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
         }

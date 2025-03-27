@@ -469,7 +469,7 @@ page 50155 "Employee Personal Loan Card"
                 Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
             action(Disburse)

@@ -257,13 +257,13 @@ page 50149 "Allowance Assignment Card"
 
     local procedure SetLayout()
     begin
-        CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
-        Employee.Reset;
-        Employee.SetRange("NAV Login ID", UserId);
-        if Employee.FindFirst then
-            if Employee.Screener then
-                FormEditable := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
-            else
-                FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::Rejected];
+        // CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
+        // Employee.Reset;
+        // Employee.SetRange("NAV Login ID", UserId);
+        // if Employee.FindFirst then
+        //     if Employee.Screener then
+        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
+        //     else
+        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::Rejected];
     end;
 }

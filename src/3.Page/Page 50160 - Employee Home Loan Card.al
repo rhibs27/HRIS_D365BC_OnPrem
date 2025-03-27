@@ -592,7 +592,7 @@ page 50160 "Employee Home Loan Card"
                 Visible = false;
                 trigger OnAction()
                 begin
-                    Rec.ReOpenDocument(Rec);
+                    //Rec.ReOpenDocument(Rec);
                 end;
             }
             action(Disburse)
