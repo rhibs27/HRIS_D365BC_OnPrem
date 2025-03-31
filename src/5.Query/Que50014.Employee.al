@@ -6,27 +6,23 @@ query 50014 Employee
     EntityName = 'employee';
     EntitySetName = 'employeeApi';
     QueryType = API;
-
     elements
     {
         dataitem(employee; Employee)
         {
-            column(no; "No.")
+            column(number; "No.")
             {
             }
             column(fullName; "Full Name")
             {
             }
+            column(functionalTitleDesc; "Functional Title Desc")
+            {
+
+            }
             column(deputationOn; "Deputation on")
             {
             }
-            column(departmentCode; "Department Code")
-            {
-            }
-            column(branchCode; "Global Dimension 1 Code")
-            {
-            }
-
             column(branchName; "Branch Name")
             {
             }
@@ -42,7 +38,7 @@ query 50014 Employee
             column(phoneNo; "Phone No.")
             {
             }
-            column(image; Image)
+            column(gender; Gender)
             {
             }
         }

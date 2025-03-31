@@ -129,163 +129,7 @@ page 50108 "Portal Functions"
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure sendLateAttendance(employeeNo: Code[20]; lateRemarks: Text): Integer
-    var
-        DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training;
-        TypeOpt: Option " ",Open,Released,Rejected,"Pending Approval";
-    begin
-        HrMgt.SendMailFromTemplate(0, DocumentType::"Late Attendance", TypeOpt::Open, '<br>' + lateRemarks, employeeNo, '', 0);
-        exit(200);
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text; approverCode: Code[20]): Text
-    var
-        AttendanceLog: Record "Attendance Log";
-    begin
-        AttendanceLog.Reset;
-        AttendanceLog.SetRange("Employee ID", empNo);
-        AttendanceLog.SetRange(Date, lateAttendanceDate);
-        if AttendanceLog.FindFirst then begin
-            Employee.Reset;
-            Employee.SetRange("No.", approverCode);
-            if Employee.FindFirst then
-                if Employee."No." <> AttendanceLog."Approver Code" then
-                    Error('You are not eligible to approve or reject this document');
-            if isApproved then
-                AttendanceLog.Validate(Status, AttendanceLog.Status::Approved)
-            else
-                AttendanceLog.Validate(Status, AttendanceLog.Status::Rejected);
-            AttendanceLog.Validate("Approver Remarks", remarks);
-            AttendanceLog.Modify;
-            exit('Approved');
-        end;
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        EmpActivity.Get(empActNo);
-        if EmpActivity.Type = EmpActivity.Type::Resignation then begin
-            if isApproved then begin
-                EmpActivity.Validate(Remarks, rejectionRemarks);
-                EmpActivity.Modify;
-                HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
-            end else begin
-                EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-                EmpActivity.Modify;
-                HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
-            end;
-            exit;
-        end;
-        if not EmpActivity.Cancelled then begin
-            if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
-                HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
-            else begin
-                if not isApproved then begin
-                    EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-                    EmpActivity.Modify;
-                end;
-                HrMgt.ApprovedRejectApprovalAPI(isApproved, empActNo, employeeNo);
-            end;
-        end else begin
-            EmpActivity.Get(empActNo);
-            EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-            EmpActivity.Modify;
-            HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
-        end;
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure employeeCheckoutTimeUpdate(empNo: Code[20]; checkoutDate: Date; checkoutTime: Time; puchoutRemarks: Text; punchoutReviewer: Code[20]; punchoutCheckReviewer: Code[20]; NightShiftCheckOutTime: Time): Text
-    var
-        Attendancelog: Record "Attendance Log";
-    begin
-        Attendancelog.Reset;
-        Attendancelog.SetRange("Employee ID", empNo);
-        Attendancelog.SetRange(Date, checkoutDate);
-        if Attendancelog.FindFirst then begin
-            Attendancelog."Check Out Time" := checkoutTime;
-            Attendancelog."Punch out Remarks" := puchoutRemarks;
-            Attendancelog."Punch Out Reviewer" := punchoutReviewer; //Min 8.18.2022
-            Attendancelog."Punch Out Check Reviewer" := punchoutCheckReviewer;
-            Attendancelog."Night Shift Check Out Time" := NightShiftCheckOutTime; //Min 11.27.2022
-            Attendancelog.Modify;
-            exit('Checkout Completed');
-        end else
-            Error('Record not found');
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
-    var
-        EmpActivity: Record "Employee Activity";
-    begin
-        EmpActivity.Get(empActNo);
-        EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-        EmpActivity.Modify;
-        HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, approverCode);
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20])
-    var
-        //CancelDocument: Record "Cancel Document";
-        AttendanceMissed: Record "Attendance Missed";
-        Employee: Record Employee;
-        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
-        PayrollSetup: Record "Payroll General Setup";
-    begin
-        PayrollSetup.Get();
-        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, endDate, HrMgt.GetEmployeeNo());
-        AttendanceMissed.Init;
-        AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
-        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
-        AttendanceMissed.Validate("Requested Date", Today);
-        AttendanceMissed.Validate("Reason Code", reasonCode);
-        AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
-        AttendanceMissed.Validate("Start Date", startDate);
-        AttendanceMissed.Validate("End Date", endDate);
-        AttendanceMissed.Validate(Remarks, remarks);
-        if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
-            Error('Cannot apply for future date.Please check the date.');
-        if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-            Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
-        AttendanceMissed.TestField("Start Date");
-        AttendanceMissed.TestField("End Date");
-        AttendanceMissed.TestField(Remarks);
-        AttendanceMissed.Insert(true);
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveRejectMissedAttendance(missedAttendanceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
-    var
-        Leave: Record Leave;
-        RecRef: RecordRef;
-        AttendanceMissed: Record "Attendance Missed";
-    begin
-        AttendanceMissed.Get(missedAttendanceNo);
-        if not isApproved then begin
-            if rejectionRemarks = '' then
-                Error('Rejection Remarks is empty');
-            AttendanceMissed.Validate("Rejection Remarks", rejectionRemarks);
-            AttendanceMissed.Modify;
-        end;
-        RecRef.GetTable(AttendanceMissed);
-        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
-
-    end;
-
+    // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure getEmployeeApproval(empActType: Code[20]): text
@@ -352,6 +196,163 @@ page 50108 "Portal Functions"
         exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
                 '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
                 '"approverName" : "' + (Format(ApproverName)) + '"}');
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure sendLateAttendance(employeeNo: Code[20]; lateRemarks: Text): Integer
+    var
+        DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training;
+        TypeOpt: Option " ",Open,Released,Rejected,"Pending Approval";
+    begin
+        HrMgt.SendMailFromTemplate(0, DocumentType::"Late Attendance", TypeOpt::Open, '<br>' + lateRemarks, employeeNo, '', 0);
+        exit(200);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text; approverCode: Code[20]): Text
+    var
+        AttendanceLog: Record "Attendance Log";
+    begin
+        AttendanceLog.Reset;
+        AttendanceLog.SetRange("Employee ID", empNo);
+        AttendanceLog.SetRange(Date, lateAttendanceDate);
+        if AttendanceLog.FindFirst then begin
+            Employee.Reset;
+            Employee.SetRange("No.", approverCode);
+            if Employee.FindFirst then
+                if Employee."No." <> AttendanceLog."Approver Code" then
+                    Error('You are not eligible to approve or reject this document');
+            if isApproved then
+                AttendanceLog.Validate(Status, AttendanceLog.Status::Approved)
+            else
+                AttendanceLog.Validate(Status, AttendanceLog.Status::Rejected);
+            AttendanceLog.Validate("Approver Remarks", remarks);
+            AttendanceLog.Modify;
+            exit('Approved');
+        end;
+    end;
+
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
+    // var
+    //     EmpActivity: Record "Employee Activity";
+    // begin
+    //     EmpActivity.Get(empActNo);
+    //     if EmpActivity.Type = EmpActivity.Type::Resignation then begin
+    //         if isApproved then begin
+    //             EmpActivity.Validate(Remarks, rejectionRemarks);
+    //             EmpActivity.Modify;
+    //             HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
+    //         end else begin
+    //             EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
+    //             EmpActivity.Modify;
+    //             HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
+    //         end;
+    //         exit;
+    //     end;
+    //     if not EmpActivity.Cancelled then begin
+    //         if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //             HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
+    //         else begin
+    //             if not isApproved then begin
+    //                 EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
+    //                 EmpActivity.Modify;
+    //             end;
+    //             HrMgt.ApprovedRejectApprovalAPI(isApproved, empActNo, employeeNo);
+    //         end;
+    //     end else begin
+    //         EmpActivity.Get(empActNo);
+    //         EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
+    //         EmpActivity.Modify;
+    //         HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
+    //     end;
+    // end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure employeeCheckoutTimeUpdate(empNo: Code[20]; checkoutDate: Date; checkoutTime: Time; puchoutRemarks: Text; punchoutReviewer: Code[20]; punchoutCheckReviewer: Code[20]; NightShiftCheckOutTime: Time): Text
+    var
+        AttendanceLog: Record "Attendance Log";
+    begin
+        Attendancelog.Reset;
+        Attendancelog.SetRange("Employee ID", empNo);
+        Attendancelog.SetRange(Date, checkoutDate);
+        if Attendancelog.FindFirst then begin
+            Attendancelog."Check Out Time" := checkoutTime;
+            Attendancelog."Punch out Remarks" := puchoutRemarks;
+            Attendancelog."Punch Out Reviewer" := punchoutReviewer; //Min 8.18.2022
+            Attendancelog."Punch Out Check Reviewer" := punchoutCheckReviewer;
+            Attendancelog."Night Shift Check Out Time" := NightShiftCheckOutTime; //Min 11.27.2022
+            Attendancelog.Modify;
+            exit('Checkout Completed');
+        end else
+            Error('Record not found');
+    end;
+
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
+    // var
+    //     EmpActivity: Record "Employee Activity";
+    // begin
+    //     EmpActivity.Get(empActNo);
+    //     EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
+    //     EmpActivity.Modify;
+    //     HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, approverCode);
+    // end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20])
+    var
+        //CancelDocument: Record "Cancel Document";
+        AttendanceMissed: Record "Attendance Missed";
+        Employee: Record Employee;
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+        PayrollSetup: Record "Payroll General Setup";
+    begin
+        PayrollSetup.Get();
+        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, endDate, HrMgt.GetEmployeeNo());
+        AttendanceMissed.Init;
+        AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
+        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+        AttendanceMissed.Validate("Requested Date", Today);
+        AttendanceMissed.Validate("Reason Code", reasonCode);
+        AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
+        AttendanceMissed.Validate("Start Date", startDate);
+        AttendanceMissed.Validate("End Date", endDate);
+        AttendanceMissed.Validate(Remarks, remarks);
+        if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
+            Error('Cannot apply for future date.Please check the date.');
+        if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
+            Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+        AttendanceMissed.TestField("Start Date");
+        AttendanceMissed.TestField("End Date");
+        AttendanceMissed.TestField(Remarks);
+        AttendanceMissed.Insert(true);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveRejectMissedAttendance(missedAttendanceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        Leave: Record Leave;
+        RecRef: RecordRef;
+        AttendanceMissed: Record "Attendance Missed";
+    begin
+        AttendanceMissed.Get(missedAttendanceNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            AttendanceMissed.Validate("Rejection Remarks", rejectionRemarks);
+            AttendanceMissed.Modify;
+        end;
+        RecRef.GetTable(AttendanceMissed);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+
     end;
 
     local procedure "------Leave API---------"()
@@ -3028,6 +3029,26 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure uploadEmployeeChangesAttachment(empChangeNo: Code[20]; ext: Text; fileBaseText: Text)
+    var
+        TempBlob: Codeunit "Temp Blob";
+        Instream: InStream;
+        base64: Codeunit "Base64 Convert";
+        Outstream: OutStream;
+        EmployeeEdit: Record "Employee Edit";
+        FileName: text;
+    begin
+        EmployeeEdit.Get(empChangeNo);
+        FileName := EmployeeEdit."Employee No." + '.' + ext;
+        Tempblob.CreateOutStream(outStream);
+        base64.FromBase64(fileBaseText, Outstream);
+        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        EmployeeEdit.Attachment.ImportStream(Instream, FileName);
+        EmployeeEdit.Modify(true);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure downloadSampleDoc(attachmentCode: Code[20]): Text
     var
         IncomingDoc: Record "Incoming Document";
@@ -3999,18 +4020,18 @@ page 50108 "Portal Functions"
 
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure totalLeaveCount() leavecount: Record Leave
-    var
-        leave: Record Leave;
-    begin
-        leave.Reset();
-        leave.SetFilter("Start Date", '>=%1', Today);
-        leave.Setfilter("End Date", '<=%1', Today);
-        leave.FindSet();
-        exit(leave);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure totalLeaveCount() leavecount: Record Leave
+    // var
+    //     leave: Record Leave;
+    // begin
+    //     leave.Reset();
+    //     leave.SetFilter("Start Date", '>=%1', Today);
+    //     leave.Setfilter("End Date", '<=%1', Today);
+    //     leave.FindSet();
+    //     exit(leave);
+    // end;
 
     // procedure GetFilteredSalesOrders(Filter: Text): List of [Record Leave]
     // var
@@ -4030,31 +4051,31 @@ page 50108 "Portal Functions"
     //     exit(FilteredSalesOrders);
     // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getChanges(since: DateTime): JsonArray
-    var
-        Leave: Record Leave; // Replace with your table name
-        ResponseArray: JsonArray;
-        RecordObject: JsonObject;
-    begin
-        // Filter records modified after the given timestamp
-        Leave.SetRange("SystemModifiedAt", Since, CurrentDateTime);
-        if Leave.FindSet() then begin
-            repeat
-                // Prepare each record as a JSON object
-                RecordObject.Add('Name', Leave.Type);
-                RecordObject.Add('LastModifiedDateTime', Leave.SystemModifiedAt);
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getChanges(since: DateTime): JsonArray
+    // var
+    //     Leave: Record Leave; // Replace with your table name
+    //     ResponseArray: JsonArray;
+    //     RecordObject: JsonObject;
+    // begin
+    //     // Filter records modified after the given timestamp
+    //     Leave.SetRange("SystemModifiedAt", Since, CurrentDateTime);
+    //     if Leave.FindSet() then begin
+    //         repeat
+    //             // Prepare each record as a JSON object
+    //             RecordObject.Add('Name', Leave.Type);
+    //             RecordObject.Add('LastModifiedDateTime', Leave.SystemModifiedAt);
 
-                // Add the JSON object to the array
-                ResponseArray.Add(RecordObject);
+    //             // Add the JSON object to the array
+    //             ResponseArray.Add(RecordObject);
 
-            // Clear the object for the next record
-            // RecordObject.Clear();
-            until Leave.Next() = 0;
-        end;
-        exit(ResponseArray);
-    end;
+    //         // Clear the object for the next record
+    //         // RecordObject.Clear();
+    //         until Leave.Next() = 0;
+    //     end;
+    //     exit(ResponseArray);
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]

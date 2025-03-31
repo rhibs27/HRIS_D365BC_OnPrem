@@ -3,9 +3,10 @@ page 50235 "Change in Employee list"
     ApplicationArea = BasicHR;
     Editable = false;
     PageType = List;
-    SourceTable = "Employee Activity";
+    SourceTable = "Employee Edit";
     SourceTableView = where(Type = const("Changes in employee"));
     UsageCategory = Lists;
+    CardPageId = "Change in Employee Card";
 
     layout
     {
@@ -33,21 +34,31 @@ page 50235 "Change in Employee list"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Mobile No."; Rec."Mobile No.")
+                field(Status; rec.Status)
                 {
-                    ToolTip = 'Specifies the value of the Mobile No. field.';
+                    Caption = 'Approval Status';
+                    ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Marital Status"; Rec."Marital Status")
+                field("Requested Date"; Rec."Requested Date")
                 {
-                    ToolTip = 'Specifies the value of the Marital Status field.';
+                    ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("Email (Personal)"; Rec."Email (Personal)")
+                field("Approved Date"; Rec."Approved Date")
                 {
-                    ToolTip = 'Specifies the value of the Email (Personal) field.';
+                    ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
+
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
+                    ApplicationArea = All;
+                }
+
+
+
                 field("Passport No."; Rec."Passport No.")
                 {
                     ToolTip = 'Specifies the value of the Passport No. field.';
@@ -110,11 +121,11 @@ page 50235 "Change in Employee list"
                 ToolTip = 'Executes the Approve action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to approve this document?', false) then
-                        HRMgt.ApproveRejctChangeforEmp(Rec, true);
-                end;
+                // trigger OnAction()
+                // begin
+                //     if Confirm('Do you want to approve this document?', false) then
+                //         HRMgt.ApproveRejctChangeforEmp(Rec, true);
+                // end;
             }
             action(Reject)
             {
@@ -125,11 +136,11 @@ page 50235 "Change in Employee list"
                 ToolTip = 'Executes the Reject action.';
                 ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to reject this document?', false) then
-                        HRMgt.ApproveRejctChangeforEmp(Rec, false);
-                end;
+                // trigger OnAction()
+                // begin
+                //     if Confirm('Do you want to reject this document?', false) then
+                //         HRMgt.ApproveRejctChangeforEmp(Rec, false);
+                // end;
             }
         }
     }

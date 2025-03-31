@@ -7,27 +7,56 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
             Visible = true;
             Editable = rec.Employee_BOD = rec.Employee_BOD::Employee;
         }
+        modify("First Name")
+        {
+            Caption = 'Full Name';
+        }
+        modify(Comment)
+        {
+            Visible = false;
+        }
+        addbefore("Relative's Employee No.")
+        {
+            field(Employee_BOD; Rec.Employee_BOD)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Employee_BOD Relation field.';
+                trigger OnValidate()
+                begin
+                    if Rec.Employee_BOD <> xRec.Employee_BOD then
+                        Clear(REC."Relative's Employee No.");
+                end;
+            }
+        }
         addafter("Relative's Employee No.")
         {
             field(Address; Rec.Address)
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Address field.';
+                Visible = false;
             }
             field("Name(Nepali)"; Rec."Name(Nepali)")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Name(Nepali) field.';
             }
+            field("Citizenship No."; Rec."Citizenship No.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Citizenship No. field.';
+            }
             field("Fathers Name(Nepali)"; Rec."Fathers Name(Nepali)")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Fathers Name(Nepali) field.';
+                Visible = false;
             }
             field("GrandFather Name(Nepali)"; Rec."GrandFather Name(Nepali)")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the GrandFather Name(Nepali) field.';
+                Visible = false;
             }
             field(District; Rec.District)
             {
@@ -44,35 +73,30 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Ward No field.';
             }
-            field("Citizenship No."; Rec."Citizenship No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Citizenship No. field.';
-            }
+
             field(Age; Rec.Age)
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Age field.';
+                Visible = false;
             }
             field("Citizenship Date"; Rec."Citizenship Date")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Citizenship Date field.';
+                Visible = false;
             }
             field("Citizenship Issued District"; Rec."Citizenship Issued District")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Citizenship Issued District field.';
+                Visible = false;
             }
             field("Citizenship Date (Nepali)"; Rec."Citizenship Date (Nepali)")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
-            }
-            field(Employee_BOD; Rec.Employee_BOD)
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Employee_BOD Relation field.';
+                Visible = false;
             }
         }
     }

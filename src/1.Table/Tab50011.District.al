@@ -50,12 +50,16 @@ table 50011 District
             Description = 'In Nepali';
         }
     }
-
     keys
     {
         key(Key1; "District Code") { }
         key(Key2; "District Name", "District Code") { }
     }
+    fieldgroups
+    {
+        fieldgroup(DropDown; "District Code", "District Name")
+        {
+        }
+    }
 
-    fieldgroups { }
 }

@@ -5,6 +5,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     {
         modify("No.")
         {
+            Editable = false;
             Caption = 'Employee No.';
         }
         movebefore(Gender; "Birth Date")
