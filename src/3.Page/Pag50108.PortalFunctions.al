@@ -170,6 +170,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Transfer Claim");
             FORMAT(ApprovalSetupLine."Request Type"::Resignation):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Resignation);
+            FORMAT(ApprovalSetupLine."Request Type"::"Employee Edit"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
             else
                 Error('Approval Setup Not found');
         END;
@@ -2967,65 +2969,68 @@ page 50108 "Portal Functions"
         exit(PGSetup."Vault Key");
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure uploadEmployeeImage(empNo: Code[20]; ext: Text; fileBaseText: Text)
-    var
-        TargetDirectory: text;
-        ServerFolderPath: text;
-        ServerFilePath: text;
-        CleanedFileName: text;
-        // FileManagement: Codeunit "File Management";
-        // FileName: Text;
-        // ClientFileName: Text;
-        // DirectoryName: Text;
-        TempBlob: Codeunit "Temp Blob";
-        Instream: InStream;
-        base64: Codeunit "Base64 Convert";
-        // tempinstream: InStream;
-        Outstream: OutStream;
-        File: file;
-    begin
-        Employee.Get(empNo);
-        HRSetup.Get;
-        // CreateNewDir(HRSetup."Attachment Storage Location", empNo, DirectoryName);
-        // DirectoryName += '\';
-        // FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Employee."First Name" + '_image' + '.' + ext;
-        // base64.FromBase64(fileBaseText);
-        // Instream.Read(base64);
-        // FileManagement.BLOBExport(TempBlob, FileName, false);
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure uploadEmployeeImage(empNo: Code[20]; ext: Text; fileBaseText: Text)
+    // var
+    //     TargetDirectory: text;
+    //     ServerFolderPath: text;
+    //     ServerFilePath: text;
+    //     CleanedFileName: text;
+    //     // FileManagement: Codeunit "File Management";
+    //     // FileName: Text;
+    //     // ClientFileName: Text;
+    //     // DirectoryName: Text;
+    //     TempBlob: Codeunit "Temp Blob";
+    //     Instream: InStream;
+    //     base64: Codeunit "Base64 Convert";
+    //     // tempinstream: InStream;
+    //     Outstream: OutStream;
+    //     File: file;
+    // begin
+    //     Employee.Get(empNo);
+    //     HRSetup.Get;
+    //     // CreateNewDir(HRSetup."Attachment Storage Location", empNo, DirectoryName);
+    //     // DirectoryName += '\';
+    //     // FileName := FileManagement.GetDirectoryName(DirectoryName) + '\' + Employee."First Name" + '_image' + '.' + ext;
+    //     // base64.FromBase64(fileBaseText);
+    //     // Instream.Read(base64);
+    //     // FileManagement.BLOBExport(TempBlob, FileName, false);
 
 
 
-        TargetDirectory := HRSetup."Attachment Storage Location";
-        // Step 2: Construct the server folder path
+    //     TargetDirectory := HRSetup."Attachment Storage Location";
+    //     // Step 2: Construct the server folder path
 
-        if TargetDirectory = '' then
-            Error('Attachment Storage Location is not configured.');
+    //     if TargetDirectory = '' then
+    //         Error('Attachment Storage Location is not configured.');
 
-        if not TargetDirectory.EndsWith('\') then
-            TargetDirectory := TargetDirectory + '\';
+    //     if not TargetDirectory.EndsWith('\') then
+    //         TargetDirectory := TargetDirectory + '\';
 
-        // CleanedFileName := LoanMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
+    //     // CleanedFileName := LoanMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
 
-        // Construct server file path with unique name
-        ServerFilePath := TargetDirectory + Employee."First Name" + '_image' + '.' + ext;
-        // Construct server file path with unique name
-        tempblob.CreateOutStream(outStream);
-        base64.FromBase64(fileBaseText, Outstream);
-        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        File.CREATE(ServerFilePath);       // Create the file on the server
-        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
-        CopyStream(OutStream, InStream);  // Write the data
-        File.CLOSE;
-        // IncomingDoc."File Name" := ServerFilePath;
-        // IncomingDoc.MODIFY;
+    //     // Construct server file path with unique name
+    //     ServerFilePath := TargetDirectory + Employee."First Name" + '_image' + '.' + ext;
+    //     // Construct server file path with unique name
+    //     tempblob.CreateOutStream(outStream);
+    //     base64.FromBase64(fileBaseText, Outstream);
+    //     TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+    //     File.CREATE(ServerFilePath);       // Create the file on the server
+    //     File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+    //     CopyStream(OutStream, InStream);  // Write the data
+    //     File.CLOSE;
+    //     // IncomingDoc."File Name" := ServerFilePath;
+    //     // IncomingDoc.MODIFY;
 
-        Clear(Employee.Image);
-        Instream.Read(ServerFilePath);
-        Employee.Image.ImportStream(Instream, ServerFilePath);
-        Employee.Modify;
-    end;
+    //     Clear(Employee.Image);
+    //     Instream.Read(ServerFilePath);
+    //     Employee.Image.ImportStream(Instream, ServerFilePath);
+    //     Employee.Modify;
+    // end;
+
+
+    // Employee Edit
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3046,6 +3051,25 @@ page 50108 "Portal Functions"
         EmployeeEdit.Attachment.ImportStream(Instream, FileName);
         EmployeeEdit.Modify(true);
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveRejectEmployeeEdit(employeeEditNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        RecRef: RecordRef;
+        EmployeeEdit: Record "Employee Edit";
+    begin
+        EmployeeEdit.Get(EmployeeEditNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            EmployeeEdit.Validate("Rejection Remarks", rejectionRemarks);
+            EmployeeEdit.Modify;
+        end;
+        RecRef.GetTable(EmployeeEdit);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
