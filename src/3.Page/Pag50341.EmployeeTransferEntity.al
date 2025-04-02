@@ -22,22 +22,22 @@ page 50341 "Employee Transfer Entity"
                 {
                     trigger OnValidate()
                     begin
-                        if Rec.Type = Rec.Type::"Access Control" then begin
-                            HRSetup.Get;
-                            HRSetup.TestField("Access Control No.");
-                            //  "No." := NoSeriesMgt.GetNextNo(HRSetup."Access Control No.",TODAY,TRUE);
-                            Rec."No. Series" := HRSetup."Access Control No.";
-                            Rec.Rename(NoSeriesMgt.GetNextNo(HRSetup."Access Control No.", Today, true));
-                            //NoSeriesMgt.InitSeries(HRSetup."Access Control No.",xRec."No. Series","Requested Date","No.","No. Series");
-                        end;
-                        if Rec.Type = Rec.Type::"Changes in employee" then begin
-                            HRSetup.Get;
-                            HRSetup.TestField("Employee Change No. Series");
-                            Rec."Approval Status" := Rec."Approval Status"::"Pending";
-                            Rec."No. Series" := HRSetup."Employee Change No. Series";
-                            // Noseries := NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true);
-                            // Rec.Rename(Noseries);
-                        end;
+                        // if Rec.Type = Rec.Type::"Access Control" then begin
+                        //     HRSetup.Get;
+                        //     HRSetup.TestField("Access Control No.");
+                        //     //  "No." := NoSeriesMgt.GetNextNo(HRSetup."Access Control No.",TODAY,TRUE);
+                        //     Rec."No. Series" := HRSetup."Access Control No.";
+                        //     Rec.Rename(NoSeriesMgt.GetNextNo(HRSetup."Access Control No.", Today, true));
+                        //     //NoSeriesMgt.InitSeries(HRSetup."Access Control No.",xRec."No. Series","Requested Date","No.","No. Series");
+                        // end;
+                        // if Rec.Type = Rec.Type::"Changes in employee" then begin
+                        //     HRSetup.Get;
+                        //     HRSetup.TestField("Employee Change No. Series");
+                        //     Rec."Approval Status" := Rec."Approval Status"::"Pending";
+                        //     Rec."No. Series" := HRSetup."Employee Change No. Series";
+                        //     // Noseries := NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true);
+                        //     // Rec.Rename(Noseries);
+                        // end;
                     end;
                 }
                 field(employeeNo; Rec."Employee No.")

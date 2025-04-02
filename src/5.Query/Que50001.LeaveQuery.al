@@ -24,7 +24,9 @@ query 50001 "Leave Query"
             dataitem(ApprovalHRMS; "Approval HRMS")
             {
                 DataItemLink = "Approver No" = employee."No.";
-                column(no; "Document No.")
+
+                column(no;
+                "Document No.")
                 {
 
                 }
@@ -121,5 +123,6 @@ query 50001 "Leave Query"
         Hrmgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, Hrmgt.GetEmployeeNo());
+        CurrQuery.SetRange(type, type::"Leave Request");
     end;
 }

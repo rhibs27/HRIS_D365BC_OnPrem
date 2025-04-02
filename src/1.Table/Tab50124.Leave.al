@@ -698,17 +698,6 @@ table 50124 Leave
             end;
         end else begin
             case Leave.Type of
-                //change in employee
-                Leave.Type::"Changes in employee":
-                    begin
-                        HRSetup.TestField("Employee Change No. Series");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Employee Change No. Series", OldLeave."No. Series", Leave."No. Series") then begin
-                            NoSeriesMgt.SetSeries(Leave."No.");
-                            Rec := Leave;
-                            exit(true);
-                        end;
-                    end;
-
                 //for leave
                 Leave.Type::"Leave Request":
                     begin

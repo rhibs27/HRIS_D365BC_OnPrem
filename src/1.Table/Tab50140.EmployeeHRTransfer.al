@@ -994,13 +994,6 @@ table 50140 "Employee/HR Transfer"
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
-
-                    //change in employee
-                    Type::"Changes in employee":
-                        begin
-                            HRSetup.TestField("Employee Change No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        end;
                     //for transfer
                     Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
                         begin
