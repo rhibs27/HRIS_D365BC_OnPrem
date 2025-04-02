@@ -296,6 +296,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ResignationMgt.ApproveResignation(RecRef.Field(1).Value);
                             end;
+                        EmpActType::"Employee Edit":
+                            begin
+                                ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -329,5 +333,5 @@ codeunit 50017 "Approver Mgt"
         TransferMgt: Codeunit "Transfer Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         ResignationMgt: Codeunit "Resignation Mgt";
-
+        ChangesInEmployeeMgt: Codeunit "Employee Edit Mgt.";
 }

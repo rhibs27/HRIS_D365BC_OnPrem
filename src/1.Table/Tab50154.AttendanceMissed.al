@@ -16,12 +16,6 @@ table 50154 "Attendance Missed"
                         "No. Series" := '';
                     end else begin
                         case Type of
-                            //employee change no. series
-                            Type::"Changes in employee":
-                                begin
-                                    NoSeriesMgt.TestManual(HRSetup."Employee Change No. Series");
-                                    "No. Series" := '';
-                                end;
                             //attendance missed
                             Type::"Attendance Missed":
                                 begin

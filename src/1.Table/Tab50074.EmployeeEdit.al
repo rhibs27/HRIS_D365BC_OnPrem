@@ -3,7 +3,6 @@ table 50074 "Employee Edit"
     Caption = 'Employee Edit';
     DataClassification = ToBeClassified;
     //Field 1,2,16,37 100 are used in ApprovalMgt Codeunit as field Ref << Santosh 3.25.2025
-
     fields
     {
         field(1; "No."; Code[20])
@@ -110,7 +109,7 @@ table 50074 "Employee Edit"
         {
             TableRelation = "No. Series";
         }
-        field(20; "Changes In Employee Type"; Enum "Changes In Employee")
+        field(20; "Changes In Employee Type"; Enum "Employee Edit Type")
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
@@ -292,7 +291,7 @@ table 50074 "Employee Edit"
             Caption = 'Relative VDC/Municipality';
             DataClassification = CustomerContent;
         }
-        field(53; "Ward No."; Code[20])
+        field(53; "Ward No."; Integer)
         {
             Description = 'Employee Relatives';
             Caption = 'Relative Ward No.';
@@ -357,13 +356,13 @@ table 50074 "Employee Edit"
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         Validate("Employee No.", HrMgt.GetEmployeeNo());
-        Validate(Type, Type::"Changes in employee");
+        Validate(Type, Type::"Employee Edit");
         Validate("Approval Status", "Approval Status"::Pending);
         HRSetup.Get;
         if "No." = '' then
             case Type of
                 //change in employee
-                Type::"Changes in employee":
+                Type::"Employee Edit":
                     begin
                         HRSetup.TestField("Employee Change No. Series");
                         NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");

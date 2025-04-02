@@ -1,4 +1,4 @@
-enum 50117 "Changes In Employee"
+enum 50117 "Employee Edit Type"
 {
     Extensible = true;
 

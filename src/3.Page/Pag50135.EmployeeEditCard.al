@@ -1,8 +1,10 @@
-page 50135 "Change In Employee Card"
+page 50135 "Employee Edit Card"
 {
     PageType = Card;
     ApplicationArea = All;
     SourceTable = "Employee Edit";
+    InsertAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
@@ -29,12 +31,14 @@ page 50135 "Change In Employee Card"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Visible = ApprovalStatusView;
                 }
                 field(Status; rec.Status)
                 {
                     Caption = 'Approval Status';
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Visible = StatusView;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
@@ -67,7 +71,7 @@ page 50135 "Change In Employee Card"
 
             group("Employee Information")
             {
-                Editable = DetailsChanges;
+                Editable = false;
                 Visible = DetailsChanges;
                 field("Mobile No."; Rec."Mobile No.")
                 {
@@ -82,11 +86,6 @@ page 50135 "Change In Employee Card"
                 field("Email (Personal)"; Rec."Email (Personal)")
                 {
                     ToolTip = 'Specifies the value of the Email (Personal) field.';
-                    ApplicationArea = All;
-                }
-                field("Passport No."; Rec."Passport No.")
-                {
-                    ToolTip = 'Specifies the value of the Passport No. field.';
                     ApplicationArea = All;
                 }
                 field("Differently Able"; Rec."Differently Able")
@@ -133,6 +132,7 @@ page 50135 "Change In Employee Card"
             group("Employee Qualification")
             {
                 Editable = false;
+                Visible = QualificationChanges or WorkExperienceChanges or AchievementChanges;
                 // Caption = GroupCaption;
                 field(Percentage; Rec.Percentage)
                 {
@@ -196,29 +196,27 @@ page 50135 "Change In Employee Card"
             {
                 Editable = false;
                 Visible = OfficialDocument;
-                field(passportNo; Rec."Passport No.")
+                field("passport No."; Rec."Passport No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Passport No. field.';
                 }
-                field(citizenShipNo; Rec."CitizenShip No.")
+                field("CitizenShip  No."; Rec."CitizenShip No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the CitizenShip No. field.';
                 }
-                field(citizenShipIssueDate; Rec."CitizenShip Issue Date")
+                field("CitizenShip IssueDate"; Rec."CitizenShip Issue Date")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the CitizenShip Issue Date field.';
-                    // Visible = QualificationChanges;
                 }
-                field(nIDNo; Rec."NID No.")
+                field("NID No."; Rec."NID No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the National ID No. field.';
-                    // Visible = QualificationChanges;
                 }
-                field(drivingLicenseNo; Rec."Driving License No.")
+                field("Driving License No."; Rec."Driving License No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Driving License No field.';
@@ -228,31 +226,31 @@ page 50135 "Change In Employee Card"
             {
                 Editable = false;
                 Visible = Relative;
-                field(relativeCode; Rec."Relative Code")
+                field("Relative Code"; Rec."Relative Code")
                 {
                 }
-                field(fullName; Rec."Full Name")
+                field("Full Name"; Rec."Full Name")
                 {
                 }
-                field(relativePhoneNo; Rec."Relative Phone No.")
+                field("Relative Phone No."; Rec."Relative Phone No.")
                 {
                 }
-                field(employeeRelativeInBank; rec."Employee Relative In Bank")
+                field("Employee Relative In Bank"; rec."Employee Relative In Bank")
                 {
                 }
-                field(relativeEmployeeNo; Rec."Relative's Employee No.")
+                field("Relative Employee No."; Rec."Relative's Employee No.")
                 {
                 }
-                field(relativeCitizenShipNo; Rec."Relative CitizenShip No.")
+                field("Relative CitizenShip No."; Rec."Relative CitizenShip No.")
                 {
                 }
-                field(relativeDistrict; Rec."Relative District")
+                field("Relative District"; Rec."Relative District")
                 {
                 }
-                field(relativeVDCMunicipality; Rec."Relative VDC/Municipality")
+                field("Relative VDC/Municipality"; Rec."Relative VDC/Municipality")
                 {
                 }
-                field(wardNo; Rec."Ward No.")
+                field("Ward No."; Rec."Ward No.")
                 {
                 }
             }
@@ -299,16 +297,57 @@ page 50135 "Change In Employee Card"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Approve Request")
             {
-
+                Image = Approve;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
+                ApplicationArea = All;
                 trigger OnAction()
                 begin
-
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Employee Edit is Approved by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
+            action("Reject Request")
+            {
+                Image = Reject;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Employee Edit is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        SetLayout;
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        SetLayout;
+    end;
 
     var
         IsPending: Boolean;
@@ -326,6 +365,8 @@ page 50135 "Change In Employee Card"
         AchievementChanges: Boolean;
         WorkExperience: text;
         GroupCaption: text;
+        ApprovalMgt: Codeunit "Approver Mgt";
+        HRMgt: Codeunit "HR Mgt.";
 
     local procedure SetLayout()
     begin

@@ -1,8 +1,8 @@
-page 50217 "Change In Employee API"
+page 50217 "Employee Edit Entity"
 {
 
-    EntityName = 'changesinemployee';
-    EntitySetName = 'changesinemployees';
+    EntityName = 'employeeEdit';
+    EntitySetName = 'employeeEditEntity';
     PageType = API;
     APIVersion = 'v2.0';
     DelayedInsert = true;
@@ -59,7 +59,7 @@ page 50217 "Change In Employee API"
                 field(vehicleType; Rec."Vehicle Type") { }
                 field(temporaryAddress; Rec."Temporary Address") { }
                 field(temporaryProvince; Rec."Temporary Province") { }
-                field(VDC; Rec.VDC) { }
+                field(vDC; Rec.VDC) { }
                 field(temporaryDistrict; Rec."Temporary District") { }
                 field(house; Rec.House)
                 {
@@ -76,25 +76,21 @@ page 50217 "Change In Employee API"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Percentage field.';
-                    // Visible = QualificationChanges;
                 }
-                field(CGPA; Rec.CGPA)
+                field(cGPA; Rec.CGPA)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the CGPA field.';
-                    // Visible = QualificationChanges;
                 }
                 field(stream; Rec.Stream)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Stream field.';
-                    // Visible = QualificationChanges;
                 }
                 field(year; Rec.Year)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Year of completion field.';
-                    // Visible = QualificationChanges;
                 }
                 field(empDocumentType; Rec."Emp Document Type")
                 {
@@ -110,11 +106,9 @@ page 50217 "Change In Employee API"
                 }
                 field(qualificationCode; Rec."Qualification Code")
                 {
-                    // CaptionClass = WorkExperience;
                 }
                 field(qualificationType; rec."Qualification Type")
                 {
-                    // Visible = QualificationChanges;
                 }
                 field(description; Rec.Description)
                 {
@@ -124,7 +118,6 @@ page 50217 "Change In Employee API"
                 }
                 field(designation; Rec.Designation)
                 {
-                    // Visible = WorkExperienceChanges;
                 }
                 field(remuneration; Rec.Remuneration)
                 {
@@ -145,14 +138,11 @@ page 50217 "Change In Employee API"
                 field(citizenShipIssueDate; Rec."CitizenShip Issue Date")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the CitizenShip Issue Date field.';
-                    // Visible = QualificationChanges;
                 }
                 field(nIDNo; Rec."NID No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the National ID No. field.';
-                    // Visible = QualificationChanges;
                 }
                 field(drivingLicenseNo; Rec."Driving License No.")
                 {
@@ -193,19 +183,19 @@ page 50217 "Change In Employee API"
             }
             group("Language Proficiency")
             {
-                field(Language; Rec.Language)
+                field(language; Rec.Language)
                 {
                 }
-                field(Reading; Rec.Reading)
+                field(reading; Rec.Reading)
                 {
                 }
-                field(Writing; Rec.Writing)
+                field(writing; Rec.Writing)
                 {
                 }
-                field(Speaking; Rec.Speaking)
+                field(speaking; Rec.Speaking)
                 {
                 }
-                field(Typing; Rec.Typing)
+                field(typing; Rec.Typing)
                 {
                 }
             }

@@ -30,7 +30,7 @@ page 50165 "Employee Activity Entity"
                             Rec.Rename(NoSeriesMgt.GetNextNo(HRSetup."Access Control No.", Today, true));
                             //NoSeriesMgt.InitSeries(HRSetup."Access Control No.",xRec."No. Series","Requested Date","No.","No. Series");
                         end;
-                        if Rec.Type = Rec.Type::"Changes in employee" then begin
+                        if Rec.Type = Rec.Type::"Employee Edit" then begin
                             HRSetup.Get;
                             HRSetup.TestField("Employee Change No. Series");
                             Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";

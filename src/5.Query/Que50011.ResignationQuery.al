@@ -81,5 +81,6 @@ query 50011 "Resignation Query"
         HRMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, HRMgt.GetEmployeeNo());
+        CurrQuery.SetRange(type, type::Resignation);
     end;
 }

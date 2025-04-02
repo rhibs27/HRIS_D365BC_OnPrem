@@ -187,8 +187,8 @@ page 50171 "Temp Employee Activity Entity"
                 {
                     trigger OnValidate()
                     begin
-                        if Rec.Type = Rec.Type::"Changes in employee" then
-                            HRMgt.sendChangeforEmpforApproval(Rec);
+                        // if Rec.Type = Rec.Type::"Changes in employee" then
+                        //     HRMgt.sendChangeforEmpforApproval(Rec);
                     end;
                 }
             }

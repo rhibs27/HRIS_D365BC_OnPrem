@@ -95,5 +95,6 @@ query 50010 "OverTime Query"
         HRMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, HRMgt.GetEmployeeNo());
+        CurrQuery.SetRange(type, type::Overtime);
     end;
 }

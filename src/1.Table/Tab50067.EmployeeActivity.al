@@ -28,7 +28,7 @@ table 50067 "Employee Activity"
                         case Type of
 
                             //employee change no. series
-                            Type::"Changes in employee":
+                            Type::"Employee Edit":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Employee Change No. Series");
                                     "No. Series" := '';
@@ -1800,7 +1800,7 @@ table 50067 "Employee Activity"
                 case Type of
 
                     //change in employee
-                    Type::"Changes in employee":
+                    Type::"Employee Edit":
                         begin
                             HRSetup.TestField("Employee Change No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
@@ -1971,7 +1971,7 @@ table 50067 "Employee Activity"
         end else begin
             case EmpAct.Type of
                 //change in employee
-                EmpAct.Type::"Changes in employee":
+                EmpAct.Type::"Employee Edit":
                     begin
                         HRSetup.TestField("Employee Change No. Series");
                         if NoSeriesMgt.SelectSeries(HRSetup."Employee Change No. Series", OldEmpAct."No. Series", EmpAct."No. Series") then begin

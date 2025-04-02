@@ -22933,316 +22933,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Candidate Relatives - Action Co&amp;mments - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 555091333 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CGPA field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control CGPA - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 569861697 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Emp Document Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control empDocumentType - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 2666073532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Percentage field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 844377528 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Stream field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control stream - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 535371777 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Year of completion field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 613407403 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CitizenShip Issue Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control citizenShipIssueDate - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 1965153975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CitizenShip No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control citizenShipNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 1717434237 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Driving License No field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control drivingLicenseNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 290902118 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the National ID No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control nIDNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 555091333 - Control 756842043 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Passport No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee API - Control passportNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Blood Group field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Blood Group - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 4087499582 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Differently Able field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Differently Able - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2065310711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Email (Personal) field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Email (Personal) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2256271752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the House field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control House - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1915108478 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Marital Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Marital Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3228716161 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Mobile No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Mobile No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 36154713 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Passport No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Passport No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1799028647 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Address field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Temporary Address - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 570233103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary District field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Temporary District - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3507210259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Province field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Temporary Province - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 4209343491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the VDC field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control VDC - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 481545316 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Vehicle Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Vehicle Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CGPA field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control CGPA - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2222580281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Emp Document Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Emp Document Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Percentage field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Stream field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Stream - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Year of completion field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approved Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3982914492 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Changes In Employee Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Changes In Employee Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Name field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Requested Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Requested Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Status - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 613407403 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CitizenShip Issue Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control citizenShipIssueDate - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1965153975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CitizenShip No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control citizenShipNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 1717434237 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Driving License No field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control drivingLicenseNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 290902118 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the National ID No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control nIDNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 756842043 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Passport No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control passportNo - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2064786769 - Control 2969163710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change In Employee Card - Control Remark - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approved Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Blood Group field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Blood Group - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 4087499582 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Differently Able field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Differently Able - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Name field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 2256271752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the House field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control House - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 36154713 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Passport No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Passport No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Requested Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Requested Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Status - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 1799028647 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Address field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Temporary Address - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 570233103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary District field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Temporary District - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 3507210259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Province field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Temporary Province - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 4209343491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the VDC field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control VDC - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Control 481545316 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Vehicle Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Control Vehicle Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Approve action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Action Approve - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2585548739 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reject action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Change in Employee list - Action Reject - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 4112730028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Confirmation Appraisal List</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25167,6 +24857,261 @@
           <source>Specifies the value of the Souvenir/Gift field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Declaration Lists - Control Souvenir/Gift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Blood Group field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Blood Group - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 4087499582 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Differently Able field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Differently Able - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2065310711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Email (Personal) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Email (Personal) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2256271752 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the House field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control House - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1915108478 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Marital Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Marital Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3228716161 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Mobile No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Mobile No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1799028647 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary Address field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary Address - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 570233103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary District field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary District - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3507210259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary Province field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Temporary Province - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 4209343491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the VDC field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control VDC - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 481545316 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vehicle Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Vehicle Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CGPA field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control CGPA - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2222580281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Emp Document Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Emp Document Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Percentage field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Percentage - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Stream field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Stream - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Year of completion field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approved Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Approved Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3982914492 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Changes In Employee Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Changes In Employee Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Requested Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2803596789 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CitizenShip No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control CitizenShip  No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 4019622307 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CitizenShip Issue Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control CitizenShip IssueDate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1063747415 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Driving License No field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Driving License No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 1167214240 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the National ID No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control NID No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 53148281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Passport No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control passport No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Control 2969163710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Remark - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Action Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2113601774 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 1473185231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CGPA field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control cGPA - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 569861697 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Emp Document Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control empDocumentType - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 2666073532 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Percentage field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control percentage - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 844377528 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Stream field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control stream - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 535371777 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Year of completion field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 1965153975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CitizenShip No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control citizenShipNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 1717434237 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Driving License No field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control drivingLicenseNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 290902118 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the National ID No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control nIDNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 719376695 - Control 756842043 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Passport No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Entity - Control passportNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approved Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Approved Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 3982914492 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Changes In Employee Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Changes In Employee Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 852516776 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit list - Control Requested Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 18544478 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Picture</source>
@@ -32957,6 +32902,21 @@
           <source>Executes the View Key Performance indices action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page KRA Subform - Action View Key Performance indices - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2442120499 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>languageEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Language Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2442120499 - Control 707985127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Language Entity - Control code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2442120499 - Control 3558812865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Language Entity - Control name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3402979117 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Language Proficiency</source>
@@ -41082,6 +41042,26 @@
           <source>Preview</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Attachment - Action Preview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4091855366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>qualification</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4091855366 - Control 707985127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Entity - Control code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4091855366 - Control 4232699882 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Entity - Control description - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4091855366 - Control 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Qualification Entity - Control type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3216706474 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Quick Links</source>
@@ -54713,31 +54693,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Candidate Type - EnumValue Interviewed - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3374864124 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Changes In Employee - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3374864124 - EnumValue 904735209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Achievement</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Changes In Employee - EnumValue Achievement - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3374864124 - EnumValue 318613646 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Changes In Employee - EnumValue Details - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3374864124 - EnumValue 2251411675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Qualification</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Changes In Employee - EnumValue Qualification - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 3374864124 - EnumValue 330979681 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Work Experience</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Changes In Employee - EnumValue Work Experience - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2171820062 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55358,10 +55313,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Bulk Cash - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4154710913 - EnumValue 2263783036 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Changes in employee</source>
+        <trans-unit id="Enum 4154710913 - EnumValue 1945176490 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Edit</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Changes in employee - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Employee Edit - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3659416491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Transfer</source>
@@ -55472,6 +55427,31 @@
           <source>Reminder</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Document Type - EnumValue Reminder - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 569389050 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Edit Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 569389050 - EnumValue 904735209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Achievement</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Edit Type - EnumValue Achievement - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 569389050 - EnumValue 318613646 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Edit Type - EnumValue Details - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 569389050 - EnumValue 2251411675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Qualification</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Edit Type - EnumValue Qualification - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 569389050 - EnumValue 330979681 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Work Experience</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Edit Type - EnumValue Work Experience - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1264256981 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
