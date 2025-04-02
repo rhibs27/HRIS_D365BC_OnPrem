@@ -54,9 +54,9 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Access Control';
     }
-    value(13; "Changes in employee")
+    value(13; "Employee Edit")
     {
-        Caption = 'Changes in employee';
+        Caption = 'Employee Edit';
     }
     value(14; "HR Transfer")
     {

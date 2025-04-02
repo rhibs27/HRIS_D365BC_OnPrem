@@ -1,10 +1,10 @@
-query 50015 "Changes In Employee Query"
+query 50015 "Employee Edit Query"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     APIVersion = 'v2.0';
-    EntityName = 'changesinEmployeeApproval';
-    EntitySetName = 'changesinEmployeeApprovalEntity';
+    EntityName = 'employeeEditApproval';
+    EntitySetName = 'employeeEditApprovalEntity';
     QueryType = API;
     OrderBy = descending(no);
 
@@ -52,6 +52,7 @@ query 50015 "Changes In Employee Query"
                     column(employeeName; "Employee Name")
                     {
                     }
+                    column(type; Type) { }
                     column(changesInEmployeeType; "Changes In Employee Type")
                     {
                     }
@@ -70,6 +71,9 @@ query 50015 "Changes In Employee Query"
                     column(rejectionRemarks; "Rejection Remarks")
                     {
                     }
+                    column(attachment; Attachment)
+                    {
+                    }
                     //"Employee Information")
 
                     column(mobileNo; "Mobile No.") { }
@@ -79,7 +83,7 @@ query 50015 "Changes In Employee Query"
                     column(vehicleType; "Vehicle Type") { }
                     column(temporaryAddress; "Temporary Address") { }
                     column(temporaryProvince; "Temporary Province") { }
-                    column(VDC; VDC) { }
+                    column(vDC; VDC) { }
                     column(temporaryDistrict; "Temporary District") { }
                     column(house; House)
                     {
@@ -94,7 +98,7 @@ query 50015 "Changes In Employee Query"
                     column(percentage; Percentage)
                     {
                     }
-                    column(CGPA; CGPA)
+                    column(cGPA; CGPA)
                     {
                     }
                     column(stream; Stream)
@@ -128,7 +132,6 @@ query 50015 "Changes In Employee Query"
                     }
                     column(designation; Designation)
                     {
-                        // Visible = WorkExperienceChanges;
                     }
                     column(remuneration; Remuneration)
                     {
@@ -183,19 +186,19 @@ query 50015 "Changes In Employee Query"
                     }
 
                     //Language Proficiency
-                    column(Language; Language)
+                    column(language; Language)
                     {
                     }
-                    column(Reading; Reading)
+                    column(reading; Reading)
                     {
                     }
-                    column(Writing; Writing)
+                    column(writing; Writing)
                     {
                     }
-                    column(Speaking; Speaking)
+                    column(speaking; Speaking)
                     {
                     }
-                    column(Typing; Typing)
+                    column(typing; Typing)
                     {
                     }
                 }
@@ -207,5 +210,6 @@ query 50015 "Changes In Employee Query"
         Hrmgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, Hrmgt.GetEmployeeNo());
+        CurrQuery.SetRange(type, type::"Employee Edit");
     end;
 }

@@ -150,5 +150,6 @@ query 50002 "Travel Query"
         HrMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, HrMgt.GetEmployeeNo());
+        CurrQuery.SetFilter(type, '%1|%2', type::"Travel Request", type::"Travel Claim");
     end;
 }

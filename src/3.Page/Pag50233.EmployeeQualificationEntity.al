@@ -1,11 +1,8 @@
 page 50233 "Employee Qualification Entity"
 {
-
-
     PageType = ListPart;
     SourceTable = "Employee Qualification";
     ApplicationArea = All;
-
     layout
     {
         area(Content)

@@ -448,7 +448,7 @@ permissionset 50000 D365HRMSPermission
         page "Candidate Lists API" = X,
         page "Candidate Mob App API" = X,
         page "Candidate Relatives" = X,
-        page "Change in Employee list" = X,
+        page "Employee Edit list" = X,
         page "Confirmation Appraisal List" = X,
         page "Daily Attendance Questions" = X,
         page Departments = X,
