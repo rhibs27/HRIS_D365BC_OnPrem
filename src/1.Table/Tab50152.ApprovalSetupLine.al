@@ -59,6 +59,12 @@ table 50152 "Approval Setup Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(9; "From Deputation"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            InitValue = true;
+
+        }
         field(5; "Approval Sequence"; Integer)
         {
             Caption = 'Approval Sequence';

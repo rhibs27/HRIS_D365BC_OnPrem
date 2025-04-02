@@ -28,13 +28,15 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                    Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                    Employee.SetRange("Department Code", EmpRequest."Department Code")
-                else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                    Employee.SetRange("Province Code", EmpRequest."Province Code");
+                if ApprovalSetupLine."From Deputation" then begin
+                    Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                    if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                        Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                        Employee.SetRange("Department Code", EmpRequest."Department Code")
+                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
                 if Employee.FindFirst() then begin
                     Approval.Init();
@@ -65,7 +67,10 @@ codeunit 50017 "Approver Mgt"
     end;
 
     // >> Insert Approval for Loan >> Santosh 2025-03-04 >>
-    procedure InsertApprovalLoan(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; LoanType: Enum "Loan Type")
+    procedure InsertApprovalLoan(EmployeeNo: Code[20];
+        EmpActNo: code[20];
+        EmpActType: enum "Employee Activity Type";
+        LoanType: Enum "Loan Type")
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";

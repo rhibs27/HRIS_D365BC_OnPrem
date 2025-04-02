@@ -883,6 +883,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field Employee Role - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4218880442 - Field 1888604605 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Deputation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field From Deputation - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4218880442 - Field 1093055731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Request Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20607,6 +20612,11 @@
           <source>Specifies the value of the Employee Role field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Approval setup Subform - Control Employee Role - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 804884198 - Control 77856347 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval From Same Deputation.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Approval setup Subform - Control From Same Deputation - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1211190768 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee No. field.</source>

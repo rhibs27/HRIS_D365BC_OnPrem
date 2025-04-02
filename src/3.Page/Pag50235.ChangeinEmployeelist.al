@@ -4,7 +4,6 @@ page 50235 "Change in Employee list"
     Editable = false;
     PageType = List;
     SourceTable = "Employee Edit";
-    SourceTableView = where(Type = const("Changes in employee"));
     UsageCategory = Lists;
     CardPageId = "Change in Employee Card";
 
@@ -112,36 +111,30 @@ page 50235 "Change in Employee list"
     {
         area(Processing)
         {
-            action(Approve)
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Approve action.';
-                ApplicationArea = All;
+            // action(Approve)
+            // {
+            //     Image = Approve;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     ToolTip = 'Executes the Approve action.';
+            //     ApplicationArea = All;
 
-                // trigger OnAction()
-                // begin
-                //     if Confirm('Do you want to approve this document?', false) then
-                //         HRMgt.ApproveRejctChangeforEmp(Rec, true);
-                // end;
-            }
-            action(Reject)
-            {
-                Image = Delete;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Reject action.';
-                ApplicationArea = All;
-
-                // trigger OnAction()
-                // begin
-                //     if Confirm('Do you want to reject this document?', false) then
-                //         HRMgt.ApproveRejctChangeforEmp(Rec, false);
-                // end;
-            }
+            //     // trigger OnAction()
+            //     // begin
+            //     //     if Confirm('Do you want to approve this document?', false) then
+            //     //         HRMgt.ApproveRejctChangeforEmp(Rec, true);
+            //     // end;
+            // }
+            // action(Reject)
+            // {
+            //     Image = Delete;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     ToolTip = 'Executes the Reject action.';
+            //     ApplicationArea = All;
+            // }
         }
     }
 

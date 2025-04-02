@@ -31,6 +31,10 @@ page 50354 "Approval setup Subform"
                 {
                     ToolTip = 'Specifies the value of the Approval Sequence field.', Comment = '%';
                 }
+                field("From Same Deputation"; Rec."From Deputation")
+                {
+                    ToolTip = 'Specifies the value of the Approval From Same Deputation.', Comment = '%';
+                }
             }
         }
     }
