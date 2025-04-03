@@ -17,8 +17,8 @@ page 50329 "Employee Entity"
         {
             repeater(General)
             {
-                field(number; Rec."No.") { }
-                field(fullName; Rec."Full Name")
+                field(employeeNo; Rec."No.") { }
+                field(employeeName; Rec."Full Name")
                 {
                     Caption = 'Full Name';
                 }
@@ -34,7 +34,7 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Extension';
                 }
-                field(mobilePhoneNo; Rec."Mobile Phone No.")
+                field(mobileNo; Rec."Mobile Phone No.")
                 {
                     Caption = 'Mobile Phone No.';
                 }
@@ -58,7 +58,7 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'NAV Login ID';
                 }
-                field(eMail; Rec."E-Mail")
+                field(emailPersonal; Rec."E-Mail")
                 {
                     Caption = 'Email';
                 }
@@ -94,7 +94,17 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Marital Status';
                 }
-                field(citizenNumber; Rec."Citizen Number")
+                field(drivingLicenseNo; Rec."Driving License No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Driving License No field.';
+                }
+                field(nIDNo; Rec."NID No")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the National ID No. field.';
+                }
+                field(citizenShipNo; Rec."Citizen Number")
                 {
                     Caption = 'Citizen Number';
                 }
@@ -106,11 +116,11 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Citizenship Issue Place';
                 }
-                field(citizenshipIssueDate; Rec."Citizenship Issue Date")
+                field(citizenShipIssueDate; Rec."Citizenship Issue Date")
                 {
                     Caption = 'Citizenship Issue Date';
                 }
-                field(passportNumber; Rec."Passport Number")
+                field(passportNo; Rec."Passport Number")
                 {
                     Caption = 'Passport Number';
                 }
@@ -118,7 +128,7 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Blood Group';
                 }
-                field(disabled; Rec.Disabled)
+                field(differentlyAble; Rec.Disabled)
                 {
                     Caption = 'Disabled';
                 }
@@ -154,15 +164,15 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Temporary Province';
                 }
-                field(temporaryWardNo; Rec."Temporary Ward No")
+                field(wardNo; Rec."Temporary Ward No")
                 {
                     Caption = 'Temporary Ward No';
                 }
-                field(temporaryVDC; Rec."Temporary VDC")
+                field(vDC; Rec."Temporary VDC")
                 {
                     Caption = 'Temporary VDC';
                 }
-                field(temporaryHouse; Rec."Temporary House")
+                field(house; Rec."Temporary House")
                 {
                     Caption = 'Temporary House';
                 }
@@ -314,16 +324,16 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Tax Code';
                 }
-                field(image; ExportEmpImage)
+                field(attachment; ExportEmpImage)
                 {
                     Caption = 'Employee Image';
                 }
-                part(attachment; "Attachment Subform")
-                {
-                    EntityName = 'attachmentEntity';
-                    EntitySetName = 'attachmentEntities';
-                    SubPageLink = "Employee Code" = field("No.");
-                }
+                // part(attachment; "Attachment Subform")
+                // {
+                //     EntityName = 'attachmentEntity';
+                //     EntitySetName = 'attachmentEntities';
+                //     SubPageLink = "Employee Code" = field("No.");
+                // }
             }
         }
     }

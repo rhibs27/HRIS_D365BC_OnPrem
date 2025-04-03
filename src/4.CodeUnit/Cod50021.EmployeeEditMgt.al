@@ -16,11 +16,6 @@ codeunit 50021 "Employee Edit Mgt."
                 begin
                     EmployeeDetails(EmployeeEdit);
                 end;
-            EmployeeEditType::"Official Document":
-                begin
-                    EmployeeDetails(EmployeeEdit);
-                end;
-
             EmployeeEditType::Qualification:
                 begin
                     EmployeeQualificationAdd(EmployeeEdit);
@@ -62,16 +57,19 @@ codeunit 50021 "Employee Edit Mgt."
                 Employee.Validate("Temporary House", EmployeeEdit.House);
                 Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 Employee.Validate(Image, EmployeeEdit.Attachment);
-                Employee.Modify();
-            end;
-        end
-        else begin
-            if Employee.Get(EmployeeEdit."Employee No.") then begin
+
+                //Official document
                 Employee.Validate("Passport Number", EmployeeEdit."Passport No.");
                 Employee.Validate("Citizen Number", EmployeeEdit."CitizenShip No.");
                 Employee.Validate("Citizenship Issue Date", EmployeeEdit."CitizenShip Issue Date");
                 Employee.Validate("NID No", EmployeeEdit."NID No.");
                 Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
+                Employee.Modify();
+            end;
+        end
+        else begin
+            if Employee.Get(EmployeeEdit."Employee No.") then begin
+
                 Employee.Modify();
             end;
         end;

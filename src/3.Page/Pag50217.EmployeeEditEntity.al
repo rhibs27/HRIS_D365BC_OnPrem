@@ -1,6 +1,5 @@
 page 50217 "Employee Edit Entity"
 {
-
     EntityName = 'employeeEdit';
     EntitySetName = 'employeeEditEntity';
     PageType = API;
@@ -45,9 +44,16 @@ page 50217 "Employee Edit Entity"
                 field(rejectionRemarks; Rec."Rejection Remarks")
                 {
                 }
+
                 field(attachment; ExportEmpImage)
                 {
                     Editable = false;
+                }
+                field(attachmentImport; attachmentImport)
+                {
+                }
+                field(ext; extension)
+                {
                 }
             }
             group("Employee Information")
@@ -57,7 +63,6 @@ page 50217 "Employee Edit Entity"
                 field(emailPersonal; Rec."Email (Personal)") { }
                 field(differentlyAble; Rec."Differently Able") { }
                 field(vehicleType; Rec."Vehicle Type") { }
-                field(temporaryAddress; Rec."Temporary Address") { }
                 field(temporaryProvince; Rec."Temporary Province") { }
                 field(vDC; Rec.VDC) { }
                 field(temporaryDistrict; Rec."Temporary District") { }
@@ -159,6 +164,9 @@ page 50217 "Employee Edit Entity"
                 field(fullName; Rec."Full Name")
                 {
                 }
+                field(relativeBirthDate; Rec."Birth Date")
+                {
+                }
                 field(relativePhoneNo; Rec."Relative Phone No.")
                 {
                 }
@@ -207,8 +215,15 @@ page 50217 "Employee Edit Entity"
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
     end;
 
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    begin
+        uploadEmployeeChangesAttachment;
+    end;
+
     var
         HrMgt: Codeunit "HR Mgt.";
+        attachmentImport: text;
+        extension: text;
 
     local procedure ExportEmpImage(): Text;
     var
@@ -216,14 +231,44 @@ page 50217 "Employee Edit Entity"
         TempBlob: CodeUnit "Temp Blob";
         ItemTenantMedia: Record "Tenant Media";
         base64: Codeunit "Base64 Convert";
+        FileMgt: Codeunit "File Management";
     begin
+        Clear(extension);
         if Rec.Attachment.HasValue then begin
             if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
+                extension := FileMgt.GetExtension(ItemTenantMedia.Description);
                 ItemTenantMedia.CalcFields(Content);
                 TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
                 TempBlob.CreateInStream(InStr);
                 exit(base64.ToBase64(InStr));
             end;
         end;
+    end;
+
+    local procedure uploadEmployeeChangesAttachment();
+    var
+        TempBlob: Codeunit "Temp Blob";
+        Instream: InStream;
+        base64: Codeunit "Base64 Convert";
+        Outstream: OutStream;
+        FileName: text;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+    begin
+        if rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details then
+            case LowerCase(extension) of
+                'jpg', 'jpeg', 'png', '':
+                    begin
+                    end;
+                else
+                    Error('Invalid file extension. Please upload a jpg, jpeg or png');
+            end
+        else
+            AttachmentMgt.checkAttachmentExtension(extension);
+        FileName := Rec."Employee No." + '.' + extension;
+        TempBlob.CreateOutStream(outStream);
+        base64.FromBase64(attachmentImport, Outstream);
+        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        AttachmentMgt.CheckAttachmentSizeLimit(InStream, Rec.RecordId.TableNo);//checkfileSIze
+        Rec.Attachment.ImportStream(Instream, FileName);
     end;
 }

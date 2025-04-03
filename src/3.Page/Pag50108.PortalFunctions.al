@@ -2916,7 +2916,6 @@ page 50108 "Portal Functions"
     begin
         // EmpCode := HrMgt.GetEmployeeNo;
         Employee.Get(employeeNo);
-
         if empActType = Format(TempIncomingDoc."Employee Activity Type"::Overtime) then begin
             SalaryLevel.Get(Employee."Salary Level");
             if not SalaryLevel."OT Attachment Mandatory" then
@@ -3034,23 +3033,49 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure uploadEmployeeChangesAttachment(empChangeNo: Code[20]; ext: Text; fileBaseText: Text)
+    local procedure employeeEditAttachment(employeeEditNo: Code[20]): Text;
     var
-        TempBlob: Codeunit "Temp Blob";
-        Instream: InStream;
-        base64: Codeunit "Base64 Convert";
-        Outstream: OutStream;
         EmployeeEdit: Record "Employee Edit";
-        FileName: text;
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+        ext: text;
     begin
-        EmployeeEdit.Get(empChangeNo);
-        FileName := EmployeeEdit."Employee No." + '.' + ext;
-        Tempblob.CreateOutStream(outStream);
-        base64.FromBase64(fileBaseText, Outstream);
-        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        EmployeeEdit.Attachment.ImportStream(Instream, FileName);
-        EmployeeEdit.Modify(true);
+        if EmployeeEdit.Get(employeeEditNo) then
+            if EmployeeEdit.Attachment.HasValue then begin
+                if ItemTenantMedia.Get(EmployeeEdit.Attachment.MediaId) then begin
+                    ext := FileManagement.GetExtension(ItemTenantMedia.Description);
+                    ItemTenantMedia.CalcFields(Content);
+                    TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                    TempBlob.CreateInStream(InStr);
+                    exit('{' + '"extension" : "' + ext + '",' +
+                         '"attachBase64" : "' + base64.ToBase64(InStr) + '"}');
+                end;
+            end;
     end;
+
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure uploadEmployeeChangesAttachment(empChangeNo: Code[20]; ext: Text; fileBaseText: Text)
+    // var
+    //     TempBlob: Codeunit "Temp Blob";
+    //     Instream: InStream;
+    //     base64: Codeunit "Base64 Convert";
+    //     Outstream: OutStream;
+    //     EmployeeEdit: Record "Employee Edit";
+    //     FileName: text;
+    // begin
+    //     AttachmentMgt.checkAttachmentExtension(ext);
+    //     EmployeeEdit.Get(empChangeNo);
+    //     FileName := EmployeeEdit."Employee No." + '.' + ext;
+    //     Tempblob.CreateOutStream(outStream);
+    //     base64.FromBase64(fileBaseText, Outstream);
+    //     TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+    //     AttachmentMgt.CheckAttachmentSizeLimit(InStream, EmployeeEdit.RecordId.TableNo);//checkfileSIze
+    //     EmployeeEdit.Attachment.ImportStream(Instream, FileName);
+    //     EmployeeEdit.Modify(true);
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3845,6 +3870,7 @@ page 50108 "Portal Functions"
         EmployeeTransfer: Record "Employee/HR Transfer";
         DocumentApprover: Record "Document Approver";
         ResignClearanceForApprove: Integer;
+        EmployeeEditForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
@@ -3858,6 +3884,7 @@ page 50108 "Portal Functions"
         Clear(VehicleLoanForApprove);
         Clear(AttendanceMissedForApprove);
         Clear(ResignClearanceForApprove);
+        Clear(EmployeeEditForApprove);
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
@@ -3948,6 +3975,12 @@ page 50108 "Portal Functions"
         DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
         ResignClearanceForApprove := DocumentApprover.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Employee Edit");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        EmployeeEditForApprove := Approval.Count();
+
 
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
@@ -3960,7 +3993,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
         TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -3977,6 +4010,7 @@ page 50108 "Portal Functions"
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
         ',"TransferAcknowledgeForApprove": "' + format(TransferAcknowledgeForApprove) + '"' +
+        ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 

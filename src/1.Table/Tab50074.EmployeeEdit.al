@@ -44,6 +44,14 @@ table 50074 "Employee Edit"
         {
             Caption = 'Mobile No.';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                // Check if the Phone No contains only digits
+                if not TypeHelper.IsPhoneNumber("Mobile No.") then
+                    Error('Phone number must only contain numeric characters.');
+            end;
         }
         field(5; "Marital Status"; Enum "Marital Status")
         {
@@ -225,7 +233,7 @@ table 50074 "Employee Edit"
         }
         field(42; "CitizenShip Issue Date"; Date)
         {
-            Caption = 'Passport No.';
+            Caption = 'CitizenShip Issue Date';
             Description = 'Official Document';
             DataClassification = CustomerContent;
         }
@@ -252,6 +260,12 @@ table 50074 "Employee Edit"
         field(46; "Full Name"; Code[30])
         {
             Caption = 'Full Name';
+            Description = 'Employee Relative';
+            DataClassification = CustomerContent;
+        }
+        field(59; "Birth Date"; Date)
+        {
+            Caption = 'Birth Date';
             Description = 'Employee Relative';
             DataClassification = CustomerContent;
         }
@@ -295,6 +309,8 @@ table 50074 "Employee Edit"
         {
             Description = 'Employee Relatives';
             Caption = 'Relative Ward No.';
+            MinValue = 1;
+            MaxValue = 32;
             DataClassification = CustomerContent;
         }
 

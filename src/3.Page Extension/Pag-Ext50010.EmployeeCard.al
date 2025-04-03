@@ -8,6 +8,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Editable = false;
             Caption = 'Employee No.';
         }
+        modify(Address)
+        {
+            Editable = false;
+        }
+        modify("Address 2")
+        {
+            Editable = false;
+        }
         movebefore(Gender; "Birth Date")
         modify("Birth Date")
         {

@@ -14,14 +14,20 @@ function GetAttachment(base64data) {
         // Display image if it's an image file
         var img = document.createElement('img');
         img.src = 'data:' + mimeType + ';base64,' + base64data;
-        img.style.width = '100%';
+        img.style.width = '50%';
+        img.style.height='100%';
+        img.style.display = 'block';  // Make the image a block element
+        img.style.marginLeft = 'auto'; // Center horizontally
+        img.style.marginRight = 'auto';
         previewElement.appendChild(img);
     } else if (mimeType === 'application/pdf') {
         // Display PDF if it's a PDF file
         var iframe = document.createElement('iframe');
         iframe.src = 'data:' + mimeType + ';base64,' + base64data;
         iframe.style.width = '100%';
-        iframe.style.height = '600px';  // You can adjust this height based on your needs
+        iframe.style.height = '100%';
+        iframe.style.display = 'block';  // Make the image a block element
+        iframe.style.margin = 'auto'; // Center horizontally
         previewElement.appendChild(iframe);
     } else {
         // For unsupported file types, show a message

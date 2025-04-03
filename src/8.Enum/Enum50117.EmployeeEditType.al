@@ -25,9 +25,6 @@ enum 50117 "Employee Edit Type"
     value(5; Relative)
     {
     }
-    value(6; "Official Document")
-    {
-    }
     value(7; Language)
     {
     }

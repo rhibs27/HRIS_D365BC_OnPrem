@@ -14,6 +14,10 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                     Rec."Qualification Code" := QualificationRec.Code;
             end;
         }
+        modify(Type)
+        {
+            Visible = false;
+        }
         addbefore(Description)
         {
             field("Qualification Type"; Rec."Qualification Type")

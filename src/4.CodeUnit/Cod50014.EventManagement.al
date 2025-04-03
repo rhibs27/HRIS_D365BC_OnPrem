@@ -35,16 +35,30 @@ codeunit 50014 "Event Management"
         //     ReversalPost.RUN(TempReversalEntry);
         // Handled := true;
     end;
-
-    // [EventSubscriber(ObjectType::Table, Database::"Document Attachment", 'OnBeforeSaveAttachment', '', false, false)]
-    // local procedure OnBeforeSaveAttachment(var DocumentAttachment: Record "Document Attachment"; var FileName: Text; var RecRef: RecordRef; var TempBlob: Codeunit "Temp Blob")
-    // var
-    // begin
-
-    //     //   Pradhan Modification for NIC Asisa
-    //     //     Field added No. 50000, 50001 and 50002 (1st Dec 2019)
-    //     //     clearing the related field on validation (1st Dec 2019)
-    // end;
+    // Attachment fileSize  and type Limit While Upload << Santosh << 4-2-205
+    [EventSubscriber(ObjectType::Table, Database::"Document Attachment", 'OnBeforeSaveAttachment', '', false, false)]
+    local procedure OnBeforeSaveAttachment(var DocumentAttachment: Record "Document Attachment"; var FileName: Text; var RecRef: RecordRef; var TempBlob: Codeunit "Temp Blob")
+    var
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+        AttachmentSetup: Record "Attachment Setup";
+        MaxFileSize: Integer;
+        FileSize: Decimal;
+        FileMgt: Codeunit "File Management";
+    begin
+        // Define maximum allowed file size 
+        AttachmentMgt.checkAttachmentExtension(FileMgt.GetExtension(FileName));
+        AttachmentSetup.Reset();
+        AttachmentSetup.SetRange("Attachment Code", DocumentAttachment."Attachment Document Type");
+        if AttachmentSetup.FindFirst() then
+            MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;
+        if MaxFileSize = 0 then
+            MaxFileSize := 2 * 1024 * 1024;
+        // Get the file size in bytes
+        FileSize := TempBlob.Length;
+        // Check if the file size exceeds the maximum limit
+        if FileSize > MaxFileSize then
+            Error('The file is %1 MB. Maximum allowed size is %2 MB.', round(FileSize / 1024 / 1024, 0.01, '='), round(MaxFileSize / 1024 / 1024, 1, '='));
+    end;
 
     [EventSubscriber(ObjectType::Table, Database::"Employee Ledger Entry", 'OnAfterCopyEmployeeLedgerEntryFromGenJnlLine', '', false, false)]
     local procedure OnAfterCopyEmployeeLedgerEntryFromGenJnlLine(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
@@ -59,7 +73,7 @@ codeunit 50014 "Event Management"
     // var
     // begin
 
-    //     EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
+    //EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
 
     // end;
 

@@ -32,20 +32,25 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Full Name" := FullName;
             end;
         }
+
         modify("Mobile Phone No.")
         {
             trigger OnAfterValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
             begin
-                Clear(Len); //Min >> --- for Special Characters Control Add.
-                Len := StrLen(DelChr("Mobile Phone No.", '=', DelChr("Mobile Phone No.", '=', SpecialChars)));
-                if Len > 0 then
-                    Error(SpecialCharsErr);
+                // Clear(Len); //Min >> --- for Special Characters Control Add.
+                // Len := StrLen(DelChr("Mobile Phone No.", '=', DelChr("Mobile Phone No.", '=', SpecialChars)));
+                // if Len > 0 then
+                //     Error(SpecialCharsErr);
+                if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
+                    Error('Phone No Validation Error');
                 EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
                 EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                 EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
                 if EmployeeRec.FindFirst then
                     Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
-                if StrLen("Mobile Phone No.") <> 10 then //Min
+                if StrLen("Mobile Phone No.") <> 15 then //Min
                     Error(Text009);
             end;
         }
@@ -54,6 +59,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             begin
                 Age := (Today - "Birth Date") div 365;
+                EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Birth Date");
                 if EngNepDate.FindFirst then
                     "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
@@ -375,7 +381,11 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
             begin
+                if not TypeHelper.IsNumeric(Rec."PAN No.") then
+                    Error(NumericError, FieldCaption("PAN No."));
                 if StrLen("PAN No.") <> 9 then //Min
                     Error(Text007);
             end;
@@ -779,7 +789,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
             trigger OnLookup()
             begin
-                //VALIDATE("Permanent District",HRMgt.LookupDistrict("Permanent Province","Permanent District"));
+                VALIDATE("Permanent District", HRMgt.LookupDistrict("Permanent Province", "Permanent District"));
             end;
         }
         field(50081; "Temporary District"; Text[30])
@@ -790,7 +800,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             END;
 
             trigger OnLookup()
@@ -836,7 +846,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Temporary Ward No");
                     Clear("Temporary District");
                 end;
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
 
             trigger OnLookup()
@@ -865,14 +875,16 @@ tableextension 50013 "Employee Ext" extends Employee
                 //VALIDATE("Permanent Sub Province",HRMgt.LookupSubProvience("Permanent Province","Permanent Sub Province"));
             end;
         }
-        field(50085; "Temporary Ward No"; Code[10])
+        field(50085; "Temporary Ward No"; Integer)
         {
             DataClassification = CustomerContent;
             Description = 'temporary';
+            MinValue = 1;
+            MaxValue = 32;
             trigger OnValidate()
             begin
 
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
         }
         field(50086; "Permanent VDC"; Text[30])
@@ -888,7 +900,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary Ward No", "Temporary District", "Temporary VDC");
+                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
         }
         field(50088; "Permanent House"; Text[30])
@@ -957,9 +969,11 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(50093; "Ward No"; Code[10])
+        field(50093; "Ward No"; Integer)
         {
             DataClassification = CustomerContent;
+            MinValue = 1;
+            MaxValue = 32;
             Description = 'Citizenship ward no';
             trigger OnValidate()
             begin
@@ -1032,13 +1046,27 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
-        field(50104; "Secondary Mobile No."; Text[10])
+        field(50104; "Secondary Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            VAR
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Secondary Mobile No.") then
+                    Error('Phone No Validation Error');
+            end;
         }
-        field(50105; "Emergency Mobile No."; Text[10])
+        field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            VAR
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Emergency Mobile No.") then
+                    Error('Phone No Validation Error');
+            end;
         }
         field(50106; "Insurance Code"; Code[20])
         {
@@ -1434,6 +1462,7 @@ tableextension 50013 "Employee Ext" extends Employee
         EmployeeRec: Record Employee;
         Text006: Label 'Bank Account No. %1 already used in Employee  No. %2.';
         Text007: Label 'PAN No. must be 9 digits.';
+        NumericError: Label '%1 must be Numeric';
         Len: Integer;
         SpecialCharsErr: Label 'You cannot enter the special characters.';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?|/|\';
@@ -1739,10 +1768,10 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Inside/Outisde Valley");
     end;
 
-    local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Text) ReturnText: Text;
+    local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Integer) ReturnText: Text;
     begin
         Clear(ReturnText);
-        ReturnText := Prov + ', ' + DistrictVara + ', ' + VDCVar + '-' + WardNoVar
+        ReturnText := Prov + ', ' + DistrictVara + ', ' + VDCVar + '-' + Format(WardNoVar);
     end;
 
     procedure RFRequest();

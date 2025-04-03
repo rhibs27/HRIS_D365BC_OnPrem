@@ -6,7 +6,6 @@ table 50153 "Cancel Document"
     {
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;

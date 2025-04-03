@@ -1636,7 +1636,7 @@ table 50067 "Employee Activity"
         field(182; "Temporary District"; Text[30])
         {
         }
-        field(203; "Temporary Ward No"; code[20])
+        field(203; "Temporary Ward No"; Integer)
         {
             DataClassification = ToBeClassified;
         }

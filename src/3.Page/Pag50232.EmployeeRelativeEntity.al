@@ -12,6 +12,7 @@ page 50232 "Employee Relative Entity"
     APIVersion = 'v2.0';
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
+    Editable = false;
     layout
     {
         area(Content)
@@ -21,11 +22,6 @@ page 50232 "Employee Relative Entity"
                 field(employeeNo; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
-                    ApplicationArea = All;
-                }
-                field(lineNo; Rec."Line No.")
-                {
-                    ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
                 }
                 field(relativeCode; Rec."Relative Code")
@@ -38,67 +34,55 @@ page 50232 "Employee Relative Entity"
                     ToolTip = 'Specifies the value of the Full Name field.';
                     ApplicationArea = All;
                 }
-                field(birthDate; Rec."Birth Date")
+                field(relativeBirthDate; Rec."Birth Date")
                 {
                     ToolTip = 'Specifies the value of the Birth Date field.';
                     ApplicationArea = All;
                 }
-                field(relationship; Rec.Relationship)
-                {
-                    ToolTip = 'Specifies the value of the Relationship field.';
-                    ApplicationArea = All;
-                }
-                field(masterType; Rec."Master Type")
-                {
-                    ToolTip = 'Specifies the value of the Master Type field.';
-                    ApplicationArea = All;
-                }
-                field(phoneNo; Rec."Phone No.")
+                field(relativePhoneNo; Rec."Phone No.")
                 {
                     ToolTip = 'Specifies the value of the Phone No. field.';
                     ApplicationArea = All;
+                }
+                field(employeeRelativeInBank; rec.Employee_BOD)
+                {
                 }
                 field(relativesEmployeeNo; Rec."Relative's Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Relatives Employee No. field.';
                     ApplicationArea = All;
                 }
-                field(Comment; Rec.Comment)
-                {
-                    ToolTip = 'Specifies the value of the Comment field.';
-                    ApplicationArea = All;
-                }
-                field(Address; Rec.Address)
-                {
-                    ToolTip = 'Specifies the value of the Address field.';
-                    ApplicationArea = All;
-                }
-                field(Relation; Rec.Relation)
-                {
-                    ToolTip = 'Specifies the value of the Relation field.';
-                    ApplicationArea = All;
-                }
+                // field(Address; Rec.Address)
+                // {
+                //     ToolTip = 'Specifies the value of the Address field.';
+                //     ApplicationArea = All;
+                // }
+                // field(Relation; Rec.Relation)
+                // {
+                //     ToolTip = 'Specifies the value of the Relation field.';
+                //     ApplicationArea = All;
+                // }
                 field(nameNepali; Rec."Name(Nepali)")
                 {
                     ToolTip = 'Specifies the value of the Name(Nepali) field.';
                     ApplicationArea = All;
                 }
-                field(fathersNameNepali; Rec."Fathers Name(Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the Fathers Name(Nepali) field.';
-                    ApplicationArea = All;
-                }
-                field(grandFatherNameNepali; Rec."GrandFather Name(Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the GrandFather Name(Nepali) field.';
-                    ApplicationArea = All;
-                }
-                field(District; Rec.District)
+                // field(fathersNameNepali; Rec."Fathers Name(Nepali)")
+                // {
+                //     ToolTip = 'Specifies the value of the Fathers Name(Nepali) field.';
+                //     ApplicationArea = All;
+                // }
+                // field(grandFatherNameNepali; Rec."GrandFather Name(Nepali)")
+                // {
+                //     ToolTip = 'Specifies the value of the GrandFather Name(Nepali) field.';
+                //     ApplicationArea = All;
+                // }
+                field(relativeDistrict; Rec.District)
                 {
                     ToolTip = 'Specifies the value of the District field.';
                     ApplicationArea = All;
                 }
-                field(vdcMunicipality; Rec."VDC/Municipality")
+                field(relativeVDCMunicipality; Rec."VDC/Municipality")
                 {
                     ToolTip = 'Specifies the value of the VDC/Municipality field.';
                     ApplicationArea = All;
@@ -108,39 +92,39 @@ page 50232 "Employee Relative Entity"
                     ToolTip = 'Specifies the value of the Ward No field.';
                     ApplicationArea = All;
                 }
-                field(citizenshipNo; Rec."Citizenship No.")
+                field(relativeCitizenShipNo; Rec."Citizenship No.")
                 {
                     ToolTip = 'Specifies the value of the Citizenship No. field.';
                     ApplicationArea = All;
                 }
-                field(Age; Rec.Age)
-                {
-                    ToolTip = 'Specifies the value of the Age field.';
-                    ApplicationArea = All;
-                }
-                field(citizenshipDate; Rec."Citizenship Date")
-                {
-                    ToolTip = 'Specifies the value of the Citizenship Date field.';
-                    ApplicationArea = All;
-                }
-                field(citizenshipIssuedDistrict; Rec."Citizenship Issued District")
-                {
-                    ToolTip = 'Specifies the value of the Citizenship Issued District field.';
-                    ApplicationArea = All;
-                }
-                field(citizenshipDateNepali; Rec."Citizenship Date (Nepali)")
-                {
-                    ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
-                    ApplicationArea = All;
-                }
+                // field(Age; Rec.Age)
+                // {
+                //     ToolTip = 'Specifies the value of the Age field.';
+                //     ApplicationArea = All;
+                // }
+                // field(citizenshipDate; Rec."Citizenship Date")
+                // {
+                //     ToolTip = 'Specifies the value of the Citizenship Date field.';
+                //     ApplicationArea = All;
+                // }
+                // field(citizenshipIssuedDistrict; Rec."Citizenship Issued District")
+                // {
+                //     ToolTip = 'Specifies the value of the Citizenship Issued District field.';
+                //     ApplicationArea = All;
+                // }
+                // field(citizenshipDateNepali; Rec."Citizenship Date (Nepali)")
+                // {
+                //     ToolTip = 'Specifies the value of the Citizenship Date (Nepali) field.';
+                //     ApplicationArea = All;
+                // }
             }
         }
     }
+    var
+        HrMgt: Codeunit "HR Mgt.";
 
-    actions { }
-
-    trigger OnAfterGetRecord()
+    trigger OnOpenPage()
     begin
-        Rec.CalcFields(Relationship);
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
     end;
 }

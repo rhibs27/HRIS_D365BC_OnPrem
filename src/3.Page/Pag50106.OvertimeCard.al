@@ -311,7 +311,7 @@ page 50106 "Overtime Card"
     begin
         SetLayout;
         if IsOpen then
-            ApprovalMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::Overtime);
+            ApprovalMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Overtime);
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

@@ -9,6 +9,16 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 GetNextLineNo;
             end;
         }
+        modify("Phone No.")
+        {
+            trigger OnAfterValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
+                    Error('Phone No Validation Error');
+            End;
+        }
         field(50000; Address; Text[30])
         {
             DataClassification = CustomerContent;
@@ -38,7 +48,8 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         }
         field(50006; District; Code[10])
         {
-            TableRelation = District;
+            TableRelation = District."District Name";
+            ValidateTableRelation = false;
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }

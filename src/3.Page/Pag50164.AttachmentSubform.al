@@ -117,6 +117,13 @@ page 50164 "Attachment Subform"
                                 AttachmentMgt.UploadAttachment(Rec)
                             else
                                 Error('You arenot Allowed to Upload attachment');
+                    end else if (Rec."Leave Type Code" <> '') then begin
+                        if Leave.Get(Rec."No.") then begin
+                            IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN
+                                ERROR('Approval status must be Open.');
+                            AttachmentMgt.UploadAttachment(Rec);
+                        end else
+                            AttachmentMgt.UploadAttachment(Rec);
                     end else
                         AttachmentMgt.UploadAttachment(Rec);
 
@@ -128,14 +135,6 @@ page 50164 "Attachment Subform"
                     //     LoanMgt.UploadAttachment(Rec)
                     // end else if EmpAct.Get(Rec."Order No.") then begin
                     //     LoanMgt.UploadAttachment(Rec); end else
-                    if (Rec."Leave Type Code" <> '') then begin
-                        if Leave.Get(Rec."No.") then begin
-                            IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN
-                                ERROR('Approval status must be Open.');
-                            AttachmentMgt.UploadAttachment(Rec);
-                        end else
-                            AttachmentMgt.UploadAttachment(Rec);
-                    end;
                 end;
             }
             action(Download)

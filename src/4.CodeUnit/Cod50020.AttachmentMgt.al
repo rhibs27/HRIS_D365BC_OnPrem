@@ -196,32 +196,23 @@ codeunit 50020 "Attachment Mgt."
                     Error('Attachment already exist.');
             end;
         end;
-        ;
-        case IncomingDocument."Employee Activity Type" of
-            IncomingDocument."Employee Activity Type"::"Employee Transfer", IncomingDocument."Employee Activity Type"::"HR Transfer":
-                EmployeeActivityFolder := 'Transfer';
-            else
-        // Error('Invalid activity type: %1', EmployeeActivityFolder);
-        end;
+        // case IncomingDocument."Employee Activity Type" of
+        //     IncomingDocument."Employee Activity Type"::"Employee Transfer", IncomingDocument."Employee Activity Type"::"HR Transfer":
+        //         EmployeeActivityFolder := 'Transfer';
+        //     else
+        // // Error('Invalid activity type: %1', EmployeeActivityFolder);
+        // end;
 
 
         // Prompt the user to select a file and upload into TempBlob
         if UploadIntoStream('Select a file to upload', '', '', FileName, InStream) then begin
-
             CheckAttachmentSizeLimit(InStream, IncomingDocument."Table ID"); //Check file size limit
             // Check File Extension
             Extension := FileMgt.GetExtension(FileName);
             if Extension = '' then
                 Error('Invalid file. Please upload jpg, png or pdf files.');
-            case LowerCase(Extension) of
-                'jpg', 'jpeg', 'png', 'pdf':
-                    begin
-                    end;
-                else
-                    Error('Invalid file extension. Please upload a file with a valid extension.');
-            end;
+            checkAttachmentExtension(Extension);
             // Define the server directory (ensure it is configured in your setup)
-
             TargetDirectory := HRSetup."Attachment Storage Location";
             ServerFolderPath := TargetDirectory + EmployeeActivityFolder;
             if TargetDirectory = '' then
@@ -250,7 +241,6 @@ codeunit 50020 "Attachment Mgt."
             // Update the Incoming Document record with the file path
             IncomingDocument."File Name" := ServerFilePath;
             IncomingDocument.MODIFY(TRUE);
-
             Message('File uploaded successfully to server location: %1', ServerFilePath);
         end else
             Error('File upload canceled.');
@@ -277,6 +267,17 @@ codeunit 50020 "Attachment Mgt."
         // Check if the file size exceeds the maximum limit
         if FileSize > MaxFileSize then
             Error('The file is %1 MB. Maximum allowed size is %2 MB.', round(FileSize / 1024 / 1024, 0.01, '='), round(MaxFileSize / 1024 / 1024, 1, '='));
+    end;
+
+    procedure checkAttachmentExtension(Ext: text)
+    begin
+        case LowerCase(ext) of
+            'jpg', 'jpeg', 'png', 'pdf':
+                begin
+                end;
+            else
+                Error('Invalid file extension. Please upload a jpg, jpeg, png or pdf file.');
+        end;
     end;
 
     procedure DownloadAttachment(IncomingDocument: Record "Incoming Document")

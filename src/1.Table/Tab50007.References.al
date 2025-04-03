@@ -35,11 +35,24 @@ table 50007 References
         {
             Caption = 'Contact No';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                TypeHelper: Codeunit "Type Helper";
+            begin
+                if not TypeHelper.IsPhoneNumber(Rec."Contact No") then
+                    Error('Phone No Validation Error');
+            End;
         }
         field(7; "Email Address"; Text[50])
         {
             Caption = 'Email Address';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.CheckValidEmailAddresses("Email Address");
+            end;
         }
         field(8; "Line No"; Integer)
         {

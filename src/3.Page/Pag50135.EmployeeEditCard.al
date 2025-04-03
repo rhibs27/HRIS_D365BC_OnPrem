@@ -195,7 +195,7 @@ page 50135 "Employee Edit Card"
             group("Official Document")
             {
                 Editable = false;
-                Visible = OfficialDocument;
+                Visible = DetailsChanges;
                 field("passport No."; Rec."Passport No.")
                 {
                     ApplicationArea = All;
@@ -357,7 +357,6 @@ page 50135 "Employee Edit Card"
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
         DetailsChanges: Boolean;
-        OfficialDocument: Boolean;
         Relative: Boolean;
         LanguageChange: Boolean;
         QualificationChanges: Boolean;
@@ -374,7 +373,6 @@ page 50135 "Employee Edit Card"
         QualificationChanges := Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Qualification;
         WorkExperienceChanges := Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::"Work Experience";
         AchievementChanges := Rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Achievement;
-        OfficialDocument := Rec."Changes In Employee Type" = rec."Changes In Employee Type"::"Official Document";
         Relative := Rec."Changes In Employee Type" = rec."Changes In Employee Type"::Relative;
         LanguageChange := Rec."Changes In Employee Type" = rec."Changes In Employee Type"::Language;
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
