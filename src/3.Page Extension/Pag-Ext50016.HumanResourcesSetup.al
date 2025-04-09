@@ -4,11 +4,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
     {
         addafter("Employee Nos.")
         {
-            // field("Approval From Setup"; Rec."Approval From Setup")
-            // {
-            //     ApplicationArea = All;
-            //     ToolTip = 'Specifies the value of the Approval From Setup field.';
-            // }
             field("Service History No. Series"; Rec."Service History No. Series")
             {
                 ApplicationArea = All;
@@ -213,6 +208,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the KPI Appriasal No. field.';
+            }
+            field("Cancelled Allowed Days"; Rec."Cancel Document Upto (Days)")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Cancel Document Allowed Upto Days field.';
             }
         }
         addafter(Numbering)

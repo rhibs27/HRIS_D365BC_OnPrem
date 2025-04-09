@@ -167,6 +167,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             CancelDocument.TestField(Remarks);
             CancelDocument1.Init;
             CancelDocument1.TransferFields(CancelDocument);
+            CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending);
             // if CancelDocument."Recommender Code" <> '' then
             //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
             // else
@@ -174,6 +175,13 @@ codeunit 50016 "AttendanceMiss Mgt"
 
             CancelDocument1."Cancelled No." := '';
             CancelDocument1.Insert(true);
+            leave.Reset;
+            if leave.Get(CancelDocument1."Cancelled Document No.") then begin
+                leave.Validate("Cancelled No.", CancelDocument1."No.");
+                leave.Validate(Cancelled, true);
+                leave.Modify(true);
+            end else
+                Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
             // end else begin
             //     CancelDocument1.Get(CancelDocument."No.");
             //     if CancelDocument1."Recommender Code" <> '' then

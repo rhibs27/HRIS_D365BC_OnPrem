@@ -68,9 +68,9 @@ page 50089 "Leave Requests"
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("LFA Paid"; Rec."LFA Paid")
+                field(Cancelled; Rec.Cancelled)
                 {
-                    ToolTip = 'Specifies the value of the LFA Paid field.';
+                    ToolTip = 'Specifies the value of the Cancelled field.';
                     ApplicationArea = All;
                 }
                 // field("Recommender Code"; Rec."Recommender Code")

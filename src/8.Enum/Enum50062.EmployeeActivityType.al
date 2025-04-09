@@ -72,4 +72,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Transfer Claim';
     }
+    value(18; "Cancel Document")
+    {
+        Caption = 'Cancel Document';
+    }
 }

@@ -674,9 +674,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        // field(50143; "Approval From Setup"; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        // }
+        field(50143; "Cancel Document Upto (Days)"; Integer)
+        {
+            DataClassification = CustomerContent;//cancel allowed upto how many days from approved date
+        }
     }
 }

@@ -50,7 +50,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
                 if EmployeeRec.FindFirst then
                     Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
-                if StrLen("Mobile Phone No.") <> 15 then //Min
+                if StrLen("Mobile Phone No.") > 15 then //Min
                     Error(Text009);
             end;
         }
@@ -585,6 +585,17 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50056; "Citizenship Issue Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "Citizenship Issue Date");
+                if EngNepDate.FindFirst then
+                    "Citizenship Date(Nepali)" := EngNepDate."Nepali Date"
+                else
+                    "Citizenship Date(Nepali)" := '';
+            end;
+
+
         }
         field(50057; Religion; Text[30])
         {
@@ -1055,6 +1066,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if not TypeHelper.IsPhoneNumber(Rec."Secondary Mobile No.") then
                     Error('Phone No Validation Error');
+
             end;
         }
         field(50105; "Emergency Mobile No."; Text[15])
@@ -1173,7 +1185,7 @@ tableextension 50013 "Employee Ext" extends Employee
         // {
         //     DataClassification = CustomerContent;
         // }
-        field(50121; "Citizenship No. (Nepali)"; Text[10])
+        field(50121; "Citizenship No. (Nepali)"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In nepali';
@@ -1192,6 +1204,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             Description = 'In nepali';
+            Editable = false;
         }
         field(50125; "System Owner"; Boolean)
         {
@@ -1467,7 +1480,7 @@ tableextension 50013 "Employee Ext" extends Employee
         SpecialCharsErr: Label 'You cannot enter the special characters.';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?|/|\';
         Text010: Label 'Mobile No. %1 already used in Employee No. %2.';
-        Text009: Label 'Mobile No. must be 10 digits.';
+        Text009: Label 'Mobile No. must be 15 digits.';
 
     local procedure CreateDimension()
     var

@@ -6,6 +6,7 @@ codeunit 50017 "Approver Mgt"
     // >>RecRef.Field(2) = Document Type    
     // >>RecRef.Field(16) = Approval Status
     // >>RecRef.Field(37) = Approved Date
+    // >>RecRef.Field(39) = Cancelled 
     // >>RecRef.Field(100) = Status 
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
@@ -229,6 +230,12 @@ codeunit 50017 "Approver Mgt"
                         Approver.Validate("Rejected By", HRMgt.GetEmpName());
                         RecRef.Field(16).Validate(ApprovalStatusEnum::Rejected);
                         case EmpActType of
+                            EmpActType::"Leave Request":
+                                //for leave Cancelled Reject
+                                begin
+                                    if RecRef.Field(39).value then
+                                        leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
+                                end;
                             //for travel claim
                             EmpActType::"Travel Claim":
                                 begin
@@ -272,7 +279,10 @@ codeunit 50017 "Approver Mgt"
                         //for leave
                         EmpActType::"Leave Request":
                             begin
-                                leaveMgt.LeaveApproved(RecRef.Field(1).Value);
+                                if RecRef.Field(39).value then
+                                    leaveMgt.ApproveCancelledLeave(RecRef.Field(1).Value) // For Cancelled Leave
+                                else
+                                    leaveMgt.LeaveApproved(RecRef.Field(1).Value); // For leave Approved
                             end;
                         EmpActType::"Travel Request":
                             begin

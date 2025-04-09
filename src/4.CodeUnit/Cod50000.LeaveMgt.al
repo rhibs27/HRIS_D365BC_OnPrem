@@ -5,9 +5,17 @@ codeunit 50000 "Leave Mgt."
         // EmpAct: Record "Employee Activity" temporary;
         leaveRequest: record leave;
         LeaveRequest2: Record Leave;
+        Approval: Record "Approval HRMS";
     //EmployeeActivity: Record "Employee Activity";
     begin
         Clear(Employee);
+        // Clear Approval line 
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+
         Employee.Get(EmpCode);
         leaveRequest.Reset();
         leaveRequest.SetRange("Employee No.", EmpCode);
@@ -44,7 +52,7 @@ codeunit 50000 "Leave Mgt."
             LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
             LeaveRequest2.Validate(Department, Employee."Department Code");
             LeaveRequest2.Insert(true);
-            if GuiAllowed then //NICASIA SM for Web Portal
+            if GuiAllowed then
                 PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
         end;
 
@@ -911,9 +919,21 @@ codeunit 50000 "Leave Mgt."
     var
         //TempLeave: Record "Leave" temporary;
         TempCancelDocument: Record "Cancel Document" temporary;
+        Approval: record "Approval HRMS";
+        HRSetup: Record "Human Resources Setup";
     begin
+        if leave.Cancelled then
+            Error('Leave request no. %1 is already cancelled.', Leave."No.");
+        if Leave."Approved Date" + HRSetup."Cancelled Allowed Days" < Today then
+            Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancelled Allowed Days");
         Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
         Leave.TestField("Cancelled Document No.", '');
+        // Clear Approval line 
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Employee No", Leave."Employee No.");
+        Approval.DeleteAll();
         TempCancelDocument.Init;
         TempCancelDocument.Validate(Cancelled, true);
         TempCancelDocument.Validate("Employee No.", Leave."Employee No.");
@@ -926,8 +946,9 @@ codeunit 50000 "Leave Mgt."
         TempCancelDocument.Validate("End Date", Leave."End Date");
         TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
         TempCancelDocument."Cancelled Document No." := Leave."No.";
+        TempCancelDocument."No." := '';
         TempCancelDocument.Insert;
-        if PAGE.RunModal(PAGE::"Cancel Document", TempCancelDocument) = ACTION::LookupOK then;
+        PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
 
     // procedure RecommendEmployeeLeave(EmpActCode: Code[20])
@@ -1804,19 +1825,19 @@ codeunit 50000 "Leave Mgt."
     //     end;
 
 
-    //     // if CancelDocument1.Type = CancelDocument1.Type::"Leave Request" then begin
-    //     //     Clear(CancelDocument2);
-    //     //     CancelDocument2.Get(CancelDocument."Cancelled Document No.");
-    //     //     CancelDocument2."Cancelled No." := CancelDocument1."No.";
-    //     //     CancelDocument2.Modify;
+    // if CancelDocument1.Type = CancelDocument1.Type::"Leave Request" then begin
+    //     Clear(CancelDocument2);
+    //     CancelDocument2.Get(CancelDocument."Cancelled Document No.");
+    //     CancelDocument2."Cancelled No." := CancelDocument1."No.";
+    //     CancelDocument2.Modify;
 
-    //     //     if (CancelDocument1."Start Date" < CancelDocument2."Start Date") or (CancelDocument1."End Date" < CancelDocument2."Start Date") then
-    //     //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
+    //     if (CancelDocument1."Start Date" < CancelDocument2."Start Date") or (CancelDocument1."End Date" < CancelDocument2."Start Date") then
+    //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
 
-    //     //     if (CancelDocument1."Start Date" > CancelDocument2."End Date") or (CancelDocument1."End Date" > CancelDocument2."End Date") then
-    //     //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
+    //     if (CancelDocument1."Start Date" > CancelDocument2."End Date") or (CancelDocument1."End Date" > CancelDocument2."End Date") then
+    //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
 
-    //     // end;
+    // end;
     // end;
     procedure RecommendEmployeeLeave(EmpActCode: Code[20]; Approved: boolean)
     var
@@ -2007,6 +2028,69 @@ codeunit 50000 "Leave Mgt."
         Employee.Modify;
         HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', hrmgt.GetEmpName(), leave."No.", 0);   //For email
     end;
+
+    procedure ApproveCancelledLeave(CancelLeaveCode: Code[20])
+    var
+        LeaveEarn: Record "Leave Earn";
+        EmpAttendActivity: Record "Employee Attendance & Activity";
+        CancelDocument: Record "Cancel Document";
+    begin
+        CancelDocument.Get(CancelLeaveCode);
+        CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
+        if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
+            LeaveEarn.Init;
+            LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
+            LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
+            LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
+            LeaveEarn.Validate(EmpNo, CancelDocument."Employee No.");
+            LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
+            LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
+            LeaveEarn.Validate("Posted Date", Today);
+            LeaveEarn.Validate("Balancing Days", CancelDocument."No. of Days");
+            LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
+            LeaveEarn.Insert(true);
+
+            EmpAttendActivity.Reset;
+            EmpAttendActivity.SetRange("Employee No.", CancelDocument."Employee No.");
+            EmpAttendActivity.SetRange("Attendance Date", CancelDocument."Start Date", CancelDocument."End Date");
+            if EmpAttendActivity.Find('-') then
+                repeat
+                    if EmpAttendActivity."Check In Time" <> 0T then begin
+                        EmpAttendActivity."Absent Day" := 0;
+                        EmpAttendActivity."Present Day" := 1;
+                    end else begin
+                        EmpAttendActivity."Present Day" := 0;
+                        EmpAttendActivity."Absent Day" := 1;
+                    end;
+                    if GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
+                        EmpAttendActivity."Absent Day" := 0;
+                    end;
+                    EmpAttendActivity."Leave Day" := 0;
+                    //EmpAttendActivity."Week Off Day" := 0;
+                    EmpAttendActivity."Tour Day" := 0;
+                    EmpAttendActivity."Source No." := CancelDocument."No.";
+                    EmpAttendActivity."Employee Activity Found" := true;
+                    EmpAttendActivity."Leave Description" := '';
+                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
+                    EmpAttendActivity.Modify;
+                until EmpAttendActivity.Next = 0;
+        end;
+    end;
+
+    procedure RejectLeaveCancel(LeaveCancelledCode: Code[20])
+    var
+        CancelledDocument: Record "Cancel Document";
+        Leave: Record Leave;
+    begin
+        CancelledDocument.Get(LeaveCancelledCode);
+        if Leave.Get(CancelledDocument."Cancelled Document No.") then begin
+            leave.Validate("Cancelled No.", '');
+            leave.Validate(Cancelled, false);
+            leave.Modify(true);
+        end else
+            Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+    end;
+
 
     var
         EngNep: Record "English-Nepali Date";

@@ -53,22 +53,11 @@ page 50233 "Employee Qualification Entity"
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the institution from which the employee obtained the qualification.';
                 }
-                // field(cost; Rec.Cost)
-                // {
-                //     ApplicationArea = BasicHR;
-                //     ToolTip = 'Specifies the cost of the qualification.';
-                //     Visible = false;
-                // }
                 field(cGPA; CGPA)
                 {
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the grade that the employee received for the course, specified by the qualification on this line.';
                 }
-                // field(Comment; Rec.Comment)
-                // {
-                //     ApplicationArea = Comments;
-                //     ToolTip = 'Specifies whether a comment was entered for this entry.';
-                // }
                 field(percentage; Rec.Percentage)
                 {
                     ToolTip = 'Specifies the value of the Percentage field.';
@@ -93,6 +82,12 @@ page 50233 "Employee Qualification Entity"
                 field(remuneration; Rec.Remuneration)
                 {
                 }
+                field(attachment; ExportAttachment)
+                {
+                }
+                field(ext; ext)
+                {
+                }
             }
         }
 
@@ -102,7 +97,28 @@ page 50233 "Employee Qualification Entity"
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
     end;
 
+
     var
         HrMgt: Codeunit "HR Mgt.";
+        ext: text;
+
+    local procedure ExportAttachment(): Text;
+    var
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+        FileMgt: Codeunit "File Management";
+    begin
+        if Rec.Attachment.HasValue then begin
+            if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
+                ext := FileMgt.GetExtension(ItemTenantMedia.Description);
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
 
 }

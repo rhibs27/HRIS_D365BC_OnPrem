@@ -567,6 +567,24 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure approveRejectCancelledDoc(cancelledDocNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        RecRef: RecordRef;
+        CancelDocument: Record "Cancel Document";
+    begin
+        CancelDocument.Get(CancelledDocNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            CancelDocument.Validate("Rejection Remarks", rejectionRemarks);
+            CancelDocument.Modify;
+        end;
+        RecRef.GetTable(CancelDocument);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure generateAttachmentAPI(leaveCode: Code[20]; startDate: Date; endDate: Date): Text
     var
         TempIncomingDoc: Record "Incoming Document";

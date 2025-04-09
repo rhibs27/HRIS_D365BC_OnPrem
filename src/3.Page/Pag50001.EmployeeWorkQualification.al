@@ -59,6 +59,7 @@ page 50001 "Employee Work Qualification"
                 }
                 field("Time Period"; Rec."Time Period")
                 {
+                    Visible = false;
                     ToolTip = 'Specifies the value of the Time Period field.';
                     ApplicationArea = All;
                 }

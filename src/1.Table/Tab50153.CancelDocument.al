@@ -27,11 +27,12 @@ table 50153 "Cancel Document"
         }
         field(2; Type; Enum "Employee Activity Type")
         {
+            Editable = false;
         }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
+            Editable = false;
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -96,6 +97,7 @@ table 50153 "Cancel Document"
         }
         field(7; "Start Date"; Date)
         {
+            Editable = false;
 
             trigger OnValidate()
             begin
@@ -105,14 +107,14 @@ table 50153 "Cancel Document"
                     if EmployeeRec."Contract Expiry Date" <> 0D then
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
-                    EmpAttendanceActivity.Reset; //Min 4.11.2022
-                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                    EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
-                    if EmpAttendanceActivity.FindFirst then
-                        repeat
-                            if EmpAttendanceActivity."Present Day" = 1 then
-                                Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-                        until EmpAttendanceActivity.Next = 0;
+                    // EmpAttendanceActivity.Reset; //Min 4.11.2022
+                    // EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
+                    // EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
+                    // if EmpAttendanceActivity.FindFirst then
+                    //     repeat
+                    //         if EmpAttendanceActivity."Present Day" = 1 then
+                    //             Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+                    //     until EmpAttendanceActivity.Next = 0;
                 end;
                 //<<check for leave
 
@@ -142,7 +144,7 @@ table 50153 "Cancel Document"
         }
         field(8; "End Date"; Date)
         {
-
+            Editable = false;
             trigger OnValidate()
             var
                 LeaveMgt: Codeunit "Leave Mgt.";
@@ -177,7 +179,7 @@ table 50153 "Cancel Document"
         }
         field(10; "Requested Date"; Date)
         {
-
+            Editable = false;
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -534,6 +536,7 @@ table 50153 "Cancel Document"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                ApproverMgt.InsertApproval("Employee No.", "No.", Type);
 
             end else begin
                 case Type of
@@ -542,7 +545,7 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Leave Request");
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
                         end;
@@ -550,7 +553,7 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Attendance Missed");
                         end;
                 end;
             end;

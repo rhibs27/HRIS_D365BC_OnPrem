@@ -46,20 +46,6 @@ page 50228 "Employee Edit Picture"
                 Image = Export;
                 ToolTip = 'Export the picture to a file.';
                 Enabled = DeleteExportEnabled;
-
-                // trigger OnAction()
-                // var
-                //     FileManagement: Codeunit "File Management";
-                //     ToFile: Text;
-                //     ExportPath: Text;
-                //     ItemTenantMedia: Record "Tenant Media";
-                // begin
-                //     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then
-                //         ToFile := Format(Rec."No.") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
-                //     ExportPath := ApplicationPath + Format(Rec."No.") + Format(Rec.Attachment.MediaId);
-                //     Rec.Attachment.ExportFile(ExportPath);
-                //     FileManagement.ExportImage(ExportPath, ToFile);
-                // end;
                 trigger OnAction()
                 var
                     TenantMedia: Record "Tenant Media";

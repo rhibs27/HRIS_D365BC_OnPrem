@@ -1,7 +1,5 @@
 page 50185 "Cancelled Leave List"
 {
-
-
     CardPageId = "Cancel Document";
     Editable = false;
     PageType = List;
@@ -65,29 +63,6 @@ page 50185 "Cancelled Leave List"
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            // action("Cancel Document")
-            // {
-            //     Image = Cancel;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Cancel Document action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         leaveMgt.OpenCancelEmpActivity(Rec);
-            //     end;
-            // }
-        }
-    }
-
     var
         leaveMgt: Codeunit "Leave Mgt.";
 }

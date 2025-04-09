@@ -56,11 +56,6 @@ page 50180 "Cancel Document"
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
                 field("Cancelled Document No."; Rec."Cancelled Document No.")
                 {
                     Visible = IsLeaveRequest;
@@ -93,13 +88,6 @@ page 50180 "Cancel Document"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Rejection Remarks"; Rec."Rejection Remarks")
-                {
-                    Visible = not IsOpen;
-                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
-                    ApplicationArea = All;
-                    Editable = IsPending;
-                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     Editable = false;
@@ -116,20 +104,28 @@ page 50180 "Cancel Document"
                     Caption = 'Approval Status';
                 }
             }
-            // group(Reason)
-            // {
-            //     Visible = not IsLeaveRequest;
-            //     field("Reason Code"; Rec."Reason Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Reason Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Reason Description"; Rec."Reason Description")
-            //     {
-            //         ToolTip = 'Specifies the value of the Reason Description field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
+            group("Remark")
+            {
+                Caption = 'Remark';
+                field(Remarks; Rec.Remarks)
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
+                    ApplicationArea = All;
+                    Visible = IsPending;
+                    Editable = IsPending;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+                }
+            }
             // part(Control32; "Attachment Subform")
             // {
             //     SubPageLink = "No." = field("No."),
@@ -173,68 +169,49 @@ page 50180 "Cancel Document"
                     CurrPage.Close;
                 end;
             }
-            // action(Approve)
-            // {
-            //     Visible = IsPending;
-            //     ToolTip = 'Executes the Approve action.';
-            //     ApplicationArea = All;
+            action(Approve)
+            {
+                Image = Approve;
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve action.';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
 
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to approve the request?', false) then begin
-            //             ApproverMgt.ApproveRejectDocument(RecRef, true);
-            //             Message('Leave is Approved by %1', HRMgt.GetEmpName());
-            //         end;
-            //     end;
-            // }
-            // action(Reject)
-            // {
-            //     Visible = IsPending;
-            //     ToolTip = 'Executes the Reject action.';
-            //     ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApproverMgt.ApproveRejectDocument(RecRef, true);
+                        Rec."Rejection Remarks" := '';
+                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
+            action(Reject)
+            {
+                Image = Reject;
+                Visible = IsPending;
+                ToolTip = 'Executes the Reject action.';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
 
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want reject the request?', false) then begin
-            //             IF REC."Rejection Remarks" = '' then
-            //                 Error('Rejection Remarks is Empty')
-            //             else begin
-            //                 ApproverMgt.ApproveRejectDocument(RecRef, false);
-            //                 Message('Leave is Rejected by %1', HRMgt.GetEmpName());
-            //             end;
-            //         end;
-            //     end;
-            // }
-            // action(Screen)
-            // {
-            //     Visible = false;
-            //     ToolTip = 'Executes the Screen action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to screen this document?', false) then begin
-            //             DocCancelMgt.ScreenCancelledLeave(Rec);
-            //             Message('Screened');
-            //         end;
-            //     end;
-            // }
-            // action("Change Recommender/Approver")
-            // {
-            //     Image = ReOpen;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = Rec.Type = Rec.Type::"Attendance Missed";
-            //     ToolTip = 'Executes the Change Recommender/Approver action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         Rec.ReopenDocument;
-            //     end;
-            // }
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApproverMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
+                end;
+            }
         }
     }
 
@@ -250,25 +227,23 @@ page 50180 "Cancel Document"
 
     trigger OnOpenPage()
     begin
-        if Rec.Type = Rec.Type::"Attendance Missed" then
-            CurrPage.Caption('Attendance Missed');
-        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
-            StatusView := true
-        else
-            ApprovalStatusView := true;
-        IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
-        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
-        IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
-        RecRef.GetTable(Rec);
-        case rec.Type of
-            rec.Type::"Attendance Missed":
-                begin
-                    ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
-                end;
-            rec.Type::"Leave Request":
-                begin
-                end;
-        end;
+        SetLayout;
+        if IsOpen then
+            case rec.Type of
+                rec.Type::"Attendance Missed":
+                    begin
+                        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+                    end;
+                rec.Type::"Leave Request":
+                    begin
+                        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Leave Request");
+                    end;
+            end;
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        SetLayout();
     end;
 
 
@@ -284,6 +259,20 @@ page 50180 "Cancel Document"
                     Approval.SetRange("Document No.", '');
                     Approval.DeleteAll();
                 end;
+    end;
+
+    procedure SetLayout()
+    begin
+        if Rec.Type = Rec.Type::"Attendance Missed" then
+            CurrPage.Caption('Attendance Missed');
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsLeaveRequest := Rec.Type = Rec.Type::"Leave Request";
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
+        RecRef.GetTable(Rec);
     end;
 
     var
