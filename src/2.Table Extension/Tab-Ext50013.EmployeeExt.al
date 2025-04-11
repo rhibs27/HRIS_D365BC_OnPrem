@@ -92,14 +92,6 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Contract Expiry Month");
             end;
         }
-        modify("Global Dimension 1 Code")
-        {
-            TableRelation = if (Cluster = filter('<>''''')) "Dimension Value".Code where("Global Dimension No." = const(1), Cluster = field(Cluster));
-            trigger OnAfterValidate()
-            begin
-                ValidateBranch;
-            end;
-        }
         modify(Title)
         {
             TableRelation = "Functional Title";
@@ -116,32 +108,85 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
             end;
         }
-        field(50000; "Sub Province Name"; Text[30])
+        modify("Global Dimension 1 Code")
         {
-            Caption = 'Sub Province Name';
-            Editable = false;
-
-            trigger OnValidate()
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            trigger OnAfterValidate()
             begin
-                //PostCode.ValidateCity(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
-                //PostCode.LookupPostCode(City,"Post Code",County,"Country/Region Code");
+                ValidateBranch;
             end;
         }
-        field(50001; "Sub Province Code"; Code[20])
+        field(50134; "Branch Name"; Text[50])
         {
-            Caption = 'Sub Province Code';
-            // Editable = false;
-
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50128; "Deputation on"; Enum "Deputation Type")
+        {
+            DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                //PostCode.ValidatePostCode(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
-                //PostCode.LookupPostCode(City,"Post Code",County,"Country/Region Code");
-
+                if xRec."Deputation on" <> "Deputation on" then
+                    ClearValues;
+            end;
+        }
+        field(50002; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department), Blocked = filter(false));
+            trigger OnValidate()
+            begin
                 TestField("Deputation on");
-                if "Deputation on" = "Deputation on"::"Sub Province" then begin
+                if "Deputation on" = "Deputation on"::Department then begin
                     Clear("Province Code");
                     Clear("Province Name");
-                    Clear("Sub Province Name");
+                    Clear("Global Dimension 1 Code");
+                    Clear("Extension Counter Code");
+                    Clear("Unit Code");
+                    Clear("Extension Counter Name");
+                    Clear("Department Name");
+                    Clear("Unit Name");
+                    Clear("Branch Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outside Valley"); //Min 10.12.2022
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
+                        "Department Name" := OrganizationStructureList.Name;
+                        "Province Code" := OrganizationStructureList."Province Code";
+                        "Province Name" := OrganizationStructureList."Province Name";
+                        "Posting Region" := OrganizationStructureList."Region";
+                        "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
+                    end else begin
+                        Clear("Department Name");
+                        Clear("Province Code");
+                        Clear("Province Name");
+                        Clear("Posting Region");
+                        Clear("Inside/Outside Valley");
+                    end;
+                    // Depart.Get("Department Code");
+                    // "Department Name" := Depart.Name;
+                    // "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
+                    // if ProvinceVar.Get(Depart."Province Code") then begin
+                    //     "Province Code" := ProvinceVar.Code;
+                    //     "Province Name" := ProvinceVar.Description;
+                    //     "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
+                    //     "Posting Region" := ProvinceVar."Posting Region";
+                    // end;
+                end;
+            end;
+        }
+        field(50133; "Department Name"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50092; "Province Code"; Code[10])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Province), Blocked = filter(false));
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                TestField("Deputation on");
+                if "Deputation on" = "Deputation on"::Province then begin
+                    Clear("Province Name");
                     Clear("Global Dimension 1 Code");
                     Clear("Extension Counter Code");
                     Clear("Department Code");
@@ -151,54 +196,76 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Unit Name");
                     Clear("Branch Name");
                     Clear("Posting Region");
-
-                    SubProv.Reset;
-                    SubProv.SetRange(Code, "Sub Province Code");
-                    if SubProv.FindFirst then begin
-                        "Sol Id" := SubProv."Sol ID";
-                        "Sub Province Name" := SubProv.City;
-                        "Province Code" := SubProv."Province Code";
-                        if ProvinceVar.Get(SubProv."Province Code") then
-                            "Province Name" := ProvinceVar.Description;
-                        "Posting Region" := SubProv."Posting Region";
-                        "Inside/Outisde Valley" := SubProv."Inside/Outside Valley";
+                    Clear("Inside/Outside Valley");
+                    // if ProvVar.Get("Province Code") then begin
+                    //     "Sol Id" := ProvVar."Sol ID";
+                    //     "Province Name" := ProvVar.Description;
+                    //     "Posting Region" := ProvVar."Posting Region";
+                    //     "Inside/Outisde Valley" := ProvVar."Inside/Outside Valley";
+                    // end;
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
+                        "Province Name" := OrganizationStructureList.Name;
+                        "Province Code" := OrganizationStructureList."Province Code";
+                        "Posting Region" := OrganizationStructureList."Region";
+                        "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
+                    end else begin
+                        Clear("Department Name");
+                        Clear("Province Code");
+                        Clear("Province Name");
+                        Clear("Posting Region");
+                        Clear("Inside/Outside Valley");
                     end;
                 end;
             end;
         }
-        field(50002; "Department Code"; Code[20])
+        field(50048; "Province Name"; Text[50])
         {
-            TableRelation = Department;
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+        field(50058; "Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure list".code where(Type = filter("Organization Structure list"::unit), Blocked = filter(false));
             trigger OnValidate()
             begin
-                TestField("Deputation on");
-                if "Deputation on" = "Deputation on"::Department then begin
-                    Clear("Province Code");
-                    Clear("Province Name");
-                    Clear("Sub Province Name");
-                    Clear("Sub Province Code");
-                    Clear("Global Dimension 1 Code");
-                    Clear("Extension Counter Code");
-                    Clear("Unit Code");
-                    Clear("Extension Counter Name");
-                    Clear("Department Name");
-                    Clear("Unit Name");
-                    Clear("Branch Name");
-                    Clear("Posting Region");
-                    Clear("Inside/Outisde Valley");
-                    Clear("Eco-System"); //Min 10.12.2022
-                    Depart.Get("Department Code");
-                    "Department Name" := Depart.Name;
-                    "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
-                    if ProvinceVar.Get(Depart."Province Code") then begin
-                        "Province Code" := ProvinceVar.Code;
-                        "Province Name" := ProvinceVar.Description;
-                        "Sol Id" := ProvinceVar."Sol ID";
-                        "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
-                        "Posting Region" := ProvinceVar."Posting Region";
-                    end;
+                OrganizationStructureList.Reset();
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "unit Code") then begin
+                    "Department Name" := OrganizationStructureList.Name;
+                    "Province Code" := OrganizationStructureList."Province Code";
+                    "Province Name" := OrganizationStructureList."Province Name";
+                    "Posting Region" := OrganizationStructureList."Region";
+                    "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
                 end;
             end;
+        }
+        field(50132; "Unit Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+
+        field(50097; "Extension Counter Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure list".code where(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                // ValidateExtenCounter;
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then begin
+                    "Department Name" := OrganizationStructureList.Name;
+                    "Province Code" := OrganizationStructureList."Province Code";
+                    "Province Name" := OrganizationStructureList."Province Name";
+                    "Posting Region" := OrganizationStructureList."Region";
+                    "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
+                end;
+            end;
+        }
+        field(50135; "Extension Counter Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
         }
         field(50003; "Deputation On Code"; Code[10])
         {
@@ -212,8 +279,6 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Department Code", "Deputation On Code");
                     "Deputation on"::Province:
                         Validate("Province Code", "Deputation On Code");
-                    "Deputation on"::"Sub Province":
-                        Validate("Sub Province Code", "Deputation On Code");
                     "Deputation on"::"Extension Counter":
                         Validate("Extension Counter Code", "Deputation On Code");
                     "Deputation on"::Unit:
@@ -531,34 +596,30 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50048; "Province Name"; Text[30])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50049; "Sub-Province"; Text[30])
-        {
-            DataClassification = CustomerContent;
-            Description = 'not used(used city instead)';
-        }
-        field(50050; Cluster; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = if ("Sub Province Code" = const()) "Employee Hierarchy Master" where(Type = const(Cluster))
-            else
-            "Employee Hierarchy Master" where("Sub-Province" = field("Sub Province Code"),
-                                                                                                         "Type" = const(Cluster));
-            trigger OnValidate()
-            var
-                ClusExtCounter: Record "Employee Hierarchy Master";
-            begin
-                //ValidateCluster;
-                if not ClusExtCounter.Get(Cluster) then begin
-                    Clear("Global Dimension 1 Code");
-                    Clear("Extension Counter Code");
-                end;
-            end;
-        }
+
+        // field(50049; "Sub-Province"; Text[30])
+        // {
+        //     DataClassification = CustomerContent;
+        //     Description = 'not used(used city instead)';
+        // }
+        // field(50050; Cluster; Code[20])
+        // {
+        //     DataClassification = CustomerContent;
+        //     // TableRelation = if ("Sub Province Code" = const()) "Employee Hierarchy Master" where(Type = const(Cluster))
+        //     // else
+        //     // "Employee Hierarchy Master" where("Sub-Province" = field("Sub Province Code"),
+        //     //                                                                                              "Type" = const(Cluster));
+        //     trigger OnValidate()
+        //     var
+        //         ClusExtCounter: Record "Employee Hierarchy Master";
+        //     begin
+        //         //ValidateCluster;
+        //         if not ClusExtCounter.Get(Cluster) then begin
+        //             Clear("Global Dimension 1 Code");
+        //             Clear("Extension Counter Code");
+        //         end;
+        //     end;
+        // }
         field(50051; "Distance betn Res and Office"; Decimal)
         {
             DataClassification = CustomerContent;
@@ -601,52 +662,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50058; "Unit Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Employee Hierarchy Master" where(Type = const(Unit));
-            trigger OnValidate()
-            var
-                EmpHie: Record "Employee Hierarchy Master";
-            begin
-                TestField("Deputation on");
-                if "Deputation on" = "Deputation on"::Unit then begin
-                    Clear("Province Code");
-                    Clear("Province Name");
-                    Clear("Sub Province Name");
-                    Clear("Sub Province Code");
-                    Clear("Global Dimension 1 Code");
-                    Clear("Extension Counter Code");
-                    Clear("Department Code");
-                    Clear("Extension Counter Name");
-                    Clear("Department Name");
-                    Clear("Unit Name");
-                    Clear("Branch Name");
-                    Clear("Posting Region");
-                    Clear("Inside/Outisde Valley");
-                    Clear("Eco-System"); //Min 10.12.2022
 
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, "Unit Code");
-                    if EmpHie.FindFirst then begin
-                        "Unit Name" := EmpHie.Description;
-                        if Depart.Get(EmpHie."Department Code") then begin
-                            "Department Code" := Depart.Code;
-                            "Department Name" := Depart.Name;
-                            "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
-                            if ProvinceVar.Get(Depart."Province Code") then begin
-                                "Province Code" := ProvinceVar.Code;
-                                "Sol Id" := ProvinceVar."Sol ID";
-                                "Province Name" := ProvinceVar.Description;
-                                "Posting Region" := ProvinceVar."Posting Region";
-                                "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
-                            end;
-                        end;
-                    end;
-                end;
-            end;
-        }
         field(50059; "Branch Category"; Text[30])
         {
             DataClassification = CustomerContent;
@@ -707,7 +723,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 ValidateOutstationAllowance;
             end;
         }
-        field(50068; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
+        field(50068; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = CustomerContent;
 
@@ -729,7 +745,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50071; "KPI Deputation Value"; Code[20])
         {
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
             ValidateTableRelation = false;
             DataClassification = CustomerContent;
             Description = 'KPI 1.00';
@@ -776,12 +792,12 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        field(50078; "Company Code"; Code[10])
-        {
-            TableRelation = Department;
-            DataClassification = CustomerContent;
-            Caption = 'Company Code';
-        }
+        // field(50078; "Company Code"; Code[10])
+        // {
+        //     TableRelation = Department;
+        //     DataClassification = CustomerContent;
+        //     Caption = 'Company Code';
+        // }
         field(50079; Salutation; Enum Salutation)
         {
             DataClassification = CustomerContent;
@@ -947,39 +963,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     HRMgt.CheckForCitizen("Citizen Number", "Citizenship Issue Place Code");
             end;
         }
-        field(50092; "Province Code"; Code[10])
-        {
-            TableRelation = Province;
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            var
-                ProvVar: Record Province;
-            begin
-                TestField("Deputation on");
-                if "Deputation on" = "Deputation on"::Province then begin
-                    Clear("Province Name");
-                    Clear("Sub Province Name");
-                    Clear("Sub Province Code");
-                    Clear("Global Dimension 1 Code");
-                    Clear("Extension Counter Code");
-                    Clear("Department Code");
-                    Clear("Unit Code");
-                    Clear("Extension Counter Name");
-                    Clear("Department Name");
-                    Clear("Unit Name");
-                    Clear("Branch Name");
-                    Clear("Posting Region");
-                    Clear("Inside/Outisde Valley");
 
-                    if ProvVar.Get("Province Code") then begin
-                        "Sol Id" := ProvVar."Sol ID";
-                        "Province Name" := ProvVar.Description;
-                        "Posting Region" := ProvVar."Posting Region";
-                        "Inside/Outisde Valley" := ProvVar."Inside/Outside Valley";
-                    end;
-                end;
-            end;
-        }
         field(50093; "Ward No"; Integer)
         {
             DataClassification = CustomerContent;
@@ -1009,35 +993,27 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error('Confirmation date cannot be less than employment date');
             end;
         }
-        field(50097; "Extension Counter Code"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Employee Hierarchy Master" where(Type = const("Extension Counter"));
-            trigger OnValidate()
-            begin
-                ValidateExtenCounter;
-            end;
-        }
-        field(50098; "Reporting Line 1"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 1"));
-        }
-        field(50099; "Reporting Line 2"; Code[20])
-        {
-            TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 2"));
-            DataClassification = CustomerContent;
-        }
-        field(50100; Office; Code[20])
-        {
-            TableRelation = "Employee Hierarchy Master" where(Type = const(Office));
-            DataClassification = CustomerContent;
-        }
-        field(50101; "Eco-System"; Code[20])
-        {
-            TableRelation = "Employee Hierarchy Master" where(Type = const("Eco-System"));
-            DataClassification = CustomerContent;
-        }
+
+        // field(50098; "Reporting Line 1"; Code[20])
+        // {
+        //     DataClassification = CustomerContent;
+        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 1"));
+        // }
+        // field(50099; "Reporting Line 2"; Code[20])
+        // {
+        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 2"));
+        //     DataClassification = CustomerContent;
+        // }
+        // field(50100; Office; Code[20])
+        // {
+        //     TableRelation = "Employee Hierarchy Master" where(Type = const(Office));
+        //     DataClassification = CustomerContent;
+        // }
+        // field(50101; "Eco-System"; Code[20])
+        // {
+        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Eco-System"));
+        //     DataClassification = CustomerContent;
+        // }
         field(50102; "Lump Sum CIT"; Decimal)
         {
             FieldClass = FlowField;
@@ -1220,15 +1196,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50128; "Deputation on"; Enum "Deputation Type")
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                if xRec."Deputation on" <> "Deputation on" then
-                    ClearValues;
-            end;
-        }
         field(50129; "Contract Expiry Month"; Enum "Contract Expiry Date")
         {
             DataClassification = CustomerContent;
@@ -1249,29 +1216,9 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50131; "Attendance Missed On";
-        Date)
+        field(50131; "Attendance Missed On"; Date)
         { DataClassification = CustomerContent; }
-        field(50132; "Unit Name"; Text[100])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50133; "Department Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50134; "Branch Name"; Text[50])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
-        field(50135; "Extension Counter Name"; Text[100])
-        {
-            DataClassification = CustomerContent;
-            Editable = false;
-        }
+
         field(50136; "Facebook Url"; Text[100])
         {
             DataClassification = CustomerContent;
@@ -1334,18 +1281,18 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50150; COPO; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50151; "Department Head"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50152; "Chief Of Eco-System"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
+        // field(50150; COPO; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        // }
+        // field(50151; "Department Head"; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        // }
+        // field(50152; "Chief Of Eco-System"; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        // }
         field(50153; "KPI Functional Title"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1468,9 +1415,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Text004: Label '%1 is %2.';
         Text005: Label '%1 must be greater.';
         LeaveMgt: Codeunit "Leave Mgt.";
-        Depart: Record "Department";
-        SubProv: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
         FunctionalTitle: Record "Functional Title";
         EmployeeRec: Record Employee;
         Text006: Label 'Bank Account No. %1 already used in Employee  No. %2.';
@@ -1654,8 +1599,6 @@ tableextension 50013 "Employee Ext" extends Employee
         if "Deputation on" = "Deputation on"::Branch then begin
             Clear("Province Code");
             Clear("Province Name");
-            Clear("Sub Province Name");
-            Clear("Sub Province Code");
             Clear("Extension Counter Code");
             Clear("Department Code");
             Clear("Unit Code");
@@ -1664,79 +1607,65 @@ tableextension 50013 "Employee Ext" extends Employee
             Clear("Unit Name");
             Clear("Branch Name");
             Clear("Posting Region");
-            Clear("Inside/Outisde Valley");
+            Clear("Inside/Outside Valley");
 
-            DimensionValue.Reset;
-            DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-            DimensionValue.SetRange(Code, "Global Dimension 1 Code");
-            if DimensionValue.FindFirst then begin
-                "Sol Id" := DimensionValue.Code;
-                "Branch Name" := DimensionValue.Name;
-                Cluster := DimensionValue.Cluster;
-                "Inside/Outisde Valley" := DimensionValue."Inside/Outisde Valley";
-                "Posting Region" := DimensionValue."Posting Region";
-                if ProvinceVar.Get(DimensionValue.Province) then begin
-                    "Province Code" := ProvinceVar.Code;
-                    "Province Name" := ProvinceVar.Description
-                end;
-
-                SubProv.Reset;
-                SubProv.SetRange(Code, DimensionValue."Sub-Province");
-                if SubProv.FindFirst then begin
-                    "Sub Province Code" := SubProv.Code;
-                    "Sub Province Name" := SubProv.City;
-                end;
+            OrganizationStructureList.Reset();
+            if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Global Dimension 1 Code") then begin
+                "Branch Name" := OrganizationStructureList.Name;
+                "Province Code" := OrganizationStructureList."Province Code";
+                "Province Name" := OrganizationStructureList."Province Name";
+                "Posting Region" := OrganizationStructureList."Region";
+                "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
+            end else begin
+                Clear("Branch Name");
+                Clear("Province Code");
+                Clear("Province Name");
+                Clear("Posting Region");
+                Clear("Inside/Outside Valley");
             end;
         end;
     end;
 
-    local procedure ValidateExtenCounter();
-    begin
-        if "Deputation on" = "Deputation on"::"Extension Counter" then begin
-            Clear("Province Code");
-            Clear("Province Name");
-            Clear("Sub Province Name");
-            Clear("Sub Province Code");
-            Clear("Global Dimension 1 Code");
-            Clear("Department Code");
-            Clear("Unit Code");
-            Clear("Extension Counter Name");
-            Clear("Department Name");
-            Clear("Unit Name");
-            Clear("Branch Name");
-            Clear("Posting Region");
-            Clear("Inside/Outisde Valley");
+    // local procedure ValidateExtenCounter();
+    // begin
+    //     if "Deputation on" = "Deputation on"::"Extension Counter" then begin
+    //         Clear("Province Code");
+    //         Clear("Province Name");
+    //         // Clear("Sub Province Name");
+    //         // Clear("Sub Province Code");
+    //         Clear("Global Dimension 1 Code");
+    //         Clear("Department Code");
+    //         Clear("Unit Code");
+    //         Clear("Extension Counter Name");
+    //         Clear("Department Name");
+    //         Clear("Unit Name");
+    //         Clear("Branch Name");
+    //         Clear("Posting Region");
+    //         Clear("Inside/Outside Valley");
 
-            GLSetup.Get;
-            EmpHie.Reset;
-            EmpHie.SetRange(Code, "Extension Counter Code");
-            EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-            if EmpHie.FindFirst then begin
-                "Global Dimension 1 Code" := EmpHie."Shortcut Dimension 1 Code";
-                "Extension Counter Name" := EmpHie.Description;
-                DimensionValue.Reset;
-                DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-                DimensionValue.SetRange(Code, EmpHie."Shortcut Dimension 1 Code");
-                if DimensionValue.FindFirst then begin
-                    "Branch Name" := DimensionValue.Name;
-                    "Sol Id" := DimensionValue.Code;
-                    "Posting Region" := DimensionValue."Posting Region";
-                    "Inside/Outisde Valley" := DimensionValue."Inside/Outisde Valley";
-                    if ProvinceVar.Get(DimensionValue.Province) then begin
-                        "Province Code" := ProvinceVar.Code;
-                        "Province Name" := ProvinceVar.Description;
-                    end;
-                    SubProv.Reset;
-                    SubProv.SetRange(Code, DimensionValue."Sub-Province");
-                    if SubProv.FindFirst then begin
-                        "Sub Province Code" := SubProv.Code;
-                        "Sub Province Name" := SubProv.City;
-                    end;
-                end;
-                ValidateShortcutDimCode(1, "Global Dimension 1 Code");
-            end;
-        end;
-    end;
+    //         EmpHie.Reset;
+    //         EmpHie.SetRange(Code, "Extension Counter Code");
+    //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //         if EmpHie.FindFirst then begin
+    //             "Global Dimension 1 Code" := EmpHie."Shortcut Dimension 1 Code";
+    //             "Extension Counter Name" := EmpHie.Description;
+    //             DimensionValue.Reset;
+    //             DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+    //             DimensionValue.SetRange(Code, EmpHie."Shortcut Dimension 1 Code");
+    //             if DimensionValue.FindFirst then begin
+    //                 "Branch Name" := DimensionValue.Name;
+    //                 "Sol Id" := DimensionValue.Code;
+    //                 "Posting Region" := DimensionValue."Posting Region";
+    //                 "Inside/Outside Valley" := DimensionValue."Inside/Outisde Valley";
+    //                 if ProvinceVar.Get(DimensionValue.Province) then begin
+    //                     "Province Code" := ProvinceVar.Code;
+    //                     "Province Name" := ProvinceVar.Description;
+    //                 end;
+    //             end;
+    //             ValidateShortcutDimCode(1, "Global Dimension 1 Code");
+    //         end;
+    //     end;
+    // end;
 
     PROCEDURE TransferRequest();
     BEGIN
@@ -1767,8 +1696,6 @@ tableextension 50013 "Employee Ext" extends Employee
     begin
         Clear("Province Code");
         Clear("Province Name");
-        Clear("Sub Province Name");
-        Clear("Sub Province Code");
         Clear("Global Dimension 1 Code");
         Clear("Extension Counter Code");
         Clear("Department Code");
@@ -1778,7 +1705,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Unit Name");
         Clear("Branch Name");
         Clear("Posting Region");
-        Clear("Inside/Outisde Valley");
+        Clear("Inside/Outside Valley");
     end;
 
     local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Integer) ReturnText: Text;

@@ -397,19 +397,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Branch Name field.';
 
                 }
-                field("Sub Province Code"; Rec."Sub Province Code")
-                {
-                    ApplicationArea = All;
-                    Enabled = false;
-                    ToolTip = 'Specifies the value of the Sub Province Code field.';
-
-                }
-                field("Sub Province Name"; Rec."Sub Province Name")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Sub Province Name field.';
-
-                }
                 field("Unit Code"; Rec."Unit Code")
                 {
                     ApplicationArea = All;
@@ -446,16 +433,16 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Province Name field.';
 
                 }
-                field(Cluster; Rec.Cluster)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Cluster field.';
+                // field(Cluster; Rec.Cluster)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the Cluster field.';
 
-                }
-                field("Inside/Outisde Valley"; Rec."Inside/Outisde Valley")
+                // }
+                field("Inside/Outisde Valley"; Rec."Inside/Outside Valley")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Inside/Outisde Valley field.';
+                    ToolTip = 'Specifies the value of the Inside/Outside Valley field.';
 
                 }
                 field("Posting Region"; Rec."Posting Region")
@@ -1883,7 +1870,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
         ExtensionCounterEditable: Boolean;
         BranchEditable: Boolean;
-        SubProvinceEditable: Boolean;
+        // SubProvinceEditble: Boolean;
         ProvinceEditable: Boolean;
         UnitEditable: Boolean;
         DepartmentEditable: Boolean;
@@ -1982,7 +1969,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 BEGIN
                     BranchEditable := FALSE;
                     ProvinceEditable := FALSE;
-                    SubProvinceEditable := FALSE;
+                    // SubProvinceEditble := FALSE;
                     ExtensionCounterEditable := TRUE;
                     UnitEditable := FALSE;
                     DepartmentEditable := FALSE;
@@ -1991,7 +1978,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 BEGIN
                     BranchEditable := TRUE;
                     ProvinceEditable := FALSE;
-                    SubProvinceEditable := FALSE;
+                    // SubProvinceEditble := FALSE;
                     ExtensionCounterEditable := FALSE;
                     UnitEditable := FALSE;
                     DepartmentEditable := FALSE;
@@ -2000,25 +1987,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 BEGIN
                     BranchEditable := FALSE;
                     ProvinceEditable := TRUE;
-                    SubProvinceEditable := FALSE;
+                    // SubProvinceEditble := FALSE;
                     ExtensionCounterEditable := FALSE;
                     UnitEditable := FALSE;
                     DepartmentEditable := FALSE;
                 END;
-            Rec."Deputation on"::"Sub Province":
-                BEGIN
-                    BranchEditable := FALSE;
-                    ProvinceEditable := FALSE;
-                    SubProvinceEditable := TRUE;
-                    ExtensionCounterEditable := FALSE;
-                    UnitEditable := FALSE;
-                    DepartmentEditable := FALSE;
-                END;
+            // Rec."Deputation on"::"Sub Province":
+            //     BEGIN
+            //         BranchEditable := FALSE;
+            //         ProvinceEditable := FALSE;
+            //         // SubProvinceEditble := TRUE;
+            //         ExtensionCounterEditable := FALSE;
+            //         UnitEditable := FALSE;
+            //         DepartmentEditable := FALSE;
+            //     END;
             Rec."Deputation on"::Unit, Rec."Deputation on"::Department:
                 BEGIN
                     BranchEditable := FALSE;
                     ProvinceEditable := FALSE;
-                    SubProvinceEditable := FALSE;
+                    // SubProvinceEditble := FALSE;
                     ExtensionCounterEditable := FALSE;
                     UnitEditable := TRUE;
                     DepartmentEditable := TRUE;
@@ -2042,7 +2029,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec.TESTFIELD("Functional Title");
             Rec.TESTFIELD("Employment Date");
             Rec.TESTFIELD("Tax Code");
-            Rec.TESTFIELD("Inside/Outisde Valley");
+            Rec.TESTFIELD("Inside/Outside Valley");
             Rec.TESTFIELD("Posting Region");
             Rec.TESTFIELD("Date of Birth (B.S.)"); //Min <<
             Rec.TESTFIELD("PAN No.");
@@ -2063,7 +2050,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.TESTFIELD("Branch Name");
                         Rec.TESTFIELD("Global Dimension 1 Code");
                         Rec.TESTFIELD("Province Code");
-                        Rec.TESTFIELD("Sub Province Code");
                     END;
 
                 Rec."Deputation on"::Department:
@@ -2078,7 +2064,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.TESTFIELD("Extension Counter Name");
                         Rec.TESTFIELD("Global Dimension 1 Code");
                         Rec.TESTFIELD("Province Code");
-                        Rec.TESTFIELD("Sub Province Code");
                     END;
 
                 Rec."Deputation on"::Province:
@@ -2086,14 +2071,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.TESTFIELD("Province Code");
                         Rec.TESTFIELD("Province Name");
                     END;
-
-                Rec."Deputation on"::"Sub Province":
-                    BEGIN
-                        Rec.TESTFIELD("Province Code");
-                        Rec.TESTFIELD("Sub Province Code");
-                        Rec.TESTFIELD("Sub Province Name");
-                    END;
-
                 Rec."Deputation on"::Unit:
                     BEGIN
                         Rec.TESTFIELD("Unit Code");

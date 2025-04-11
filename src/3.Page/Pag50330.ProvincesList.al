@@ -31,26 +31,6 @@ page 50330 "Provinces List"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
                 }
-                field("Sol ID"; Rec."Sol ID")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Sol ID field.', Comment = '%';
-                }
-                field("Posting Region"; Rec."Posting Region")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Posting Region field.', Comment = '%';
-                }
-                field("Inside/Outside Valley"; Rec."Inside/Outside Valley")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Inside/Outside Valley field.', Comment = '%';
-                }
-                field("Reporting Category"; Rec."Reporting Category")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Reporting Category field.', Comment = '%';
-                }
                 field(Blocked; Rec.Blocked)
                 {
                     ApplicationArea = All;

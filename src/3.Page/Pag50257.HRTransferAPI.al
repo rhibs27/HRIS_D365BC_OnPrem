@@ -123,19 +123,19 @@ page 50257 "HR Transfer API"
                 {
                     Editable = false;
                 }
-                field(subProvinceCodeTo; Rec."Sub Province Code (To)")
-                {
-                    Editable = SubProvinceEdit;
+                // field(subProvinceCodeTo; Rec."Sub Province Code (To)")
+                // {
+                //     Editable = // SubProvinceEdit;
 
-                    trigger OnValidate()
-                    begin
-                        GetTransferName;
-                    end;
-                }
-                field(subProvinceNameTo; SubProvinceNameTo)
-                {
-                    Editable = false;
-                }
+                //     trigger OnValidate()
+                //     begin
+                //         GetTransferName;
+                //     end;
+                // }
+                // field(subProvinceNameTo; SubProvinceNameTo)
+                // {
+                //     Editable = false;
+                // }
                 field(provinceCodeTo; Rec."Province Code (To)")
                 {
                     Editable = ProvinceEdit;
@@ -529,7 +529,7 @@ page 50257 "HR Transfer API"
         ExtensionName: Text;
         UnitName: Text;
         [InDataSet]
-        SubProvinceEdit: Boolean;
+        // SubProvinceEdit: Boolean;
         [InDataSet]
         ExtensionCounterEdit: Boolean;
         TempEmpActivity: Record "Employee Activity" temporary;
@@ -595,7 +595,7 @@ page 50257 "HR Transfer API"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false;
                     ExtensionCounterEdit := true;
                     UnitEdit := false;
                     DepartEdit := false;
@@ -604,7 +604,7 @@ page 50257 "HR Transfer API"
                 begin
                     BranchEdit := true;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := false;
@@ -613,25 +613,25 @@ page 50257 "HR Transfer API"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := true;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := false;
                 end;
-            Rec."Deputation On (To)"::"Sub Province":
-                begin
-                    BranchEdit := false;
-                    ProvinceEdit := false;
-                    SubProvinceEdit := true;
-                    ExtensionCounterEdit := false;
-                    UnitEdit := false;
-                    DepartEdit := false;
-                end;
+            // Rec."Deputation On (To)"::"Sub Province":
+            //     begin
+            //         BranchEdit := false;
+            //         ProvinceEdit := false;
+            //         // SubProvinceEdit := true;
+            //         ExtensionCounterEdit := false;
+            //         UnitEdit := false;
+            //         DepartEdit := false;
+            //     end;
             Rec."Deputation On (To)"::Unit:
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := true;
                     DepartEdit := false;
@@ -641,7 +641,7 @@ page 50257 "HR Transfer API"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := true;
@@ -666,82 +666,82 @@ page 50257 "HR Transfer API"
     local procedure GetTransferName()
     var
         GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
-        DepartVar: Record Department;
+        // DimValue: Record "Dimension Value";
+        // DepartVar: Record Department;
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
+    // SubProvinceVar: Record "Sub Province";
+    // EmpHie: Record "Employee Hierarchy Master";
     begin
-        Clear(BranchName);
-        Clear(BranchNameTo);
-        Clear(DepartmentNameTo);
-        Clear(DepartmentName);
-        Clear(ProvinceName);
-        Clear(ProvinceNameTo);
-        Clear(SubProvinceName);
-        Clear(SubProvinceNameTo);
-        Clear(UnitNameTo);
-        Clear(UnitName);
-        Clear(ExtensionName);
-        Clear(ExtensionNameTo);
-        GLSetup.Get;
+        //     Clear(BranchName);
+        //     Clear(BranchNameTo);
+        //     Clear(DepartmentNameTo);
+        //     Clear(DepartmentName);
+        //     Clear(ProvinceName);
+        //     Clear(ProvinceNameTo);
+        //     Clear(SubProvinceName);
+        //     Clear(SubProvinceNameTo);
+        //     Clear(UnitNameTo);
+        //     Clear(UnitName);
+        //     Clear(ExtensionName);
+        //     Clear(ExtensionNameTo);
+        //     GLSetup.Get;
 
-        if FunctionalTitle.Get(Rec."Functional Title") then
-            FunctionalDescFrom := FunctionalTitle.Description;
-        if FunctionalTitle.Get(Rec."Functional Title (To)") then
-            FunctionalDescTo := FunctionalTitle.Description;
+        //     if FunctionalTitle.Get(Rec."Functional Title") then
+        //         FunctionalDescFrom := FunctionalTitle.Description;
+        //     if FunctionalTitle.Get(Rec."Functional Title (To)") then
+        //         FunctionalDescTo := FunctionalTitle.Description;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
-            BranchName := DimValue.Name;
+        //     if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
+        //         BranchName := DimValue.Name;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
-            BranchNameTo := DimValue.Name;
+        //     if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
+        //         BranchNameTo := DimValue.Name;
 
-        if DepartVar.Get(Rec.Department) then
-            DepartmentName := DepartVar.Name;
+        //     if DepartVar.Get(Rec.Department) then
+        //         DepartmentName := DepartVar.Name;
 
-        if DepartVar.Get(Rec."Department Code (To)") then
-            DepartmentNameTo := DepartVar.Name;
+        //     if DepartVar.Get(Rec."Department Code (To)") then
+        //         DepartmentNameTo := DepartVar.Name;
 
-        if ProvinceVar.Get(Rec."Province Code") then
-            ProvinceName := ProvinceVar.Description;
+        //     if ProvinceVar.Get(Rec."Province Code") then
+        //         ProvinceName := ProvinceVar.Description;
 
-        if ProvinceVar.Get(Rec."Province Code (To)") then
-            ProvinceNameTo := ProvinceVar.Description;
+        //     if ProvinceVar.Get(Rec."Province Code (To)") then
+        //         ProvinceNameTo := ProvinceVar.Description;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            SubProvinceName := SubProvinceVar.City;
+        //     SubProvinceVar.Reset;
+        //     SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
+        //     if SubProvinceVar.FindFirst then
+        //         SubProvinceName := SubProvinceVar.City;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            SubProvinceNameTo := SubProvinceVar.City;
+        //     SubProvinceVar.Reset;
+        //     SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
+        //     if SubProvinceVar.FindFirst then
+        //         SubProvinceNameTo := SubProvinceVar.City;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit Code");
-        if EmpHie.FindFirst then
-            UnitName := EmpHie.Description;
+        //     EmpHie.Reset;
+        //     EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        //     EmpHie.SetRange(Code, Rec."Unit Code");
+        //     if EmpHie.FindFirst then
+        //         UnitName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit (To)");
-        if EmpHie.FindFirst then
-            UnitNameTo := EmpHie.Description;
+        //     EmpHie.Reset;
+        //     EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        //     EmpHie.SetRange(Code, Rec."Unit (To)");
+        //     if EmpHie.FindFirst then
+        //         UnitNameTo := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter Code");
-        if EmpHie.FindFirst then
-            ExtensionName := EmpHie.Description;
+        //     EmpHie.Reset;
+        //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        //     EmpHie.SetRange(Code, Rec."Extension Counter Code");
+        //     if EmpHie.FindFirst then
+        //         ExtensionName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-        if EmpHie.FindFirst then
-            ExtensionNameTo := EmpHie.Description;
+        //     EmpHie.Reset;
+        //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        //     EmpHie.SetRange(Code, Rec."Extension Counter (To)");
+        //     if EmpHie.FindFirst then
+        //         ExtensionNameTo := EmpHie.Description;
     end;
 
     procedure GetTransferEditibility()

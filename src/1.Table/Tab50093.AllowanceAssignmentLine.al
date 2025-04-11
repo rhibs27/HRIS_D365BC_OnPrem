@@ -8,22 +8,35 @@ table 50093 "Allowance Assignment Line"
         field(2; "Line No."; Integer) { }
         field(3; "Code"; Code[20])
         {
-            TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'),
-                                                                                  "Dimension Value Type" = const(Standard))
-            else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
+            // TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'),
+            //                                                                       "Dimension Value Type" = const(Standard))
+            // else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
 
+            // trigger OnValidate()
+            // begin
+            //     GLSetup.Get;
+            //     if Type = Type::Branch then begin
+            //         if DimValue.Get(GLSetup."Global Dimension 1 Code", Code) then
+            //             Validate(Name, DimValue.Name);
+            //     end else if Type = Type::"Extension Counter" then begin
+            //         EmpHie.Reset;
+            //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+            //         EmpHie.SetRange(Code, Code);
+            //         if EmpHie.FindFirst then
+            //             Validate(Name, EmpHie.Description);
+            //     end;
+            // end;
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
             trigger OnValidate()
             begin
-                GLSetup.Get;
+                Clear(Name);
                 if Type = Type::Branch then begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Code) then
-                        Validate(Name, DimValue.Name);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
+                        Name := OrganizationStructureList.Name;
                 end else if Type = Type::"Extension Counter" then begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Code);
-                    if EmpHie.FindFirst then
-                        Validate(Name, EmpHie.Description);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
+                        Name := OrganizationStructureList.Name;
                 end;
             end;
         }
@@ -229,8 +242,7 @@ table 50093 "Allowance Assignment Line"
         OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
-        EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
 
     local procedure GetLineNo()
     var

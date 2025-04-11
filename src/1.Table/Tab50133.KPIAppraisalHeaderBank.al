@@ -44,7 +44,7 @@ table 50133 "KPI Appraisal Header Bank"
             begin
                 if Employee."KPI Deputation" in [Employee."KPI Deputation"::Department, Employee."KPI Deputation"::Unit] then //KPI1.00
                     Type := Type::"Department Central Level"
-                else if Employee."KPI Deputation" in [Employee."KPI Deputation"::Branch, Employee."KPI Deputation"::"Extension Counter", Employee."KPI Deputation"::Province, Employee."KPI Deputation"::"Sub Province"] then begin
+                else if Employee."KPI Deputation" in [Employee."KPI Deputation"::Branch, Employee."KPI Deputation"::"Extension Counter", Employee."KPI Deputation"::Province] then begin
                     if FunctionalTitle.Get("Functional Title") then begin
                         if FunctionalTitle."Is Specific Functional" then
                             Type := Type::Functional
@@ -59,7 +59,7 @@ table 50133 "KPI Appraisal Header Bank"
         field(5; Department; Code[20])
         {
             Editable = true;
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
 
             trigger OnValidate()
             begin
@@ -67,15 +67,13 @@ table 50133 "KPI Appraisal Header Bank"
                     if "Appraisal Code" <> '' then//KP1.00
                         InsertAppraisalLine;
                 end;
-                if DepartmentTable.Get(Department) then
-                    "Department Name" := DepartmentTable.Name;
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Department) then
+                    "Department Name" := OrganizationStructureList.Name;
             end;
         }
         field(6; "Branch Code"; Code[20])
         {
             Editable = false;
-            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
-                                                          Blocked = const(false));
         }
         field(7; "Branch Name"; Text[250])
         {
@@ -216,7 +214,7 @@ table 50133 "KPI Appraisal Header Bank"
         Employee: Record Employee;
         KPISetup: Record "KPI Setup Bank";
         KPIAppraisalLine: Record "KPI Appraisal Bank Lines";
-        DepartmentTable: Record Department;
+        OrganizationStructureList: Record "Organization Structure List";
         FunctionalTitle: Record "Functional Title";
         KPIMgt: Codeunit "KPI Mgt.";
         KPIMaster: Record "KPI Master Bank";

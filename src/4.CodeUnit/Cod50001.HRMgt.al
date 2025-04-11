@@ -2756,7 +2756,7 @@ codeunit 50001 "HR Mgt."
 
     procedure LookupDistrict(ProvienceName: Text[30]; xDisTxt: Text[30]): Text[30]
     var
-        PageDistrict: Page "District List Page";
+        PageDistrict: Page "District";
         DistrictVar: Record District;
     begin
         Clear(PageDistrict);
@@ -2801,34 +2801,34 @@ codeunit 50001 "HR Mgt."
         exit(xProvTxt);
     end;
 
-    procedure CheckSubProvience(SubProvienceName: Text[30])
-    var
-        SubProvienceVar: Record "Sub Province";
-        ErrorSubProvience: Label 'Sub-Provience Name %1 not found.';
-    begin
-        Clear(SubProvienceVar);
-        SubProvienceVar.SetRange(City, SubProvienceName);
-        if not SubProvienceVar.FindFirst then
-            Error(ErrorSubProvience, SubProvienceName);
-    end;
+    // procedure CheckSubProvience(SubProvienceName: Text[30])
+    // var
+    //     // SubProvienceVar: Record "Sub Province";
+    //     ErrorSubProvience: Label 'Sub-Provience Name %1 not found.';
+    // begin
+    //     Clear(SubProvienceVar);
+    //     SubProvienceVar.SetRange(City, SubProvienceName);
+    //     if not SubProvienceVar.FindFirst then
+    //         Error(ErrorSubProvience, SubProvienceName);
+    // end;
 
-    procedure LookupSubProvience(ProvienceName: Text[30]; xSubProvTxt: Text[30]): Text[30]
-    var
-        SubProvienceVar: Record "Sub Province";
-        PageSubProvience: Page "SubProvinceList";
-    begin
-        Clear(SubProvienceVar);
-        Clear(PageSubProvience);
-        SubProvienceVar.SetRange("Province Name", ProvienceName);
-        PageSubProvience.SetRecord(SubProvienceVar);
-        PageSubProvience.SetTableView(SubProvienceVar);
-        PageSubProvience.LookupMode(true);
-        if PageSubProvience.RunModal = ACTION::LookupOK then begin
-            PageSubProvience.GetRecord(SubProvienceVar);
-            exit(SubProvienceVar.City);
-        end;
-        exit(xSubProvTxt);
-    end;
+    // procedure LookupSubProvience(ProvienceName: Text[30]; xSubProvTxt: Text[30]): Text[30]
+    // var
+    //     SubProvienceVar: Record "Sub Province";
+    //     PageSubProvience: Page "SubProvinceList";
+    // begin
+    //     Clear(SubProvienceVar);
+    //     Clear(PageSubProvience);
+    //     SubProvienceVar.SetRange("Province Name", ProvienceName);
+    //     PageSubProvience.SetRecord(SubProvienceVar);
+    //     PageSubProvience.SetTableView(SubProvienceVar);
+    //     PageSubProvience.LookupMode(true);
+    //     if PageSubProvience.RunModal = ACTION::LookupOK then begin
+    //         PageSubProvience.GetRecord(SubProvienceVar);
+    //         exit(SubProvienceVar.City);
+    //     end;
+    //     exit(xSubProvTxt);
+    // end;
 
     procedure ValidateTaxCode(Gender: Enum "Employee Gender"; MaritalStatus: Enum "Marital Status"): Code[20]
     var
@@ -5228,58 +5228,59 @@ codeunit 50001 "HR Mgt."
 
     procedure LookupBranch(DimValueText: Text; Province: Text; SubProvince: Text): Text
     var
-        PageDimValue: Page "Dimension Values";
-        DimValue: Record "Dimension Value";
-        GLSetup: Record "General Ledger Setup";
+        // PageDimValue: Page "Dimension Values";
+        // DimValue: Record "Dimension Value";
+        // GLSetup: Record "General Ledger Setup";
+        OrganizationStructureList: Record "Organization Structure List";
+        OrganizationStructureListPage: Page "Organization Structure list";
     begin
-        DimValue.Reset;
-        GLSetup.Get;
-        Clear(PageDimValue);
-        DimValue.FilterGroup(2);
-        DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-        DimValue.SetFilter(Province, Province);
-        DimValue.SetFilter("Sub-Province", SubProvince);
-        DimValue.FilterGroup(0);
-        PageDimValue.AssignShowSelected;
-        PageDimValue.InsertTempDimValue(DimValueText);
-        PageDimValue.SetRecord(DimValue);
-        PageDimValue.SetTableView(DimValue);
-        if PageDimValue.RunModal = ACTION::OK then
-            exit(PageDimValue.ReturnDimText);
+        // OrganizationStructureList.Reset;
+        // Clear(OrganizationStructureListPage);
+        // OrganizationStructureList.FilterGroup(2);
+        // OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Branch);
+        // OrganizationStructureList.SetFilter(Province, Province);
+        // OrganizationStructureList.SetFilter("Sub-Province", SubProvince);
+        // OrganizationStructureList.FilterGroup(0);
+        // OrganizationStructureListPage.AssignShowSelected;
+        // OrganizationStructureListPage.InsertTempDimValue(DimValueText);
+        // OrganizationStructureListPage.SetRecord(OrganizationStructureList);
+        // OrganizationStructureListPage.SetTableView(OrganizationStructureList);
+        // if OrganizationStructureListPage.RunModal = ACTION::OK then
+        // exit(OrganizationStructureListPage.ReturnDimText);
     end;
 
-    procedure LookupDepartment(DepartText: Text): Text
-    var
-        PageDepart: Page Departments;
-        Depart: Record Department;
-    begin
-        Depart.Reset;
-        Clear(PageDepart);
-        PageDepart.AssignShowSelected;
-        PageDepart.InsertTempDepart(DepartText);
-        PageDepart.SetRecord(Depart);
-        PageDepart.SetTableView(Depart);
-        if PageDepart.RunModal = ACTION::OK then
-            exit(PageDepart.ReturnDepartText);
-    end;
+    // procedure LookupDepartment(DepartText: Text): Text
+    // var
+    //     PageDepart: Page Departments;
+    //     Depart: Record Department;
+    // begin
+    //     Depart.Reset;
+    //     Clear(PageDepart);
+    //     PageDepart.AssignShowSelected;
+    //     PageDepart.InsertTempDepart(DepartText);
+    //     PageDepart.SetRecord(Depart);
+    //     PageDepart.SetTableView(Depart);
+    //     if PageDepart.RunModal = ACTION::OK then
+    //         exit(PageDepart.ReturnDepartText);
+    // end;
 
-    procedure LookupSubProvinceTraining(SubProvText: Text; ProvText: Text): Text
-    var
-        PageSubProv: Page "SubProvinceList";
-        SubProv: Record "Sub Province";
-    begin
-        SubProv.Reset;
-        Clear(PageSubProv);
-        SubProv.FilterGroup(2);
-        SubProv.SetFilter("Province Code", ProvText);
-        SubProv.FilterGroup(0);
-        PageSubProv.AssignShowSelected;
-        PageSubProv.InsertTempSubProv(SubProvText);
-        PageSubProv.SetRecord(SubProv);
-        PageSubProv.SetTableView(SubProv);
-        if PageSubProv.RunModal = ACTION::OK then
-            exit(PageSubProv.ReturnSubProvText);
-    end;
+    // procedure LookupSubProvinceTraining(SubProvText: Text; ProvText: Text): Text
+    // var
+    //     PageSubProv: Page "SubProvinceList";
+    //     SubProv: Record "Sub Province";
+    // begin
+    //     SubProv.Reset;
+    //     Clear(PageSubProv);
+    //     SubProv.FilterGroup(2);
+    //     SubProv.SetFilter("Province Code", ProvText);
+    //     SubProv.FilterGroup(0);
+    //     PageSubProv.AssignShowSelected;
+    //     PageSubProv.InsertTempSubProv(SubProvText);
+    //     PageSubProv.SetRecord(SubProv);
+    //     PageSubProv.SetTableView(SubProv);
+    //     if PageSubProv.RunModal = ACTION::OK then
+    //         exit(PageSubProv.ReturnSubProvText);
+    // end;
 
     procedure LookupFunctionalTitile(FunctTitleText: Text): Text
     var
@@ -5542,11 +5543,12 @@ codeunit 50001 "HR Mgt."
         BodyText1: Text;
         TrainLine: Record "Training Line";
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        DimValue: Record "Dimension Value";
+        // SubProvinceVar: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
         FunctionalTitle: Record "Functional Title";
         Email: Codeunit Email;
         CodeunitEmailMessage: Codeunit "Email Message";
@@ -5571,32 +5573,33 @@ codeunit 50001 "HR Mgt."
         CodeunitEmailMessage.AppendToBody('<br><br>' + 'Current Placement ' + Colon + '<br>');
 
         CodeunitEmailMessage.AppendToBody('Deputation on' + Colon + Format(EmployeeActivity."Deputation On") + '<br>');
-        Clear(EmpHie);
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, EmployeeActivity."Extension Counter Code");
-        if EmpHie.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Extension Counter' + Colon + EmpHie.Description + '<br>');
+        Clear(OrganizationStructureList);
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::"Extension Counter", EmployeeActivity."Extension Counter Code") then
+            CodeunitEmailMessage.AppendToBody('Extension Counter' + Colon + OrganizationStructureList.Name + '<br>');
+        // EmpHie.SetRange(Code, EmployeeActivity."Extension Counter Code");
+        // if EmpHie.FindFirst then
+        // Clear(DimValue);
+        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmployeeActivity."Shortcut Dimension 1 Code") then
+            CodeunitEmailMessage.AppendToBody('Branch' + Colon + OrganizationStructureList.Name + '<br>');
 
-        Clear(DimValue);
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", EmployeeActivity."Shortcut Dimension 1 Code") then
-            CodeunitEmailMessage.AppendToBody('Branch' + Colon + DimValue.Name + '<br>');
+        // Clear(SubProvinceVar);
+        // SubProvinceVar.SetRange(Code, EmployeeActivity."Sub Province Code");
+        // if SubProvinceVar.FindFirst then
+        //     CodeunitEmailMessage.AppendToBody('Sub Province' + Colon + SubProvinceVar.City + '<br>');
 
-        Clear(SubProvinceVar);
-        SubProvinceVar.SetRange(Code, EmployeeActivity."Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Sub Province' + Colon + SubProvinceVar.City + '<br>');
+        // Clear(EmpHie);
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, EmployeeActivity."Unit Code");
+        // if EmpHie.FindFirst then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::unit, EmployeeActivity."Unit Code") then
+            CodeunitEmailMessage.AppendToBody('Unit' + Colon + OrganizationStructureList.Name + '<br>');
 
-        Clear(EmpHie);
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, EmployeeActivity."Unit Code");
-        if EmpHie.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Unit' + Colon + EmpHie.Description + '<br>');
-
-        Clear(Depart);
-        if Depart.Get(EmployeeActivity.Department) then
-            CodeunitEmailMessage.AppendToBody('Department' + Colon + Depart.Name + '<br>');
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::Department, EmployeeActivity.Department) then
+            CodeunitEmailMessage.AppendToBody('Department' + Colon + OrganizationStructureList.Name + '<br>');
 
         Clear(ProvinceVar);
         if ProvinceVar.Get(EmployeeActivity."Province Code") then
@@ -5622,32 +5625,41 @@ codeunit 50001 "HR Mgt."
         CodeunitEmailMessage.AppendToBody('<br>' + 'Reporting Placement ' + Colon + '<br>');
         CodeunitEmailMessage.AppendToBody('Deputation on' + Colon + Format(EmployeeActivity."Deputation On (To)") + '<br>');
 
-        Clear(EmpHie);
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, EmployeeActivity."Extension Counter (To)");
-        if EmpHie.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Extension Counter' + Colon + EmpHie.Description + '<br>');
+        // Clear(EmpHie);
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, EmployeeActivity."Extension Counter (To)");
+        // if EmpHie.FindFirst then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::"Extension Counter", EmployeeActivity."Extension Counter (To)") then
+            CodeunitEmailMessage.AppendToBody('Extension Counter' + Colon + OrganizationStructureList.Name + '<br>');
 
-        Clear(DimValue);
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", EmployeeActivity."Shortcut Dimension 1 Code (To)") then
-            CodeunitEmailMessage.AppendToBody('Branch' + Colon + DimValue.Name + '<br>');
+        // Clear(DimValue);
+        // if DimValue.Get(GLSetup."Global Dimension 1 Code", EmployeeActivity."Shortcut Dimension 1 Code (To)") then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::Branch, EmployeeActivity."Shortcut Dimension 1 Code (To)") then
+            CodeunitEmailMessage.AppendToBody('Branch' + Colon + OrganizationStructureList.Name + '<br>');
 
-        Clear(SubProvinceVar);
-        SubProvinceVar.SetRange(Code, EmployeeActivity."Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Sub Province' + Colon + SubProvinceVar.City + '<br>');
+        // Clear(SubProvinceVar);
+        // SubProvinceVar.SetRange(Code, EmployeeActivity."Sub Province Code (To)");
+        // if SubProvinceVar.FindFirst then
+        //     CodeunitEmailMessage.AppendToBody('Sub Province' + Colon + SubProvinceVar.City + '<br>');
 
-        Clear(EmpHie);
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, EmployeeActivity."Unit (To)");
-        if EmpHie.FindFirst then
-            CodeunitEmailMessage.AppendToBody('Unit' + Colon + EmpHie.Description + '<br>');
+        // Clear(EmpHie);
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, EmployeeActivity."Unit (To)");
+        // if EmpHie.FindFirst then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::unit, EmployeeActivity."Unit (To)") then
+            CodeunitEmailMessage.AppendToBody('Unit' + Colon + OrganizationStructureList.Name + '<br>');
 
-        Clear(Depart);
-        if Depart.Get(EmployeeActivity."Department Code (To)") then
-            CodeunitEmailMessage.AppendToBody('Department' + Colon + Depart.Name + '<br>');
+        // Clear(Depart);
+        // if Depart.Get(EmployeeActivity."Department Code (To)") then
+        // if EmpHie.FindFirst then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.get(OrganizationStructureList.type::Department, EmployeeActivity."Department Code (To)") then
+            CodeunitEmailMessage.AppendToBody('Department' + Colon + OrganizationStructureList.Name + '<br>');
 
         Clear(ProvinceVar);
         if ProvinceVar.Get(EmployeeActivity."Province Code (To)") then
@@ -7719,37 +7731,35 @@ codeunit 50001 "HR Mgt."
 
     procedure WorkStationFunction(EmployeeRec: Record Employee) WorkStation: Text
     var
-        DimensionValue: Record "Dimension Value";
+        // DimensionValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
-        Dept: Record Department;
+        // Dept: Record Department;
         HRSetUp: Record "Human Resources Setup";
         SalaryLevel: Record "Salary Level";
     begin
         GLSetup.Get;
 
         if EmployeeRec."Global Dimension 2 Code" <> '' then begin
-            DimensionValue.Get(GLSetup."Global Dimension 2 Code", EmployeeRec."Global Dimension 2 Code");
-            WorkStation := DimensionValue.Name;
+            // DimensionValue.Get(GLSetup."Global Dimension 2 Code", EmployeeRec."Global Dimension 2 Code");
+            WorkStation := EmployeeRec."Branch Name";
         end
         else begin
-            if EmployeeRec."Sub Province Name" <> '' then
-                WorkStation := EmployeeRec."Sub Province Name"
-            else if EmployeeRec."Province Name" <> '' then
+            if EmployeeRec."Province Name" <> '' then
                 WorkStation := EmployeeRec."Province Name"
             else if EmployeeRec."Unit Code" <> '' then
                 WorkStation := EmployeeRec."Unit Code"
             else if EmployeeRec."Department Code" <> '' then begin
-                Dept.Get(EmployeeRec."Department Code");
-                WorkStation := Dept.Name;
+                // Dept.Get(EmployeeRec."Department Code");
+                WorkStation := EmployeeRec."Department Name";
             end
-            else if EmployeeRec."Reporting Line 1" <> '' then
-                WorkStation := EmployeeRec."Reporting Line 1"
-            else if EmployeeRec."Reporting Line 2" <> '' then
-                WorkStation := EmployeeRec."Reporting Line 2"
-            else if EmployeeRec."Eco-System" <> '' then
-                WorkStation := EmployeeRec."Eco-System"
-            else if EmployeeRec.Office <> '' then
-                WorkStation := EmployeeRec.Office;
+            // else if EmployeeRec."Reporting Line 1" <> '' then
+            //     WorkStation := EmployeeRec."Reporting Line 1"
+            // else if EmployeeRec."Reporting Line 2" <> '' then
+            //     WorkStation := EmployeeRec."Reporting Line 2"
+            // else if EmployeeRec."Eco-System" <> '' then
+            //     WorkStation := EmployeeRec."Eco-System"
+            // else if EmployeeRec.Office <> '' then
+            //     WorkStation := EmployeeRec.Office;
         end;
         /*IF (EmployeeRec."Employment Type" <> EmployeeRec."Employment Type"::Contract) OR
             (EmployeeRec."Employment Type" <> EmployeeRec."Employment Type"::" ") THEN
@@ -7981,10 +7991,10 @@ codeunit 50001 "HR Mgt."
                         exit(employee."Province Name");
                     end;
 
-                employee."Deputation on"::"Sub Province":
-                    begin
-                        exit(employee."Sub Province Name");
-                    end;
+                // employee."Deputation on"::"Sub Province":
+                //     begin
+                //         exit(employee."Sub Province Name");
+                //     end;
 
                 employee."Deputation on"::Unit:
                     begin
@@ -9464,60 +9474,64 @@ codeunit 50001 "HR Mgt."
         exit(EmpServiceHis."Service History Code");
     end;
 
-    procedure ExitTransferDeputationWiseValue(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department; EmpCode: Code[20]): Text
+    procedure ExitTransferDeputationWiseValue(DeputationOn: Enum "Deputation Type"; EmpCode: Code[20]): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // SubProvince: Record "Sub Province";
         Province: Record Province;
         GLSetup: Record "General Ledger Setup";
+        OrganizationStructureList: Record "Organization Structure List";
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
         Clear(Province);
         GLSetup.Get;
         Employee.Get(EmpCode);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-                        exit(DimValue.Name);
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Employee."Global Dimension 1 Code") then
+                        exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then
-                        exit(Depart.Name);
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::Department, Employee."Department Code") then
+                        exit(OrganizationStructureList.Name);
 
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Employee."Extension Counter Code") then
+                        exit(OrganizationStructureList.Name);
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.City);
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.City);
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Unit Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then
+                    //     exit(EmpHie.Description);
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Employee."Union Code") then
+                        exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOn::Province:
@@ -9528,60 +9542,67 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure ExitTransferDeputationWiseCode(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department; EmpCode: Code[20]): Text
+    procedure ExitTransferDeputationWiseCode(DeputationOn: Enum "Deputation Type"; EmpCode: Code[20]): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // SubProvince: Record "Sub Province";
         Province: Record Province;
         GLSetup: Record "General Ledger Setup";
+        OrganizationStructureList: Record "Organization Structure List";
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
         Clear(Province);
         GLSetup.Get;
         Employee.Get(EmpCode);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-                        exit(DimValue.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then
-                        exit(Depart.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Employee."Department Code") then
+                        exit(OrganizationStructureList.Code);
 
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Code);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then
+                    //     exit(EmpHie.Code);
+                    OrganizationStructureList.reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Employee."Extension Counter Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.Code);
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.Code);
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Unit Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Code);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then
+                    //     exit(EmpHie.Code);
+                    OrganizationStructureList.reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Employee."Unit Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
             DeputationOn::Province:
@@ -9604,7 +9625,7 @@ codeunit 50001 "HR Mgt."
         JobAssignmentPageBuilder.AddRecord('Assignment in Job Function', EmpActivity);
         JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Deputation On");
         JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Province Code");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Sub Province Code");
+        // JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Sub Province Code");
         JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Shortcut Dimension 1 Code");
         JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity.Department);
         JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Extension Counter Code");
@@ -9637,13 +9658,13 @@ codeunit 50001 "HR Mgt."
                         EmpVar.Validate("Province Code", EmpActivity.GetFilter("Province Code"));
                     end;
 
-                Format(EmpActivity."Deputation On"::"Sub Province"):
-                    begin
-                        if EmpActivity.GetFilter("Sub Province Code") = '' then
-                            Error('Sub-province Code must have value.');
-                        EmpVar.Validate("Deputation on", EmpVar."Deputation on"::"Sub Province");
-                        EmpVar.Validate("Sub Province Code", EmpActivity.GetFilter("Sub Province Code"));
-                    end;
+                // Format(EmpActivity."Deputation On"::"Sub Province"):
+                //     begin
+                //         if EmpActivity.GetFilter("Sub Province Code") = '' then
+                //             Error('Sub-province Code must have value.');
+                //         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::"Sub Province");
+                //         EmpVar.Validate("Sub Province Code", EmpActivity.GetFilter("Sub Province Code"));
+                //     end;
 
                 Format(EmpActivity."Deputation On"::Branch):
                     begin
@@ -9852,8 +9873,8 @@ codeunit 50001 "HR Mgt."
         case Employee."Deputation on" of
             Employee."Deputation on"::Province:
                 Employee.Validate("Province Code", EmployeeTransferRec."Province Code (To)");
-            Employee."Deputation on"::"Sub Province":
-                Employee.Validate("Sub Province Code", EmployeeTransferRec."Sub Province Code (To)");
+            // Employee."Deputation on"::"Sub Province":
+            //     Employee.Validate("Sub Province Code", EmployeeTransferRec."Sub Province Code (To)");
             Employee."Deputation on"::Branch:
                 Employee.Validate("Global Dimension 1 Code", EmployeeTransferRec."Shortcut Dimension 1 Code (To)");
             Employee."Deputation on"::Department:
@@ -9885,8 +9906,8 @@ codeunit 50001 "HR Mgt."
                 EmpVar.Validate("Global Dimension 1 Code", EmpAct."Shortcut Dimension 1 Code");
             EmpVar."Deputation on"::Province:
                 EmpVar.Validate("Province Code", EmpAct."Province Code");
-            EmpVar."Deputation on"::"Sub Province":
-                EmpVar.Validate("Sub Province Code", EmpAct."Sub Province Code");
+            // EmpVar."Deputation on"::"Sub Province":
+            //     EmpVar.Validate("Sub Province Code", EmpAct."Sub Province Code");
             EmpVar."Deputation on"::Unit:
                 EmpVar.Validate("Unit Code", EmpAct."Unit Code");
             EmpVar."Deputation on"::"Extension Counter":
@@ -10263,8 +10284,8 @@ codeunit 50001 "HR Mgt."
                 EmpVar.Validate("Global Dimension 1 Code", EmpHrTransfer."Shortcut Dimension 1 Code");
             EmpVar."Deputation on"::Province:
                 EmpVar.Validate("Province Code", EmpHrTransfer."Province Code");
-            EmpVar."Deputation on"::"Sub Province":
-                EmpVar.Validate("Sub Province Code", EmpHrTransfer."Sub Province Code");
+            // EmpVar."Deputation on"::"Sub Province":
+            //     EmpVar.Validate("Sub Province Code", EmpHrTransfer."Sub Province Code");
             EmpVar."Deputation on"::Unit:
                 EmpVar.Validate("Unit Code", EmpHrTransfer."Unit Code");
             EmpVar."Deputation on"::"Extension Counter":
@@ -10829,7 +10850,7 @@ codeunit 50001 "HR Mgt."
         PageMunicipality.LookupMode(true);
         if PageMunicipality.RunModal = ACTION::LookupOK then begin
             PageMunicipality.GetRecord(Municipality);
-            exit(Municipality.Description);
+            exit(Municipality."Municipality Name");
         end;
         exit(xMunicipalityTxt);
         //>>Aakrista KPI1.0
@@ -11114,7 +11135,7 @@ codeunit 50001 "HR Mgt."
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";             // returning provience
                             Gender := BaseCalChange."Gender Filter";                     //returning gender
-                            InOutValley := BaseCalChange."Inside/Outisde Valley";
+                            InOutValley := BaseCalChange."Inside/Outside Valley";
                             PostingRegion := BaseCalChange."Posting Region";
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             EXIT(BaseCalChange.Nonworking);
@@ -11124,7 +11145,7 @@ codeunit 50001 "HR Mgt."
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";           // returning provience
                             Gender := BaseCalChange."Gender Filter";
-                            InOutValley := BaseCalChange."Inside/Outisde Valley";
+                            InOutValley := BaseCalChange."Inside/Outside Valley";
                             PostingRegion := BaseCalChange."Posting Region";                  //returning gender
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             EXIT(BaseCalChange.Nonworking);
@@ -11136,7 +11157,7 @@ codeunit 50001 "HR Mgt."
                             Description := BaseCalChange.Description;
                             Proviences := BaseCalChange."Province Filter";         // returning provience
                             Gender := BaseCalChange."Gender Filter";
-                            InOutValley := BaseCalChange."Inside/Outisde Valley";
+                            InOutValley := BaseCalChange."Inside/Outside Valley";
                             PostingRegion := BaseCalChange."Posting Region";            //returning gender
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             EXIT(BaseCalChange.Nonworking);

@@ -82,11 +82,11 @@ page 50067 "Resignation Card"
                         ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
                         ApplicationArea = All;
                     }
-                    field("Sub Province Code"; Rec."Sub Province Code")
-                    {
-                        ToolTip = 'Specifies the value of the Sub Province Code field.';
-                        ApplicationArea = All;
-                    }
+                    // field("Sub Province Code"; Rec."Sub Province Code")
+                    // {
+                    //     ToolTip = 'Specifies the value of the Sub Province Code field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Province Code"; Rec."Province Code")
                     {
                         ToolTip = 'Specifies the value of the Province Code field.';

@@ -32,11 +32,11 @@ page 50016 "Facilitator Pool Lists"
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
                 }
-                field("Sub Province"; Rec."Sub Province")
-                {
-                    ToolTip = 'Specifies the value of the Sub Province field.';
-                    ApplicationArea = All;
-                }
+                // field("Sub Province"; Rec."Sub Province")
+                // {
+                //     ToolTip = 'Specifies the value of the Sub Province field.';
+                //     ApplicationArea = All;
+                // }
                 field(District; Rec.District)
                 {
                     ToolTip = 'Specifies the value of the District field.';

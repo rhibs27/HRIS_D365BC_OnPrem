@@ -562,8 +562,8 @@ report 50139 "Daily Attendance Update"
                         Employee.Validate("Global Dimension 1 Code", Transfer."Shortcut Dimension 1 Code");
                     Employee."Deputation on"::Province:
                         Employee.Validate("Province Code", Transfer."Province Code");
-                    Employee."Deputation on"::"Sub Province":
-                        Employee.Validate("Sub Province Code", Transfer."Sub Province Code");
+                    // Employee."Deputation on"::"Sub Province":
+                    //     Employee.Validate("Sub Province Code", Transfer."Sub Province Code");
                     Employee."Deputation on"::Unit:
                         Employee.Validate("Unit Code", Transfer."Unit Code");
                     Employee."Deputation on"::"Extension Counter":

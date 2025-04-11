@@ -557,8 +557,8 @@ codeunit 50004 "Travel Mgt."
 
     procedure GetOutofExpneseDuration(DepatureTime: Time; ArrivalTime: Time; DepartureDate: Date; ArrivalDate: Date): Decimal
     var
-        Duration1: Duration;
-        Duration2: Duration;
+        // Duration1: Duration;
+        // Duration2: Duration;
         TotalDuration: Decimal;
         NoofDays: Integer;
     begin
@@ -570,7 +570,6 @@ codeunit 50004 "Travel Mgt."
         TotalDuration := (CreateDateTime(ArrivalDate, ArrivalTime) - CreateDateTime(DepartureDate, DepatureTime)) / 1000 / 60 / 60;
 
         NoofDays := Round(TotalDuration / 24, 1, '<');
-
         TotalDuration := TotalDuration mod 24;
 
         if TotalDuration >= HRSetup."Full Limit (out expense)" then
@@ -883,11 +882,11 @@ codeunit 50004 "Travel Mgt."
 
         //EmpAct: Record "Employee Activity";
         TravelRequest: Record "Travel Request";
-        LeaveEarn: Record "Leave Earn";
+        // LeaveEarn: Record "Leave Earn";
         ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
         ErrorReject: Label 'Approval Status must be in %1 or %2.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
-        LeaveTypeSetup: Record "Leave Type Setup";
+        // LeaveTypeSetup: Record "Leave Type Setup";
         //EmpAct2: Record "Employee Activity";
         TravelRequest2: Record "Travel Request";
     begin

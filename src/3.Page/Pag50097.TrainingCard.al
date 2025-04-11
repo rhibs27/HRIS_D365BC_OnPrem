@@ -116,12 +116,12 @@ page 50097 "Training Card"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Sub-Province"; Rec."Sub-Province")
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Sub-Province field.';
-                    ApplicationArea = All;
-                }
+                // field("Sub-Province"; Rec."Sub-Province")
+                // {
+                //     Editable = IsOpen;
+                //     ToolTip = 'Specifies the value of the Sub-Province field.';
+                //     ApplicationArea = All;
+                // }
                 field("Branch Code"; Rec."Branch Code")
                 {
                     Editable = IsOpen;

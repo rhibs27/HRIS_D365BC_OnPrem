@@ -26,12 +26,6 @@ page 50352 "Organization Structure Subform"
                     ApplicationArea = all;
                     ToolTip = 'Specifies the value of the Reporting Name field.', Comment = '%';
                 }
-                field("Sequence"; Rec."Sequence")
-                {
-                    ApplicationArea = all;
-                    Editable = true;
-
-                }
             }
         }
     }

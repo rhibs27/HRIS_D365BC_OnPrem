@@ -136,7 +136,7 @@ page 50065 "HR Budgeting"
         CurrLength: Integer;
         GLSetup: Record "General Ledger Setup";
         FieldRefs: FieldRef;
-        DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
+        DeputationOn: Enum "Deputation Type";
         ShowCaption: Boolean;
         ActualMatrixColumnCaption: array[32] of Text;
 
@@ -145,64 +145,113 @@ page 50065 "HR Budgeting"
         FieldNo: Integer;
         DescFieldNo: Integer;
         HrMgt: Codeunit "HR Mgt.";
+        OrganizationStructure: Enum "Organization Structure list";
+        OrganizationStructureList: Record "Organization Structure List";
     begin
         if DeputationOn = DeputationOn::" " then
             exit;
         case DeputationOn of
             DeputationOn::Branch:
+                // begin
+                //     GLSetup.Get;
+                //     RecRef.Open(Database::"Dimension Value");
+                //     FieldRefs := RecRef.Field(1);
+                //     FieldRefs.SetRange(GLSetup."Global Dimension 1 Code");
+                //     FieldRefs := RecRef.Field(6);
+                //     FieldRefs.SetRange(false);
+                //     DescFieldNo := 3;
+                //     FieldNo := 2;
+                // end;
                 begin
-                    GLSetup.Get;
-                    RecRef.Open(Database::"Dimension Value");
-                    FieldRefs := RecRef.Field(1);
-                    FieldRefs.SetRange(GLSetup."Global Dimension 1 Code");
-                    FieldRefs := RecRef.Field(6);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 3;
-                    FieldNo := 2;
+                    Clear(OrganizationStructure);
+                    OrganizationStructure := OrganizationStructure::Branch;
+                    RecRef.Open(Database::"Organization Structure List");
+                    FieldRefs := RecRef.Field(1);//Field One have Organization structure type
+                    FieldRefs.SetRange(OrganizationStructure.AsInteger()); //Filter type Branch
+                    FieldRefs := RecRef.Field(10); //Filed 10 have Blocked 
+                    FieldRefs.SetRange(false); //filter This Value
+                    DescFieldNo := OrganizationStructureList.FieldNo(Name); //assign filed Id of Name 
+                    FieldNo := OrganizationStructureList.FieldNo(Code);//assign Field Id Of code
                 end;
             DeputationOn::Department:
                 begin
-                    RecRef.Open(Database::Department);
-                    FieldRefs := RecRef.Field(16);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 2;
-                    FieldNo := 1;
+                    // RecRef.Open(Database::Department);
+                    // FieldRefs := RecRef.Field(16);
+                    // FieldRefs.SetRange(false);
+                    // DescFieldNo := 2;
+                    // FieldNo := 1;
+                    Clear(OrganizationStructure);
+                    OrganizationStructure := OrganizationStructure::Department;
+                    RecRef.Open(Database::"Organization Structure List");
+                    FieldRefs := RecRef.Field(1);//Field One have Organization structure type
+                    FieldRefs.SetRange(OrganizationStructure.AsInteger()); //Filter type department
+                    FieldRefs := RecRef.Field(10); //Filed 10 have Blocked 
+                    FieldRefs.SetRange(false); //filter This Value
+                    DescFieldNo := OrganizationStructureList.FieldNo(Name); //assign filed Id of Name 
+                    FieldNo := OrganizationStructureList.FieldNo(Code);//assign Field Id Of code
                 end;
             DeputationOn::"Extension Counter":
                 begin
-                    RecRef.Open(Database::"Employee Hierarchy Master");
-                    FieldRefs := RecRef.Field(4);
-                    FieldRefs.SetRange(2);
-                    FieldRefs := RecRef.Field(9);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 2;
-                    FieldNo := 1;
+                    // RecRef.Open(Database::"Employee Hierarchy Master");
+                    // FieldRefs := RecRef.Field(4);
+                    // FieldRefs.SetRange(2);
+                    // FieldRefs := RecRef.Field(9);
+                    // FieldRefs.SetRange(false);
+                    // DescFieldNo := 2;
+                    // FieldNo := 1;
+                    Clear(OrganizationStructure);
+                    OrganizationStructure := OrganizationStructure::"Extension Counter";
+                    RecRef.Open(Database::"Organization Structure List");
+                    FieldRefs := RecRef.Field(1);//Field One have Organization structure type
+                    FieldRefs.SetRange(OrganizationStructure.AsInteger()); //Filter type extension Counter
+                    FieldRefs := RecRef.Field(10); //Filed 10 have Blocked 
+                    FieldRefs.SetRange(false); //filter This Value
+                    DescFieldNo := OrganizationStructureList.FieldNo(Name); //assign filed Id of Name 
+                    FieldNo := OrganizationStructureList.FieldNo(Code);//assign Field Id Of code
                 end;
             DeputationOn::Province:
                 begin
-                    RecRef.Open(Database::Province);
-                    FieldRefs := RecRef.Field(7);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 2;
-                    FieldNo := 1;
+                    // RecRef.Open(Database::Province);
+                    // FieldRefs := RecRef.Field(7);
+                    // FieldRefs.SetRange(false);
+                    // DescFieldNo := 2;
+                    // FieldNo := 1;
+                    Clear(OrganizationStructure);
+                    OrganizationStructure := OrganizationStructure::Province;
+                    RecRef.Open(Database::"Organization Structure List");
+                    FieldRefs := RecRef.Field(1);//Field One have Organization structure type
+                    FieldRefs.SetRange(OrganizationStructure.AsInteger()); //Filter type province
+                    FieldRefs := RecRef.Field(10); //Filed 10 have Blocked 
+                    FieldRefs.SetRange(false); //filter This Value
+                    DescFieldNo := OrganizationStructureList.FieldNo(Name); //assign filed Id of Name 
+                    FieldNo := OrganizationStructureList.FieldNo(Code);//assign Field Id Of code
                 end;
-            DeputationOn::"Sub Province":
-                begin
-                    RecRef.Open(Database::"Sub Province");
-                    FieldRefs := RecRef.Field(60001);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 2;
-                    FieldNo := 1;
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         RecRef.Open(Database::"Sub Province");
+            //         FieldRefs := RecRef.Field(60001);
+            //         FieldRefs.SetRange(false);
+            //         DescFieldNo := 2;
+            //         FieldNo := 1;
+            //     end;
             DeputationOn::Unit:
                 begin
-                    RecRef.Open(Database::"Employee Hierarchy Master");
-                    FieldRefs := RecRef.Field(4);
-                    FieldRefs.SetRange(3);
-                    FieldRefs := RecRef.Field(9);
-                    FieldRefs.SetRange(false);
-                    DescFieldNo := 2;
-                    FieldNo := 1;
+                    // RecRef.Open(Database::"Employee Hierarchy Master");
+                    // FieldRefs := RecRef.Field(4);
+                    // FieldRefs.SetRange(3);
+                    // FieldRefs := RecRef.Field(9);
+                    // FieldRefs.SetRange(false);
+                    // DescFieldNo := 2;
+                    // FieldNo := 1;
+                    Clear(OrganizationStructure);
+                    OrganizationStructure := OrganizationStructure::unit;
+                    RecRef.Open(Database::"Organization Structure List");
+                    FieldRefs := RecRef.Field(1);//Field One have Organization structure type
+                    FieldRefs.SetRange(OrganizationStructure.AsInteger()); //Filter type unit
+                    FieldRefs := RecRef.Field(10); //Filed 10 have Blocked 
+                    FieldRefs.SetRange(false); //filter This Value
+                    DescFieldNo := OrganizationStructureList.FieldNo(Name); //assign filed Id of Name 
+                    FieldNo := OrganizationStructureList.FieldNo(Code);//assign Field Id Of code
                 end;
         end;
 

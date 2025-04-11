@@ -300,9 +300,9 @@ codeunit 50003 "AppraisalMgt."
         if AppraisalRec."Deputation on" in [AppraisalRec."Deputation on"::Branch, AppraisalRec."Deputation on"::"Extension Counter"] then
             KRAMaster.SetRange("Sol Id", AppraisalRec."Sol Id")
         else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::Province then
-            KRAMaster.SetRange("Province Code", AppraisalRec.Province)
-        else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
-            KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
+            KRAMaster.SetRange("Province Code", AppraisalRec.Province);
+        // else if AppraisalRec."Deputation on" = AppraisalRec."Deputation on"::"Sub Province" then
+        // KRAMaster.SetRange("Sub Province Code", AppraisalRec."Sub-Province");
         if KRAMaster.FindFirst then
             repeat
                 EmployeeKPI.Reset;

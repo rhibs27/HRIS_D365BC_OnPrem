@@ -5,12 +5,11 @@ table 50051 "Required Emp In Branch"
     {
         field(1; "Code"; Code[20])
         {
-            TableRelation = if ("Deputation On" = const(Branch)) "Dimension Value".Code where("Global Dimension No." = const(1))
-            else if ("Deputation On" = const(Department)) Department
-            else if ("Deputation On" = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"))
-            else if ("Deputation On" = const(Province)) Province.Code
-            else if ("Deputation On" = const("Sub Province")) "Sub Province".Code
-            else if ("Deputation On" = const(Unit)) "Employee Hierarchy Master".Code where(Type = const(Unit));
+            TableRelation = if ("Deputation On" = filter("Deputation Type"::Branch)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Branch))
+            else if ("Deputation On" = filter("Deputation Type"::Department)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department))
+            else if ("Deputation On" = filter("Deputation Type"::"Extension Counter")) "Organization Structure List".Code where(Type = filter("Organization Structure list"::"Extension Counter"))
+            else if ("Deputation On" = filter("Deputation Type"::Province)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Province))
+            else if ("Deputation On" = filter("Deputation Type"::Unit)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Unit));
         }
         field(2; Description; Text[50]) { }
         field(3; "Functional Title"; Code[20])
@@ -43,10 +42,10 @@ table 50051 "Required Emp In Branch"
         {
             Editable = false;
         }
-        field(8; "Reporting Category"; Code[20])
-        {
-            TableRelation = "Reporting Category";
-        }
+        // field(8; "Reporting Category"; Code[20])
+        // {
+        //     // TableRelation = "Reporting Category";
+        // }
         field(9; "Deputation On"; Enum "Deputation Type")
         {
 

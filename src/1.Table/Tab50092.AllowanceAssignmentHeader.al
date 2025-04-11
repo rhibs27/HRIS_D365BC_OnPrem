@@ -9,8 +9,8 @@ table 50092 "Allowance Assignment Header"
         field(2; "Code"; Code[20])
         {
             NotBlank = true;
-            TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'))
-            else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
 
             trigger OnValidate()
             begin
@@ -24,16 +24,13 @@ table 50092 "Allowance Assignment Header"
                 if Type = Type::Branch then begin
                     if Code <> '' then
                         TestField(Code, Employee."Global Dimension 1 Code");
-                    DimensionValue.Get(GLsetup."Global Dimension 1 Code", Code);
-                    Validate(Name, DimensionValue.Name);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
+                        Name := OrganizationStructureList.Name;
                 end else if Type = Type::"Extension Counter" then begin
                     if Code <> '' then
                         TestField(Code, Employee."Extension Counter Code");
-                    EmployeeHie.Reset;
-                    EmployeeHie.SetRange(Type, EmployeeHie.Type::"Extension Counter");
-                    EmployeeHie.SetRange(Code, Code);
-                    if EmployeeHie.FindFirst then
-                        Validate(Name, EmployeeHie.Description);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
+                        Name := OrganizationStructureList.Name;
                 end;
 
                 //GetApprover();
@@ -177,10 +174,11 @@ table 50092 "Allowance Assignment Header"
         Employee: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
         HrMgt: Codeunit "HR Mgt.";
-        DimensionValue: Record "Dimension Value";
+        OrganizationStructureList: Record "Organization Structure List";
+        // DimensionValue: Record "Dimension Value";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
-        EmployeeHie: Record "Employee Hierarchy Master";
+    // EmployeeHie: Record "Employee Hierarchy Master";
 
     local procedure GetEntryNo()
     var

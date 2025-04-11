@@ -22073,16 +22073,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Reason Description - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3821175371 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3821175371 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3821175371 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22113,10 +22103,150 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3821175371 - Control 2969163710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remark</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Remark - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3821175371 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3821175371 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Control Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3821175371 - Action 1068937304 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Apply action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Apply - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3821175371 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Approve - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3821175371 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancel Document - Action Reject - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>cancelledDocument</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control approvalStatus - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3117935225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control approvedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3455460693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 2464229031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control cancelledDocumentNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 2188911869 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control employeeWorkShift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3309971885 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control endDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 2690537526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control endDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 683193535 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control fiscalYear - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 1120906969 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control functionalTitle - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3695802858 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control leaveCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 4252093647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control leaveDescription - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3179096107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control no - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 35246585 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control noOfDays - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3267555162 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control rejectionRemarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3837270088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control requestedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3818733960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control startDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 4245155983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control startDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 998393528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3922887969 - Control 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Cancelled Document Entity - Control type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4281285454 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
@@ -33103,6 +33233,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1942697859 - Control 4069904181 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Cancelled field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Control Cancelled - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1942697859 - Control 4018288816 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Compensatory Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33132,11 +33267,6 @@
           <source>Specifies the value of the Leave Description field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Control Leave Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1942697859 - Control 3465265737 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the LFA Paid field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Requests - Control LFA Paid - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1942697859 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
@@ -39328,20 +39458,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Activity Card - Action Reopen - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 5914874 - Control 686971136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>For Rejection</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control For Rejection - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 5914874 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 5914874 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 4069904181 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Cancelled field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Cancelled - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 1285698168 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Cancelled No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Cancelled No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 5914874 - Control 3997337331 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Child's Gender field.</source>
@@ -39423,11 +39553,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Pay Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 5914874 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 5914874 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39457,6 +39582,21 @@
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 2969163710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remark</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Remark - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 5914874 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Control Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 5914874 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
@@ -49183,6 +49323,111 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Validate Travel Claim - Control Leave Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn approvalStatus - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3117935225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn approvedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3455460693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 2464229031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn cancelledDocumentNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 2188911869 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn employeeWorkShift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3309971885 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn endDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 2690537526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn endDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 683193535 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn fiscalYear - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 1120906969 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn functionalTitle - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3695802858 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn leaveCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 4252093647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn leaveDescription - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 35246585 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn noOfDays - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3267555162 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn rejectionRemarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3837270088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn requestedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3818733960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn startDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 4245155983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn startDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 998393528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 193572365 - QueryColumn 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Query 1936714861 - QueryColumn 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51158,6 +51403,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control BMAF Dist. Criteria (T) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1144953648 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Cancelled Allowed Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Cancelled Allowed Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2834319086 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Outstation Dist. Criteria (H) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51674,7 +51924,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - NamedType Text007</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - NamedType 3921243024" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>Mobile No. must be 10 digits.</source>
+          <source>Mobile No. must be 15 digits.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - NamedType Text009</note>
         </trans-unit>
@@ -52977,6 +53227,11 @@
           <source>Cancel Document No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Cancel Document No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1144953648 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Cancelled Allowed Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Cancelled Allowed Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 4169653403 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Candidate Nos.</source>
@@ -55252,6 +55507,11 @@
           <source>Bulk Cash</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Bulk Cash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 3821175371 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancel Document</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Cancel Document - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 1945176490 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Edit</source>

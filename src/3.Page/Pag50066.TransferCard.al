@@ -2,7 +2,6 @@ page 50066 "Transfer Card"
 {
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
     // //Min 12.11.2022 -- for uneditable transfer effective date
-
     SourceTable = "Employee/HR Transfer";
     ApplicationArea = All;
 
@@ -234,21 +233,21 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the BranchName field.';
                         ApplicationArea = All;
                     }
-                    field("Sub Province Code"; Rec."Sub Province Code")
-                    {
-                        ToolTip = 'Specifies the value of the Sub Province Code field.';
-                        ApplicationArea = All;
+                    // field("Sub Province Code"; Rec."Sub Province Code")
+                    // {
+                    //     ToolTip = 'Specifies the value of the Sub Province Code field.';
+                    //     ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("Sub-Province Name"; SubProvinceName)
-                    {
-                        ToolTip = 'Specifies the value of the SubProvinceName field.';
-                        ApplicationArea = All;
-                    }
+                    //     trigger OnValidate()
+                    //     begin
+                    //         GetTransferName;
+                    //     end;
+                    // }
+                    // field("Sub-Province Name"; SubProvinceName)
+                    // {
+                    //     ToolTip = 'Specifies the value of the SubProvinceName field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Province Code"; Rec."Province Code")
                     {
                         ToolTip = 'Specifies the value of the Province Code field.';
@@ -294,11 +293,11 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the DepartmentName field.';
                         ApplicationArea = All;
                     }
-                    field("Office Code"; Rec."Office Code")
-                    {
-                        ToolTip = 'Specifies the value of the Office Code field.';
-                        ApplicationArea = All;
-                    }
+                    // field("Office Code"; Rec."Office Code")
+                    // {
+                    //     ToolTip = 'Specifies the value of the Office Code field.';
+                    //     ApplicationArea = All;
+                    // }
                 }
                 group("Proposed Placement")
                 {
@@ -368,23 +367,23 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the BranchNameTo field.';
                         ApplicationArea = All;
                     }
-                    field("Sub Province Code (To)"; Rec."Sub Province Code (To)")
-                    {
-                        Editable = SubProvinceEdit;
-                        ToolTip = 'Specifies the value of the Sub Province Code (To) field.';
-                        ApplicationArea = All;
+                    // field("Sub Province Code (To)"; Rec."Sub Province Code (To)")
+                    // {
+                    //     Editable = // SubProvinceEdit := false;;
+                    //     ToolTip = 'Specifies the value of the Sub Province Code (To) field.';
+                    //     ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("SubProvince Name To"; SubProvinceNameTo)
-                    {
-                        Editable = false;
-                        ToolTip = 'Specifies the value of the SubProvinceNameTo field.';
-                        ApplicationArea = All;
-                    }
+                    //     trigger OnValidate()
+                    //     begin
+                    //         GetTransferName;
+                    //     end;
+                    // }
+                    // field("SubProvince Name To"; SubProvinceNameTo)
+                    // {
+                    //     Editable = false;
+                    //     ToolTip = 'Specifies the value of the SubProvinceNameTo field.';
+                    //     ApplicationArea = All;
+                    // }
                     field("Province Code (To)"; Rec."Province Code (To)")
                     {
                         Editable = ProvinceEdit;
@@ -981,7 +980,7 @@ page 50066 "Transfer Card"
         ExtensionName: Text;
         UnitName: Text;
         [InDataSet]
-        SubProvinceEdit: Boolean;
+        // // SubProvinceEdit := false;: Boolean;
         [InDataSet]
         ExtensionCounterEdit: Boolean;
         TempEmpActivity: Record "Employee Activity" temporary;
@@ -1041,7 +1040,7 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // // SubProvinceEdit := false; := false; := false;
                     ExtensionCounterEdit := true;
                     UnitEdit := false;
                     DepartEdit := false;
@@ -1050,7 +1049,7 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := true;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := false;
@@ -1059,25 +1058,25 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := true;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := false;
                 end;
-            Rec."Deputation On (To)"::"Sub Province":
-                begin
-                    BranchEdit := false;
-                    ProvinceEdit := false;
-                    SubProvinceEdit := true;
-                    ExtensionCounterEdit := false;
-                    UnitEdit := false;
-                    DepartEdit := false;
-                end;
+            // Rec."Deputation On (To)"::"Sub Province":
+            //     begin
+            //         BranchEdit := false;
+            //         ProvinceEdit := false;
+            //         // SubProvinceEdit := false; := true;
+            //         ExtensionCounterEdit := false;
+            //         UnitEdit := false;
+            //         DepartEdit := false;
+            //     end;
             Rec."Deputation On (To)"::Unit:
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := true;
                     DepartEdit := false;
@@ -1087,7 +1086,7 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    SubProvinceEdit := false;
+                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := true;
@@ -1112,11 +1111,12 @@ page 50066 "Transfer Card"
     local procedure GetTransferName()
     var
         GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
-        DepartVar: Record Department;
+        // DimValue: Record "Dimension Value";
+        // DepartVar: Record Department;
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
+    // SubProvinceVar: Record "Sub Province";
+    // EmpHie: Record "Employee Hierarchy Master";
     begin
         Clear(BranchName);
         Clear(BranchNameTo);
@@ -1130,6 +1130,7 @@ page 50066 "Transfer Card"
         Clear(UnitName);
         Clear(ExtensionName);
         Clear(ExtensionNameTo);
+        Clear(OrganizationStructureList);
         GLSetup.Get;
 
         if FunctionalTitle.Get(Rec."Functional Title") then
@@ -1137,17 +1138,17 @@ page 50066 "Transfer Card"
         if FunctionalTitle.Get(Rec."Functional Title (To)") then
             FunctionalDescTo := FunctionalTitle.Description;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
-            BranchName := DimValue.Name;
+        // if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
+        //     BranchName := DimValue.Name;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
-            BranchNameTo := DimValue.Name;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Rec."Shortcut Dimension 1 Code (To)") then
+            BranchNameTo := OrganizationStructureList.Name;
 
-        if DepartVar.Get(Rec.Department) then
-            DepartmentName := DepartVar.Name;
+        // if DepartVar.Get(Rec.Department) then
+        //     DepartmentName := DepartVar.Name;
 
-        if DepartVar.Get(Rec."Department Code (To)") then
-            DepartmentNameTo := DepartVar.Name;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::Department, Rec."Department Code (To)") then
+            DepartmentNameTo := OrganizationStructureList.Name;
 
         if ProvinceVar.Get(Rec."Province Code") then
             ProvinceName := ProvinceVar.Description;
@@ -1155,39 +1156,49 @@ page 50066 "Transfer Card"
         if ProvinceVar.Get(Rec."Province Code (To)") then
             ProvinceNameTo := ProvinceVar.Description;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            SubProvinceName := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceName := SubProvinceVar.City;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            SubProvinceNameTo := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceNameTo := SubProvinceVar.City;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit Code");
-        if EmpHie.FindFirst then
-            UnitName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, Rec."Unit Code");
+        // if EmpHie.FindFirst then
+        //     UnitName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit (To)");
-        if EmpHie.FindFirst then
-            UnitNameTo := EmpHie.Description;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::unit, Rec."Unit Code") then
+            UnitName := OrganizationStructureList.Name;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter Code");
-        if EmpHie.FindFirst then
-            ExtensionName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, Rec."Unit (To)");
+        // if EmpHie.FindFirst then
+        //     UnitNameTo := EmpHie.Description;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::unit, Rec."Unit (To)") then
+            UnitNameTo := OrganizationStructureList.Name;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-        if EmpHie.FindFirst then
-            ExtensionNameTo := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, Rec."Extension Counter Code");
+        // if EmpHie.FindFirst then
+        //     ExtensionName := EmpHie.Description;
+
+        if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Rec."Extension Counter Code") then
+            ExtensionName := OrganizationStructureList.Name;
+
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, Rec."Extension Counter (To)");
+        // if EmpHie.FindFirst then
+        //     ExtensionNameTo := EmpHie.Description;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Rec."Extension Counter (To)") then
+            ExtensionNameTo := OrganizationStructureList.Name;
     end;
 
     procedure GetTransferEditibility()

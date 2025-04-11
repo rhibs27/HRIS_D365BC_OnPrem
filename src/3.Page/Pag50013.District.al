@@ -1,4 +1,4 @@
-page 50013 "District List Page"
+page 50013 "District"
 {
     PageType = List;
     SourceTable = District;
@@ -30,14 +30,14 @@ page 50013 "District List Page"
                     ToolTip = 'Specifies the value of the Province Name field.';
                     ApplicationArea = All;
                 }
-                field("Sub-Province Code"; Rec."Sub-Province Code")
+                field(Region; Rec.Region)
                 {
-                    ToolTip = 'Specifies the value of the Sub-Province Code field.';
+                    ToolTip = 'Specifies the value of the Region field.';
                     ApplicationArea = All;
                 }
-                field("Sub-Province Name"; Rec."Sub-Province Name")
+                field("InsideOutside Valley"; Rec."InsideOutside Valley")
                 {
-                    ToolTip = 'Specifies the value of the Sub-Province Name field.';
+                    ToolTip = 'Specifies the value of the InsideOutside Valley field.';
                     ApplicationArea = All;
                 }
                 field("District Name(Nepali)"; Rec."District Name(Nepali)")

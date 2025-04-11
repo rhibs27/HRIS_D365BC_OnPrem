@@ -28,7 +28,7 @@ table 50131 "KPI Master Bank"
         }
         field(6; "Department Code"; Code[20])
         {
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
         }
         field(7; Type; Enum "KPI Master Type")
         {

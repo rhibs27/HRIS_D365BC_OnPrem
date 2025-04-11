@@ -69,7 +69,8 @@ report 50000 "Validate Travel Claim"
         WeekVar: Option " ","Week 1","Week 2","Week 3","Week 4";
         Month: Enum "English Month";
         Year: Integer;
-        EmpHie: Record "Employee Hierarchy Master";
+        // EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
         EntryNo: Integer;
         PGSetup: Record "Payroll General Setup";
         AllowanceLine: Record "Allowance Assignment Line";
@@ -178,7 +179,7 @@ report 50000 "Validate Travel Claim"
                 Employee.Get(DetailedLedgerEntry."Employee No.");
                 PayrollAttribtes.Get(DetailedLedgerEntry."Payroll Attribute Code");
                 if PayrollAttribtes.Type in [PayrollAttribtes.Type::Benefits, PayrollAttribtes.Type::"Non-Payment"] then begin
-                    if Employee."Deputation on" in [Employee."Deputation on"::"Sub Province", Employee."Deputation on"::"Sub Province"] then
+                    if Employee."Deputation on" in [Employee."Deputation on"::"Province"] then
                         DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."GL Code for Region")
                     else
                         DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."GL Code For Branch");
@@ -208,8 +209,8 @@ report 50000 "Validate Travel Claim"
                         Employee.Validate("Extension Counter Code");
                     Employee."Deputation on"::Province:
                         Employee.Validate("Province Code");
-                    Employee."Deputation on"::"Sub Province":
-                        Employee.Validate("Sub Province Code");
+                    // Employee."Deputation on"::"Sub Province":
+                    //     Employee.Validate("Sub Province Code");
                     Employee."Deputation on"::Unit:
                         Employee.Validate("Unit Code");
                 end;
@@ -312,14 +313,14 @@ report 50000 "Validate Travel Claim"
                 end;
             until DimValue.Next = 0;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        if EmpHie.Find('-') then
+        OrganizationStructureList.Reset;
+        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
+        if OrganizationStructureList.Find('-') then
             repeat
 
                 AllowanceHeader.Reset;
                 AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
-                AllowanceHeader.SetRange(Code, EmpHie.Code);
+                AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
                 AllowanceHeader.SetRange(Week, WeekVar);
                 AllowanceHeader.SetRange("English Month", Month);
                 AllowanceHeader.SetRange("English Year", Year);
@@ -327,14 +328,14 @@ report 50000 "Validate Travel Claim"
                     AllowanceHeader.Init;
                     AllowanceHeader.Validate("Entry No.", EntryNo);
                     AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
-                    AllowanceHeader.Validate(Code, EmpHie.Code);
+                    AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                     AllowanceHeader.Validate("English Year", Year);
                     AllowanceHeader.Validate("English Month", Month);
                     AllowanceHeader.Validate(Week, WeekVar);
                     EntryNo := EntryNo + 1;
                     AllowanceHeader.Insert(true)
                 end;
-            until EmpHie.Next = 0;
+            until OrganizationStructureList.Next = 0;
     end;
 
     local procedure ValidateRiskAllowanceAmt()

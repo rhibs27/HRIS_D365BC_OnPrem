@@ -38,7 +38,7 @@ report 50013 "Trainee Perf. Eval. Form"
                             GenderCode := 'his'
                         else if Employee.Gender = Employee.Gender::Female then
                             GenderCode := 'her';
-                        EmpDept := Employee."Company Code";
+                        // EmpDept := Employee."Company Code";
                     end;
                 end;
                 ApplicationInfo := 'We would like to update HR department that <b>' + Format(Employee.Salutation) + Employee.FullName +

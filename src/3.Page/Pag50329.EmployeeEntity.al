@@ -212,14 +212,14 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Unit Name';
                 }
-                field(ecoSystem; Rec."Eco-System")
-                {
-                    Caption = 'Eco-System';
-                }
-                field(office; Rec.Office)
-                {
-                    Caption = 'Office';
-                }
+                // field(ecoSystem; Rec."Eco-System")
+                // {
+                //     Caption = 'Eco-System';
+                // }
+                // field(office; Rec.Office)
+                // {
+                //     Caption = 'Office';
+                // }
                 field(provinceCode; Rec."Province Code")
                 {
                     Caption = 'Province Code';
@@ -228,18 +228,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Province Name';
                 }
-                field(subProvinceCode; Rec."Sub Province Code")
-                {
-                    Caption = 'Sub Province Code';
-                }
-                field(subProvinceName; Rec."Sub Province Name")
-                {
-                    Caption = 'Sub Province Name';
-                }
-                field(cluster; Rec.Cluster)
-                {
-                    Caption = 'Cluster';
-                }
+                // field(cluster; Rec.Cluster)
+                // {
+                //     Caption = 'Cluster';
+                // }
                 field(branchName; Rec."Branch Name")
                 {
                     Caption = 'Branch Name';

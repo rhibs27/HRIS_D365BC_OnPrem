@@ -2,7 +2,7 @@ page 50297 "KPI Appraisals Department"
 {
     // version KPI1.00
 
-    CardPageId = "Extension Counter Entity";
+    // CardPageId = "Extension Counter Entity";
     PageType = List;
     SourceTable = "KPI Appraisal Header Bank";
     ApplicationArea = All;

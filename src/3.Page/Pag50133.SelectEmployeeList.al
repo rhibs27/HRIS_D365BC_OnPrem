@@ -53,12 +53,6 @@ page 50133 "Select Employee List"
                     ToolTip = 'Specifies the value of the Province Name field.';
                     ApplicationArea = All;
                 }
-                field("Sub Province Name"; Rec."Sub Province Name")
-                {
-                    Caption = 'Sub-Province Name';
-                    ToolTip = 'Specifies the value of the Sub-Province Name field.';
-                    ApplicationArea = All;
-                }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';

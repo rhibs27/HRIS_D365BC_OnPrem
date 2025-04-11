@@ -9,21 +9,18 @@ table 50091 "Branchwise/Extension Allowance"
     {
         field(1; "Code"; Code[20])
         {
-            TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'))
-            else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
 
             trigger OnValidate()
             begin
                 Clear(Name);
                 if Type = Type::Branch then begin
-                    if DimensionValue.Get('BRANCH', Code) then
-                        Name := DimensionValue.Name;
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
+                        Name := OrganizationStructureList.Name;
                 end else if Type = Type::"Extension Counter" then begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Code);
-                    if EmpHie.FindFirst then
-                        Validate(Name, EmpHie.Description);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
+                        Name := OrganizationStructureList.Name;
                 end;
             end;
         }
@@ -54,6 +51,5 @@ table 50091 "Branchwise/Extension Allowance"
     fieldgroups { }
 
     var
-        DimensionValue: Record "Dimension Value";
-        EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
 }

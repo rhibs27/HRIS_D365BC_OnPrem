@@ -14,7 +14,7 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50003; "Inside/Outisde Valley"; Enum "Outside/Inside Valley")
+        field(50003; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
         {
             DataClassification = ToBeClassified;
 
@@ -56,8 +56,8 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             Employee.SetFilter("Province Code", "Province Filter");
         if "Gender Filter" <> "Gender Filter"::" " then
             Employee.SetRange(Gender, "Gender Filter");
-        if "Inside/Outisde Valley" <> "Inside/Outisde Valley"::" " then
-            Employee.SetRange("Inside/Outisde Valley", "Inside/Outisde Valley");
+        if "Inside/Outside Valley" <> "Inside/Outside Valley"::" " then
+            Employee.SetRange("Inside/Outside Valley", "Inside/Outside Valley");
         if "Posting Region" <> "Posting Region"::" " then
             Employee.SetRange("Posting Region", "Posting Region");
         if "Shortcut Dimension 1 Code" <> '' then

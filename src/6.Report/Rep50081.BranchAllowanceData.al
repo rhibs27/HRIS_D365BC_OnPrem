@@ -62,23 +62,23 @@ report 50081 "Branch Allowance Data"
                             if Type = Type::Branch then
                                 Employee.SetRange("Global Dimension 1 Code", Code)
                             else begin
-                                EmpHie.Reset;
-                                EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                EmpHie.SetRange(Code, Code);
-                                EmpHie.SetRange(Blocked, false);
+                                // EmpHie.Reset;
+                                // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                                // EmpHie.SetRange(Code, Code);
+                                // EmpHie.SetRange(Blocked, false);
 
-                                if EmpHie.FindFirst then
-                                    Employee.SetRange("Global Dimension 1 Code", EmpHie."Shortcut Dimension 1 Code");
+                                // if EmpHie.FindFirst then
+                                //     Employee.SetRange("Global Dimension 1 Code", EmpHie."Shortcut Dimension 1 Code");
                             end;
-                            if EmpHie."Shortcut Dimension 1 Code" <> '' then begin
-                                if Employee.Find('-') then
-                                    repeat
-                                        if EmailBM = '' then
-                                            EmailBM := Employee."Company E-Mail"
-                                        else
-                                            EmailBM += ', ' + Employee."Company E-Mail";
-                                    until Employee.Next = 0;
-                            end;
+                            // if EmpHie."Shortcut Dimension 1 Code" <> '' then begin
+                            if Employee.Find('-') then
+                                repeat
+                                    if EmailBM = '' then
+                                        EmailBM := Employee."Company E-Mail"
+                                    else
+                                        EmailBM += ', ' + Employee."Company E-Mail";
+                                until Employee.Next = 0;
+                        // end;
                         until FunctionalTitle.Next = 0;
                 end;
 
@@ -146,5 +146,5 @@ report 50081 "Branch Allowance Data"
         EngNepDate: Record "English-Nepali Date";
         EnglishMonth: Enum "English Month";
         EnglishYear: Integer;
-        EmpHie: Record "Employee Hierarchy Master";
+    // EmpHie: Record "Employee Hierarchy Master";
 }

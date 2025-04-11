@@ -79,7 +79,7 @@ report 50058 "Salary Sheet Monthwise"
 
                     if Subtype in [Subtype::"Lump Sum Contribution", Subtype::"Tax on Interest"] then
                         CurrReport.Skip;
-                    if EmpDes.Get(EmpVar.Office) then;
+                    // if EmpDes.Get(EmpVar.Office) then;
 
                     SortinNo := 0;
                     PayrollColumnConfig.Reset;

@@ -81,7 +81,7 @@ report 50135 "Extra Mileage EMail Send"
         EmailReceipent: Record "Agile Email Recipient";
         EmailReceipentRec: Record "Agile Email Recipient";
         EmailText: Text;
-        Department: Record Department;
+    // Department: Record Department;
 
     local procedure SendMailExtraMileage()
     var
@@ -106,14 +106,14 @@ report 50135 "Extra Mileage EMail Send"
         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
         if SendEmailToBranch then
             EmployeeRec.SetFilter("Functional Title", 'BM|OBM')
-        else if SendEmailToProvince then
-            EmployeeRec.SetRange(COPO, true)
+        // else if SendEmailToProvince then
+        //     EmployeeRec.SetRange(COPO, true)
         else if SendEmailToSubProvince then
-            EmployeeRec.SetFilter("Functional Title", 'COSPO|COSPOMN')
-        else if SendEmailToDepartmentHead then
-            EmployeeRec.SetRange("Department Head", true)
-        else if SendEmailToEcosystemHead then
-            EmployeeRec.SetRange("Chief Of Eco-System", true);
+            EmployeeRec.SetFilter("Functional Title", 'COSPO|COSPOMN');
+        // else if SendEmailToDepartmentHead then
+        //     EmployeeRec.SetRange("Department Head", true)
+        // else if SendEmailToEcosystemHead then
+        //     EmployeeRec.SetRange("Chief Of Eco-System", true);
         if EmployeeRec.FindFirst then
             repeat
                 Clear(ExtraMileageReport);
@@ -145,17 +145,18 @@ report 50135 "Extra Mileage EMail Send"
                     end else if SendEmailToBranch then begin
                         ExtraMileageReport.PassBranchEmailSend(EmployeeRec."Global Dimension 1 Code");
                         CodeunitEmailMessage.AppendToBody(EmployeeRec.FieldCaption("Branch Name") + Colon + EmployeeRec."Branch Name");
-                    end else if SendEmailToSubProvince then begin
-                        ExtraMileageReport.PassSubProvinceEmailSend(EmployeeRec."Sub Province Code");
-                        CodeunitEmailMessage.AppendToBody(EmployeeRec.FieldCaption("Sub Province Name") + Colon + EmployeeRec."Sub Province Name");
+                        // end else if SendEmailToSubProvince then begin
+                        //     ExtraMileageReport.PassSubProvinceEmailSend(EmployeeRec."Sub Province Code");
+                        //     CodeunitEmailMessage.AppendToBody(EmployeeRec.FieldCaption("Sub Province Name") + Colon + EmployeeRec."Sub Province Name");
                     end else if SendEmailToDepartmentHead then begin
                         ExtraMileageReport.PassDepartmentEmailSend(EmployeeRec."Department Code");
                         CodeunitEmailMessage.AppendToBody(EmployeeRec.FieldCaption("Department Name") + Colon + EmployeeRec."Department Name");
-                    end else if SendEmailToEcosystemHead then begin
-                        ExtraMileageReport.PassEcoSystemEmailSend(EmployeeRec."Eco-System");
-                        Department.Get(EmployeeRec."Department Code");
-                        CodeunitEmailMessage.AppendToBody('Eco-System Name' + Colon + Department."Eco-System Description");
                     end;
+                    // else if SendEmailToEcosystemHead then begin
+                    //     ExtraMileageReport.PassEcoSystemEmailSend(EmployeeRec."Eco-System");
+                    //     Department.Get(EmployeeRec."Department Code");
+                    //     CodeunitEmailMessage.AppendToBody('Eco-System Name' + Colon + Department."Eco-System Description");
+                    // end;
                     CodeunitEmailMessage.AppendToBody('<br><br>');
                     CodeunitEmailMessage.AppendToBody(Footer);
                     if SendEmailToProvince then begin

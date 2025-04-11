@@ -1875,62 +1875,53 @@ table 50027 "Payroll Line"
 
     local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type"): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
-        Province: Record Province;
-        GLSetup: Record "General Ledger Setup";
+        OrganizationStructureList: Record "Organization Structure List";
+    // DimValue: Record "Dimension Value";
+    // Depart: Record Department;
+    // EmpHie: Record "Employee Hierarchy Master";
+    // SubProvince: Record "Sub Province";
+    // Province: Record Province;
+    // GLSetup: Record "General Ledger Setup";
     begin
-        Clear(DimValue);
-        GLSetup.Get;
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
-        Clear(Province);
+        // Clear(DimValue);
+        // GLSetup.Get;
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-                        exit(DimValue.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then
-                        exit(Depart.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Employee."Department Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Employee."Extension Counter Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.Code);
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.Code);
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Employee."Unit Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
 
             DeputationOn::Province:
                 begin
-                    if Province.Get(Employee."Province Code") then
-                        exit(Province.Code);
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, Employee."province Code") then
+                        exit(OrganizationStructureList.Code);
                 end;
         end;
     end;

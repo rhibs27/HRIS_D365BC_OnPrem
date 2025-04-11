@@ -29,9 +29,9 @@ report 50116 "Payroll Details"
                     column(DeputationCode; "Deputation Code") { }
                     column(SalaryLevelDescription; SalaryLevel.Description) { }
                     column(FunctionalTitleVarDescription; FunctionalTitleVar.Description) { }
-                    column(DepartmentVarName; DepartmentVar.Name) { }
+                    // column(DepartmentVarName; DepartmentVar.Name) { }
                     column(CurrentDeduction; CurrentDeduction) { }
-                    column(DepartmentVarCode; DepartmentVar.Code) { }
+                    // column(DepartmentVarCode; DepartmentVar.Code) { }
                     column(NetPay; NetPay) { }
                     column(MaritalStatus_PostedPayrollLine; "Posted Payroll Line"."Marital Status") { }
                     column(Gender_PostedPayrollLine; "Posted Payroll Line".Gender) { }
@@ -86,47 +86,52 @@ report 50116 "Payroll Details"
                     begin
                         Clear(SalaryLevel);
                         Clear(FunctionalTitleVar);
-                        Clear(DepartmentVar);
+                        // Clear(DepartmentVar);
 
                         if DepartmentFilter <> '' then begin
                             if not ("Deputation On" in ["Deputation On"::Department, "Deputation On"::Unit]) then
                                 CurrReport.Skip;
                             if "Deputation On" = "Deputation On"::Unit then begin
-                                EmpHie.Reset;
-                                EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                                EmpHie.SetRange(Code, "Deputation Code");
-                                if EmpHie.FindFirst then
-                                    if DepartmentVar.Get(EmpHie."Department Code") then;
-                                if DepartmentVar.Code <> DepartmentFilter then
-                                    CurrReport.Skip;
+                                // EmpHie.Reset;
+                                // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                                // EmpHie.SetRange(Code, "Deputation Code");
+                                // if EmpHie.FindFirst then
+                                //     if DepartmentVar.Get(EmpHie."Department Code") then;
+                                OrganizationStructureList.Reset();
+                                if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Deputation Code") then
+                                    if OrganizationStructureList.Code <> DepartmentFilter then
+                                        CurrReport.Skip;
                             end;
                             if "Deputation On" = "Deputation On"::Department then begin
                                 if DepartmentFilter <> "Posted Payroll Line"."Deputation Code" then
                                     CurrReport.Skip;
                             end;
                         end;
-                        Clear(DepartmentVar);
+                        // Clear(DepartmentVar);
+                        OrganizationStructureList.Reset();
 
                         if SalaryLevel.Get("Posted Payroll Line"."Salary Level") then;
                         if FunctionalTitleVar.Get("Posted Payroll Line"."Functional Title") then;
 
                         if "Deputation On" = "Deputation On"::Department then
-                            if DepartmentVar.Get("Deputation Code") then;
+                            if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Deputation Code") then;
 
                         if "Deputation On" = "Deputation On"::Unit then begin
-                            EmpHie.Reset;
-                            EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                            EmpHie.SetRange(Code, "Deputation Code");
-                            if EmpHie.FindFirst then
-                                if DepartmentVar.Get(EmpHie."Department Code") then;
-                        end;
-                        Clear(NetPay);
-                        Clear(CurrentDeduction);
-                        FirstTime := true;
-                        if Employee.Get("Posted Payroll Line"."Employee No.") then begin //Min
-                            EmployeeSalaryLevel := Employee."Salary Level";
-                            EmployeePanNo := Employee."PAN No.";
-                            EmployeeSalaryLevelDesc := Employee."Salary Level Description";
+                            // OrganizationStructureList.Reset;
+                            if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Deputation Code") then;
+                            // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                            // EmpHie.SetRange(Code, "Deputation Code");
+                            // if EmpHie.FindFirst then
+                            //     if DepartmentVar.Get(EmpHie."Department Code") then;
+                            // end;
+                            Clear(NetPay);
+                            Clear(CurrentDeduction);
+                            FirstTime := true;
+                            if Employee.Get("Posted Payroll Line"."Employee No.") then begin //Min
+                                EmployeeSalaryLevel := Employee."Salary Level";
+                                EmployeePanNo := Employee."PAN No.";
+                                EmployeeSalaryLevelDesc := Employee."Salary Level Description";
+                            end;
                         end;
                     end;
 
@@ -170,7 +175,7 @@ report 50116 "Payroll Details"
                 }
                 field(Department; DepartmentFilter)
                 {
-                    TableRelation = Department;
+                    TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
                     ToolTip = 'Specifies the value of the DepartmentFilter field.';
                     ApplicationArea = All;
                 }
@@ -218,8 +223,8 @@ report 50116 "Payroll Details"
         FieldRefs: FieldRef;
         PayrollColumnConfig: Record "Payroll Column Configuration";
         Amt: Decimal;
-        DepartmentVar: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
+        // DepartmentVar: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
         DepartmentFilter: Text;
         SalaryLevelFilter: Text;
         FunctionalTitleFilter: Text;
@@ -234,4 +239,5 @@ report 50116 "Payroll Details"
         EmployeePanNo: Code[20];
         EmployeeSalaryLevelDesc: Text;
         PayrollAttributeFilter: Code[20];
+        OrganizationStructureList: Record "Organization Structure List";
 }

@@ -38,20 +38,21 @@ table 50140 "Employee/HR Transfer"
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    Validate("Branch Name", EmpVar."Branch Name");
                     Validate(Department, EmpVar."Department Code");
+                    Validate("Province Code", EmpVar."Province Code");
+                    Validate("Department Name", EmpVar."Department Name");
                     Validate("Deputation On", EmpVar."Deputation on");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Sub Province Code", EmpVar."Sub Province Code");
-                    Validate("Province Code", EmpVar."Province Code");
+                    // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     /*VALIDATE("Compensatory Days", EmpVar."Reporting Line 1");
                     VALIDATE("Reporting Line 2 Code", EmpVar."Reporting Line 2");*/
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate(Ecosystem, EmpVar."Eco-System");
-                    Validate("Office Code", EmpVar.Office);
+
 
                     // if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then begin
                     //     Validate("Recommender Code", EmpVar."KPI Deputation Value");
@@ -212,31 +213,31 @@ table 50140 "Employee/HR Transfer"
         {
             CaptionClass = '1,2,1';
             Editable = false;
-            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
+            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
 
-            trigger OnValidate()
-            begin
-                GLSetup.Get;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-                    Validate("Branch Name", DimValue.Name)
-                else
-                    Validate("Branch Name", '');
-            end;
+            // trigger OnValidate()
+            // begin
+            //     GLSetup.Get;
+            //     if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
+            //         Validate("Branch Name", DimValue.Name)
+            //     else
+            //         Validate("Branch Name", '');
+            // end;
         }
         field(18; Department; Code[20])
         {
             Editable = false;
-            TableRelation = Department;
+            // TableRelation = Department;
 
-            trigger OnValidate()
-            var
-                DeptVar: Record Department;
-            begin
-                if DeptVar.Get(Department) then
-                    Validate("Department Name", DeptVar.Name)
-                else
-                    Clear("Department Name");
-            end;
+            // trigger OnValidate()
+            // var
+            //     DeptVar: Record Department;
+            // begin
+            //     if DeptVar.Get(Department) then
+            //         Validate("Department Name", DeptVar.Name)
+            //     else
+            //         Clear("Department Name");
+            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -348,11 +349,7 @@ table 50140 "Employee/HR Transfer"
         // }
         field(28; "Extension Counter Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
-        }
-        field(29; "Sub Province Code"; Code[20])
-        {
-            TableRelation = "Sub Province".Code;
+            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
         field(30; "Province Code"; Code[20])
         {
@@ -360,7 +357,6 @@ table 50140 "Employee/HR Transfer"
         }
         field(31; "Unit Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
         field(32; "Compensatory Days"; Decimal)
         {
@@ -368,12 +364,12 @@ table 50140 "Employee/HR Transfer"
         field(33; "Payroll No."; Code[20])
         {
         }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
+        // field(34; Ecosystem; Code[20])
+        // {
+        // }
+        // field(35; "Office Code"; Code[20])
+        // {
+        // }
         field(36; "Rejection Remarks"; Text[100])
         {
         }
@@ -464,7 +460,6 @@ table 50140 "Employee/HR Transfer"
                 if "Transfer Type" in ["Transfer Type"::"Intra Branch", "Transfer Type"::"Intra Department", "Transfer Type"::"Intra Provincial"] then begin //Min >>
                     "Deputation On (To)" := "Deputation On";
                     "Shortcut Dimension 1 Code (To)" := "Shortcut Dimension 1 Code";
-                    "Sub Province Code (To)" := "Sub Province Code";
                     "Department Code (To)" := Department;
                     "Province Code (To)" := "Province Code";
                     "Unit (To)" := "Unit Code";
@@ -483,35 +478,16 @@ table 50140 "Employee/HR Transfer"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
+            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
             trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Shortcut Dimension 1 Code (To)" <> xRec."Shortcut Dimension 1 Code (To)" then begin
-                    GLSetup.Get;
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then begin
-                        "Province Code (To)" := DimValue.Province;
-                        "Sub Province Code (To)" := DimValue."Sub-Province";
-                        "Department Code (To)" := '';
-                        "Unit (To)" := '';
-                        "Extension Counter (To)" := '';
-                    end;
-                end;
-            end;
-        }
-        field(54; "Sub Province Code (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Sub Province".Code;
-
-            trigger OnValidate()
-            begin
-                if "Sub Province Code (To)" <> xRec."Sub Province Code (To)" then begin
-                    SubProvinceVar.Reset;
-                    SubProvinceVar.SetRange(Code, "Sub Province Code (To)");
-                    if SubProvinceVar.FindFirst then begin
-                        "Province Code (To)" := SubProvinceVar."Province Code";
-                        "Shortcut Dimension 1 Code (To)" := '';
+                    // GLSetup.Get;
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, OrganizationStructureList.Code) then begin
+                        "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Department Code (To)" := '';
                         "Unit (To)" := '';
                         "Extension Counter (To)" := '';
@@ -522,57 +498,57 @@ table 50140 "Employee/HR Transfer"
         field(55; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Province;
-
+            // TableRelation = Province;
+            Editable = false;
             trigger OnValidate()
             begin
-                if "Province Code (To)" <> xRec."Province Code (To)" then begin
-                    if ProvinceVar.Get("Province Code (To)") then begin
-                        "Sub Province Code (To)" := '';
-                        "Shortcut Dimension 1 Code (To)" := '';
-                        "Department Code (To)" := '';
-                        "Unit (To)" := '';
-                        "Extension Counter (To)" := '';
-                    end;
-                end;
+                // if "Province Code (To)" <> xRec."Province Code (To)" then begin
+                //     if ProvinceVar.Get("Province Code (To)") then begin
+                //         "Shortcut Dimension 1 Code (To)" := '';
+                //         "Department Code (To)" := '';
+                //         "Unit (To)" := '';
+                //         "Extension Counter (To)" := '';
+                //     end;
+                // end;
             end;
         }
         field(56; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Unit));
-
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if "Unit (To)" <> xRec."Unit (To)" then begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, "Unit (To)");
-                    if EmpHie.FindFirst then
-                        "Department Code (To)" := EmpHie."Department Code"
-                    else
-                        "Department Code (To)" := '';
-                    if DepartVar.Get("Department Code (To)") then
-                        "Province Code (To)" := DepartVar."Province Code"
-                    else
-                        "Province Code (To)" := '';
-                    "Sub Province Code (To)" := '';
-                    "Shortcut Dimension 1 Code (To)" := '';
-                    "Extension Counter (To)" := '';
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, "Unit (To)");
+                    // if EmpHie.FindFirst then
+                    //     "Department Code (To)" := EmpHie."Department Code"
+                    // else
+                    //     "Department Code (To)" := '';
+                    // if DepartVar.Get("Department Code (To)") then
+                    //     "Province Code (To)" := DepartVar."Province Code"
+                    // else
+                    //     "Province Code (To)" := '';
+                    // "Sub Province Code (To)" := '';
+                    // "Shortcut Dimension 1 Code (To)" := '';
+                    // "Extension Counter (To)" := '';
                 end;
             end;
         }
         field(57; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
 
             trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Department Code (To)" <> xRec."Department Code (To)" then begin
-                    if DepartVar.Get("Department Code (To)") then begin
-                        "Province Code (To)" := DepartVar."Province Code";
-                        "Sub Province Code (To)" := '';
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
+                        "Province Code (To)" := OrganizationStructureList."Province Code";
+                        // "Sub Province Code (To)" := '';
                         "Unit (To)" := '';
                         "Shortcut Dimension 1 Code (To)" := '';
                         "Extension Counter (To)" := '';
@@ -580,49 +556,62 @@ table 50140 "Employee/HR Transfer"
                 end;
             end;
         }
-        field(58; "Reporting Line 1 (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 1"));
-        }
-        field(59; "Reporting Line 2 (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 2"));
-        }
-        field(60; "Eco-System (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Eco-System"));
-        }
-        field(61; "Office (To)"; Code[20])
-        {
-            Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Office));
-        }
+        // field(58; "Reporting Line 1 (To)"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 1"));
+        // }
+        // field(59; "Reporting Line 2 (To)"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Reporting Line 2"));
+        // }
+        // field(60; "Eco-System (To)"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST("Eco-System"));
+        // }
+        // field(61; "Office (To)"; Code[20])
+        // {
+        //     Description = 'Transfer';
+        //     TableRelation = "Employee Hierarchy Master" WHERE(Type = CONST(Office));
+        // }
         field(62; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
 
             trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Extension Counter (To)" <> xRec."Extension Counter (To)" then begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, "Extension Counter (To)");
-                    if EmpHie.FindFirst then
-                        "Shortcut Dimension 1 Code (To)" := EmpHie."Shortcut Dimension 1 Code"
-                    else
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter (To)") then begin
+                        "Province Code (To)" := OrganizationStructureList."Province Code";
+                        // "Sub Province Code (To)" := '';
+                        "Department Code (To)" := '';
+                        "Unit (To)" := '';
                         "Shortcut Dimension 1 Code (To)" := '';
-                    GLSetup.Get;
-                    if DimValue.Get(GLSetup."Shortcut Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then;
-                    "Province Code (To)" := DimValue.Province;
-                    "Sub Province Code (To)" := DimValue."Sub-Province";
-                    "Department Code (To)" := '';
-                    "Unit (To)" := '';
+                    end;
                 end;
             end;
+            // begin
+            //     if "Extension Counter (To)" <> xRec."Extension Counter (To)" then begin
+            //         EmpHie.Reset;
+            //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+            //         EmpHie.SetRange(Code, "Extension Counter (To)");
+            //         if EmpHie.FindFirst then
+            //             "Shortcut Dimension 1 Code (To)" := EmpHie."Shortcut Dimension 1 Code"
+            //         else
+            //             "Shortcut Dimension 1 Code (To)" := '';
+            //         GLSetup.Get;
+            //         if DimValue.Get(GLSetup."Shortcut Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then;
+            //         "Province Code (To)" := DimValue.Province;
+            //         // "Sub Province Code (To)" := DimValue."Sub-Province";
+            //         "Department Code (To)" := '';
+            //         "Unit (To)" := '';
+            //     end;
+            // end;
         }
         field(63; "Transfer Effective Date"; Date)
         {
@@ -655,7 +644,6 @@ table 50140 "Employee/HR Transfer"
                     Clear("Unit (To)");
                     Clear("Functional Title (To)");
                     Clear("Province Code (To)");
-                    Clear("Sub Province Code (To)");
                     Clear("Extension Counter (To)");
                 end;
             end;
@@ -1111,10 +1099,10 @@ table 50140 "Employee/HR Transfer"
     var
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        DepartVar: Record Department;
+        // DepartVar: Record Department;
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
+    // SubProvinceVar: Record "Sub Province";
+    // EmpHie: Record "Employee Hierarchy Master";
     begin
         Clear(BranchName);
         Clear(BranchNameTo);
@@ -1134,17 +1122,17 @@ table 50140 "Employee/HR Transfer"
         if FunctionalTitle.Get("Functional Title (To)") then
             FunctionalDescTo := FunctionalTitle.Description;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-            BranchName := DimValue.Name;
+        // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
+        //     BranchName := DimValue.Name;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then
-            BranchNameTo := DimValue.Name;
+        // if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code (To)") then
+        //     BranchNameTo := DimValue.Name;
 
-        if DepartVar.Get(Department) then
-            DepartmentName := DepartVar.Name;
+        // if DepartVar.Get(Department) then
+        //     DepartmentName := DepartVar.Name;
 
-        if DepartVar.Get("Department Code (To)") then
-            DepartmentNameTo := DepartVar.Name;
+        // if DepartVar.Get("Department Code (To)") then
+        //     DepartmentNameTo := DepartVar.Name;
 
         if ProvinceVar.Get("Province Code") then
             ProvinceName := ProvinceVar.Description;
@@ -1152,39 +1140,39 @@ table 50140 "Employee/HR Transfer"
         if ProvinceVar.Get("Province Code (To)") then
             ProvinceNameTo := ProvinceVar.Description;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, "Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            SubProvinceName := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, "Sub Province Code");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceName := SubProvinceVar.City;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, "Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            SubProvinceNameTo := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, "Sub Province Code (To)");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceNameTo := SubProvinceVar.City;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, "Unit Code");
-        if EmpHie.FindFirst then
-            UnitName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, "Unit Code");
+        // if EmpHie.FindFirst then
+        //     UnitName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, "Unit (To)");
-        if EmpHie.FindFirst then
-            UnitNameTo := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, "Unit (To)");
+        // if EmpHie.FindFirst then
+        //     UnitNameTo := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, "Extension Counter Code");
-        if EmpHie.FindFirst then
-            ExtensionName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, "Extension Counter Code");
+        // if EmpHie.FindFirst then
+        //     ExtensionName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, "Extension Counter (To)");
-        if EmpHie.FindFirst then
-            ExtensionNameTo := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, "Extension Counter (To)");
+        // if EmpHie.FindFirst then
+        //     ExtensionNameTo := EmpHie.Description;
     end;
 
     var
@@ -1208,9 +1196,9 @@ table 50140 "Employee/HR Transfer"
         // SystemAccessControl: Record "System Access Control";
         // AccessControlLine: Record "Access Control Request Line";
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        DepartVar: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
+        // SubProvinceVar: Record "Sub Province";
+        // // DepartVar: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
         Standardtext: Record "Standard Text";
         BranchNameTo: Text;
         DepartmentNameTo: Text;

@@ -15,13 +15,13 @@ report 50016 "Employee Approval Report"
             column(No_Employee; Employee."No.") { }
             column(GlobalDimension1Code_Employee; Employee."Global Dimension 1 Code") { }
             column(Province_Employee; Employee."Province Code") { }
-            column(PostCode_Employee; Employee."Sub Province Code") { }
+            // column(PostCode_Employee; Employee."Sub Province Code") { }
             column(Unit_Employee; Employee."Unit Code") { }
             column(DepartmentCode_Employee; Employee."Department Code") { }
-            column(ReportingLine1_Employee; Employee."Reporting Line 1") { }
-            column(ReprotingLine2_Employee; Employee."Reporting Line 2") { }
-            column(EcoSystem_Employee; Employee."Eco-System") { }
-            column(Office_Employee; Employee.Office) { }
+            // column(ReportingLine1_Employee; Employee."Reporting Line 1") { }
+            // column(ReprotingLine2_Employee; Employee."Reporting Line 2") { }
+            // column(EcoSystem_Employee; Employee."Eco-System") { }
+            // column(Office_Employee; Employee.Office) { }
             column(EmpRankValue; FunctionalTitle."Rank Value") { }
             column(EmpRankCheck; FunctionalTitle."Rank Check Range") { }
             column(temp1; Temp1) { }

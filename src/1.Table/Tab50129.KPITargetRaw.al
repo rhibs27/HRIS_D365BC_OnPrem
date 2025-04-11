@@ -37,12 +37,11 @@ table 50129 "KPI Target Raw"
         field(7; "End Date"; Date) { }
         field(8; Department; Code[20])
         {
-            TableRelation = Department;
-
+            TableRelation = "Organization Structure List".code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
-                if DepartmentRec.Get(Department) then
-                    "Department Name" := DepartmentRec.Name;
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Department) then
+                    "Department Name" := OrganizationStructureList.Name;
             end;
         }
         field(9; "Department Name"; Text[50]) { }
@@ -69,5 +68,5 @@ table 50129 "KPI Target Raw"
 
     var
         KPIMaster: Record "KPI Master";
-        DepartmentRec: Record Department;
+        OrganizationStructureList: Record "Organization Structure List";
 }

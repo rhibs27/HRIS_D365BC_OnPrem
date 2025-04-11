@@ -39,8 +39,8 @@ report 50029 Settlement
                 EmpRec.Get("Employee No.");
 
                 SalaryLevelRec.Get(EmpRec."Salary Level");
-                if DeptRec.Get(EmpRec."Department Code") then;
-                PositionTxt := SalaryLevelRec.Description + DeptRec.Name + ' (' + HRMgt.WorkStationFunction(EmpRec) + ')';
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, EmpRec."Department Code") then;
+                PositionTxt := SalaryLevelRec.Description + OrganizationStructureList.Name + ' (' + HRMgt.WorkStationFunction(EmpRec) + ')';
 
                 EngNep.Reset;
                 EngNep.SetRange("English Date", "Supervisor Proposed Date");
@@ -154,7 +154,8 @@ report 50029 Settlement
         SalaryLevelRec: Record "Salary Level";
         PositionTxt: Text;
         HRMgt: Codeunit "HR Mgt.";
-        DeptRec: Record Department;
+        // DeptRec: Record Department;
+        OrganizationStructureList: Record "Organization Structure List";
         EngNep: Record "English-Nepali Date";
         FiscalYear: Text;
         HRSetup: Record "Human Resources Setup";

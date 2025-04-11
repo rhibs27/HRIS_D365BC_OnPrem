@@ -45,16 +45,16 @@ table 50142 Resignation
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Sub Province Code", EmpVar."Sub Province Code");
+                    // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     //Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     /*VALIDATE("Compensatory Days", EmpVar."Reporting Line 1");
                     VALIDATE("Reporting Line 2 Code", EmpVar."Reporting Line 2");*/
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate(Ecosystem, EmpVar."Eco-System");
-                    Validate("Office Code", EmpVar.Office);
-
+                    Validate("Branch Name", EmpVar."Branch Name");
+                    Validate("Department Name", EmpVar."Department Name");
+                    Validate("Province Name", EmpVar."Province Name");
                     // if not (Type in [Type::"Employee Transfer", Type::"HR Transfer"]) then begin
                     //     Validate("Recommender Code", EmpVar."KPI Deputation Value");
                     //     Validate("Recommender Name", EmpVar."Recommender Name");
@@ -204,17 +204,17 @@ table 50142 Resignation
         field(18; Department; Code[20])
         {
             Editable = false;
-            TableRelation = Department;
+            // TableRelation = Department;
 
-            trigger OnValidate()
-            var
-                DeptVar: Record Department;
-            begin
-                if DeptVar.Get(Department) then
-                    Validate("Department Name", DeptVar.Name)
-                else
-                    Clear("Department Name");
-            end;
+            // trigger OnValidate()
+            // var
+            //     DeptVar: Record Department;
+            // begin
+            //     if DeptVar.Get(Department) then
+            //         Validate("Department Name", DeptVar.Name)
+            //     else
+            //         Clear("Department Name");
+            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -326,11 +326,11 @@ table 50142 Resignation
         // }
         field(28; "Extension Counter Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
+            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
-        field(29; "Sub Province Code"; Code[20])
+        field(29; "Province Name"; Code[50])
         {
-            TableRelation = "Sub Province".Code;
+            Editable = false;
         }
         field(30; "Province Code"; Code[20])
         {
@@ -338,7 +338,7 @@ table 50142 Resignation
         }
         field(31; "Unit Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
+            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
         field(32; "Compensatory Days"; Decimal)
         {

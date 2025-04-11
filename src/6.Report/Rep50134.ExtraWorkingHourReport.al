@@ -14,9 +14,9 @@ report 50134 "Extra Working Hour Report"
             column(DateFilter; Format(DateFilter)) { }
             column(BranchFilter; BranchFilter) { }
             column(ProvinceCode_Employee; Employee."Province Code") { }
-            column(SubProvinceCode_Employee; Employee."Sub Province Code") { }
+            // column(SubProvinceCode_Employee; Employee."Sub Province Code") { }
             column(GlobalDimension1Code_Employee; Employee."Global Dimension 1 Code") { }
-            column(EcoSystem_Employee; Employee."Eco-System") { }
+            // column(EcoSystem_Employee; Employee."Eco-System") { }
             column(DepartmentName_Employee; Employee."Department Name") { }
             column(BranchCode; BranchCode) { }
             column(ProvinceCode; ProvinceCode) { }
@@ -24,7 +24,7 @@ report 50134 "Extra Working Hour Report"
             column(DepartmentCode; DepartmentCode) { }
             column(BranchName_Employee; Employee."Branch Name") { }
             column(ProvinceName_Employee; Employee."Province Name") { }
-            column(SubProvinceName_Employee; Employee."Sub Province Name") { }
+            // column(SubProvinceName_Employee; Employee."Sub Province Name") { }
             column(TotalCount; Format(TotalCount)) { }
             column(EarlyPunchIn; EarlyPunchIn) { }
             column(EcoSystemCode; EcoSystemCode) { }
@@ -91,17 +91,17 @@ report 50134 "Extra Working Hour Report"
                     SetRange("Global Dimension 1 Code", BranchCode)
                 else if ProvinceCode <> '' then
                     SetRange("Province Code", ProvinceCode)
-                else if SubProvinceCode <> '' then
-                    SetRange("Sub Province Code", SubProvinceCode)
+                // else if SubProvinceCode <> '' then
+                //     SetRange("Sub Province Code", SubProvinceCode)
                 else if DepartmentCode <> '' then
                     SetRange("Department Code", DepartmentCode);
-                if EcoSystemCode <> '' then begin
-                    SetRange("Eco-System", EcoSystemCode);
-                    Department.Reset;
-                    Department.SetRange("Eco-System", EcoSystemCode);
-                    if Department.FindFirst then
-                        EcoSystemDescription := Department."Eco-System Description";
-                end;
+                // if EcoSystemCode <> '' then begin
+                //     SetRange("Eco-System", EcoSystemCode);
+                //     Department.Reset;
+                //     Department.SetRange("Eco-System", EcoSystemCode);
+                //     if Department.FindFirst then
+                //         EcoSystemDescription := Department."Eco-System Description";
+                // end;
                 /*IF ProvinceFilter <>'' THEN
                  SETRANGE(Employee."Province Code",ProvinceFilter)
                 ELSE IF SubProvinceFilter <> '' THEN
@@ -145,7 +145,7 @@ report 50134 "Extra Working Hour Report"
         EarlyPunchIn: Integer;
         DepartmentCode: Code[10];
         EcoSystemCode: Code[20];
-        Department: Record Department;
+        // Department: Record Department;
         EcoSystemDescription: Text[100];
 
     procedure PassBranchEmailSend(branchCod: Code[20])

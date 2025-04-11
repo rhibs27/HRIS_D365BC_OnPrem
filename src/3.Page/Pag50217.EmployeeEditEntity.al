@@ -217,7 +217,8 @@ page 50217 "Employee Edit Entity"
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        uploadEmployeeChangesAttachment;
+        if rec."Changes In Employee Type" in [rec."Changes In Employee Type"::Details, Rec."Changes In Employee Type"::Qualification] then
+            uploadEmployeeChangesAttachment;
     end;
 
     var
@@ -254,16 +255,17 @@ page 50217 "Employee Edit Entity"
         FileName: text;
         AttachmentMgt: Codeunit "Attachment Mgt.";
     begin
-        if rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details then
-            case LowerCase(extension) of
-                'jpg', 'jpeg', 'png', '':
-                    begin
-                    end;
-                else
-                    Error('Invalid file extension. Please upload a jpg, jpeg or png');
-            end
-        else
-            AttachmentMgt.checkAttachmentExtension(extension);
+        // if rec."Changes In Employee Type" = Rec."Changes In Employee Type"::Details then begin
+        //     case LowerCase(extension) of
+        //         'jpg', 'jpeg', 'png', '':
+        //             begin
+        //             end;
+        //         else
+        //             Error('Invalid file extension. Please upload a jpg, jpeg or png');
+        //     end;
+
+        // end;
+        AttachmentMgt.checkAttachmentExtension(extension);
         FileName := Rec."Employee No." + '.' + extension;
         TempBlob.CreateOutStream(outStream);
         base64.FromBase64(attachmentImport, Outstream);

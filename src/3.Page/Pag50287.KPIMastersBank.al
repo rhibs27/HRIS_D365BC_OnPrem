@@ -1,4 +1,4 @@
-page 50287 "KPI Masters (NIC)"
+page 50287 "KPI Masters Bank"
 {
     // version KPI1.00
 

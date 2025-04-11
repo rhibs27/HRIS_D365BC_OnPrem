@@ -259,11 +259,12 @@ report 50124 "Employee Profile Details"
         FunctionalTitleDescToAppointment: Text;
         SalaryLevelDescToAppointment: Text;
         EffectiveDateAppointment: Date;
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        Province: Record Province;
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        OrganizationalStructureList: Record "Organization Structure List";
+        // EmpHie: Record "Employee Hierarchy Master";
+        // Province: Record Province;
+        // SubProvince: Record "Sub Province";
         DeputationCode: Text;
         DeputationValue: Text;
         GLSetup: Record "General Ledger Setup";
@@ -306,69 +307,79 @@ report 50124 "Employee Profile Details"
         exit(OneLineAddress);
     end;
 
-    local procedure ExitTransferDeputationWise(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department)
+    local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type")
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
-        Clear(Province);
+        // Clear(DimValue);
+        // Clear(EmpHie);
+        // Clear(Province);
         Clear(DeputationCode);
         Clear(DeputationValue);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
-                        DeputationValue := DimValue.Name;
-                        DeputationCode := DimValue.Code;
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, Employee."Global Dimension 1 Code") then begin
+                        DeputationValue := OrganizationalStructureList.Name;
+                        DeputationCode := OrganizationalStructureList.Code;
                     end;
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then begin
-                        DeputationValue := Depart.Name;
-                        DeputationCode := Depart.Code;
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Department, Employee."Department Code") then begin
+                        DeputationValue := OrganizationalStructureList.Name;
+                        DeputationCode := OrganizationalStructureList.Code;
                     end;
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code;
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then begin
+                    //     DeputationValue := EmpHie.Description;
+                    //     DeputationCode := EmpHie.Code;
+                    // end;
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::"Extension Counter", Employee."Extension Counter Code") then begin
+                        DeputationValue := OrganizationalStructureList.Name;
+                        DeputationCode := OrganizationalStructureList.Code;
                     end;
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then begin
-                        DeputationValue := SubProvince.City;
-                        DeputationCode := SubProvince.Code;
-                    end;
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then begin
+            //             DeputationValue := SubProvince.City;
+            //             DeputationCode := SubProvince.Code;
+            //         end;
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Unit Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then begin
+                    //     DeputationValue := EmpHie.Description;
+                    //     DeputationCode := EmpHie.Code
+                    // end;
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Unit, Employee."Unit Code") then begin
+                        DeputationValue := OrganizationalStructureList.Name;
+                        DeputationCode := OrganizationalStructureList.Code;
                     end;
                 end;
 
             DeputationOn::Province:
                 begin
-                    if Province.Get(Employee."Province Code") then begin
-                        DeputationValue := Province.Description;
-                        DeputationCode := Province.Code;
+                    // if Province.Get(Employee."Province Code") then begin
+                    //     DeputationValue := Province.Description;
+                    //     DeputationCode := Province.Code;
+                    // end;
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Province, Employee."Province Code") then begin
+                        DeputationValue := OrganizationalStructureList.Name;
+                        DeputationCode := OrganizationalStructureList.Code;
                     end;
                 end;
         end;

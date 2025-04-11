@@ -261,57 +261,63 @@ page 50094 "HR Transfer Requests"
         GLSetup: Record "General Ledger Setup";
         DeputationValue: Text;
 
-    local procedure ExitTransferDeputationWise(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department): Text
+    local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type"): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // SubProvince: Record "Sub Province";
         Province: Record Province;
+        OrganizationalStructureList: Record "Organization Structure List";
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
+        Clear(OrganizationalStructureList);
         Clear(Province);
         GLSetup.Get;
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
-                        exit(DimValue.Name);
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Branch, Rec."Shortcut Dimension 1 Code (To)") then
+                        exit(OrganizationalStructureList.Name);
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Rec."Department Code (To)") then
-                        exit(Depart.Name);
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Department, Rec."Department Code (To)") then
+                        exit(OrganizationalStructureList.Name);
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Rec."Extension Counter (To)");
+                    // if EmpHie.FindFirst then
+                    //     exit(EmpHie.Description);
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::"Extension Counter", Rec."Extension Counter (To)") then
+                        exit(OrganizationalStructureList.Name);
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Rec."Sub Province Code (To)");
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.City);
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Rec."Sub Province Code (To)");
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.City);
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Rec."Unit (To)");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Rec."Unit (To)");
+                    // if EmpHie.FindFirst then
+                    //     exit(EmpHie.Description);
+                    if OrganizationalStructureList.Get(OrganizationalStructureList.Type::Unit, Rec."Unit (To)") then
+                        exit(OrganizationalStructureList.Name);
                 end;
 
             DeputationOn::Province:

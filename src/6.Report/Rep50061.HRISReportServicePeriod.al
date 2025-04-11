@@ -16,9 +16,9 @@ report 50061 "HRIS Report - Service Period"
             column(DeputationCode; DeputationCode) { }
             column(DeputationValue; DeputationValue) { }
             column(ProvinceName_; "Province Name") { }
-            column(SubProvinceName_; "Sub Province Name") { }
-            column(EcoSystem_; "Eco-System") { }
-            column(Cluster_; Cluster) { }
+            // column(SubProvinceName_; "Sub Province Name") { }
+            // column(EcoSystem_; "Eco-System") { }
+            // column(Cluster_; Cluster) { }
             column(BranchName_; "Branch Name") { }
             column(DepartmentName_; "Department Name") { }
             column(FunctionalTitleDesc_; "Functional Title Desc") { }
@@ -80,10 +80,10 @@ report 50061 "HRIS Report - Service Period"
 
     var
         DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
         Province: Record Province;
-        SubProvince: Record "Sub Province";
+        // SubProvince: Record "Sub Province";
         GLSetup: Record "General Ledger Setup";
         DeputationCode: Text;
         DeputationValue: Text;
@@ -94,68 +94,68 @@ report 50061 "HRIS Report - Service Period"
 
     local procedure ExitTransferDeputationWise(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department)
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
-        Clear(Province);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
+        // Clear(Province);
         Clear(DeputationCode);
         Clear(DeputationValue);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
-                        DeputationValue := DimValue.Name;
-                        DeputationCode := DimValue.Code;
-                    end;
+                    // if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
+                    DeputationValue := Employee."Branch Name";
+                    DeputationCode := Employee."Global Dimension 1 Code";
+                    // end;
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then begin
-                        DeputationValue := Depart.Name;
-                        DeputationCode := Depart.Code;
-                    end;
+                    // if Depart.Get(Employee."Department Code") then begin
+                    DeputationValue := Employee."Department Name";
+                    DeputationCode := Employee."Department Code";
+                    // end;
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code;
-                    end;
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then begin
+                    DeputationValue := Employee."Extension Counter Name";
+                    DeputationCode := Employee."Extension Counter Code";
+                    // end;
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then begin
-                        DeputationValue := SubProvince.City;
-                        DeputationCode := SubProvince.Code;
-                    end;
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then begin
+            //             DeputationValue := SubProvince.City;
+            //             DeputationCode := SubProvince.Code;
+            //         end;
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Unit Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code
-                    end;
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then begin
+                    DeputationValue := Employee."Unit Name";
+                    DeputationCode := Employee."Unit Code";
+                    // end;
                 end;
 
             DeputationOn::Province:
                 begin
-                    if Province.Get(Employee."Province Code") then begin
-                        DeputationValue := Province.Description;
-                        DeputationCode := Province.Code;
-                    end;
+                    // if Province.Get(Employee."Province Code") then begin
+                    DeputationValue := Employee."Province Name";
+                    DeputationCode := Employee."Province Code";
+                    // end;
                 end;
         end;
     end;

@@ -12,21 +12,6 @@ table 50139 Province
         {
             Caption = 'Description';
         }
-        field(3; "Sol ID"; Code[20]) { DataClassification = ToBeClassified; }
-        field(4; "Posting Region"; Enum Region)
-        {
-            DataClassification = ToBeClassified;
-
-        }
-        field(5; "Inside/Outside Valley"; Enum "Outside/Inside Valley")
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(6; "Reporting Category"; Code[10])
-        {
-            TableRelation = "Reporting Category";
-            DataClassification = ToBeClassified;
-        }
         field(7; "Blocked"; Boolean)
         {
             DataClassification = ToBeClassified;

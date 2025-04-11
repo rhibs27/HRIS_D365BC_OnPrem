@@ -146,18 +146,18 @@ page 50171 "Temp Employee Activity Entity"
                 field(TransferType; Rec."Transfer Type") { }
                 field(ExtensionCounterCode; Rec."Extension Counter Code") { }
                 field(ShortcutDimension1CodeTo; Rec."Shortcut Dimension 1 Code (To)") { }
-                field(SubProvinceCodeTo; Rec."Sub Province Code (To)") { }
+                // field(SubProvinceCodeTo; Rec."Sub Province Code (To)") { }
                 field(ProvinceCodeTo; Rec."Province Code (To)") { }
                 field(UnitTo; Rec."Unit (To)") { }
                 field(OfficeCode; Rec."Office Code") { }
-                field(DepartmentCodeTo; Rec."Department Code (To)") { }
-                field(ReportingLine1To; Rec."Reporting Line 1 (To)") { }
-                field(ReportingLine2To; Rec."Reporting Line 2 (To)") { }
+                // field(DepartmentCodeTo; Rec."Department Code (To)") { }
+                // field(ReportingLine1To; Rec."Reporting Line 1 (To)") { }
+                // field(ReportingLine2To; Rec."Reporting Line 2 (To)") { }
                 field(UnitCode; Rec."Unit Code") { }
-                field(SubProvinceCode; Rec."Sub Province Code") { }
+                // field(SubProvinceCode; Rec."Sub Province Code") { }
                 field(FunctionalTitleTo; Rec."Functional Title (To)") { }
-                field(EcoSystemTo; Rec."Eco-System (To)") { }
-                field(OfficeTo; Rec."Office (To)") { }
+                // field(EcoSystemTo; Rec."Eco-System (To)") { }
+                // field(OfficeTo; Rec."Office (To)") { }
                 field(ExtensionCounterTo; Rec."Extension Counter (To)") { }
                 field(ProposedTransferDate; Rec."Transfer Effective Date") { }
                 field(TransferRemarks; Rec."Transfer Remarks") { }

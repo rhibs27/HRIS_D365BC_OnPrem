@@ -31,11 +31,11 @@ page 50015 "Training Calendar Lists"
                     ToolTip = 'Specifies the value of the Province field.';
                     ApplicationArea = All;
                 }
-                field("Sub-Province"; Rec."Sub-Province")
-                {
-                    ToolTip = 'Specifies the value of the Sub-Province field.';
-                    ApplicationArea = All;
-                }
+                // field("Sub-Province"; Rec."Sub-Province")
+                // {
+                //     ToolTip = 'Specifies the value of the Sub-Province field.';
+                //     ApplicationArea = All;
+                // }
                 field("Coverage Branch"; Rec."Coverage Branch")
                 {
                     ToolTip = 'Specifies the value of the Coverage Branch field.';

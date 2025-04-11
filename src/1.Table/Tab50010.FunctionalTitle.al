@@ -28,7 +28,7 @@ table 50010 "Functional Title"
         field(20; "Is Specific Functional"; Boolean) { }
         field(21; "Department Code"; Code[20])
         {
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
         }
     }
 

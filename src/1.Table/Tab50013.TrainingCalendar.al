@@ -35,17 +35,19 @@ table 50013 "Training Calendar"
         }
         field(4; "Coverage Branch"; Code[100])
         {
-            trigger OnLookup()
-            begin
-                Validate("Coverage Branch", HRMgt.LookupBranch("Coverage Branch", Province, "Sub-Province"));
-            end;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            // trigger OnLookup()
+            // begin
+            //     Validate("Coverage Branch", HRMgt.LookupBranch("Coverage Branch", Province, "Sub-Province"));
+            // end;
         }
         field(5; "Coverage Department"; Code[100])
         {
-            trigger OnLookup()
-            begin
-                Validate("Coverage Department", HRMgt.LookupDepartment("Coverage Department"));
-            end;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            // trigger OnLookup()
+            // begin
+            //     Validate("Coverage Department", HRMgt.LookupDepartment("Coverage Department"));
+            // end;
         }
         field(6; "Coverage Functional Title"; Code[100])
         {
@@ -111,18 +113,19 @@ table 50013 "Training Calendar"
         }
         field(21; Province; Code[100])
         {
-            trigger OnLookup()
-            begin
-                Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
-            end;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            // trigger OnLookup()
+            // begin
+            //     Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
+            // end;
         }
-        field(22; "Sub-Province"; Code[250])
-        {
-            trigger OnLookup()
-            begin
-                Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
-            end;
-        }
+        // field(22; "Sub-Province"; Code[250])
+        // {
+        //     trigger OnLookup()
+        //     begin
+        //         Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
+        //     end;
+        // }
     }
 
     keys

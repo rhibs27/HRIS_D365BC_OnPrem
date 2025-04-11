@@ -24,7 +24,7 @@ report 50125 "Posted Payroll Summary"
                 {
                     DataItemLink = "Document No." = field("No.");
                     column(CurrentDeduction; CurrentDeduction) { }
-                    column(DepartmentVarCode; DepartmentVar.Code) { }
+                    // column(DepartmentVarCode; DepartmentVar.Code) { }
                     column(NetPay; NetPay) { }
                     column(MaritalStatus_PostedPayrollLine; "Posted Payroll Line"."Marital Status") { }
                     column(Gender_PostedPayrollLine; "Posted Payroll Line".Gender) { }
@@ -131,7 +131,7 @@ report 50125 "Posted Payroll Summary"
         FieldRefs: FieldRef;
         PayrollColumnConfig: Record "Payroll Column Configuration";
         Amt: Decimal;
-        DepartmentVar: Record Department;
+        // DepartmentVar: Record Department;
         PayCycleTerm: Text;
         Months: Enum "Nepali Month";
         EmployeeFilter: Text;

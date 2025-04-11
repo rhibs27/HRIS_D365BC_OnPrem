@@ -27,7 +27,7 @@ report 50077 "Formation of Department/Branch"
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            DeputationCodeFrom := GetDeputation(DeputationOnFrom);
+                            // DeputationCodeFrom := GetDeputation(DeputationOnFrom);
                         end;
                     }
                     field("Deputation On (To)"; DeputationOnTo)
@@ -42,7 +42,7 @@ report 50077 "Formation of Department/Branch"
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            DeputationCodeTo := GetDeputation(DeputationOnTo);
+                            // DeputationCodeTo := GetDeputation(DeputationOnTo);
                         end;
                     }
                     field(Remarks; Remarks)
@@ -95,7 +95,7 @@ report 50077 "Formation of Department/Branch"
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            DeputationCodeTo := GetDeputation(DeputationOnTo);
+                            // DeputationCodeTo := GetDeputation(DeputationOnTo);
                         end;
                     }
                     field(RemarksVar; Remarks)
@@ -157,9 +157,9 @@ report 50077 "Formation of Department/Branch"
                 Error('Please fill all the values.');
 
             ValidateValueForDeputationOn;
-            ValidateValueForNonDeputationOn;
-            if BlockedDeputationFrom then
-                IfBlockDeputationCode;
+            // ValidateValueForNonDeputationOn;
+            // if BlockedDeputationFrom then
+            // IfBlockDeputationCode;
         end else begin
             if (FunctionalTitle = '') or (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or
               (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
@@ -202,21 +202,21 @@ report 50077 "Formation of Department/Branch"
     end;
 
     var
-        DeputationOnFrom: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
-        DeputationOnTo: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
+        DeputationOnFrom: Enum "Deputation Type";
+        DeputationOnTo: Enum "Deputation Type";
         DeputationCodeFrom: Code[20];
         DeputationCodeTo: Code[20];
         Province: Record Province;
         PageProvince: Page "Provinces List";
-        SubProvince: Record "Sub Province";
-        PageSubProvince: Page SubProvinceList;
+        // SubProvince: Record "Sub Province";
+        // PageSubProvince: Page SubProvinceList;
         GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
-        PageDimValue: Page "Dimension Values";
-        Depart: Record Department;
-        PageDepart: Page Departments;
-        EmpHie: Record "Employee Hierarchy Master";
-        PageEmpHie: Page "Employee Hierarchy Master";
+        // DimValue: Record "Dimension Value";
+        // PageDimValue: Page "Dimension Values";
+        // Depart: Record Department;
+        // PageDepart: Page Departments;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // PageEmpHie: Page "Employee Hierarchy Master";
         Employee: Record Employee;
         EffectiveDate: Date;
         EmpServiceHistory: Record "Employee Service History";
@@ -236,98 +236,98 @@ report 50077 "Formation of Department/Branch"
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Option " ","6 Month","12 Month";
 
-    local procedure GetDeputation(Deputation: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department): Code[20]
-    begin
-        case Deputation of
-            Deputation::Province:
-                begin
-                    Province.Reset;
-                    Province.SetRange(Blocked, false);//Min
-                    Clear(PageProvince);
-                    PageProvince.LookupMode(true);
-                    PageProvince.SetRecord(Province);
-                    PageProvince.SetTableView(Province);
-                    if PageProvince.RunModal = Action::LookupOK then begin
-                        PageProvince.GetRecord(Province);
-                        exit(Province.Code);
-                    end;
-                end;
+    // local procedure GetDeputation(Deputation: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department): Code[20]
+    // begin
+    //     case Deputation of
+    //         Deputation::Province:
+    //             begin
+    //                 Province.Reset;
+    //                 Province.SetRange(Blocked, false);//Min
+    //                 Clear(PageProvince);
+    //                 PageProvince.LookupMode(true);
+    //                 PageProvince.SetRecord(Province);
+    //                 PageProvince.SetTableView(Province);
+    //                 if PageProvince.RunModal = Action::LookupOK then begin
+    //                     PageProvince.GetRecord(Province);
+    //                     exit(Province.Code);
+    //                 end;
+    //             end;
 
-            Deputation::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Blocked, false);//Min
-                    Clear(PageSubProvince);
-                    PageSubProvince.LookupMode(true);
-                    PageSubProvince.SetRecord(SubProvince);
-                    PageSubProvince.SetTableView(SubProvince);
-                    if PageSubProvince.RunModal = Action::LookupOK then begin
-                        PageSubProvince.GetRecord(SubProvince);
-                        exit(SubProvince.Code);
-                    end;
-                end;
+    //         // Deputation::"Sub Province":
+    //         //     begin
+    //         //         SubProvince.Reset;
+    //         //         SubProvince.SetRange(Blocked, false);//Min
+    //         //         Clear(PageSubProvince);
+    //         //         PageSubProvince.LookupMode(true);
+    //         //         PageSubProvince.SetRecord(SubProvince);
+    //         //         PageSubProvince.SetTableView(SubProvince);
+    //         //         if PageSubProvince.RunModal = Action::LookupOK then begin
+    //         //             PageSubProvince.GetRecord(SubProvince);
+    //         //             exit(SubProvince.Code);
+    //         //         end;
+    //         //     end;
 
-            Deputation::Branch:
-                begin
-                    GLSetup.Get;
-                    DimValue.Reset;
-                    DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-                    DimValue.SetRange(Blocked, false);//Min
-                    Clear(PageDimValue);
-                    PageDimValue.LookupMode(true);
-                    PageDimValue.SetRecord(DimValue);
-                    PageDimValue.SetTableView(DimValue);
-                    if PageDimValue.RunModal = Action::LookupOK then begin
-                        PageDimValue.GetRecord(DimValue);
-                        exit(DimValue.Code);
-                    end;
-                end;
+    //         Deputation::Branch:
+    //             begin
+    //                 GLSetup.Get;
+    //                 DimValue.Reset;
+    //                 DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+    //                 DimValue.SetRange(Blocked, false);//Min
+    //                 Clear(PageDimValue);
+    //                 PageDimValue.LookupMode(true);
+    //                 PageDimValue.SetRecord(DimValue);
+    //                 PageDimValue.SetTableView(DimValue);
+    //                 if PageDimValue.RunModal = Action::LookupOK then begin
+    //                     PageDimValue.GetRecord(DimValue);
+    //                     exit(DimValue.Code);
+    //                 end;
+    //             end;
 
-            Deputation::Department:
-                begin
-                    Depart.Reset;
-                    Depart.SetRange(Blocked, false);//Min
-                    Clear(PageDepart);
-                    PageDepart.LookupMode(true);
-                    PageDepart.SetRecord(Depart);
-                    PageDepart.SetTableView(Depart);
-                    if PageDepart.RunModal = Action::LookupOK then begin
-                        PageDepart.GetRecord(Depart);
-                        exit(Depart.Code);
-                    end;
-                end;
+    //         Deputation::Department:
+    //             begin
+    //                 Depart.Reset;
+    //                 Depart.SetRange(Blocked, false);//Min
+    //                 Clear(PageDepart);
+    //                 PageDepart.LookupMode(true);
+    //                 PageDepart.SetRecord(Depart);
+    //                 PageDepart.SetTableView(Depart);
+    //                 if PageDepart.RunModal = Action::LookupOK then begin
+    //                     PageDepart.GetRecord(Depart);
+    //                     exit(Depart.Code);
+    //                 end;
+    //             end;
 
-            Deputation::"Extension Counter":
-                begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Blocked, false);//Min
-                    Clear(PageEmpHie);
-                    PageEmpHie.LookupMode(true);
-                    PageEmpHie.SetRecord(EmpHie);
-                    PageEmpHie.SetTableView(EmpHie);
-                    if PageEmpHie.RunModal = Action::LookupOK then begin
-                        PageEmpHie.GetRecord(EmpHie);
-                        exit(EmpHie.Code);
-                    end;
-                end;
+    //         Deputation::"Extension Counter":
+    //             begin
+    //                 EmpHie.Reset;
+    //                 EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //                 EmpHie.SetRange(Blocked, false);//Min
+    //                 Clear(PageEmpHie);
+    //                 PageEmpHie.LookupMode(true);
+    //                 PageEmpHie.SetRecord(EmpHie);
+    //                 PageEmpHie.SetTableView(EmpHie);
+    //                 if PageEmpHie.RunModal = Action::LookupOK then begin
+    //                     PageEmpHie.GetRecord(EmpHie);
+    //                     exit(EmpHie.Code);
+    //                 end;
+    //             end;
 
-            Deputation::Unit:
-                begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Blocked, false);//Min
-                    Clear(PageEmpHie);
-                    PageEmpHie.LookupMode(true);
-                    PageEmpHie.SetRecord(EmpHie);
-                    PageEmpHie.SetTableView(EmpHie);
-                    if PageEmpHie.RunModal = Action::LookupOK then begin
-                        PageEmpHie.GetRecord(EmpHie);
-                        exit(EmpHie.Code);
-                    end;
-                end;
-        end;
-    end;
+    //         Deputation::Unit:
+    //             begin
+    //                 EmpHie.Reset;
+    //                 EmpHie.SetRange(Type, EmpHie.Type::Unit);
+    //                 EmpHie.SetRange(Blocked, false);//Min
+    //                 Clear(PageEmpHie);
+    //                 PageEmpHie.LookupMode(true);
+    //                 PageEmpHie.SetRecord(EmpHie);
+    //                 PageEmpHie.SetTableView(EmpHie);
+    //                 if PageEmpHie.RunModal = Action::LookupOK then begin
+    //                     PageEmpHie.GetRecord(EmpHie);
+    //                     exit(EmpHie.Code);
+    //                 end;
+    //             end;
+    //     end;
+    // end;
 
     local procedure FilterDeputationOnFrom()
     begin
@@ -335,8 +335,8 @@ report 50077 "Formation of Department/Branch"
             DeputationOnFrom::Province:
                 Employee.SetRange("Province Code", DeputationCodeFrom);
 
-            DeputationOnFrom::"Sub Province":
-                Employee.SetRange("Sub Province Code", DeputationCodeFrom);
+            // DeputationOnFrom::"Sub Province":
+            //     Employee.SetRange("Sub Province Code", DeputationCodeFrom);
 
             DeputationOnFrom::Branch:
                 Employee.SetRange("Global Dimension 1 Code", DeputationCodeFrom);
@@ -359,8 +359,8 @@ report 50077 "Formation of Department/Branch"
             DeputationOnTo::Province:
                 Employee.Validate("Province Code", DeputationCodeTo);
 
-            DeputationOnTo::"Sub Province":
-                Employee.Validate("Sub Province Code", DeputationCodeTo);
+            // DeputationOnTo::"Sub Province":
+            //     Employee.Validate("Sub Province Code", DeputationCodeTo);
 
             DeputationOnTo::Branch:
                 Employee.Validate("Global Dimension 1 Code", DeputationCodeTo);
@@ -399,136 +399,125 @@ report 50077 "Formation of Department/Branch"
             until Employee.Next = 0;
     end;
 
-    local procedure ValidateValueForNonDeputationOn()
-    begin
-        Employee.Reset;
-        Employee.SetFilter("Deputation on", '<>%1', DeputationOnFrom);
-        FilterDeputationOnFrom;
-        if Employee.Find('-') then
-            repeat
-                case DeputationOnTo of
-                    DeputationOnTo::Province:
-                        begin
-                            if Province.Get(DeputationCodeTo) then begin
-                                Employee."Province Name" := Province.Description;
-                                Employee."Province Code" := DeputationCodeTo;
-                            end;
-                        end;
+    // local procedure ValidateValueForNonDeputationOn()
+    // begin
+    //     Employee.Reset;
+    //     Employee.SetFilter("Deputation on", '<>%1', DeputationOnFrom);
+    //     FilterDeputationOnFrom;
+    //     if Employee.Find('-') then
+    //         repeat
+    //             case DeputationOnTo of
+    //                 DeputationOnTo::Province:
+    //                     begin
+    //                         if Province.Get(DeputationCodeTo) then begin
+    //                             Employee."Province Name" := Province.Description;
+    //                             Employee."Province Code" := DeputationCodeTo;
+    //                         end;
+    //                     end;
+    //                 DeputationOnTo::Branch:
+    //                     begin
+    //                         GLSetup.Get;
+    //                         if DimValue.Get(GLSetup."Global Dimension 1 Code", DeputationCodeTo) then begin
+    //                             Employee."Branch Name" := DimValue.Name;
+    //                             Employee."Global Dimension 1 Code" := DeputationCodeTo;
+    //                         end;
+    //                     end;
 
-                    DeputationOnTo::"Sub Province":
-                        begin
-                            SubProvince.Reset;
-                            SubProvince.SetRange(Code, DeputationCodeTo);
-                            if SubProvince.FindFirst then begin
-                                Employee."Sub Province Name" := SubProvince.City;
-                                Employee."Sub Province Code" := DeputationCodeTo;
-                            end;
-                        end;
+    //                 DeputationOnTo::Department:
+    //                     begin
+    //                         if Depart.Get(DeputationCodeTo) then begin
+    //                             Employee."Department Name" := Depart.Name;
+    //                             Employee."Department Code" := DeputationCodeTo;
+    //                         end;
+    //                     end;
 
-                    DeputationOnTo::Branch:
-                        begin
-                            GLSetup.Get;
-                            if DimValue.Get(GLSetup."Global Dimension 1 Code", DeputationCodeTo) then begin
-                                Employee."Branch Name" := DimValue.Name;
-                                Employee."Global Dimension 1 Code" := DeputationCodeTo;
-                            end;
-                        end;
+    //                 DeputationOnTo::"Extension Counter":
+    //                     begin
+    //                         EmpHie.Reset;
+    //                         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //                         EmpHie.SetRange(Code, DeputationCodeTo);
+    //                         if EmpHie.FindFirst then begin
+    //                             Employee."Extension Counter Name" := EmpHie.Description;
+    //                             Employee."Extension Counter Name" := DeputationCodeTo;
+    //                         end;
+    //                     end;
 
-                    DeputationOnTo::Department:
-                        begin
-                            if Depart.Get(DeputationCodeTo) then begin
-                                Employee."Department Name" := Depart.Name;
-                                Employee."Department Code" := DeputationCodeTo;
-                            end;
-                        end;
+    //                 DeputationOnTo::Unit:
+    //                     begin
+    //                         EmpHie.Reset;
+    //                         EmpHie.SetRange(Type, EmpHie.Type::Unit);
+    //                         EmpHie.SetRange(Code, DeputationCodeTo);
+    //                         if EmpHie.FindFirst then begin
+    //                             Employee."Extension Counter Name" := EmpHie.Description;
+    //                             Employee."Unit Name" := DeputationCodeTo;
+    //                         end;
+    //                     end;
+    //             end;
+    //             Employee.Modify;
+    //         until Employee.Next = 0;
+    // end;
 
-                    DeputationOnTo::"Extension Counter":
-                        begin
-                            EmpHie.Reset;
-                            EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                            EmpHie.SetRange(Code, DeputationCodeTo);
-                            if EmpHie.FindFirst then begin
-                                Employee."Extension Counter Name" := EmpHie.Description;
-                                Employee."Extension Counter Name" := DeputationCodeTo;
-                            end;
-                        end;
+    // local procedure IfBlockDeputationCode()
+    // begin
+    //     case DeputationOnFrom of
+    //         DeputationOnFrom::Province:
+    //             begin
+    //                 if Province.Get(DeputationCodeFrom) then begin
+    //                     Province.Validate(Blocked, true);
+    //                     Province.Modify;
+    //                 end;
+    //             end;
 
-                    DeputationOnTo::Unit:
-                        begin
-                            EmpHie.Reset;
-                            EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                            EmpHie.SetRange(Code, DeputationCodeTo);
-                            if EmpHie.FindFirst then begin
-                                Employee."Extension Counter Name" := EmpHie.Description;
-                                Employee."Unit Name" := DeputationCodeTo;
-                            end;
-                        end;
-                end;
-                Employee.Modify;
-            until Employee.Next = 0;
-    end;
+    //         DeputationOnFrom::"Sub Province":
+    //             begin
+    //                 SubProvince.Reset;
+    //                 SubProvince.SetRange(Code, DeputationCodeFrom);
+    //                 if SubProvince.FindFirst then begin
+    //                     SubProvince.Validate(Blocked, true);
+    //                     SubProvince.Modify;
+    //                 end;
+    //             end;
 
-    local procedure IfBlockDeputationCode()
-    begin
-        case DeputationOnFrom of
-            DeputationOnFrom::Province:
-                begin
-                    if Province.Get(DeputationCodeFrom) then begin
-                        Province.Validate(Blocked, true);
-                        Province.Modify;
-                    end;
-                end;
+    //         DeputationOnFrom::Branch:
+    //             begin
+    //                 GLSetup.Get;
+    //                 if DimValue.Get(GLSetup."Global Dimension 1 Code", DeputationCodeFrom) then begin
+    //                     DimValue.Validate(Blocked, true);
+    //                     DimValue.Modify;
+    //                 end;
+    //             end;
 
-            DeputationOnFrom::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, DeputationCodeFrom);
-                    if SubProvince.FindFirst then begin
-                        SubProvince.Validate(Blocked, true);
-                        SubProvince.Modify;
-                    end;
-                end;
+    //         DeputationOnFrom::Department:
+    //             begin
+    //                 if Depart.Get(DeputationCodeFrom) then begin
+    //                     Depart.Validate(Blocked, true);
+    //                     Depart.Modify;
+    //                 end;
+    //             end;
 
-            DeputationOnFrom::Branch:
-                begin
-                    GLSetup.Get;
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", DeputationCodeFrom) then begin
-                        DimValue.Validate(Blocked, true);
-                        DimValue.Modify;
-                    end;
-                end;
+    //         DeputationOnFrom::"Extension Counter":
+    //             begin
+    //                 EmpHie.Reset;
+    //                 EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //                 EmpHie.SetRange(Code, DeputationCodeFrom);
+    //                 if EmpHie.FindFirst then begin
+    //                     EmpHie.Validate(Blocked, true);
+    //                     EmpHie.Modify;
+    //                 end;
+    //             end;
 
-            DeputationOnFrom::Department:
-                begin
-                    if Depart.Get(DeputationCodeFrom) then begin
-                        Depart.Validate(Blocked, true);
-                        Depart.Modify;
-                    end;
-                end;
-
-            DeputationOnFrom::"Extension Counter":
-                begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, DeputationCodeFrom);
-                    if EmpHie.FindFirst then begin
-                        EmpHie.Validate(Blocked, true);
-                        EmpHie.Modify;
-                    end;
-                end;
-
-            DeputationOnFrom::Unit:
-                begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, DeputationCodeFrom);
-                    if EmpHie.FindFirst then begin
-                        EmpHie.Validate(Blocked, true);
-                        EmpHie.Modify;
-                    end;
-                end;
-        end;
-    end;
+    //         DeputationOnFrom::Unit:
+    //             begin
+    //                 EmpHie.Reset;
+    //                 EmpHie.SetRange(Type, EmpHie.Type::Unit);
+    //                 EmpHie.SetRange(Code, DeputationCodeFrom);
+    //                 if EmpHie.FindFirst then begin
+    //                     EmpHie.Validate(Blocked, true);
+    //                     EmpHie.Modify;
+    //                 end;
+    //             end;
+    //     end;
+    // end;
 
     procedure SetAppointment(EmpCode: Code[20])
     begin

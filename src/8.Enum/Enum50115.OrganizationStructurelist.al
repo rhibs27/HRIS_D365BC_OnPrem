@@ -7,7 +7,7 @@ enum 50115 "Organization Structure list"
     value(1; Unit)
     {
     }
-    value(2; Counter)
+    value(2; "Extension Counter")
     {
     }
     value(3; Branch)
@@ -16,16 +16,13 @@ enum 50115 "Organization Structure list"
     value(4; Department)
     {
     }
-    value(5; "Sub-Province")
+    value(5; Province)
     {
     }
-    value(6; Province)
+    value(6; "Head Office")
     {
     }
-    value(7; "Head Office")
-    {
-    }
-    value(8; "Sub-Unit")
+    value(7; "Sub-Unit")
     {
     }
 }

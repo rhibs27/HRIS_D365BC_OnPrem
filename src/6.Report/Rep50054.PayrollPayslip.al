@@ -504,62 +504,62 @@ report 50054 "Payroll Payslip"
         //FisCalYr := FiscalYear;
     end;
 
-    procedure ExitTransferDeputationWiseValue(DeputationOnOpt: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department; DeputationCodeVar: Code[20]): Text
+    procedure ExitTransferDeputationWiseValue(DeputationOnOpt: enum "Deputation Type"; DeputationCodeVar: Code[20]): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // SubProvince: Record "Sub Province";
         Province: Record Province;
+        OrganizationStructureList: Record "Organization Structure List";
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
         Clear(Province);
         case DeputationOnOpt of
             DeputationOnOpt::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", DeputationCodeVar) then
-                        exit(DimValue.Name);
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, DeputationCodeVar) then
+                        exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOnOpt::Department:
                 begin
-                    if Depart.Get(DeputationCodeVar) then
-                        exit(Depart.Name);
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, DeputationCodeVar) then
+                        exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOnOpt::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, DeputationCodeVar);
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", DeputationCodeVar) then
+                        exit(OrganizationStructureList.Name);
                 end;
 
-            DeputationOnOpt::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, DeputationCodeVar);
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.City);
-                end;
+            // DeputationOnOpt::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, DeputationCodeVar);
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.City);
+            //     end;
 
             DeputationOnOpt::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, DeputationCodeVar);
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, DeputationCodeVar) then
+                        exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOnOpt::Province:
                 begin
-                    if Province.Get(DeputationCodeVar) then
-                        exit(Province.Description);
+                    OrganizationStructureList.Reset();
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, DeputationCodeVar) then
+                        exit(OrganizationStructureList.Name);
                 end;
         end;
     end;

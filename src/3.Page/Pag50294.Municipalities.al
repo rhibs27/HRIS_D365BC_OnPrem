@@ -1,11 +1,9 @@
 page 50294 Municipalities
 {
-    // version KPI1.00
-
     PageType = List;
     SourceTable = Municipality;
     ApplicationArea = All;
-
+    UsageCategory = Administration;
     layout
     {
         area(Content)
@@ -17,9 +15,19 @@ page 50294 Municipalities
                     ToolTip = 'Specifies the value of the Code field.';
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field(Description; Rec."Municipality Name")
                 {
                     ToolTip = 'Specifies the value of the Description field.';
+                    ApplicationArea = All;
+                }
+                field("District Name "; Rec."District Name")
+                {
+                    ToolTip = 'Specifies the value of the District Name field.';
+                    ApplicationArea = All;
+                }
+                field("No of ward"; Rec."No of ward")
+                {
+                    ToolTip = 'Specifies the value of the No of ward field.';
                     ApplicationArea = All;
                 }
             }

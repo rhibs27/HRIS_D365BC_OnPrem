@@ -1,4 +1,4 @@
-page 50289 "KPI Setup Department (NIC)"
+page 50289 "KPI Setup Department Bank"
 {
     // version KPI1.00
 

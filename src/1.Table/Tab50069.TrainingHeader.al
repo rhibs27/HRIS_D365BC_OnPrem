@@ -176,7 +176,7 @@ table 50069 "Training Header"
                                     "Province Name" += ',' + ProvienceVar.Description;
                             until ProvienceVar.Next = 0
                     end;
-                    "Sub-Province" := '';
+                    // "Sub-Province" := '';
                     "Branch Code" := '';
                 end;
             end;
@@ -212,7 +212,7 @@ table 50069 "Training Header"
                         Validate("Resource Person", TrainingCalendar."Resouce person");
                         Validate(Cost, TrainingCalendar."Total Cost");
                         Validate(Province, TrainingCalendar.Province);
-                        Validate("Sub-Province", TrainingCalendar."Sub-Province");
+                        // Validate("Sub-Province", TrainingCalendar."Sub-Province");
                         Validate("Branch Code", TrainingCalendar."Coverage Branch");
                         Validate(Department, TrainingCalendar."Coverage Department");
                         Validate("Estimated Trainer Cost", TrainingCalendar."Trainer Cost");
@@ -229,32 +229,34 @@ table 50069 "Training Header"
             end;
         }
         field(24; Cost; Decimal) { }
-        field(25; "Sub-Province"; Code[100])
-        {
-            trigger OnLookup()
-            begin
-                Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
-            end;
+        // field(25; "Sub-Province"; Code[100])
+        // {
+        //     trigger OnLookup()
+        //     begin
+        //         Validate("Sub-Province", HRMgt.LookupSubProvinceTraining("Sub-Province", Province));
+        //     end;
 
-            trigger OnValidate()
-            begin
-                if "Sub-Province" <> xRec."Sub-Province" then
-                    "Branch Code" := '';
-            end;
-        }
+        //     trigger OnValidate()
+        //     begin
+        //         if "Sub-Province" <> xRec."Sub-Province" then
+        //             "Branch Code" := '';
+        //     end;
+        // }
         field(26; "Branch Code"; Code[100])
         {
-            trigger OnLookup()
-            begin
-                Validate("Branch Code", HRMgt.LookupBranch("Branch Code", Province, "Sub-Province"));
-            end;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::branch), Blocked = filter(false));
+            // trigger OnLookup()
+            // begin
+            //     Validate("Branch Code", HRMgt.LookupBranch("Branch Code", Province, "Sub-Province"));
+            // end;
         }
         field(27; Department; Code[100])
         {
-            trigger OnLookup()
-            begin
-                Validate(Department, HRMgt.LookupDepartment(Department));
-            end;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            // trigger OnLookup()
+            // begin
+            //     Validate(Department, HRMgt.LookupDepartment(Department));
+            // end;
         }
         field(28; Valley; enum "Outside/Inside Valley")
         {
@@ -583,7 +585,7 @@ table 50069 "Training Header"
         Clear("Estimated Total Budget");
         Clear("Resource Person");
         Clear(Cost);
-        Clear("Sub-Province");
+        // Clear("Sub-Province");
         Clear(Province);
         Clear("Province Name");
         Clear("Branch Code");

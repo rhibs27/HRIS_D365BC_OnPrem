@@ -17,9 +17,9 @@ report 50060 "HRIS Report - All Staff"
             column(DeputationCode; DeputationCode) { }
             column(DeputationValue; DeputationValue) { }
             column(ProvinceName_; "Province Name") { }
-            column(SubProvinceName_; "Sub Province Name") { }
-            column(EcoSystem_; EcoSystem.Description) { }
-            column(Cluster_; Cluster) { }
+            // column(SubProvinceName_; "Sub Province Name") { }
+            // column(EcoSystem_; EcoSystem.Description) { }
+            // column(Cluster_; Cluster) { }
             column(BranchName_; "Branch Name") { }
             column(DepartmentName_; "Department Name") { }
             column(FunctionalTitleDesc_; "Functional Title Desc") { }
@@ -54,7 +54,7 @@ report 50060 "HRIS Report - All Staff"
 
             trigger OnAfterGetRecord()
             begin
-                Clear(EcoSystem);
+                // Clear(EcoSystem);
                 ExitTransferDeputationWise("Deputation on");
                 if "Employment Date" <> 0D then
                     ServiceYear := Round((Today - "Employment Date") / 365, 0.01, '=');
@@ -62,12 +62,12 @@ report 50060 "HRIS Report - All Staff"
                     Age := Round((Today - "Birth Date") / 365, 1, '<');
                 Modify;
 
-                if "Deputation on" in ["Deputation on"::Department, "Deputation on"::Unit] then begin
-                    Depart.Reset;
-                    Depart.SetRange(Code, "Department Code");
-                    if Depart.FindFirst then
-                        if EcoSystem.Get(Depart."Eco-System") then;
-                end;
+                // if "Deputation on" in ["Deputation on"::Department, "Deputation on"::Unit] then begin
+                //     Depart.Reset;
+                //     Depart.SetRange(Code, "Department Code");
+                //     if Depart.FindFirst then
+                //         if EcoSystem.Get(Depart."Eco-System") then;
+                // end;
                 Clear(SalaryLevel);
                 if SalaryLevel.Get(Employee."Salary Level") then;
             end;
@@ -91,84 +91,84 @@ report 50060 "HRIS Report - All Staff"
     end;
 
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        Province: Record Province;
-        SubProvince: Record "Sub Province";
+        // DimValue: Record "Dimension Value";
+        // Depart: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        // Province: Record Province;
+        // SubProvince: Record "Sub Province";
         GLSetup: Record "General Ledger Setup";
         DeputationCode: Text;
         DeputationValue: Text;
         HRMgt: Codeunit "HR Mgt.";
         ServiceYear: Decimal;
         EmployeeRelative: Record "Employee Relative";
-        EcoSystem: Record "Employee Hierarchy Master";
+        // EcoSystem: Record "Employee Hierarchy Master";
         SalaryLevel: Record "Salary Level";
 
-    local procedure ExitTransferDeputationWise(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department)
+    local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type")
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
-        Clear(Province);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
+        // Clear(Province);
         Clear(DeputationCode);
         Clear(DeputationValue);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
-                        DeputationValue := DimValue.Name;
-                        DeputationCode := DimValue.Code;
-                    end;
+                    // if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
+                    DeputationValue := Employee."Branch Name";
+                    DeputationCode := Employee."Global Dimension 1 Code";
+                    // end;
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then begin
-                        DeputationValue := Depart.Name;
-                        DeputationCode := Depart.Code;
-                    end;
+                    // if Depart.Get(Employee."Department Code") then begin
+                    DeputationValue := Employee."Department Name";
+                    DeputationCode := Employee."Department Code";
+                    // end;
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code;
-                    end;
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then begin
+                    DeputationValue := Employee."Extension Counter Name";
+                    DeputationCode := Employee."Extension Counter Code";
+                    // end;
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then begin
-                        DeputationValue := SubProvince.City;
-                        DeputationCode := SubProvince.Code;
-                    end;
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then begin
+            //             DeputationValue := SubProvince.City;
+            //             DeputationCode := SubProvince.Code;
+            //         end;
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Unit Code");
-                    if EmpHie.FindFirst then begin
-                        DeputationValue := EmpHie.Description;
-                        DeputationCode := EmpHie.Code
-                    end;
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then begin
+                    DeputationValue := Employee."Unit Name";
+                    DeputationCode := Employee."Unit Code";
+                    // end;
                 end;
 
             DeputationOn::Province:
                 begin
-                    if Province.Get(Employee."Province Code") then begin
-                        DeputationValue := Province.Description;
-                        DeputationCode := Province.Code;
-                    end;
+                    // if Province.Get(Employee."Province Code") then begin
+                    DeputationValue := Employee."Province Name";
+                    DeputationCode := Employee."Province Code";
+                    // end;
                 end;
         end;
     end;

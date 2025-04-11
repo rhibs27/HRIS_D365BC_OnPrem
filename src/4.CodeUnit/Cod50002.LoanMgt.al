@@ -40,15 +40,15 @@ codeunit 50002 "Loan Mgt."
         FindApprover: Boolean;
         LastRankValue: Decimal;
         "ERROR BM": Label 'Only %1 can approve this document.';
-        DimensionValue: Record "Dimension Value";
+        // DimensionValue: Record "Dimension Value";
         RemoteArea: Record "Remote Area Category";
         Colon: Label ' : ';
         DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training,"Salary Advance","Personal Loan","Vehicle Loan","Home Loan";
         PrevLoanAmt: Decimal;
         VehicleLoanReapplyErr: Label 'Duration from disbursement date of previos loan is not greater than 5 years.';
         GLSetup: Record "General Ledger Setup";
-        DepartVar: Record Department;
-        EmpHierMaster: Record "Employee Hierarchy Master";
+        // DepartVar: Record Department;
+        // EmpHierMaster: Record "Employee Hierarchy Master";
         HomeLoanReapplyErr: Label 'Duration from disbursement date of previos loan is not greater than 5 years.';
         // SMTPSetup: Record "SMTP Mail Setup";
         CompanyInfo: Record "Company Information";
@@ -61,7 +61,7 @@ codeunit 50002 "Loan Mgt."
         LoanLimit: Decimal;
         SchemeCode: Text;
         EMIValue: Decimal;
-        LevelwiseAttribute: Record "Level Wise Attributes";
+        LevelWiseAttribute: Record "Level Wise Attributes";
         LineNo2: Integer;
         BelowSOAmt: Decimal;
 
@@ -114,12 +114,16 @@ codeunit 50002 "Loan Mgt."
                 EmpLoan."Remaining Service Period" := RemServicePeriodAsPerBankTenure;
         end;
         EmpLoan.Branch := Employee."Global Dimension 1 Code";//branch
-        if DimensionValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-            EmpLoan."Branch Name" := DimensionValue.Name;
-        if DepartVar.Get(Employee."Department Code") then
-            EmpLoan."Department Name" := DepartVar.Name;
-        if EmpHierMaster.Get(Employee."Unit Code") then
-            EmpLoan."Unit Name" := EmpHierMaster.Description;
+        EmpLoan."Branch Name" := Employee."Branch Name";
+        EmpLoan."Department Name" := Employee."Department Name";
+        EmpLoan."Unit Name" := Employee."Unit Name";
+
+        // if DimensionValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
+        //     EmpLoan."Branch Name" := DimensionValue.Name;
+        // if DepartVar.Get(Employee."Department Code") then
+        //     EmpLoan."Department Name" := DepartVar.Name;
+        // if EmpHierMaster.Get(Employee."Unit Code") then
+        //     EmpLoan."Unit Name" := EmpHierMaster.Description;
 
         EmpLoan."Citizenship Issue Date" := Employee."Citizenship Issue Date";
         EmpLoan."Employee Citizenship No." := Employee."Citizen Number";
@@ -1038,12 +1042,12 @@ codeunit 50002 "Loan Mgt."
             ValidateApprover(Employee, true, false, false, false, false, false, false, false, false);
 
         if (not HasRecommender) or (not HasApprover) then  //subprovince
-            if Employee."Sub Province Code" <> '' then
-                ValidateApprover(Employee, false, true, false, false, false, false, false, false, false);
+            // if Employee."Sub Province Code" <> '' then
+            //     ValidateApprover(Employee, false, true, false, false, false, false, false, false, false);
 
         if (not HasRecommender) or (not HasApprover) then  //province
-            if Employee."Province Code" <> 'REGO' then
-                ValidateApprover(Employee, false, false, true, false, false, false, false, false, false);
+                if Employee."Province Code" <> 'REGO' then
+                    ValidateApprover(Employee, false, false, true, false, false, false, false, false, false);
 
         if (not HasRecommender) or (not HasApprover) then  //unit wise
             if Employee."Unit Code" <> '' then
@@ -1053,21 +1057,21 @@ codeunit 50002 "Loan Mgt."
             if Employee."Department Code" <> '' then
                 ValidateApprover(Employee, false, false, false, false, true, false, false, false, false);
 
-        if (not HasRecommender) or (not HasApprover) then  //reporting line 1
-            if Employee."Reporting Line 1" <> '' then
-                ValidateApprover(Employee, false, false, false, false, false, true, false, false, false);
+        // if (not HasRecommender) or (not HasApprover) then  //reporting line 1
+        //     if Employee."Reporting Line 1" <> '' then
+        //         ValidateApprover(Employee, false, false, false, false, false, true, false, false, false);
 
-        if (not HasRecommender) or (not HasApprover) then  //reportin line 2
-            if Employee."Reporting Line 2" <> '' then
-                ValidateApprover(Employee, false, false, false, false, false, false, true, false, false);
+        // if (not HasRecommender) or (not HasApprover) then  //reportin line 2
+        //     if Employee."Reporting Line 2" <> '' then
+        //         ValidateApprover(Employee, false, false, false, false, false, false, true, false, false);
 
-        if (not HasRecommender) or (not HasApprover) then   //ecosystem
-            if Employee."Eco-System" <> '' then
-                ValidateApprover(Employee, false, false, false, false, false, false, false, true, false);
+        // if (not HasRecommender) or (not HasApprover) then   //ecosystem
+        //     if Employee."Eco-System" <> '' then
+        //         ValidateApprover(Employee, false, false, false, false, false, false, false, true, false);
 
-        if (not HasRecommender) or (not HasApprover) then  //office
-            if Employee.Office <> '' then
-                ValidateApprover(Employee, false, false, false, false, false, false, false, false, true);
+        // if (not HasRecommender) or (not HasApprover) then  //office
+        //     if Employee.Office <> '' then
+        //         ValidateApprover(Employee, false, false, false, false, false, false, false, false, true);
 
         if ApprovedBy = '' then begin
             ApprovedBy := RecommendedBy;
@@ -1142,7 +1146,7 @@ codeunit 50002 "Loan Mgt."
                     //EmployeeRec.SETFILTER("Global Dimension 1 Code", '%1|%2', '',Employee."Global Dimension 1 Code");
                     if FunctionalTitle."Rank Value" = 0 then
                         EmployeeRec.SetRange("Global Dimension 1 Code", '');
-                    EmployeeRec.SetRange("Sub Province Code", Employee."Sub Province Code");
+                    // EmployeeRec.SetRange("Sub Province Code", Employee."Sub Province Code");
                 end;
                 if Provincewise then begin
                     /*
@@ -1152,13 +1156,13 @@ codeunit 50002 "Loan Mgt."
                     //EmployeeRec.SETFILTER("Global Dimension 1 Code", '%1|%2', '',Employee."Global Dimension 1 Code");
                     if Employee."Province Code" <> 'REGO' then
                         HasRecommender := true; //direct approver
-                    EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code"); //mess
-                                                                                                           //EmployeeRec.SETRANGE("Post Code", Employee."Post Code");
+                                                // EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code"); //mess
+                                                //EmployeeRec.SETRANGE("Post Code", Employee."Post Code");
                     EmployeeRec.SetRange("Province Code", Employee."Province Code");
                 end;
                 if Unitwise then begin
                     EmployeeRec.SetFilter("Global Dimension 1 Code", '%1|%2', '', Employee."Global Dimension 1 Code");
-                    EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code");
+                    // EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code");
                     EmployeeRec.SetFilter("Province Code", '%1|%2|%3', '', Employee."Province Code", 'REGO');
                     EmployeeRec.SetRange("Unit Code", Employee."Unit Code");
                 end;
@@ -1166,40 +1170,40 @@ codeunit 50002 "Loan Mgt."
                 if Departmentwise then begin
                     HasApprover := true; //for
                     EmployeeRec.SetFilter("Global Dimension 1 Code", '%1|%2', '', Employee."Global Dimension 1 Code");
-                    EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code");
+                    // EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code");
                     EmployeeRec.SetFilter("Province Code", '%1|%2|%3', '', Employee."Province Code", 'REGO');
                     EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
                     EmployeeRec.SetRange("Department Code", Employee."Department Code");
                 end;
-                if ReportingLine1wise then begin
-                    EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
-                    EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
-                    EmployeeRec.SetRange("Reporting Line 1", Employee."Reporting Line 1");
-                end;
-                if ReportingLine2wise then begin
-                    EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
-                    EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
-                    EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
-                    EmployeeRec.SetRange("Reporting Line 2", Employee."Reporting Line 2");
-                end;
+                // if ReportingLine1wise then begin
+                //     EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
+                //     EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
+                //     EmployeeRec.SetRange("Reporting Line 1", Employee."Reporting Line 1");
+                // end;
+                // if ReportingLine2wise then begin
+                //     EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
+                //     EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
+                //     EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
+                //     EmployeeRec.SetRange("Reporting Line 2", Employee."Reporting Line 2");
+                // end;
 
-                if EcoSystemwise then begin
-                    EmployeeRec.SetFilter("Province Code", '%1|%2|%3', '', Employee."Province Code", 'REGO'); // cospo
-                    EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code"); //cospo
-                    EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
-                    EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
-                    EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
-                    EmployeeRec.SetFilter("Reporting Line 2", '%1|%2', '', Employee."Reporting Line 2");
-                    EmployeeRec.SetRange("Eco-System", Employee."Eco-System");
-                end;
-                if Officewise then begin
-                    EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
-                    EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
-                    EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
-                    EmployeeRec.SetFilter("Reporting Line 2", '%1|%2', '', Employee."Reporting Line 2");
-                    EmployeeRec.SetFilter("Eco-System", '%1|%2', '', Employee."Eco-System");
-                    EmployeeRec.SetRange(Office, Employee.Office);
-                end;
+                // if EcoSystemwise then begin
+                //     EmployeeRec.SetFilter("Province Code", '%1|%2|%3', '', Employee."Province Code", 'REGO'); // cospo
+                //     // EmployeeRec.SetFilter("Sub Province Code", '%1|%2', '', Employee."Sub Province Code"); //cospo
+                //     EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
+                //     EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
+                //     EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
+                //     EmployeeRec.SetFilter("Reporting Line 2", '%1|%2', '', Employee."Reporting Line 2");
+                //     EmployeeRec.SetRange("Eco-System", Employee."Eco-System");
+                // end;
+                // if Officewise then begin
+                //     EmployeeRec.SetFilter("Unit Code", '%1|%2', '', Employee."Unit Code");
+                //     EmployeeRec.SetFilter("Department Code", '%1|%2', '', Employee."Department Code");
+                //     EmployeeRec.SetFilter("Reporting Line 1", '%1|%2', '', Employee."Reporting Line 1");
+                //     EmployeeRec.SetFilter("Reporting Line 2", '%1|%2', '', Employee."Reporting Line 2");
+                //     EmployeeRec.SetFilter("Eco-System", '%1|%2', '', Employee."Eco-System");
+                //     EmployeeRec.SetRange(Office, Employee.Office);
+                // end;
 
                 if EmployeeRec.FindFirst then
                     repeat
@@ -1668,6 +1672,7 @@ codeunit 50002 "Loan Mgt."
         EnglishMonth: Enum "English Month";
         EnglishYear: Integer;
         counter: Integer;
+        OrganizationStructureList: Record "Organization Structure List";
     begin
         AllowanceHeadFilterPage.AddTable(AllowanceHeaderText, DATABASE::"Allowance Assignment Header");
         AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
@@ -1687,11 +1692,13 @@ codeunit 50002 "Loan Mgt."
                 Error('English year must have value.');
             GLSetup.Get;
             // branch
-            DimensionValue.Reset;
-            DimensionValue.SetRange("Global Dimension No.", 1);
-            DimensionValue.SetRange(Blocked, false);
-            DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-            if DimensionValue.Find('-') then
+            OrganizationStructureList.Reset;
+
+            // DimensionValue.SetRange("Global Dimension No.", 1);
+            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Branch);
+            OrganizationStructureList.SetRange(Blocked, false);
+            // DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+            if OrganizationStructureList.Find('-') then
                 repeat
                     counter := 1;
                     while counter <= 4 do begin
@@ -1699,14 +1706,14 @@ codeunit 50002 "Loan Mgt."
                         Clear(AllowanceHeader);
                         AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
-                        AllowanceHeader.SetRange(Code, DimensionValue.Code);
+                        AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
                         AllowanceHeader.SetRange("English Month", EnglishMonth);
                         AllowanceHeader.SetRange("English Year", EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
-                            AllowanceHeader.Validate(Code, DimensionValue.Code);
+                            AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
-                            AllowanceHeader.Validate(Name, DimensionValue.Name);
+                            AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
                             AllowanceHeader.Validate("English Year", EnglishYear);
                             AllowanceHeader.Week := counter;
                             AllowanceHeader.Validate("English Month", EnglishMonth);
@@ -1717,12 +1724,12 @@ codeunit 50002 "Loan Mgt."
                         end;
                         counter += 1;
                     end;
-                until DimensionValue.Next = 0;
+                until OrganizationStructureList.Next = 0;
 
-            EmpHierMaster.Reset;
-            EmpHierMaster.SetRange(Type, EmpHierMaster.Type::"Extension Counter");
-            EmpHierMaster.SetRange(Blocked, false);
-            if EmpHierMaster.Find('-') then
+            OrganizationStructureList.Reset;
+            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
+            OrganizationStructureList.SetRange(Blocked, false);
+            if OrganizationStructureList.Find('-') then
                 repeat
                     counter := 1;
                     while counter <= 4 do begin
@@ -1730,14 +1737,14 @@ codeunit 50002 "Loan Mgt."
                         Clear(AllowanceHeader);
                         AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
-                        AllowanceHeader.SetRange(Code, EmpHierMaster.Code);
+                        AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
                         AllowanceHeader.SetRange("English Month", EnglishMonth);
                         AllowanceHeader.SetRange("English Year", EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
-                            AllowanceHeader.Validate(Code, EmpHierMaster.Code);
+                            AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
-                            AllowanceHeader.Validate(Name, EmpHierMaster.Description);
+                            AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
                             AllowanceHeader.Validate("English Year", EnglishYear);
                             AllowanceHeader.Week := counter;
                             AllowanceHeader.Validate("English Month", EnglishMonth);
@@ -1748,7 +1755,7 @@ codeunit 50002 "Loan Mgt."
                         end;
                         counter += 1;
                     end;
-                until EmpHierMaster.Next = 0;
+                until OrganizationStructureList.Next = 0;
             Message('Created.');
         end;
     end;

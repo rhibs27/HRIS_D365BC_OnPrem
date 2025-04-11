@@ -1620,7 +1620,7 @@ codeunit 50008 "Payroll Engine"
         TempRemarks: Text[100];
     begin
         AttendanceSetup.Get;
-        if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outisde Valley", Employee."Posting Region", Employee."Global Dimension 1 Code") then begin
+        if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outside Valley", Employee."Posting Region", Employee."Global Dimension 1 Code") then begin
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
                 if EmployeeAttendanceActivity."OT Hrs" > 0 then
@@ -3106,7 +3106,7 @@ codeunit 50008 "Payroll Engine"
     var
         Employee: Record Employee;
         LevelWiseAttributes: Record "Level Wise Attributes";
-        Branches: Record "Dimension Value";
+        // Branches: Record "Dimension Value";
         RemoteAreaCategory: Record "Remote Area Category";
         GrossSalary: Decimal;
         FuntionalTitle: Record "Functional Title";
@@ -3117,16 +3117,19 @@ codeunit 50008 "Payroll Engine"
         PriorAmount: Decimal;
         PriorRemoteAll: Decimal;
         RemoteAll: Decimal;
-        TransferEmpActivity: Record "Employee Activity";
+        // TransferEmpActivity: Record "Employee Activity";
+        EmployeeTranfer: Record "Employee/HR Transfer";
         PromotionHistory: Record "Promotion History";
         ServiceHistory: Record "Employee Service History";
         InitialDate: Date;
         BranchCode: Code[20];
-        EmpHie: Record "Employee Hierarchy Master";
+        // EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
         FirstTime: Boolean;
         OutstationEligible: Boolean;
         SalaryAdvance: Record "Employee Loan/Advance";
-        OtEmployeeActivity: Record "Employee Activity";
+        // OtEmployeeActivity: Record "Employee Activity";
+        OverTime: Record OverTime;
     begin
         GLSetup.Get;
         GrossSalary := 0;
@@ -3211,86 +3214,88 @@ codeunit 50008 "Payroll Engine"
                     exit(Amount);
                 end;
             //BM accomendation
-            PGSetup."BM Accomendation":
-                begin
-                    TransferEmpActivity.Reset;
-                    TransferEmpActivity.SetRange("Employee No.", Employee."No.");
-                    TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-                    TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
-                    TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
-                    TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
-                    InitialDate := 0D;
-                    if TransferEmpActivity.FindLast then
-                        repeat
-                            if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
-                                Clear(BranchCode);
-                                if TransferEmpActivity."Deputation On (To)" = TransferEmpActivity."Deputation On (To)"::Branch then
-                                    BranchCode := TransferEmpActivity."Shortcut Dimension 1 Code (To)"
-                                else if TransferEmpActivity."Deputation On (To)" = TransferEmpActivity."Deputation On (To)"::"Extension Counter" then begin
-                                    EmpHie.Reset;
-                                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                    EmpHie.SetRange(Code, TransferEmpActivity."Extension Counter (To)");
-                                    if EmpHie.FindFirst then
-                                        BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                                end;
-                                if FuntionalTitle.Get(TransferEmpActivity."Functional Title (To)") then begin
-                                    if FuntionalTitle.Locationwise then begin
-                                        Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
-                                        RemoteAreaCategory.Get(Branches."BM Category");
-                                        if InitialDate = 0D then begin
-                                            Amount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1);
-                                        end else begin
-                                            Amount += RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (InitialDate - TransferEmpActivity."Date of Joining Of Transfer");
-                                        end;
-                                    end;
-                                end;
-                            end;
-                            InitialDate := TransferEmpActivity."Date of Joining Of Transfer";
-                        until TransferEmpActivity.Next(-1) = 0;
-                    TransferEmpActivity.Reset;
-                    TransferEmpActivity.SetRange("Employee No.", Employee."No.");
-                    TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-                    TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
-                    TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
-                    TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
-                    if TransferEmpActivity.FindFirst then begin
-                        if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
-                            Clear(BranchCode);
-                            Clear(RemoteAreaCategory);
-                            if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::Branch then
-                                BranchCode := TransferEmpActivity."Shortcut Dimension 1 Code"
-                            else if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::"Extension Counter" then begin
-                                EmpHie.Reset;
-                                EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                EmpHie.SetRange(Code, TransferEmpActivity."Extension Counter Code");
-                                if EmpHie.FindFirst then
-                                    BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                            end;
+            // PGSetup."BM Accomendation":
+            //     begin
+            //         EmployeeTranfer.Reset;
+            //         EmployeeTranfer.SetRange("Employee No.", Employee."No.");
+            //         EmployeeTranfer.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+            //         EmployeeTranfer.SetFilter(Type, '%1|%2', EmployeeTranfer.Type::"HR Transfer", EmployeeTranfer.Type::"Employee Transfer");
+            //         EmployeeTranfer.SetRange("Transfer Category", EmployeeTranfer."Transfer Category"::General);
+            //         EmployeeTranfer.SetRange("Approval Status", EmployeeTranfer."Approval Status"::Acknowledged);
+            //         InitialDate := 0D;
+            //         if EmployeeTranfer.FindLast then
+            //             repeat
+            //                 if EmployeeTranfer."BM Accomodation Allow." <> 0 then begin
+            //                     Clear(BranchCode);
+            //                     if EmployeeTranfer."Deputation On (To)" = EmployeeTranfer."Deputation On (To)"::Branch then
+            //                         BranchCode := EmployeeTranfer."Shortcut Dimension 1 Code (To)"
+            //                     else if EmployeeTranfer."Deputation On (To)" = EmployeeTranfer."Deputation On (To)"::"Extension Counter" then begin
+            //                         OrganizationStructureList.Reset;
+            //                         OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
+            //                         OrganizationStructureList.SetRange(Code, EmployeeTranfer."Extension Counter (To)");
+            //                         if OrganizationStructureList.FindFirst then
+            //                             BranchCode := OrganizationStructureList.code;
+            //                     end;
+            //                     if FuntionalTitle.Get(EmployeeTranfer."Functional Title (To)") then begin
+            //                         if FuntionalTitle.Locationwise then begin
+            //                             OrganizationStructureList.Reset();
+            //                             OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, BranchCode);
+            //                             // Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
+            //                             RemoteAreaCategory.Get(OrganizationStructureList."BM Category");
+            //                             if InitialDate = 0D then begin
+            //                                 Amount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1);
+            //                             end else begin
+            //                                 Amount += RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (InitialDate - TransferEmpActivity."Date of Joining Of Transfer");
+            //                             end;
+            //                         end;
+            //                     end;
+            //                 end;
+            //                 InitialDate := TransferEmpActivity."Date of Joining Of Transfer";
+            //             until TransferEmpActivity.Next(-1) = 0;
+            //         TransferEmpActivity.Reset;
+            //         TransferEmpActivity.SetRange("Employee No.", Employee."No.");
+            //         TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+            //         TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
+            //         TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
+            //         TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
+            //         if TransferEmpActivity.FindFirst then begin
+            //             if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
+            //                 Clear(BranchCode);
+            //                 Clear(RemoteAreaCategory);
+            //                 if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::Branch then
+            //                     BranchCode := TransferEmpActivity."Shortcut Dimension 1 Code"
+            //                 else if TransferEmpActivity."Deputation On" = TransferEmpActivity."Deputation On"::"Extension Counter" then begin
+            //                     EmpHie.Reset;
+            //                     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+            //                     EmpHie.SetRange(Code, TransferEmpActivity."Extension Counter Code");
+            //                     if EmpHie.FindFirst then
+            //                         BranchCode := EmpHie."Shortcut Dimension 1 Code";
+            //                 end;
 
-                            FuntionalTitle.Get(TransferEmpActivity."Functional Title");
-                            if FuntionalTitle.Locationwise then begin
-                                Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
-                                if RemoteAreaCategory.Get(Branches."BM Category") then
-                                    PriorAmount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
-                            end;
-                        end;
-                        exit(PriorAmount + Amount);
-                    end else begin
-                        TransferEmpActivity.Reset;
-                        TransferEmpActivity.SetRange("Employee No.", Employee."No.");
-                        TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-                        TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
-                        TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
-                        TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
-                        if TransferEmpActivity.FindLast then begin
-                            if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
-                                if Branches.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then;
-                                if RemoteAreaCategory.Get(Branches."BM Category") then
-                                    exit(RemoteAreaCategory."BM Accomodation Amount");
-                            end;
-                        end;
-                    end;
-                end;
+            //                 FuntionalTitle.Get(TransferEmpActivity."Functional Title");
+            //                 if FuntionalTitle.Locationwise then begin
+            //                     Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode);
+            //                     if RemoteAreaCategory.Get(Branches."BM Category") then
+            //                         PriorAmount := RemoteAreaCategory."BM Accomodation Amount" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
+            //                 end;
+            //             end;
+            //             exit(PriorAmount + Amount);
+            //         end else begin
+            //             TransferEmpActivity.Reset;
+            //             TransferEmpActivity.SetRange("Employee No.", Employee."No.");
+            //             TransferEmpActivity.SetRange("Date of Joining Of Transfer", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+            //             TransferEmpActivity.SetFilter(Type, '%1|%2', TransferEmpActivity.Type::"HR Transfer", TransferEmpActivity.Type::"Employee Transfer");
+            //             TransferEmpActivity.SetRange("Transfer Category", TransferEmpActivity."Transfer Category"::General);
+            //             TransferEmpActivity.SetRange("Approval Status", TransferEmpActivity."Approval Status"::Acknowledged);
+            //             if TransferEmpActivity.FindLast then begin
+            //                 if TransferEmpActivity."BM Accomodation Allow." <> 0 then begin
+            //                     if Branches.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then;
+            //                     if RemoteAreaCategory.Get(Branches."BM Category") then
+            //                         exit(RemoteAreaCategory."BM Accomodation Amount");
+            //                 end;
+            //             end;
+            //         end;
+            //     end;
 
             PGSetup."Salary Advance":
                 begin
@@ -3329,20 +3334,20 @@ codeunit 50008 "Payroll Engine"
                     exit(Amount + PriorAmount);
                 end;
 
-            PGSetup."COPO/COSPO Allowance":
-                begin
-                    if FuntionalTitle.Get(TransferEmpActivity."Functional Title") then
-                        if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
-                            PriorAmount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
+            // PGSetup."COPO/COSPO Allowance":
+            //     begin
+            //         if FuntionalTitle.Get(TransferEmpActivity."Functional Title") then
+            //             if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
+            //                 PriorAmount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (TransferEmpActivity."Date of Joining Of Transfer" - PayCyclePeriod."Start Date");
 
-                    if FuntionalTitle.Get(Employee."Functional Title") then begin
-                        if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
-                            Amount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1)
-                        else
-                            Amount := FuntionalTitle."COPO/COSPO Allowance";
-                    end;
-                    exit(Amount + PriorAmount);
-                end;
+            //         if FuntionalTitle.Get(Employee."Functional Title") then begin
+            //             if TransferEmpActivity."Date of Joining Of Transfer" <> 0D then
+            //                 Amount := FuntionalTitle."COPO/COSPO Allowance" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - TransferEmpActivity."Date of Joining Of Transfer" + 1)
+            //             else
+            //                 Amount := FuntionalTitle."COPO/COSPO Allowance";
+            //         end;
+            //         exit(Amount + PriorAmount);
+            //     end;
             //remote area allowance
             PGSetup."Remote Area Allowance":
                 begin
@@ -3361,17 +3366,20 @@ codeunit 50008 "Payroll Engine"
                             if LevelWiseAttributes.Get(ServiceHistory."Salary Grade (To)", ServiceHistory."Salary Level (To)") then;
                             GrossSalary := (LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance);
                             FirstTime := false;
-                            if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
-                                BranchCode := ServiceHistory."Deputation Code (To)"
-                            else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
-                                EmpHie.Reset;
-                                EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
-                                if EmpHie.FindFirst then
-                                    BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                            end;
-                            if Branches.Get(GLSetup."Global Dimension 1 Code", BranchCode) then begin
-                                if RemoteAreaCategory.Get(Branches."Remote Area Category") then;
+                            OrganizationStructureList.Reset();
+                            // if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
+                            //     BranchCode := ServiceHistory."Deputation Code (To)"
+                            // else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
+                            //     OrganizationStructureList.Reset;
+                            //     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", ServiceHistory."Deputation Code (To)") then
+                            //         BranchCode := OrganizationStructureList.Code;
+                            // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                            // EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
+                            // if EmpHie.FindFirst then
+                            //     BranchCode := EmpHie."Shortcut Dimension 1 Code";
+                            // end;
+                            if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, ServiceHistory."Deputation Code (To)") then begin
+                                if RemoteAreaCategory.Get(OrganizationStructureList."Remote Area Category") then;
                                 if InitialDate = 0D then begin
                                     Amount += (RemoteAreaCategory."Remote allowance Percentage" / 100 * GrossSalary) / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - ServiceHistory."Effective Date" + 1);
                                     RemoteAll += RemoteAreaCategory."Remote Allowance Amount" / PayrollLineVar."Total Days" * (PayCyclePeriod."End Date" - ServiceHistory."Effective Date" + 1);
@@ -3394,19 +3402,19 @@ codeunit 50008 "Payroll Engine"
                             Clear(RemoteAreaCategory);
                             if LevelWiseAttributes.Get(ServiceHistory."Salary Grade (From)", ServiceHistory."Salary Level (From)") then;
                             GrossSalary := (LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance);
-
+                            OrganizationStructureList.Reset();
                             if ServiceHistory."Service Event" = ServiceHistory."Service Event"::Transfer then begin
-                                if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
-                                    BranchCode := ServiceHistory."Deputation Code (To)"
-                                else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
-                                    EmpHie.Reset;
-                                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                    EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
-                                    if EmpHie.FindFirst then
-                                        BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                                end;
-                                if Branches.Get(GLSetup."Global Dimension 1 Code", ServiceHistory."Deputation Code (From)") then begin
-                                    if RemoteAreaCategory.Get(Branches."Remote Area Category") then;
+                                // if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
+                                //     BranchCode := ServiceHistory."Deputation Code (To)"
+                                // else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
+                                //     EmpHie.Reset;
+                                //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                                //     EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
+                                //     if EmpHie.FindFirst then
+                                //         BranchCode := EmpHie."Shortcut Dimension 1 Code";
+                                // end;
+                                if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then begin
+                                    if RemoteAreaCategory.Get(OrganizationStructureList."Remote Area Category") then;
                                     PriorAmount := (RemoteAreaCategory."Remote allowance Percentage" / 100 * GrossSalary) / PayrollLineVar."Total Days" * (ServiceHistory."Effective Date" - PayCyclePeriod."Start Date");
                                     PriorRemoteAll := RemoteAreaCategory."Remote Allowance Amount" / PayrollLineVar."Total Days" * (ServiceHistory."Effective Date" - PayCyclePeriod."Start Date");
                                 end;
@@ -3417,10 +3425,10 @@ codeunit 50008 "Payroll Engine"
                         else
                             exit(Amount + PriorAmount);
                     end else begin
-                        if Branches.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then begin
+                        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Employee."Global Dimension 1 Code") then begin
                             if LevelWiseAttributes.Get(ServiceHistory."Salary Grade (To)", ServiceHistory."Salary Level (To)") then;
                             GrossSalary := (LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance);
-                            if RemoteAreaCategory.Get(Branches."Remote Area Category") then begin
+                            if RemoteAreaCategory.Get(OrganizationStructureList."Remote Area Category") then begin
                                 if GrossSalary >= RemoteAreaCategory."Remote Allowance Amount" then
                                     exit(RemoteAreaCategory."Remote Allowance Amount")
                                 else begin
@@ -3485,24 +3493,24 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Holiday Counter":
                 begin
-                    OtEmployeeActivity.Reset; //Min 12.22.2022
-                    OtEmployeeActivity.SetRange("Employee No.", PayrollLineVar."Employee No.");
-                    OtEmployeeActivity.SetRange(Type, OtEmployeeActivity.Type::Overtime);
-                    OtEmployeeActivity.SetRange("Approval Status", OtEmployeeActivity."Approval Status"::Approved);
+                    OverTime.Reset; //Min 12.22.2022
+                    OverTime.SetRange("Employee No.", PayrollLineVar."Employee No.");
+                    OverTime.SetRange(Type, OverTime.Type::Overtime);
+                    OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
                     if PayrollHeader."Previous Year Payroll" then
-                        OtEmployeeActivity.SetRange("Start Date", PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
+                        OverTime.SetRange("Start Date", PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
                     else
-                        OtEmployeeActivity.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-                    OtEmployeeActivity.SetRange("OT Disbursed", false);
-                    OtEmployeeActivity.SetRange("Encashment Code", PGSetup."Holiday Counter");
-                    if OtEmployeeActivity.FindSet then
+                        OverTime.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                    OverTime.SetRange("OT Disbursed", false);
+                    OverTime.SetRange("Encashment Code", PGSetup."Holiday Counter");
+                    if OverTime.FindSet then
                         repeat
-                            OtEmployeeActivity."Updated Payroll Line" := true;
-                            OtEmployeeActivity.Modify;
-                        until OtEmployeeActivity.Next = 0;
-                    OtEmployeeActivity.CalcSums("OT Amount");
-                    if not (OtEmployeeActivity."OT Amount" = 0) then
-                        exit(OtEmployeeActivity."OT Amount");
+                            OverTime."Updated Payroll Line" := true;
+                            OverTime.Modify;
+                        until OverTime.Next = 0;
+                    OverTime.CalcSums("OT Amount");
+                    if not (OverTime."OT Amount" = 0) then
+                        exit(OverTime."OT Amount");
                     /*AllowanceAssignmentLine.RESET;
                     AllowanceAssignmentLine.SETRANGE("Employee Code","Employee No.");
                     AllowanceAssignmentLine.SETRANGE("Approval Status",AllowanceAssignmentLine."Approval Status"::Screened);
@@ -3515,24 +3523,24 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Festival Counter":
                 begin
-                    OtEmployeeActivity.Reset; //Min 12.22.2022
-                    OtEmployeeActivity.SetRange("Employee No.", PayrollLineVar."Employee No.");
-                    OtEmployeeActivity.SetRange(Type, OtEmployeeActivity.Type::Overtime);
-                    OtEmployeeActivity.SetRange("Approval Status", OtEmployeeActivity."Approval Status"::Approved);
+                    OverTime.Reset; //Min 12.22.2022
+                    OverTime.SetRange("Employee No.", PayrollLineVar."Employee No.");
+                    OverTime.SetRange(Type, OverTime.Type::Overtime);
+                    OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
                     if PayrollHeader."Previous Year Payroll" then
-                        OtEmployeeActivity.SetRange("Start Date", PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
+                        OverTime.SetRange("Start Date", PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
                     else
-                        OtEmployeeActivity.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-                    OtEmployeeActivity.SetRange("OT Disbursed", false);
-                    OtEmployeeActivity.SetRange("Encashment Code", PGSetup."Festival Counter");
-                    if OtEmployeeActivity.FindSet then
+                        OverTime.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                    OverTime.SetRange("OT Disbursed", false);
+                    OverTime.SetRange("Encashment Code", PGSetup."Festival Counter");
+                    if OverTime.FindSet then
                         repeat
-                            OtEmployeeActivity."Updated Payroll Line" := true;
-                            OtEmployeeActivity.Modify;
-                        until OtEmployeeActivity.Next = 0;
-                    OtEmployeeActivity.CalcSums("OT Amount");
-                    if not (OtEmployeeActivity."OT Amount" = 0) then
-                        exit(OtEmployeeActivity."OT Amount");
+                            OverTime."Updated Payroll Line" := true;
+                            OverTime.Modify;
+                        until OverTime.Next = 0;
+                    OverTime.CalcSums("OT Amount");
+                    if not (OverTime."OT Amount" = 0) then
+                        exit(OverTime."OT Amount");
                     /*AllowanceAssignmentLine.RESET;
                     AllowanceAssignmentLine.SETRANGE("Employee Code","Employee No.");
                     AllowanceAssignmentLine.SETRANGE("Approval Status",AllowanceAssignmentLine."Approval Status"::Screened);
@@ -3762,7 +3770,8 @@ codeunit 50008 "Payroll Engine"
         InitalDate: Date;
         FirstTime: Boolean;
         BranchCode: Code[20];
-        EmpHie: Record "Employee Hierarchy Master";
+        // EmpHie: Record "Employee Hierarchy Master";
+        OrganationStructureList: Record "Organization Structure List";
         RemoteArea: Record "Remote Area Category";
         DimValue: Record "Dimension Value";
         FinalDate: Date;
@@ -3783,17 +3792,17 @@ codeunit 50008 "Payroll Engine"
         if ServiceHistory.Find('+') then begin
             repeat
                 Clear(BranchCode);
-                if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
-                    BranchCode := ServiceHistory."Deputation Code (To)"
-                else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
-                    if EmpHie.FindFirst then
-                        BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                end;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", BranchCode) then;
-                if RemoteArea.Get(DimValue."Remote Area Reduction") then begin
+                // if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::Branch then
+                //     BranchCode := ServiceHistory."Deputation Code (To)"
+                // else if ServiceHistory."Deputation On (To)" = ServiceHistory."Deputation On (To)"::"Extension Counter" then begin
+                //     EmpHie.Reset;
+                //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                //     EmpHie.SetRange(Code, ServiceHistory."Deputation Code (To)");
+                //     if EmpHie.FindFirst then
+                //         BranchCode := EmpHie."Shortcut Dimension 1 Code";
+                // end;
+                if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
+                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
@@ -3816,25 +3825,27 @@ codeunit 50008 "Payroll Engine"
                 ServiceHistory.SetCurrentKey("Effective Date");
                 if ServiceHistory.FindFirst then begin
                     Clear(BranchCode);
-                    if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::Branch then
-                        BranchCode := ServiceHistory."Deputation Code (From)"
-                    else if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::"Extension Counter" then begin
-                        EmpHie.Reset;
-                        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                        EmpHie.SetRange(Code, ServiceHistory."Deputation Code (From)");
-                        if EmpHie.FindFirst then
-                            BranchCode := EmpHie."Shortcut Dimension 1 Code";
-                    end;
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", BranchCode) then;
-                    if RemoteArea.Get(DimValue."Remote Area Reduction") then begin
+                    // if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::Branch then
+                    //     BranchCode := ServiceHistory."Deputation Code (From)"
+                    // else if ServiceHistory."Deputation On(From)" = ServiceHistory."Deputation On(From)"::"Extension Counter" then begin
+                    //     EmpHie.Reset;
+                    //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    //     EmpHie.SetRange(Code, ServiceHistory."Deputation Code (From)");
+                    //     if EmpHie.FindFirst then
+                    //         BranchCode := EmpHie."Shortcut Dimension 1 Code";
+                    // end;
+                    // if DimValue.Get(GLSetup."Global Dimension 1 Code", BranchCode) then;
+                    If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
+                    if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
                     end;
                 end;
             end;
         end else begin
-            if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-                if RemoteArea.Get(DimValue."Remote Area Reduction") then
+            OrganationStructureList.Get();
+            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
+                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;

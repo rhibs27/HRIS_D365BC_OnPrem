@@ -78,11 +78,11 @@ page 50072 "KRA Master Setup"
                     ToolTip = 'Specifies the value of the Province Code field.';
                     ApplicationArea = All;
                 }
-                field("Sub Province Code"; Rec."Sub Province Code")
-                {
-                    ToolTip = 'Specifies the value of the Sub Province Code field.';
-                    ApplicationArea = All;
-                }
+                // field("Sub Province Code"; Rec."Sub Province Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Sub Province Code field.';
+                //     ApplicationArea = All;
+                // }
                 field("Transfer Deputation on"; Rec."Transfer Deputation on")
                 {
                     ToolTip = 'Specifies the value of the Transfer Deputation on field.';
@@ -93,11 +93,11 @@ page 50072 "KRA Master Setup"
                     ToolTip = 'Specifies the value of the Transfer Province Code field.';
                     ApplicationArea = All;
                 }
-                field("Transfer Sub Province Code"; Rec."Transfer Sub Province Code")
-                {
-                    ToolTip = 'Specifies the value of the Sub Province Code field.';
-                    ApplicationArea = All;
-                }
+                // field("Transfer Sub Province Code"; Rec."Transfer Sub Province Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Sub Province Code field.';
+                //     ApplicationArea = All;
+                // }
                 field("Transfer Sol Id"; Rec."Transfer Sol Id")
                 {
                     ToolTip = 'Specifies the value of the Transfer Sol Id field.';

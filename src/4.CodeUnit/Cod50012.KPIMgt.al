@@ -8,7 +8,8 @@ codeunit 50012 "KPI Mgt."
     end;
 
     var
-        DimensionValues: Record "Dimension Value";
+        OrganizationStructureList: Record "Organization Structure List";
+        // DimensionValues: Record "Dimension Value";
         LocationIncentivePer: Decimal;
         RemoteAreaCategory: Record "Remote Area Category";
         CategoryIncentive: Decimal;
@@ -22,7 +23,7 @@ codeunit 50012 "KPI Mgt."
         KPIDailyScore: Record "KPI Daily Score";
         KPIDailyScore1: Record "KPI Daily Score";
         DeptCode: Code[20];
-        Department: Record Department;
+        // Department: Record Department;
         KPIMaster: Record "KPI Master Bank";
 
     procedure DailyKPIScoreCalculationIndv(EmpCode: Code[20])
@@ -54,28 +55,26 @@ codeunit 50012 "KPI Mgt."
         Employee.Get(EmpCode);
         if not (Employee."KPI Deputation" in [Employee."KPI Deputation"::Branch, Employee."KPI Deputation"::"Extension Counter", Employee."KPI Deputation"::Province, Employee."KPI Deputation"::Unit]) then
             exit(0);
-        DimensionValues.Reset;
-        DimensionValues.SetRange(Code, Employee."Global Dimension 1 Code");
-        if DimensionValues.FindFirst then begin
-            Province.Get(DimensionValues.Province);
-            if DimensionValues."Inside/Outisde Valley" = DimensionValues."Inside/Outisde Valley"::Inside then
+        OrganizationStructureList.Reset;
+        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Employee."Global Dimension 1 Code") then begin
+            Province.Get(OrganizationStructureList."Province Code");
+            if OrganizationStructureList."InsideOutside Valley" = OrganizationStructureList."InsideOutside Valley"::Inside then
                 exit(0);
             if EligibleForIncentive(EmpCode) then begin
                 RemoteAreaCategory.Reset;
-                RemoteAreaCategory.SetRange(Category, DimensionValues."Remote Area Category");
+                RemoteAreaCategory.SetRange(Category, OrganizationStructureList."Remote Area Category");
                 if RemoteAreaCategory.FindFirst then begin
                     CategoryIncentive := RemoteAreaCategory."KPI Incentive %";
                 end;
                 if not (Province.Description in [Employee."Permanent Province", Employee."Temporary Province"]) then
                     exit((HrSetup."Location Incentive 3" / 100) * (CategoryIncentive / 100));
-                if not (DimensionValues.District in [Employee."Permanent District", Employee."Temporary District"]) then
+                if not (OrganizationStructureList."District Name" in [Employee."Permanent District", Employee."Temporary District"]) then
                     exit((HrSetup."Location Incentive 2" / 100) * (CategoryIncentive) / 100);
-                if not (DimensionValues.Municipality in [Employee."Permanent VDC", Employee."Temporary VDC"]) then
+                if not (OrganizationStructureList.Municipality in [Employee."Permanent VDC", Employee."Temporary VDC"]) then
                     exit((HrSetup."Location Incentive 1" / 100) * (CategoryIncentive) / 100);
                 exit(0);
             end;
         end;
-        //<<KPI1.00 Aakrista
     end;
 
     procedure EligibleForIncentive(EmplCode: Code[20]): Boolean
@@ -312,14 +311,15 @@ codeunit 50012 "KPI Mgt."
     var
         KPIDailyScore: Record "KPI Daily Score";
         EmpRec: Record Employee;
-        DepRec: Record Department;
+        OrganizationStructureList: Record "Organization Structure List";
+    // DepRec: Record Department;
     begin
         KPIDailyScore.Reset;
         KPIDailyScore.SetRange(Calculated, false);
         if EmpRec.Get(DocCode) then begin
             KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Employee);
             KPIDailyScore.SetRange("Employee Code", DocCode);
-        end else if DepRec.Get(DocCode) then begin
+        end else if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, DocCode) then begin
             KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Department);
             KPIDailyScore.SetRange("Employee Code", DocCode);
         end;
@@ -344,11 +344,12 @@ codeunit 50012 "KPI Mgt."
     procedure OperatingProfitScore(EmpCode: Code[20]): Decimal
     var
         KPIDailyScore: Record "KPI Daily Score";
-        Department: Record Department;
+        // Department: Record Department;
         EmpRec: Record Employee;
     begin
         KPIDailyScore.Reset;
-        if Department.Get(EmpCode) then begin
+        OrganizationStructureList.Reset();
+        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, EmpCode) then begin
             KPIDailyScore.SetRange(Type, KPIDailyScore.Type::Department);
             KPIDailyScore.SetRange("Employee Code", EmpCode);
         end else if EmpRec.Get(EmpCode) then
@@ -450,16 +451,16 @@ codeunit 50012 "KPI Mgt."
         Message('Daily KPI Score Is Inserted');
     end;
 
-    local procedure UpdateDepartment()
-    begin
-        Department.Reset;
-        Department.SetRange(Type, Department.Type::" ");
-        if Department.FindSet then
-            repeat
-                Department.Type := Department.Type::Department;
-                Department.Modify;
-            until Department.Next = 0;
-    end;
+    // local procedure UpdateDepartment()
+    // begin
+    //     Department.Reset;
+    //     Department.SetRange(Type, Department.Type::" ");
+    //     if Department.FindSet then
+    //         repeat
+    //             Department.Type := Department.Type::Department;
+    //             Department.Modify;
+    //         until Department.Next = 0;
+    // end;
 
     procedure ImportKPITargetEmployee()
     var

@@ -106,8 +106,7 @@ table 50127 "KPI Daily Score"
         }
         field(14; Department; Code[20])
         {
-            TableRelation = Department;
-
+            TableRelation = "Organization Structure List".code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if DepartmentRec.Get(Department) then //kpi1.00
@@ -141,5 +140,5 @@ table 50127 "KPI Daily Score"
         KPIMgt: Codeunit "KPI Mgt.";
         EmpRec: Record Employee;
         EmpCode: Code[20];
-        DepartmentRec: Record Department;
+        DepartmentRec: Record "Organization Structure List";
 }

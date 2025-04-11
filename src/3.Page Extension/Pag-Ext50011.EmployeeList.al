@@ -73,24 +73,18 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ToolTip = 'Specifies the value of the Province Name field.';
                 Visible = false;
             }
-            field("Sub Province Name"; Rec."Sub Province Name")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Sub Province Name field.';
-                Visible = false;
-            }
-            field("Eco-System"; Rec."Eco-System")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Eco-System field.';
-                Visible = false;
-            }
-            field(Cluster; Rec.Cluster)
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Cluster field.';
-                Visible = false;
-            }
+            // field("Eco-System"; Rec."Eco-System")
+            // {
+            //     ApplicationArea = All;
+            //     ToolTip = 'Specifies the value of the Eco-System field.';
+            //     Visible = false;
+            // }
+            // field(Cluster; Rec.Cluster)
+            // {
+            //     ApplicationArea = All;
+            //     ToolTip = 'Specifies the value of the Cluster field.';
+            //     Visible = false;
+            // }
             field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
             {
                 ApplicationArea = All;

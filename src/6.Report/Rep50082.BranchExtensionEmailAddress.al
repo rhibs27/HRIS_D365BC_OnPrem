@@ -11,9 +11,9 @@ report 50082 "Branch/Extension Email Address"
         {
             DataItemTableView = where(Number = const(1));
             column(Title; Title) { }
-            dataitem("Dimension Value"; "Dimension Value")
+            dataitem("Organization Structure List"; "Organization Structure List")
             {
-                DataItemTableView = where("Global Dimension No." = const(1));
+                DataItemTableView = where(Type = filter(type::Branch));
                 column(BranchCode; Code) { }
                 column(BranchName; Name) { }
                 column(ECMail; ECMail) { }
@@ -56,11 +56,11 @@ report 50082 "Branch/Extension Email Address"
                         until FunctionalTitle.Next = 0;
                 end;
             }
-            dataitem("Employee Hierarchy Master"; "Employee Hierarchy Master")
+            dataitem("Organization Structure List 1"; "Organization Structure List")
             {
-                DataItemTableView = where(Type = const("Extension Counter"));
+                DataItemTableView = where(Type = filter(type::"Extension Counter"));
                 column(ExtensionCode; Code) { }
-                column(ExtensionName; Description) { }
+                column(ExtensionName; Name) { }
                 column(ECMail1; ECMail1) { }
                 column(BMMail1; BMMail1) { }
 
@@ -90,7 +90,7 @@ report 50082 "Branch/Extension Email Address"
                         repeat
                             EmpVar.Reset;
                             EmpVar.SetRange("Deputation on", EmpVar."Deputation on"::Branch);
-                            EmpVar.SetRange("Global Dimension 1 Code", "Shortcut Dimension 1 Code");
+                            EmpVar.SetRange("Global Dimension 1 Code", code);
                             EmpVar.SetRange("Functional Title", FunctionalTitle.Code);
                             if EmpVar.FindFirst then begin
                                 if BMMail1 = '' then

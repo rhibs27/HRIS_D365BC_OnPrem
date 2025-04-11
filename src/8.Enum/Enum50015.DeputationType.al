@@ -14,23 +14,19 @@ enum 50015 "Deputation Type"
     {
         Caption = 'Extension Counter';
     }
-    value(3; "Sub Province")
-    {
-        Caption = 'Sub Province';
-    }
-    value(4; Province)
+    value(3; Province)
     {
         Caption = 'Province';
     }
-    value(5; Unit)
+    value(4; Unit)
     {
         Caption = 'Unit';
     }
-    value(6; Department)
+    value(5; Department)
     {
         Caption = 'Department';
     }
-    value(7; "Head Office")
+    value(6; "Head Office")
     {
         Caption = 'Head Office';
     }

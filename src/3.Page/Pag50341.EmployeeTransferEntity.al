@@ -75,7 +75,7 @@ page 50341 "Employee Transfer Entity"
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Transfer") { }
-                field(subProvinceCode;Rec."Sub Province Code") { }
+                // field(subProvinceCode;Rec."Sub Province Code") { }
                 field(subProvinceName;SubProvinceName) { }
                 field(provinceCode;Rec."Province Code") { }
                 field(unitCode;Rec."Unit Code") { }
@@ -95,16 +95,16 @@ page 50341 "Employee Transfer Entity"
                 field(deputationOn; Rec."Deputation On") { }
                 field(extensionCounterCode; Rec."Extension Counter Code") { }
                 field(shortcutDimension1CodeTo; Rec."Shortcut Dimension 1 Code (To)") { }
-                field(subProvinceCodeTo; Rec."Sub Province Code (To)") { }
+                // field(subProvinceCodeTo; Rec."Sub Province Code (To)") { }
                 field(functionalTitleTo; Rec."Functional Title (To)") { }
                 field(provinceCodeTo; Rec."Province Code (To)") { }
                 field(unitTo; Rec."Unit (To)") { }
                 field(departmentCodeTo; Rec."Department Code (To)") { }
-                field(reportingLine1To; Rec."Reporting Line 1 (To)") { }
-                field(reportingLine2To; Rec."Reporting Line 2 (To)") { }
-                field(officeCode; Rec."Office Code") { }
-                field(ecoSystemTo; Rec."Eco-System (To)") { }
-                field(officeTo; Rec."Office (To)") { }
+                // field(reportingLine1To; Rec."Reporting Line 1 (To)") { }
+                // field(reportingLine2To; Rec."Reporting Line 2 (To)") { }
+                // field(officeCode; Rec."Office Code") { }
+                // field(ecoSystemTo; Rec."Eco-System (To)") { }
+                // field(officeTo; Rec."Office (To)") { }
                 field(extensionCounterTo; Rec."Extension Counter (To)") { }
                 field(deputationOnTo; Rec."Deputation On (To)") { }
                 field(extensionNameTo; ExtensionNameTo)
@@ -369,10 +369,10 @@ page 50341 "Employee Transfer Entity"
     var
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        DepartVar: Record Department;
+        // DepartVar: Record Department;
         ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
+        // SubProvinceVar: Record "Sub Province";
+        // EmpHie: Record "Employee Hierarchy Master";
     begin
         Clear(BranchName);
         Clear(BranchNameTo);
@@ -394,11 +394,11 @@ page 50341 "Employee Transfer Entity"
         if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
             BranchNameTo := DimValue.Name;
 
-        if DepartVar.Get(Rec.Department) then
-            DepartmentName := DepartVar.Name;
+        // if DepartVar.Get(Rec.Department) then
+        //     DepartmentName := DepartVar.Name;
 
-        if DepartVar.Get(Rec."Department Code (To)") then
-            DepartmentNameTo := DepartVar.Name;
+        // if DepartVar.Get(Rec."Department Code (To)") then
+        //     DepartmentNameTo := DepartVar.Name;
 
         if ProvinceVar.Get(Rec."Province Code") then
             ProvinceName := ProvinceVar.Description;
@@ -406,39 +406,39 @@ page 50341 "Employee Transfer Entity"
         if ProvinceVar.Get(Rec."Province Code (To)") then
             ProvinceNameTo := ProvinceVar.Description;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            SubProvinceName := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceName := SubProvinceVar.City;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            SubProvinceNameTo := SubProvinceVar.City;
+        // SubProvinceVar.Reset;
+        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
+        // if SubProvinceVar.FindFirst then
+        //     SubProvinceNameTo := SubProvinceVar.City;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit Code");
-        if EmpHie.FindFirst then
-            UnitName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, Rec."Unit Code");
+        // if EmpHie.FindFirst then
+        //     UnitName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit (To)");
-        if EmpHie.FindFirst then
-            UnitNameTo := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+        // EmpHie.SetRange(Code, Rec."Unit (To)");
+        // if EmpHie.FindFirst then
+        //     UnitNameTo := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter Code");
-        if EmpHie.FindFirst then
-            ExtensionName := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, Rec."Extension Counter Code");
+        // if EmpHie.FindFirst then
+        //     ExtensionName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-        if EmpHie.FindFirst then
-            ExtensionNameTo := EmpHie.Description;
+        // EmpHie.Reset;
+        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+        // EmpHie.SetRange(Code, Rec."Extension Counter (To)");
+        // if EmpHie.FindFirst then
+        //     ExtensionNameTo := EmpHie.Description;
     end;
 
 }

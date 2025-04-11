@@ -152,7 +152,7 @@ codeunit 50000 "Leave Mgt."
                                     end;
                                 until DimValue.Next = 0;
                         end;
-                        if (InOutValley = Employee."Inside/Outisde Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
+                        if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
                         end;
@@ -924,8 +924,8 @@ codeunit 50000 "Leave Mgt."
     begin
         if leave.Cancelled then
             Error('Leave request no. %1 is already cancelled.', Leave."No.");
-        if Leave."Approved Date" + HRSetup."Cancelled Allowed Days" < Today then
-            Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancelled Allowed Days");
+        if Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
+            Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
         Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
         Leave.TestField("Cancelled Document No.", '');
         // Clear Approval line 

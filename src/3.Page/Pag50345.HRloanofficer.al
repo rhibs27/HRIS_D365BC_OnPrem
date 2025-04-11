@@ -1,7 +1,5 @@
 page 50345 "HR loan officer"
 {
-    // version ATNICASIA1.00
-
     PageType = RoleCenter;
     PromotedActionCategories = 'New,Process,Report,Employee Activity,Employee Loan';
     ApplicationArea = All;

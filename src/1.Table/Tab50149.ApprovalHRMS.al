@@ -2,7 +2,6 @@ table 50149 "Approval HRMS"
 {
     Caption = 'Approval HRMS';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "Document No."; Code[20])

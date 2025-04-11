@@ -24,10 +24,10 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Gender Filter field.';
             }
-            field("Inside/Outisde Valley"; Rec."Inside/Outisde Valley")
+            field("Inside/Outisde Valley"; Rec."Inside/Outside Valley")
             {
                 ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Inside/Outisde Valley field.';
+                ToolTip = 'Specifies the value of the Inside/Outside Valley field.';
             }
             field("Posting Region"; Rec."Posting Region")
             {

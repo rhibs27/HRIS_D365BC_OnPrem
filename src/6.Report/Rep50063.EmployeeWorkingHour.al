@@ -109,63 +109,62 @@ report 50063 "Employee Working Hour"
         Title: Label 'List of Employee Working Hours';
         DeputationName: Text;
 
-    local procedure ExitTransferDeputationWise(DeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department): Text
+    local procedure ExitTransferDeputationWise(DeputationOn: Enum "Deputation Type"): Text
     var
-        DimValue: Record "Dimension Value";
-        Depart: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
-        SubProvince: Record "Sub Province";
-        Province: Record Province;
-        GLSetup: Record "General Ledger Setup";
+    // DimValue: Record "Dimension Value";
+    // Depart: Record Department;
+    // EmpHie: Record "Employee Hierarchy Master";
+    // SubProvince: Record "Sub Province";
+    // Province: Record Province;
     begin
-        Clear(DimValue);
-        Clear(Depart);
-        Clear(EmpHie);
-        Clear(SubProvince);
-        Clear(Province);
+        // Clear(DimValue);
+        // Clear(Depart);
+        // Clear(EmpHie);
+        // Clear(SubProvince);
+        // Clear(Province);
         case DeputationOn of
             DeputationOn::Branch:
                 begin
-                    if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
-                        exit(DimValue.Name);
+                    // if DimValue.Get(GLSetup."Global Dimension 1 Code", Employee."Global Dimension 1 Code") then
+                    exit(Employee."Branch Name");
                 end;
 
             DeputationOn::Department:
                 begin
-                    if Depart.Get(Employee."Department Code") then
-                        exit(Depart.Name);
+                    // if Depart.Get(Employee."Department Code") then
+                    exit(Employee."Department Name");
                 end;
 
             DeputationOn::"Extension Counter":
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
+                    // if EmpHie.FindFirst then
+                    exit(Employee."Extension Counter Name");
                 end;
 
-            DeputationOn::"Sub Province":
-                begin
-                    SubProvince.Reset;
-                    SubProvince.SetRange(Code, Employee."Sub Province Code");
-                    if SubProvince.FindFirst then
-                        exit(SubProvince.City);
-                end;
+            // DeputationOn::"Sub Province":
+            //     begin
+            //         SubProvince.Reset;
+            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
+            //         if SubProvince.FindFirst then
+            //             exit(SubProvince.City);
+            //     end;
 
             DeputationOn::Unit:
                 begin
-                    EmpHie.Reset;
-                    EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    if EmpHie.FindFirst then
-                        exit(EmpHie.Description);
+                    // EmpHie.Reset;
+                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                    // EmpHie.SetRange(Code, Employee."Unit Code");
+                    // if EmpHie.FindFirst then
+                    exit(Employee."Unit Name");
                 end;
 
             DeputationOn::Province:
                 begin
-                    if Province.Get(Employee."Province Code") then
-                        exit(Province.Description);
+                    // if Province.Get(Employee."Province Code") then
+                    exit(Employee."Province Name");
                 end;
         end;
     end;

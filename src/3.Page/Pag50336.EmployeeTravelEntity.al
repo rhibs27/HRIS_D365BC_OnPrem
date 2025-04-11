@@ -57,7 +57,7 @@ page 50336 "Employee Travel Entity"
                 field(typeOfVisit; Rec."Type Of Visit") { }
                 field(modeOfTravel; Rec."Mode Of Travel") { }
                 field(unitCode; Rec."Unit Code") { }
-                field(subProvinceCode; Rec."Sub Province Code") { }
+                // field(subProvinceCode; Rec."Sub Province Code") { }
                 field(actualTravelStartDate; Rec."Actual Travel Start Date") { }
                 field(actualTravelEndDate; Rec."Actual Travel End Date") { }
                 field(actualTravelStartTime; Rec."Actual Travel Start Time") { }

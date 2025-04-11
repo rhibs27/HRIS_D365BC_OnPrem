@@ -24,12 +24,11 @@ table 50014 "Facilitator Pool"
                 if EmpVar.Get("Employee No.") then begin
                     Validate(Branch, EmpVar."Global Dimension 1 Code");
                     Validate(Province, EmpVar."Province Code");
-                    Validate("Sub Province", EmpVar."Sub Province Code");
                     Validate(Department, EmpVar."Department Code");
                 end else begin
                     Clear(Branch);
                     Clear(Province);
-                    Clear("Sub Province");
+                    // Clear("Sub Province");
                     Clear(Department);
                 end;
             end;
@@ -41,9 +40,9 @@ table 50014 "Facilitator Pool"
         field(3; Province; Code[20])
         {
         }
-        field(4; "Sub Province"; Code[20])
-        {
-        }
+        // field(4; "Sub Province"; Code[20])
+        // {
+        // }
         field(5; District; Code[20])
         {
         }

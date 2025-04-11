@@ -40,11 +40,11 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
                 }
-                field("Sub Province Code"; Rec."Sub Province Code")
-                {
-                    ToolTip = 'Specifies the value of the Sub Province Code field.';
-                    ApplicationArea = All;
-                }
+                // field("Sub Province Code"; Rec."Sub Province Code")
+                // {
+                //     ToolTip = 'Specifies the value of the Sub Province Code field.';
+                //     ApplicationArea = All;
+                // }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.';

@@ -1,4 +1,4 @@
-page 50291 "KPI Appraisals (NIC) List"
+page 50291 "KPI Appraisals Bank List"
 {
     // version KPI1.00
 

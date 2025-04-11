@@ -16,32 +16,33 @@ page 50251 "Employee Details Entity"
         {
             repeater(Group)
             {
-                field(No; Rec."No.") { }
-                field(FirstName; Rec."First Name") { }
-                field(MiddleName; Rec."Middle Name") { }
-                field(LastName; Rec."Last Name") { }
-                field(Initials; Rec.Initials) { }
-                field(Deputationon; Rec."Deputation on") { }
-                field(PermanentAddress; Address) { }
-                field(TemporaryAddress; "Address 2") { }
-                field(SubProvinceName; Rec."Sub Province Name") { }
-                field(SubProvinceCode; Rec."Sub Province Code") { }
-                field(MobilePhoneNo; Rec."Mobile Phone No.") { }
-                field(EMailPersonal; Rec."E-Mail") { }
-                field(Picture; Rec.Image) { }
-                field(BirthDate; Rec."Birth Date") { }
-                field(DepartmentCode; Rec."Department Code") { }
-                field(Gender; Rec.Gender) { }
-                field(EmploymentDate; Rec."Employment Date") { }
-                field(Status; Rec.Status) { }
-                field(InactiveDate; Rec."Inactive Date") { }
-                field(TerminationDate; Rec."Termination Date") { }
-                field(GlobalDimension1Code; Rec."Global Dimension 1 Code") { }
-                field(Extension; Rec.Extension) { }
-                field(CompanyEMail; Rec."Company E-Mail") { }
-                field(TitleNA; Title) { }
-                field(BankAccountNo; Rec."Bank Account No.") { }
-                field(EmployeeWorkShift; Rec."Employee Work Shift") { }
+                field(no; Rec."No.") { }
+                field(fullName; Rec."Full Name")
+                {
+                }
+                // field(firstName; Rec."First Name") { }
+                // field(middleName; Rec."Middle Name") { }
+                // field(lastName; Rec."Last Name") { }
+                // field(Initials; Rec.Initials) { }
+                field(deputationOn; Rec."Deputation on") { }
+                field(permanentAddress; Rec.Address) { }
+                field(temporaryAddress; Rec."Address 2") { }
+                field(mobilePhoneNo; Rec."Mobile Phone No.") { }
+                field(eMailPersonal; Rec."E-Mail") { }
+                field(picture; Rec.Image) { }
+                field(birthDate; Rec."Birth Date") { }
+                field(departmentCode; Rec."Department Code") { }
+                field(gender; Rec.Gender) { }
+                field(employmentDate; Rec."Employment Date") { }
+                field(status; Rec.Status) { }
+                field(inactiveDate; Rec."Inactive Date") { }
+                field(terminationDate; Rec."Termination Date") { }
+                field(branchCode; Rec."Global Dimension 1 Code") { }
+                field(extension; Rec.Extension) { }
+                field(companyEMail; Rec."Company E-Mail") { }
+                field(titleNA; Rec.Title) { }
+                field(bankAccountNo; Rec."Bank Account No.") { }
+                field(employeeWorkShift; Rec."Employee Work Shift") { }
                 field(SalaryLevel; Rec."Salary Level") { }
                 field(SalaryGrade; Rec."Salary Grade") { }
                 field(FullNameNepali; Rec."Full Name (Nepali)") { }
@@ -55,8 +56,8 @@ page 50251 "Employee Details Entity"
                 field(BloodGroup; Rec."Blood Group") { }
                 field(EmploymentType; Rec."Employment Type") { }
                 field(ProvinceName; Rec."Province Name") { }
-                field(Cluster; Rec.Cluster) { }
-                field(FullName; Rec."Full Name") { }
+                // field(Cluster; Rec.Cluster) { }
+                // field(FullName; Rec."Full Name") { }
                 field(OldEmployeeNo; Rec."Old Employee No.") { }
                 field(DepartmentName; Rec."Department Name") { }
                 field(BranchName; Rec."Branch Name") { }
@@ -73,7 +74,7 @@ page 50251 "Employee Details Entity"
                 field(ReportingPerson; Rec."Reporting Person") { }
                 field(PostingRegion; Rec."Posting Region") { }
                 field(FunctionalTitle; Rec."Functional Title") { }
-                field(InsideOutisdeValley; Rec."Inside/Outisde Valley") { }
+                field(InsideOutisdeValley; Rec."Inside/Outside Valley") { }
                 field(JobTitleCode; Rec."Job Title Code") { }
                 field(ServicePeriod; Rec."Service Period") { }
                 field(ConvertedToEmpDate; Rec."Converted To Emp. Date") { }
@@ -91,8 +92,8 @@ page 50251 "Employee Details Entity"
                 field(CitizenshipIssuePlaceCode; Rec."Citizenship Issue Place Code") { }
                 field(ProvinceCode; Rec."Province Code") { }
                 field(WardNo; Rec."Ward No") { }
-                field(Office; Rec.Office) { }
-                field(EcoSystem; Rec."Eco-System") { }
+                // field(Office; Rec.Office) { }
+                // field(EcoSystem; Rec."Eco-System") { }
                 field(ContractExpiryDate; Rec."Contract Expiry Date") { }
                 field(ResignationDate; Rec."Resignation Date") { }
                 field(FunctionalTitleDesc; Rec."Functional Title Desc") { }

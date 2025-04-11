@@ -84,20 +84,21 @@ report 50132 "Payroll Details Yearly"
                             if not ("Deputation On" in ["Deputation On"::Department, "Deputation On"::Unit]) then
                                 CurrReport.Skip;
                             if "Deputation On" = "Deputation On"::Unit then begin
-                                EmpHie.Reset;
-                                EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                                EmpHie.SetRange(Code, "Deputation Code");
-                                if EmpHie.FindFirst then
-                                    if DepartmentVar.Get(EmpHie."Department Code") then;
-                                if DepartmentVar.Code <> DepartmentFilter then
-                                    CurrReport.Skip;
+                                OrganizationStructureList.Reset;
+                                // EmpHie.SetRange(Type, EmpHie.Type::Unit);
+                                // EmpHie.SetRange(Code, "Deputation Code");
+                                if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Deputation Code") then
+                                    // if EmpHie.FindFirst then
+                                    // if DepartmentVar.Get(EmpHie."Department Code") then;
+                                    if OrganizationStructureList.Code <> DepartmentFilter then
+                                        CurrReport.Skip;
                             end;
                             if "Deputation On" = "Deputation On"::Department then begin
                                 if DepartmentFilter <> "Posted Payroll Line"."Deputation Code" then
                                     CurrReport.Skip;
                             end;
                         end;
-                        Clear(DepartmentVar);
+                        // Clear(DepartmentVar);
 
                         /*IF SalaryLevel.GET("Posted Payroll Line"."Salary Level") THEN;
                         IF FunctionalTitleVar.GET("Posted Payroll Line"."Functional Title") THEN;
@@ -160,7 +161,7 @@ report 50132 "Payroll Details Yearly"
                 }
                 field(Department; DepartmentFilter)
                 {
-                    TableRelation = Department;
+                    TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
                     ToolTip = 'Specifies the value of the DepartmentFilter field.';
                     ApplicationArea = All;
                 }
@@ -207,8 +208,9 @@ report 50132 "Payroll Details Yearly"
         FieldRefs: FieldRef;
         PayrollColumnConfig: Record "Payroll Column Configuration";
         Amt: Decimal;
-        DepartmentVar: Record Department;
-        EmpHie: Record "Employee Hierarchy Master";
+        // DepartmentVar: Record Department;
+        // EmpHie: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
         DepartmentFilter: Text;
         SalaryLevelFilter: Text;
         FunctionalTitleFilter: Text;

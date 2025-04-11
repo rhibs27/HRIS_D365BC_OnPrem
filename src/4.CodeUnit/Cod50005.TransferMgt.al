@@ -186,8 +186,8 @@ codeunit 50005 "Transfer Mgt."
                 EmpHrTransfer.TestField("Extension Counter (To)");
             EmpHrTransfer."Deputation On (To)"::Province:
                 EmpHrTransfer.TestField("Province Code (To)");
-            EmpHrTransfer."Deputation On (To)"::"Sub Province":
-                EmpHrTransfer.TestField("Sub Province Code (To)");
+            // EmpHrTransfer."Deputation On (To)"::"Sub Province":
+            //     EmpHrTransfer.TestField("Sub Province Code (To)");
             EmpHrTransfer."Deputation On (To)"::Unit:
                 EmpHrTransfer.TestField("Unit (To)");
         end;
@@ -329,8 +329,8 @@ codeunit 50005 "Transfer Mgt."
                 EmpHrTransfer.TestField("Extension Counter (To)");
             EmpHrTransfer."Deputation On (To)"::Province:
                 EmpHrTransfer.TestField("Province Code (To)");
-            EmpHrTransfer."Deputation On (To)"::"Sub Province":
-                EmpHrTransfer.TestField("Sub Province Code (To)");
+            // EmpHrTransfer."Deputation On (To)"::"Sub Province":
+            //     EmpHrTransfer.TestField("Sub Province Code (To)");
             EmpHrTransfer."Deputation On (To)"::Unit:
                 EmpHrTransfer.TestField("Unit (To)");
         end;
@@ -874,7 +874,7 @@ codeunit 50005 "Transfer Mgt."
         if relocationDistance = 0 then begin
             exit(0);
         end;
-        if Employee."Inside/Outisde Valley" = Employee."Inside/Outisde Valley"::Outside then begin
+        if Employee."Inside/Outside Valley" = Employee."Inside/Outside Valley"::Outside then begin
             if Employee."Posting Region" = Employee."Posting Region"::Hilly then begin
                 if relocationDistance >= HRSetup."Relocation Dist. Criteria (H)" then
                     exit(LevelWiseAttribute."Total Basic Salary");
@@ -914,7 +914,8 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
     var
-        DimensionValueCurrent: Record "Dimension Value";
+        // DimensionValueCurrent: Record "Dimension Value";
+        OrganizationStructureListCurrent: Record "Organization Structure List";
         RemoteArea: Record "Remote Area Category";
         PGSetup: Record "Payroll General Setup";
     begin
@@ -925,23 +926,23 @@ codeunit 50005 "Transfer Mgt."
         PGSetup.TestField("BM Functional Title");
         if EmpTransfer."Functional Title (To)" <> PGSetup."BM Functional Title" then
             exit;
-        if DimensionValueCurrent.Get('BRANCH', EmpTransfer."Shortcut Dimension 1 Code") then
-            if not DimensionValue.Get('BRANCH', EmpTransfer."Shortcut Dimension 1 Code (To)") then
+        if OrganizationStructureListCurrent.Get(OrganizationStructureListCurrent.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code") then
+            if not OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code (To)") then
                 exit;
-        if DimensionValueCurrent."Inside/Outisde Valley" = DimensionValueCurrent."Inside/Outisde Valley"::Inside then
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Inside then
+        if OrganizationStructureListCurrent."InsideOutside Valley" = OrganizationStructureListCurrent."InsideOutside Valley"::Inside then
+            if OrganizationStructureList."InsideOutside Valley" = OrganizationStructureList."InsideOutside Valley"::Inside then
                 exit(0);
 
         HRSetup.Get;
         HRSetup.TestField("BMAF Dist. Criteria (H)");
         HRSetup.TestField("BMAF Dist. Criteria (T)");
-        if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
-            if DimensionValue."Inside/Outisde Valley" = DimensionValue."Inside/Outisde Valley"::Outside then begin
+        if RemoteArea.Get(OrganizationStructureList."Remote Area Category") then begin
+            if OrganizationStructureList."InsideOutside Valley" = OrganizationStructureList."InsideOutside Valley"::Outside then begin
                 //  TESTFIELD("BMAF Distance");
-                if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Hilly then begin
+                if OrganizationStructureList."Region" = OrganizationStructureList."Region"::Hilly then begin
                     if BMAFDistance >= HRSetup."BMAF Dist. Criteria (H)" then
                         exit(RemoteArea."BM Accomodation Amount");
-                end else if DimensionValue."Posting Region" = DimensionValue."Posting Region"::Terai then begin
+                end else if OrganizationStructureList."Region" = OrganizationStructureList."Region"::Terai then begin
                     if BMAFDistance >= HRSetup."BMAF Dist. Criteria (T)" then
                         exit(RemoteArea."BM Accomodation Amount");
                 end;
@@ -951,7 +952,8 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee/HR Transfer"): Decimal
     var
-        DimensionValueCurrent: Record "Dimension Value";
+        // DimensionValueCurrent: Record "Dimension Value";
+        OrganizationStructureListCurrent: Record "Organization Structure List";
         SalaryLevel1: Record "Salary Level";
         GrossSalary: Decimal;
         SalaryLevel: Record "Salary Level";
@@ -977,7 +979,7 @@ codeunit 50005 "Transfer Mgt."
 
     procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee/HR Transfer"): Decimal
     var
-        DimensionValueCurrent: Record "Dimension Value";
+        // DimensionValueCurrent: Record "Dimension Value";
         SalaryLevel1: Record "Salary Level";
         GrossSalary: Decimal;
         SalaryLevel: Record "Salary Level";
@@ -985,8 +987,8 @@ codeunit 50005 "Transfer Mgt."
         RemoteArea: Record "Remote Area Category";
         RemoteAreaAllowance: Decimal;
     begin
-        if DimensionValue.Get('BRANCH', EmpTransfer."Shortcut Dimension 1 Code (To)") then begin
-            if RemoteArea.Get(DimensionValue."Remote Area Category") then begin
+        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code (To)") then begin
+            if RemoteArea.Get(OrganizationStructureList."Remote Area Category") then begin
                 Employee.Get(EmpTransfer."Employee No.");
                 SalaryLevel.Get(Employee."Salary Level");
                 SalaryGrade.Get(Employee."Salary Grade");
@@ -1009,9 +1011,9 @@ codeunit 50005 "Transfer Mgt."
         Province: Record Province;
         GLSetup: Record "General Ledger Setup";
         FunctionalTitle: Record "Functional Title";
-        SubProv: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
-        Depart: Record Department;
+        // SubProv: Record "Sub Province";
+        // EmpHie: Record "Employee Hierarchy Master";
+        // Depart: Record Department;
         ServiceHistoryCode: Code[20];
         ServiceHistory: Record "Employee Service History";
         PreviousServiceHistory: Record "Employee Service History";
@@ -1160,7 +1162,8 @@ codeunit 50005 "Transfer Mgt."
         HRMgt: Codeunit "HR Mgt.";
         EmployeeRec: Record Employee;
         OverTimeMgt: Codeunit "OverTime Mgt";
-        DimensionValue: Record "Dimension Value";
+        // DimensionValue: Record "Dimension Value";
+        OrganizationStructureList: Record "Organization Structure List";
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';
 
 

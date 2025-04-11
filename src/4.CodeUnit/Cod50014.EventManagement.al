@@ -82,7 +82,7 @@ codeunit 50014 "Event Management"
     begin
         BaseCalendarChange."Province Filter" := CustCalendarChange.Provinces;
         BaseCalendarChange."Gender Filter" := CustCalendarChange.Gender;
-        BaseCalendarChange."Inside/Outisde Valley" := CustCalendarChange.InOutValley;
+        BaseCalendarChange."Inside/Outside Valley" := CustCalendarChange.InOutValley;
         BaseCalendarChange."Posting Region" := CustCalendarChange.PostingRegion;
         BaseCalendarChange."Shortcut Dimension 1 Code" := CustCalendarChange.Branch;
     end;

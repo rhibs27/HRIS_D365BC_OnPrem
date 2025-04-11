@@ -40,15 +40,6 @@ table 50001 "KRA Master Setup1"
             begin
             end;
         }
-        field(12; "Sub Province Code"; Code[20])
-        {
-            Caption = 'Sub Province Code';
-            TableRelation = "Sub Province";
-
-            trigger OnValidate()
-            begin
-            end;
-        }
     }
 
     keys

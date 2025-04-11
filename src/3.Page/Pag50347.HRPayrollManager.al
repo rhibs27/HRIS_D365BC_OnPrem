@@ -1,7 +1,5 @@
 page 50347 "HR Payroll Manager"
 {
-    // version ATNICASIA1.00
-
     PageType = RoleCenter;
     PromotedActionCategories = 'New,Process,Report,Employee Activity,Employee Loan';
     ApplicationArea = All;

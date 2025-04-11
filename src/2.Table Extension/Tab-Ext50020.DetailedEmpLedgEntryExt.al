@@ -227,7 +227,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
 
         if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment"] then begin
             case Employee."Deputation on" of
-                Employee."Deputation on"::Province, Employee."Deputation on"::"Sub Province":
+                Employee."Deputation on"::Province:
                     begin
                         if PayrollAttributes."Static GL Ledger" then begin
                             PayrollAttributes.TestField("Static GL Ledger Account");

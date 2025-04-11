@@ -135,8 +135,8 @@ report 50136 "Re-instiate HR Transfer"
                         Employee.Validate("Global Dimension 1 Code", EmployeeActivity."Shortcut Dimension 1 Code");
                     Employee."Deputation on"::Province:
                         Employee.Validate("Province Code", EmployeeActivity."Province Code");
-                    Employee."Deputation on"::"Sub Province":
-                        Employee.Validate("Sub Province Code", EmployeeActivity."Sub Province Code");
+                    // Employee."Deputation on"::"Sub Province":
+                    //     Employee.Validate("Sub Province Code", EmployeeActivity."Sub Province Code");
                     Employee."Deputation on"::Unit:
                         Employee.Validate("Unit Code", EmployeeActivity."Unit Code");
                     Employee."Deputation on"::"Extension Counter":

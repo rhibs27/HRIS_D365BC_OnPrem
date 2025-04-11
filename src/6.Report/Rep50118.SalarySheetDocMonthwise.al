@@ -95,10 +95,10 @@ report 50118 "Salary Sheet Doc Monthwise"
 
             trigger OnAfterGetRecord()
             begin
-                EmpVar.Reset;
-                EmpVar.SetFilter("No.", EmployeeFilter);
-                if EmpVar.FindFirst() then;
-                if EmpDes.Get(EmpVar.Office) then;
+                // EmpVar.Reset;
+                // EmpVar.SetFilter("No.", EmployeeFilter);
+                // if EmpVar.FindFirst() then;
+                // if EmpDes.Get(EmpVar.Office) then;
             end;
         }
     }

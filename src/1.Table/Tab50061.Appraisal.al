@@ -78,7 +78,7 @@ table 50061 Appraisal
         field(15; Department; Code[20])
         {
             Editable = false;
-            TableRelation = Department;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
         }
         field(16; "Functional Title"; Code[20])
         {
@@ -421,12 +421,12 @@ table 50061 Appraisal
             if KRAMasterSetupRec.FindFirst then begin
                 "Deputation on" := KRAMasterSetupRec."Transfer Deputation on";
                 Province := KRAMasterSetupRec."Transfer Province Code";
-                "Sub-Province" := KRAMasterSetupRec."Transfer Sub Province Code";
+                // "Sub-Province" := KRAMasterSetupRec."Transfer Sub Province Code";
                 "Sol Id" := KRAMasterSetupRec."Transfer Sol Id"
             end else begin
                 Validate("Deputation on", EmployeeVar."Deputation on");
                 Validate(Province, EmployeeVar."Province Code");
-                Validate("Sub-Province", EmployeeVar."Sub Province Code");
+                // Validate("Sub-Province", EmployeeVar."Sub Province Code");
                 Validate("Sol Id", EmployeeVar."Sol Id"); //Min
             end;
             "Date of Employement" := EmployeeVar."Employment Date";
@@ -436,7 +436,6 @@ table 50061 Appraisal
             Validate(Unit, EmployeeVar."Unit Code");
             Validate("Department Name", EmployeeVar."Department Name");
             Validate("Province Name", EmployeeVar."Province Name");
-            Validate("Sub-Province Name", EmployeeVar."Sub Province Name");
             Validate("Unit Name", EmployeeVar."Unit Name");
             Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");//Min
         end;

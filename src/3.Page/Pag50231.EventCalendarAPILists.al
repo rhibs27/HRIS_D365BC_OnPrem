@@ -27,7 +27,7 @@ page 50231 "Event Calendar API Lists"
                 field(HolidayType; Rec."Holiday Type") { }
                 field(ProvinceFilter; Rec."Province Filter") { }
                 field(GenderFilter; Rec."Gender Filter") { }
-                field(InsideOutisdeValley; Rec."Inside/Outisde Valley") { }
+                field(InsideOutisdeValley; Rec."Inside/Outside Valley") { }
                 field(PostingRegion; Rec."Posting Region") { }
             }
         }
@@ -42,7 +42,7 @@ page 50231 "Event Calendar API Lists"
         Employee.FindFirst;
         Rec.SetRange(Nonworking, true);
         Rec.SetFilter("Gender Filter", '%1|%2', Employee.Gender, Rec."Gender Filter"::" ");
-        Rec.SetFilter("Inside/Outisde Valley", '%1|%2', Employee."Inside/Outisde Valley", Rec."Inside/Outisde Valley"::" ");
+        Rec.SetFilter("Inside/Outside Valley", '%1|%2', Employee."Inside/Outside Valley", Rec."Inside/Outside Valley"::" ");
         Rec.SetFilter("Posting Region", '%1|%2', Employee."Posting Region", Rec."Posting Region"::" ");
         Rec.SetFilter("Province Filter", '%1|%2', StrSubstNo('*%1*', Employee."Province Code"), '');
     end;

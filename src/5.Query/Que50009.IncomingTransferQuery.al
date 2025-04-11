@@ -42,7 +42,6 @@ query 50009 "Incoming Transfer Query"
             column(reasonCode; "Reason Code") { }
             column(reasonDescription; "Reason Description") { }
             column(reasonForTransfer; "Reason for Transfer") { }
-            column(subProvinceCode; "Sub Province Code") { }
             column(provinceCode; "Province Code") { }
             column(unitCode; "Unit Code") { }
             column(remarks; Remarks) { }
@@ -59,16 +58,10 @@ query 50009 "Incoming Transfer Query"
             column(extensionCounterCode; "Extension Counter Code") { }
             // propose
             column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
-            column(subProvinceCodeTo; "Sub Province Code (To)") { }
             column(functionalTitleTo; "Functional Title (To)") { }
             column(provinceCodeTo; "Province Code (To)") { }
             column(unitTo; "Unit (To)") { }
             column(departmentCodeTo; "Department Code (To)") { }
-            column(reportingLine1To; "Reporting Line 1 (To)") { }
-            column(reportingLine2To; "Reporting Line 2 (To)") { }
-            column(officeCode; "Office Code") { }
-            column(ecoSystemTo; "Eco-System (To)") { }
-            column(officeTo; "Office (To)") { }
             column(extensionCounterTo; "Extension Counter (To)") { }
             column(deputationOnTo; "Deputation On (To)") { }
             column(proposedTransferDate; "Transfer Effective Date") { }

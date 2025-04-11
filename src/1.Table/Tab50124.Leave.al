@@ -43,15 +43,15 @@ table 50124 Leave
                     Validate(Department, EmpVar."Department Code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate(Ecosystem, EmpVar."Eco-System");
-                    Validate("Office Code", EmpVar.Office);
                     Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Contact No.", EmpVar."Mobile Phone No.");
+                    Validate("Department Name", EmpVar."Department Name");
+                    Validate("Branch Name", EmpVar."Branch Name");
+                    Validate("Province Name", EmpVar."Province Name");
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -243,17 +243,15 @@ table 50124 Leave
         field(18; Department; Code[20])
         {
             Editable = false;
-            TableRelation = Department;
-
-            trigger OnValidate()
-            var
-                DeptVar: Record Department;
-            begin
-                if DeptVar.Get(Department) then
-                    Validate("Department Name", DeptVar.Name)
-                else
-                    Clear("Department Name");
-            end;
+            // trigger OnValidate()
+            // var
+            //     DeptVar: Record Department;
+            // begin
+            //     if DeptVar.Get(Department) then
+            //         Validate("Department Name", DeptVar.Name)
+            //     else
+            //         Clear("Department Name");
+            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -358,19 +356,16 @@ table 50124 Leave
         // }
         field(28; "Extension Counter Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
-        }
-        field(29; "Sub Province Code"; Code[20])
-        {
-            TableRelation = "Sub Province".Code;
         }
         field(30; "Province Code"; Code[20])
         {
             TableRelation = Province;
         }
+        field(29; "Province Name"; Code[50])
+        {
+        }
         field(31; "Unit Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
         field(32; "Compensatory Days"; Decimal)
         {

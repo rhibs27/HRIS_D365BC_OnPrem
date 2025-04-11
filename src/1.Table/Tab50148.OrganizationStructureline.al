@@ -35,11 +35,6 @@ table 50148 "Organization Structure line"
             Editable = false;
 
         }
-        field(6; "Sequence"; Integer)
-        {
-            Caption = 'Sequence';
-            Editable = true;
-        }
     }
     keys
     {

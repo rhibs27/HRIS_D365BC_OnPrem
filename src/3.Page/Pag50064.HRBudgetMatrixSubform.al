@@ -576,8 +576,8 @@ page 50064 "HR Budget Matrix Subform"
                 GblDeputationOn::Province:
                     EmpVar.SetRange("Province Code", MatrixCaption[i]);
 
-                GblDeputationOn::"Sub Province":
-                    EmpVar.SetRange("Sub Province Code", MatrixCaption[i]);
+                // GblDeputationOn::"Sub Province":
+                //     EmpVar.SetRange("Sub Province Code", MatrixCaption[i]);
 
                 GblDeputationOn::Unit:
                     EmpVar.SetRange("Unit Code", MatrixCaption[i]);
@@ -614,8 +614,8 @@ page 50064 "HR Budget Matrix Subform"
                 GblDeputationOn::Province:
                     EmpVar.SetRange("Province Code", MatrixCaption[i]);
 
-                GblDeputationOn::"Sub Province":
-                    EmpVar.SetRange("Sub Province Code", MatrixCaption[i]);
+                // GblDeputationOn::"Sub Province":
+                //     EmpVar.SetRange("Sub Province Code", MatrixCaption[i]);
 
                 GblDeputationOn::Unit:
                     EmpVar.SetRange("Unit Code", MatrixCaption[i]);

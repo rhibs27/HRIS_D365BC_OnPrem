@@ -95,7 +95,6 @@ query 50002 "Travel Query"
                     column(typeOfVisit; "Type Of Visit") { }
                     column(modeOfTravel; "Mode Of Travel") { }
                     column(unitCode; "Unit Code") { }
-                    column(subProvinceCode; "Sub Province Code") { }
                     column(actualTravelStartDate; "Actual Travel Start Date") { }
                     column(actualTravelEndDate; "Actual Travel End Date") { }
                     column(actualTravelStartTime; "Actual Travel Start Time") { }

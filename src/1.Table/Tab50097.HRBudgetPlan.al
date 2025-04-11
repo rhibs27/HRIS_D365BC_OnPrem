@@ -7,24 +7,31 @@ table 50097 "HR Budget Plan"
         field(1; "Fiscal Year"; Code[10]) { }
         field(2; "Code"; Code[20])
         {
-            TableRelation = if ("Deputation On" = const(Department)) Department.Code
-            //else if ("Deputation On" = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('Branch'))
-            else if ("Deputation On" = filter(<> Department)) "Reporting Category".Code;
+            TableRelation = if ("Deputation On" = Filter("Deputation On"::Department)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Department), Blocked = filter(false))
+            else if ("Deputation On" = Filter("Deputation On"::Branch)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Branch))
+            else if ("Deputation On" = filter("Deputation On"::Province)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Province), Blocked = filter(false));
 
             trigger OnValidate()
             begin
                 case "Deputation On" of
                     "Deputation On"::Department:
                         begin
-                            if Department.Get(Code) then
-                                Description := Department.Name
+                            if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Code) then
+                                Description := OrganizationStructureList.Name
                             else
                                 Description := '';
                         end;
-                    "Deputation On"::Branch, "Deputation On"::"Extension Counter", "Deputation On"::Province, "Deputation On"::"Sub Province", "Deputation On"::Unit:
+                    "Deputation On"::Branch:
                         begin
-                            if ReportingCategory.Get(Code) then
-                                Description := ReportingCategory.Description
+                            if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
+                                Description := OrganizationStructureList.Name
+                            else
+                                Description := '';
+                        end;
+                    "Deputation On"::Province:
+                        begin
+                            if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, Code) then
+                                Description := OrganizationStructureList.Name
                             else
                                 Description := '';
                         end;
@@ -136,16 +143,16 @@ table 50097 "HR Budget Plan"
         FunctionalTitle: Record "Functional Title";
         HRBudgetPlan: Record "HR Budget Plan";
         SalaryLevel: Record "Salary Level";
-        Department: Record Department;
-        ReportingCategory: Record "Reporting Category";
+        OrganizationStructureList: Record "Organization Structure List";
         RequiredEmpInBranch: Record "Required Emp In Branch";
 
     procedure InsertHRBudgetCombination(FiscalYear: Text)
     var
-        Branch: Record "Dimension Value";
+        // Branch: Record "Dimension Value";
         Province: Record Province;
-        SubProvince: Record "Sub Province";
-        EmployeeHierarchyMaster: Record "Employee Hierarchy Master";
+        OrganizationStructureList: Record "Organization Structure List";
+    // SubProvince: Record "Sub Province";
+    // EmployeeHierarchyMaster: Record "Employee Hierarchy Master";
     begin
         if not Confirm('Do you want to generate HR Budget as per the plan?', false) then
             exit;
@@ -158,59 +165,71 @@ table 50097 "HR Budget Plan"
                 case HRBudgetPlan."Deputation On" of
                     HRBudgetPlan."Deputation On"::Department:
                         begin
-                            InitHRBudgetCombination(false, '', '');
+                            OrganizationStructureList.Reset;
+                            If OrganizationStructureList.get(OrganizationStructureList.Type::Department, HRBudgetPlan.Code) then
+                                InitHRBudgetCombination(OrganizationStructureList.Code, OrganizationStructureList.Name);
                         end;
                     HRBudgetPlan."Deputation On"::Branch:
                         begin
-                            Branch.Reset;
-                            Branch.SetRange("Reporting Category", HRBudgetPlan.Code);
-                            Branch.SetRange(Blocked, false);
-                            if Branch.FindSet then
-                                repeat
-                                    InitHRBudgetCombination(true, Branch.Code, Branch.Name);
-                                until Branch.Next = 0;
+                            OrganizationStructureList.Reset;
+                            If OrganizationStructureList.get(OrganizationStructureList.Type::Branch, HRBudgetPlan.Code) then
+                                // OrganizationStructureList.SetRange("Reporting Category", HRBudgetPlan.Code);
+                                // Branch.SetRange(Blocked, false);
+                                // if Branch.FindSet then
+                                // repeat
+                                InitHRBudgetCombination(OrganizationStructureList.Code, OrganizationStructureList.Name);
+                            // until Branch.Next = 0;
                         end;
                     HRBudgetPlan."Deputation On"::Province:
                         begin
-                            Province.Reset;
-                            Province.SetRange("Reporting Category", HRBudgetPlan.Code);
-                            Province.SetRange(Blocked, false);
-                            if Province.FindSet then
-                                repeat
-                                    InitHRBudgetCombination(true, Province.Code, Province.Description);
-                                until Province.Next = 0;
+                            // Province.Reset;
+                            // Province.SetRange("Reporting Category", HRBudgetPlan.Code);
+                            // Province.SetRange(Blocked, false);
+                            // if Province.FindSet then
+                            //     repeat
+                            //         InitHRBudgetCombination(true, Province.Code, Province.Description);
+                            //     until Province.Next = 0;
+                            OrganizationStructureList.Reset;
+                            If OrganizationStructureList.get(OrganizationStructureList.Type::Province, HRBudgetPlan.Code) then
+                                InitHRBudgetCombination(OrganizationStructureList.Code, OrganizationStructureList.Name);
                         end;
-                    HRBudgetPlan."Deputation On"::"Sub Province":
-                        begin
-                            SubProvince.Reset;
-                            SubProvince.SetRange("Reporting Category", HRBudgetPlan.Code);
-                            SubProvince.SetRange(Blocked, false);
-                            if SubProvince.FindSet then
-                                repeat
-                                    InitHRBudgetCombination(true, SubProvince.Code, SubProvince.Code);
-                                until SubProvince.Next = 0;
-                        end;
+                    // HRBudgetPlan."Deputation On"::"Sub Province":
+                    //     begin
+                    //         SubProvince.Reset;
+                    //         SubProvince.SetRange("Reporting Category", HRBudgetPlan.Code);
+                    //         SubProvince.SetRange(Blocked, false);
+                    //         if SubProvince.FindSet then
+                    //             repeat
+                    //                 InitHRBudgetCombination(true, SubProvince.Code, SubProvince.Code);
+                    //             until SubProvince.Next = 0;
+                    //     end;
                     HRBudgetPlan."Deputation On"::"Extension Counter":
                         begin
-                            EmployeeHierarchyMaster.Reset;
-                            EmployeeHierarchyMaster.SetRange("Reporting Category", HRBudgetPlan.Code);
-                            EmployeeHierarchyMaster.SetRange(Type, EmployeeHierarchyMaster.Type::"Extension Counter");
-                            EmployeeHierarchyMaster.SetRange(Blocked, false);
-                            if EmployeeHierarchyMaster.FindSet then
-                                repeat
-                                    InitHRBudgetCombination(true, EmployeeHierarchyMaster.Code, EmployeeHierarchyMaster.Description);
-                                until EmployeeHierarchyMaster.Next = 0;
+                            // EmployeeHierarchyMaster.Reset;
+                            // EmployeeHierarchyMaster.SetRange("Reporting Category", HRBudgetPlan.Code);
+                            // EmployeeHierarchyMaster.SetRange(Type, EmployeeHierarchyMaster.Type::"Extension Counter");
+                            // EmployeeHierarchyMaster.SetRange(Blocked, false);
+                            // if EmployeeHierarchyMaster.FindSet then
+                            //     repeat
+                            //         InitHRBudgetCombination(true, EmployeeHierarchyMaster.Code, EmployeeHierarchyMaster.Description);
+                            //     until EmployeeHierarchyMaster.Next = 0;
+                            OrganizationStructureList.Reset;
+                            If OrganizationStructureList.get(OrganizationStructureList.Type::"Extension Counter", HRBudgetPlan.Code) then
+                                InitHRBudgetCombination(OrganizationStructureList.Code, OrganizationStructureList.Name);
                         end;
                     HRBudgetPlan."Deputation On"::Unit:
                         begin
-                            EmployeeHierarchyMaster.Reset;
-                            EmployeeHierarchyMaster.SetRange("Reporting Category", HRBudgetPlan.Code);
-                            EmployeeHierarchyMaster.SetRange(Type, EmployeeHierarchyMaster.Type::Unit);
-                            EmployeeHierarchyMaster.SetRange(Blocked, false);
-                            if EmployeeHierarchyMaster.FindSet then
-                                repeat
-                                    InitHRBudgetCombination(true, EmployeeHierarchyMaster.Code, EmployeeHierarchyMaster.Description);
-                                until EmployeeHierarchyMaster.Next = 0;
+                            // EmployeeHierarchyMaster.Reset;
+                            // EmployeeHierarchyMaster.SetRange("Reporting Category", HRBudgetPlan.Code);
+                            // EmployeeHierarchyMaster.SetRange(Type, EmployeeHierarchyMaster.Type::Unit);
+                            // EmployeeHierarchyMaster.SetRange(Blocked, false);
+                            // if EmployeeHierarchyMaster.FindSet then
+                            //     repeat
+                            //         InitHRBudgetCombination(true, EmployeeHierarchyMaster.Code, EmployeeHierarchyMaster.Description);
+                            //     until EmployeeHierarchyMaster.Next = 0;
+                            OrganizationStructureList.Reset;
+                            If OrganizationStructureList.get(OrganizationStructureList.Type::Unit, HRBudgetPlan.Code) then
+                                InitHRBudgetCombination(OrganizationStructureList.Code, OrganizationStructureList.Name);
                         end;
                 end;
                 HRBudgetPlan.Posted := true;
@@ -222,7 +241,7 @@ table 50097 "HR Budget Plan"
         Message('HR budget created successfully.');
     end;
 
-    local procedure InitHRBudgetCombination(NeedReportingCategory: Boolean; DeputationCode: Code[20]; DeputaionName: Text)
+    local procedure InitHRBudgetCombination(DeputationCode: Code[20]; DeputaionName: Text)
     begin
         RequiredEmpInBranch.Init;
         RequiredEmpInBranch."Fiscal Year" := HRBudgetPlan."Fiscal Year";
@@ -232,14 +251,14 @@ table 50097 "HR Budget Plan"
         RequiredEmpInBranch."Salary Level Code" := HRBudgetPlan."Salary Level Code";
         RequiredEmpInBranch."Salary Level" := HRBudgetPlan."Salary Level";
         RequiredEmpInBranch."Required Employee" := HRBudgetPlan."No. of Employees";
-        if NeedReportingCategory then begin
-            RequiredEmpInBranch."Reporting Category" := HRBudgetPlan.Code;
-            RequiredEmpInBranch.Code := DeputationCode;
-            RequiredEmpInBranch.Description := DeputaionName;
-        end else begin
-            RequiredEmpInBranch.Code := HRBudgetPlan.Code;
-            RequiredEmpInBranch.Description := HRBudgetPlan.Description;
-        end;
+        // if NeedReportingCategory then begin
+        // RequiredEmpInBranch."Reporting Category" := HRBudgetPlan.Code;
+        RequiredEmpInBranch.Code := DeputationCode;
+        RequiredEmpInBranch.Description := DeputaionName;
+        // end else begin
+        //     RequiredEmpInBranch.Code := HRBudgetPlan.Code;
+        //     RequiredEmpInBranch.Description := HRBudgetPlan.Description;
+        // end;
         RequiredEmpInBranch.Insert;
     end;
 }

@@ -1,8 +1,7 @@
 table 50011 District
 {
-    LookupPageId = "District List Page";
+    LookupPageId = "District";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "District Code"; Code[10]) { }
@@ -10,7 +9,6 @@ table 50011 District
         field(3; Province; Code[10])
         {
             TableRelation = Province;
-
             trigger OnValidate()
             var
                 ProvinceVar: Record Province;
@@ -25,25 +23,14 @@ table 50011 District
         {
             Editable = false;
         }
-        field(5; "Sub-Province Code"; Code[20])
+        field(5; Region; Enum Region)
         {
-            TableRelation = "Sub Province" where("Province Code" = field(Province));
-
-            trigger OnValidate()
-            var
-                SubProvinceVar: Record "Sub Province";
-            begin
-                SubProvinceVar.Reset;
-                SubProvinceVar.SetRange(Code, "Sub-Province Code");
-                if SubProvinceVar.FindFirst then
-                    Validate("Sub-Province Name", SubProvinceVar.City)
-                else
-                    Clear("Sub-Province Name");
-            end;
+            DataClassification = ToBeClassified;
         }
-        field(6; "Sub-Province Name"; Text[50])
+        field(6; "InsideOutside Valley"; Enum "Outside/Inside Valley")
         {
-            Editable = false;
+            DataClassification = ToBeClassified;
+            ValuesAllowed = Inside, Outside;
         }
         field(7; "District Name(Nepali)"; Text[30])
         {

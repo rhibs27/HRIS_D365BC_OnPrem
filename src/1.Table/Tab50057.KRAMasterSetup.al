@@ -53,15 +53,6 @@ table 50057 "KRA Master Setup"
             begin
             end;
         }
-        field(13; "Sub Province Code"; Code[20])
-        {
-            Caption = 'Sub Province Code';
-            TableRelation = "Sub Province";
-
-            trigger OnValidate()
-            begin
-            end;
-        }
         field(14; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -77,15 +68,6 @@ table 50057 "KRA Master Setup"
         field(17; "Transfer Province Code"; Code[10])
         {
             TableRelation = Province;
-
-            trigger OnValidate()
-            begin
-            end;
-        }
-        field(18; "Transfer Sub Province Code"; Code[20])
-        {
-            Caption = 'Sub Province Code';
-            TableRelation = "Sub Province";
 
             trigger OnValidate()
             begin

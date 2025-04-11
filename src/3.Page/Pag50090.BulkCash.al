@@ -1,6 +1,6 @@
 page 50090 "Bulk Cash"
 {
-    CardPageId = "New Employee Activity Card";
+    CardPageId = "Bulk Cash Card";
     DeleteAllowed = false;
     Editable = false;
     InsertAllowed = false;

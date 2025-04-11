@@ -90,7 +90,7 @@ page 50165 "Employee Activity Entity"
                 field(TypeOfVisit; Rec."Type Of Visit") { }
                 field(ModeOfTravel; Rec."Mode Of Travel") { }
                 field(UnitCode; Rec."Unit Code") { }
-                field(SubProvinceCode; Rec."Sub Province Code") { }
+                // field(SubProvinceCode; Rec."Sub Province Code") { }
                 field(ActualTravelStartDate; Rec."Actual Travel Start Date") { }
                 field(ActualTravelEndDate; Rec."Actual Travel End Date") { }
                 field(ActualTravelStartTime; Rec."Actual Travel Start Time") { }
@@ -151,16 +151,16 @@ page 50165 "Employee Activity Entity"
                 field(DeputationOn; Rec."Deputation On") { }
                 field(ExtensionCounterCode; Rec."Extension Counter Code") { }
                 field(ShortcutDimension1CodeTo; Rec."Shortcut Dimension 1 Code (To)") { }
-                field(SubProvinceCodeTo; Rec."Sub Province Code (To)") { }
+                // field(SubProvinceCodeTo; Rec."Sub Province Code (To)") { }
                 field(FunctionalTitleTo; Rec."Functional Title (To)") { }
                 field(ProvinceCodeTo; Rec."Province Code (To)") { }
                 field(UnitTo; Rec."Unit (To)") { }
                 field(DepartmentCodeTo; Rec."Department Code (To)") { }
-                field(ReportingLine1To; Rec."Reporting Line 1 (To)") { }
-                field(ReportingLine2To; Rec."Reporting Line 2 (To)") { }
+                // field(ReportingLine1To; Rec."Reporting Line 1 (To)") { }
+                // field(ReportingLine2To; Rec."Reporting Line 2 (To)") { }
                 field(OfficeCode; Rec."Office Code") { }
-                field(EcoSystemTo; Rec."Eco-System (To)") { }
-                field(OfficeTo; Rec."Office (To)") { }
+                // field(EcoSystemTo; Rec."Eco-System (To)") { }
+                // field(OfficeTo; Rec."Office (To)") { }
                 field(ExtensionCounterTo; Rec."Extension Counter (To)") { }
                 field(DeputationOnTo; Rec."Deputation On (To)") { }
                 field(ProposedTransferDate; Rec."Transfer Effective Date") { }
@@ -521,79 +521,79 @@ page 50165 "Employee Activity Entity"
     //     end;
     // end;
 
-    local procedure GetTransferName()
-    var
-        GLSetup: Record "General Ledger Setup";
-        DimValue: Record "Dimension Value";
-        DepartVar: Record Department;
-        ProvinceVar: Record Province;
-        SubProvinceVar: Record "Sub Province";
-        EmpHie: Record "Employee Hierarchy Master";
-    begin
-        Clear(BranchName);
-        Clear(BranchNameTo);
-        Clear(DepartmentNameTo);
-        Clear(DepartmentName);
-        Clear(ProvinceName);
-        Clear(ProvinceNameTo);
-        Clear(SubProvinceName);
-        Clear(SubProvinceNameTo);
-        Clear(UnitNameTo);
-        Clear(UnitName);
-        Clear(ExtensionName);
-        Clear(ExtensionNameTo);
-        GLSetup.Get;
+    // local procedure GetTransferName()
+    // var
+    //     GLSetup: Record "General Ledger Setup";
+    //     DimValue: Record "Dimension Value";
+    //     // DepartVar: Record Department;
+    //     ProvinceVar: Record Province;
+    //     // SubProvinceVar: Record "Sub Province";
+    //     // EmpHie: Record "Employee Hierarchy Master";
+    // begin
+    //     Clear(BranchName);
+    //     Clear(BranchNameTo);
+    //     Clear(DepartmentNameTo);
+    //     Clear(DepartmentName);
+    //     Clear(ProvinceName);
+    //     Clear(ProvinceNameTo);
+    //     Clear(SubProvinceName);
+    //     Clear(SubProvinceNameTo);
+    //     Clear(UnitNameTo);
+    //     Clear(UnitName);
+    //     Clear(ExtensionName);
+    //     Clear(ExtensionNameTo);
+    //     GLSetup.Get;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
-            BranchName := DimValue.Name;
+    //     if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
+    //         BranchName := DimValue.Name;
 
-        if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
-            BranchNameTo := DimValue.Name;
+    //     if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code (To)") then
+    //         BranchNameTo := DimValue.Name;
 
-        if DepartVar.Get(Rec.Department) then
-            DepartmentName := DepartVar.Name;
+    //     if DepartVar.Get(Rec.Department) then
+    //         DepartmentName := DepartVar.Name;
 
-        if DepartVar.Get(Rec."Department Code (To)") then
-            DepartmentNameTo := DepartVar.Name;
+    //     if DepartVar.Get(Rec."Department Code (To)") then
+    //         DepartmentNameTo := DepartVar.Name;
 
-        if ProvinceVar.Get(Rec."Province Code") then
-            ProvinceName := ProvinceVar.Description;
+    //     if ProvinceVar.Get(Rec."Province Code") then
+    //         ProvinceName := ProvinceVar.Description;
 
-        if ProvinceVar.Get(Rec."Province Code (To)") then
-            ProvinceNameTo := ProvinceVar.Description;
+    //     if ProvinceVar.Get(Rec."Province Code (To)") then
+    //         ProvinceNameTo := ProvinceVar.Description;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
-        if SubProvinceVar.FindFirst then
-            SubProvinceName := SubProvinceVar.City;
+    //     SubProvinceVar.Reset;
+    //     SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
+    //     if SubProvinceVar.FindFirst then
+    //         SubProvinceName := SubProvinceVar.City;
 
-        SubProvinceVar.Reset;
-        SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
-        if SubProvinceVar.FindFirst then
-            SubProvinceNameTo := SubProvinceVar.City;
+    //     SubProvinceVar.Reset;
+    //     SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
+    //     if SubProvinceVar.FindFirst then
+    //         SubProvinceNameTo := SubProvinceVar.City;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit Code");
-        if EmpHie.FindFirst then
-            UnitName := EmpHie.Description;
+    //     EmpHie.Reset;
+    //     EmpHie.SetRange(Type, EmpHie.Type::Unit);
+    //     EmpHie.SetRange(Code, Rec."Unit Code");
+    //     if EmpHie.FindFirst then
+    //         UnitName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        EmpHie.SetRange(Code, Rec."Unit (To)");
-        if EmpHie.FindFirst then
-            UnitNameTo := EmpHie.Description;
+    //     EmpHie.Reset;
+    //     EmpHie.SetRange(Type, EmpHie.Type::Unit);
+    //     EmpHie.SetRange(Code, Rec."Unit (To)");
+    //     if EmpHie.FindFirst then
+    //         UnitNameTo := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter Code");
-        if EmpHie.FindFirst then
-            ExtensionName := EmpHie.Description;
+    //     EmpHie.Reset;
+    //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //     EmpHie.SetRange(Code, Rec."Extension Counter Code");
+    //     if EmpHie.FindFirst then
+    //         ExtensionName := EmpHie.Description;
 
-        EmpHie.Reset;
-        EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-        if EmpHie.FindFirst then
-            ExtensionNameTo := EmpHie.Description;
-    end;
+    //     EmpHie.Reset;
+    //     EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+    //     EmpHie.SetRange(Code, Rec."Extension Counter (To)");
+    //     if EmpHie.FindFirst then
+    //         ExtensionNameTo := EmpHie.Description;
+    // end;
 }

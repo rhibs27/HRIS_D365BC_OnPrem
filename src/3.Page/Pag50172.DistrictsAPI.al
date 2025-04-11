@@ -15,12 +15,10 @@ page 50172 "Districts API"
         {
             repeater(Group)
             {
-                field(DistrictCode; Rec."District Code") { }
-                field(DistrictName; Rec."District Name") { }
-                field(Province; Rec.Province) { }
-                field(ProvinceName; Rec."Province Name") { }
-                field(SubProvinceCode; Rec."Sub-Province Code") { }
-                field(SubProvinceName; Rec."Sub-Province Name") { }
+                field(districtCode; Rec."District Code") { }
+                field(districtName; Rec."District Name") { }
+                field(province; Rec.Province) { }
+                field(provinceName; Rec."Province Name") { }
             }
         }
     }

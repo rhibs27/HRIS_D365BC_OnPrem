@@ -33,7 +33,7 @@ page 50275 "Active Employee"
                     }
                     field("To Check Reviews KPI"; Rec."To Check Reviews KPI")
                     {
-                        DrillDownPageID = "KPI Appraisals (NIC) List";
+                        DrillDownPageID = "KPI Appraisals bank List";
                         ToolTip = 'Specifies the value of the To Check Reviews KPI field.';
                         ApplicationArea = All;
                     }

@@ -1,4 +1,4 @@
-page 50290 "KPI Rating Setup (NIC)"
+page 50290 "KPI Rating Setup Bank"
 {
     // version KPI1.00
 

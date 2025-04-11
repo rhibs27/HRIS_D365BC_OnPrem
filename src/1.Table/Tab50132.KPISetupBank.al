@@ -12,7 +12,7 @@ table 50132 "KPI Setup Bank"
         field(2; "Code"; Code[20])
         {
             TableRelation = if (Type = const(Functional)) "Functional Title"
-            else if (Type = const(Department)) Department
+            else if (Type = const(Department)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false))
             else if (Type = const("Department Central & Province Level")) "Functional Title";
         }
         field(3; "KPI Code"; Code[20])
