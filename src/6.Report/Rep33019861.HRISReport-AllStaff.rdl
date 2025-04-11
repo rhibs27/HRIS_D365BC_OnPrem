@@ -85,15 +85,6 @@ End Function
         <Field Name="ProvinceName_">
           <DataField>ProvinceName_</DataField>
         </Field>
-        <Field Name="SubProvinceName_">
-          <DataField>SubProvinceName_</DataField>
-        </Field>
-        <Field Name="EcoSystem_">
-          <DataField>EcoSystem_</DataField>
-        </Field>
-        <Field Name="Cluster_">
-          <DataField>Cluster_</DataField>
-        </Field>
         <Field Name="BranchName_">
           <DataField>BranchName_</DataField>
         </Field>

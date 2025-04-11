@@ -10,6 +10,7 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
         modify("First Name")
         {
             Caption = 'Full Name';
+            Visible = false;
         }
         modify(Comment)
         {
@@ -26,6 +27,12 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                     if Rec.Employee_BOD <> xRec.Employee_BOD then
                         Clear(REC."Relative's Employee No.");
                 end;
+            }
+        }
+        addafter("Relative Code")
+        {
+            field("Full Name"; Rec."Full Name")
+            {
             }
         }
         addafter("Relative's Employee No.")

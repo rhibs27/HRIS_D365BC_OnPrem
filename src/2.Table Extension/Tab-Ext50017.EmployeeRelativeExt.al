@@ -61,6 +61,8 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         field(50008; "Ward No"; Integer)
         {
             DataClassification = CustomerContent;
+            MinValue = 1;
+            MaxValue = 32;
             Description = 'In Nepali   for loan';
         }
         field(50009; "Citizenship No."; Text[10])
@@ -97,6 +99,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         field(50015; "Full Name"; Text[50])
         {
             DataClassification = CustomerContent;
+            CharAllowed = 'AZaz';
         }
         field(50016; Employee_BOD; Enum "Employee/BOD Relation")
         {

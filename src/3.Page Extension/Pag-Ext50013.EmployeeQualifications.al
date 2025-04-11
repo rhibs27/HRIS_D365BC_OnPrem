@@ -18,6 +18,10 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
         {
             Visible = false;
         }
+        modify(Comment)
+        {
+            Visible = false;
+        }
         addbefore(Description)
         {
             field("Qualification Type"; Rec."Qualification Type")

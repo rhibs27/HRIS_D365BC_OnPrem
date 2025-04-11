@@ -37,11 +37,11 @@ page 50001 "Employee Work Qualification"
                     ToolTip = 'Specifies the value of the Institution/Company field.';
                     ApplicationArea = All;
                 }
-                field(Comment; Rec.Comment)
-                {
-                    ToolTip = 'Specifies the value of the Comment field.';
-                    ApplicationArea = All;
-                }
+                // field(Comment; Rec.Comment)
+                // {
+                //     ToolTip = 'Specifies the value of the Comment field.';
+                //     ApplicationArea = All;
+                // }
                 field(Designation; Rec.Designation)
                 {
                     ToolTip = 'Specifies the value of the Designation field.';

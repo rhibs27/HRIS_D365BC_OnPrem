@@ -50,19 +50,19 @@ table 50136 "Travel Request"
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
                     Validate(Department, EmpVar."Department Code");
+                    Validate("Branch Name", EmpVar."Branch Name");
+                    Validate("Department Name", EmpVar."Department Name");
                     // Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
-                    Validate("Sub Province Code", EmpVar."Sub Province Code");
+                    // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     /*VALIDATE("Compensatory Days", EmpVar."Reporting Line 1");
                     VALIDATE("Reporting Line 2 Code", EmpVar."Reporting Line 2");*/
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
-                    Validate(Ecosystem, EmpVar."Eco-System");
-                    Validate("Office Code", EmpVar.Office);
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
@@ -281,17 +281,17 @@ table 50136 "Travel Request"
         field(18; Department; Code[20])
         {
             Editable = false;
-            TableRelation = Department;
+            // TableRelation = Department;
 
-            trigger OnValidate()
-            var
-                DeptVar: Record Department;
-            begin
-                if DeptVar.Get(Department) then
-                    Validate("Department Name", DeptVar.Name)
-                else
-                    Clear("Department Name");
-            end;
+            // trigger OnValidate()
+            // var
+            //     DeptVar: Record Department;
+            // begin
+            //     if DeptVar.Get(Department) then
+            //         Validate("Department Name", DeptVar.Name)
+            //     else
+            //         Clear("Department Name");
+            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -403,19 +403,15 @@ table 50136 "Travel Request"
         // }
         field(28; "Extension Counter Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
+            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
-        field(29; "Sub Province Code"; Code[20])
-        {
-            TableRelation = "Sub Province".Code;
-        }
+
         field(30; "Province Code"; Code[20])
         {
             TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
-            TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
         field(32; "Compensatory Days"; Decimal)
         {
@@ -708,15 +704,18 @@ table 50136 "Travel Request"
         }
         field(78; "Actual Travel End Time"; Time)
         {
-
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
                 if Type = Type::"Travel Claim" then begin
                     EmpVar.Get("Employee No.");
                     SalaryLevel.Get(EmpVar."Salary Level");
-                    Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
-                        TravelMgt.GetOutofExpneseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
-
+                    IsHandled := false;
+                    OnBeforeOutOfPocketValidate(Rec, IsHandled);
+                    if not IsHandled then
+                        Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
+                            TravelMgt.GetOutofExpneseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
                 end;
             end;
         }
@@ -1057,5 +1056,9 @@ table 50136 "Travel Request"
         ApprovalEntry: Record "Approval HRMS";
 
 
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOutOfPocketValidate(var TravelRequest: Record "Travel Request"; var IsHandled: Boolean)
+    begin
+    end;
 
 }

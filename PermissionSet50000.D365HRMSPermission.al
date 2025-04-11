@@ -403,7 +403,7 @@ permissionset 50000 D365HRMSPermission
         xmlport "Import Training Attendance" = X,
         xmlport "Import/Export Training Line" = X,
         page "Adjustment Plan List" = X,
-        page "Agile Work Shifts" = X,
+        // page "Agile Work Shifts" = X,
         page "All Reports" = X,
         page "Allowance Assign Subfrom API" = X,
         page "Allowance Assign. Substitute" = X,

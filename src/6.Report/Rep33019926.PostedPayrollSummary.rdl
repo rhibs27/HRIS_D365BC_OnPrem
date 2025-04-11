@@ -1598,9 +1598,6 @@ End Function
         <Field Name="CurrentDeductionFormat">
           <DataField>CurrentDeductionFormat</DataField>
         </Field>
-        <Field Name="DepartmentVarCode">
-          <DataField>DepartmentVarCode</DataField>
-        </Field>
         <Field Name="NetPay">
           <DataField>NetPay</DataField>
         </Field>

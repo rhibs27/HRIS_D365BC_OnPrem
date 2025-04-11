@@ -174,16 +174,26 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
             Description = 'example- Science, Management etc.';
         }
-        field(28; Year; Code[10])
+        field(28; Year; Text[4])
         {
             DataClassification = CustomerContent;
             Description = 'Date of Completion of particular study';
+            CharAllowed = '09';
+            trigger OnValidate()
+            var
+                Date: Integer;
+            begin
+                Evaluate(Date, year);
+                if Date > Date2DMY(Today, 3) then
+                    Error('Date is in Future');
+
+            end;
         }
         field(29; Designation; Text[30])
         { DataClassification = CustomerContent; }
         field(30; "Time Period"; Decimal)
         { DataClassification = CustomerContent; }
-        field(31; Remuneration; Text[30])
+        field(31; Remuneration; Decimal)
         { DataClassification = CustomerContent; }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }

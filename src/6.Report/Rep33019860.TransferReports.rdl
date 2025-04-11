@@ -1994,15 +1994,6 @@ End Function
         <Field Name="IncomingSupervisior_">
           <DataField>IncomingSupervisior_</DataField>
         </Field>
-        <Field Name="ApproverCode_">
-          <DataField>ApproverCode_</DataField>
-        </Field>
-        <Field Name="ScreenerID_">
-          <DataField>ScreenerID_</DataField>
-        </Field>
-        <Field Name="ScreenerDate_">
-          <DataField>ScreenerDate_</DataField>
-        </Field>
         <Field Name="IncomingSupervisiorName_EmployeeActivity">
           <DataField>IncomingSupervisiorName_EmployeeActivity</DataField>
         </Field>

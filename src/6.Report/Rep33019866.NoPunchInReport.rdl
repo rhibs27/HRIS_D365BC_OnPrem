@@ -1274,9 +1274,6 @@ End Function
         <Field Name="ProvinceName_">
           <DataField>ProvinceName_</DataField>
         </Field>
-        <Field Name="SubProvinceName_">
-          <DataField>SubProvinceName_</DataField>
-        </Field>
         <Field Name="BranchName_">
           <DataField>BranchName_</DataField>
         </Field>

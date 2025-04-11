@@ -217,7 +217,7 @@ page 50217 "Employee Edit Entity"
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        if rec."Changes In Employee Type" in [rec."Changes In Employee Type"::Details, Rec."Changes In Employee Type"::Qualification] then
+        if rec."Changes In Employee Type" in [Rec."Changes In Employee Type"::Qualification] then
             uploadEmployeeChangesAttachment;
     end;
 

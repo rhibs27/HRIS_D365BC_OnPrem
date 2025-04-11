@@ -1589,14 +1589,8 @@ End Function
         <Field Name="ProvinceCode_Employee">
           <DataField>ProvinceCode_Employee</DataField>
         </Field>
-        <Field Name="SubProvinceCode_Employee">
-          <DataField>SubProvinceCode_Employee</DataField>
-        </Field>
         <Field Name="GlobalDimension1Code_Employee">
           <DataField>GlobalDimension1Code_Employee</DataField>
-        </Field>
-        <Field Name="EcoSystem_Employee">
-          <DataField>EcoSystem_Employee</DataField>
         </Field>
         <Field Name="DepartmentName_Employee">
           <DataField>DepartmentName_Employee</DataField>
@@ -1618,9 +1612,6 @@ End Function
         </Field>
         <Field Name="ProvinceName_Employee">
           <DataField>ProvinceName_Employee</DataField>
-        </Field>
-        <Field Name="SubProvinceName_Employee">
-          <DataField>SubProvinceName_Employee</DataField>
         </Field>
         <Field Name="TotalCount">
           <DataField>TotalCount</DataField>

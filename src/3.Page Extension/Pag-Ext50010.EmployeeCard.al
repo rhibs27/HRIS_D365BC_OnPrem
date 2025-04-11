@@ -362,7 +362,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Deputation on"; Rec."Deputation on")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Deputation on field.';
                     trigger OnValidate()
                     begin
@@ -370,67 +370,85 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     end;
 
                 }
-                field("Extension Counter Code"; Rec."Extension Counter Code")
+                field("Deputation On Code"; Rec."Deputation On Code")
                 {
-                    ApplicationArea = All;
-                    Enabled = false;
-                    ToolTip = 'Specifies the value of the Extension Counter Code field.';
-
-                }
-                field("Extension Counter Name"; Rec."Extension Counter Name")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Extension Counter Name field.';
-
-                }
-
-                field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
-                {
-                    ApplicationArea = All;
-                    Enabled = false;
-                    ToolTip = 'Specifies the value of the Global Dimension 1 Code field.';
-
-                }
-                field("Branch Name"; Rec."Branch Name")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Branch Name field.';
-
-                }
-                field("Unit Code"; Rec."Unit Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Unit Code field.';
-
-                }
-                field("Unit Name"; Rec."Unit Name")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Unit Name field.';
-
-                }
-                field("Department Code"; Rec."Department Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Department Code field.';
-
-                }
-                field("Department Name"; Rec."Department Name")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Department Name field.';
-
+                    Editable = false;
+                    Visible = false;
                 }
                 field("Province Code"; Rec."Province Code")
                 {
+                    Editable = ProvinceEdit;
+                    Visible = ProvinceVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Code field.';
 
                 }
                 field("Province Name"; Rec."Province Name")
                 {
+                    Visible = ProvinceVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Name field.';
+
+                }
+
+                field("Branch Code"; Rec."Branch Code")
+                {
+                    ApplicationArea = All;
+                    Editable = BranchEdit;
+                    Enabled = BranchVisible;
+                    // Enabled = false;
+                    ToolTip = 'Specifies the value of the Branch Code field.';
+
+                }
+                field("Branch Name"; Rec."Branch Name")
+                {
+                    Enabled = BranchVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Branch Name field.';
+
+                }
+                field("Extension Counter Code"; Rec."Extension Counter Code")
+                {
+                    ApplicationArea = All;
+                    Editable = ExtensionCounterEdit;
+                    Enabled = ExtensionCounterVisible;
+                    ToolTip = 'Specifies the value of the Extension Counter Code field.';
+
+                }
+                field("Extension Counter Name"; Rec."Extension Counter Name")
+                {
+                    Enabled = ExtensionCounterVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Extension Counter Name field.';
+                }
+                field("Department Code"; Rec."Department Code")
+                {
+                    Editable = DepartmentEdit;
+                    Enabled = DepartmentVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Department Code field.';
+
+                }
+                field("Department Name"; Rec."Department Name")
+                {
+                    Enabled = DepartmentVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Department Name field.';
+
+                }
+                field("Unit Code"; Rec."Unit Code")
+                {
+                    Editable = UnitEdit;
+                    Enabled = UnitVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Unit Code field.';
+
+                }
+                field("Unit Name"; Rec."Unit Name")
+                {
+                    Enabled = UnitVisible;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Unit Name field.';
 
                 }
                 // field(Cluster; Rec.Cluster)
@@ -439,7 +457,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 //     ToolTip = 'Specifies the value of the Cluster field.';
 
                 // }
-                field("Inside/Outisde Valley"; Rec."Inside/Outside Valley")
+                field("Inside/Outside Valley"; Rec."Inside/Outside Valley")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Inside/Outside Valley field.';
@@ -1862,18 +1880,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LoanMgt: Codeunit "Loan Mgt.";
         Type: Option ,"Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
         AppraisalRec: Record Appraisal;
-        Fieldvisible: Boolean;
-        Fieldvisible1: Boolean;
+        FieldVisible: Boolean;
+        FieldVisible1: Boolean;
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
-        ExtensionCounterEditable: Boolean;
-        BranchEditable: Boolean;
-        // SubProvinceEditble: Boolean;
-        ProvinceEditable: Boolean;
-        UnitEditable: Boolean;
-        DepartmentEditable: Boolean;
+        ExtensionCounterEdit: Boolean;
+        BranchEdit: Boolean;
+        ProvinceEdit: Boolean;
+        UnitEdit: Boolean;
+        DepartmentEdit: Boolean;
+        ExtensionCounterVisible: Boolean;
+        BranchVisible: Boolean;
+        ProvinceVisible: Boolean;
+        UnitVisible: Boolean;
+        DepartmentVisible: Boolean;
         PayrollEngine: Codeunit "Payroll Engine";
         ServiceHistory: Record "Employee Service History";
         PGSetup: Record "Payroll General Setup";
@@ -1893,6 +1915,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec.Age := ROUND((TODAY - Rec."Birth Date") / 365.4, 1, '<');
             Rec.MODIFY;
         END;
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        SetFieldEnable();
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -1965,50 +1992,70 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     LOCAL PROCEDURE SetFieldEnable();
     BEGIN
         CASE Rec."Deputation on" OF
-            Rec."Deputation on"::"Extension Counter":
-                BEGIN
-                    BranchEditable := FALSE;
-                    ProvinceEditable := FALSE;
-                    // SubProvinceEditble := FALSE;
-                    ExtensionCounterEditable := TRUE;
-                    UnitEditable := FALSE;
-                    DepartmentEditable := FALSE;
-                END;
             Rec."Deputation on"::Branch:
                 BEGIN
-                    BranchEditable := TRUE;
-                    ProvinceEditable := FALSE;
-                    // SubProvinceEditble := FALSE;
-                    ExtensionCounterEditable := FALSE;
-                    UnitEditable := FALSE;
-                    DepartmentEditable := FALSE;
+                    ProvinceEdit := false;
+                    BranchEdit := true;
+                    ExtensionCounterEdit := true;
+                    DepartmentEdit := FALSE;
+                    UnitEdit := FALSE;
+                    ExtensionCounterVisible := true;
+                    BranchVisible := true;
+                    ProvinceVisible := true;
+                    UnitVisible := false;
+                    DepartmentVisible := false;
                 END;
             Rec."Deputation on"::Province:
                 BEGIN
-                    BranchEditable := FALSE;
-                    ProvinceEditable := TRUE;
-                    // SubProvinceEditble := FALSE;
-                    ExtensionCounterEditable := FALSE;
-                    UnitEditable := FALSE;
-                    DepartmentEditable := FALSE;
+                    ProvinceEdit := true;
+                    BranchEdit := false;
+                    ExtensionCounterEdit := false;
+                    DepartmentEdit := FALSE;
+                    UnitEdit := FALSE;
+                    ExtensionCounterVisible := false;
+                    BranchVisible := false;
+                    ProvinceVisible := true;
+                    UnitVisible := false;
+                    DepartmentVisible := false;
                 END;
-            // Rec."Deputation on"::"Sub Province":
-            //     BEGIN
-            //         BranchEditable := FALSE;
-            //         ProvinceEditable := FALSE;
-            //         // SubProvinceEditble := TRUE;
-            //         ExtensionCounterEditable := FALSE;
-            //         UnitEditable := FALSE;
-            //         DepartmentEditable := FALSE;
-            //     END;
-            Rec."Deputation on"::Unit, Rec."Deputation on"::Department:
+            Rec."Deputation on"::Department:
                 BEGIN
-                    BranchEditable := FALSE;
-                    ProvinceEditable := FALSE;
-                    // SubProvinceEditble := FALSE;
-                    ExtensionCounterEditable := FALSE;
-                    UnitEditable := TRUE;
-                    DepartmentEditable := TRUE;
+                    ProvinceEdit := false;
+                    BranchEdit := false;
+                    ExtensionCounterEdit := false;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
+                    ExtensionCounterVisible := false;
+                    BranchVisible := false;
+                    ProvinceVisible := true;
+                    UnitVisible := true;
+                    DepartmentVisible := true;
+                END;
+            Rec."Deputation on"::Unit:
+                BEGIN
+                    ProvinceEdit := false;
+                    BranchEdit := false;
+                    ExtensionCounterEdit := false;
+                    DepartmentEdit := false;
+                    UnitEdit := true;
+                    ExtensionCounterVisible := false;
+                    BranchVisible := false;
+                    ProvinceVisible := true;
+                    UnitVisible := true;
+                    DepartmentVisible := true;
+                END;
+            Rec."Deputation on"::"Extension Counter":
+                BEGIN
+                    ProvinceEdit := false;
+                    BranchEdit := false;
+                    ExtensionCounterEdit := TRUE;
+                    DepartmentEdit := FALSE;
+                    UnitEdit := FALSE;
+                    ExtensionCounterVisible := true;
+                    BranchVisible := true;
+                    ProvinceVisible := true;
+                    UnitVisible := false;
+                    DepartmentVisible := false;
                 END;
         END;
     END;

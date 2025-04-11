@@ -1514,26 +1514,11 @@ End Function
         <Field Name="Province_Employee">
           <DataField>Province_Employee</DataField>
         </Field>
-        <Field Name="PostCode_Employee">
-          <DataField>PostCode_Employee</DataField>
-        </Field>
         <Field Name="Unit_Employee">
           <DataField>Unit_Employee</DataField>
         </Field>
         <Field Name="DepartmentCode_Employee">
           <DataField>DepartmentCode_Employee</DataField>
-        </Field>
-        <Field Name="ReportingLine1_Employee">
-          <DataField>ReportingLine1_Employee</DataField>
-        </Field>
-        <Field Name="ReprotingLine2_Employee">
-          <DataField>ReprotingLine2_Employee</DataField>
-        </Field>
-        <Field Name="EcoSystem_Employee">
-          <DataField>EcoSystem_Employee</DataField>
-        </Field>
-        <Field Name="Office_Employee">
-          <DataField>Office_Employee</DataField>
         </Field>
         <Field Name="EmpRankValue">
           <DataField>EmpRankValue</DataField>
