@@ -78,6 +78,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
                 EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
+                EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
                 EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                 EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
                 if EmployeeRec.FindFirst then

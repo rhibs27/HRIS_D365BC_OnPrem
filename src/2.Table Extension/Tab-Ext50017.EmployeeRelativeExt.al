@@ -99,7 +99,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         field(50015; "Full Name"; Text[50])
         {
             DataClassification = CustomerContent;
-            CharAllowed = 'AZaz';
+            CharAllowed = 'AZaz  ';
         }
         field(50016; Employee_BOD; Enum "Employee/BOD Relation")
         {

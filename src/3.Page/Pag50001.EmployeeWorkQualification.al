@@ -4,7 +4,7 @@ page 50001 "Employee Work Qualification"
     AutoSplitKey = true;
     PageType = List;
     SourceTable = "Employee Qualification";
-    SourceTableView = where("Emp Qualification Type" = const(Work));
+    // SourceTableView = where("Emp Qualification Type" = const(Work));
     ApplicationArea = All;
     layout
     {
@@ -132,6 +132,11 @@ page 50001 "Employee Work Qualification"
     begin
         EmployeeQualification.Reset;
         Clear(EmployeeQualification);
+    end;
+
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("Emp Qualification Type", Rec."Emp Qualification Type"::Work);
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)

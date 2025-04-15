@@ -826,7 +826,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Purpose of Travel", purposeOfTravel); //Min 11.29.2022
         TravelRequest.Validate("Type Of Visit", typeOfVisitEnum);
         TravelRequest.Validate("Mode Of Travel", ModeOfTravelEnum);
-        TravelRequest.Validate("Depature From", departureFrom);
+        TravelRequest.Validate("Departure From", departureFrom);
         TravelRequest.Validate(Destination, destination);
         TravelRequest.Validate(Description, description);
         TravelRequest.Validate("Advance Cash Required", advanceCashRequired);
@@ -834,7 +834,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate("Estimated Conveyance Expense", estimatedConveyanceExpense);
         TravelRequest.Validate("Other Estimated Cost", otherEstimatedCost);
         TravelRequest.Validate("Advance Cash", advanceCash);
-        TravelRequest.Validate("Depature Time", departureTime);
+        TravelRequest.Validate("Departure Time", departureTime);
         TravelRequest.Validate("Arrival Time", arrivalTime);
         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
         TravelRequest.Insert(true);
@@ -1064,7 +1064,7 @@ page 50108 "Portal Functions"
           '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Lodging, false, endDate - StartDate + 1)), '=', ',') + '",' +
         '"AdvanceCash" : "' + DelChr(Format(AdvanceCash), '=', ',') + '",' +
           '"outOfPocket": "' + DelChr(Format(SalaryLevel."Out of Pocket Expense" *
-                                TravelMgt.GetOutofExpneseDuration(depatureTime, arrivalTime, StartDate, endDate)), '=', ',') + '"' +
+                                TravelMgt.GetOutofExpenseDuration(depatureTime, arrivalTime, StartDate, endDate)), '=', ',') + '"' +
           '}');
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
     end;
@@ -3051,7 +3051,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    local procedure employeeEditAttachment(employeeEditNo: Code[20]): Text;
+    procedure employeeEditAttachment(employeeEditNo: Code[20]): Text;
     var
         EmployeeEdit: Record "Employee Edit";
         InStr: InStream;
@@ -3060,6 +3060,7 @@ page 50108 "Portal Functions"
         base64: Codeunit "Base64 Convert";
         ext: text;
     begin
+
         if EmployeeEdit.Get(employeeEditNo) then
             if EmployeeEdit.Attachment.HasValue then begin
                 if ItemTenantMedia.Get(EmployeeEdit.Attachment.MediaId) then begin

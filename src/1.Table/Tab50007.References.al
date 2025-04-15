@@ -15,7 +15,7 @@ table 50007 References
         {
             Caption = 'Reference Name';
             DataClassification = CustomerContent;
-            CharAllowed = 'AZaz';
+            CharAllowed = 'AZaz  ';
         }
         field(3; Address; Text[100])
         {

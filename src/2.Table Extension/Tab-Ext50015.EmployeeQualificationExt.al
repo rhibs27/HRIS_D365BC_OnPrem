@@ -2,10 +2,10 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
 {
     fields
     {
-        modify("Employee No.")
-        {
-            TableRelation = if ("Master Type" = const(Candidate)) "Cancelled Document";
-        }
+        // modify("Employee No.")
+        // {
+        //     // TableRelation = if ("Master Type" = const(Candidate)) "Cancelled Document";
+        // }
         modify("Qualification Code")
         {
             TableRelation = Qualification.Code where("Type" = field("Emp Qualification Type"), "Qualification Type" = field("Qualification Type"));
