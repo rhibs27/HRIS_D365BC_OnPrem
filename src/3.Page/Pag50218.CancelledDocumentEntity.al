@@ -10,7 +10,6 @@ page 50218 "Cancelled Document Entity"
     EntitySetName = 'cancelledDocEntity';
     PageType = API;
     SourceTable = "Cancel Document";
-
     layout
     {
         area(Content)
@@ -74,6 +73,8 @@ page 50218 "Cancelled Document Entity"
                 {
                     Caption = 'Leave Description';
                 }
+                field(leaveType; Rec."Leave Type") { }
+
                 field(noOfDays; Rec."No. of Days")
                 {
                     Caption = 'No. of Days';
@@ -112,6 +113,7 @@ page 50218 "Cancelled Document Entity"
     trigger OnOpenPage()
     begin
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
     end;
 
     trigger OnInsertRecord(BelowRec: Boolean): Boolean

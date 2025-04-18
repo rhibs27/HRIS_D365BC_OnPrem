@@ -75,7 +75,7 @@ report 50050 "Travel Claim Processing Report"
             column(ApproverName_; "Approver Name") { }
             column(BankAccountNo_; "Bank Account No.") { }
             column(NoofDays_; "No. of Days") { }
-            column(OutofPocketDailyLimit_; SalaryLevel."Out of Pocket Expense") { }
+            column(OutofPocketDailyLimit_; SalaryLevel."Out of Pocket Expense(Nepal)") { }
             column(RecommenderCode_; "Recommender Code") { }
             column(ApproverCode_; "Approver Code") { }
 

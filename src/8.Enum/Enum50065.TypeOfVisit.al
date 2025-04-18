@@ -26,9 +26,9 @@ enum 50065 "Type Of Visit"
     {
         Caption = 'Customer Call';
     }
-    value(6; "Internal Aduit")
+    value(6; "Internal Audit")
     {
-        Caption = 'Internal Aduit';
+        Caption = 'Internal Audit';
     }
     value(7; Others)
     {

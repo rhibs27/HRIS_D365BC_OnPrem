@@ -294,7 +294,7 @@ page 50136 "Transfer Claim Form"
     begin
         SetLayout();
         if IsOpen then
-            ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Transfer Claim");
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim");
     end;
 
     trigger OnAfterGetRecord()

@@ -87,7 +87,7 @@ report 50000 "Validate Travel Claim"
         //EmpAct.SETRANGE("No.",'TRACLAIM76_77-00009');
         if EmpAct.Find('-') then
             repeat
-                EmpAct.Validate("Out of Pocket Expense", TravelMgt.GetOutofExpneseDuration(EmpAct."Depature Time", EmpAct."Arrival Time", EmpAct."Start Date", EmpAct."End Date"));
+                EmpAct.Validate("Out of Pocket Expense", TravelMgt.GetOutOfExpenseDuration(EmpAct."Depature Time", EmpAct."Arrival Time", EmpAct."Start Date", EmpAct."End Date"));
                 /*EmpAct2.GET(EmpAct."Travel Order No.");
                 Employee.GET(EmpAct2."Employee No.");
 

@@ -52,7 +52,7 @@ report 50066 "Travel Request Processing"
             column(RoadAirFare_; "Road/Air Fare") { }
             column(Reimbursable_; ReimbursableText) { }
             column(FoodingAllowanceLimit_; "Fooding Allowance Limit") { }
-            column(DepatureTime_; "Depature Time") { }
+            column(DepatureTime_; "Departure Time") { }
             column(ArrivalTime_; "Arrival Time") { }
             column(LodgingAllowanceLimit_; "Lodging Allowance Limit") { }
             column(FoodingPerDayLimit_; "Fooding Per Day Limit") { }
@@ -68,7 +68,7 @@ report 50066 "Travel Request Processing"
             // column(FinalApproverDate_; "Final Approver Date") { }
             column(TypeOfVisit_; "Type Of Visit") { }
             column(ModeOfTravel_; "Mode Of Travel") { }
-            column(DepatureFrom_; "Depature From") { }
+            column(DepatureFrom_; "Departure From") { }
             column(Destination_; Destination) { }
             column(Description_; Description) { }
             column(PurposeofTravel_; "Purpose of Travel") { }
@@ -80,7 +80,7 @@ report 50066 "Travel Request Processing"
             // column(ApproverName_; "Approver Name") { }
             // column(BankAccountNo_; "Bank Account No.") { }
             column(NoofDays_; "No. of Days") { }
-            column(OutofPocketDailyLimit_; SalaryLevel."Out of Pocket Expense") { }
+            column(OutofPocketDailyLimit_; SalaryLevel."Out of Pocket Expense(Nepal)") { }
             // column(RecommenderCode_; "Recommender Code") { }
             // column(ApproverCode_; "Approver Code") { }
             column(PreviousTravelDescription; PreviousTravelDescription) { }

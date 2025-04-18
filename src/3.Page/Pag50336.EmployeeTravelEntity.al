@@ -63,7 +63,7 @@ page 50336 "Employee Travel Entity"
                 field(actualTravelStartTime; Rec."Actual Travel Start Time") { }
                 field(actualTravelEndTime; Rec."Actual Travel End Time") { }
                 field(travelWith; Rec."Travel With") { }
-                field(departureFrom; Rec."Depature From") { }
+                field(departureFrom; Rec."Departure From") { }
                 field(destination; Rec.Destination) { }
                 field(description; Rec.Description) { }
                 field(advanceCashRequired; Rec."Advance Cash Required") { }
@@ -79,7 +79,7 @@ page 50336 "Employee Travel Entity"
                 field(travelType; Rec."Travel Countries") { }
                 field(currencyCode; Rec."Currency Code") { }
                 field(exchangeRate; Rec."Exchange Rate") { }
-                field(departureTime; Rec."Depature Time") { }
+                field(departureTime; Rec."Departure Time") { }
                 field(arrivalTime; Rec."Arrival Time") { }
                 field(totalEstimatedCost; Rec."Total Estimated Cost") { }
             }

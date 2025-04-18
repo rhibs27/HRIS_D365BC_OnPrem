@@ -74,9 +74,29 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the India Lodging Allowance field.';
                     ApplicationArea = All;
                 }
-                field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
+                field("Others Fooding Allowance"; rec."Others Fooding Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Fooding Allowance In Other Country field.';
+                    ApplicationArea = All;
+                }
+                field("Others Lodging Allowance"; rec."Others Lodging Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Loading Allowance In Other Country field.';
+                    ApplicationArea = All;
+                }
+                field("Out of Pocket Expense(Nepal)"; Rec."Out of Pocket Expense(Nepal)")
                 {
                     ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
+                    ApplicationArea = All;
+                }
+                field("Out of Pocket Expense(India)"; Rec."Out of Pocket Expense(India)")
+                {
+                    ToolTip = 'Specifies the value of the Out of Pocket Expense In India field.';
+                    ApplicationArea = All;
+                }
+                field("Out of Pocket Expense(Other)"; Rec."Out of Pocket Expense(Other)")
+                {
+                    ToolTip = 'Specifies the value of the Out of Pocket Expense In Other field.';
                     ApplicationArea = All;
                 }
                 field("Vehicle Allowance"; Rec."Vehicle Allowance")

@@ -57,10 +57,10 @@ page 50101 "Travel Form"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Depature Time"; Rec."Depature Time")
+                field("Departure Time"; Rec."Departure Time")
                 {
                     Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Depature Time field.';
+                    ToolTip = 'Specifies the value of the Departure Time field.';
                     ApplicationArea = All;
                 }
                 field("Arrival Time"; Rec."Arrival Time")
@@ -158,10 +158,10 @@ page 50101 "Travel Form"
                     ToolTip = 'Specifies the value of the Mode Of Travel field.';
                     ApplicationArea = All;
                 }
-                field("Depature From"; Rec."Depature From")
+                field("Departure From"; Rec."Departure From")
                 {
                     Editable = IsOpen;
-                    ToolTip = 'Specifies the value of the Depature From field.';
+                    ToolTip = 'Specifies the value of the Departure From field.';
                     ApplicationArea = All;
                 }
                 field(Destination; Rec.Destination)

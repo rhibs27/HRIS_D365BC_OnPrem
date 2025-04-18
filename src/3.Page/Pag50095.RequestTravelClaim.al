@@ -31,11 +31,11 @@ page 50095 "Request Travel Claim"
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }
-                field("Depature Time"; Rec."Depature Time")
+                field("Departure Time"; Rec."Departure Time")
                 {
                     Editable = false;
                     Visible = false;
-                    ToolTip = 'Specifies the value of the Depature Time field.';
+                    ToolTip = 'Specifies the value of the Departure Time field.';
                     ApplicationArea = All;
                 }
                 field("End Date"; Rec."End Date")
@@ -139,6 +139,12 @@ page 50095 "Request Travel Claim"
                 field("Mode Of Travel"; Rec."Mode Of Travel")
                 {
                     ToolTip = 'Specifies the value of the Mode Of Travel field.';
+                    ApplicationArea = All;
+                }
+                field("Type Of Visit"; Rec."Type Of Visit")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Type Of Visit field.';
                     ApplicationArea = All;
                 }
                 field("Claim Type"; Rec."Claim Type")
@@ -310,7 +316,7 @@ page 50095 "Request Travel Claim"
 
     trigger OnOpenPage()
     begin
-        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Travel Claim");
+        ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Travel Claim");
     end;
 
     var

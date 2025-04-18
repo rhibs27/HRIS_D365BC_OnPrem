@@ -122,7 +122,12 @@ page 50093 "Travel Requests"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel requet?', false) then
-                        ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Travel is Rejected by %1', HRMgt.GetEmpName());
+                        end;
                 end;
             }
         }

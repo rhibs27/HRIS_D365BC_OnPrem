@@ -36,7 +36,7 @@ page 50351 "Travel Claim"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Departure Time"; Rec."Depature Time")
+                field("Departure Time"; Rec."Departure Time")
                 {
                     Editable = false;
                     Visible = false;
@@ -176,6 +176,12 @@ page 50351 "Travel Claim"
                 field("Mode Of Travel"; Rec."Mode Of Travel")
                 {
                     ToolTip = 'Specifies the value of the Mode Of Travel field.';
+                    ApplicationArea = All;
+                }
+                field("Type Of Visit"; Rec."Type Of Visit")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Type Of Visit field.';
                     ApplicationArea = All;
                 }
                 field("Claim Type"; Rec."Claim Type")
@@ -327,8 +333,12 @@ page 50351 "Travel Claim"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject travel claim?', false) then begin
-                        ApprovalMgt.ApproveRejectDocument(RecRef, false);
-                        Message('Travel Claim is Rejected by %1', HRMgt.GetEmpName());
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Travel Claim is Rejected by %1', HRMgt.GetEmpName());
+                        end;
                     end;
                 end;
             }

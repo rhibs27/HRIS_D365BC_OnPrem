@@ -145,11 +145,11 @@ page 50110 "Transfer Request Card"
         case rec.Type of
             rec.Type::"Employee Transfer":
                 begin
-                    ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
+                    ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
                 end;
             rec.Type::"HR Transfer":
                 begin
-                    ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"HR Transfer");
+                    ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"HR Transfer");
                 end;
         end;
     end;

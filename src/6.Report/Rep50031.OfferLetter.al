@@ -26,7 +26,7 @@ report 50031 "Offer Letter"
             column(Salary; Salary) { }
             column(FoodingAmt; SalaryLevelRec."Nepal Fooding Allowance") { }
             column(LodgingAmt; SalaryLevelRec."Nepal Lodging Allowance") { }
-            column(OutOfPocket; SalaryLevelRec."Out of Pocket Expense") { }
+            column(OutOfPocket; SalaryLevelRec."Out of Pocket Expense(Nepal)") { }
             column(TotalAmoutnInTxt; TotalAmtInTxt[1] + ' ' + TotalAmtInTxt[2]) { }
             column(CEOName; EmpVar."Full Name") { }
 

@@ -567,6 +567,44 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure submitLeaveCancelRequest(leaveNo: code[20]; remarks: Text): text
+    var
+        TempCancelDocument: Record "Cancel Document" temporary;
+        docNo: text;
+        Leave: Record "Leave";
+        AttendanceMissMgt: Codeunit "AttendanceMiss Mgt";
+    begin
+        HRSetup.Get();
+        Leave.Get(LeaveNo);
+        if leave.Cancelled then
+            Error('Leave request no. %1 is already cancelled.', Leave."No.");
+        if Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
+            Error('Leave request no. %1 cannot be cancelled after %2', Leave."No.", Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)");
+        Leave.TestField("Approval Status", Leave."Approval Status"::Approved);
+        Leave.TestField("Cancelled Document No.", '');
+        // Clear Approval line 
+        TempCancelDocument.Init;
+        TempCancelDocument.Validate(Cancelled, true);
+        TempCancelDocument.Validate("Employee No.", Leave."Employee No.");
+        TempCancelDocument.Validate("Employee Name", Leave."Employee Name");
+        TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
+        TempCancelDocument.Validate(Type, Leave.Type);
+        TempCancelDocument.Validate("Leave Code", Leave."Leave Code");
+        TempCancelDocument.Validate("Requested Date", Today);
+        TempCancelDocument.Validate("Start Date", Leave."Start Date");
+        TempCancelDocument.Validate("End Date", Leave."End Date");
+        TempCancelDocument.Validate("No. of Days", Leave."No. of Days");
+        TempCancelDocument.Validate(Remarks, remarks);
+        TempCancelDocument."Cancelled Document No." := Leave."No.";
+        TempCancelDocument."No." := '';
+        TempCancelDocument.Insert;
+        docNo := AttendanceMissMgt.ApplyCancelEmployeeActivity(TempCancelDocument);
+        if docNo <> '' then
+            exit(docNo);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure approveRejectCancelledDoc(cancelledDocNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         RecRef: RecordRef;
@@ -1037,7 +1075,6 @@ page 50108 "Portal Functions"
         // else
         //     TravelMgt.FinalApproveForTravelAPI(Travel, approverCode);
         // // end;
-
     end;
 
 
@@ -1058,13 +1095,12 @@ page 50108 "Portal Functions"
         AdvanceCash := TravelMgt.CalculateTotalAdvance(empTravelNo);
         // end;
         exit('{' +
-        '"totalFooding" : "' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Fooding, endDate - StartDate + 1)), '=', ',') + '",' +
-          '"totalLodging" :"' + DelChr(Format(GetAllowanceFoodingLoding(travelRequest, allType::Lodging, endDate - StartDate + 1)), '=', ',') + '",' +
-          '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Fooding, false, endDate - StartDate + 1)), '=', ',') + '",' +
-          '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(travelRequest, allType::Lodging, false, endDate - StartDate + 1)), '=', ',') + '",' +
+        '"totalFooding" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodging(travelRequest, allType::Fooding, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"totalLodging" :"' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodging(travelRequest, allType::Lodging, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"foodingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(travelRequest, allType::Fooding, false, endDate - StartDate + 1)), '=', ',') + '",' +
+          '"lodgingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(travelRequest, allType::Lodging, false, endDate - StartDate + 1)), '=', ',') + '",' +
         '"AdvanceCash" : "' + DelChr(Format(AdvanceCash), '=', ',') + '",' +
-          '"outOfPocket": "' + DelChr(Format(SalaryLevel."Out of Pocket Expense" *
-                                TravelMgt.GetOutofExpenseDuration(depatureTime, arrivalTime, StartDate, endDate)), '=', ',') + '"' +
+          '"outOfPocket": "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodging(travelRequest, allType::Lodging, TravelMgt.GetOutofExpenseDuration(depatureTime, arrivalTime, StartDate, endDate))), '=', ',') + '"' +
           '}');
         //EXIT( SalaryLevel."Out of Pocket Expense" * HrMgt.GetOutofExpneseDuration(depatureTime,arrivalTime,startDate,endDate));
     end;
@@ -1078,145 +1114,25 @@ page 50108 "Portal Functions"
         allType: Option " ",Fooding,Lodging,OutofExpense;
     begin
         EmpTravel.Get(empTravelNo);
-
         exit(
         '{' +
           '"totalNoOfDays" : "' + DelChr(Format(TravelMgt.CalculateTotalNoDays(empTravelNo)), '=', ',') + '",' +
           '"totalEstimatedConv" : "' + DelChr(Format(TravelMgt.CalculateTotalEstimatedConv(empTravelNo)), '=', ',') + '",' +
-          '"totalFooding" : "' + DelChr(Format(GetAllowanceFoodingLoding(EmpTravel, allType::Fooding, EmpTravel."Total No. of Days")), '=', ',') + '",' +
-          '"totalLodging" :"' + DelChr(Format(GetAllowanceFoodingLoding(EmpTravel, allType::Lodging, EmpTravel."Total No. of Days")), '=', ',') + '",' +
+          '"totalFooding" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodging(EmpTravel, allType::Fooding, EmpTravel."Total No. of Days")), '=', ',') + '",' +
+          '"totalLodging" :"' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodging(EmpTravel, allType::Lodging, EmpTravel."Total No. of Days")), '=', ',') + '",' +
           '"totalAdvance" : "' + DelChr(Format(TravelMgt.CalculateTotalAdvance(empTravelNo)), '=', ',') + '",' +
           '"totalTransport" : "' + DelChr(Format(TravelMgt.CalculateTotalTransport(empTravelNo)), '=', ',') + '",' +
           '"totalEstmiatedCost" : "' + DelChr(Format(TravelMgt.CalculateTotalEstimatedCost(empTravelNo)), '=', ',') + '",' +
           '"travelStartDate": "' + getDateinFormat(TravelMgt.GetTravelStartDate(empTravelNo)) + '",' +
           '"travelEndDate": "' + getDateinFormat(TravelMgt.GetTravelEndDate(empTravelNo)) + '",' +
-          '"foodingPerDayLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, true, 1)), '=', ',') + '",' +
-          '"foodingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
-          '"lodgingPerDayLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, true, 1)), '=', ',') + '",' +
-          '"lodgingLimit" : "' + DelChr(Format(GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
+          '"foodingPerDayLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, true, 1)), '=', ',') + '",' +
+          '"foodingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
+          '"lodgingPerDayLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, true, 1)), '=', ',') + '",' +
+          '"lodgingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
           '"depatureTime": "' + getTimeinFormat(TravelMgt.GetDepatureTime(empTravelNo)) + '",' +
           '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
         '}'
         )
-    end;
-
-    local procedure GetAllowanceFoodingLoding(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
-    var
-        SalaryLevel1: Record "Salary Level";
-        EmpVar: Record Employee;
-    begin
-        EmpVar.Get(EmpTravel."Employee No.");
-        SalaryLevel.Get(EmpVar."Salary Level");
-        if EmpTravel."Travel With" <> '' then begin//AT
-            if Employee.Get(EmpTravel."Travel With") then;
-            if not SalaryLevel."Travel With Not Eligible" then
-                if SalaryLevel1.Get(Employee."Salary Level") then;
-        end;
-
-        case EmpTravel."Travel Countries" of
-            EmpTravel."Travel Countries"::Nepal:
-                begin
-                    if allType = allType::Fooding then begin
-                        if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then//AT
-                            exit(SalaryLevel1."Nepal Fooding Allowance" * NoofDays)
-                        else
-                            exit(SalaryLevel."Nepal Fooding Allowance" * NoofDays);
-                    end else if allType = allType::Lodging then begin
-                        if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then//AT
-                            exit(SalaryLevel1."Nepal Lodging Allowance" * (NoofDays - 1))
-                        else
-                            exit(SalaryLevel."Nepal Lodging Allowance" * (NoofDays - 1));
-                    end else if allType = allType::OutofExpense then
-                            exit(SalaryLevel."Out of Pocket Expense" * EmpTravel."Total No. of Days");
-                end;
-
-            EmpTravel."Travel Countries"::India:
-                begin
-                    if allType = allType::Fooding then begin
-                        if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then//AT
-                            exit(SalaryLevel1."India Fooding Allowance" * NoofDays)
-                        else
-                            exit(SalaryLevel."India Fooding Allowance" * NoofDays);
-                    end else if allType = allType::Lodging then begin
-                        if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then//AT
-                            exit(SalaryLevel1."India Lodging Allowance" * (NoofDays - 1))
-                        else
-                            exit(SalaryLevel."India Lodging Allowance" * (NoofDays - 1));
-                    end else if allType = allType::OutofExpense then
-                            exit(SalaryLevel."Out of Pocket Expense" * EmpTravel."Total No. of Days");
-                end;
-
-            EmpTravel."Travel Countries"::"Other Countries":
-                begin
-                    if allType = allType::OutofExpense then
-                        exit(SalaryLevel."Out of Pocket Expense" * EmpTravel."Total No. of Days");
-                end;
-        end;
-    end;
-
-    local procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
-    var
-        SalaryLevel1: Record "Salary Level";
-        EmpVar: Record Employee;
-        Days: Integer;
-    begin
-        EmpVar.Get(EmpTravel."Employee No.");
-        SalaryLevel.Get(EmpVar."Salary Level");
-        if EmpTravel."Travel With" <> '' then begin//AT
-            if Employee.Get(EmpTravel."Travel With") then;
-            if not SalaryLevel."Travel With Not Eligible" then
-                if SalaryLevel1.Get(Employee."Salary Level") then;
-        end;
-
-        if perDay then
-            Days := 1
-        else begin
-            if allType = allType::Fooding then
-                // Days := EmpActivity."Total No. of Days"
-                Days := NoOfDays
-            else if allType = allType::Lodging then
-                //Days := EmpActivity."Total No. of Days" -1;
-                Days := NoOfDays - 1;
-        end;
-        case EmpTravel."Travel Countries" of
-            EmpTravel."Travel Countries"::Nepal:
-                begin
-                    if allType = allType::Fooding then begin
-                        if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then//AT
-                            exit(SalaryLevel1."Nepal Fooding Allowance" * Days)
-                        else
-                            exit(SalaryLevel."Nepal Fooding Allowance" * Days);
-                    end else if allType = allType::Lodging then begin
-                        if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then//AT
-                            exit(SalaryLevel1."Nepal Lodging Allowance" * (Days))
-                        else
-                            exit(SalaryLevel."Nepal Lodging Allowance" * (Days));
-                    end else if allType = allType::OutofExpense then
-                            exit(SalaryLevel."Out of Pocket Expense" * Days);
-                end;
-
-            EmpTravel."Travel Countries"::India:
-                begin
-                    if allType = allType::Fooding then begin
-                        if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then//AT
-                            exit(SalaryLevel1."India Fooding Allowance" * Days)
-                        else
-                            exit(SalaryLevel."India Fooding Allowance" * Days);
-                    end else if allType = allType::Lodging then begin
-                        if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then//AT
-                            exit(SalaryLevel1."India Lodging Allowance" * (Days))
-                        else
-                            exit(SalaryLevel."India Lodging Allowance" * (Days));
-                    end else if allType = allType::OutofExpense then
-                            exit(SalaryLevel."Out of Pocket Expense" * Days);
-                end;
-
-            EmpTravel."Travel Countries"::"Other Countries":
-                begin
-                    if allType = allType::OutofExpense then
-                        exit(SalaryLevel."Out of Pocket Expense" * Days);
-                end;
-        end;
     end;
 
     local procedure getDateinFormat(DateVar: Date): Text
@@ -3892,6 +3808,7 @@ page 50108 "Portal Functions"
         EmployeeEditForApprove: Integer;
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
+        LeaveCancelledForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -3904,11 +3821,21 @@ page 50108 "Portal Functions"
         Clear(AttendanceMissedForApprove);
         Clear(ResignClearanceForApprove);
         Clear(EmployeeEditForApprove);
+        Clear(LeaveCancelledForApprove);
+
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange(Cancelled, false);
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         leaveForApprove := Approval.Count();
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange(Cancelled, true);
+        Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
+        LeaveCancelledForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Request");
@@ -4000,7 +3927,6 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeEditForApprove := Approval.Count();
 
-
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
@@ -4011,7 +3937,7 @@ page 50108 "Portal Functions"
         AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
         AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
-        TotalCount := leaveForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
+        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
          + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
@@ -4030,6 +3956,7 @@ page 50108 "Portal Functions"
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
         ',"TransferAcknowledgeForApprove": "' + format(TransferAcknowledgeForApprove) + '"' +
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
+        ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
