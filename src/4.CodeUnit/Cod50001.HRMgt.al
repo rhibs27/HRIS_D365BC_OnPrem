@@ -2762,7 +2762,6 @@ codeunit 50001 "HR Mgt."
         Clear(PageDistrict);
         DistrictVar.Reset;
         DistrictVar.SetRange("Province Name", ProvienceName);
-        //DistrictVar.SETRANGE("Sub-Province Name",SubProvienceName);
         PageDistrict.SetRecord(DistrictVar);
         PageDistrict.SetTableView(DistrictVar);
         PageDistrict.LookupMode(true);
@@ -2771,6 +2770,35 @@ codeunit 50001 "HR Mgt."
             exit(DistrictVar."District Name");
         end;
         exit(xDisTxt);
+    end;
+
+    procedure CheckMunicipalityName(MunicipalityName: Text[30])
+    var
+        Municipality: Record Municipality;
+        ErrorDistrict: Label 'Municipality Name %1 Not found';
+    begin
+        Municipality.Reset;
+        Municipality.SetRange("Municipality Name", MunicipalityName);
+        if not Municipality.FindFirst then
+            Error(ErrorDistrict, MunicipalityName);
+    end;
+
+    procedure LookupMunicipalityName(DistrictName: Text[30]; MunicipalityName: Text[30]): Text[30]
+    var
+        PageMunicipality: Page "Municipalities";
+        Municipality: Record Municipality;
+    begin
+        Clear(PageMunicipality);
+        Municipality.Reset;
+        Municipality.SetRange("District Name", DistrictName);
+        PageMunicipality.SetRecord(Municipality);
+        PageMunicipality.SetTableView(Municipality);
+        PageMunicipality.LookupMode(true);
+        if PageMunicipality.RunModal = ACTION::LookupOK then begin
+            PageMunicipality.GetRecord(Municipality);
+            exit(Municipality."Municipality Name");
+        end;
+        exit(MunicipalityName);
     end;
 
     procedure CheckProvience(ProvienceName: Text[30])
@@ -6764,6 +6792,13 @@ codeunit 50001 "HR Mgt."
         Employee.SetRange("NAV Login ID", UserId);
         Employee.FindFirst;
         exit(Employee."No.");
+    end;
+
+    procedure GetEmployeeName(EmployeeCode: Code[20]): Text[50]
+    begin
+        Employee.Reset;
+        if Employee.Get(EmployeeCode) then
+            exit(Employee."Full Name");
     end;
 
     procedure GetHrHead(): Code[20]

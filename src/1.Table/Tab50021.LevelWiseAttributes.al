@@ -174,7 +174,7 @@ table 50021 "Level Wise Attributes"
                         GradeWiseAttributes."Total Basic Salary" := GradeWiseAttributes."Standard Basic Salary" + GradeWiseAttributes.Grade;
                         GradeWiseAttributes."Additional Time Allowance" := 0.75 * GradeWiseAttributes."Total Basic Salary";
                         GradeWiseAttributes."Staff Vehicle Allowance" := SalaryGrade."Vehicle Allowance";
-                        GradeWiseAttributes."TA Out of Pocket" := SalaryGrade."Out of Pocket Expense";
+                        GradeWiseAttributes."TA Out of Pocket" := SalaryGrade."Out of Pocket Expense(Nepal)";
                         GradeWiseAttributes."TA Fooding" := SalaryGrade."Nepal Fooding Allowance";
                         GradeWiseAttributes."TA Lodging" := SalaryGrade."Nepal Lodging Allowance";
                         GradeWiseAttributes."Outstation Allowance" := 0.25 * GradeWiseAttributes."Total Basic Salary";

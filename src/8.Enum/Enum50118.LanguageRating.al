@@ -1,10 +1,10 @@
-enum 50106 "Payback Months"
+enum 50118 "Language Rating"
 {
     Extensible = true;
-
-    value(0; " ")
+    
+    value(0; "0")
     {
-        Caption = ' ';
+        Caption = '0';
     }
     value(1; "1")
     {
@@ -21,5 +21,9 @@ enum 50106 "Payback Months"
     value(4; "4")
     {
         Caption = '4';
+    }
+    value(5; "5")
+    {
+        Caption = '5';
     }
 }

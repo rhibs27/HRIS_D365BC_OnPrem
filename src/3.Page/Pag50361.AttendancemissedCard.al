@@ -214,7 +214,7 @@ page 50361 "Attendance missed Card"
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
         if IsOpen then
-            ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

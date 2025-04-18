@@ -134,7 +134,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         // end;
     end;
 
-    procedure ApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary)
+    procedure ApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary): Text
     var
         CancelDocument1: Record "Cancel Document";
         //EmployeeActivity: Record "Employee Activity";
@@ -159,8 +159,8 @@ codeunit 50016 "AttendanceMiss Mgt"
             CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
         if CancelDocument."No." = '' then begin
             CancelDocument.TestField("Start Date");
-            if (CancelDocument."Start Date" >= Today) or (CancelDocument."End Date" >= Today) then
-                Error('Cannot apply for future date.Please check the date.');
+            // if (CancelDocument."Start Date" > Today) or (CancelDocument."End Date" > Today) then
+            //     Error('Cannot apply for future date.Please check the date.');
             if CancelDocument."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
                 Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
             CancelDocument.TestField("End Date");
@@ -182,6 +182,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                 leave.Modify(true);
             end else
                 Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
+            exit(CancelDocument1."No.");
             // end else begin
             //     CancelDocument1.Get(CancelDocument."No.");
             //     if CancelDocument1."Recommender Code" <> '' then

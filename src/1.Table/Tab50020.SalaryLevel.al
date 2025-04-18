@@ -18,7 +18,7 @@ table 50020 "Salary Level"
         }
         field(5; "Nepal Fooding Allowance"; Decimal) { }
         field(6; "Nepal Lodging Allowance"; Decimal) { }
-        field(7; "Out of Pocket Expense"; Decimal) { }
+        field(7; "Out of Pocket Expense(Nepal)"; Decimal) { }
         field(8; "Vehicle Allowance"; Decimal) { }
         field(9; Allowance; Decimal) { }
         field(10; "Net Learning"; Decimal) { }
@@ -80,6 +80,21 @@ table 50020 "Salary Level"
         field(34; "Festive Counter Eligible"; Boolean) { }
         field(35; "Year End Encashment"; Boolean) { }
         field(36; "TA OT Basic Salary"; Decimal) { }
+        field(37; "Others Fooding Allowance"; Decimal)
+        {
+            Caption = 'Other Country Fooding Allowance';
+        }
+        field(38; "Others Lodging Allowance"; Decimal)
+        {
+            Caption = 'Other Country Lodging Allowance';
+        }
+        field(39; "Out of Pocket Expense(India)"; Decimal)
+        {
+
+        }
+        field(40; "Out of Pocket Expense(Other)"; Decimal)
+        {
+        }
     }
 
     keys

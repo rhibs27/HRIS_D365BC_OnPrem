@@ -11,7 +11,7 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 QualificationRec.Reset();
                 QualificationRec.SetRange(Type, QualificationRec.type::Education);
                 if Page.RunModal(Page::Qualifications, QualificationRec) = Action::LookupOK then
-                    Rec."Qualification Code" := QualificationRec.Code;
+                    Rec.Validate("Qualification Code", QualificationRec.Code);
             end;
         }
         modify(Type)
@@ -21,6 +21,10 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
         modify(Comment)
         {
             Visible = false;
+        }
+        modify(Description)
+        {
+            Editable = false;
         }
         addbefore(Description)
         {

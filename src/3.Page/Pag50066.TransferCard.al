@@ -741,7 +741,7 @@ page 50066 "Transfer Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject this document?', false) then begin
-                        IF REC."Rejection Remarks" = '' then
+                        IF REC."Rejection Remarks" = ' ' then
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
@@ -920,7 +920,7 @@ page 50066 "Transfer Card"
         case rec.Type of
             rec.Type::"Attendance Missed":
                 begin
-                    ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
+                    ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
                 end;
         end;
         SetLayout;

@@ -486,7 +486,7 @@ table 50153 "Cancel Document"
         // {
         //     Description = 'Resignation';
         // }
-        field(50; "Leave Code"; Code[20])
+        field(51; "Leave Code"; Code[20])
         {
             DataClassification = ToBeClassified;
             TableRelation = "Leave Type Setup";
@@ -506,9 +506,42 @@ table 50153 "Cancel Document"
             end;
 
         }
-        field(51; "Leave Description"; Text[50])
+        field(52; "Leave Description"; Text[50])
         {
             Editable = false;
+        }
+        field(53; "Leave Type"; Enum "Leave Type")
+        {
+            trigger OnValidate()
+            begin
+                // WorkShift.Get("Employee Work Shift");
+                // case "Leave Type" of
+                //     "Leave Type"::"Full Day":
+                //         begin
+                //             Validate("Start Time", WorkShift."Start Time");
+                //             Validate("End Time", WorkShift."End Time");
+                //         end;
+
+                //     "Leave Type"::"First Half":
+                //         begin
+                //             Validate("Start Time", WorkShift."Start Time");
+                //             Validate("End Time", WorkShift."Lunch Start");
+                //         end;
+
+                //     "Leave Type"::"Second Half":
+                //         begin
+                //             Validate("Start Time", WorkShift."Lunch Start");
+                //             Validate("End Time", WorkShift."End Time");
+                //         end;
+                // end;
+                // if "Leave Type" <> xRec."Leave Type" then begin
+                //     Clear("Start Date");
+                //     Clear("End Date");
+                //     Clear("No. of Days");
+                // end;
+                // if "End Date" <> 0D then
+                //     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
+            end;
         }
         field(100; Status; text[20])
         {
@@ -537,7 +570,7 @@ table 50153 "Cancel Document"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                ApproverMgt.InsertApprovalCancelled("Employee No.", "No.", Type, Cancelled);
 
             end else begin
                 case Type of

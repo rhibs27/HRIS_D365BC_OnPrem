@@ -359,7 +359,6 @@ table 50124 Leave
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
         }
         field(29; "Province Name"; Code[50])
         {

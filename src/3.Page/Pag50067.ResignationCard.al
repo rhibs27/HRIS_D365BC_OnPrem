@@ -447,7 +447,7 @@ page 50067 "Resignation Card"
     begin
         SetLayout();
         if IsOpen then
-            ApprovalMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::Resignation);
+            ApprovalMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Resignation);
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

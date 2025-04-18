@@ -31,9 +31,9 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
-                field("Depature Time"; Rec."Depature Time")
+                field("Departure Time"; Rec."Departure Time")
                 {
-                    ToolTip = 'Specifies the value of the Depature Time field.';
+                    ToolTip = 'Specifies the value of the Departure Time field.';
                     ApplicationArea = All;
                 }
                 field("Arrival Time"; Rec."Arrival Time")
@@ -143,9 +143,9 @@ page 50092 "Travel Request Form"
                         CurrPage.Update;
                     end;
                 }
-                field("Depature From"; Rec."Depature From")
+                field("Departure From"; Rec."Departure From")
                 {
-                    ToolTip = 'Specifies the value of the Depature From field.';
+                    ToolTip = 'Specifies the value of the Departure From field.';
                     ApplicationArea = All;
                 }
                 field(Destination; Rec.Destination)

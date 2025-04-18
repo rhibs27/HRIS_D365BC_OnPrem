@@ -98,6 +98,10 @@ query 50016 "Cancel Document Query"
                     {
                         Caption = 'Leave Description';
                     }
+                    column(leaveType; "Leave Type")
+                    {
+                        Caption = 'Leave Type';
+                    }
                     column(noOfDays; "No. of Days")
                     {
                         Caption = 'No. of Days';

@@ -54,6 +54,7 @@ codeunit 50021 "Employee Edit Mgt."
                 Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
                 Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
                 Employee.Validate("Temporary VDC", EmployeeEdit.VDC);
+                Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
                 Employee.Validate("Temporary House", EmployeeEdit.House);
                 Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
                 Employee.Validate(Image, EmployeeEdit.Attachment);
@@ -183,6 +184,13 @@ codeunit 50021 "Employee Edit Mgt."
         LanguageProficiency: Record "Language Proficiency";
         LanguageProficiency1: Record "Language Proficiency";
     begin
+        //Check same Language Code
+        LanguageProficiency1.Reset();
+        LanguageProficiency1.SetRange("Employee Code", EmployeeEdit."Employee No.");
+        LanguageProficiency1.SetRange(Language, EmployeeEdit.Language);
+        if LanguageProficiency1.findfirst then
+            LanguageProficiency1.Deleteall();
+        //Insert New language 
         LanguageProficiency1.Reset();
         LanguageProficiency.Init();
         LanguageProficiency1.SetRange("Employee Code", EmployeeEdit."Employee No.");

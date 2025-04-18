@@ -232,11 +232,11 @@ page 50180 "Cancel Document"
             case rec.Type of
                 rec.Type::"Attendance Missed":
                     begin
-                        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+                        ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
                     end;
                 rec.Type::"Leave Request":
                     begin
-                        ApproverMgt.InsertApprovalTemp(Rec."Employee No.", '', Rec.Type::"Leave Request");
+                        ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Leave Request");
                     end;
             end;
     end;

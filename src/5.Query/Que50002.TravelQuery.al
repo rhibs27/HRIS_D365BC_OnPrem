@@ -100,7 +100,7 @@ query 50002 "Travel Query"
                     column(actualTravelStartTime; "Actual Travel Start Time") { }
                     column(actualTravelEndTime; "Actual Travel End Time") { }
                     column(travelWith; "Travel With") { }
-                    column(departureFrom; "Depature From") { }
+                    column(departureFrom; "Departure From") { }
                     column(destination; Destination) { }
                     column(description; Description) { }
                     column(advanceCashRequired; "Advance Cash Required") { }
@@ -116,7 +116,7 @@ query 50002 "Travel Query"
                     column(travelType; "Travel Countries") { }
                     column(currencyCode; "Currency Code") { }
                     column(exchangeRate; "Exchange Rate") { }
-                    column(departureTime; "Depature Time") { }
+                    column(departureTime; "Departure Time") { }
                     column(arrivalTime; "Arrival Time") { }
                     column(totalEstimatedCost; "Total Estimated Cost") { }
 

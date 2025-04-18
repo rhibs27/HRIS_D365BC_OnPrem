@@ -922,6 +922,7 @@ codeunit 50000 "Leave Mgt."
         Approval: record "Approval HRMS";
         HRSetup: Record "Human Resources Setup";
     begin
+        HRSetup.Get();
         if leave.Cancelled then
             Error('Leave request no. %1 is already cancelled.', Leave."No.");
         if Leave."Approved Date" + HRSetup."Cancel Document Upto (Days)" < Today then
@@ -941,6 +942,8 @@ codeunit 50000 "Leave Mgt."
         TempCancelDocument.Validate("Approval Status", TempCancelDocument."Approval Status"::Open);
         TempCancelDocument.Validate(Type, Leave.Type);
         TempCancelDocument.Validate("Leave Code", Leave."Leave Code");
+        TempCancelDocument.Validate("Leave Description", Leave."Leave Description");
+        TempCancelDocument.Validate("Leave Type", Leave."Leave Type");
         TempCancelDocument.Validate("Requested Date", Today);
         TempCancelDocument.Validate("Start Date", Leave."Start Date");
         TempCancelDocument.Validate("End Date", Leave."End Date");

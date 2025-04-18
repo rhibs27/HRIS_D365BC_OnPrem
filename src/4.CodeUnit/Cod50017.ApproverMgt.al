@@ -130,7 +130,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     // << Insert Approval in temporary table <<
-    procedure InsertApprovalTemp(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
+    procedure InsertApprovalCancelled(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; Cancelled: Boolean)
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -163,6 +163,7 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approver No", Employee."No.");
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
+                    Approval.Validate(Cancelled, Cancelled);
                     Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         Approval.Validate("Approval Status", "Approval Status"::Open);
@@ -236,10 +237,11 @@ codeunit 50017 "Approver Mgt"
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
                                 end;
-                            //for travel claim
+                            //for travel claim Reject
                             EmpActType::"Travel Claim":
                                 begin
                                     TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
+
                                 end;
                             EmpActType::"Transfer Claim":
                                 begin

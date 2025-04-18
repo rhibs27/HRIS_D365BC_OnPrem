@@ -46,7 +46,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(50006; District; Code[10])
+        field(50006; District; Text[30])
         {
             TableRelation = District."District Name";
             ValidateTableRelation = false;
@@ -62,10 +62,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
             MinValue = 1;
-            MaxValue = 32;
+            MaxValue = 35;
             Description = 'In Nepali   for loan';
         }
-        field(50009; "Citizenship No."; Text[10])
+        field(50009; "Citizenship No."; Text[20])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
@@ -80,9 +80,9 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(50012; "Citizenship Issued District"; Code[10])
+        field(50012; "Citizenship Issued District"; Text[30])
         {
-            TableRelation = District;
+            TableRelation = District."District Name";
             DataClassification = CustomerContent;
         }
         field(50013; "Citizenship Date (Nepali)"; Text[10])

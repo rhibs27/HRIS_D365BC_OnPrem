@@ -31,7 +31,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("First Name", Pattern) then
+                if not Regex.IsMatch("Middle Name", Pattern) then
                     Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
@@ -43,7 +43,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("First Name", Pattern) then
+                if not Regex.IsMatch("Last Name", Pattern) then
                     Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
@@ -104,10 +104,10 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Permanent Address';
         }
-        modify("Address 2")
-        {
-            Caption = 'Temporary Address';
-        }
+        // modify("Address 2")
+        // {
+        // Caption = 'Temporary Address';
+        // }
         modify(Gender)
         {
             trigger OnAfterValidate()
@@ -141,14 +141,14 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
             end;
         }
-        modify("Global Dimension 1 Code")
-        {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
-            trigger OnAfterValidate()
-            begin
-                ValidateDeputationOn();
-            end;
-        }
+        // modify("Global Dimension 1 Code")
+        // {
+        // TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
+        // trigger OnAfterValidate()
+        // begin
+        //     ValidateDeputationOn();
+        // end;
+        // }
         field(50001; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
@@ -302,9 +302,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     ValidateDeputationOn
                 else if "Deputation on" = "Deputation on"::Department then
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit Code") then
-                        Validate("Unit Name", OrganizationStructureList.Code)
-                    else
-                        Error('Unit Code %1 is not Found On Organization Structure List', "Unit Code");
+                        Validate("Unit Name", OrganizationStructureList.Name);
+                if "Unit Code" = '' then
+                    Clear("Unit Code");
                 // OrganizationStructureList.Reset();
                 // if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "unit Code") then begin
                 //     "Department Name" := OrganizationStructureList.Name;
@@ -320,11 +320,27 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
+        field(50072; "Sub Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::unit), Code = field("Unit Code"), "Reporting Type" = filter("Organization Structure list"::"Sub-Unit"));
+            trigger OnValidate()
+            begin
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
+                    Validate("Sub Unit Name", OrganizationStructureList.Name)
+            end;
+        }
+        field(50073; "Sub Unit Name"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+
 
         field(50097; "Extension Counter Code"; Code[20])
         {
             DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("Global Dimension 1 Code"), "Reporting Type" = filter("Organization Structure list"::unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure list";
@@ -333,9 +349,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     ValidateDeputationOn
                 else if "Deputation on" = "Deputation on"::Branch then
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then
-                        Validate("Extension Counter Name", OrganizationStructureList.Code)
-                    else
-                        Error('Extension Counter Code %1 not Found On Organization Structure List', "Extension Counter Code");
+                        Validate("Extension Counter Name", OrganizationStructureList.Name);
+                if "Extension Counter Code" = '' then
+                    Clear("Extension Counter Name");
 
                 // if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then begin
                 //     "Department Name" := OrganizationStructureList.Name;
@@ -796,6 +812,12 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Editable = false;
         }
+        field(50069; "Temporary Address"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+
         // field(50069; Screener; Boolean)
         // {
         //     DataClassification = CustomerContent;
@@ -813,7 +835,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50071; "KPI Deputation Value"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
-            ValidateTableRelation = false;
             DataClassification = CustomerContent;
             Description = 'KPI 1.00';
             trigger OnValidate()
@@ -894,7 +915,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             END;
 
             trigger OnLookup()
@@ -940,7 +961,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Temporary Ward No");
                     Clear("Temporary District");
                 end;
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
 
             trigger OnLookup()
@@ -977,24 +998,38 @@ tableextension 50013 "Employee Ext" extends Employee
             MaxValue = 32;
             trigger OnValidate()
             begin
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+            end;
+        }
+        field(50086; "Permanent VDC"; Text[50])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
+                    HRMgt.CheckMunicipalityName("Permanent VDC");
+                "Address" := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+            END;
 
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+            trigger OnLookup()
+            begin
+                Validate("Permanent VDC", HRMgt.LookupMunicipalityName("Permanent District", "Permanent VDC"));
             end;
         }
-        field(50086; "Permanent VDC"; Text[30])
+        field(50087; "Temporary VDC"; Text[50])
         {
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
-            end;
-        }
-        field(50087; "Temporary VDC"; Text[30])
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
+                if (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
+                    HRMgt.CheckMunicipalityName("Temporary VDC");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+            END;
+
+            trigger OnLookup()
             begin
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                Validate("Temporary VDC", HRMgt.LookupMunicipalityName("Temporary District", "Temporary VDC"));
             end;
         }
         field(50088; "Permanent House"; Text[30])
@@ -1035,7 +1070,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             MinValue = 1;
-            MaxValue = 32;
+            MaxValue = 35;
             Description = 'Citizenship ward no';
             trigger OnValidate()
             begin
@@ -1132,7 +1167,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
-            CharAllowed = 'AZaz';
+            CharAllowed = 'AZaz  ';
         }
         field(50108; "Policy No."; Code[20])
         {
@@ -1157,6 +1192,8 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'Insurance';
             trigger OnValidate()
             begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "Insurance Expiry Date");
                 if EngNepDate.FindFirst then
                     Validate("Insurance Expiry Date (B.S.)", EngNepDate."Nepali Date")
                 else
@@ -1292,10 +1329,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50154; Saved; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
         field(50137; "Functional Title Desc"; Text[100])
         {
             DataClassification = CustomerContent;
@@ -1375,6 +1408,10 @@ tableextension 50013 "Employee Ext" extends Employee
                 if FunctionalTitle.Get("Functional Title") then
                     "Functional Title Desc" := FunctionalTitle.Description;
             end;
+        }
+        field(50154; Saved; Boolean)
+        {
+            DataClassification = CustomerContent;
         }
         field(50155; "Login"; Boolean)
         {

@@ -13,7 +13,6 @@ table 50126 Municipality
         field(4; "District Name (In Nepali)"; Text[50])
         {
             Caption = 'District Name (In Nepali) ';
-            TableRelation = District."District Name";
         }
 
         field(5; "No of ward"; Integer)

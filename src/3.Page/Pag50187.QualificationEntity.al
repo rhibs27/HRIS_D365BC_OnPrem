@@ -25,6 +25,9 @@ page 50187 "Qualification Entity"
                 {
                     Caption = 'Description';
                 }
+                field(qualificationType; Rec."Qualification Type")
+                {
+                }
                 field("type"; Rec."Type")
                 {
                     Caption = 'Type';

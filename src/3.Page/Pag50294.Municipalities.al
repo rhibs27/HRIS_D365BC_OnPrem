@@ -3,7 +3,11 @@ page 50294 Municipalities
     PageType = List;
     SourceTable = Municipality;
     ApplicationArea = All;
-    UsageCategory = Administration;
+    UsageCategory = Lists;
+    Editable = false;
+    InsertAllowed = false;
+    DeleteAllowed = false;
+
     layout
     {
         area(Content)
@@ -33,6 +37,9 @@ page 50294 Municipalities
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetAscending(Code, true);
+    end;
 
-    actions { }
 }

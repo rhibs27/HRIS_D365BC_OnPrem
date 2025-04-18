@@ -6,7 +6,6 @@ page 50132 "Language Proficiency"
     PageType = List;
     SourceTable = "Language Proficiency";
     AutoSplitKey = true;
-
     layout
     {
         area(Content)
@@ -40,4 +39,14 @@ page 50132 "Language Proficiency"
             }
         }
     }
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        Language: Record "Language Proficiency";
+    begin
+        Language.Reset();
+        Language.SetRange("Employee Code", Rec."Employee Code");
+        Language.SetRange(Language, '');
+        if Language.FindFirst() then
+            Error('Language is blank for %1 in %2 Line.Delete This Line First', Language."Employee Code", Language."Line No.");
+    end;
 }

@@ -42,6 +42,10 @@ table 50149 "Approval HRMS"
         {
             Caption = 'Approval Sequence';
         }
+        field(7; Cancelled; Boolean)
+        {
+            Caption = 'Cancelled';
+        }
         field(8; "Employee No"; Code[20])
         {
             DataClassification = ToBeClassified;

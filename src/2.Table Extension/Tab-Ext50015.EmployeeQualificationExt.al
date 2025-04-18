@@ -2,13 +2,16 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
 {
     fields
     {
-        // modify("Employee No.")
-        // {
-        //     // TableRelation = if ("Master Type" = const(Candidate)) "Cancelled Document";
-        // }
         modify("Qualification Code")
         {
             TableRelation = Qualification.Code where("Type" = field("Emp Qualification Type"), "Qualification Type" = field("Qualification Type"));
+            trigger OnAfterValidate()
+            Var
+                Qualification: Record Qualification;
+            begin
+                if Qualification.get("Qualification Code") then
+                    Validate("Qualification Type", Qualification."Qualification Type");
+            end;
         }
         modify("From Date")
         {
@@ -40,7 +43,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50002; Stream; Text[30])
         {
             DataClassification = CustomerContent;
-            CharAllowed = 'AZaz';
+            CharAllowed = 'AZaz  ';
             Description = 'example- Science, Management etc.';
         }
         field(50003; Year; Text[4])
@@ -75,6 +78,7 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50010; "Qualification Type"; Enum "Qualification Type")
         {
             DataClassification = CustomerContent;
+            Editable = false;
         }
         field(50011; "Master Type"; Enum EmployeeCandidate)
         {

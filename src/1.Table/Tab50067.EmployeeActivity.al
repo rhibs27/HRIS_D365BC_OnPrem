@@ -931,8 +931,8 @@ table 50067 "Employee Activity"
                 if Type = Type::"Travel Claim" then begin
                     EmpVar.Get("Employee No.");
                     SalaryLevel.Get(EmpVar."Salary Level");
-                    Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
-                        TravelMgt.GetOutofExpneseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
+                    Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense(Nepal)" *
+                        TravelMgt.GetOutofExpenseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
 
                 end;
             end;
