@@ -552,13 +552,20 @@ table 50136 "Travel Request"
         {
             trigger OnValidate()
             begin
-                if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
-                    HRMgt.CheckDistrictName("Destination");
+                if "Travel Countries" = "Travel Countries"::Nepal then begin
+                    if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
+                        HRMgt.CheckDistrictName("Destination");
+                end else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                        if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
+                            HRMgt.CheckCountryName("Destination");
             END;
 
             trigger OnLookup()
             begin
-                Validate("Destination", HRMgt.LookupAllDistrict());
+                if "Travel Countries" = "Travel Countries"::Nepal then
+                    Validate("Destination", HRMgt.LookupAllDistrict())
+                else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                    Validate("Destination", HRMgt.LookupCountry());
             end;
         }
         field(54; Description; Text[250])
@@ -678,6 +685,8 @@ table 50136 "Travel Request"
             var
                 Employee, Employee1 : Record Employee;
             begin
+                if "Travel Countries" = "Travel Countries"::India then
+                    Validate(Destination, Format("Travel Countries"::India));
                 Validate("No. of Days");
                 if type = Type::"Travel Claim" then begin
                     Employee.Get("Employee No.");

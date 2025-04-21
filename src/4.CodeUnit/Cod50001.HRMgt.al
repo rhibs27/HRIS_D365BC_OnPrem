@@ -2754,6 +2754,48 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, DistrictName);
     end;
 
+    procedure CheckCountryName(CountryName: Text[30])
+    var
+        Country: Record "Country/Region";
+        ErrorDistrict: Label 'Country Name %1 Not found';
+    begin
+        Country.Reset;
+        Country.SetRange("Name", CountryName);
+        if not Country.FindFirst then
+            Error(ErrorDistrict, CountryName);
+    end;
+
+    procedure LookupCountry(): Text[30]
+    var
+        PageCountry: Page "Countries/Regions";
+        Country: Record "Country/Region";
+    begin
+        Clear(PageCountry);
+        Country.Reset;
+        PageCountry.LookupMode(true);
+        if PageCountry.RunModal = ACTION::LookupOK then begin
+            PageCountry.GetRecord(Country);
+            exit(Country.Name);
+        end;
+    end;
+
+    procedure LookupCountrySAARC(IsSAARC: Boolean): Text[30]
+    var
+        PageCountry: Page "Countries/Regions";
+        Country: Record "Country/Region";
+    begin
+        Clear(PageCountry);
+        Country.Reset;
+        Country.SetRange("Is SAARC", IsSAARC);
+        PageCountry.SetRecord(Country);
+        PageCountry.SetTableView(Country);
+        PageCountry.LookupMode(true);
+        if PageCountry.RunModal = ACTION::LookupOK then begin
+            PageCountry.GetRecord(Country);
+            exit(Country.Name);
+        end;
+    end;
+
     procedure LookupDistrict(ProvienceName: Text[30]; xDisTxt: Text[30]): Text[30]
     var
         PageDistrict: Page "District";

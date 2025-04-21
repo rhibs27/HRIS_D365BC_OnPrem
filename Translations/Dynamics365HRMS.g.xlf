@@ -18218,6 +18218,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CaluateDuration - NamedType ErrorTime</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3904381950 - Method 657133179 - NamedType 2334196938" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Country Name %1 Not found</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckCountryName - NamedType ErrorDistrict</note>
+        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1298234753 - NamedType 2334196938" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Name %1 Not found</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22912,6 +22917,26 @@
           <source>Total Tenure in Current Position</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Confirmation Appraisal List - Control Total Tenure in Crc Position - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1397464493 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>country</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Country Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1397464493 - Control 707985127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Country Entity - Control code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1397464493 - Control 964994388 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is SAARC</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Country Entity - Control isSAARC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1397464493 - Control 3558812865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Country Entity - Control name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3107296669 - Control 2049739791 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Correct Option field.</source>
@@ -50088,16 +50113,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension SourceCodeSetup - Control Payroll Plan - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 1814464443 - Action 519584663 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 2183420390">
-          <source>Executes the OT Form action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension User - Action CreateUser - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 1681603727 - Action 519584663 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1681603727">
-          <source>Executes the OT Form action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension User Card - Action CreateUser - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 2852714242 - Control 2967548846 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 337631938">
           <source>Specifies the value of the Allow Previous Year Payroll field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -50232,6 +50247,11 @@
           <source>Document No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Change Log Entry Ext - Field Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 4148176377 - Field 3895008268 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 4148176377">
+          <source>Is SAARC</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Country/Region - Field Is SAARC - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 2117271168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Branch</source>

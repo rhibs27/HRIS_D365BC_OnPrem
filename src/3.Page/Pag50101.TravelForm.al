@@ -166,7 +166,7 @@ page 50101 "Travel Form"
                 }
                 field(Destination; Rec.Destination)
                 {
-                    Editable = IsOpen;
+                    Editable = IsOpen and (Rec."Travel Countries" <> Rec."Travel Countries"::India);
                     ToolTip = 'Specifies the value of the Destination field.';
                     ApplicationArea = All;
                 }
