@@ -321,6 +321,67 @@ codeunit 50017 "Approver Mgt"
             Error('Document Status Must be in Pending');
     end;
 
+    procedure CheckRequester(EmpActNo: Code[20])
+    var
+        ApprovalLine: Record "Approval HRMS";
+        Employee: Record Employee;
+        ApproveNotEligibleError: Label 'You are not Eligible to WithDraw this document ';
+    begin
+        Employee.Reset();
+        Employee.Get(HRMgt.GetEmployeeNo());
+        ApprovalLine.Reset();
+        ApprovalLine.SetRange("Document No.", EmpActNo);
+        ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
+        if not ApprovalLine.Findfirst() then
+            Error(ApproveNotEligibleError);
+    end;
+    // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
+    procedure WithDrawRequest(var RecRef: RecordRef)
+    var
+        Approver: Record "Approval HRMS";
+        ApprovalStatusField: text;
+        ApprovalStatusEnum: Enum "Approval Status";
+        EmpActType: Enum "Employee Activity Type";
+        StatusMaster: Record "Status Master";
+    begin
+        // Get the fields dynamically using FieldRef
+        ApprovalStatusField := Format((RecRef.Field(16)));
+        EmpActType := RecRef.Field(2).Value;
+        if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
+            CheckRequester(RecRef.Field(1).Value);
+            Approver.Reset();
+            Approver.SetRange("Document No.", RecRef.Field(1).Value);
+            Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
+            Approver.SetRange("Approval Sequence", 1);
+            if Approver.Findfirst() then begin
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn);
+                RecRef.Modify();
+                // Modify the record dynamically
+            end else
+                Error('Document is approved by 1 or more Approver');
+        end else
+            Error('Document Status Must be in Pending');
+    end;
+    // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
+    procedure WithDrawRequestAPI(documentNo: Code[20]; EmpActType: Text)
+    var
+        EmpActTypeEnum: Enum "Employee Activity Type";
+        Leave: Record Leave;
+        RecRef: RecordRef;
+    begin
+        EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
+        case EmpActTypeEnum of
+            //for leave
+            EmpActTypeEnum::"Leave Request":
+                begin
+                    if Leave.Get(documentNo) then begin
+                        RecRef.GetTable(Leave);
+                        WithDrawRequest(RecRef);
+                    end;
+                end;
+        end;
+    end;
+
     procedure IsFinalApprover(DocNo: Code[20]): Boolean
     var
         Approver: Record "Approval HRMS";

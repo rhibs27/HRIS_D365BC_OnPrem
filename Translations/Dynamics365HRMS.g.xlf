@@ -17878,6 +17878,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to WithDraw this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequester - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 459708191 - Method 2608122986 - NamedType 523849119" size-unit="char" translate="yes" xml:space="preserve">
           <source>Your leave request no. %1 of code %2 has been already cancelled.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38538,6 +38543,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 5914874 - Action 1118692539 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action Withdraw Leave - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 535886985 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56827,6 +56837,11 @@
           <source>Pending</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Pending - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="EnumExtension 1878856189 - EnumValue 1052239488 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
+          <source>Withdrawn</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Withdrawn - Property Caption</note>
         </trans-unit>
         <trans-unit id="EnumExtension 977422364 - EnumValue 1686543090 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 838578914">
           <source>Employee Loan</source>

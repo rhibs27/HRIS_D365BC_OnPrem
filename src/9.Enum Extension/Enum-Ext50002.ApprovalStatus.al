@@ -13,4 +13,8 @@ enumextension 50002 "Approval Status" extends "Approval Status"
     {
         Caption = 'On Hold';
     }
+    value(50003; Withdrawn)
+    {
+        Caption = 'Withdrawn';
+    }
 }

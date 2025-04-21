@@ -567,6 +567,13 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure withDrawRequest(documentNo: Code[20]; documentType: text)
+    begin
+        ApprovalMgt.WithDrawRequestAPI(documentNo, documentType);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure submitLeaveCancelRequest(leaveNo: code[20]; remarks: Text): text
     var
         TempCancelDocument: Record "Cancel Document" temporary;
