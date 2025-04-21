@@ -201,10 +201,10 @@ table 50074 "Employee Edit"
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         { DataClassification = CustomerContent; }
-        field(35; "Qualification Type"; Enum "Qualification Type")
-        {
-            DataClassification = CustomerContent;
-        }
+        // field(35; "Qualification Type"; Enum "Qualification Type")
+        // {
+        //     DataClassification = CustomerContent;
+        // }
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;

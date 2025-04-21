@@ -130,8 +130,12 @@ table 50066 "Leave Type Setup"
         field(36; "Check Balance for Payroll"; Boolean) { }
         field(37; "Adjustment Sequence"; Integer)
         {
-            Description = 'Leave Ajusted sequentially for absent days in Settlement';
+            Description = 'Leave Adjusted sequentially for absent days in Settlement';
         }
+        field(38; "Half Leave Allowed"; Boolean)
+        {
+        }
+
     }
 
     keys

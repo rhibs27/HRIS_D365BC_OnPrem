@@ -2772,6 +2772,23 @@ codeunit 50001 "HR Mgt."
         exit(xDisTxt);
     end;
 
+    procedure LookupAllDistrict(): Text[30]
+    var
+        PageDistrict: Page "District";
+        DistrictVar: Record District;
+    begin
+        Clear(PageDistrict);
+        DistrictVar.Reset;
+        // DistrictVar.SetRange("Province Name", ProvienceName);
+        // PageDistrict.SetRecord(DistrictVar);
+        // PageDistrict.SetTableView(DistrictVar);
+        PageDistrict.LookupMode(true);
+        if PageDistrict.RunModal = ACTION::LookupOK then begin
+            PageDistrict.GetRecord(DistrictVar);
+            exit(DistrictVar."District Name");
+        end;
+    end;
+
     procedure CheckMunicipalityName(MunicipalityName: Text[30])
     var
         Municipality: Record Municipality;

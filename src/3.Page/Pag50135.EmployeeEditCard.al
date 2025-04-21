@@ -174,10 +174,10 @@ page 50135 "Employee Edit Card"
                 {
                     CaptionClass = WorkExperience;
                 }
-                field("Qualification Type"; rec."Qualification Type")
-                {
-                    Visible = QualificationChanges;
-                }
+                // field("Qualification Type"; rec."Qualification Type")
+                // {
+                //     Visible = QualificationChanges;
+                // }
                 field(Description; Rec.Description)
                 {
                 }

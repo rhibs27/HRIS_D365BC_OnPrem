@@ -4,9 +4,6 @@ page 50294 Municipalities
     SourceTable = Municipality;
     ApplicationArea = All;
     UsageCategory = Lists;
-    Editable = false;
-    InsertAllowed = false;
-    DeleteAllowed = false;
 
     layout
     {

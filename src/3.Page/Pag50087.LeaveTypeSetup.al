@@ -32,6 +32,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Limit Max. Leave at Once field.';
                     ApplicationArea = All;
                 }
+                field("Half Leave Allowed"; Rec."Half Leave Allowed")
+                {
+                    ToolTip = 'Specifies the if half Leave Allowed';
+                    ApplicationArea = All;
+                }
                 field("Maximum Leave at once"; Rec."Maximum Leave at once")
                 {
                     Editable = Rec."Limit Max. Leave at Once";

@@ -120,10 +120,10 @@ query 50015 "Employee Edit Query"
                     column(qualificationCode; "Qualification Code")
                     {
                     }
-                    column(qualificationType; "Qualification Type")
-                    {
+                    // column(qualificationType; "Qualification Type")
+                    // {
 
-                    }
+                    // }
                     column(description; Description)
                     {
                     }
@@ -163,13 +163,16 @@ query 50015 "Employee Edit Query"
                     column(fullName; "Full Name")
                     {
                     }
+                    column(relativeBirthDate; "Birth Date")
+                    {
+                    }
                     column(relativePhoneNo; "Relative Phone No.")
                     {
                     }
                     column(employeeRelativeInBank; "Employee Relative In Bank")
                     {
                     }
-                    column(relativeEmployeeNo; "Relative's Employee No.")
+                    column(relativesEmployeeNo; "Relative's Employee No.")
                     {
                     }
                     column(relativeCitizenShipNo; "Relative CitizenShip No.")

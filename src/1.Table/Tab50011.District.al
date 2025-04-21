@@ -39,7 +39,7 @@ table 50011 District
     }
     keys
     {
-        key(Key1; "District Code", "District Name") { }
+        key(Key1; "District Code") { }
         key(Key2; "District Name") { }
     }
     fieldgroups

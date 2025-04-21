@@ -158,6 +158,8 @@ table 50136 "Travel Request"
             Editable = false;
 
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
                 if Type in [Type::"Travel Request"] then begin
                     Validate("Total No. of Days", "No. of Days" + TravelMgt.CalcExtendDays("No. of Days", "Travel Order No."));
@@ -201,13 +203,34 @@ table 50136 "Travel Request"
                             Validate("Estimated Fooding Cost", SalaryLevel."India Fooding Allowance" * "No. of Days");
                             Validate("Estimated Lodging Cost", SalaryLevel."India Lodging Allowance" * ("No. of Days" - 1));
                         end;
+                    end
+                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then begin
+                        if "Travel With" <> '' then begin
+                            if EmployeeRec.Get("Travel With") then//AT
+                                if not SalaryLevel."Travel With Not Eligible" then
+                                    SalaryLevel1.Get(EmployeeRec."Salary Level");
+                            if (SalaryLevel."Others Fooding Allowance" > SalaryLevel1."Others Fooding Allowance")
+                              and (SalaryLevel."Others Lodging Allowance" > SalaryLevel1."Others Lodging Allowance") then begin
+                                Validate("Estimated Fooding Cost", SalaryLevel."Others Fooding Allowance" * "No. of Days");
+                                Validate("Estimated Lodging Cost", SalaryLevel."Others Lodging Allowance" * ("No. of Days" - 1));
+                            end
+                            else begin
+                                Validate("Estimated Fooding Cost", SalaryLevel1."Others Fooding Allowance" * "No. of Days");
+                                Validate("Estimated Lodging Cost", SalaryLevel1."Others Lodging Allowance" * ("No. of Days" - 1));
+                            end;
+                        end
+                        else begin
+                            Validate("Estimated Fooding Cost", SalaryLevel."Others Fooding Allowance" * "No. of Days");
+                            Validate("Estimated Lodging Cost", SalaryLevel."Others Lodging Allowance" * ("No. of Days" - 1));
+                        end;
                     end;
                 end;
+                if Type = Type::"Travel Claim" then
+                    OnBeforeOutOfPocketValidate(Rec, IsHandled);
             end;
         }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -512,11 +535,31 @@ table 50136 "Travel Request"
         field(51; "Mode Of Travel"; Enum "Mode Of Travel")
         {
         }
-        field(52; "Depature From"; Code[20])
+        field(52; "Departure From"; Text[30])
         {
+            trigger OnValidate()
+            begin
+                if (Rec."Departure From" <> xRec."Departure From") and ("Departure From" <> '') then
+                    HRMgt.CheckDistrictName("Departure From");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("Departure From", HRMgt.LookupAllDistrict());
+            end;
         }
-        field(53; Destination; Code[20])
+        field(53; Destination; Text[30])
         {
+            trigger OnValidate()
+            begin
+                if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
+                    HRMgt.CheckDistrictName("Destination");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("Destination", HRMgt.LookupAllDistrict());
+            end;
         }
         field(54; Description; Text[250])
         {
@@ -526,7 +569,6 @@ table 50136 "Travel Request"
         }
         field(56; "Advance Cash Required"; Boolean)
         {
-
             trigger OnValidate()
             begin
                 Clear("Advance Cash");
@@ -564,7 +606,9 @@ table 50136 "Travel Request"
                     if "Travel Countries" = "Travel Countries"::Nepal then
                         TravelMgt.CheckLodgingAmtNepal("Employee No.", "Estimated Lodging Cost", "No. of Days" - 1, "Travel With")
                     else if "Travel Countries" = "Travel Countries"::India then
-                        TravelMgt.CheckLodgingAmtIndia("Employee No.", "Estimated Lodging Cost", "No. of Days" - 1, "Travel With");
+                        TravelMgt.CheckLodgingAmtIndia("Employee No.", "Estimated Lodging Cost", "No. of Days" - 1, "Travel With")
+                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                        TravelMgt.CheckLodgingAmtOther("Employee No.", "Estimated Lodging Cost", "No. of Days" - 1, "Travel With");
                 end;
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
@@ -579,7 +623,9 @@ table 50136 "Travel Request"
                     if "Travel Countries" = "Travel Countries"::Nepal then
                         TravelMgt.CheckFoodingAmtNepal("Employee No.", "Estimated Fooding Cost", "No. of Days", "Travel With")
                     else if "Travel Countries" = "Travel Countries"::India then
-                        TravelMgt.CheckFoodingAmtIndia("Employee No.", "Estimated Fooding Cost", "No. of Days", "Travel With");  //AT
+                        TravelMgt.CheckFoodingAmtIndia("Employee No.", "Estimated Fooding Cost", "No. of Days", "Travel With")
+                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                        TravelMgt.CheckFoodingAmtOther("Employee No.", "Estimated Fooding Cost", "No. of Days", "Travel With");
                 end;
                 Validate("Total Estimated Cost", "Estimated Conveyance Expense" + "Estimated Fooding Cost" + "Estimated Lodging Cost" + "Estimated Transportation Cost" + "Other Estimated Cost");
             end;
@@ -629,8 +675,21 @@ table 50136 "Travel Request"
         field(67; "Travel Countries"; Enum "Travel Countries")
         {
             trigger OnValidate()
+            var
+                Employee, Employee1 : Record Employee;
             begin
                 Validate("No. of Days");
+                if type = Type::"Travel Claim" then begin
+                    Employee.Get("Employee No.");
+                    SalaryLevel.Get(Employee."Salary Level");
+                    if "Travel With" <> '' then begin//AT
+                        Employee1.Get("Travel With");
+                        if not SalaryLevel."Travel With Not Eligible" then
+                            SalaryLevel1.Get(Employee1."Salary Level");
+                        TravelMgt.GetFoodingLimit(Rec, SalaryLevel1, SalaryLevel);
+                        TravelMgt.GetLodgingLimit(Rec, SalaryLevel1, SalaryLevel);
+                    end;
+                end;
             end;
         }
         field(68; "Currency Code"; Code[10])
@@ -640,11 +699,11 @@ table 50136 "Travel Request"
         field(69; "Exchange Rate"; Decimal)
         {
         }
-        field(70; "Depature Time"; Time)
+        field(70; "Departure Time"; Time)
         {
             trigger OnValidate()
             begin
-                if "Depature Time" <> xRec."Depature Time" then
+                if "Departure Time" <> xRec."Departure Time" then
                     Clear("Arrival Time");
 
             end;
@@ -655,7 +714,7 @@ table 50136 "Travel Request"
             var
             begin
                 if "Start Date" = "End Date" then
-                    if "Depature Time" > "Arrival Time" then
+                    if "Departure Time" > "Arrival Time" then
                         Error('Arrival Time Cannot be Earlier then Departure Time');
             end;
         }
@@ -711,11 +770,14 @@ table 50136 "Travel Request"
                 if Type = Type::"Travel Claim" then begin
                     EmpVar.Get("Employee No.");
                     SalaryLevel.Get(EmpVar."Salary Level");
-                    IsHandled := false;
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
                     if not IsHandled then
-                        Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense" *
-                            TravelMgt.GetOutofExpneseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
+                        if "Travel Countries" = "Travel Countries"::Nepal then
+                            Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense(Nepal)" * TravelMgt.GetOutofExpenseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")))
+                        else if "Travel Countries" = "Travel Countries"::India then
+                            Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense(India)" * TravelMgt.GetOutofExpenseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")))
+                        else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                            Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense(Other)" * TravelMgt.GetOutofExpenseDuration("Actual Travel Start Time", "Actual Travel End Time", "Start Date", "End Date")));
                 end;
             end;
         }
@@ -746,13 +808,14 @@ table 50136 "Travel Request"
                     if "Travel Countries" = "Travel Countries"::India then
                         TravelMgt.CheckFoodingAmtIndia("Employee No.", "Fooding Allowance", "No. of Days", "Travel With")
                     else if "Travel Countries" = "Travel Countries"::Nepal then
-                        TravelMgt.CheckFoodingAmtNepal("Employee No.", "Fooding Allowance", "No. of Days", "Travel With");//AT "No. of Days"-1
+                        TravelMgt.CheckFoodingAmtNepal("Employee No.", "Fooding Allowance", "No. of Days", "Travel With")//AT "No. of Days"-1
+                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                        TravelMgt.CheckFoodingAmtOther("Employee No.", "Fooding Allowance", "No. of Days", "Travel With");
             end;
         }
         field(84; "Lodging Allowance"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -760,7 +823,9 @@ table 50136 "Travel Request"
                     if "Travel Countries" = "Travel Countries"::Nepal then
                         TravelMgt.CheckLodgingAmtNepal("Employee No.", "Lodging Allowance", "No. of Days" - 1, "Travel With")
                     else if "Travel Countries" = "Travel Countries"::India then
-                        TravelMgt.CheckLodgingAmtIndia("Employee No.", "Lodging Allowance", "No. of Days" - 1, "Travel With");
+                        TravelMgt.CheckLodgingAmtIndia("Employee No.", "Lodging Allowance", "No. of Days" - 1, "Travel With")
+                    else if "Travel Countries" = "Travel Countries"::"Other Countries" then
+                        TravelMgt.CheckLodgingAmtOther("Employee No.", "Lodging Allowance", "No. of Days" - 1, "Travel With");
             end;
         }
         field(85; "Conveyance Expense"; Decimal)
@@ -774,7 +839,6 @@ table 50136 "Travel Request"
         field(86; "Total Claimed Amount"; Decimal)
         {
             Editable = false;
-
             trigger OnValidate()
             begin
                 Validate("Net Receivable/Payable", "Total Claimed Amount" - "Advance Cash");
@@ -782,7 +846,6 @@ table 50136 "Travel Request"
         }
         field(87; "Other Expense"; Decimal)
         {
-
             trigger OnValidate()
             begin
                 CalculateTotalClaim;
@@ -987,7 +1050,7 @@ table 50136 "Travel Request"
             "Fooding Allowance" := "Fooding Allowance" / ReduceBy;
             "Lodging Allowance" := "Lodging Allowance" / ReduceBy;//AT
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
-                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Advance Cash");
+                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare" + "Advance Cash");
         end;
     end;
 

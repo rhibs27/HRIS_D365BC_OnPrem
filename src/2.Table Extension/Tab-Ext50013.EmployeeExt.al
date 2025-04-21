@@ -1009,7 +1009,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Permanent VDC");
                 "Address" := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
-                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             END;
 
             trigger OnLookup()

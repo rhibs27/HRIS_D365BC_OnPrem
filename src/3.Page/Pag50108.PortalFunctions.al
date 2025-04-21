@@ -741,12 +741,21 @@ page 50108 "Portal Functions"
     var
         EmployeeActivitiesType: Enum "Employee Activity Type";
         LeaveTypeEnum: Enum "Leave Type";
+        LeaveTypeSetup: Record "Leave Type Setup";
     begin
         Evaluate(EmployeeActivitiesType, Type);
         Evaluate(LeaveTypeEnum, leaveType);
         if LeaveTypeEnum <> LeaveTypeEnum::"Full Day" then
             if startDate <> endDate then
                 Error('Full and half leave cannot be applied together');
+        if LeaveTypeSetup.Get(leaveCode) then begin
+            If LeaveTypeEnum <> LeaveTypeEnum::"Full Day" then
+                if LeaveTypeSetup."Half Leave Allowed" then begin
+                    If HrMgt.IsFriday(startDate) then
+                        Error('Half Leave is not allowed on Fridays')
+                end else
+                    Error('Half Leave is not allowed in %1', LeaveTypeSetup.Description);
+        end;
         exit(leaveMgt.CalculateNoOfDays(startDate, endDate, LeaveCode, EmployeeActivitiesType, LeaveTypeEnum, empcode))
     end;
 

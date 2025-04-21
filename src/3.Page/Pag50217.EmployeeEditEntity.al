@@ -112,9 +112,9 @@ page 50217 "Employee Edit Entity"
                 field(qualificationCode; Rec."Qualification Code")
                 {
                 }
-                field(qualificationType; rec."Qualification Type")
-                {
-                }
+                // field(qualificationType; rec."Qualification Type")
+                // {
+                // }
                 field(description; Rec.Description)
                 {
                 }
@@ -173,7 +173,7 @@ page 50217 "Employee Edit Entity"
                 field(employeeRelativeInBank; rec."Employee Relative In Bank")
                 {
                 }
-                field(relativeEmployeeNo; Rec."Relative's Employee No.")
+                field(relativesEmployeeNo; Rec."Relative's Employee No.")
                 {
                 }
                 field(relativeCitizenShipNo; Rec."Relative CitizenShip No.")

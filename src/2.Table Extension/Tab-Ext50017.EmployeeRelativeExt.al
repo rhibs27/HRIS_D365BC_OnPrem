@@ -48,15 +48,35 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         }
         field(50006; District; Text[30])
         {
-            TableRelation = District."District Name";
-            ValidateTableRelation = false;
+            // TableRelation = District."District Name";
+            // ValidateTableRelation = false;
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
+            trigger OnValidate()
+            begin
+                if (Rec."District" <> xRec."District") and ("District" <> '') then
+                    HRMgt.CheckDistrictName("District");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("District", HRMgt.LookupAllDistrict());
+            end;
         }
         field(50007; "VDC/Municipality"; Text[30])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
+            trigger OnValidate()
+            begin
+                if (Rec."VDC/Municipality" <> xRec."VDC/Municipality") and ("VDC/Municipality" <> '') then
+                    HRMgt.CheckMunicipalityName("VDC/Municipality");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("VDC/Municipality", HRMgt.LookupMunicipalityName('', "VDC/Municipality"));
+            end;
         }
         field(50008; "Ward No"; Integer)
         {
@@ -106,6 +126,9 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             DataClassification = CustomerContent;
         }
     }
+    var
+        Hrmgt: Codeunit "HR Mgt.";
+
     trigger OnDelete()
     var
         HRCommentLine: Record "Human Resource Comment Line";

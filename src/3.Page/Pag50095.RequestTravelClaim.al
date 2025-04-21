@@ -30,6 +30,7 @@ page 50095 "Request Travel Claim"
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Departure Time"; Rec."Departure Time")
                 {
@@ -42,6 +43,7 @@ page 50095 "Request Travel Claim"
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Arrival Time"; Rec."Arrival Time")
                 {
@@ -52,11 +54,6 @@ page 50095 "Request Travel Claim"
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                }
-                field("Requested Date"; Rec."Requested Date")
-                {
-                    ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
@@ -81,16 +78,6 @@ page 50095 "Request Travel Claim"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                {
-                    ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
-                    ApplicationArea = All;
-                }
-                field(Department; Rec.Department)
-                {
-                    ToolTip = 'Specifies the value of the Department field.';
-                    ApplicationArea = All;
-                }
                 field("Branch Name"; Rec."Branch Name")
                 {
                     ToolTip = 'Specifies the value of the Branch Name field.';
@@ -110,6 +97,7 @@ page 50095 "Request Travel Claim"
                 {
                     ToolTip = 'Specifies the value of the Purpose of Travel field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
             }
             group("Travel Claim")
@@ -140,6 +128,7 @@ page 50095 "Request Travel Claim"
                 {
                     ToolTip = 'Specifies the value of the Mode Of Travel field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Type Of Visit"; Rec."Type Of Visit")
                 {

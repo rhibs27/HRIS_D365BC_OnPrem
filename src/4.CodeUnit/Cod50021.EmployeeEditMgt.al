@@ -90,7 +90,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate("Line No.", 10000);
         EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
         EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
-        EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
+        // EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
         EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Education);
         EmployeeQualification.Validate(Stream, EmployeeEdit.Stream);
         EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
@@ -173,6 +173,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Phone No.", EmployeeEdit."Relative Phone No.");
         EmployeeRelative.Validate(Employee_BOD, EmployeeEdit."Employee Relative In Bank");
         EmployeeRelative.Validate("Citizenship No.", EmployeeEdit."CitizenShip No.");
+        EmployeeRelative.Validate("Birth Date", EmployeeEdit."Birth Date");
         EmployeeRelative.Validate(District, EmployeeEdit."Relative District");
         EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
         EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
