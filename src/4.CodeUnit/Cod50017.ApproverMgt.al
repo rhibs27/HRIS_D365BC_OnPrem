@@ -354,13 +354,13 @@ codeunit 50017 "Approver Mgt"
             Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
             Approver.SetRange("Approval Sequence", 1);
             if Approver.Findfirst() then begin
-                RecRef.Field(16).Validate(ApprovalStatusEnum::WithDraw);
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn);
                 RecRef.Modify();
                 // Modify the record dynamically
             end else
                 Error('Document is approved by 1 or more Approver');
         end else
-            Error('DOcument Status Must be in Pending');
+            Error('Document Status Must be in Pending');
     end;
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequestAPI(documentNo: Code[20]; EmpActType: Text)

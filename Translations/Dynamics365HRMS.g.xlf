@@ -38518,10 +38518,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 5914874 - Action 1277191259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 5914874 - Action 1118692539 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the WithDraw Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action WithDraw Leave - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action Withdraw Leave - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 535886985 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
@@ -56808,10 +56808,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Pending - Property Caption</note>
         </trans-unit>
-        <trans-unit id="EnumExtension 1878856189 - EnumValue 1371476246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
-          <source>WithDraw</source>
+        <trans-unit id="EnumExtension 1878856189 - EnumValue 1052239488 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
+          <source>Withdrawn</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue WithDraw - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Withdrawn - Property Caption</note>
         </trans-unit>
         <trans-unit id="EnumExtension 977422364 - EnumValue 1686543090 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 838578914">
           <source>Employee Loan</source>

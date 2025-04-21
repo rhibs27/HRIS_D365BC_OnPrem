@@ -291,7 +291,7 @@ page 50100 "Posted Leave Card"
                     end;
                 end;
             }
-            action("WithDraw Leave")
+            action("Withdraw Leave")
             {
                 Image = CancelLine;
                 Promoted = true;
