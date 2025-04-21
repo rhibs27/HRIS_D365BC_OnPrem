@@ -287,7 +287,25 @@ page 50100 "Posted Leave Card"
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
                         Leavemgt.OpenCancelEmpActivity(Rec);
-                        CurrPage.Close;
+                        Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
+            action("WithDraw Leave")
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Leave has been withdrew.');
                     end;
                 end;
             }

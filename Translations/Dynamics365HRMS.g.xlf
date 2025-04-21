@@ -17878,6 +17878,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckApprover - NamedType ApproveNotEligibleError</note>
         </trans-unit>
+        <trans-unit id="Codeunit 340372173 - Method 3363893372 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You are not Eligible to WithDraw this document </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Approver Mgt - Method CheckRequester - NamedType ApproveNotEligibleError</note>
+        </trans-unit>
         <trans-unit id="Codeunit 459708191 - Method 2608122986 - NamedType 523849119" size-unit="char" translate="yes" xml:space="preserve">
           <source>Your leave request no. %1 of code %2 has been already cancelled.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38513,6 +38518,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 5914874 - Action 1277191259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Leave Card - Action WithDraw Leave - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 535886985 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50088,16 +50098,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension SourceCodeSetup - Control Payroll Plan - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 1814464443 - Action 519584663 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 2183420390">
-          <source>Executes the OT Form action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension User - Action CreateUser - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 1681603727 - Action 519584663 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1681603727">
-          <source>Executes the OT Form action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension User Card - Action CreateUser - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 2852714242 - Control 2967548846 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 337631938">
           <source>Specifies the value of the Allow Previous Year Payroll field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -56807,6 +56807,11 @@
           <source>Pending</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue Pending - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="EnumExtension 1878856189 - EnumValue 1371476246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 1878856189">
+          <source>WithDraw</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">EnumExtension Approval Status - EnumValue WithDraw - Property Caption</note>
         </trans-unit>
         <trans-unit id="EnumExtension 977422364 - EnumValue 1686543090 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Enum 838578914">
           <source>Employee Loan</source>
