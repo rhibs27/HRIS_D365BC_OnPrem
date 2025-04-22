@@ -16378,6 +16378,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Status Master - Field Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3833062980 - Field 774215734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Withdraw</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Status Master - Field Withdraw - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2648118079 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -41743,6 +41748,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Status Master - Control Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3833062980 - Control 774215734 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Withdraw field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Status Master - Control Withdraw - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3727968875 - Control 1761921010 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Question field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44012,6 +44022,11 @@
           <source>Executes the Screen action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Screen - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1635708066 - Action 2751157318 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Action Withdraw Travel - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1635708066 - Action 4167200489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Print Report action.</source>

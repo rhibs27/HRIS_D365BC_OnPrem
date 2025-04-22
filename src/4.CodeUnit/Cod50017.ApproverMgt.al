@@ -354,9 +354,16 @@ codeunit 50017 "Approver Mgt"
             Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
             Approver.SetRange("Approval Sequence", 1);
             if Approver.Findfirst() then begin
-                RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn);
-                RecRef.Modify();
-                // Modify the record dynamically
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
+                // Get the withDraw Status from Status Master
+                StatusMaster.Reset();
+                StatusMaster.SetRange(withdraw, true);
+                if StatusMaster.FindFirst() then begin
+                    RecRef.Field(100).Validate(StatusMaster.Status);
+                    RecRef.Modify();
+                end
+                else
+                    Error('withdraw Status not Found On Status Master Setup');
             end else
                 Error('Document is approved by 1 or more Approver');
         end else
@@ -367,6 +374,7 @@ codeunit 50017 "Approver Mgt"
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
         Leave: Record Leave;
+        TravelRequest: Record "Travel Request";
         RecRef: RecordRef;
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
@@ -376,6 +384,14 @@ codeunit 50017 "Approver Mgt"
                 begin
                     if Leave.Get(documentNo) then begin
                         RecRef.GetTable(Leave);
+                        WithDrawRequest(RecRef);
+                    end;
+                end;
+            //Travel Request
+            EmpActTypeEnum::"Travel Request":
+                begin
+                    if TravelRequest.Get(documentNo) then begin
+                        RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
                     end;
                 end;

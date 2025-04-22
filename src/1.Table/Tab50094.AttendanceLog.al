@@ -74,7 +74,7 @@ table 50094 "Attendance Log"
             var
             begin
                 Employee.Reset();
-                Employee.SetRange("Attendance Device ID", "Machine Code");
+                // Employee.SetRange("Attendance Device ID", "Machine Code");
                 Employee.SetRange("Employee Attendance ID", "Machine Emp. Code");
                 if Employee.FindFirst() then
                     Validate("Employee ID", Employee."No.");

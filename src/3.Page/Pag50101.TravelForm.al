@@ -417,6 +417,24 @@ page 50101 "Travel Form"
                     end;
                 end;
             }
+            action("Withdraw Travel")
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending and (rec.Type = Rec.type::"Travel Request");
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        ApproverMgt.WithDrawRequest(RecRef);
+                        Message('Travel has been withdrew.');
+                    end;
+                end;
+            }
             action(ExtendTravelRequest)
             {
                 Caption = 'Extend Travel Request';

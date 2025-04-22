@@ -5,7 +5,8 @@ page 50102 "Travel Claim Lists"
     PageType = List;
     PromotedActionCategories = 'New,Process,Report,SetFilter';
     SourceTable = "Travel Request";
-    SourceTableView = WHERE(Type = CONST("Travel Claim"));
+    SourceTableView = SORTING("No.")
+                      ORDER(Descending) WHERE(Type = CONST("Travel Claim"));
     UsageCategory = Lists;
     ApplicationArea = All;
 

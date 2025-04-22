@@ -6,7 +6,8 @@ page 50093 "Travel Requests"
     PageType = List;
     SourceTable = "Travel Request";
     PromotedActionCategories = 'New,Process,Report,SetFilter';
-    SourceTableView = WHERE(Type = CONST("Travel Request"));
+    SourceTableView = SORTING("No.")
+                      ORDER(Descending) WHERE(Type = CONST("Travel Request"));
     UsageCategory = Lists;
     ApplicationArea = All;
     Editable = false;

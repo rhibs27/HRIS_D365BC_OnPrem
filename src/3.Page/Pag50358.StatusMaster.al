@@ -25,6 +25,10 @@ page 50358 "Status Master"
                 {
                     ToolTip = 'Specifies the value of the Rejected field.', Comment = '%';
                 }
+                field(Withdraw; Rec.Withdraw)
+                {
+                    ToolTip = 'Specifies the value of the Withdraw field.', Comment = '%';
+                }
             }
         }
     }

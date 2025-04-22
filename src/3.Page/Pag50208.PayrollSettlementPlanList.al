@@ -2,7 +2,7 @@ page 50208 "Payroll Settlement Plan List"
 {
     // version PRM19.01.01
 
-    CardPageId = "Payroll Plan";
+    CardPageId = "Payroll Settlement Plan";
     Editable = false;
     PageType = List;
     SourceTable = "Payroll Header";

@@ -36,6 +36,22 @@ table 50150 "Status Master"
                     Error('Rejected Status Cannot be more than One');
             end;
         }
+        field(4; Withdraw; Boolean)
+        {
+            Caption = 'Withdraw';
+            trigger OnValidate()
+            var
+                StatusMaster: Record "Status Master";
+            begin
+                if Withdraw then
+                    if not (Role = '') then
+                        Error('If Withdraw is True Role should be Blank');
+                StatusMaster.Reset();
+                StatusMaster.SetRange(Withdraw, true);
+                if StatusMaster.Count = 1 then
+                    Error('Withdraw Status Cannot be more than One');
+            end;
+        }
     }
     keys
     {

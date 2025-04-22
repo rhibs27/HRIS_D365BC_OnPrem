@@ -1016,6 +1016,16 @@ page 50108 "Portal Functions"
                 EstFoodCost := SalLevel."India Fooding Allowance";
                 EstLodgCost := SalLevel."India Lodging Allowance";
             end;
+        end
+        else if travelCountry = Format(EmpTravel."Travel Countries"::"Other Countries") then begin
+            if not ((SalLevel."Others Fooding Allowance" > WithSalLevel."Others Fooding Allowance")
+              and (SalLevel."Others Lodging Allowance" > WithSalLevel."Others Lodging Allowance")) then begin
+                EstFoodCost := WithSalLevel."Others Fooding Allowance";
+                EstLodgCost := WithSalLevel."Others Lodging Allowance";
+            end else begin
+                EstFoodCost := SalLevel."Others Fooding Allowance";
+                EstLodgCost := SalLevel."Others Lodging Allowance";
+            end;
         end;
         if SalLevel.Rank < WithSalLevel.Rank then begin
             Employee.Reset;
