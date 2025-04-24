@@ -89,10 +89,7 @@ table 50092 "Allowance Assignment Header"
         field(8; "Created By"; Code[50]) { }
         field(9; "Last Modified Date"; Date) { }
         field(10; "Last Modified By"; Code[50]) { }
-        field(11; "Approved Date"; Date)
-        {
-            Editable = false;
-        }
+
         field(12; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
@@ -165,6 +162,13 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
             DataClassification = ToBeClassified;
+        }
+        field(37; "Approved Date"; Date)
+        {
+            Editable = false;
+        }
+        field(100; "Status"; Text[20])
+        {
         }
         // field(22; "Requested Date"; Date) { }
     }

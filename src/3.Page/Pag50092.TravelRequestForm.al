@@ -4,7 +4,6 @@ page 50092 "Travel Request Form"
     SourceTable = "Travel Request";
     // SourceTableTemporary = true;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -137,6 +136,7 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the value of the Payment From field.';
                     ApplicationArea = All;
+                    Visible = false;
 
                     trigger OnValidate()
                     begin
@@ -150,6 +150,7 @@ page 50092 "Travel Request Form"
                 }
                 field(Destination; Rec.Destination)
                 {
+                    Editable = not (Rec.Extended and (rec."Travel Countries" <> Rec."Travel Countries"::Nepal));
                     ToolTip = 'Specifies the value of the Destination field.';
                     ApplicationArea = All;
                 }

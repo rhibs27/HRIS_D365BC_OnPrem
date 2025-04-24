@@ -54,6 +54,9 @@ codeunit 50004 "Travel Mgt."
                 TravelRequest.Validate("Travel Order No.", TravelNo);
                 TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
                 TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
+                TravelRequest.Validate("Travel Countries", TravelRequest2."Travel Countries");
+                TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
+                TravelRequest.Validate("Departure From", TravelRequest2."Departure From");
                 Clear(TravelRequest."Estimated Lodging Cost");
             end;
             TravelRequest.Insert(true);
@@ -137,7 +140,9 @@ codeunit 50004 "Travel Mgt."
         if TravelReq.extended then begin
             TravelRequest1.Get(TravelReq."Travel Order No.");
             TravelReq.Validate("Travel With", TravelRequest1."Travel With");
-            TravelReq.Validate("Travel Countries", TravelRequest1."Travel Countries");
+            if not (TravelReq."Travel Countries" = TravelReq."Travel Countries"::Nepal) then
+                TravelReq.Validate("Departure From", TravelRequest1."Departure From");
+
             // TravelRequest.Validate("Start Date", TravelRequest1."Start Date");
             // TravelRequest.Validate("End Date", TravelReq."End Date");
         end;
@@ -378,7 +383,6 @@ codeunit 50004 "Travel Mgt."
         TravelRequest2: Record "Travel Request";
         ApprovalEntry: Record "Approval HRMS";
     begin
-
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
         ApprovalEntry.SetRange("Document No.", '');
@@ -489,8 +493,8 @@ codeunit 50004 "Travel Mgt."
         TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
         TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
         TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
-        TravelRequest.Validate("Out of Pocket Expense", (SalaryLevel."Out of Pocket Expense(Nepal)" *
-              GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date")));
+        TravelRequest.Validate("Out of Pocket Expense", GetOutOfPocket(TravelCountry, SalaryLevel) *
+              GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date"));
 
         if TravelRequest."Advance Cash" <> 0 then
             TravelRequest."Advance Cash Required" := true;
@@ -1478,6 +1482,19 @@ codeunit 50004 "Travel Mgt."
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Others Lodging Allowance");
             end;
+        end;
+    end;
+
+    procedure GetOutOfPocket(TravelCountries: Enum "Travel Countries"; SalaryLevel: Record "Salary Level"): Decimal
+    begin
+        if TravelCountries = TravelCountries::Nepal then begin
+            exit(SalaryLevel."Out of Pocket Expense(Nepal)");
+        end
+        else if TravelCountries = TravelCountries::India then begin
+            exit(SalaryLevel."Out of Pocket Expense(India)");
+        end
+        else if TravelCountries = TravelCountries::"Other Countries" then begin
+            exit(SalaryLevel."Out of Pocket Expense(Other)");
         end;
     end;
 
