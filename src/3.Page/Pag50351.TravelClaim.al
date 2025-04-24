@@ -189,7 +189,8 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Claim Type field.';
                     ApplicationArea = All;
                 }
-                field("Claimed Country"; Rec."Claimed Country")
+
+                field("Travel Countries"; Rec."Travel Countries")
                 {
                     ToolTip = 'Specifies the value of the Claimed Country field.';
                     ApplicationArea = All;

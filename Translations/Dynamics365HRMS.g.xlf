@@ -178,6 +178,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Posted - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 3121655793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43478,11 +43483,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Claim Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 1907688477 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Claimed Country field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Claimed Country - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1674581342 - Control 3020718523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Conveyance Expense field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43542,6 +43542,11 @@
           <source>Specifies the value of the Total Claimed Amount field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Total Claimed Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1674581342 - Control 2837765042 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claimed Country field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Travel Countries - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1674581342 - Control 812328628 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type Of Visit field.</source>

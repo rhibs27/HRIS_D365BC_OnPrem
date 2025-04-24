@@ -229,7 +229,7 @@ page 50101 "Travel Form"
                 }
                 field("Advance Cash"; Rec."Advance Cash")
                 {
-                    Editable = IsPending and Rec."Advance Cash Required";
+                    Editable = IsOpen and Rec."Advance Cash Required";
                     ToolTip = 'Specifies the value of the Advance Cash field.';
                     ApplicationArea = All;
                 }

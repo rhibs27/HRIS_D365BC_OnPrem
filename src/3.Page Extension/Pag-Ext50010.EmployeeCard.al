@@ -322,7 +322,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Functional Title"; Rec."Functional Title")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    Editable = True;
                     ToolTip = 'Specifies the value of the Functional Title field.';
 
                 }
