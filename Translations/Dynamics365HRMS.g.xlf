@@ -33998,6 +33998,36 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure Subform - Control Reporting Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3280849577 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>orgStrucLineAPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3280849577 - Control 707985127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Control code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3280849577 - Control 213955709 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reporting Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Control reportingCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3280849577 - Control 2316979635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reporting Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Control reportingName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3280849577 - Control 86586218 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reporting Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Control reportingType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3280849577 - Control 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page OrgStrucLine API - Control type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3592273345 - Control 2614052691 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
