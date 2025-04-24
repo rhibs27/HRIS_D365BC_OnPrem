@@ -54,8 +54,9 @@ codeunit 50004 "Travel Mgt."
                 TravelRequest.Validate("Travel Order No.", TravelNo);
                 TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
                 TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
-                TravelRequest.Validate("Travel Countries", TravelRequest2."Travel Countries");
-                TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
+                TravelRequest."Travel Countries" := TravelRequest2."Travel Countries";
+                TravelRequest.Destination := TravelRequest2.Destination;
+                TravelRequest."Type Of Visit" := TravelRequest2."Type Of Visit";
                 TravelRequest.Validate("Departure From", TravelRequest2."Departure From");
                 Clear(TravelRequest."Estimated Lodging Cost");
             end;
@@ -1328,7 +1329,7 @@ codeunit 50004 "Travel Mgt."
                             exit(SalaryLevel."Out of Pocket Expense(Other)" * EmpTravel."Total No. of Days");
                 end;
         end;
-        OnAfterGetTravelAllowance(EmpTravel, allType, NoofDays)
+        OnAfterGetTravelAllowance(EmpTravel, allType, NoofDays, SalaryLevel, SalaryLevel1)
     end;
 
     procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
@@ -1517,7 +1518,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal)
+    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal; SalaryLevel: Record "Salary Level"; SalaryLevel1: Record "Salary Level")
     begin
     end;
 

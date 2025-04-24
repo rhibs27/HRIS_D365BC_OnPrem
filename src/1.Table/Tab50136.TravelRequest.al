@@ -698,6 +698,8 @@ table 50136 "Travel Request"
                         TravelMgt.GetLodgingLimit(Rec, SalaryLevel1, SalaryLevel);
                     end;
                 end;
+                if "Travel Countries" <> xRec."Travel Countries" then
+                    Clear(Destination);
             end;
         }
         field(68; "Currency Code"; Code[10])
@@ -738,6 +740,8 @@ table 50136 "Travel Request"
             begin
                 if "Travel With" = "Employee No." then
                     Error(INVALID, "Travel With");
+                if EmployeeRec.Get("Travel With") then
+                    Validate("Travel With Name", EmployeeRec."Full Name");
                 Validate("No. of Days");//AT
             end;
         }
@@ -795,6 +799,11 @@ table 50136 "Travel Request"
         // field(80; "Screener Remarks"; Text[100])
         // {
         // }
+        field(80; "Travel With Name"; Text[100])
+        {
+            Editable = false;
+        }
+
         field(81; "Claim Type"; Enum "Claim Type")
         {
             trigger OnValidate()

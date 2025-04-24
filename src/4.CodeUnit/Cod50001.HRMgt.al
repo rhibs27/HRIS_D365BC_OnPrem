@@ -2700,6 +2700,42 @@ codeunit 50001 "HR Mgt."
         exit(Day + '-' + Month + '-' + Year);
     end;
 
+    procedure getTimeinFormat(varTime: Time): Text
+    var
+        Milliseconds: Integer;
+        Hours: Integer;
+        Minutes: Integer;
+        Seconds: Integer;
+        HoursText: Text;
+        MinutesText: Text;
+        SecondsText: Text;
+    begin
+        Milliseconds := varTime - 000000T;
+
+        Hours := Round(Milliseconds div 1000 div 60 div 60, 1, '=');
+        if Hours < 10 then
+            HoursText := '0' + Format(Hours)
+        else
+            HoursText := Format(Hours);
+        Milliseconds -= Hours * 1000 * 60 * 60;
+
+        Minutes := Round(Milliseconds div 1000 div 60, 1, '=');
+        if Minutes < 10 then
+            MinutesText := '0' + Format(Minutes)
+        else
+            MinutesText := Format(Minutes);
+        Milliseconds -= Minutes * 1000 * 60;
+
+        Seconds := Round(Milliseconds div 1000, 1, '=');
+        if Seconds < 10 then
+            SecondsText := '0' + Format(Seconds)
+        else
+            SecondsText := Format(Seconds);
+        Milliseconds -= Seconds * 1000;
+
+        exit(HoursText + ':' + MinutesText + ':' + SecondsText);
+    end;
+
     procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[10])
     var
         ErrorCitizenError: Label 'Citizenship No %1 of issed place %2 already exist.';

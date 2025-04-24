@@ -152,6 +152,11 @@ page 50101 "Travel Form"
                     ApplicationArea = All;
                     Editable = IsOpen and not Rec.Extended;
                 }
+                field("Travel With Name"; Rec."Travel With Name")
+                {
+                    ToolTip = 'Specifies the value of the Travel With Name field.';
+                    ApplicationArea = All;
+                }
                 field("Mode Of Travel"; Rec."Mode Of Travel")
                 {
                     Editable = IsOpen;
