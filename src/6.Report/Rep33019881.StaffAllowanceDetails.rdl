@@ -759,6 +759,12 @@ End Function
         <Field Name="Type">
           <DataField>Type</DataField>
         </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+        </Field>
         <Field Name="Week">
           <DataField>Week</DataField>
         </Field>
