@@ -151,10 +151,10 @@ page 50267 "My Tasks Mob App"
             }
             cuegroup("Allowance Assignment")
             {
-                field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Transfer Claim")
             {

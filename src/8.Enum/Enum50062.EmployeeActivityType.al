@@ -76,4 +76,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Cancel Document';
     }
+    value(19; "Allowance Assignment")
+    {
+        Caption = 'Allowance Assignment';
+    }
 }

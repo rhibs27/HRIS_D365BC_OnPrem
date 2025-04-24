@@ -4,13 +4,13 @@ page 50177 "Allowance Header API"
     DelayedInsert = true;
     EntityName = 'allowanceHeaderEntity';
     EntitySetName = 'allowanceHeaderEntities';
-    ODataKeyFields = "Entry No.";
+    ODataKeyFields = "No.";
     PageType = API;
     APIVersion = 'v2.0';
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     SourceTable = "Allowance Assignment Header";
-    SourceTableView = sorting("Entry No.")
+    SourceTableView = sorting("No.")
                       order(descending);
 
     layout
@@ -19,7 +19,7 @@ page 50177 "Allowance Header API"
         {
             repeater(General)
             {
-                field(EntryNo; Rec."Entry No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
                 field(EmployeeNo; Rec."Employee No.")
                 {
@@ -33,9 +33,9 @@ page 50177 "Allowance Header API"
                 field(fromDate; Rec."From Date") { }
                 field(toDate; Rec."To date") { }
                 field(approvalStatus; Rec."Approval Status") { }
-                field(approverID; Rec."Approver ID") { }
+                // field(approverID; Rec."Approver ID") { }
                 field(approverDate; Rec."Approved Date") { }
-                field(approverName; Rec."Approver Name") { }
+                // field(approverName; Rec."Approver Name") { }
                 field(Week; Rec.Week) { }
                 field(EnglishMonth; Rec."English Month") { }
                 field(EnglishYear; Rec."English Year") { }
@@ -44,14 +44,14 @@ page 50177 "Allowance Header API"
                 {
                     EntityName = 'allowanceSubformEntity';
                     EntitySetName = 'allowanceSubformEntities';
-                    SubPageLink = "Entry No." = field("Entry No."),
+                    SubPageLink = "No." = field("No."),
                                   Code = field(Code);
                 }
                 part(allowanceFactboxEntities; "Allowance Factbox")
                 {
                     EntityName = 'allowanceFactboxEntity';
                     EntitySetName = 'allowanceFactboxEntities';
-                    SubPageLink = "Entry No. Filter" = field("Entry No."),
+                    SubPageLink = "Entry No. Filter" = field("No."),
                                   "Branch Filter" = field(Code);
                 }
             }

@@ -36,6 +36,7 @@ page 50108 "Portal Functions"
         AppraisalMgt: Codeunit "AppraisalMgt.";
         FileManagement: Codeunit "File Management";
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
         EligibleLoan: Decimal;
@@ -637,11 +638,9 @@ page 50108 "Portal Functions"
         LeaveType: Record "Leave Type Setup";
         AttachmentSetup: Record "Attachment Setup";
     begin
-
         TempIncomingDoc.Reset;
         LeaveType.Get(leaveCode);
         TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
-        TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
         TempIncomingDoc.SETRANGE("Leave Type Code", leaveCode);
         TempIncomingDoc.SetRange("No.", '');
         if TempIncomingDoc.Find('-') then
@@ -2035,29 +2034,29 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure sendAllowanceForApproval(entryNo: Integer; isApproved: Boolean): Text
+    procedure sendAllowanceForApproval(No: Code[20]; isApproved: Boolean): Text
     var
         AllowanceLine: Record "Allowance Assignment Line";
         AllowanceHead: Record "Allowance Assignment Header";
     begin
-        AllowanceHead.Get(entryNo);
+        AllowanceHead.Get(No);
         AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", entryNo);
-        LoanMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine, isApproved);
+        AllowanceLine.SetRange("No.", No);
+        AllowanceMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine, isApproved);
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveAllowanceAssignment(entryNo: Integer; isApproved: Boolean; EmpNo: Code[20]): Text
+    procedure approveAllowanceAssignment(No: Code[20]; isApproved: Boolean; EmpNo: Code[20]): Text
     begin
-        LoanMgt.ApproveRejectAllowanceAssignmentAPI(isApproved, entryNo, EmpNo);
+        AllowanceMgt.ApproveRejectAllowanceAssignmentAPI(isApproved, No, EmpNo);
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure returnAllowanceAssignment(entryNo: Integer; EmpNo: Code[20]): Text
+    procedure returnAllowanceAssignment(No: Code[20]; EmpNo: Code[20]): Text
     begin
-        LoanMgt.ReturnAllowanceAssignment(entryNo);
+        AllowanceMgt.ReturnAllowanceAssignment(No);
     end;
 
     local procedure "------Resignation API---------"()
@@ -3958,10 +3957,10 @@ page 50108 "Portal Functions"
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
-        AllowanceAssignment.Reset();
-        AllowanceAssignment.SetRange("Approver ID", HrMgt.GetEmployeeNo());
-        AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
-        AllowanceAssignmentForApprove := AllowanceAssignment.Count();
+        // AllowanceAssignment.Reset();
+        // AllowanceAssignment.SetRange("Approver ID", HrMgt.GetEmployeeNo());
+        // AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
+        // AllowanceAssignmentForApprove := AllowanceAssignment.Count();
 
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
          + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;

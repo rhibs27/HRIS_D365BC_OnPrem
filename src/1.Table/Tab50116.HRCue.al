@@ -169,12 +169,12 @@ table 50116 "HR Cue"
                                                            "Recommender Code" = field("Employee Filter")));
             FieldClass = FlowField;
         }
-        field(24; "To Recommend Allowance Assig."; Integer)
-        {
-            CalcFormula = count("Allowance Assignment Header" where("Approval Status" = const("Pending Approval"),
-                                                                     "Approver ID" = field("Employee Filter")));
-            FieldClass = FlowField;
-        }
+        // field(24; "To Recommend Allowance Assig."; Integer)
+        // {
+        //     CalcFormula = count("Allowance Assignment Header" where("Approval Status" = const("Pending Approval"),
+        //                                                              "Approver ID" = field("Employee Filter")));
+        //     FieldClass = FlowField;
+        // }
         field(25; "Resignation By Age"; Integer)
         {
             CalcFormula = count(Employee where(Status = filter(Active | Inactive),

@@ -110,17 +110,17 @@ table 50025 "Payroll Attributes"
         {
             CalcFormula = count("Allowance Assignment Line" where("Allowance Type" = field(Code),
                                                                    Code = field("Branch Filter"),
-                                                                   "Entry No." = field("Entry No. Filter")));
+                                                                   "No." = field("Entry No. Filter")));
             FieldClass = FlowField;
         }
         field(27; "No. of Days"; Decimal)
         {
             CalcFormula = sum("Allowance Assignment Line"."No. of Days" where("Allowance Type" = field(Code),
                                                                                Code = field("Branch Filter"),
-                                                                               "Entry No." = field("Entry No. Filter")));
+                                                                               "No." = field("Entry No. Filter")));
             FieldClass = FlowField;
         }
-        field(28; "Entry No. Filter"; Integer)
+        field(28; "Entry No. Filter"; Code[20])
         {
             FieldClass = FlowFilter;
         }

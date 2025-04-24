@@ -27,7 +27,7 @@ report 50080 "Staff Allowance Details"
             column(EnglishYear; "English Year") { }
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
-                DataItemLink = "Entry No." = field("Entry No.");
+                DataItemLink = "No." = field("No.");
                 column(AllowanceType; StrSubstNo('%1 Days', "Allowance Type")) { }
                 column(EmployeeCode; "Employee Code") { }
                 column(EmployeeName; "Employee Name") { }

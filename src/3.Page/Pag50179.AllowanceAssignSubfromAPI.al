@@ -12,9 +12,9 @@ page 50179 "Allowance Assign Subfrom API"
         {
             repeater(Group)
             {
-                field("Entry No."; Rec."Entry No.")
+                field("No."; Rec."No.")
                 {
-                    ToolTip = 'Specifies the value of the Entry No. field.';
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field("Line No."; Rec."Line No.")
@@ -119,16 +119,16 @@ page 50179 "Allowance Assign Subfrom API"
         AllowanceLine: Record "Allowance Assignment Line";
     begin
         AllowanceHeader.Reset;
-        AllowanceHeader.SetCurrentKey("Entry No.");
-        if Rec."Entry No." <> 0 then
-            AllowanceHeader.SetRange("Entry No.", Rec."Entry No.");
+        AllowanceHeader.SetCurrentKey("No.");
+        if Rec."No." <> '' then
+            AllowanceHeader.SetRange("No.", Rec."No.");
         if AllowanceHeader.FindLast then begin
-            Rec."Entry No." := AllowanceHeader."Entry No.";
+            Rec."No." := AllowanceHeader."No.";
             Rec.Code := AllowanceHeader.Code;
         end;
         AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", AllowanceHeader."Entry No.");
-        AllowanceLine.SetCurrentKey("Entry No.", "Line No.");
+        AllowanceLine.SetRange("No.", AllowanceHeader."No.");
+        AllowanceLine.SetCurrentKey("No.", "Line No.");
         if AllowanceLine.FindLast then
             Rec."Line No." := AllowanceLine."Line No." + 10000
         else

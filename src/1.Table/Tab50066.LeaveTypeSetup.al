@@ -147,7 +147,7 @@ table 50066 "Leave Type Setup"
 
     trigger OnDelete()
     begin
-        Error('Cannot delete.');
+        // Error('Cannot delete.');
     end;
 
     var

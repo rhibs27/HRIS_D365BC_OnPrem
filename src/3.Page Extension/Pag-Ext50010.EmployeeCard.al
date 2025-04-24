@@ -1149,6 +1149,21 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         TransferMgt.OpenTransferRequest(Rec."No.");
                     end;
                 }
+                action("Allowance Assignment")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        AllowanceAssignmentMgt.OpenAllowanceRequest(Rec."No.");
+                    end;
+                }
+
 
                 action("Request Attendance Missed")
                 {
@@ -1914,6 +1929,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         PGSetup: Record "Payroll General Setup";
         TransferMgt: Codeunit "Transfer Mgt.";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 
 
     trigger OnOpenPage()

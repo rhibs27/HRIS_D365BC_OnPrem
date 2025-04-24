@@ -584,7 +584,6 @@ table 50136 "Travel Request"
         field(57; "Advance Cash"; Decimal)
         {
             CaptionClass = FieldName("Advance Cash") + HRMgt.ReturnCurrencyCode("Currency Code");
-
             trigger OnValidate()
             var
                 ErrorAdvCash: Label 'Advance Cash cannot be greater than %1.';

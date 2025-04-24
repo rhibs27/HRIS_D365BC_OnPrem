@@ -64,6 +64,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Travel Claimed No. field.';
             }
+            field("Allowance Assignment Series"; Rec."Allowance Assignment Series")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Allowance Assignment field.';
+            }
             field("Training No."; Rec."Training No.")
             {
                 ApplicationArea = All;

@@ -75,7 +75,7 @@ page 50338 "Employee Leave Entity"
             {
                 EntityName = 'attachmentEntity';
                 EntitySetName = 'attachmentEntities';
-                SubPageLink = "No." = field("No.");
+                SubPageLink = "No." = field("No."), "Employee Code" = field("Employee No.");
             }
             part(HRMSApproval; "HRMS Approval Entry")
             {

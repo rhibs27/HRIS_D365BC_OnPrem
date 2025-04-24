@@ -14,10 +14,10 @@ page 50150 "Allowance Assignment Subform"
             repeater(Group)
             {
                 Editable = FormEditable;
-                field("Entry No."; Rec."Entry No.")
+                field("No."; Rec."No.")
                 {
                     Visible = false;
-                    ToolTip = 'Specifies the value of the Entry No. field.';
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field("Line No."; Rec."Line No.")
@@ -113,14 +113,14 @@ page 50150 "Allowance Assignment Subform"
                     Rec.TestField("Is Substitute", false);
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
                     AllowanceLineTemp.Reset;
-                    AllowanceLineTemp.SetRange("Entry No.", Rec."Entry No.");
+                    AllowanceLineTemp.SetRange("No.", Rec."No.");
                     AllowanceLineTemp.SetRange("Substitue of Line No.", Rec."Line No.");
                     AllowanceLineTemp.SetRange("Is Substitute", true);
                     AllowanceLineTemp.SetRange("Employee Code", '');
                     if not AllowanceLineTemp.FindFirst then begin
                         AllowanceLineTemp.Reset;
                         AllowanceLineTemp.Init;
-                        AllowanceLineTemp."Entry No." := Rec."Entry No.";
+                        AllowanceLineTemp."No." := Rec."No.";
                         AllowanceLineTemp."Is Substitute" := true;
                         AllowanceLineTemp."Substitue of Line No." := Rec."Line No.";
                         AllowanceLineTemp."Allowance Type" := Rec."Allowance Type";

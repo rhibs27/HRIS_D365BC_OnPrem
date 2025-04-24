@@ -976,12 +976,6 @@ End Function
         <Field Name="EntryNo">
           <DataField>EntryNo</DataField>
         </Field>
-        <Field Name="Code">
-          <DataField>Code</DataField>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-        </Field>
         <Field Name="EnglishMonth">
           <DataField>EnglishMonth</DataField>
         </Field>

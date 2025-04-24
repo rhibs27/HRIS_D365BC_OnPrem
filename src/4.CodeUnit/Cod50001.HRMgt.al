@@ -6853,6 +6853,14 @@ codeunit 50001 "HR Mgt."
         exit(Employee."No.");
     end;
 
+    procedure GetBranchCode(): Code[20]
+    begin
+        Employee.Reset;
+        Employee.SetRange("NAV Login ID", UserId);
+        Employee.FindFirst;
+        exit(Employee."Branch Code");
+    end;
+
     procedure GetEmployeeName(EmployeeCode: Code[20]): Text[50]
     begin
         Employee.Reset;
@@ -9934,28 +9942,6 @@ codeunit 50001 "HR Mgt."
                     LeaveEarn.Insert(true);
                 end;
             until LeaveTypeSetup.Next = 0;
-    end;
-
-    procedure RejectAllowanceAssigment(AllowanceAssignmentLine: Record "Allowance Assignment Line")
-    var
-        AllowanceAssignmentPageBuilder: FilterPageBuilder;
-        AllowanceAssignmentLine2: Record "Allowance Assignment Line";
-    begin
-        Employee.Get(GetEmployeeNo);
-        // if not Employee.Screener then
-        //     Error('You are not eligible to reject this allowance');
-        AllowanceAssignmentPageBuilder.AddRecord('Reject Allowance Assignment', AllowanceAssignmentLine2);
-        AllowanceAssignmentPageBuilder.ADdField('Reject Allowance Assignment', AllowanceAssignmentLine2."Rejection Remarks");
-        if AllowanceAssignmentPageBuilder.RunModal then begin
-            AllowanceAssignmentLine2.SetView(AllowanceAssignmentPageBuilder.GetView('Reject Allowance Assignment'));
-            if AllowanceAssignmentLine2.GetFilter("Rejection Remarks") = '' then
-                Error('Rejection remarks must have value');
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-            AllowanceAssignmentLine.Validate("Rejection Remarks", AllowanceAssignmentLine2.GetFilter("Rejection Remarks"));
-            AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
-            AllowanceAssignmentLine.Modify;
-            Message('Success');
-        end;
     end;
 
     local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee/HR Transfer")

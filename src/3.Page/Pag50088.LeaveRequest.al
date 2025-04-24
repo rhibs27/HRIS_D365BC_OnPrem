@@ -117,7 +117,9 @@ page 50088 "Leave Request"
                 }
                 field("Child's Gender"; Rec."Child's Gender")
                 {
-                    Editable = IsPaternity;
+                    // Editable = IsPaternity;
+                    Visible = false;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the Child''s Gender field.';
                     ApplicationArea = All;
                 }

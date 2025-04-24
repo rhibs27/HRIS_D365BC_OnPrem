@@ -16,9 +16,9 @@ page 50148 "Allowance Assignments"
         {
             repeater(Group)
             {
-                field("Entry No."; Rec."Entry No.")
+                field("No."; Rec."No.")
                 {
-                    ToolTip = 'Specifies the value of the Entry No. field.';
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field(Type; Rec.Type)
@@ -86,16 +86,16 @@ page 50148 "Allowance Assignments"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-                field("Approver ID"; Rec."Approver ID")
-                {
-                    ToolTip = 'Specifies the value of the Approver ID field.';
-                    ApplicationArea = All;
-                }
-                field("Approver Name"; Rec."Approver Name")
-                {
-                    ToolTip = 'Specifies the value of the Approver Name field.';
-                    ApplicationArea = All;
-                }
+                // field("Approver ID"; Rec."Approver ID")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver ID field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Approver Name"; Rec."Approver Name")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Name field.';
+                //     ApplicationArea = All;
+                // }
             }
         }
     }
@@ -118,7 +118,7 @@ page 50148 "Allowance Assignments"
                 begin
                     if not Confirm('Do you want to created allowance header for all branch and extension counter?') then
                         exit;
-                    LoanMgt.InsertAllowanceHeader();
+                    AllowanceMgt.InsertAllowanceHeader();
                 end;
             }
         }
@@ -126,4 +126,5 @@ page 50148 "Allowance Assignments"
 
     var
         LoanMgt: Codeunit "Loan Mgt.";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }

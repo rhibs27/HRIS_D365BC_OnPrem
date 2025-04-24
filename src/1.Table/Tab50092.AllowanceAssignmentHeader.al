@@ -1,20 +1,40 @@
 table 50092 "Allowance Assignment Header"
 {
-    DataCaptionFields = "Entry No.", "Code", "From Date", "To date";
+    DataCaptionFields = "No.", "Code", "From Date", "To date";
     DataClassification = CustomerContent;
 
     fields
     {
-        field(1; "Entry No."; Integer) { }
-        field(2; "Code"; Code[20])
+        field(1; "No."; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                HRSetup.Get;
+                if "No." <> xRec."No." then
+                    case "Activity Type" of
+                        //for Allowance Assignment Header
+                        "Activity Type"::"Allowance Assignment":
+                            begin
+                                NoSeriesMgt.TestManual(HRSetup."Allowance Assignment Series");
+                                "No. Series" := '';
+                            end;
+                    end;
+            end;
+
+        }
+        field(2; "Activity Type"; Enum "Employee Activity Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(13; "Code"; Code[20])
         {
             NotBlank = true;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
 
             trigger OnValidate()
             begin
-                CheckLineExist();
+                // CheckLineExist();
                 GLsetup.Get;
                 Clear(Name);
                 if GuiAllowed then
@@ -23,16 +43,15 @@ table 50092 "Allowance Assignment Header"
                     Employee.Get("Employee No.");
                 if Type = Type::Branch then begin
                     if Code <> '' then
-                        TestField(Code, Employee."Global Dimension 1 Code");
+                        TestField(Code, Employee."Branch Code");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
                         Name := OrganizationStructureList.Name;
                 end else if Type = Type::"Extension Counter" then begin
                     if Code <> '' then
-                        TestField(Code, Employee."Extension Counter Code");
+                        // TestField(Code, Employee."Extension Counter Code");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
-                        Name := OrganizationStructureList.Name;
+                            Name := OrganizationStructureList.Name;
                 end;
-
                 //GetApprover();
                 CheckForSameWeek;
             end;
@@ -56,9 +75,15 @@ table 50092 "Allowance Assignment Header"
                     Error('Invalid date.');
             end;
         }
-        field(6; Type; Enum "Branchwise/Extension Type")
+        field(6; "Type"; Enum "Branchwise/Extension Type")
         {
-
+            trigger OnValidate()
+            begin
+                if Type <> xRec.Type then begin
+                    Clear(Code);
+                    Clear(Name);
+                end;
+            end;
         }
         field(7; "Created Date"; Date) { }
         field(8; "Created By"; Code[50]) { }
@@ -68,39 +93,42 @@ table 50092 "Allowance Assignment Header"
         {
             Editable = false;
         }
-        field(12; "Approver ID"; Code[50])
+        field(12; "No. Series"; Code[20])
         {
-            TableRelation = Employee;
-            ValidateTableRelation = false;
-
-            trigger OnValidate()
-            begin
-                if Employee.Get("Approver ID") then
-                    Validate("Approver Name", Employee."Full Name")
-                else
-                    Clear("Approver ID");
-            end;
+            TableRelation = "No. Series";
         }
-        field(13; "Approval Status"; Enum "Attendance status")
-        {
+        // field(12; "Approver ID"; Code[50])
+        // {
+        //     TableRelation = Employee;
+        //     ValidateTableRelation = false;
 
-        }
+        //     trigger OnValidate()
+        //     begin
+        //         if Employee.Get("Approver ID") then
+        //             Validate("Approver Name", Employee."Full Name")
+        //         else
+        //             Clear("Approver ID");
+        //     end;
+        // }
         field(14; Posted; Boolean) { }
         field(15; "Allowance Type Filter"; Code[20])
         {
             TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code),
                                                                                      Type = field(Type));
         }
-        field(16; "Approver Name"; Text[50])
+        field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
         }
+        // field(16; "Approver Name"; Text[50])
+        // {
+        //     Editable = false;
+        // }
         field(17; Week; Enum WeekNumber)
         {
-
             trigger OnValidate()
             begin
-                CheckLineExist;
+                // CheckLineExist;
                 CalculateWeekStartEndDate;
                 CheckForSameWeek;
             end;
@@ -111,7 +139,7 @@ table 50092 "Allowance Assignment Header"
             trigger OnValidate()
             begin
                 TestField(Week);
-                CheckLineExist;
+                // CheckLineExist;
                 CalculateWeekStartEndDate;
                 CheckForSameWeek;
             end;
@@ -128,98 +156,128 @@ table 50092 "Allowance Assignment Header"
         {
             DataClassification = ToBeClassified;
             Description = 'Only for Portal functionalities.';
+            trigger OnValidate()
+            begin
+                "Branch Code" := HrMgt.GetBranchCode;
+            end;
         }
+        field(22; "Branch Code"; Code[20])
+        {
+            Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        // field(22; "Requested Date"; Date) { }
     }
 
     keys
     {
-        key(Key1; "Entry No.") { }
+        key(Key1; "No.") { }
     }
 
     fieldgroups { }
 
     trigger OnDelete()
     begin
-        TestField("Approval Status", "Approval Status"::Open);
+        // TestField("Approval Status", "Approval Status"::Open);
         AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", "Entry No.");
+        AllowanceLine.SetRange("No.", "No.");
         AllowanceLine.DeleteAll(true);
+        ApprovalHrms.Reset;
+        ApprovalHrms.SetRange("Document No.", "No.");
+        ApprovalHrms.DeleteAll(true);
     end;
 
     trigger OnInsert()
     begin
-        GetEntryNo;
+        // GetEntryNo;
         "Created By" := UserId;
         "Created Date" := Today;
-        TestField(Code);
+        // "Activity Type" := "Activity Type"::"Allowance Assignment";
+        // Validate("Employee No.", HrMgt.GetEmployeeNo());
+        // TestField(Code);
         if not GuiAllowed then
             CheckForSameWeek;
-
-        if not GuiAllowed then
-            if "Approver ID" = '' then
-                Error('Please select an approver.');
+        HRSetup.Get;
+        if "No." = '' then
+            case "Activity Type" of
+                //for AllowanceAssignment
+                "Activity Type"::"Allowance Assignment":
+                    begin
+                        HRSetup.TestField("Allowance Assignment Series");
+                        NoSeriesMgt.InitSeries(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
+                        ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type");
+                    end;
+            end;
     end;
+    // if not GuiAllowed then
+    //     if "Approver ID" = '' then
+    //         Error('Please select an approver.');
+    // end;
 
     trigger OnModify()
     begin
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
 
-        if not GuiAllowed then
-            if "Approver ID" = '' then
-                Error('Please select an approver.');
+        // if not GuiAllowed then
+        //     if "Approver ID" = '' then
+        //         Error('Please select an approver.');
     end;
 
     var
         Employee: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
         HrMgt: Codeunit "HR Mgt.";
+        ApprovalHrms: Record "Approval HRMS";
+        HRSetup: Record "Human Resources Setup";
         OrganizationStructureList: Record "Organization Structure List";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        ApproverMgt: Codeunit "Approver Mgt";
         // DimensionValue: Record "Dimension Value";
         GLsetup: Record "General Ledger Setup";
         AllowanceHeader: Record "Allowance Assignment Header";
     // EmployeeHie: Record "Employee Hierarchy Master";
 
-    local procedure GetEntryNo()
-    var
-        AllowanceEntry: Record "Allowance Assignment Header";
-    begin
-        AllowanceEntry.Reset;
-        AllowanceEntry.SetCurrentKey("Entry No.");
-        if AllowanceEntry.FindLast then
-            "Entry No." := AllowanceEntry."Entry No." + 1
-        else
-            "Entry No." := 1;
-    end;
+    // local procedure GetEntryNo()
+    // var
+    //     AllowanceEntry: Record "Allowance Assignment Header";
+    // begin
+    //     AllowanceEntry.Reset;
+    //     AllowanceEntry.SetCurrentKey("Entry No.");
+    //     if AllowanceEntry.FindLast then
+    //         "Entry No." := AllowanceEntry."Entry No." + 1
+    //     else
+    //         "Entry No." := 1;
+    // end;
 
-    local procedure CheckLineExist()
-    var
-        AllowanceLine: Record "Allowance Assignment Line";
-    begin
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", "Entry No.");
-        if AllowanceLine.FindFirst then
-            Error('Line exists. ');
-    end;
+    // local procedure CheckLineExist()
+    // var
+    //     AllowanceLine: Record "Allowance Assignment Line";
+    // begin
+    //     AllowanceLine.Reset;
+    //     AllowanceLine.SetRange("No.", "No.");
+    //     if AllowanceLine.FindFirst then
+    //         Error('Line exists. ');
+    // end;
 
-    procedure GetApprover()
-    begin
-        if Code = '' then
-            exit;
+    // procedure GetApprover()
+    // begin
+    //     if Code = '' then
+    //         exit;
 
-        Employee.Reset;
-        Employee.SetRange(Status, Employee.Status::Active);
-        Employee.SetRange("Global Dimension 1 Code", Code);
-        Employee.SetRange("Functional Title", 'BM');
-        if Employee.FindFirst then
-            Validate("Approver ID", Employee."No.")
+    //     Employee.Reset;
+    //     Employee.SetRange(Status, Employee.Status::Active);
+    //     Employee.SetRange("Global Dimension 1 Code", Code);
+    //     Employee.SetRange("Functional Title", 'BM');
+    //     if Employee.FindFirst then
+    //         Validate("Approver ID", Employee."No.")
 
-        else begin
-            Employee.SetFilter("Functional Title", 'ACOSP|OBM');
-            if Employee.FindFirst then
-                Validate("Approver ID", Employee."No.");
-        end;
-    end;
+    //     else begin
+    //         Employee.SetFilter("Functional Title", 'ACOSP|OBM');
+    //         if Employee.FindFirst then
+    //             Validate("Approver ID", Employee."No.");
+    //     end;
+    // end;
 
     local procedure CalculateWeekStartEndDate()
     var
@@ -278,12 +336,13 @@ table 50092 "Allowance Assignment Header"
     local procedure CheckForSameWeek()
     begin
         AllowanceHeader.Reset;
+        AllowanceHeader.SetFilter("No.", '<>%1', "No.");
         AllowanceHeader.SetRange(Week, Week);
         AllowanceHeader.SetRange("English Year", "English Year");
         AllowanceHeader.SetRange("English Month", "English Month");
         AllowanceHeader.SetRange(Code, Code);
         AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
         if AllowanceHeader.FindFirst then
-            Error('Allowance for branch %1 of month %2 and week %3 has already been assigned.', Name, "English Month", Week);
+            Error('Allowance for this %1 of month %2 and week %3 has already been assigned.', type, "English Month", Week);
     end;
 }

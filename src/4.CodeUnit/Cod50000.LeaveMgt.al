@@ -177,7 +177,7 @@ codeunit 50000 "Leave Mgt."
         leave.SetRange("Employee No.", EmpCode);
         //EmpAct.SETRANGE(Type,EmpAct.Type::"Leave Request");
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
-        leave.SetFilter("Approval Status", '<>%1&<>%2', leave."Approval Status"::Rejected, leave."Approval Status"::Open);
+        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Pending, leave."Approval Status"::Approved);
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
         leave.FilterGroup(-1);
@@ -199,7 +199,7 @@ codeunit 50000 "Leave Mgt."
         leave.SetRange("Fiscal Year", EngNep."Fiscal Year");
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
-        leave.SetFilter("Approval Status", '<>%1&<>%2', leave."Approval Status"::Rejected, leave."Approval Status"::Open);
+        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
         if leave.Find('-') then
             repeat
                 if ((StartDate > leave."Start Date") and (StartDate < leave."End Date")) or
@@ -787,18 +787,19 @@ codeunit 50000 "Leave Mgt."
         Leave.TestField(Remarks);
         PayrollSetup.Get;
         //check for fisal year start date
-        if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or
-          (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
-            Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
+        if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
+            if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or
+              (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
+                Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
 
         //Bereavement Leave
         if GuiAllowed then
             if LeaveTypeSetup."Bereavement Leave" then
                 Leave.TestField("For Death Of");
-        //maternity and paternity leave
-        IF GuiAllowed Then
-            if LeaveTypeSetup."Maternity/Paternity Leave" then
-                Leave.TestField("Child's Gender");
+        //maternity and paternity leave`
+        // IF GuiAllowed Then
+        //     if LeaveTypeSetup."Maternity/Paternity Leave" then
+        // Leave.TestField("Child's Gender");
         if Leave."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Leave.TestField("Leave Code");
@@ -1587,6 +1588,11 @@ codeunit 50000 "Leave Mgt."
         AttachmentSetup: Record "Attachment Setup";
         LeaveType: Record "Leave Type Setup";
     begin
+        // Delete existing Attachment Line Of Leave <<Santosh<< 4-22-25
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SetRange("No.", leave."No.");
+        TempIncomingDoc.DeleteAll();
+        //
         TempIncomingDoc.Reset;
         LeaveType.Get(leave."Leave Code");
         TempIncomingDoc.SetRange("Employee Code", leave."Employee No.");

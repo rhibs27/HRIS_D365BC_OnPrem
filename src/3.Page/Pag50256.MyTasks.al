@@ -151,10 +151,10 @@ page 50256 "My Tasks"
             }
             cuegroup("Allowance Assignment")
             {
-                field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
-                {
-                    Caption = 'To Recommend';
-                }
+                // field(ToRecommendAllowanceAssig; Rec."To Recommend Allowance Assig.")
+                // {
+                //     Caption = 'To Recommend';
+                // }
             }
             cuegroup("Transfer Claim")
             {

@@ -13,9 +13,9 @@ report 50081 "Branch Allowance Data"
             column(Title; Title) { }
             dataitem("Allowance Assignment Header"; "Allowance Assignment Header")
             {
-                column(EntryNo; "Entry No.") { }
-                column("Code"; Code) { }
-                column(Name; Name) { }
+                column(EntryNo; "No.") { }
+                // column("Code"; Code) { }
+                // column(Name; Name) { }
                 column(EnglishMonth; "English Month") { }
                 column(EnglishYear; "English Year") { }
                 column(Week; Week) { }
@@ -23,64 +23,64 @@ report 50081 "Branch Allowance Data"
                 column(EmailBM; EmailBM) { }
                 dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
                 {
-                    DataItemLink = "Entry No." = field("Entry No.");
+                    DataItemLink = "No." = field("No.");
                     column(AllowanceType; "Allowance Type") { }
                     column(Counter; Counter) { }
                 }
 
-                trigger OnAfterGetRecord()
-                begin
-                    Clear(EmailBM);
-                    Clear(EmailEMECM);
-                    FunctionalTitle.Reset;
-                    FunctionalTitle.SetRange("EM/ECM Identifier", true);
-                    if FunctionalTitle.Find('-') then
-                        repeat
-                            Employee.Reset;
-                            Employee.SetRange("Functional Title", FunctionalTitle.Code);
-                            Employee.SetFilter("Deputation on", Format(Type));
-                            if Type = Type::Branch then
-                                Employee.SetRange("Global Dimension 1 Code", Code)
-                            else
-                                Employee.SetRange("Extension Counter Code", Code);
-                            if Employee.Find('-') then
-                                repeat
-                                    if EmailEMECM = '' then
-                                        EmailEMECM := Employee."Company E-Mail"
-                                    else
-                                        EmailEMECM += ', ' + Employee."Company E-Mail";
-                                until Employee.Next = 0;
-                        until FunctionalTitle.Next = 0;
+                // trigger OnAfterGetRecord()
+                // begin
+                //     Clear(EmailBM);
+                //     Clear(EmailEMECM);
+                // FunctionalTitle.Reset;
+                // FunctionalTitle.SetRange("EM/ECM Identifier", true);
+                // if FunctionalTitle.Find('-') then
+                //     repeat
+                //         Employee.Reset;
+                //         Employee.SetRange("Functional Title", FunctionalTitle.Code);
+                //         Employee.SetFilter("Deputation on", Format(Type));
+                //         if Type = Type::Branch then
+                //             Employee.SetRange("Global Dimension 1 Code", Code)
+                //         else
+                //             Employee.SetRange("Extension Counter Code", Code);
+                //         if Employee.Find('-') then
+                //             repeat
+                //                 if EmailEMECM = '' then
+                //                     EmailEMECM := Employee."Company E-Mail"
+                //                 else
+                //                     EmailEMECM += ', ' + Employee."Company E-Mail";
+                //             until Employee.Next = 0;
+                //     until FunctionalTitle.Next = 0;
 
-                    FunctionalTitle.Reset;
-                    FunctionalTitle.SetRange("BM/OBM", true);
-                    if FunctionalTitle.Find('-') then
-                        repeat
-                            Employee.Reset;
-                            Employee.SetRange("Functional Title", FunctionalTitle.Code);
-                            Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
-                            if Type = Type::Branch then
-                                Employee.SetRange("Global Dimension 1 Code", Code)
-                            else begin
-                                // EmpHie.Reset;
-                                // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                                // EmpHie.SetRange(Code, Code);
-                                // EmpHie.SetRange(Blocked, false);
+                // FunctionalTitle.Reset;
+                // FunctionalTitle.SetRange("BM/OBM", true);
+                // if FunctionalTitle.Find('-') then
+                //     repeat
+                //         Employee.Reset;
+                //         Employee.SetRange("Functional Title", FunctionalTitle.Code);
+                //         Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
+                //         if Type = Type::Branch then
+                //             Employee.SetRange("Global Dimension 1 Code", Code)
+                //         else begin
+                // EmpHie.Reset;
+                // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
+                // EmpHie.SetRange(Code, Code);
+                // EmpHie.SetRange(Blocked, false);
 
-                                // if EmpHie.FindFirst then
-                                //     Employee.SetRange("Global Dimension 1 Code", EmpHie."Shortcut Dimension 1 Code");
-                            end;
-                            // if EmpHie."Shortcut Dimension 1 Code" <> '' then begin
-                            if Employee.Find('-') then
-                                repeat
-                                    if EmailBM = '' then
-                                        EmailBM := Employee."Company E-Mail"
-                                    else
-                                        EmailBM += ', ' + Employee."Company E-Mail";
-                                until Employee.Next = 0;
-                        // end;
-                        until FunctionalTitle.Next = 0;
-                end;
+                // if EmpHie.FindFirst then
+                //     Employee.SetRange("Global Dimension 1 Code", EmpHie."Shortcut Dimension 1 Code");
+                //             end;
+                //             // if EmpHie."Shortcut Dimension 1 Code" <> '' then begin
+                //             if Employee.Find('-') then
+                //                 repeat
+                //                     if EmailBM = '' then
+                //                         EmailBM := Employee."Company E-Mail"
+                //                     else
+                //                         EmailBM += ', ' + Employee."Company E-Mail";
+                //                 until Employee.Next = 0;
+                //         // end;
+                //         until FunctionalTitle.Next = 0;
+                // end;
 
                 trigger OnPreDataItem()
                 begin

@@ -52,6 +52,7 @@ codeunit 50004 "Travel Mgt."
                 Clear(TravelRequest2);
                 TravelRequest2.Get(TravelNo);
                 TravelRequest.Validate("Travel Order No.", TravelNo);
+                TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
                 TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
                 Clear(TravelRequest."Estimated Lodging Cost");
             end;

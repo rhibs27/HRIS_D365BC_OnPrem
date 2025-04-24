@@ -17,4 +17,8 @@ enumextension 50002 "Approval Status" extends "Approval Status"
     {
         Caption = 'Withdrawn';
     }
+    value(50004; Screened)
+    {
+        Caption = 'Screened';
+    }
 }

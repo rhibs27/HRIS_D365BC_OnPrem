@@ -45,9 +45,9 @@ page 50103 "Allowance Assignments (Screen)"
             {
                 Editable = false;
                 ShowCaption = false;
-                field("Entry No."; Rec."Entry No.")
+                field("No."; Rec."No.")
                 {
-                    ToolTip = 'Specifies the value of the Entry No. field.';
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field("Line No."; Rec."Line No.")
@@ -179,7 +179,7 @@ page 50103 "Allowance Assignments (Screen)"
                     if not Confirm('Do you want to screen all filtered assignments?', false) then
                         exit;
 
-                    LoanMgt.ScreenAllowanceAssignment(Rec, true, Rec.GetFilter("From Date"));
+                    AllowanceMgt.ScreenAllowanceAssignment(Rec, true, Rec.GetFilter("From Date"));
 
                     Message('Updated.');
                     CurrPage.Update;
@@ -199,7 +199,7 @@ page 50103 "Allowance Assignments (Screen)"
                     if not Confirm('Do you want to unscreen the selected assignment?', false) then
                         exit;
 
-                    LoanMgt.ScreenAllowanceAssignment(Rec, false, Rec.GetFilter("From Date"));
+                    AllowanceMgt.ScreenAllowanceAssignment(Rec, false, Rec.GetFilter("From Date"));
                     Message('Updated.');
                     CurrPage.Update;
                 end;
@@ -217,7 +217,7 @@ page 50103 "Allowance Assignments (Screen)"
                 trigger OnAction()
                 begin
                     if Confirm('Do you update to employee attendance and activity?', false) then begin
-                        LoanMgt.InsertAllowanceAssignmentDays;
+                        AllowanceMgt.InsertAllowanceAssignmentDays;
                     end;
                 end;
             }
@@ -233,7 +233,7 @@ page 50103 "Allowance Assignments (Screen)"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to reject this document?', false) then
-                        HRMgt.RejectAllowanceAssigment(Rec);
+                        AllowanceMgt.RejectAllowanceAssigment(Rec);
                 end;
             }
         }
@@ -252,6 +252,7 @@ page 50103 "Allowance Assignments (Screen)"
         FromDate: Date;
         ToDate: Date;
         HRMgt: Codeunit "HR Mgt.";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 
     local procedure GetEnglishDateFilter()
     var

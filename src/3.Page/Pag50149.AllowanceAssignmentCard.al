@@ -1,10 +1,10 @@
 page 50149 "Allowance Assignment Card"
 {
-    DelayedInsert = true;
+    // DelayedInsert = true;
     PageType = Card;
     SourceTable = "Allowance Assignment Header";
     ApplicationArea = All;
-
+    InsertAllowed = false;
     layout
     {
         area(Content)
@@ -53,7 +53,6 @@ page 50149 "Allowance Assignment Card"
                     Editable = false;
                     ToolTip = 'Specifies the value of the To date field.';
                     ApplicationArea = All;
-
                     trigger OnValidate()
                     begin
                         CurrPage.Update;
@@ -63,6 +62,17 @@ page 50149 "Allowance Assignment Card"
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the Change Approver Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Enabled = false;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field("Approved Date"; Rec."Approved Date")
+                {
+                    ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
                 field("Allowance Type Filter"; Rec."Allowance Type Filter")
@@ -78,52 +88,41 @@ page 50149 "Allowance Assignment Card"
             }
             part(AllowanceSubform; "Allowance Assignment Subform")
             {
-                SubPageLink = "Entry No." = field("Entry No."),
+                SubPageLink = "No." = field("No."),
                               Code = field(Code),
                               Type = field(Type);
                 UpdatePropagation = Both;
                 ApplicationArea = All;
             }
-            group(Approval)
-            {
-                Editable = FormEditable;
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    Enabled = false;
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
-                field("Approver ID"; Rec."Approver ID")
-                {
-                    ToolTip = 'Specifies the value of the Approver ID field.';
-                    ApplicationArea = All;
-                }
-                field("Approved Date"; Rec."Approved Date")
-                {
-                    ToolTip = 'Specifies the value of the Approved Date field.';
-                    ApplicationArea = All;
-                }
-            }
-            // part("Approval Subform"; "HRMS Approval Entry")
+            // group(Approval)
             // {
-            //     Editable = false;
-            //     SubPageLink = "Document No." = field("Entry No."),
-            //                     "Employee No" = field("Employee No."),
-            //                     "Document Type" = field(Type);
-            //                                           ApplicationArea = all;
+            //     Editable = FormEditable;
+
+            // field("Approver ID"; Rec."Approver ID")
+            // {
+            //     ToolTip = 'Specifies the value of the Approver ID field.';
+            //     ApplicationArea = All;
             // }
+            // }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                "Employee No" = field("Employee No."),
+                                "Document Type" = field("Activity Type");
+                ApplicationArea = all;
+            }
         }
         area(FactBoxes)
         {
             part(Control19; "Allowance Factbox")
             {
-                SubPageLink = "Entry No. Filter" = field("Entry No."),
+                SubPageLink = "Entry No. Filter" = field("No."),
                               "Branch Filter" = field(Code);
                 ApplicationArea = All;
             }
         }
     }
-
     actions
     {
         area(Processing)
@@ -136,16 +135,15 @@ page 50149 "Allowance Assignment Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
                     AllowanceLine.Reset;
-                    AllowanceLine.SetRange("Entry No.", Rec."Entry No.");
+                    AllowanceLine.SetRange("No.", Rec."No.");
                     if Confirm('Do you want to send approval request?', false) then
-                        LoanMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, true);
+                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, true);
                 end;
             }
             action("Cancel Approval Request")
@@ -156,14 +154,13 @@ page 50149 "Allowance Assignment Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
                     AllowanceLine.Reset;
-                    AllowanceLine.SetRange("Entry No.", Rec."Entry No.");
+                    AllowanceLine.SetRange("No.", Rec."No.");
                     if Confirm('Do you want to cancel the document?', false) then
-                        LoanMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, false);
+                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, false);
                 end;
             }
             action("Approve Request")
@@ -177,14 +174,13 @@ page 50149 "Allowance Assignment Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
                     //AllowanceLine.RESET;
                     //AllowanceLine.SETRANGE("Entry No.", "Entry No.");
                     if Confirm('Do you want to approve the document?', false) then
-                        LoanMgt.ApproveRejectAllowanceAssignment(true, Rec."Entry No.");
+                        ApproverMgt.ApproveRejectDocument(RecRef, true)
+                    // AllowanceMgt.ApproveRejectAllowanceAssignment(true, Rec."No.");
                 end;
             }
             action("Reject Request")
@@ -198,44 +194,43 @@ page 50149 "Allowance Assignment Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
                     //AllowanceLine.RESET;
                     //AllowanceLine.SETRANGE("Entry No.", "Entry No.");
                     if Confirm('Do you want to reject the document?', false) then
-                        LoanMgt.ApproveRejectAllowanceAssignment(false, Rec."Entry No.");
+                        ApproverMgt.ApproveRejectDocument(RecRef, false)
+                    // AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
                 end;
             }
-            action("Return Request")
-            {
-                ToolTip = 'Executes the Return Request action.';
-                ApplicationArea = All;
+            // action("Return Request")
+            // {
+            //     ToolTip = 'Executes the Return Request action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to return this document?', false) then
-                        LoanMgt.ApproveRejectAllowanceAssignment(false, Rec."Entry No.");
-                end;
-            }
-            action(ChangeApprover)
-            {
-                Image = ChangeCustomer;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the ChangeApprover action.';
-                ApplicationArea = All;
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to return this document?', false) then
+            //             AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
+            //     end;
+            // }
+            // action(ChangeApprover)
+            // {
+            //     Image = ChangeCustomer;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the ChangeApprover action.';
+            //     ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want changes approver?', false) then begin
-                        LoanMgt.PopUpChangingApproverAllowance(Rec);
-                    end;
-                end;
-            }
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want changes approver?', false) then begin
+            //             LoanMgt.PopUpChangingApproverAllowance(Rec);
+            //         end;
+            //     end;
+            // }
         }
     }
 
@@ -252,12 +247,16 @@ page 50149 "Allowance Assignment Card"
     var
         AllowanceLine: Record "Allowance Assignment Line";
         FormEditable: Boolean;
-        LoanMgt: Codeunit "Loan Mgt.";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         Employee: Record Employee;
+        ApproverMgt: Codeunit "Approver Mgt";
+        RecRef: RecordRef;
 
     local procedure SetLayout()
     begin
-        // CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
+        CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
+        FormEditable := rec."Approval Status" = rec."Approval Status"::Open;
+        RecRef.GetTable(Rec);
         // Employee.Reset;
         // Employee.SetRange("NAV Login ID", UserId);
         // if Employee.FindFirst then

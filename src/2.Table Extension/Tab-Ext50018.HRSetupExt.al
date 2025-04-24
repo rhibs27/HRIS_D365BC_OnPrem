@@ -90,8 +90,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50019; "Base Interest Rate";
-        Decimal)
+        field(50019; "Base Interest Rate"; Decimal)
         {
             DataClassification = CustomerContent;
         }
@@ -101,8 +100,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Training Question No series';
         }
-        field(50021; "No Leave Approved Days";
-        Integer)
+        field(50021; "No Leave Approved Days"; Integer)
         {
             DataClassification = CustomerContent;
             Description = 'Transfer';
@@ -677,6 +675,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         field(50143; "Cancel Document Upto (Days)"; Integer)
         {
             DataClassification = CustomerContent;//cancel allowed upto how many days from approved date
+        }
+        field(50144; "Allowance Assignment Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
         }
     }
 }

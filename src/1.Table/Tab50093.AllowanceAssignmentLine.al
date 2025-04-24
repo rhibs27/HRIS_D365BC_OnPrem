@@ -4,7 +4,7 @@ table 50093 "Allowance Assignment Line"
 
     fields
     {
-        field(1; "Entry No."; Integer) { }
+        field(1; "No."; Code[20]) { }
         field(2; "Line No."; Integer) { }
         field(3; "Code"; Code[20])
         {
@@ -54,7 +54,7 @@ table 50093 "Allowance Assignment Line"
                 TestField("From Date");
                 if "Approval Status" = "Approval Status"::Screened then
                     Error('Cannot substitute screened employee.');
-                LoanMgt.CheckEmployeeAlreadyExistsforSameEmployee("Entry No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 //TESTFIELD("Allowance Type");
                 PayrollGeneralSetup.Get;
                 PayrollGeneralSetup.TestField("Risk Allowance");
@@ -62,15 +62,15 @@ table 50093 "Allowance Assignment Line"
                 PayrollGeneralSetup.TestField("Holiday Counter");
 
                 if "Allowance Type" in [PayrollGeneralSetup."Risk Allowance", PayrollGeneralSetup."Morning Counter"] then
-                    LoanMgt.CheckFunctionalTitleForRiskAllowance(Rec);
+                    AllowanceMgt.CheckFunctionalTitleForRiskAllowance(Rec);
                 if "Allowance Type" = PayrollGeneralSetup."Evening Counter" then
-                    LoanMgt.CheckFunctionalTitleForEveningCounter(Rec);
+                    AllowanceMgt.CheckFunctionalTitleForEveningCounter(Rec);
 
                 if "Allowance Type" = PayrollGeneralSetup."Holiday Counter" then
-                    LoanMgt.CheckFunctionalTitleForHolidayCounter(Rec);
+                    AllowanceMgt.CheckFunctionalTitleForHolidayCounter(Rec);
 
                 if "Allowance Type" = PayrollGeneralSetup."Vault Key" then
-                    LoanMgt.CheckSalaryLevelForVaultKey(Rec);
+                    AllowanceMgt.CheckSalaryLevelForVaultKey(Rec);
 
                 OverTimeMgt.CheckApprovedOvertimeExists(Rec);
 
@@ -81,7 +81,7 @@ table 50093 "Allowance Assignment Line"
                     "Approval Status" := "Approval Status"::"Pending Approval";
 
                 ValidateAllowanceType();
-                Validate("Allowance Amount", Round(LoanMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -92,7 +92,7 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                LoanMgt.CheckEmployeeAlreadyExistsforSameEmployee("Entry No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
             end;
@@ -157,7 +157,7 @@ table 50093 "Allowance Assignment Line"
                     PayrollGeneralSetup.TestField("Vault Key");
                     if "Allowance Type" <> PayrollGeneralSetup."Vault Key" then
                         Error('Allowance type must be vault key to select panel.');
-                    LoanMgt.CheckForPanel(Rec);
+                    AllowanceMgt.CheckForPanel(Rec);
                 end;
             end;
         }
@@ -173,7 +173,7 @@ table 50093 "Allowance Assignment Line"
 
     keys
     {
-        key(Key1; "Entry No.", "Line No.") { }
+        key(Key1; "No.", "Line No.") { }
     }
 
     fieldgroups { }
@@ -192,7 +192,7 @@ table 50093 "Allowance Assignment Line"
         if "Line No." = 0 then
             GetLineNo();
 
-        if AllowanceHeader.Get("Entry No.") then begin
+        if AllowanceHeader.Get("No.") then begin
             Week := AllowanceHeader.Week;
         end;
 
@@ -237,8 +237,9 @@ table 50093 "Allowance Assignment Line"
         TEXT002: Label 'Total No. of Employees in %1 in %2 exceeds %3.';
         PayrollGeneralSetup: Record "Payroll General Setup";
         HrMgt: Codeunit "HR Mgt.";
+        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
-        LoanMgt: Codeunit "Loan Mgt.";
+        // LoanMgt: Codeunit "Loan Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
@@ -249,8 +250,8 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine: Record "Allowance Assignment Line";
     begin
         AllowanceLine.Reset;
-        AllowanceLine.SetCurrentKey("Entry No.", "Line No.");
-        AllowanceLine.SetRange("Entry No.", "Entry No.");
+        AllowanceLine.SetCurrentKey("No.", "Line No.");
+        AllowanceLine.SetRange("No.", "No.");
         if AllowanceLine.FindLast then
             "Line No." := AllowanceLine."Line No." + 10000
         else
@@ -265,7 +266,7 @@ table 50093 "Allowance Assignment Line"
         "No. of Days" := 0;
         //if one mutual exclusive allowance is already selected, no other mutually exclusive allowance is allowed.
         AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", "Entry No.");
+        AllowanceLine.SetRange("No.", "No.");
         AllowanceLine.SetFilter("Line No.", '<>%1', "Line No.");
         AllowanceLine.SetFilter("From Date", '<=%1', "From Date");
         AllowanceLine.SetFilter("To Date", '>=%1', "From Date");
@@ -287,7 +288,7 @@ table 50093 "Allowance Assignment Line"
             until AllowanceLine.Next = 0;
 
         AllowanceLine.Reset;
-        AllowanceLine.SetRange("Entry No.", "Entry No.");
+        AllowanceLine.SetRange("No.", "No.");
         AllowanceLine.SetRange(Type, Type);
         AllowanceLine.SetRange("Allowance Type", "Allowance Type");
         AllowanceLine.SetRange(Code, Code);
@@ -301,7 +302,7 @@ table 50093 "Allowance Assignment Line"
                         Error(TEXT002, Name, "Allowance Type",
                                 BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
 
-        AllowanceHeader.Get("Entry No.");
+        AllowanceHeader.Get("No.");
         if "From Date" <> 0D then
             if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
                 Error('Date is not within period.');
@@ -372,14 +373,14 @@ table 50093 "Allowance Assignment Line"
         if "Is Substitute" then begin
             if ("From Date" = 0D) or ("To Date" = 0D) then
                 exit;
-            AllowanceLine.Get("Entry No.", "Substitue of Line No.");
+            AllowanceLine.Get("No.", "Substitue of Line No.");
             NewToDate := AllowanceLine."To Date";
             if AllowanceLine."From Date" = "From Date" then
                 AllowanceLine.Delete(true);
 
             if not GuiAllowed then begin
                 AllowanceHeader.Reset;
-                AllowanceHeader.Get("Entry No.");
+                AllowanceHeader.Get("No.");
             end;
             if "From Date" - 1 >= AllowanceHeader."From Date" then begin
                 AllowanceLine."To Date" := "From Date" - 1;
@@ -393,7 +394,7 @@ table 50093 "Allowance Assignment Line"
                 //insert new line
                 AllowanceLine1.Reset;
                 AllowanceLine1.Init;
-                AllowanceLine1."Entry No." := "Entry No.";
+                AllowanceLine1."No." := "No.";
                 AllowanceLine1.Validate("Allowance Type", AllowanceLine."Allowance Type");
                 AllowanceLine1.Validate("Employee Code", AllowanceLine."Employee Code");
                 AllowanceLine1."Substitue of Line No." := AllowanceLine."Line No.";
@@ -401,7 +402,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;
                 //    IF NOT GUIALLOWED THEN BEGIN
-                AllowanceHeader.Validate("Approval Status", AllowanceHeader."Approval Status"::"Pending Approval");
+                AllowanceHeader.Validate("Approval Status", AllowanceHeader."Approval Status"::"Pending");
                 AllowanceHeader.Modify;
                 //  END;
 
@@ -430,9 +431,9 @@ table 50093 "Allowance Assignment Line"
 
     local procedure ChangeHeaderApprovalStatus()
     begin
-        if AllowanceHeader.Get("Entry No.") then begin
+        if AllowanceHeader.Get("No.") then begin
             if AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved then begin
-                AllowanceHeader."Approval Status" := AllowanceHeader."Approval Status"::"Pending Approval";
+                AllowanceHeader."Approval Status" := AllowanceHeader."Approval Status"::"Pending";
                 AllowanceHeader.Modify;
             end;
         end;

@@ -53,7 +53,7 @@ report 50067 "Allowance Assignment Mail"
                         HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0)
                     else if AllowanceHeader.FindFirst then begin
                         AllowanceLine.Reset;
-                        AllowanceLine.SetRange("Entry No.", AllowanceHeader."Entry No.");
+                        AllowanceLine.SetRange("No.", AllowanceHeader."No.");
                         if not AllowanceLine.FindFirst then
                             HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0);
                     end;
@@ -70,7 +70,7 @@ report 50067 "Allowance Assignment Mail"
                     HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0)
                 else if AllowanceHeader.FindFirst then begin
                     AllowanceLine.Reset;
-                    AllowanceLine.SetRange("Entry No.", AllowanceHeader."Entry No.");
+                    AllowanceLine.SetRange("No.", AllowanceHeader."No.");
                     if not AllowanceLine.FindFirst then
                         HRMgt.SendMailFromTemplate(Database::"Allowance Assignment Header", EmailTemplate."Document Type"::"Allowance Assignment", 0, OrganizationStructureList.Name, '', OrganizationStructureList.Code, 0);
                 end;

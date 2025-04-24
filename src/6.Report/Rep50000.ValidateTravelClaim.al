@@ -51,7 +51,7 @@ report 50000 "Validate Travel Claim"
         //DeleteTempTransferAttachment;
         //GetEmployeeFromEmployeeId;
         //ValdiateAllowanceLineCode;
-        InsertAllowanceHeader;
+        // InsertAllowanceHeader;
         //ValidateRiskAllowanceAmt;
         //CollpasedLeaveBalance;
         //ValidateFiscalYear;
@@ -273,81 +273,81 @@ report 50000 "Validate Travel Claim"
             until AllowanceLine.Next = 0;
     end;
 
-    procedure InsertAllowanceHeader()
-    begin
-        if WeekVar = WeekVar::" " then
-            Error('Please fill week');
-        if Month = Month::" " then
-            Error('Please fill month');
-        if Year = 0 then
-            Error('Please fill year');
+    // procedure InsertAllowanceHeader()
+    // begin
+    //     if WeekVar = WeekVar::" " then
+    //         Error('Please fill week');
+    //     if Month = Month::" " then
+    //         Error('Please fill month');
+    //     if Year = 0 then
+    //         Error('Please fill year');
 
-        AllowanceHeader.Reset;
-        AllowanceHeader.SetCurrentKey("Entry No.");
-        if AllowanceHeader.FindLast then
-            EntryNo := AllowanceHeader."Entry No." + 1
-        else
-            EntryNo := 1;
-        GLSetup.Get;
-        DimValue.Reset;
-        DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-        if DimValue.Find('-') then
-            repeat
+    //     AllowanceHeader.Reset;
+    //     AllowanceHeader.SetCurrentKey("Entry No.");
+    //     if AllowanceHeader.FindLast then
+    //         EntryNo := AllowanceHeader."Entry No." + 1
+    //     else
+    //         EntryNo := 1;
+    //     GLSetup.Get;
+    //     DimValue.Reset;
+    //     DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+    //     if DimValue.Find('-') then
+    //         repeat
 
-                AllowanceHeader.Reset;
-                AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
-                AllowanceHeader.SetRange(Code, DimValue.Code);
-                AllowanceHeader.SetRange(Week, WeekVar);
-                AllowanceHeader.SetRange("English Month", Month);
-                AllowanceHeader.SetRange("English Year", Year);
-                if not AllowanceHeader.FindFirst then begin
-                    AllowanceHeader.Init;
-                    AllowanceHeader.Validate("Entry No.", EntryNo);
-                    AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
-                    AllowanceHeader.Validate(Code, DimValue.Code);
-                    AllowanceHeader.Validate("English Year", Year);
-                    AllowanceHeader.Validate("English Month", Month);
-                    AllowanceHeader.Validate(Week, WeekVar);
-                    AllowanceHeader.Insert(true);
-                    EntryNo := EntryNo + 1;
-                end;
-            until DimValue.Next = 0;
+    //             AllowanceHeader.Reset;
+    //             AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
+    //             AllowanceHeader.SetRange(Code, DimValue.Code);
+    //             AllowanceHeader.SetRange(Week, WeekVar);
+    //             AllowanceHeader.SetRange("English Month", Month);
+    //             AllowanceHeader.SetRange("English Year", Year);
+    //             if not AllowanceHeader.FindFirst then begin
+    //                 AllowanceHeader.Init;
+    //                 AllowanceHeader.Validate("Entry No.", EntryNo);
+    //                 AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
+    //                 AllowanceHeader.Validate(Code, DimValue.Code);
+    //                 AllowanceHeader.Validate("English Year", Year);
+    //                 AllowanceHeader.Validate("English Month", Month);
+    //                 AllowanceHeader.Validate(Week, WeekVar);
+    //                 AllowanceHeader.Insert(true);
+    //                 EntryNo := EntryNo + 1;
+    //             end;
+    //         until DimValue.Next = 0;
 
-        OrganizationStructureList.Reset;
-        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
-        if OrganizationStructureList.Find('-') then
-            repeat
+    //     OrganizationStructureList.Reset;
+    //     OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
+    //     if OrganizationStructureList.Find('-') then
+    //         repeat
 
-                AllowanceHeader.Reset;
-                AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
-                AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                AllowanceHeader.SetRange(Week, WeekVar);
-                AllowanceHeader.SetRange("English Month", Month);
-                AllowanceHeader.SetRange("English Year", Year);
-                if not AllowanceHeader.FindFirst then begin
-                    AllowanceHeader.Init;
-                    AllowanceHeader.Validate("Entry No.", EntryNo);
-                    AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
-                    AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
-                    AllowanceHeader.Validate("English Year", Year);
-                    AllowanceHeader.Validate("English Month", Month);
-                    AllowanceHeader.Validate(Week, WeekVar);
-                    EntryNo := EntryNo + 1;
-                    AllowanceHeader.Insert(true)
-                end;
-            until OrganizationStructureList.Next = 0;
-    end;
+    //             AllowanceHeader.Reset;
+    //             AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
+    //             AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
+    //             AllowanceHeader.SetRange(Week, WeekVar);
+    //             AllowanceHeader.SetRange("English Month", Month);
+    //             AllowanceHeader.SetRange("English Year", Year);
+    //             if not AllowanceHeader.FindFirst then begin
+    //                 AllowanceHeader.Init;
+    //                 AllowanceHeader.Validate("Entry No.", EntryNo);
+    //                 AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
+    //                 AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
+    //                 AllowanceHeader.Validate("English Year", Year);
+    //                 AllowanceHeader.Validate("English Month", Month);
+    //                 AllowanceHeader.Validate(Week, WeekVar);
+    //                 EntryNo := EntryNo + 1;
+    //                 AllowanceHeader.Insert(true)
+    //             end;
+    //         until OrganizationStructureList.Next = 0;
+    // end;
 
     local procedure ValidateRiskAllowanceAmt()
     begin
-        PGSetup.Get;
-        AllowanceLine.Reset;
-        if AllowanceLine.Find('-') then
-            repeat
-                AllowanceLine.Validate("Allowance Amount",
-                Round(LoanMgt.SetAllowanceAmount(AllowanceLine."Employee Code", AllowanceLine."Allowance Type", AllowanceLine."From Date"), 0.01, '='));
-                AllowanceLine.Modify;
-            until AllowanceLine.Next = 0;
+        // PGSetup.Get;
+        // AllowanceLine.Reset;
+        // if AllowanceLine.Find('-') then
+        //     repeat
+        //         AllowanceLine.Validate("Allowance Amount",
+        //         Round(LoanMgt.SetAllowanceAmount(AllowanceLine."Employee Code", AllowanceLine."Allowance Type", AllowanceLine."From Date"), 0.01, '='));
+        //         AllowanceLine.Modify;
+        //     until AllowanceLine.Next = 0;
         /*AllowanceLine.SETRANGE("Allowance Type",PGSetup."Risk Allowance");
         IF AllowanceLine.FIND('-') THEN REPEAT
           Employee.GET(AllowanceLine."Employee Code");

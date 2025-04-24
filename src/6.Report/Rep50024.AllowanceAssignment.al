@@ -10,7 +10,7 @@ report 50024 "Allowance Assignment"
         {
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
-                DataItemLink = "Entry No." = field("Entry No.");
+                DataItemLink = "No." = field("No.");
                 column(BranchCode_AllowanceAssignmentLine; "Allowance Assignment Line".Code)
                 {
                     IncludeCaption = true;

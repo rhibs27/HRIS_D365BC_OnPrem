@@ -1,11 +1,9 @@
 page 50087 "Leave Type Setup"
 {
-    DeleteAllowed = false;
     PageType = List;
     SourceTable = "Leave Type Setup";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
