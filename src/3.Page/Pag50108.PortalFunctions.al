@@ -173,6 +173,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Resignation);
             FORMAT(ApprovalSetupLine."Request Type"::"Employee Edit"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
+            FORMAT(ApprovalSetupLine."Request Type"::"Allowance Assignment"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Allowance Assignment");
             else
                 Error('Approval Setup Not found');
         END;
@@ -342,7 +344,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure approveRejectMissedAttendance(missedAttendanceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
-        Leave: Record Leave;
+        // Leave: Record Leave;
         RecRef: RecordRef;
         AttendanceMissed: Record "Attendance Missed";
     begin
@@ -2011,7 +2013,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure substituteAllowanceAssignment(entryNo: Integer; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20]): Text
+    procedure substituteAllowanceAssignment(entryNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20]): Text
     var
         AllowanceLine: Record "Allowance Assignment Line";
         TempAllowanceLine: Record "Allowance Assignment Line";
@@ -2027,7 +2029,7 @@ page 50108 "Portal Functions"
         TempAllowanceLine.TestField("From Date");
         TempAllowanceLine.TestField("To Date");
         TempAllowanceLine.TestField("Employee Code");
-        TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
+        // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
         TempAllowanceLine.Insert(true);
         TempAllowanceLine.UpdateSubstitue;
     end;
@@ -2047,9 +2049,20 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveAllowanceAssignment(No: Code[20]; isApproved: Boolean; EmpNo: Code[20]): Text
+    procedure approveAllowanceAssignment(allowlanceAssignNo: Code[20]; rejectionRemarks: text; isApproved: Boolean)
+    var
+        AllowanceAssignment: Record "Allowance Assignment Header";
+        RecRef: RecordRef;
     begin
-        AllowanceMgt.ApproveRejectAllowanceAssignmentAPI(isApproved, No, EmpNo);
+        if AllowanceAssignment.Get(allowlanceAssignNo) then
+            if not isApproved then begin
+                if rejectionRemarks = '' then
+                    Error('Rejection Remarks is empty');
+                AllowanceAssignment.Validate("Rejection Remarks", rejectionRemarks);
+                AllowanceAssignment.Modify;
+            end;
+        RecRef.GetTable(AllowanceAssignment);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 
     [ServiceEnabled]
