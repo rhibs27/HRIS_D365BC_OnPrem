@@ -58,6 +58,7 @@ codeunit 50004 "Travel Mgt."
                 TravelRequest.Destination := TravelRequest2.Destination;
                 TravelRequest."Type Of Visit" := TravelRequest2."Type Of Visit";
                 TravelRequest.Validate("Departure From", TravelRequest2."Departure From");
+                Clear(TravelRequest."Total Estimated Cost");
                 Clear(TravelRequest."Estimated Lodging Cost");
             end;
             TravelRequest.Insert(true);
@@ -494,8 +495,8 @@ codeunit 50004 "Travel Mgt."
         TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
         TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
         TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
-        TravelRequest.Validate("Out of Pocket Expense", GetOutOfPocket(TravelCountry, SalaryLevel) *
-              GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date"));
+        // TravelRequest.Validate("Out of Pocket Expense", GetOutOfPocket(TravelCountry, SalaryLevel) *
+        //   GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date"));
 
         if TravelRequest."Advance Cash" <> 0 then
             TravelRequest."Advance Cash Required" := true;
@@ -1413,33 +1414,33 @@ codeunit 50004 "Travel Mgt."
     begin
         if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Fooding Allowance" > SalaryLevel."Nepal Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Nepal Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Nepal Fooding Allowance");
             end else begin
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Nepal Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Nepal Fooding Allowance");
             end;
         end
         else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
             if SalaryLevel1."India Fooding Allowance" > SalaryLevel."India Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."India Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."India Fooding Allowance");
             end else begin
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."India Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."India Fooding Allowance");
             end;
         end
         else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::"Other Countries" then begin
             if SalaryLevel1."Others Fooding Allowance" > SalaryLevel."Others Fooding Allowance" then begin//AT
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel1."Others Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel1."Others Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel1."Others Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel1."Others Fooding Allowance");
             end else begin
-                TravelRequest.Validate("Fooding Allowance", SalaryLevel."Others Fooding Allowance" * TravelRequest."No. of Days");
+                // TravelRequest.Validate("Fooding Allowance", SalaryLevel."Others Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Allowance Limit", SalaryLevel."Others Fooding Allowance" * TravelRequest."No. of Days");
                 TravelRequest.Validate("Fooding Per Day Limit", SalaryLevel."Others Fooding Allowance");
             end;
@@ -1451,35 +1452,35 @@ codeunit 50004 "Travel Mgt."
     begin
         if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::Nepal then begin
             if SalaryLevel1."Nepal Lodging Allowance" > SalaryLevel."Nepal Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Nepal Lodging Allowance");
             end else begin
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Nepal Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Nepal Lodging Allowance");
             end;
         end
         else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::India then begin
             if SalaryLevel1."India Lodging Allowance" > SalaryLevel."India Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."India Lodging Allowance");
 
             end else begin
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."India Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
             end;
         end
         else if TravelRequest."Travel Countries" = TravelRequest."Travel Countries"::"Other Countries" then begin
             if SalaryLevel1."Others Lodging Allowance" > SalaryLevel."Others Lodging Allowance" then begin//AT
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel1."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel1."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel1."Others Lodging Allowance");
 
             end else begin
-                TravelRequest.Validate("Lodging Allowance", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
+                // TravelRequest.Validate("Lodging Allowance", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Allowance Limit", SalaryLevel."Others Lodging Allowance" * (TravelRequest."No. of Days" - 1));
                 TravelRequest.Validate("Lodging Per Day Limit", SalaryLevel."Others Lodging Allowance");
             end;

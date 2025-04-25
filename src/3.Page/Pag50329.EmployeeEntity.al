@@ -228,10 +228,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Province Name';
                 }
-                // field(cluster; Rec.Cluster)
-                // {
-                //     Caption = 'Cluster';
-                // }
+                field(branchCode; Rec."Branch Code")
+                {
+                    Caption = '"Branch Code"';
+                }
                 field(branchName; Rec."Branch Name")
                 {
                     Caption = 'Branch Name';

@@ -23,6 +23,9 @@ query 50014 Employee
             column(deputationOn; "Deputation on")
             {
             }
+            column(branchCode; "Branch Code")
+            {
+            }
             column(branchName; "Branch Name")
             {
             }
@@ -39,6 +42,9 @@ query 50014 Employee
             {
             }
             column(gender; Gender)
+            {
+            }
+            column(extensionCounterCode; "Extension Counter Code")
             {
             }
         }

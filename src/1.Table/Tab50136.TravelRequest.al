@@ -698,7 +698,7 @@ table 50136 "Travel Request"
                         TravelMgt.GetLodgingLimit(Rec, SalaryLevel1, SalaryLevel);
                     end;
                 end;
-                if "Travel Countries" <> xRec."Travel Countries" then
+                if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
             end;
         }
