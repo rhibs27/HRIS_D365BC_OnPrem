@@ -37,7 +37,7 @@ table 50092 "Allowance Assignment Header"
                 // CheckLineExist();
                 GLsetup.Get;
                 Clear(Name);
-                if GuiAllowed then
+                if not GuiAllowed then
                     Employee.Get(HrMgt.GetEmployeeNo())
                 else
                     Employee.Get("Employee No.");
@@ -201,10 +201,11 @@ table 50092 "Allowance Assignment Header"
         "Created By" := UserId;
         "Created Date" := Today;
         // "Activity Type" := "Activity Type"::"Allowance Assignment";
-        // Validate("Employee No.", HrMgt.GetEmployeeNo());
-        // TestField(Code);
         if not GuiAllowed then
-            CheckForSameWeek;
+            Validate("Employee No.", HrMgt.GetEmployeeNo());
+        // TestField(Code);
+        // if not GuiAllowed then
+        //     CheckForSameWeek;
         HRSetup.Get;
         if "No." = '' then
             case "Activity Type" of
@@ -222,15 +223,15 @@ table 50092 "Allowance Assignment Header"
     //         Error('Please select an approver.');
     // end;
 
-    trigger OnModify()
-    begin
-        "Last Modified Date" := Today;
-        "Last Modified By" := UserId;
+    // trigger OnModify()
+    // begin
+    //     "Last Modified Date" := Today;
+    //     "Last Modified By" := UserId;
 
-        // if not GuiAllowed then
-        //     if "Approver ID" = '' then
-        //         Error('Please select an approver.');
-    end;
+    // if not GuiAllowed then
+    //     if "Approver ID" = '' then
+    //         Error('Please select an approver.');
+    // end;
 
     var
         Employee: Record Employee;
@@ -338,7 +339,7 @@ table 50092 "Allowance Assignment Header"
                         "To date" := ToDate;
                 end;
         end;
-        if Modify then;
+        // if Modify then;
     end;
 
     local procedure CheckForSameWeek()

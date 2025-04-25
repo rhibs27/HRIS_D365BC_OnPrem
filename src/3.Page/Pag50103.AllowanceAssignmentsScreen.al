@@ -136,12 +136,12 @@ page 50103 "Allowance Assignments (Screen)"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-                field("Approved Id"; Rec."Approved Id")
-                {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Approved Id field.';
-                    ApplicationArea = All;
-                }
+                // field("Approved Id"; Rec."Approved Id")
+                // {
+                //     Visible = false;
+                //     ToolTip = 'Specifies the value of the Approved Id field.';
+                //     ApplicationArea = All;
+                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

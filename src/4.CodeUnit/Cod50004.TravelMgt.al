@@ -116,7 +116,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest.Reset;
         TravelRequest.SetRange("Employee No.", TravelReq."Employee No.");
         TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open);
+        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
         TravelRequest.SetRange("Cancelled No.", '');
         TravelRequest.SetRange(Cancelled, false);
         TravelRequest.FilterGroup(-1);

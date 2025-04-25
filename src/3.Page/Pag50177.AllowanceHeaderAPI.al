@@ -1,10 +1,10 @@
 page 50177 "Allowance Header API"
 {
     Caption = 'Allowance Assignment';
-    DelayedInsert = true;
     EntityName = 'allowanceHeaderEntity';
     EntitySetName = 'allowanceHeaderEntities';
     ODataKeyFields = "No.";
+    DelayedInsert = true;
     PageType = API;
     APIVersion = 'v2.0';
     APIGroup = 'HRMS';
@@ -20,8 +20,17 @@ page 50177 "Allowance Header API"
             repeater(General)
             {
                 field(no; Rec."No.") { }
-                field(type; Rec.Type) { }
-                field(EmployeeNo; Rec."Employee No.")
+                field(type; Rec.Type)
+                {
+                    trigger OnValidate()
+                    var
+                        myInt: Integer;
+                    begin
+
+                    end;
+                }
+                field(activityType; Rec."Activity Type") { }
+                field(employeeNo; Rec."Employee No.")
                 {
                     ApplicationArea = All;
                 }
@@ -37,9 +46,9 @@ page 50177 "Allowance Header API"
                 field(approverDate; Rec."Approved Date") { }
                 // field(approverName; Rec."Approver Name") { }
                 field(Week; Rec.Week) { }
-                field(EnglishMonth; Rec."English Month") { }
-                field(EnglishYear; Rec."English Year") { }
-                field(CreatedBy; Rec."Created By") { }
+                field(englishMonth; Rec."English Month") { }
+                field(englishYear; Rec."English Year") { }
+                field(createdBy; Rec."Created By") { }
                 part(allowanceSubformEntities; "Allowance Assign Subfrom API")
                 {
                     EntityName = 'allowanceSubformEntity';

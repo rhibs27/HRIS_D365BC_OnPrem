@@ -152,7 +152,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
         else
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-        AllowanceLine.ModifyAll("Approved Id", EmpNo);
+        // AllowanceLine.ModifyAll("Approved Id", EmpNo);
         AllowanceLine.ModifyAll("Approved Date", Today);
     end;
 
@@ -180,7 +180,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.SetRange("No.", No);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
-        AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
+        // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
         AllowanceLine.ModifyAll("Approved Date", Today);
     end;
 

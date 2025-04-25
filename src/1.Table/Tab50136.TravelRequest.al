@@ -86,7 +86,6 @@ table 50136 "Travel Request"
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -100,21 +99,19 @@ table 50136 "Travel Request"
                     Clear("End Date (BS)");
                     Validate("No. of Days", 0);
                 end;
-
                 //for travel claim
                 if Type = Type::"Travel Claim" then begin
                     Clear("Actual Travel Start Time");
                     Clear("Actual Travel End Time");
                     Clear("Out of Pocket Expense");
                 end;
-
                 //AT Travel Req Control
                 if Type = Type::"Travel Request" then begin
                     TravelRequest.Reset;
                     TravelRequest.SetRange("Employee No.", "Employee No.");
                     TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
                     TravelRequest.SetFilter("No.", '<>%1', "No.");
-                    TravelRequest.SetFilter("Approval Status", '<>%1 & <>%2', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open);
+                    TravelRequest.SetFilter("Approval Status", '<>%1 &<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
                     TravelRequest.SetRange("Start Date", "Start Date");
                     if TravelRequest.FindFirst then
                         Error('Travel Request for Start Date = %1 already exists for %2', "Start Date", "Employee Name");
@@ -133,7 +130,6 @@ table 50136 "Travel Request"
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
