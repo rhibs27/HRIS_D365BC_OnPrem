@@ -166,6 +166,10 @@ table 50092 "Allowance Assignment Header"
             Editable = false;
             DataClassification = ToBeClassified;
         }
+        field(23; "Rejection Remarks"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+        }
         // field(22; "Requested Date"; Date) { }
     }
 

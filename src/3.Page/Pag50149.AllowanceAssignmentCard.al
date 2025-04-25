@@ -135,9 +135,10 @@ page 50149 "Allowance Assignment Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Send Approval Request action.';
                 ApplicationArea = All;
+                Visible = IsOpen;
                 trigger OnAction()
                 var
-                    LoanMgt: Codeunit "Loan Mgt.";
+                // LoanMgt: Codeunit "Loan Mgt.";
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
                     AllowanceLine.Reset;
@@ -154,6 +155,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
+                Visible = IsApprove;
                 trigger OnAction()
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
@@ -172,7 +174,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
@@ -192,7 +194,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
                 ApplicationArea = All;
-
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
@@ -250,12 +252,18 @@ page 50149 "Allowance Assignment Card"
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         Employee: Record Employee;
         ApproverMgt: Codeunit "Approver Mgt";
+        IsPending: Boolean;
+        IsOpen: Boolean;
+        IsApprove: Boolean;
         RecRef: RecordRef;
 
     local procedure SetLayout()
     begin
         CurrPage.AllowanceSubform.Page._SetFilter(Rec."Allowance Type Filter");
         FormEditable := rec."Approval Status" = rec."Approval Status"::Open;
+        IsPending := Rec."Approval Status" = rec."Approval Status"::"Pending";
+        IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
         RecRef.GetTable(Rec);
         // Employee.Reset;
         // Employee.SetRange("NAV Login ID", UserId);

@@ -52,8 +52,8 @@ table 50093 "Allowance Assignment Line"
             trigger OnValidate()
             begin
                 TestField("From Date");
-                if "Approval Status" = "Approval Status"::Screened then
-                    Error('Cannot substitute screened employee.');
+                // if "Approval Status" = "Approval Status"::Screened then
+                // Error('Cannot substitute screened employee.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 //TESTFIELD("Allowance Type");
                 PayrollGeneralSetup.Get;
@@ -77,8 +77,8 @@ table 50093 "Allowance Assignment Line"
                 if Employee.Get("Employee Code") then
                     "Employee Name" := Employee."Full Name";
 
-                if xRec."Employee Code" <> "Employee Code" then
-                    "Approval Status" := "Approval Status"::"Pending Approval";
+                // if xRec."Employee Code" <> "Employee Code" then
+                //     "Approval Status" := "Approval Status"::"Pending Approval";
 
                 ValidateAllowanceType();
                 Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
@@ -127,10 +127,10 @@ table 50093 "Allowance Assignment Line"
         field(15; "Last Modified Date"; Date) { }
         field(16; "Last Modified By"; Code[50]) { }
         field(17; "Approved Date"; Date) { }
-        field(18; "Approved Id"; Code[50])
-        {
-            TableRelation = Employee;
-        }
+        // field(18; "Approved Id"; Code[50])
+        // {
+        //     TableRelation = Employee;
+        //}
         field(19; "Approval Status"; Enum "Attendance Status")
         {
         }
@@ -180,8 +180,8 @@ table 50093 "Allowance Assignment Line"
 
     trigger OnDelete()
     begin
-        if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Screened, "Approval Status"::Rejected] then
-            Error('You cannot delete approved or screened or rejected entries.');
+        // if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Screened, "Approval Status"::Rejected] then
+        // Error('You cannot delete approved or screened or rejected entries.');
     end;
 
     trigger OnInsert()
@@ -217,8 +217,8 @@ table 50093 "Allowance Assignment Line"
 
     trigger OnModify()
     begin
-        if "Approval Status" in ["Approval Status"::Screened] then
-            Error('You cannot modify already screened entries.');
+        // if "Approval Status" in ["Approval Status"::Screened] then
+        //     Error('You cannot modify already screened entries.');
 
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
@@ -406,7 +406,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceHeader.Modify;
                 //  END;
 
-                AllowanceLine1.Validate("Approval Status", AllowanceLine1."Approval Status"::Screened);
+                // AllowanceLine1.Validate("Approval Status", AllowanceLine1."Approval Status"::Screened);
                 AllowanceLine1.CalculateNoOfDays(AllowanceLine1);
                 AllowanceLine1.Insert(true);
             end;
