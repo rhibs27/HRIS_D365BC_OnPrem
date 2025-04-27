@@ -12,7 +12,6 @@ page 50177 "Allowance Header API"
     SourceTable = "Allowance Assignment Header";
     SourceTableView = sorting("No.")
                       order(descending);
-
     layout
     {
         area(Content)
@@ -21,53 +20,49 @@ page 50177 "Allowance Header API"
             {
                 field(no; Rec."No.") { }
                 field(type; Rec.Type)
-                {
-                    trigger OnValidate()
-                    var
-                        myInt: Integer;
-                    begin
-
-                    end;
-                }
-                field(activityType; Rec."Activity Type") { }
-                field(employeeNo; Rec."Employee No.")
-                {
-                    ApplicationArea = All;
-                }
-                field("code"; Rec.Code) { }
-                field(name; Rec.Name)
-                {
-                    Editable = true;
-                }
-                field(fromDate; Rec."From Date") { }
-                field(toDate; Rec."To date") { }
-                field(approvalStatus; Rec."Approval Status") { }
-                // field(approverID; Rec."Approver ID") { }
-                field(approverDate; Rec."Approved Date") { }
-                // field(approverName; Rec."Approver Name") { }
-                field(Week; Rec.Week) { }
-                field(englishMonth; Rec."English Month") { }
-                field(englishYear; Rec."English Year") { }
-                field(createdBy; Rec."Created By") { }
-                part(allowanceSubformEntities; "Allowance Assign Subfrom API")
-                {
-                    EntityName = 'allowanceSubformEntity';
-                    EntitySetName = 'allowanceSubformEntities';
-                    SubPageLink = "No." = field("No."),
+                { }
+            }
+            field(activityType; Rec."Activity Type") { }
+            field(employeeNo; Rec."Employee No.")
+            {
+                ApplicationArea = All;
+            }
+            field("code"; Rec.Code) { }
+            field(name; Rec.Name)
+            {
+                Editable = true;
+            }
+            field(fromDate; Rec."From Date") { }
+            field(toDate; Rec."To date") { }
+            field(approvalStatus; Rec."Approval Status") { }
+            // field(approverID; Rec."Approver ID") { }
+            field(approverDate; Rec."Approved Date") { }
+            // field(approverName; Rec."Approver Name") { }
+            field(week; Rec.Week) { }
+            field(englishMonth; Rec."English Month") { }
+            field(englishYear; Rec."English Year") { }
+            field(createdBy; Rec."Created By") { }
+            field(allowanceTypeFilter; Rec."Allowance Type Filter")
+            {
+            }
+            part(allowanceSubformEntities; "Allowance Assign Subform API")
+            {
+                EntityName = 'allowanceSubformEntity';
+                EntitySetName = 'allowanceSubformEntities';
+                SubPageLink = "No." = field("No."),
                                   Code = field(Code);
-                }
-                part(allowanceFactboxEntities; "Allowance Factbox")
-                {
-                    EntityName = 'allowanceFactboxEntity';
-                    EntitySetName = 'allowanceFactboxEntities';
-                    SubPageLink = "Entry No. Filter" = field("No."),
+            }
+            part(allowanceFactBoxEntities; "Allowance FactBox")
+            {
+                EntityName = 'allowanceFactBoxEntity';
+                EntitySetName = 'allowanceFactBoxEntities';
+                SubPageLink = "Entry No. Filter" = field("No."),
                                   "Branch Filter" = field(Code);
-                }
             }
         }
     }
 
-    actions { }
+
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin

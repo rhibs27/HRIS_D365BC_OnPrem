@@ -405,7 +405,7 @@ permissionset 50000 D365HRMSPermission
         page "Adjustment Plan List" = X,
         // page "Agile Work Shifts" = X,
         page "All Reports" = X,
-        page "Allowance Assign Subfrom API" = X,
+        page "Allowance Assign Subform API" = X,
         page "Allowance Assign. Substitute" = X,
         page "Allowance Assignment Card" = X,
         page "Allowance Assignment Subform" = X,

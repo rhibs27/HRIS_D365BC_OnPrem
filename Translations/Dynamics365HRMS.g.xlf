@@ -19158,70 +19158,70 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page All Reports - Control SN - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 1407850916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 3067827916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Allowance Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control allowanceType - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 509812749 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Approval Status - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control approvalStatus - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 707985127 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 387747209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 2555626465 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Employee Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control employeeCode - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 1020011527 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Employee Name - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control employeeName - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 2599324126 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control From Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control fromDate - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 982444044 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 670004420 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Is Substitute field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Is Substitute - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control isSubstitute - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 3320823955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 1294919425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Line No. - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control lineNo - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 3179096107 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control No. - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control no - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 35246585 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. of Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control No. of Days - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control noOfDays - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 25557770 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 1160960042 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Panel field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Panel - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control panel - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 1382082177 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control To Date - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control toDate - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3812375349 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 4148904829 - Control 3175374588 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subfrom API - Control Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign Subform API - Control type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3630165519 - Control 387747209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Code field.</source>

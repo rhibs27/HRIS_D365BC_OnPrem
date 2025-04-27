@@ -1,4 +1,4 @@
-page 50179 "Allowance Assign Subfrom API"
+page 50179 "Allowance Assign Subform API"
 {
     AutoSplitKey = true;
     DelayedInsert = true;
@@ -12,27 +12,27 @@ page 50179 "Allowance Assign Subfrom API"
         {
             repeater(Group)
             {
-                field("No."; Rec."No.")
+                field(no; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
-                field("Line No."; Rec."Line No.")
+                field(lineNo; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
                 }
-                field(Type; Rec.Type)
+                field(type; Rec.Type)
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
                 }
-                field("Code"; Rec.Code)
+                field(code; Rec.Code)
                 {
                     ToolTip = 'Specifies the value of the Code field.';
                     ApplicationArea = All;
                 }
-                field("Allowance Type"; Rec."Allowance Type")
+                field(allowanceType; Rec."Allowance Type")
                 {
                     ToolTip = 'Specifies the value of the Allowance Type field.';
                     ApplicationArea = All;
@@ -42,7 +42,7 @@ page 50179 "Allowance Assign Subfrom API"
                         Rec.TestField("Allowance Type");
                     end;
                 }
-                field("From Date"; Rec."From Date")
+                field(fromDate; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
                     ApplicationArea = All;
@@ -52,7 +52,7 @@ page 50179 "Allowance Assign Subfrom API"
                         Rec.TestField("From Date");
                     end;
                 }
-                field("Employee Code"; Rec."Employee Code")
+                field(employeeCode; Rec."Employee Code")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
@@ -62,12 +62,12 @@ page 50179 "Allowance Assign Subfrom API"
                         Rec.TestField("Employee Code");
                     end;
                 }
-                field("Employee Name"; Rec."Employee Name")
+                field(employeeName; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("To Date"; Rec."To Date")
+                field(toDate; Rec."To Date")
                 {
                     ToolTip = 'Specifies the value of the To Date field.';
                     ApplicationArea = All;
@@ -77,22 +77,22 @@ page 50179 "Allowance Assign Subfrom API"
                         Rec.TestField("To Date");
                     end;
                 }
-                field("No. of Days"; Rec."No. of Days")
+                field(noOfDays; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
-                field("Is Substitute"; Rec."Is Substitute")
+                field(isSubstitute; Rec."Is Substitute")
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
                 }
-                field(Panel; Rec.Panel)
+                field(panel; Rec.Panel)
                 {
                     ToolTip = 'Specifies the value of the Panel field.';
                     ApplicationArea = All;
                 }
-                field("Approval Status"; Rec."Approval Status")
+                field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
@@ -103,35 +103,35 @@ page 50179 "Allowance Assign Subfrom API"
 
     actions { }
 
-    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
-    begin
-        GetEntryNo;
-    end;
+    // trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    // begin
+    //     GetEntryNo;
+    // end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
     end;
 
-    local procedure GetEntryNo()
-    var
-        AllowanceHeader: Record "Allowance Assignment Header";
-        AllowanceLine: Record "Allowance Assignment Line";
-    begin
-        AllowanceHeader.Reset;
-        AllowanceHeader.SetCurrentKey("No.");
-        if Rec."No." <> '' then
-            AllowanceHeader.SetRange("No.", Rec."No.");
-        if AllowanceHeader.FindLast then begin
-            Rec."No." := AllowanceHeader."No.";
-            Rec.Code := AllowanceHeader.Code;
-        end;
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", AllowanceHeader."No.");
-        AllowanceLine.SetCurrentKey("No.", "Line No.");
-        if AllowanceLine.FindLast then
-            Rec."Line No." := AllowanceLine."Line No." + 10000
-        else
-            Rec."Line No." := 10000;
-    end;
+    // local procedure GetEntryNo()
+    // var
+    //     AllowanceHeader: Record "Allowance Assignment Header";
+    //     AllowanceLine: Record "Allowance Assignment Line";
+    // begin
+    //     AllowanceHeader.Reset;
+    //     AllowanceHeader.SetCurrentKey("No.");
+    //     if Rec."No." <> '' then
+    //         AllowanceHeader.SetRange("No.", Rec."No.");
+    //     if AllowanceHeader.FindLast then begin
+    //         Rec."No." := AllowanceHeader."No.";
+    //         Rec.Code := AllowanceHeader.Code;
+    //     end;
+    //     AllowanceLine.Reset;
+    //     AllowanceLine.SetRange("No.", AllowanceHeader."No.");
+    //     AllowanceLine.SetCurrentKey("No.", "Line No.");
+    //     if AllowanceLine.FindLast then
+    //         Rec."Line No." := AllowanceLine."Line No." + 10000
+    //     else
+    //         Rec."Line No." := 10000;
+    // end;
 }
