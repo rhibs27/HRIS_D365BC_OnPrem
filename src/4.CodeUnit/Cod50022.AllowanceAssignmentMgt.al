@@ -73,6 +73,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         PGSetup: Record "Payroll General Setup";
         EmpRec: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
+        ApprovalLine: Record "Approval HRMS";
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         // PGSetup.Get;
         EmpAllowance.Get(EntryNo);
@@ -95,19 +97,25 @@ codeunit 50022 "Allowance Assignment Mgt"
         //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
         // else
         //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
-        EmpAllowance.Posted := true;
+        // EmpAllowance.Posted := true;
         // // EmpAllowance."Approver ID" := GetEmployeeCode();
         // EmpAllowance."Approved Date" := Today;
-        EmpAllowance.Modify(true);
+        // EmpAllowance.Modify(true);
 
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-        if Approved then
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
-        else
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-        AllowanceLine.ModifyAll("Approved Date", Today);
+        if Approved then begin
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved);
+            AllowanceLine.ModifyAll("Approved Date", Today);
+        end else begin
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
+            ApprovalLine.Reset();
+            ApprovalLine.SetRange("Document No.", EntryNo);
+            ApprovalLine.DeleteAll(true);
+            ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment");
+        end;
+
     end;
 
     // procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
