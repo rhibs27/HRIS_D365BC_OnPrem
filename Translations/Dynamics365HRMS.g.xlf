@@ -22148,6 +22148,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Candidate Card - Control Address 2 - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1971990675 - Control 2306852000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Candidate Card - Control Address 2 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1971990675 - Control 3558390861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Age field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48653,6 +48658,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action UpdatePRAttributes - Property Caption</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 2306852000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Temporary Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Address 2 - Property Caption</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Change 1576740555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Date of Birth (A.D.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48693,11 +48703,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Distance betn Res and Office - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 793796466 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Emergency Mobile No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Emergency Mobile No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Employee Work Shift field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48718,6 +48723,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Marital Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4273936493 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Mother Tongue field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Mother Tongue - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 217147305 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the NAV Login ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48733,10 +48743,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Old Employee No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 1728590013 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Relation With Emergency Cont field.</source>
+        <trans-unit id="PageExtension 866835530 - Control 909762047 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Religion field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Relation With Emergency Cont - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Religion - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3649518822 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Salutation field.</source>
@@ -48793,6 +48803,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Passport Number - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 1237884407 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Relation With Emergency Cont. Email field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Emergency Cont. Email - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2090071218 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Relation With Emergency Cont. Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Emergency Cont. Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 793796466 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Emergency Mobile No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Emergency Mobile No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 1728590013 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Relation With Emergency Cont field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Relation With Emergency Cont - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3705144616 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Permanent District field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48843,10 +48873,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Temporary Ward No - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 4006482202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Citizenship Date(Nepali) field.</source>
+        <trans-unit id="PageExtension 866835530 - Control 1017125425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Citizenship Issue Date(Nepali) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Date(Nepali) - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(Nepali) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 1017125425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Citizenship Issue Date(Nepali)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(Nepali) - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2996711879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Citizenship No. (Nepali) field.</source>
@@ -50773,6 +50808,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Emergency Mobile No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2288225732 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Emergenecy Contact Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Emergenecy Contact Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 916040469 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Emergenecy Contact Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Emergenecy Contact Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Employee Attendance ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50947,6 +50992,11 @@
           <source>Marital Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Marital Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4273936493 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Mother Tongue</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Mother Tongue - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 972117776 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Mother's Name (Nepali)</source>
@@ -51302,6 +51352,11 @@
           <source>Permanent Address</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Address - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Change 2306852000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Temporary Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Address 2 - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Change 3444679095 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
           <source>^[A-Za-z]+$</source>

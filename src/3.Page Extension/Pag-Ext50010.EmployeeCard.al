@@ -14,6 +14,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         modify("Address 2")
         {
+            Caption = 'Temporary Address';
             Editable = false;
         }
         movebefore(Gender; "Birth Date")
@@ -70,6 +71,30 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             Visible = false;
         }
+        modify("Alt. Address Code")
+        {
+            Visible = false;
+        }
+        modify("Alt. Address End Date")
+        {
+            Visible = false;
+        }
+        modify("Alt. Address Start Date")
+        {
+            Visible = false;
+        }
+        modify("ShowMap")
+        {
+            Visible = false;
+        }
+        modify("Resource No.")
+        {
+            Visible = false;
+        }
+        modify("Salespers./Purch. Code")
+        {
+            Visible = false;
+        }
         addafter("Last Name")
         {
             field(FullName; Rec.FullName)
@@ -94,18 +119,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Secondary Mobile No. field.';
 
             }
-            field("Relation With Emergency Cont"; Rec."Relation With Emergency Cont")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Relation With Emergency Cont field.';
 
-            }
-            field("Emergency Mobile No."; Rec."Emergency Mobile No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Emergency Mobile No. field.';
-
-            }
             field("Date of Birth (B.S.)"; Rec."Date of Birth (B.S.)")
             {
                 ApplicationArea = All;
@@ -142,13 +156,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Old Employee No. field.';
+                Visible = false;
 
             }
             field("Old Employee ID (Regular)"; Rec."Old Employee ID (Regular)")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Old Employee ID (Regular) field.';
-
+                Visible = false;
             }
             field("Tax Code"; Rec."Tax Code")
             {
@@ -185,7 +200,19 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Facebook Url field.';
+                Visible = false;
             }
+            field("Mother Tongue"; Rec."Mother Tongue")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Mother Tongue field.';
+            }
+            field("Religion"; Rec.Religion)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Religion field.';
+            }
+
         }
         addafter(General)
         {
@@ -236,6 +263,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addlast("Address & Contact")
         {
+
             group("Permanent Address")
             {
                 field("Permanent Province"; Rec."Permanent Province")
@@ -304,7 +332,30 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
 
             }
+            group("Emergency Contact")
+            {
+                field("Relation With Emergency Cont"; Rec."Relation With Emergency Cont")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Relation With Emergency Cont field.';
+                }
+                field("Emergency Cont. Name"; Rec."Emergenecy Contact Name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Relation With Emergency Cont. Name field.';
+                }
+                field("Emergency Mobile No."; Rec."Emergency Mobile No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Emergency Mobile No. field.';
+                }
+                field("Emergency Cont. Email"; Rec."Emergenecy Contact Email")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Relation With Emergency Cont. Email field.';
+                }
 
+            }
         }
         addafter("Address & Contact")
         {
@@ -569,10 +620,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
 
                 }
-                field("Citizenship Date(Nepali)"; Rec."Citizenship Date(Nepali)")
+                field("Citizenship Issue Date(Nepali)"; Rec."Citizenship Date(Nepali)")
                 {
+                    Caption = 'Citizenship Issue Date(Nepali)';
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Date(Nepali) field.';
+                    ToolTip = 'Specifies the value of the Citizenship Issue Date(Nepali) field.';
 
                 }
 
