@@ -70,8 +70,12 @@ page 50177 "Allowance Header API"
     end;
 
     trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
     begin
         GetMonthlyFilter;
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
     end;
 
     var

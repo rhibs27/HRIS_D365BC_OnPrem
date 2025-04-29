@@ -2051,12 +2051,12 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveAllowanceAssignment(allowlanceAssignNo: Code[20]; rejectionRemarks: text; isApproved: Boolean)
+    procedure approveAllowanceAssignment(allowanceAssignNo: Code[20]; rejectionRemarks: text; isApproved: Boolean)
     var
         AllowanceAssignment: Record "Allowance Assignment Header";
         RecRef: RecordRef;
     begin
-        if AllowanceAssignment.Get(allowlanceAssignNo) then
+        if AllowanceAssignment.Get(allowanceAssignNo) then
             if not isApproved then begin
                 if rejectionRemarks = '' then
                     Error('Rejection Remarks is empty');
@@ -3972,10 +3972,11 @@ page 50108 "Portal Functions"
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
-        // AllowanceAssignment.Reset();
-        // AllowanceAssignment.SetRange("Approver ID", HrMgt.GetEmployeeNo());
-        // AllowanceAssignment.SetRange("Approval Status", AllowanceAssignment."Approval Status"::"Pending Approval");
-        // AllowanceAssignmentForApprove := AllowanceAssignment.Count();
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Allowance Assignment");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        AllowanceAssignmentForApprove := Approval.Count();
 
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
          + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;

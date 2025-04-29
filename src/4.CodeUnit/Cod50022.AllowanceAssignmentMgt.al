@@ -84,10 +84,10 @@ codeunit 50022 "Allowance Assignment Mgt"
         // AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
         // if AllowanceLine.FindFirst then
         //     Error('This document has an open record.Please advise your staff to delete the open records.');
-        //Employee.GET(GetEmployeeCode());
-        //EmpRec.GET(EmpAllowance."Approver ID");
-        //PGSetup.GET;
-        //PGSetup.TESTFIELD("BM Functional Title");
+        // Employee.GET(GetEmployeeCode());
+        // EmpRec.GET(EmpAllowance."Approver ID");
+        // PGSetup.GET;
+        // PGSetup.TESTFIELD("BM Functional Title");
         // if GetEmployeeCode() <> EmpAllowance."Approver ID" then
         //     Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
 
@@ -100,15 +100,14 @@ codeunit 50022 "Allowance Assignment Mgt"
         // EmpAllowance."Approved Date" := Today;
         // EmpAllowance.Modify(true);
 
-        // AllowanceLine.Reset;
-        // AllowanceLine.SetRange("No.", EntryNo);
-        // AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-        // if Approved then
-        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
-        // else
-        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-        // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
-        // AllowanceLine.ModifyAll("Approved Date", Today);
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange("No.", EntryNo);
+        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        if Approved then
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
+        else
+            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
+        AllowanceLine.ModifyAll("Approved Date", Today);
     end;
 
     procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
@@ -118,17 +117,17 @@ codeunit 50022 "Allowance Assignment Mgt"
         EmpRec: Record Employee;
         AllowanceLine: Record "Allowance Assignment Line";
     begin
-        PGSetup.Get;
+        // PGSetup.Get;
         EmpAllowance.Get(No);
-        EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
-        if CalcDate('<CM>', EmpAllowance."To date") + PGSetup."Approval Grace Period" < Today then
-            Error('Approval for allowance assignment has exceeded.Please contact corresponding Department.');
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", No);
-        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
+        // EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
+        // if CalcDate('<CM>', EmpAllowance."To date") + PGSetup."Approval Grace Period" < Today then
+        //     Error('Approval for allowance assignment has exceeded.Please contact corresponding Department.');
+        // AllowanceLine.Reset;
+        // AllowanceLine.SetRange("No.", No);
+        // AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
 
-        if AllowanceLine.FindFirst then
-            Error('This document has an open record.Please advise your staff to delete the open records.');
+        // if AllowanceLine.FindFirst then
+        //     Error('This document has an open record.Please advise your staff to delete the open records.');
         //Employee.GET(GetEmployeeCode());
         //EmpRec.GET(EmpAllowance."Approver ID");
         //PGSetup.GET;
@@ -136,13 +135,13 @@ codeunit 50022 "Allowance Assignment Mgt"
         // if EmpNo <> EmpAllowance."Approver ID" then
         //     Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
 
-        if Approved then
-            EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
-        else
-            EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
+        // if Approved then
+        //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
+        // else
+        //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
         EmpAllowance.Posted := true;
         // EmpAllowance."Approver ID" := EmpNo;
-        EmpAllowance."Approved Date" := Today;
+        // EmpAllowance."Approved Date" := Today;
         EmpAllowance.Modify(true);
 
         AllowanceLine.Reset;

@@ -116,6 +116,18 @@ table 50092 "Allowance Assignment Header"
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = true;
+            trigger OnValidate()
+            var
+                AllowanceAssignmentLine: Record "Allowance Assignment Line";
+            begin
+                if "Approval Status" = "Approval Status"::Pending then begin
+                    AllowanceAssignmentLine.Reset();
+                    AllowanceAssignmentLine.SetRange("No.", "No.");
+                    if not AllowanceAssignmentLine.FindFirst() then
+                        Error('Allowance Assignment Line Not Found');
+                end;
+
+            end;
         }
         // field(16; "Approver Name"; Text[50])
         // {
