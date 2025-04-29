@@ -318,10 +318,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                    // EmpActType::"Allowance Assignment":
-                    //     begin
-                    //         AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
-                    //     end;
+                        EmpActType::"Allowance Assignment":
+                            begin
+                                AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;

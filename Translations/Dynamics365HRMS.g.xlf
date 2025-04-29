@@ -34718,6 +34718,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Control Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3652447633 - Action 876395166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Import Attributes action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes Usage - Action Import Attributes - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1913802997 - Control 3531868071 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Field No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54183,26 +54188,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Travel Request - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1703244596 - EnumValue 3703598467 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>All</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Contract Type - EnumValue All - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1703244596 - EnumValue 389783846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Contract</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Contract Type - EnumValue Contract - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1703244596 - EnumValue 348579807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Except Contract</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Contract Type - EnumValue Except Contract - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 1703244596 - EnumValue 1566445174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Permanent</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Contract Type - EnumValue Permanent - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2510323415 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54468,10 +54453,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue   - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 545490910 - EnumValue 569967235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue ALL - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 545490910 - EnumValue 389783846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Contract</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue Contract - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 545490910 - EnumValue 348579807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Except Contract</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue Except Contract - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 545490910 - EnumValue 1566445174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Permanent</source>

@@ -4446,4 +4446,59 @@ codeunit 50008 "Payroll Engine"
         end;
         exit('');
     end;
+
+    procedure ImportPayrollAttributes(EmpCode: Code[20])
+    var
+        PayrollAttrUsage: Record "Payroll Attributes Usage";
+        EmpVar: Record Employee;
+        PayrollAttrUsage1: Record "Payroll Attributes Usage";
+        PayrollAttr: Record "Payroll Attributes";
+    begin
+        PayrollAttr.Reset();
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        // PayrollAttr.SetRange("Manual Import", false);
+        // if IrregularOnly then
+        //     PayrollAttr.SetRange("For Irr. Payroll", true);
+        if PayrollAttr.FindSet() then
+            repeat
+                EmpVar.Reset();
+
+                // EmpVar.SetLoadFields("No.", "Tax Code", "Employment Type", "Global Dimension 1 Code", "Service Group", "Salary Level");
+                if EmpCode <> '' then
+                    EmpVar.SetRange("No.", EmpCode);
+                // EmpVar.SetRange(Nominee, false);
+                EmpVar.SetRange(Status, EmpVar.Status::Active);
+                EmpVar.SetFilter("Tax Code", '<>%1', '');
+                // if PayrollAttr."Pension Specific" <> PayrollAttr."Pension Specific"::" " then
+                //     EmpVar.SetRange("Pension Applicable", true)
+                // else
+                //     EmpVar.SetRange("Pension Applicable", false);
+                if PayrollAttr."Employee Type" <> PayrollAttr."Employee Type"::" " then
+                    EmpVar.SetRange("Employment Type", PayrollAttr."Employee Type");
+                if PayrollAttr."Branch Filter" <> '' then
+                    EmpVar.SetFilter("Global Dimension 1 Code", PayrollAttr."Branch Filter");
+                // if PayrollAttr."Service Group Filter" <> '' then
+                //     EmpVar.SetFilter("Service Group", PayrollAttr."Service Group Filter");
+                // if PayrollAttr."Salary Level Filter" <> '' then
+                //     EmpVar.SetFilter("Salary Level", PayrollAttr."Salary Level Filter");
+                if EmpVar.FindSet() then
+                    repeat
+
+                        if not PayrollAttrUsage1.Get(PayrollAttr.Code, EmpVar."No.") then begin
+                            Clear(PayrollAttrUsage);
+                            PayrollAttrUsage.Init();
+                            PayrollAttrUsage.Validate("Employee Code", EmpVar."No.");
+                            PayrollAttrUsage.Validate(Code, PayrollAttr.Code);
+                            // if PayrollAttr.Subtype = PayrollAttr.Subtype::CIT then begin
+                            // if (EmpVar."CIT No." <> '') then
+                            if PayrollAttrUsage.Insert() then;
+                            // end
+                            // else
+
+                            //     if PayrollAttrUsage.Insert() then;
+                        end;
+                    until EmpVar.Next() = 0;
+            until PayrollAttr.Next = 0;
+    end;
+
 }
