@@ -42,6 +42,10 @@ page 50177 "Allowance Header API"
             field(englishMonth; Rec."English Month") { }
             field(englishYear; Rec."English Year") { }
             field(createdBy; Rec."Created By") { }
+            field(return; Rec.Return) { }
+            field(rejectionRemarks; Rec."Rejection Remarks")
+            {
+            }
             field(allowanceTypeFilter; Rec."Allowance Type Filter")
             {
             }

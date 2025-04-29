@@ -173,15 +173,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field No. Series - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2264809808 - Field 35450067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Posted</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Posted - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 3223440110 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Return</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Return - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2264809808 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -318,10 +318,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Screened Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 3842256610 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Substitue of Line No.</source>
+        <trans-unit id="Table 3776934679 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute of Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Substitue of Line No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Substitute of Line No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Date</source>
@@ -19398,10 +19398,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Panel - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3852589595 - Control 3842256610 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 3852589595 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitue of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Substitue of Line No. - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Substitute of Line No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3852589595 - Action 1502113334 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Substitute action.</source>
@@ -19573,10 +19573,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control Rejection Remarks - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 3842256610 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 3547077343 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitue of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control Substitue of Line No. - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control Substitute of Line No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3547077343 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To Date field.</source>
@@ -20413,10 +20413,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Setup - Control Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1763772581 - Control 27999376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1763772581 - Control 2389061168 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attachment Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Subform - Control Attachment Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Subform - Control attachmentCode - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1763772581 - Control 2389061168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attachment Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Subform - Control attachmentCode - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1763772581 - Control 3103899127 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Activity Type field.</source>
@@ -43592,6 +43597,11 @@
           <source>Specifies the value of the Type Of Visit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Type Of Visit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1674581342 - Action 2479289146 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Apply Travel Claim action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Action Apply Travel Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1674581342 - Action 1392435954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Travel Request action.</source>

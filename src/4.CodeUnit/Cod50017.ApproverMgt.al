@@ -250,10 +250,10 @@ codeunit 50017 "Approver Mgt"
                             //for Allowance claim return
                             EmpActType::"Allowance Assignment":
                                 begin
-                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
                                     RecRef.Field(100).Validate('');
                                     RecRef.Modify();
+                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
                         end;

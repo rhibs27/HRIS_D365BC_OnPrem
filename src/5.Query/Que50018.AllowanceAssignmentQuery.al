@@ -63,36 +63,9 @@ query 50018 "Allowance Assignment Query"
                     column(englishMonth; "English Month") { }
                     column(englishYear; "English Year") { }
                     column(allowanceType; "Allowance Type Filter") { }
-                    dataitem(Allowance_Assignment_Line; "Allowance Assignment Line")
+                    column(return; Return)
                     {
-                        DataItemLink = "No." = AllowanceAssignmentHeader."No.";
-                        column(lineNo; "Line No.")
-                        {
 
-                        }
-                        column(employeeCode; "Employee Code")
-                        {
-
-                        }
-                        column(employeeName; "Employee Name")
-                        {
-
-                        }
-                        column(noOfDays; "No. of Days")
-                        {
-
-                        }
-                        column(isSubstitute; "Is Substitute")
-                        {
-
-                        }
-                        column(panel; Panel)
-                        {
-
-                        }
-                        column(approvalStatusAllowanceLine; "Approval Status")
-                        {
-                        }
                     }
                 }
             }

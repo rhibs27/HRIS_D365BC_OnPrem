@@ -140,10 +140,9 @@ page 50108 "Portal Functions"
         Employee: Record Employee;
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
-        ApprovalCode: Text[500];
-        ApproverName: Text[500];
-        EmployeeApproverRole: Text[500];
-        ApprovalRole: Text[500];
+        ApprovalCode: Text;
+        ApproverName: Text;
+        ApprovalRole: Text;
     begin
         Clear(ApprovalCode);
         Clear(ApproverName);
@@ -717,6 +716,46 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure getLeaveAttachmentCode(leaveCode: Code[20]; startDate: Date; endDate: Date): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        NoOfDays: Integer;
+        LeaveType: Record "Leave Type Setup";
+        AttachmentSetup: Record "Attachment Setup";
+        AttachmentCode: Text;
+        leaveTypeEnum: Enum "Leave Type";
+    begin
+        TempIncomingDoc.Reset;
+        LeaveType.Get(leaveCode);
+        TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
+        TempIncomingDoc.SETRANGE("Leave Type Code", leaveCode);
+        TempIncomingDoc.SetRange("No.", '');
+        if TempIncomingDoc.Find('-') then
+            repeat
+                if TempIncomingDoc."File Name" <> '' then
+                    Clear(TempIncomingDoc."File Name");
+            until TempIncomingDoc.Next = 0;
+        TempIncomingDoc.DeleteAll;
+        if (startDate = 0D) or (endDate = 0D) then
+            NoOfDays := 0
+        else
+            NoOfDays := leaveMgt.CalculateNoOfDays(StartDate, EndDate, LeaveCode, TempIncomingDoc."Employee Activity Type"::"leave Request", leaveTypeEnum::"Full Day", HrMgt.GetEmployeeNo());
+        // NoOfDays := endDate - startDate;
+        // leave.TestField("Leave Code");
+        IF NoOfDays >= LeaveType."No. of Days for Attachment" THEN BEGIN
+            AttachmentSetup.Reset;
+            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
+            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
+            if AttachmentSetup.Find('-') then
+                repeat
+                    AttachmentCode += AttachmentSetup."Attachment Code" + '/';
+                until AttachmentSetup.Next = 0;
+        end;
+        exit('{' + '"attachmentCode" : "' + (Format(AttachmentCode)) + '"}');
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure getLeaveAttachmentAPI(leaveNo: Code[20]): Text
     var
         TempIncomingDoc: Record "Incoming Document";
@@ -927,7 +966,7 @@ page 50108 "Portal Functions"
    totalAllowanceClaim: decimal
    ): Integer;
     var
-        TravelRequest: Record "Travel Request" temporary;
+        TravelRequest: Record "Travel Request";
         TravelMgt: Codeunit "Travel Mgt.";
         TypeOfVisitEnum: Enum "Type Of Visit";
         ModeOfTravelEnum: Enum "Mode Of Travel";
@@ -974,7 +1013,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
-        TravelRequest.Insert;
+        TravelRequest.Insert(true);
         if TravelMgt.ApplyForTravelClaim(TravelRequest) then
             exit(200);
     end;
@@ -2015,30 +2054,52 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure substituteAllowanceAssignment(entryNo: Code[20]; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20]): Text
+    procedure substituteAllowanceAssignment(entryNo: Code[20]; lineNo: Integer; fromDate: Date; empCode: Code[20]): Text
     var
-        AllowanceLine: Record "Allowance Assignment Line";
-        TempAllowanceLine: Record "Allowance Assignment Line";
+        AllowanceLine, NewAllowanceLine : Record "Allowance Assignment Line";
     begin
         AllowanceLine.Get(entryNo, lineNo);
-        TempAllowanceLine.Copy(AllowanceLine);
-        TempAllowanceLine.Validate("From Date", fromDate);
-        TempAllowanceLine.Validate("To Date", toDate);
-        TempAllowanceLine.Validate("Employee Code", empCode);
-        TempAllowanceLine."Line No." := 0;
-        TempAllowanceLine."Substitue of Line No." := AllowanceLine."Line No.";
-        TempAllowanceLine."Is Substitute" := true;
-        TempAllowanceLine.TestField("From Date");
-        TempAllowanceLine.TestField("To Date");
-        TempAllowanceLine.TestField("Employee Code");
-        // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
-        TempAllowanceLine.Insert(true);
-        TempAllowanceLine.UpdateSubstitue;
+        // TempAllowanceLine.Copy(AllowanceLine);
+        // TempAllowanceLine.Validate("From Date", fromDate);
+        // // TempAllowanceLine.Validate("To Date", toDate);
+        // TempAllowanceLine.Validate("Employee Code", empCode);
+        // TempAllowanceLine."Line No." := 0;
+        // TempAllowanceLine."Substitute of Line No." := AllowanceLine."Line No.";
+        // TempAllowanceLine."Is Substitute" := true;
+        // TempAllowanceLine.TestField("From Date");
+        // TempAllowanceLine.TestField("To Date");
+        // TempAllowanceLine.TestField("Employee Code");
+        // // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
+        // TempAllowanceLine.Insert(true);
+        // TempAllowanceLine.UpdateSubstitue;
+        AllowanceLine.TestField("Is Substitute", false);
+        AllowanceLine.TestField("Approval Status", AllowanceLine."Approval Status"::Approved);
+        NewAllowanceLine.Reset;
+        NewAllowanceLine.SetRange("No.", AllowanceLine."No.");
+        NewAllowanceLine.SetRange("Substitute of Line No.", AllowanceLine."Line No.");
+        NewAllowanceLine.SetRange("Is Substitute", true);
+        NewAllowanceLine.SetRange("Employee Code", '');
+        if not NewAllowanceLine.FindFirst then begin
+            NewAllowanceLine.Reset;
+            NewAllowanceLine.Init;
+            NewAllowanceLine."No." := AllowanceLine."No.";
+            NewAllowanceLine."Is Substitute" := true;
+            NewAllowanceLine."Substitute of Line No." := AllowanceLine."Line No.";
+            NewAllowanceLine."Allowance Type" := AllowanceLine."Allowance Type";
+            NewAllowanceLine.Type := AllowanceLine.Type;
+            NewAllowanceLine.Code := AllowanceLine.code;
+            NewAllowanceLine.Panel := AllowanceLine.Panel;
+            NewAllowanceLine."To Date" := fromDate;
+            NewAllowanceLine."From Date" := fromDate;
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
+            NewAllowanceLine.Validate("Employee Code", empCode);
+            NewAllowanceLine.Insert(true);
+        end;
     end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure sendAllowanceForApproval(No: Code[20]; isApproved: Boolean): Text
+    procedure sendAllowanceForApproval(no: Code[20])
     var
         AllowanceLine: Record "Allowance Assignment Line";
         AllowanceHead: Record "Allowance Assignment Header";
@@ -2046,7 +2107,7 @@ page 50108 "Portal Functions"
         AllowanceHead.Get(No);
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", No);
-        AllowanceMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine, isApproved);
+        AllowanceMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine);
     end;
 
     [ServiceEnabled]
@@ -2061,18 +2122,19 @@ page 50108 "Portal Functions"
                 if rejectionRemarks = '' then
                     Error('Rejection Remarks is empty');
                 AllowanceAssignment.Validate("Rejection Remarks", rejectionRemarks);
+                AllowanceAssignment.Return := true;
                 AllowanceAssignment.Modify;
             end;
         RecRef.GetTable(AllowanceAssignment);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure returnAllowanceAssignment(No: Code[20]; EmpNo: Code[20]): Text
-    begin
-        AllowanceMgt.ReturnAllowanceAssignment(No);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure returnAllowanceAssignment(No: Code[20]; EmpNo: Code[20]): Text
+    // begin
+    //     AllowanceMgt.ReturnAllowanceAssignment(No);
+    // end;
 
     local procedure "------Resignation API---------"()
     begin
