@@ -12138,6 +12138,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Net Payable Account Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 664456811 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Next Fiscal Year End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Next Fiscal Year End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 6204418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Next Fiscal Year Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Next Fiscal Year Start Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3327777979 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Officiat Basic Adjustment Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34912,6 +34922,26 @@
           <source>Specifies the value of the Make Payroll Slip Confidential field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Make Payroll Slip Confidential - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 664456811 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Next Fiscal Year End Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Next Fiscal Year End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 664456811 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Next Fiscal Year End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Next Fiscal Year End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 6204418 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Next Fiscal Year Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Next Fiscal Year Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 6204418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Next Fiscal Year Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Next Fiscal Year Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1866699555 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the OT End Time field.</source>

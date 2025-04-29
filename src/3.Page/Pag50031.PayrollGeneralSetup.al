@@ -40,6 +40,18 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Previous Fiscal Year End Date field.';
                     ApplicationArea = All;
                 }
+                field("Next Fiscal Year Start Date"; Rec."Next Fiscal Year Start Date")
+                {
+                    Caption = 'Next Fiscal Year Start Date';
+                    ToolTip = 'Specifies the value of the Next Fiscal Year Start Date field.';
+                    ApplicationArea = All;
+                }
+                field("Next Fiscal Year End Date"; Rec."next Fiscal Year End Date")
+                {
+                    Caption = 'Next Fiscal Year End Date';
+                    ToolTip = 'Specifies the value of the Next Fiscal Year End Date field.';
+                    ApplicationArea = All;
+                }
                 field("Dashain Start Date"; Rec."Dashain Start Date")
                 {
                     ToolTip = 'Specifies the value of the Dashain Start Date field.';

@@ -115,7 +115,7 @@ table 50092 "Allowance Assignment Header"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            Editable = false;
+            Editable = true;
         }
         // field(16; "Approver Name"; Text[50])
         // {

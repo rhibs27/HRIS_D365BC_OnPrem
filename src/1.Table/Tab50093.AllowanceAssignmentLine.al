@@ -199,8 +199,8 @@ table 50093 "Allowance Assignment Line"
         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
             Error('Document is already screened.');
 
-        TestField("Employee Code");
-        TestField("From Date");
+        // TestField("Employee Code");
+        // TestField("From Date");
 
         //for portal
         if not GuiAllowed then begin

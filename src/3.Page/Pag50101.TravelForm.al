@@ -24,7 +24,7 @@ page 50101 "Travel Form"
                 }
                 field("Start Date"; Rec."Start Date")
                 {
-                    Editable = IsOpen;
+                    Editable = IsOpen and (rec."Travel Order No." = '');
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                 }

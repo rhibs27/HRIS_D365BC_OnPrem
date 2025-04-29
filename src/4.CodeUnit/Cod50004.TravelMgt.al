@@ -55,6 +55,10 @@ codeunit 50004 "Travel Mgt."
                 TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
                 TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
                 TravelRequest."Travel Countries" := TravelRequest2."Travel Countries";
+                TravelRequest."Fooding Allowance Limit" := TravelRequest2."Fooding Allowance Limit";
+                TravelRequest."Lodging Allowance Limit" := TravelRequest2."Lodging Allowance Limit";
+                TravelRequest."Fooding Per Day Limit" := TravelRequest2."Fooding Per Day Limit";
+                TravelRequest."Lodging per Day Limit" := TravelRequest2."Lodging Per day Limit";
                 TravelRequest.Destination := TravelRequest2.Destination;
                 TravelRequest."Type Of Visit" := TravelRequest2."Type Of Visit";
                 TravelRequest.Validate("Departure From", TravelRequest2."Departure From");
@@ -66,10 +70,9 @@ codeunit 50004 "Travel Mgt."
         end;
     end;
 
-    procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date; Empcode: Code[20]): Decimal
+    procedure CalculateNoOfDaysTravel(StartDate: Date; EndDate: Date): Decimal
     var
         DateError: Label 'Start Date (%1) must be less than End Date (%2).';
-        LeaveTypeSetup: Record "Leave Type Setup";
         Difference: Decimal;
     begin
         if StartDate > EndDate then
@@ -384,6 +387,7 @@ codeunit 50004 "Travel Mgt."
         //EmpAct2: Record "Employee Activity";
         TravelRequest2: Record "Travel Request";
         ApprovalEntry: Record "Approval HRMS";
+        IsHandled, IsHandled1 : Boolean;
     begin
         ApprovalEntry.Reset();
         ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Travel Claim");
@@ -495,6 +499,12 @@ codeunit 50004 "Travel Mgt."
         TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
         TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
         TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
+        OnBeforeGetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled);
+        if not IsHandled then
+            GetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
+        OnBeforeGetLodgingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled1);
+        if not IsHandled1 then
+            GetLodgingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
         // TravelRequest.Validate("Out of Pocket Expense", GetOutOfPocket(TravelCountry, SalaryLevel) *
         //   GetOutofExpenseDuration(TravelRequest."Actual Travel Start Time", TravelRequest."Actual Travel End Time", TravelRequest."Start Date", TravelRequest."End Date"));
 

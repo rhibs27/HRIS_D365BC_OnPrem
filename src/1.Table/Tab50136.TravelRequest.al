@@ -139,7 +139,7 @@ table 50136 "Travel Request"
                 else
                     Clear("End Date (BS)");
                 if "End Date" <> 0D then
-                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date", "Employee No."))
+                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
                 else begin
                     Clear("End Date (BS)");
                     Clear("No. of Days");
@@ -221,7 +221,7 @@ table 50136 "Travel Request"
                         end;
                     end;
                 end;
-                if Type = Type::"Travel Claim" then
+                if (Type = Type::"Travel Claim") and GuiAllowed then
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
             end;
         }
@@ -230,7 +230,7 @@ table 50136 "Travel Request"
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
+                EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
                     Validate("Fiscal Year", EngNepDate."Fiscal Year")
                 else
@@ -587,7 +587,9 @@ table 50136 "Travel Request"
                 if (GuiAllowed) or (Type <> Type::"Travel Claim") then
                     if "Advance Cash" > ("Total Estimated Cost") then
                         Error(ErrorAdvCash, "Total Estimated Cost");
+                CalculateTotalClaim();
             end;
+
         }
         field(58; "Estimated Transportation Cost"; Decimal)
         {
@@ -1058,12 +1060,12 @@ table 50136 "Travel Request"
 
         if Reimbursable then
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
-                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare" + "Advance Cash")
+                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare")
         else begin
             "Fooding Allowance" := "Fooding Allowance" / ReduceBy;
             "Lodging Allowance" := "Lodging Allowance" / ReduceBy;//AT
             Validate("Total Claimed Amount", ("Fooding Allowance" + "Lodging Allowance") / ReduceBy +
-                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare" + "Advance Cash");
+                    "Out of Pocket Expense" + "Conveyance Expense" + "Other Expense" + "Road/Air Fare");
         end;
     end;
 

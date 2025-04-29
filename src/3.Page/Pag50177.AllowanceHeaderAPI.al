@@ -27,7 +27,7 @@ page 50177 "Allowance Header API"
             {
                 ApplicationArea = All;
             }
-            field("code"; Rec.Code) { }
+            field(code; Rec.Code) { }
             field(name; Rec.Name)
             {
                 Editable = true;

@@ -138,7 +138,7 @@ table 50140 "Employee/HR Transfer"
                 else
                     Clear("End Date (BS)");
                 if "End Date" <> 0D then
-                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date", "Employee No."))
+                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
                 else begin
                     Clear("End Date (BS)");
                     Clear("No. of Days");

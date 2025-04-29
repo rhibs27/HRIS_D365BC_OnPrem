@@ -24,6 +24,7 @@ page 50092 "Travel Request Form"
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
+                    Editable = (rec."Travel Order No." = '');
                 }
                 field("End Date"; Rec."End Date")
                 {

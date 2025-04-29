@@ -788,8 +788,7 @@ codeunit 50000 "Leave Mgt."
         PayrollSetup.Get;
         //check for fisal year start date
         if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
-            if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or
-              (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
+            if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
                 Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
 
         //Bereavement Leave

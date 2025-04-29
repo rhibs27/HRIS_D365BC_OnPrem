@@ -422,6 +422,8 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "OT Encashment Setup";
         }
+        field(125; "Next Fiscal Year Start Date"; Date) { }
+        field(126; "Next Fiscal Year End Date"; Date) { }
     }
 
     keys
