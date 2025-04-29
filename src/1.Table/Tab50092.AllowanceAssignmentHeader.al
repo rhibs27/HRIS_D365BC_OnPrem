@@ -107,7 +107,7 @@ table 50092 "Allowance Assignment Header"
         //             Clear("Approver ID");
         //     end;
         // }
-        field(14; Posted; Boolean) { }
+        field(14; Return; Boolean) { }
         field(15; "Allowance Type Filter"; Code[20])
         {
             TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code),

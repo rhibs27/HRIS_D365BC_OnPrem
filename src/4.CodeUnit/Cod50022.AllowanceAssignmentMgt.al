@@ -30,13 +30,14 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-    procedure SendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Allowance Assignment Header"; var AllowanceLine: Record "Allowance Assignment Line"; ApproveBool: Boolean)
+    procedure SendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Allowance Assignment Header"; var AllowanceLine: Record "Allowance Assignment Line")
     var
         Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
     begin
-        if not Confirm(Confirmation, false) then
-            exit;
+        if GuiAllowed then
+            if not Confirm(Confirmation, false) then
+                exit;
         // if AllowanceAssignment."Approver ID" = '' then
         //     Error('Please select an approver.');
 
@@ -47,24 +48,21 @@ codeunit 50022 "Allowance Assignment Mgt"
                 AllowanceLineCheck.TestField("From Date");
                 AllowanceLineCheck.TestField("To Date");
                 AllowanceLineCheck.TestField("Allowance Type");
-
             until AllowanceLineCheck.Next = 0;
-
-        if ApproveBool then begin
-            AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
-            AllowanceAssignment.Modify(true);
-
-            AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Approved);
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Screened);
-        end else begin
-            AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::Open);
-            AllowanceAssignment.Modify(true);
-
-            //AllowanceLine.SETFILTER("Approval Status", '<>%1', AllowanceLine."Approval Status"::Released);
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-
-
-        end;
+        AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
+        AllowanceAssignment.Modify(true);
+        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        // if ApproveBool then begin
+        //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
+        //     AllowanceAssignment.Modify(true);
+        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        //     // AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Approved);
+        //     // AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Screened);
+        // end else begin
+        //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::Open);
+        //     AllowanceAssignment.Modify(true);
+        //AllowanceLine.SETFILTER("Approval Status", '<>%1', AllowanceLine."Approval Status"::Released);
+        // end;
     end;
 
     procedure ApproveRejectAllowanceAssignment(Approved: Boolean; EntryNo: Code[20])
@@ -163,33 +161,33 @@ codeunit 50022 "Allowance Assignment Mgt"
     //     AllowanceLine.ModifyAll("Approved Date", Today);
     // end;
 
-    procedure ReturnAllowanceAssignment(No: Code[20])
-    var
-        EmpAllowance: Record "Allowance Assignment Header";
-        PGSetup: Record "Payroll General Setup";
-        EmpRec: Record Employee;
-        AllowanceLine: Record "Allowance Assignment Line";
-    begin
-        EmpAllowance.Get(No);
-        EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
+    // procedure ReturnAllowanceAssignment(No: Code[20])
+    // var
+    //     EmpAllowance: Record "Allowance Assignment Header";
+    //     PGSetup: Record "Payroll General Setup";
+    //     EmpRec: Record Employee;
+    //     AllowanceLine: Record "Allowance Assignment Line";
+    // begin
+    //     EmpAllowance.Get(No);
+    //     EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
 
 
-        // if GetEmployeeCode <> EmpAllowance."Approver ID" then
-        //     Error("ERROR BM", EmpRec."Full Name");
+    //     // if GetEmployeeCode <> EmpAllowance."Approver ID" then
+    //     //     Error("ERROR BM", EmpRec."Full Name");
 
 
-        EmpAllowance.Posted := true;
-        // EmpAllowance."Approver ID" := GetEmployeeCode();
-        EmpAllowance."Approved Date" := Today;
-        EmpAllowance.Modify(true);
+    //     EmpAllowance.Posted := true;
+    //     // EmpAllowance."Approver ID" := GetEmployeeCode();
+    //     EmpAllowance."Approved Date" := Today;
+    //     EmpAllowance.Modify(true);
 
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", No);
-        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
-        // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
-        AllowanceLine.ModifyAll("Approved Date", Today);
-    end;
+    //     AllowanceLine.Reset;
+    //     AllowanceLine.SetRange("No.", No);
+    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+    //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
+    //     // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
+    //     AllowanceLine.ModifyAll("Approved Date", Today);
+    // end;
 
     procedure CheckFunctionalTitleForRiskAllowance(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var

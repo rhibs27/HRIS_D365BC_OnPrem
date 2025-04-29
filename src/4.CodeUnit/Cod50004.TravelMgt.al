@@ -642,9 +642,9 @@ codeunit 50004 "Travel Mgt."
         end;
     end;
 
-    procedure ApplyForTravelClaim(TravelReq: Record "Travel Request" temporary): Boolean
+    procedure ApplyForTravelClaim(var TravelRequest: Record "Travel Request"): Boolean
     var
-        TravelRequest: Record "Travel Request";
+        // TravelRequest: Record "Travel Request";
         ConfirmTravel: Label 'Do you want to send travel request ?';
         ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
         TravelRequest2: Record "Travel Request";
@@ -659,27 +659,27 @@ codeunit 50004 "Travel Mgt."
         // if TravelReq."Recommender Code" = TravelReq."Approver Code" then
         //     Error('Recommender and Approver Cannot be Same.');
         if not GuiAllowed then begin
-            TravelReq.TestField("Start Date");
-            TravelReq.TestField("End Date");
+            TravelRequest.TestField("Start Date");
+            TravelRequest.TestField("End Date");
         end;
         // TravelReq.TestField("Claim Type");
-        if TravelRequest2.Get(TravelReq."Travel Order No.") then
+        if TravelRequest2.Get(TravelRequest."Travel Order No.") then
             if (TravelRequest2."Travel Claimed") then
                 Error('Travel order no. %1 has already been claimed.', TravelRequest2."No.");
 
         // TravelReq.TestField("Purpose of Travel");
-        if TravelReq."No. of Days" <= 0 then
+        if TravelRequest."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
-        Employee.Get(TravelReq."Employee No.");
-        Clear(TravelRequest);
+        Employee.Get(TravelRequest."Employee No.");
+        // Clear(TravelRequest);
         SalaryLevel.Get(Employee."Salary Level");
-        if TravelReq."Travel With" <> '' then begin//AT
-            Employee1.Get(TravelReq."Travel With");
+        if TravelRequest."Travel With" <> '' then begin//AT
+            Employee1.Get(TravelRequest."Travel With");
             if not SalaryLevel."Travel With Not Eligible" then
                 SalaryLevel1.Get(Employee1."Salary Level");
         end;
-        TravelRequest.Init;
-        TravelRequest.TransferFields(TravelReq);
+        // TravelRequest.Init;
+        // TravelRequest.TransferFields(TravelReq);
         TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
         TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
         TravelRequest.Validate(Destination, TravelRequest2.Destination);
@@ -694,13 +694,13 @@ codeunit 50004 "Travel Mgt."
         // TravelRequest.Validate("Fooding Per Day Limit", TravelRequest2."Fooding Per Day Limit");
         // TravelRequest.Validate("Lodging Allowance Limit", TravelRequest2."Lodging Allowance Limit");
         // TravelRequest.Validate("Lodging Per Day Limit", TravelRequest2."Lodging Per Day Limit");
-        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelReq."Travel Order No."));
-        TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelReq."Travel Order No."));
+        TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Estimated Fooding Cost", CalculateTotalFooding(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Estimated Lodging Cost", CalculateTotalLodging(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Estimated Transportation Cost", CalculateTotalTransport(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Total Estimated Cost", CalculateTotalEstimatedCost(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Other Estimated Cost", CalculateTotalOtherExpense(TravelRequest."Travel Order No."));
+        TravelRequest.Validate("Advance Cash", CalculateTotalAdvance(TravelRequest."Travel Order No."));
         // TravelRequest.Validate("Advance Cash", TravelRequest2."Advance Cash" + TravelReq."Advance Cash");
         // if GuiAllowed then begin
         OnBeforeGetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled);
@@ -762,7 +762,8 @@ codeunit 50004 "Travel Mgt."
         //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
         TravelRequest.Validate("Total Claimed Amount");
         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
-        TravelRequest.Insert(true);
+        TravelRequest.Modify();
+        // TravelRequest.Insert(true);
         HRmgt.SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
         Message('Travel Claim has been sent for apporval.');
         TravelRequest2."Travel Claimed" := true;

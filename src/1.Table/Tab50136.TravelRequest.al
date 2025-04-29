@@ -738,11 +738,13 @@ table 50136 "Travel Request"
 
             trigger OnValidate()
             begin
-                if "Travel With" = "Employee No." then
-                    Error(INVALID, "Travel With");
-                if EmployeeRec.Get("Travel With") then
-                    Validate("Travel With Name", EmployeeRec."Full Name");
-                Validate("No. of Days");//AT
+                if "Travel With" <> '' then begin
+                    if "Travel With" = "Employee No." then
+                        Error(INVALID, "Travel With");
+                    if EmployeeRec.Get("Travel With") then
+                        Validate("Travel With Name", EmployeeRec."Full Name");
+                    Validate("No. of Days");//AT
+                end;
             end;
         }
         field(74; "Payment From"; Enum "Payment From")

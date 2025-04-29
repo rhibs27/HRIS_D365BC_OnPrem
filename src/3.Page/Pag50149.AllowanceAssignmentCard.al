@@ -144,7 +144,7 @@ page 50149 "Allowance Assignment Card"
                     AllowanceLine.Reset;
                     AllowanceLine.SetRange("No.", Rec."No.");
                     if Confirm('Do you want to send approval request?', false) then
-                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, true);
+                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine);
                 end;
             }
             action("Cancel Approval Request")
@@ -155,14 +155,16 @@ page 50149 "Allowance Assignment Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Cancel Approval Request action.';
                 ApplicationArea = All;
-                Visible = IsApprove;
+                // Visible = IsApprove;
+                Visible = false;
+
                 trigger OnAction()
                 begin
                     //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
-                    AllowanceLine.Reset;
-                    AllowanceLine.SetRange("No.", Rec."No.");
-                    if Confirm('Do you want to cancel the document?', false) then
-                        AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, false);
+                    // AllowanceLine.Reset;
+                    // AllowanceLine.SetRange("No.", Rec."No.");
+                    // if Confirm('Do you want to cancel the document?', false) then
+                    //     AllowanceMgt.SendApprovalAllowanceAssignment(Rec, AllowanceLine, false);
                 end;
             }
             action("Approve Request")

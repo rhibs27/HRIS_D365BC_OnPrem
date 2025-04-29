@@ -12,10 +12,11 @@ page 50164 "Attachment Subform"
         {
             repeater(Group)
             {
-                field("Attachment Code"; Rec."Attachment Code")
+                field(attachmentCode; Rec."Attachment Code")
                 {
                     ToolTip = 'Specifies the value of the Attachment Code field.';
                     ApplicationArea = All;
+                    Caption = 'Attachment Code';
                 }
                 field(number; Rec."No.")
                 {
@@ -124,6 +125,10 @@ page 50164 "Attachment Subform"
                             AttachmentMgt.UploadAttachment(Rec);
                         end else
                             AttachmentMgt.UploadAttachment(Rec);
+                    end else if (TravelRequest.get(rec."No.")) then begin
+                        IF NOT (TravelRequest."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
+                            ERROR('Approval status must be Open.');
+                        AttachmentMgt.UploadAttachment(Rec);
                     end else
                         AttachmentMgt.UploadAttachment(Rec);
 
@@ -249,6 +254,7 @@ page 50164 "Attachment Subform"
         AttachmentMgt: Codeunit "Attachment Mgt.";
         EmpLoan: Record "Employee Loan/Advance";
         Leave: Record Leave;
+        TravelRequest: Record "Travel Request";
         Candidate: Record Candidate;
         [InDataSet]
         isGUIAllowed: Boolean;

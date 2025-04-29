@@ -87,6 +87,10 @@ page 50179 "Allowance Assign Subform API"
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
                 }
+                field(substituteOfLineNo; Rec."Substitute of Line No.")
+                {
+
+                }
                 field(panel; Rec.Panel)
                 {
                     ToolTip = 'Specifies the value of the Panel field.';
@@ -110,7 +114,7 @@ page 50179 "Allowance Assign Subform API"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+        Rec."Approval Status" := Rec."Approval Status"::"open";
     end;
 
     // local procedure GetEntryNo()

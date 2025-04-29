@@ -110,14 +110,17 @@ table 50093 "Allowance Assignment Line"
 
             trigger OnValidate()
             begin
-                TestField("Employee Code", '');
+                // TestField("Employee Code", '');
                 // PGSetup.Get;
                 // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then //Min 12.20.2022
                 //     Error(TEXT003);//santosh
             end;
         }
         field(10; "Is Substitute"; Boolean) { }
-        field(11; "Substitue of Line No."; Integer) { }
+        field(11; "Substitute of Line No."; Integer)
+        {
+            Editable = false;
+        }
         field(12; Type; Enum "Branchwise/Extension Type")
         {
 
@@ -373,7 +376,7 @@ table 50093 "Allowance Assignment Line"
         if "Is Substitute" then begin
             if ("From Date" = 0D) or ("To Date" = 0D) then
                 exit;
-            AllowanceLine.Get("No.", "Substitue of Line No.");
+            AllowanceLine.Get("No.", "Substitute of Line No.");
             NewToDate := AllowanceLine."To Date";
             if AllowanceLine."From Date" = "From Date" then
                 AllowanceLine.Delete(true);
@@ -397,7 +400,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1."No." := "No.";
                 AllowanceLine1.Validate("Allowance Type", AllowanceLine."Allowance Type");
                 AllowanceLine1.Validate("Employee Code", AllowanceLine."Employee Code");
-                AllowanceLine1."Substitue of Line No." := AllowanceLine."Line No.";
+                AllowanceLine1."Substitute of Line No." := AllowanceLine."Line No.";
                 AllowanceLine1."Is Substitute" := true;
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;

@@ -292,6 +292,22 @@ page 50351 "Travel Claim"
     {
         area(Processing)
         {
+            action("Apply Travel Claim")
+            {
+                Image = Apply;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Apply Travel Claim action.';
+                ApplicationArea = All;
+                Visible = IsOpen;
+
+                trigger OnAction()
+                begin
+                    TravelMgt.ApplyForTravelClaim(Rec);
+                    CurrPage.Close;
+                end;
+            }
             action("Recommend Travel Request")
             {
                 Image = Register;
