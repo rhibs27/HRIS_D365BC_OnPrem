@@ -22,4 +22,13 @@ enum 50038 "Employee Type"
     {
         Caption = 'Temporary';
     }
+    value(5; ALL)
+    {
+        Caption = 'All';
+    }
+    value(6; "Except Contract")
+    {
+        Caption = 'Except Contract';
+    }
+
 }

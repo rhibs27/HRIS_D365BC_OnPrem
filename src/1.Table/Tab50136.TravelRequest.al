@@ -221,8 +221,10 @@ table 50136 "Travel Request"
                         end;
                     end;
                 end;
-                if (Type = Type::"Travel Claim") and GuiAllowed then
+                if (Type = Type::"Travel Claim") and GuiAllowed then begin
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
+                end;
+
             end;
         }
         field(10; "Requested Date"; Date)

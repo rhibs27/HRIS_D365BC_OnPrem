@@ -220,6 +220,13 @@ page 50095 "Request Travel Claim"
                     ApplicationArea = All;
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                                "Employee Activity Type" = field(Type),
+                              "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -279,34 +286,34 @@ page 50095 "Request Travel Claim"
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
-        if not IsApplied then
-            if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('')
-            else begin
-                // TempIncomingDoc.Reset;
-                // TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
-                // TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
-                // TempIncomingDoc.SetRange("No.", '');
-                // if TempIncomingDoc.Find('-') then
-                //     repeat
-                //         LoanMgt.DeleteAttachment(TempIncomingDoc);
-                //         if TempIncomingDoc."File Name" <> '' then
-                //             Clear(TempIncomingDoc."File Name");
+        // if not IsApplied then
+        //     if not Confirm('The data will be erased. Do you want to continue?', true) then
+        //         Error('')
+        //     else begin
+        // TempIncomingDoc.Reset;
+        // TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
+        // TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
+        // TempIncomingDoc.SetRange("No.", '');
+        // if TempIncomingDoc.Find('-') then
+        //     repeat
+        //         LoanMgt.DeleteAttachment(TempIncomingDoc);
+        //         if TempIncomingDoc."File Name" <> '' then
+        //             Clear(TempIncomingDoc."File Name");
 
-                //     until TempIncomingDoc.Next = 0;
-                // TempIncomingDoc.DeleteAll;
-                Approval.Reset();
-                Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
-                Approval.SetRange("Document No.", '');
-                Approval.SetRange("Employee No", Rec."Employee No.");
-                Approval.DeleteAll();
-            end;
+        //     until TempIncomingDoc.Next = 0;
+        // TempIncomingDoc.DeleteAll;
+        // Approval.Reset();
+        // Approval.setRange("Document Type", Approval."Document Type"::"Travel Claim");
+        // Approval.SetRange("Document No.", '');
+        // Approval.SetRange("Employee No", Rec."Employee No.");
+        // Approval.DeleteAll();
+        // end;
     end;
 
-    trigger OnOpenPage()
-    begin
-        ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Travel Claim");
-    end;
+    // trigger OnOpenPage()
+    // begin
+    //     ApproverMgt.InsertApproval(Rec."Employee No.", Rec."No.", Rec.Type::"Travel Claim");
+    // end;
 
     var
         HRMgt: Codeunit "HR Mgt.";

@@ -269,6 +269,14 @@ page 50351 "Travel Claim"
                     ApplicationArea = All;
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No."),
+                                "Employee Activity Type" = field(Type),
+                              "Employee Code" = field("Employee No.");
+                ApplicationArea = All;
+                Editable = false;
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;

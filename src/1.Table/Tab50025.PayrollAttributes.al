@@ -95,7 +95,7 @@ table 50025 "Payroll Attributes"
         field(22; Irregular; Boolean)
         {
         }
-        field(23; "Employee Type"; Enum "Employee Contract Type")
+        field(23; "Employee Type"; Enum "Employee Type")
         {
         }
         field(24; "Payroll Type"; Code[20])

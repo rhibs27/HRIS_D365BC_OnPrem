@@ -74,5 +74,44 @@ page 50033 "Payroll Attributes Usage"
         }
     }
 
-    actions { }
+    actions
+    {
+        area(Processing)
+        {
+            action("Import Attributes")
+            {
+                ApplicationArea = All;
+                Image = Import;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Import Attributes action.';
+                trigger OnAction()
+                var
+                    EmpVar: Record Employee;
+                    FilterPage: FilterPageBuilder;
+                    Ptxt: TextConst ENU = 'Select Employee';
+                    EmpCode: Code[20];
+                    PayrollEngine: Codeunit "Payroll Engine";
+                begin
+                    EmpVar.Reset();
+                    EmpVar.SetRange("No.", Rec."Employee Code");
+                    if EmpVar.FindSet() then;
+                    FilterPage.AddRecord(Ptxt, EmpVar);
+                    FilterPage.AddField(Ptxt, EmpVar."No.");
+                    if FilterPage.RunModal() then begin
+                        EmpVar.SetView(FilterPage.GetView(Ptxt));
+                        EmpCode := EmpVar.GetFilter("No.");
+
+                        if EmpCode = '' then
+                            if not Confirm('No employee is selected. Do you want to import attributes to all Active Employees?', false) then
+                                exit;
+
+                        PayrollEngine.ImportPayrollAttributes(EmpCode);
+                    end;
+                end;
+            }
+        }
+    }
 }
