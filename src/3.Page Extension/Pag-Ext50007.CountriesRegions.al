@@ -28,6 +28,10 @@ pageextension 50007 "Countries/Regions" extends "Countries/Regions"
             {
                 ApplicationArea = all;
             }
+            field("Is Nepal"; Rec."Is Nepal")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 }

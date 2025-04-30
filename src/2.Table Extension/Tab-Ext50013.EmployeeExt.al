@@ -623,6 +623,7 @@ tableextension 50013 "Employee Ext" extends Employee
         //                                                                                                            Reversed = const(false),
         //                                                                                                            "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
         // }
+
         field(50039; "Advance for Expenses"; Decimal)
         {
             FieldClass = FlowField;
@@ -742,7 +743,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
 
         }
-        field(50057; Religion; Text[30])
+        field(50057; Religion; Enum Religion)
         {
             DataClassification = CustomerContent;
         }
@@ -995,9 +996,18 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'temporary';
             MinValue = 1;
-            MaxValue = 32;
             trigger OnValidate()
+            var
+                Municipalities: Record Municipality;
             begin
+                if "Temporary VDC" = '' then
+                    Error('Please select Temporary VDC first');
+                Municipalities.SetRange("Municipality Name", "Temporary VDC");
+                if Municipalities.FindFirst() then begin
+                    if "Temporary Ward No" > Municipalities."No of ward" then
+                        Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
+                end else
+                    Error('Temporary VDC Not Found in Municipality Table');
                 "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
         }
@@ -1069,10 +1079,19 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             MinValue = 1;
-            MaxValue = 35;
             Description = 'Citizenship ward no';
             trigger OnValidate()
+            var
+                Municipalities: Record Municipality;
             begin
+                if "Permanent VDC" = '' then
+                    Error('Please select Permanent VDC first');
+                Municipalities.SetRange("Municipality Name", "Permanent VDC");
+                if Municipalities.FindFirst() then begin
+                    if "Ward No" > Municipalities."No of ward" then
+                        Error('Ward No. should be less than %1', Municipalities."No of ward");
+                end else
+                    Error('Permanent VDC Not Found in Municipality Table');
                 Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
             end;
         }
@@ -1134,18 +1153,18 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
-        field(50104; "Secondary Mobile No."; Text[15])
-        {
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            VAR
-                TypeHelper: Codeunit "Type Helper";
-            begin
-                if not TypeHelper.IsPhoneNumber(Rec."Secondary Mobile No.") then
-                    Error('Phone No Validation Error');
+        // field(50104; "Mobile No."; Text[15])
+        // {
+        //     DataClassification = CustomerContent;
+        //     trigger OnValidate()
+        //     VAR
+        //         TypeHelper: Codeunit "Type Helper";
+        //     begin
+        //         if not TypeHelper.IsPhoneNumber(Rec."Mobile No.") then
+        //             Error('Phone No Validation Error');
 
-            end;
-        }
+        //     end;
+        // }
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;

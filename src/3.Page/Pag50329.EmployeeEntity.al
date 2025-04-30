@@ -38,10 +38,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Mobile Phone No.';
                 }
-                field(secondaryMobileNo; Rec."Secondary Mobile No.")
-                {
-                    Caption = 'Secondary Mobile No.';
-                }
+                // field(secondaryMobileNo; Rec."Mobile No.")
+                // {
+                //     Caption = 'Secondary Mobile No.';
+                // }
                 field(relationWithEmergencyCont; Rec."Relation With Emergency Cont")
                 {
                     Caption = 'Relation With Emergency Cont';

@@ -2815,6 +2815,24 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
+    procedure LookupCountryOtherThenNepalAndSAARC(): Text[30]
+    var
+        PageCountry: Page "Countries/Regions";
+        Country: Record "Country/Region";
+    begin
+        Clear(PageCountry);
+        Country.Reset;
+        Country.SetRange("Is SAARC", false);
+        Country.SetRange("Is Nepal", false);
+        PageCountry.SetRecord(Country);
+        PageCountry.SetTableView(Country);
+        PageCountry.LookupMode(true);
+        if PageCountry.RunModal = ACTION::LookupOK then begin
+            PageCountry.GetRecord(Country);
+            exit(Country.Name);
+        end;
+    end;
+
     procedure LookupCountrySAARC(IsSAARC: Boolean): Text[30]
     var
         PageCountry: Page "Countries/Regions";

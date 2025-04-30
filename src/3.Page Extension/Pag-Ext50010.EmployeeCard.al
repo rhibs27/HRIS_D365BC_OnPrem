@@ -96,12 +96,45 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             Visible = false;
         }
+        modify(Pager)
+        {
+            Visible = false;
+        }
+        modify("Phone No.")
+        { Visible = false; }
+        // modify("Country/Region Code")
+        // {
+        //     Editable = false;
+        // }
+        modify("Post Code")
+        {
+            Editable = false;
+        }
+        modify("Job Title")
+        { visible = false; }
+        moveafter("Country/Region Code"; "Company E-Mail", "Phone No.2", "Phone No.")
+
         addafter(Address)
         {
             field("Temporary Address"; Rec."Temporary Address")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Temporary Address field.';
+            }
+            field("Distance between Residence and Office"; Rec."Distance betn Res and Office")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Distance between Residence and Office field.';
+
+            }
+        }
+        addbefore("First Name")
+        {
+            field(Salutation; Rec.Salutation)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Salutation field.';
+
             }
         }
         addafter("Last Name")
@@ -116,18 +149,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the NAV Login ID field.';
             }
-            field(Salutation; Rec.Salutation)
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Salutation field.';
+            // field("Mobile No."; Rec."Mobile No.")
+            // {
+            //     ApplicationArea = All;
+            //     ToolTip = 'Specifies the value of the Mobile No. field.';
 
-            }
-            field("Secondary Mobile No."; Rec."Secondary Mobile No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Secondary Mobile No. field.';
-
-            }
+            // }
 
             field("Date of Birth (B.S.)"; Rec."Date of Birth (B.S.)")
             {
@@ -185,12 +212,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 Caption = 'Differently Able';
                 ToolTip = 'Specifies the value of the Differently Able field.';
-
-            }
-            field("Distance betn Res and Office"; Rec."Distance betn Res and Office")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Distance betn Res and Office field.';
 
             }
             field("Employee Work Shift"; Rec."Employee Work Shift")
@@ -312,6 +333,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Caption = 'Temporary Address';
                 field("Same As Permanent"; SameAsPermanent)
                 {
+                    Editable = true;
                     trigger OnValidate()
                     begin
                         if SameAsPermanent then
@@ -322,30 +344,35 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Province"; Rec."Temporary Province")
                 {
+                    Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Province field.';
 
                 }
                 field("Temporary District"; Rec."Temporary District")
                 {
+                    Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary District field.';
 
                 }
                 field("Temporary VDC"; Rec."Temporary VDC")
                 {
+                    Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary VDC field.';
 
                 }
                 field("Temporary House"; Rec."Temporary House")
                 {
+                    Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary House field.';
 
                 }
                 field("Temporary Ward No"; Rec."Temporary Ward No")
                 {
+                    Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Ward No field.';
 
@@ -638,14 +665,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
-
                 }
                 field("Citizenship Issue Date(Nepali)"; Rec."Citizenship Date(Nepali)")
                 {
                     Caption = 'Citizenship Issue Date(Nepali)';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Citizenship Issue Date(Nepali) field.';
-
                 }
 
             }
@@ -655,7 +680,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Disable Punch in field.';
-
                 }
                 // field(Screener; Rec.Screener)
                 // {
@@ -667,8 +691,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
-
-
                 }
                 // field("Selection committee"; Rec."Selection committee")
                 // {
@@ -686,7 +708,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Attendance Device ID field.';
-
                 }
                 field("Employee Attendance ID"; Rec."Employee Attendance ID")
                 {

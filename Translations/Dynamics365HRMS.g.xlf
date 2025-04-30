@@ -25218,11 +25218,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control salespersPurchCode - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2894000923 - Control 3983255221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Secondary Mobile No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control secondaryMobileNo - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 1467748647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sol Id</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -48678,10 +48673,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Birth Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 1594531834 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Distance between Residence and Office field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Distance between Residence and Office - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 1799028647 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Temporary Address field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Temporary Address - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 3649518822 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Salutation field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Salutation - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3558390861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Age field.</source>
@@ -48712,11 +48717,6 @@
           <source>Differently Able</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Disabled - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 3358895019 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Distance betn Res and Office field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Distance betn Res and Office - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Employee Work Shift field.</source>
@@ -48762,16 +48762,6 @@
           <source>Specifies the value of the Religion field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Religion - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 3649518822 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Salutation field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Salutation - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 532377383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Secondary Mobile No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Secondary Mobile No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2548350396 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Tax Code field.</source>
@@ -49107,11 +49097,6 @@
           <source>Specifies the value of the Resignation Approver field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Resignation Approver - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 2841458984 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the System Owner field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control System Owner - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 310497131 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Bank No. field.</source>
@@ -50373,6 +50358,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Change Log Entry Ext - Field Document No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4148176377 - Field 1261601616 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 4148176377">
+          <source>Is Nepal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Country/Region - Field Is Nepal - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4148176377 - Field 3895008268 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 4148176377">
           <source>Is SAARC</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51228,11 +51218,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Saved - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 532377383 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Secondary Mobile No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Secondary Mobile No. - Property Caption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3299627436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Service Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51262,11 +51247,6 @@
           <source>Sub Unit Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Sub Unit Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 2841458984 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>System Owner</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field System Owner - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2548350396 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Tax Code</source>
@@ -56167,6 +56147,61 @@
           <source>Spouse GrandMother</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Relation - EnumValue Spouse GrandMother - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 4277658637 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bon</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Bon - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 455643492 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Buddhism</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Buddhism - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 3338253663 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Christianity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Christianity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 3152509331 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Hinduism</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Hinduism - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 1228502918 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Islam</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Islam - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 2956331821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Jainism</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Jainism - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 1839335055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Kirat</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Kirat - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 3448339824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Other</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Other - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 1479594322 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Prakriti</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Prakriti - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 909762047 - EnumValue 556902290 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sikhism</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue Sikhism - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1877960242 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
