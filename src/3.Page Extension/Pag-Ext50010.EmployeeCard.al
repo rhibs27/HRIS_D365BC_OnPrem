@@ -16,6 +16,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             Caption = 'Temporary Address';
             Editable = false;
+            Visible = false;
         }
         movebefore(Gender; "Birth Date")
         modify("Birth Date")
@@ -94,6 +95,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         modify("Salespers./Purch. Code")
         {
             Visible = false;
+        }
+        addafter(Address)
+        {
+            field("Temporary Address"; Rec."Temporary Address")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Temporary Address field.';
+            }
         }
         addafter("Last Name")
         {
@@ -298,8 +307,19 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 }
             }
-            group("Temporary Address")
+            group("Temporary Address Group")
             {
+                Caption = 'Temporary Address';
+                field("Same As Permanent"; SameAsPermanent)
+                {
+                    trigger OnValidate()
+                    begin
+                        if SameAsPermanent then
+                            CopyPermanentAddress()
+                        else
+                            ClearTemporaryAddress();
+                    end;
+                }
                 field("Temporary Province"; Rec."Temporary Province")
                 {
                     ApplicationArea = All;
@@ -339,7 +359,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont field.';
                 }
-                field("Emergency Cont. Name"; Rec."Emergenecy Contact Name")
+                field("Emergency Cont. Name"; Rec."Emergency Contact Name")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Name field.';
@@ -349,7 +369,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Emergency Mobile No. field.';
                 }
-                field("Emergency Cont. Email"; Rec."Emergenecy Contact Email")
+                field("Emergency Cont. Email"; Rec."Emergency Contact Email")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Email field.';
@@ -648,19 +668,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
 
+
                 }
                 // field("Selection committee"; Rec."Selection committee")
                 // {
                 //     ApplicationArea = All;
                 //     ToolTip = 'Specifies the value of the Selection committee field.';
 
-                // }
-                field("System Owner"; Rec."System Owner")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the System Owner field.';
+                // // }
+                // field("System Owner"; Rec."System Owner")
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the System Owner field.';
 
-                }
+                // }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;
@@ -1951,6 +1972,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     }
     var
+        SameAsPermanent: Boolean;
         Usersetup: Record "User Setup";
         PayrollFieldsVisible: Boolean;
         Employee: Record Employee;
@@ -2217,6 +2239,25 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         IF LeaveEarn.FINDFIRST THEN
             EXIT(TRUE);
     END;
+
+    local procedure CopyPermanentAddress()
+    begin
+        rec."Temporary Province" := rec."Permanent Province";
+        rec."Temporary District" := rec."Permanent District";
+        rec."Temporary VDC" := rec."Permanent VDC";
+        rec.Validate("Temporary Ward No", rec."Ward No");
+        Rec."Temporary House" := rec."Permanent House";
+    end;
+
+    local procedure ClearTemporaryAddress()
+    begin
+        Rec."Temporary Province" := '';
+        Rec."Temporary District" := '';
+        Rec."Temporary VDC" := '';
+        Rec."Temporary Ward No" := 0;
+        Rec."Temporary House" := '';
+        rec."Temporary Address" := '';
+    end;
 
 }
 

@@ -104,10 +104,10 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Permanent Address';
         }
-        modify("Address 2")
-        {
-            Caption = 'Temporary Address';
-        }
+        // modify("Address 2")
+        // {
+        //     Caption = 'Temporary Address';
+        // }
         modify(Gender)
         {
             trigger OnAfterValidate()
@@ -915,7 +915,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             END;
 
             trigger OnLookup()
@@ -961,7 +961,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Temporary Ward No");
                     Clear("Temporary District");
                 end;
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
 
             trigger OnLookup()
@@ -998,7 +998,7 @@ tableextension 50013 "Employee Ext" extends Employee
             MaxValue = 32;
             trigger OnValidate()
             begin
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             end;
         }
         field(50086; "Permanent VDC"; Text[50])
@@ -1023,7 +1023,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Temporary VDC");
-                "Address 2" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
             END;
 
             trigger OnLookup()
@@ -1286,11 +1286,11 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'In nepali';
             Editable = false;
         }
-        field(50125; "System Owner"; Boolean)
-        {
-            DataClassification = CustomerContent;
-            Description = 'System Access';
-        }
+        // field(50125; "System Owner"; Boolean)
+        // {
+        //     DataClassification = CustomerContent;
+        //     Description = 'System Access';
+        // }
         field(50126; "CIF ID"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1472,18 +1472,18 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50163; "Emergenecy Contact Name"; Text[20])
+        field(50163; "Emergency Contact Name"; Text[20])
         {
             DataClassification = ToBeClassified;
         }
-        field(50164; "Emergenecy Contact Email"; Text[20])
+        field(50164; "Emergency Contact Email"; Text[20])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
             var
                 MailManagement: Codeunit "Mail Management";
             begin
-                MailManagement.ValidateEmailAddressField("Emergenecy Contact Email");
+                MailManagement.ValidateEmailAddressField("Emergency Contact Email");
             end;
         }
     }
