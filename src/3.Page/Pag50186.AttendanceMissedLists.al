@@ -46,21 +46,21 @@ page 50186 "Attendance Missed Lists"
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
                 }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                }
+                // field("No. of Days"; Rec."No. of Days")
+                // {
+                //     ToolTip = 'Specifies the value of the No. of Days field.';
+                //     ApplicationArea = All;
+                // }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("Approver Type"; Rec."Approver Type")
-                {
-                    ToolTip = 'Specifies the value of the Approver Type field.';
-                    ApplicationArea = All;
-                }
+                // field("Approver Type"; Rec."Approver Type")
+                // {
+                //     ToolTip = 'Specifies the value of the Approver Type field.';
+                //     ApplicationArea = All;
+                // }
 
             }
         }

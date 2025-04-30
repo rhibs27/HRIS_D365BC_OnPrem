@@ -485,7 +485,6 @@ report 50048 "Attendance Update Job Queue"
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
         if AllowanceAssignmentLine.FindFirst then
             repeat
-
                 EmployeeAttendanceActivity.Reset;
                 EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
                 EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");

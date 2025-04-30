@@ -91,9 +91,9 @@ query 50007 "Attendance Missed Query"
                     column(reasonDescription; "Reason Description")
                     {
                     }
-                    column(noOfDays; "No. of Days")
-                    {
-                    }
+                    // column(noOfDays; "No. of Days")
+                    // {
+                    // }
                 }
             }
 

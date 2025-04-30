@@ -1763,15 +1763,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Approved Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 868085935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approver Type</source>
+        <trans-unit id="Table 3549385734 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Approver Type - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 868085935 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
-          <source> ,Direct,With Recommendation</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Approver Type - Property OptionCaption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Branch Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3549385734 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -1858,25 +1853,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Functional Title - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Leave Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 301835007 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Leave Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Leave Description - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3549385734 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field No. of Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3549385734 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. Series</source>
@@ -1938,11 +1918,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Salary Level Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Shortcut Dimension 1 Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Shortcut Dimension 1 Code - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3549385734 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1967,11 +1942,6 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Unit Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3549385734 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>User ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field User ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3429972266 - Field 836412028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Absent Days</source>
@@ -17853,11 +17823,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method InsertAllowanceHeader - NamedType AllowanceHeaderText</note>
         </trans-unit>
-        <trans-unit id="Codeunit 16707583 - Method 4168739684 - NamedType 3473949665" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm action?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Allowance Assignment Mgt - Method SendApprovalAllowanceAssignment - NamedType Confirmation</note>
-        </trans-unit>
         <trans-unit id="Codeunit 1293262007 - NamedType 2958218723" size-unit="char" translate="yes" xml:space="preserve">
           <source> : </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21198,21 +21163,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Employee No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 178691202 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the End Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control End Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 178691202 - Control 1977718373 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the End Date (BS) field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control End Date (BS) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 178691202 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Days field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control No. of Days - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 178691202 - Control 1908046867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Reason Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21239,9 +21189,14 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Requested Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Start Date field.</source>
+          <source>Specifies the value of the Attendance Missed Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 178691202 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Missed Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Control Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 178691202 - Control 2948251216 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Start Date (BS) field.</source>
@@ -21283,11 +21238,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control Approval Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2513078053 - Control 868085935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approver Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control Approver Type - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2513078053 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21307,11 +21257,6 @@
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2513078053 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Days field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control No. of Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2513078053 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
@@ -32537,6 +32482,136 @@
           <source>Specifies the value of the Writing field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Language Proficiency - Control Writing - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Requested Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Attendance Card</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 1908046867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reason Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Reason Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 2885572998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reason Description field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Reason Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Requested Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attendance Missed Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Missed Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 2948251216 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date (BS) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Start Date (BS) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Action 1068937304 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Apply action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Apply - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Approve - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Reject - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2977078565 - Control 3538877424 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Balancing Days field.</source>
@@ -48514,7 +48589,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Appraisal - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 3705923653 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Request Attendace Missed action.</source>
+          <source>Executes the Request Attendance Missed action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Attendance Missed - Property ToolTip</note>
         </trans-unit>
@@ -54152,6 +54227,11 @@
           <source>HR Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue HR Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 357109573 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Late Attendance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3584713366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Request</source>
