@@ -80,9 +80,9 @@ page 50332 "Attendance Missed API"
                 field(reasonDescription; Rec."Reason Description")
                 {
                 }
-                field(noOfDays; Rec."No. of Days")
-                {
-                }
+                // field(noOfDays; Rec."No. of Days")
+                // {
+                // }
                 field(endDateBS; Rec."End Date (BS)")
                 {
                     Caption = 'End Date (BS)';

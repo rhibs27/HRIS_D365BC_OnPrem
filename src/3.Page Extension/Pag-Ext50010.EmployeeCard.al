@@ -1181,7 +1181,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 end;
             }
-
         }
         addafter("Pay Employee")
         {
@@ -1257,8 +1256,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceRequest(Rec."No.");
                     end;
                 }
-
-
                 action("Request Attendance Missed")
                 {
                     ApplicationArea = All;
@@ -1266,7 +1263,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedIsBig = true;
                     Image = Absence;
                     PromotedCategory = Category4;
-                    ToolTip = 'Executes the Request Attendace Missed action.';
+                    ToolTip = 'Executes the Request Attendance Missed action.';
                     trigger OnAction()
                     begin
                         AttendanceMissedMgt.OpenAttendanceMissed(Rec."No.");

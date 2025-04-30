@@ -32,12 +32,12 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     procedure SendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Allowance Assignment Header"; var AllowanceLine: Record "Allowance Assignment Line")
     var
-        Confirmation: Label 'Confirm action?';
+        // Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
     begin
-        if GuiAllowed then
-            if not Confirm(Confirmation, false) then
-                exit;
+        // if GuiAllowed then
+        //     if not Confirm(Confirmation, false) then
+        //         exit;
         // if AllowanceAssignment."Approver ID" = '' then
         //     Error('Please select an approver.');
 
@@ -104,6 +104,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.SetRange("No.", EntryNo);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
         if Approved then begin
+            InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved);
             AllowanceLine.ModifyAll("Approved Date", Today);
         end else begin
@@ -113,7 +114,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment");
         end;
-
     end;
 
     // procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
@@ -378,6 +378,66 @@ codeunit 50022 "Allowance Assignment Mgt"
             Message('Update to employee attendance and activity');
         end;
     end;
+
+    procedure InsertAllowanceAssignmentDayInAttendance(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        // FromDate: Date;
+        // Todate: Date;
+        PRSetup: Record "Payroll General Setup";
+    // AllowancePageBuilder: FilterPageBuilder;
+    // AllowAssignLine: Record "Allowance Assignment Line";
+    begin
+        PRSetup.Get;
+
+        // AllowancePageBuilder.AddRecord('Update to Employee Attendance', AllowAssignLine);
+        // AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."From Date");
+        // AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."To Date");
+        // if AllowancePageBuilder.RunModal then begin
+        //     AllowAssignLine.SetView(AllowancePageBuilder.GetView('Update to Employee Attendance'));
+        //     Evaluate(FromDate, AllowAssignLine.GetFilter("From Date"));
+        //     Evaluate(Todate, AllowAssignLine.GetFilter("To Date"));
+
+        // AllowanceAssignmentLine.Reset;
+        // AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
+        // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+        if AllowanceAssignmentLine.FindSet then
+            repeat
+                EmployeeAttendanceActivity.Reset;
+                EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
+                EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+                if EmployeeAttendanceActivity.FindFirst then begin
+                    case AllowanceAssignmentLine."Allowance Type" of
+
+                        PRSetup."Evening Counter":
+                            EmployeeAttendanceActivity."Evening Counter Days" := 1;
+
+                        PRSetup."Morning Counter":
+                            EmployeeAttendanceActivity."Morning Counter Days" := 1;
+
+                        PRSetup."Festival Counter":
+                            EmployeeAttendanceActivity."Festival Counter Days" := 1;
+
+                        PRSetup."Holiday Counter":
+                            EmployeeAttendanceActivity."Holiday Counter Days" := 1;
+
+                        PRSetup."Friday Counter":
+                            EmployeeAttendanceActivity."Friday Counter Days" := 1;
+
+                        PRSetup."Risk Allowance":
+                            EmployeeAttendanceActivity."Cash Risk Days" := 1;
+
+                        PRSetup."Vault Key":
+                            EmployeeAttendanceActivity."Vault Key Days" := 1;
+                    end;
+                    EmployeeAttendanceActivity.Modify;
+                end;
+
+            until AllowanceAssignmentLine.Next = 0;
+        // if GuiAllowed then
+        //     Message('Update to employee attendance and activity');
+    end;
+    // end;
 
     procedure InsertAllowanceHeader()
     var

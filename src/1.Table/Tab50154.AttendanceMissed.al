@@ -37,8 +37,9 @@ table 50154 "Attendance Missed"
             begin
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
-                    Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    // Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
                     Validate(Department, EmpVar."Department Code");
+                    Validate("Branch Code", EmpVar."Branch Code");
                     // Validate("Deputation On", EmpVar."Deputation on");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
@@ -76,15 +77,11 @@ table 50154 "Attendance Missed"
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
-                    Validate("Shortcut Dimension 1 Code", '');
+                    // Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
                     // Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
-                if Type = Type::"Attendance Missed" then begin
-
-                end;
-
             end;
         }
         field(4; "Employee Name"; Text[50])
@@ -100,24 +97,22 @@ table 50154 "Attendance Missed"
         }
         field(7; "Start Date"; Date)
         {
-
             trigger OnValidate()
             begin
-
-                //>>check for leave
-                if Type = Type::"Leave Request" then begin
-                    if EmployeeRec."Contract Expiry Date" <> 0D then
-                        if "Start Date" > EmployeeRec."Contract Expiry Date" then
-                            Error('Cannot apply leave after contract expiry date');
-                    EmpAttendanceActivity.Reset; //Min 4.11.2022
-                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                    EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
-                    if EmpAttendanceActivity.FindFirst then
-                        repeat
-                            if EmpAttendanceActivity."Present Day" = 1 then
-                                Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-                        until EmpAttendanceActivity.Next = 0;
-                end;
+                // //>>check for leave
+                // if Type = Type::"Leave Request" then begin
+                //     if EmployeeRec."Contract Expiry Date" <> 0D then
+                //         if "Start Date" > EmployeeRec."Contract Expiry Date" then
+                //             Error('Cannot apply leave after contract expiry date');
+                //     EmpAttendanceActivity.Reset; //Min 4.11.2022
+                //     EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
+                //     EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
+                //     if EmpAttendanceActivity.FindFirst then
+                //         repeat
+                //             if EmpAttendanceActivity."Present Day" = 1 then
+                //                 Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+                //         until EmpAttendanceActivity.Next = 0;
+                // end;
                 //<<check for leave
 
                 EngNepDate.Reset;
@@ -129,7 +124,7 @@ table 50154 "Attendance Missed"
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                    // Validate("No. of Days", 0);
                 end;
 
                 //Min 4.26.2022 -- Check for Missed Attendance.
@@ -142,11 +137,12 @@ table 50154 "Attendance Missed"
                     if MissedAttendanceRec.FindFirst then
                         Error('Missed Attendance already applied for date %1', Rec."Start Date");
                 end;
+                Validate("End Date", "Start Date");
+
             end;
         }
         field(8; "End Date"; Date)
         {
-
             trigger OnValidate()
             var
                 LeaveMgt: Codeunit "Leave Mgt.";
@@ -162,23 +158,23 @@ table 50154 "Attendance Missed"
                 else
                     Clear("End Date (BS)");
                 //>>Calculate No. of Days Santosh
-                if "End Date" <> 0D then
-                    Validate("No. of Days", "End Date" - "Start Date" + 1)
-                else begin
-                    Clear("End Date (BS)");
-                    Clear("No. of Days");
-                end;
+                // if "End Date" <> 0D then
+                //     Validate("No. of Days", "End Date" - "Start Date" + 1)
+                // else begin
+                //     Clear("End Date (BS)");
+                //     Clear("No. of Days");
+                // end;
             end;
         }
-        field(9; "No. of Days"; Decimal)
-        {
-            Editable = false;
+        // field(9; "No. of Days"; Decimal)
+        // {
+        //     Editable = false;
 
-            trigger OnValidate()
-            begin
+        //     trigger OnValidate()
+        //     begin
 
-            end;
-        }
+        //     end;
+        // }
         field(10; "Requested Date"; Date)
         {
 
@@ -198,7 +194,6 @@ table 50154 "Attendance Missed"
         }
         field(12; "Start Date (BS)"; Text[20])
         {
-            Editable = false;
         }
         field(13; "End Date (BS)"; Text[20])
         {
@@ -212,11 +207,11 @@ table 50154 "Attendance Missed"
                 Clear("Rejection Remarks");
             end;
         }
-        field(15; "User ID"; Text[50])
-        {
-            Editable = false;
-            TableRelation = "User Setup"."User ID";
-        }
+        // field(15; "User ID"; Text[50])
+        // {
+        //     Editable = false;
+        //     TableRelation = "User Setup"."User ID";
+        // }
         field(16; "Approval Status"; Enum "Approval Status")
         {
             // trigger OnValidate()
@@ -238,20 +233,20 @@ table 50154 "Attendance Missed"
             //     end;
             // end;
         }
-        field(17; "Shortcut Dimension 1 Code"; Code[20])
+        field(17; "Branch Code"; Code[20])
         {
-            CaptionClass = '1,2,1';
+            // CaptionClass = '1,2,1';
             Editable = false;
-            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
+            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
 
-            trigger OnValidate()
-            begin
-                GLSetup.Get;
-                if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-                    Validate("Branch Name", DimValue.Name)
-                else
-                    Validate("Branch Name", '');
-            end;
+            // trigger OnValidate()
+            // begin
+            //     GLSetup.Get;
+            //     if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
+            //         Validate("Branch Name", DimValue.Name)
+            //     else
+            //         Validate("Branch Name", '');
+            // end;
         }
         field(18; Department; Code[20])
         {
@@ -410,12 +405,12 @@ table 50154 "Attendance Missed"
         field(37; "Approved Date"; Date)
         {
         }
-        field(38; "Approver Type"; Option)
-        {
-            Editable = false;
-            OptionCaption = ' ,Direct,With Recommendation';
-            OptionMembers = " ",Direct,"With Recommendation";
-        }
+        // field(38; "Approver Type"; Option)
+        // {
+        //     Editable = false;
+        //     OptionCaption = ' ,Direct,With Recommendation';
+        //     OptionMembers = " ",Direct,"With Recommendation";
+        // }
         field(39; Cancelled; Boolean)
         {
         }
@@ -487,30 +482,30 @@ table 50154 "Attendance Missed"
         // {
         //     Description = 'Resignation';
         // }
-        field(50; "Leave Code"; Code[20])
-        {
-            DataClassification = ToBeClassified;
-            TableRelation = "Leave Type Setup";
-            trigger OnValidate()
+        // field(50; "Leave Code"; Code[20])
+        // {
+        //     DataClassification = ToBeClassified;
+        //     TableRelation = "Leave Type Setup";
+        //     trigger OnValidate()
 
-            begin
-                if "Leave Code" <> xRec."Leave Code" then begin
-                    if LeaveTypeVar.Get("Leave Code") then begin
-                        Validate("Leave Description", LeaveTypeVar.Description);
-                        Validate("Start Date", 0D);
-                    end else begin
-                        Clear("Leave Description");
-                    end;
+        //     begin
+        //         if "Leave Code" <> xRec."Leave Code" then begin
+        //             if LeaveTypeVar.Get("Leave Code") then begin
+        //                 Validate("Leave Description", LeaveTypeVar.Description);
+        //                 Validate("Start Date", 0D);
+        //             end else begin
+        //                 Clear("Leave Description");
+        //             end;
 
-                    // Clear("Contact No."); //nilesh
-                end;
-            end;
+        //             // Clear("Contact No."); //nilesh
+        //         end;
+        //     end;
 
-        }
-        field(51; "Leave Description"; Text[50])
-        {
-            Editable = false;
-        }
+        // }
+        // field(51; "Leave Description"; Text[50])
+        // {
+        //     Editable = false;
+        // }
         field(100; Status; text[20])
         {
         }

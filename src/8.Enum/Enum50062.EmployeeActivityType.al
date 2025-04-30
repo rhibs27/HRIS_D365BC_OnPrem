@@ -80,4 +80,9 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Allowance Assignment';
     }
+    value(20; "Late Attendance")
+    {
+        Caption = 'Late Attendance';
+    }
+
 }
