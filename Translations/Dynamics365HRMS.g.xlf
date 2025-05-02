@@ -5598,6 +5598,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3436918612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Mobile No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Mobile No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5727,6 +5732,11 @@
           <source>Relative Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative's Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 909762047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Religion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Religion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>

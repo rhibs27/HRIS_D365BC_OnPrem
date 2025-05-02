@@ -431,7 +431,4 @@ codeunit 50015 "OverTime Mgt"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
 
-
-
-
 }

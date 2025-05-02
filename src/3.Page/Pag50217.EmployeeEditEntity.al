@@ -80,6 +80,12 @@ page 50217 "Employee Edit Entity"
                 field(emergencyContactEmail; Rec."Emergency Contact Email")
                 {
                 }
+                field(emergencyMobileNo; Rec."Emergency Mobile No")
+                {
+                }
+                field(religion; Rec.Religion)
+                {
+                }
             }
             group("Employee Qualification")
             {
