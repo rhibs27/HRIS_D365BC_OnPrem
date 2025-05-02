@@ -6,6 +6,8 @@ page 50220 "Late Attendance"
     SourceTable = "Attendance Missed";
     UsageCategory = Lists;
     SourceTableView = WHERE(Type = CONST("Late Attendance"));
+    CardPageId = "Late Attendance Card";
+    InsertAllowed = false;
 
     layout
     {
