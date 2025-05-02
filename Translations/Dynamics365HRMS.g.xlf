@@ -5598,6 +5598,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 3436918612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Mobile No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Mobile No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5727,6 +5732,11 @@
           <source>Relative Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative's Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 909762047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Religion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Religion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
@@ -11047,6 +11057,11 @@
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Branch Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -53558,10 +53573,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum BeforeAfter - EnumValue Before - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4042437055 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
+        <trans-unit id="Enum 4042437055 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Blood Group - EnumValue   - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Blood Group - EnumValue  - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4042437055 - EnumValue 213125051 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>A+ve</source>
@@ -55563,10 +55578,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Local Levels - EnumValue Sub-Metropolitan City - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 1915108478 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
+        <trans-unit id="Enum 1915108478 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Marital Status - EnumValue   - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Marital Status - EnumValue  - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1915108478 - EnumValue 1631156200 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Married</source>
@@ -56348,10 +56363,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Relation - EnumValue Spouse GrandMother - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 909762047 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
+        <trans-unit id="Enum 909762047 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue   - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Religion - EnumValue  - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 909762047 - EnumValue 4277658637 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bon</source>

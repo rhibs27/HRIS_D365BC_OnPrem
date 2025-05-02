@@ -2,9 +2,9 @@ enum 50016 Religion
 {
     Extensible = true;
 
-    value(0; " ")
+    value(0; "")
     {
-        Caption = ' ';
+        Caption = '';
     }
     value(1; Hinduism)
     {

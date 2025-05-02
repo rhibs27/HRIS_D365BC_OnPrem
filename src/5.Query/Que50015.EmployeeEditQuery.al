@@ -99,6 +99,12 @@ query 50015 "Employee Edit Query"
                     column(emergencyContactEmail; "Emergency Contact Email")
                     {
                     }
+                    column(emergencyMobileNo; "Emergency Mobile No")
+                    {
+                    }
+                    column(religion; Religion)
+                    {
+                    }
                     //"Employee Qualification")
                     column(percentage; Percentage)
                     {
