@@ -77,12 +77,14 @@ tableextension 50013 "Employee Ext" extends Employee
                 //     Error(SpecialCharsErr);
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
-                EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
-                EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
-                EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
-                EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
-                if EmployeeRec.FindFirst then
-                    Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
+                if "Mobile Phone No." <> '' then begin
+                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
+                    EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
+                    EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
+                    EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
+                    if EmployeeRec.FindFirst then
+                        Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
+                end;
                 if StrLen("Mobile Phone No.") > 15 then //Min
                     Error(Text009);
             end;
@@ -1003,15 +1005,17 @@ tableextension 50013 "Employee Ext" extends Employee
             var
                 Municipalities: Record Municipality;
             begin
-                if "Temporary VDC" = '' then
-                    Error('Please select Temporary VDC first');
-                Municipalities.SetRange("Municipality Name", "Temporary VDC");
-                if Municipalities.FindFirst() then begin
-                    if "Temporary Ward No" > Municipalities."No of ward" then
-                        Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
-                end else
-                    Error('Temporary VDC Not Found in Municipality Table');
-                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                if ("Temporary Ward No" > 0) then begin
+                    if ("Temporary VDC" = '') then
+                        Error('Please select Temporary VDC first');
+                    Municipalities.SetRange("Municipality Name", "Temporary VDC");
+                    if Municipalities.FindFirst() then begin
+                        if "Temporary Ward No" > Municipalities."No of ward" then
+                            Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
+                    end else
+                        Error('Temporary VDC Not Found in Municipality Table');
+                    "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                end;
             end;
         }
         field(50086; "Permanent VDC"; Text[50])
