@@ -167,15 +167,15 @@ page 50221 "Late Attendance Card"
             }
         }
     }
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Rec.FilterGroup(2);
-        TypeFilter := Rec.GetFilter(Type);
-        Rec.FilterGroup(0);
-        if TypeFilter = Format(Rec.Type::"Attendance Missed") then
-            Rec.Type := Rec.Type::"Attendance Missed";
-        Rec."Approval Status" := Rec."Approval Status"::Open;
-    end;
+    // trigger OnNewRecord(BelowxRec: Boolean)
+    // begin
+    //     Rec.FilterGroup(2);
+    //     TypeFilter := Rec.GetFilter(Type);
+    //     Rec.FilterGroup(0);
+    //     if TypeFilter = Format(Rec.Type::"Attendance Missed") then
+    //         Rec.Type := Rec.Type::"Attendance Missed";
+    //     Rec."Approval Status" := Rec."Approval Status"::Open;
+    // end;
 
     trigger OnOpenPage()
     begin
@@ -189,7 +189,6 @@ page 50221 "Late Attendance Card"
         if IsOpen then
             ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
     end;
-
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
         if Rec."Approval Status" = Rec."Approval Status"::Open then
@@ -204,8 +203,6 @@ page 50221 "Late Attendance Card"
                     Approval.DeleteAll();
                 end;
     end;
-
-
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";

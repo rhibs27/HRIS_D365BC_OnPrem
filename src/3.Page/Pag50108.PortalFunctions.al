@@ -312,19 +312,25 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20])
+    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20]; Type: Text)
     var
         //CancelDocument: Record "Cancel Document";
         AttendanceMissed: Record "Attendance Missed";
         Employee: Record Employee;
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         PayrollSetup: Record "Payroll General Setup";
+        EmployeeAct: Enum "Employee Activity Type";
+
     begin
+        EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
         AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, endDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
-        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
+        if EmployeeAct = EmployeeAct::"Attendance Missed" then
+            AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed")
+        else if EmployeeAct = EmployeeAct::"Late Attendance" then
+            AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
         AttendanceMissed.Validate("Requested Date", Today);
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
