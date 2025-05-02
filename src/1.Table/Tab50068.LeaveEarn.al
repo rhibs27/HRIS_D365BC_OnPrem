@@ -67,6 +67,11 @@ table 50068 "Leave Earn"
         {
             DataClassification = ToBeClassified;
         }
+        field(15; "Expire leave"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
 
     keys
