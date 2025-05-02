@@ -56,7 +56,6 @@ table 50068 "Leave Earn"
         }
         field(10; Type; Enum "Leave Earn Type")
         {
-
         }
         field(11; "Leave Request No"; Code[20])
         {
@@ -64,6 +63,10 @@ table 50068 "Leave Earn"
         }
         field(12; Remarks; Text[50]) { }
         field(13; Closed; Boolean) { }
+        field(14; "Overtime Request No"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

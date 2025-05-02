@@ -75,6 +75,11 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Evening OT Hours field.';
                     ApplicationArea = All;
                 }
+                field("OverTime Claim Type"; Rec."OverTime Claim Type")
+                {
+                    ToolTip = 'Specifies the value of the OverTime Claim Type field.';
+                    ApplicationArea = All;
+                }
                 field("Encashment Code"; Rec."Encashment Code")
                 {
                     ToolTip = 'Specifies the value of the Encashment Code field.';

@@ -106,6 +106,12 @@ table 50141 OverTime
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
             begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "Start Date");
+                if EngNepDate.FindFirst then
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
+                else
+                    Clear("Fiscal Year");
                 if Type <> Type::Overtime then
                     EmployeeRec.Get("Employee No.");
                 if "Start Date" <> 0D then begin
@@ -184,15 +190,7 @@ table 50141 OverTime
         // }
         field(10; "Requested Date"; Date)
         {
-            trigger OnValidate()
-            begin
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Requested Date");
-                if EngNepDate.FindFirst then
-                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
-                else
-                    Clear("Fiscal Year");
-            end;
+
         }
         field(11; "Fiscal Year"; Text[10])
         {
@@ -357,6 +355,10 @@ table 50141 OverTime
         //         end;
         //     end;
         // }
+        field(23; "Overtime Claim Type"; Enum "Overtime Claim Type")
+        {
+            DataClassification = ToBeClassified;
+        }
         field(24; "Employee Work Shift"; Code[10])
         {
             Editable = false;
