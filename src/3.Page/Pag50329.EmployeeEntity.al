@@ -78,6 +78,22 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Birth Date';
                 }
+                field(religion; Rec.Religion)
+                {
+                    Caption = 'Religion';
+                }
+                field(motherTongue; Rec."Mother Tongue")
+                {
+                    Caption = 'Mother Tongue';
+                }
+                field(emergencyContactName; Rec."Emergency Contact Name")
+                {
+                    Caption = 'Emergency Contact Name';
+                }
+                field(emergencyContactEmail; Rec."Emergency Contact Email")
+                {
+                    Caption = 'Emergency Contact Email';
+                }
                 field(gender; Rec.Gender)
                 {
                     Caption = 'Gender';

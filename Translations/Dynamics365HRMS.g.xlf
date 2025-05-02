@@ -5588,6 +5588,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Email (Personal) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1824478759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 512055010 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24968,6 +24978,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emailPersonal - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1980260487 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emergencyContactEmail - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1430647170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emergencyContactName - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 2690656756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emergency Mobile No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25073,6 +25093,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control mobileNo - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1826769677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mother Tongue</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control motherTongue - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 3783581249 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>NAV Login ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25142,6 +25167,11 @@
           <source>Relation With Emergency Cont</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control relationWithEmergencyCont - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 2758858719 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Religion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control religion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2894000923 - Control 464402589 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resource No.</source>

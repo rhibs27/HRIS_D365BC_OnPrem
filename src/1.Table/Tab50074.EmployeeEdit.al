@@ -101,6 +101,27 @@ table 50074 "Employee Edit"
             Caption = 'Blood Group';
             DataClassification = CustomerContent;
         }
+        // field(60; "Religion"; Enum Religion)
+        // {
+        //     Caption = 'Religion';
+        //     DataClassification = CustomerContent;
+        // }
+        // field(61; "Mother Tongue"; Text[20])
+        // {
+        //     Caption = 'Mother Tongue';
+        //     DataClassification = CustomerContent;
+        // }
+        field(62; "Emergency Contact Name"; text[20])
+        {
+            Caption = 'Emergency Contact Name';
+            DataClassification = CustomerContent;
+        }
+
+        field(63; "Emergency Contact Email"; Text[80])
+        {
+            Caption = 'Emergency Contact Email';
+            DataClassification = CustomerContent;
+        }
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
