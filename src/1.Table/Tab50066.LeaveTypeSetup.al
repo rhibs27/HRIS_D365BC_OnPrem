@@ -135,7 +135,6 @@ table 50066 "Leave Type Setup"
         field(38; "Half Leave Allowed"; Boolean)
         {
         }
-
     }
 
     keys

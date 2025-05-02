@@ -61,7 +61,7 @@ page 50106 "Overtime Card"
                 }
                 field("Actual OT Hours"; Rec."Actual OT Hours")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the Actual Hours field.';
                     ApplicationArea = All;
                 }
