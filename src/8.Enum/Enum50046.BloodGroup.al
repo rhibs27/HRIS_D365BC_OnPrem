@@ -2,9 +2,9 @@ enum 50046 "Blood Group"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; "O+ve")
     {
