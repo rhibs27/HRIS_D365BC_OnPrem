@@ -35423,6 +35423,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Payroll Journal Batch - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 347418272 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Payroll Journal Template field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Payroll Journal Template - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1394610726 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Relocation Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
