@@ -67,7 +67,55 @@ codeunit 50016 "AttendanceMiss Mgt"
         PAGE.Run(PAGE::"Attendance Missed card", AttendanceMissed);
     end;
 
+    procedure OpenLateAttendance(EmpCode: Code[20])
+    var
+        //TempEmpActivity: Record "Employee Activity" temporary;
+        //CancelDocument: Record "Cancel Document" temporary;
+        AttendanceMissed: Record "Attendance Missed" temporary;
+        ApprovalEntry: Record "Approval HRMS";
+    begin
+        if not Confirm('Do you want to apply for Late Attendance?', false) then
+            exit;
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document Type", ApprovalEntry."Document Type"::"Late Attendance");
+        ApprovalEntry.SetRange("Employee No", EmpCode);
+        ApprovalEntry.SetRange("Document No.", '');
+        ApprovalEntry.DeleteAll();
+        Employee.Get(EmpCode);
+        AttendanceMissed.Init;
+        AttendanceMissed.Validate("Employee No.", EmpCode);
+        AttendanceMissed.Validate("Employee Name", Employee."Full Name");
+        AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Open);
+        AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
+        AttendanceMissed.Validate("Requested Date", Today);
+        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
+        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
+        AttendanceMissed.Insert;
+        PAGE.Run(PAGE::"Late Attendance Card", AttendanceMissed);
+    end;
 
+    // procedure ApplyLateAttendance(AttendanceMissed: Record "Attendance Missed" temporary)
+    // var
+    //     AttendanceMissed1: Record "Attendance Missed";
+    // begin
+    //     if GuiAllowed then
+    //         if not Confirm('Do you want to apply the document?', false) then
+    //             exit;
+    //     PayrollSetup.Get;
+    //     if AttendanceMissed."No." = '' then begin
+    //         AttendanceMissed.TestField("Start Date");
+    //         if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
+    //             Error('Cannot apply for future date.Please check the date.');
+    //         if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
+    //             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
+    //         AttendanceMissed.TestField("End Date");
+    //         AttendanceMissed.TestField(Remarks);
+    //         AttendanceMissed1.Init;
+    //         AttendanceMissed1.TransferFields(AttendanceMissed);
+    //         AttendanceMissed1.Validate("Approval Status", AttendanceMissed1."Approval Status"::Pending);
+    //         AttendanceMissed1.Insert(true);
+    //     end;
+    // end;
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary)
     var
