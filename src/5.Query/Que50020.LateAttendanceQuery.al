@@ -1,10 +1,10 @@
-query 50007 "Attendance Missed Query"
+query 50020 "Late Attendance Query"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     APIVersion = 'v2.0';
-    EntityName = 'attendanceMissedApproval';
-    EntitySetName = 'attendanceMissedApprovalEntity';
+    EntityName = 'lateAttendanceApproval';
+    EntitySetName = 'LateAttendanceApprovalEntity';
     QueryType = API;
     OrderBy = descending(no);
 

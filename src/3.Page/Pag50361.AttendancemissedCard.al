@@ -35,19 +35,6 @@ page 50361 "Attendance missed Card"
                     ApplicationArea = All;
                     Caption = 'Attendance Missed Date';
                 }
-                // field("End Date"; Rec."End Date")
-                // {
-                //     Editable = false;
-                //     ToolTip = 'Specifies the value of the End Date field.';
-                //     ApplicationArea = All;
-                //     Visible = false;
-                // }
-                // field("No. of Days"; Rec."No. of Days")
-                // {
-                //     Editable = false;
-                //     ToolTip = 'Specifies the value of the No. of Days field.';
-                //     ApplicationArea = All;
-                // }
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = false;
@@ -65,11 +52,6 @@ page 50361 "Attendance missed Card"
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
                 }
-                // field("End Date (BS)"; Rec."End Date (BS)")
-                // {
-                //     ToolTip = 'Specifies the value of the End Date (BS) field.';
-                //     ApplicationArea = All;
-                // }
                 field("Reason Code"; Rec."Reason Code")
                 {
                     Editable = false;
@@ -108,15 +90,6 @@ page 50361 "Attendance missed Card"
                     Caption = 'Approval Status';
                 }
             }
-            // part(Control32; "Attachment Subform")
-            // {
-            //     SubPageLink = "No." = field("No."),
-            //                   Type = const(" "),
-            //                   "Employee Code" = field("Employee No."),
-            //                   "Leave Type Code" = field("Leave Code");
-            //     SubPageView = where("No." = filter(<> ''));
-            //     ApplicationArea = All;
-            // }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -238,8 +211,6 @@ page 50361 "Attendance missed Card"
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
-        // [InDataSet]
-        // [InDataSet]
         IsOpen: Boolean;
         TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";

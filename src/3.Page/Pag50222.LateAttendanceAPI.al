@@ -1,16 +1,14 @@
-page 50332 "Attendance Missed API"
+page 50222 "Late Attendance API"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     APIVersion = 'v2.0';
     ApplicationArea = All;
-    Caption = 'attendanceMissedAPI';
     DelayedInsert = true;
-    EntityName = 'attendanceMissedEntity';
-    EntitySetName = 'attendanceMissedEntities';
+    EntityName = 'lateAttendanceEntity';
+    EntitySetName = 'lateAttendanceEntities';
     PageType = API;
     SourceTable = "Attendance Missed";
-
     layout
     {
         area(Content)
