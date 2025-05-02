@@ -13583,6 +13583,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Total Insurance Claim Amount - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 915022019 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total Non-Payments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Total Non-Payments - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 238961718 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Present Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51102,6 +51107,11 @@
           <source>NID No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field NID No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2686568996 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Monthly Salary (Serv. P. Contract)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Non-Payment - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 4288799597 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Old Employee ID (Regular)</source>

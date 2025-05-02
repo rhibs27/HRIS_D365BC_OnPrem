@@ -36,6 +36,8 @@ codeunit 50008 "Payroll Engine"
         CurrentEarning: Decimal;
         CurrentDeduction: Decimal;
         CurrentNonTaxableBenefits: Decimal;
+        CurrentNonPaymentBenefits: Decimal;
+        ProjectedNonPaymentBenefit: Decimal;
         ProjectionEarning: Decimal;
         RemainingMonth: Decimal;
         TotalContributionToRetirementFund: Decimal;
@@ -177,7 +179,7 @@ codeunit 50008 "Payroll Engine"
         Employee.FindFirst;
         Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
                          "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax",
-                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT");//pradhan
+                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");//pradhan
         //Check Employee Status
         Employee.TestField("Employment Date");
         if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
@@ -287,9 +289,9 @@ codeunit 50008 "Payroll Engine"
             exit;
         end;
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit   //Min 4.22.2022
         else
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit - FLRecovery - InsuranceRecovery;     //settlement //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit - FLRecovery - InsuranceRecovery;     //settlement //Min 4.22.2022
 
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
@@ -407,8 +409,10 @@ codeunit 50008 "Payroll Engine"
         RecRef: RecordRef;
         FieldRef: FieldRef;
         FieldValue: Decimal;
+
     begin
         CurrentEarning := 0;
+        CurrentNonPaymentBenefits := 0;
         RecRef.Open(Database::"Payroll Line");
         for FieldID := 47 to 100 do begin //Min 9.16.2022
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
@@ -452,7 +456,8 @@ codeunit 50008 "Payroll Engine"
                     else if (PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment") then begin
                         if FieldValue <> 0 then begin
                             if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Donation then
-                                CurrentDonation += FieldValue
+                                CurrentDonation += FieldValue;
+                            CurrentNonPaymentBenefits += FieldValue;
                         end;
                     end;
                     if (PayrollAttributes.Type = PayrollAttributes.Type::Deduction) and
@@ -494,6 +499,7 @@ codeunit 50008 "Payroll Engine"
         FieldRefs: FieldRef;
     begin
         ProjectionEarning := 0;
+        ProjectedNonPaymentBenefit := 0;
         PayrollColumnConfiguration.Reset;
         PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
         if PayrollColumnConfiguration.FindSet then begin
@@ -528,7 +534,7 @@ codeunit 50008 "Payroll Engine"
 
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        PayrollAttributesUsage.SetRange(Type, PayrollAttributesUsage.Type::Benefits);
+        PayrollAttributesUsage.SetFilter(Type, '%1|%2', PayrollAttributesUsage.Type::Benefits, PayrollAttributesUsage.Type::"Non-Payment");
         if PayrollAttributesUsage.FindFirst then
             repeat
                 PayrollAttributesUsage.CalcFields("Formula Exists");
@@ -543,11 +549,15 @@ codeunit 50008 "Payroll Engine"
                             UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false);
                         end;
                         UsageAmount := Round(UsageAmount, 0.01, '=');
-                        if PayrollAttributes."Apply Every Month" then
-                            ProjectionEarning += UsageAmount * RemainingMonth
-                        else begin
-                            ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-                        end;
+                        if PayrollAttributes.Type = PayrollAttributes.Type::"Benefits" then
+                            if PayrollAttributes."Apply Every Month" then
+                                ProjectionEarning += UsageAmount * RemainingMonth
+                            else
+                                ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+
+                        if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then
+                            if PayrollAttributes."Apply Every Month" then
+                                ProjectedNonPaymentBenefit += UsageAmount * RemainingMonth;
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
@@ -3759,6 +3769,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total Tax Remuneration Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening";
         PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
+        PayrollLine."Total Non-Payments" := CurrentNonPaymentBenefits;
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');

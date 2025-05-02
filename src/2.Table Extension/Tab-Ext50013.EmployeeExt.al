@@ -680,11 +680,14 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
         }
 
-        // field(50049; "Sub-Province"; Text[30])
-        // {
-        //     DataClassification = CustomerContent;
-        //     Description = 'not used(used city instead)';
-        // }
+        field(50049; "Non-Payment"; Decimal)
+        {
+            Caption = 'Monthly Salary (Serv. P. Contract)';
+            FieldClass = FlowField;
+            CalcFormula = sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
+                            "Attribute Type" = const("Non-Payment"), "Posting Date" = field("Date Filter"), Reversed = const(false), "Non-Taxable" = const(false)));
+            Editable = false;
+        }
         // field(50050; Cluster; Code[20])
         // {
         //     DataClassification = CustomerContent;

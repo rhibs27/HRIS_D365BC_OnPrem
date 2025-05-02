@@ -869,6 +869,10 @@ table 50027 "Payroll Line"
         field(164; "Prior Leave Days"; Decimal) { }
         field(165; "Property Insurance Premium"; Decimal) { }
         field(166; Selected; Boolean) { }
+        field(167; "Total Non-Payments"; Decimal)
+        {
+            Editable = false;
+        }
     }
 
     keys
