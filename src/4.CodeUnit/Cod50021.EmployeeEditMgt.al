@@ -57,6 +57,8 @@ codeunit 50021 "Employee Edit Mgt."
                 Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
                 Employee.Validate("Temporary House", EmployeeEdit.House);
                 Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
+                Employee.Validate("Emergency Contact Name", EmployeeEdit."Emergency Contact Name");
+                Employee.Validate("Emergency Contact Email", EmployeeEdit."Emergency Contact Email");
                 Employee.Validate(Image, EmployeeEdit.Attachment);
 
                 //Official document

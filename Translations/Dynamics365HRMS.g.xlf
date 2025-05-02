@@ -5588,6 +5588,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Email (Personal) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1824478759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Email - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 512055010 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24973,6 +24983,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emailPersonal - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1980260487 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emergencyContactEmail - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1430647170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emergency Contact Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control emergencyContactName - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 2690656756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emergency Mobile No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25078,6 +25098,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control mobileNo - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1826769677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mother Tongue</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control motherTongue - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2894000923 - Control 3783581249 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>NAV Login ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25147,6 +25172,11 @@
           <source>Relation With Emergency Cont</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control relationWithEmergencyCont - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 2758858719 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Religion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control religion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2894000923 - Control 464402589 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resource No.</source>
@@ -32523,6 +32553,81 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Start Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 650558285 - Control 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control approvalStatus - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3117935225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control approvedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 2188911869 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control employeeWorkShift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3309971885 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control endDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 2690537526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control endDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3179096107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control no - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3267555162 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control rejectionRemarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3837270088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control requestedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3818733960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control startDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 4245155983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control startDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 998393528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 650558285 - Control 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance API - Control type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 4197598153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Late Attendance Card</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -32574,7 +32679,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Start Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4197598153 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Missed Date</source>
+          <source>Late Attendance Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Control Start Date - Property Caption</note>
         </trans-unit>
@@ -48592,6 +48697,11 @@
           <source>Executes the Request Attendance Missed action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Attendance Missed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 701611942 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Executes the Late Attendance Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Late Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2676040374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Request Leave action.</source>

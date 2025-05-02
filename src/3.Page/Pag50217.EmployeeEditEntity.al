@@ -74,6 +74,12 @@ page 50217 "Employee Edit Entity"
                 }
                 field(bloodGroup; Rec."Blood Group")
                 { }
+                field(emergencyContactName; Rec."Emergency Contact Name")
+                {
+                }
+                field(emergencyContactEmail; Rec."Emergency Contact Email")
+                {
+                }
             }
             group("Employee Qualification")
             {

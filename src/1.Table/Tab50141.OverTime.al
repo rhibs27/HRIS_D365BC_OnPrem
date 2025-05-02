@@ -5,10 +5,8 @@ table 50141 OverTime
 
     fields
     {
-
         field(1; "No."; Code[20])
         {
-
             trigger OnValidate()
             begin
                 HRSetup.Get;
@@ -55,7 +53,7 @@ table 50141 OverTime
             begin
                 if EmpVar.Get("Employee No.") then begin
                     Validate("Employee Name", EmpVar."Full Name");
-                    Validate("Shortcut Dimension 1 Code", EmpVar."Global Dimension 1 Code");
+                    Validate("Branch Code", EmpVar."Branch Code");
                     Validate(Department, EmpVar."Department Code");
                     // Validate("Deputation On", EmpVar."Deputation on");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
@@ -186,7 +184,6 @@ table 50141 OverTime
         // }
         field(10; "Requested Date"; Date)
         {
-
             trigger OnValidate()
             begin
                 EngNepDate.Reset;
@@ -209,9 +206,12 @@ table 50141 OverTime
         // {
         //     Editable = false;
         // }
+        field(13; "Branch Code"; Text[20])
+        {
+            Editable = false;
+        }
         field(14; Remarks; Text[100])
         {
-
             trigger OnLookup()
             begin
                 PAGE.Run(PAGE::"Employee List");

@@ -93,7 +93,12 @@ query 50015 "Employee Edit Query"
                     }
                     column(bloodGroup; "Blood Group")
                     { }
-
+                    column(emergencyContactName; "Emergency Contact Name")
+                    {
+                    }
+                    column(emergencyContactEmail; "Emergency Contact Email")
+                    {
+                    }
                     //"Employee Qualification")
                     column(percentage; Percentage)
                     {

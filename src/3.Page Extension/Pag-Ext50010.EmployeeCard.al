@@ -1269,6 +1269,19 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AttendanceMissedMgt.OpenAttendanceMissed(Rec."No.");
                     end;
                 }
+                action("Request Late Attendance")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = Absence;
+                    PromotedCategory = Category4;
+                    ToolTip = 'Executes the Late Attendance Request action.';
+                    trigger OnAction()
+                    begin
+                        AttendanceMissedMgt.OpenLateAttendance(Rec."No.");
+                    end;
+                }
                 action("Out of Office Forms")
                 {
                     ApplicationArea = All;

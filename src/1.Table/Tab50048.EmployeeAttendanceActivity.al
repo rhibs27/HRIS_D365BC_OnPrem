@@ -1,7 +1,6 @@
 table 50048 "Employee Attendance & Activity"
 {
     // version ATM19.01.01
-
     DrillDownPageId = "Employee Attendance & Activity";
     LookupPageId = "Employee Attendance & Activity";
     DataClassification = CustomerContent;

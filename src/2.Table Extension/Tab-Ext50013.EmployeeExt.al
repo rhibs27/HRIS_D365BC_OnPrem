@@ -1498,7 +1498,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50164; "Emergency Contact Email"; Text[20])
+        field(50164; "Emergency Contact Email"; Text[50])
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()

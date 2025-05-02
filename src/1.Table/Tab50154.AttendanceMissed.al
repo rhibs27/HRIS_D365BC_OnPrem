@@ -17,7 +17,7 @@ table 50154 "Attendance Missed"
                     end else begin
                         case Type of
                             //attendance missed
-                            Type::"Attendance Missed":
+                            Type::"Attendance Missed", Type::"Late Attendance":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."Attendance Missed No.");
                                     "No. Series" := '';
@@ -194,6 +194,7 @@ table 50154 "Attendance Missed"
         }
         field(12; "Start Date (BS)"; Text[20])
         {
+            Editable = false;
         }
         field(13; "End Date (BS)"; Text[20])
         {
@@ -545,7 +546,7 @@ table 50154 "Attendance Missed"
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
                         end;
-                    Type::"Attendance Missed":
+                    Type::"Attendance Missed", Type::"Late Attendance":
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
