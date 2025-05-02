@@ -186,6 +186,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Bal. Account No. field.';
                     ApplicationArea = All;
                 }
+                field("Payroll Journal Template"; Rec."Payroll Journal Template")
+                {
+                    ToolTip = 'Specifies the value of the Payroll Journal Template field.';
+                    ApplicationArea = All;
+                }
                 field("Payroll Journal Batch"; Rec."Payroll Journal Batch")
                 {
                     ToolTip = 'Specifies the value of the Payroll Journal Batch field.';
