@@ -29,9 +29,13 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Employee Name';
                 }
-                field(insuranceCompany; Rec."Insurance Company")
+                field(insuranceCompany; Rec."Insurance Company Code")
                 {
                     Caption = 'Insurance Company';
+                }
+                field(insuranceCompanyName; Rec."Insurance Company Name")
+                {
+                    Caption = 'Insurance Company Name';
                 }
                 // field(lifeInsuranceCompany; Rec."Life Insurance Company")
                 // {

@@ -33,7 +33,7 @@ page 50321 "Employee Insurance Lists"
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Insurance Company"; Rec."Insurance Company")
+                field("Insurance Company Name"; Rec."Insurance Company Name")
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
                     ApplicationArea = All;

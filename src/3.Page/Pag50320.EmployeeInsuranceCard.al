@@ -29,11 +29,16 @@ page 50320 "Employee Insurance Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
-                field("Insurance Company"; Rec."Insurance Company")
+                field("Insurance Company Code"; Rec."Insurance Company Code")
                 {
                     ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
                     ApplicationArea = All;
                     Editable = InsuranceCompanyEdit;
+                }
+                field("Insurance Company Name"; Rec."Insurance Company Name")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 // field("Life Insurance Company"; Rec."Life Insurance Company")
                 // {
