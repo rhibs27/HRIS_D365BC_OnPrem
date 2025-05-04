@@ -364,6 +364,15 @@ codeunit 50010 "Payroll-Post"
                                 end;
                             end;
                         end;
+                        if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then begin
+                            //just create det emp ledger do not post to gl
+                            InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
+                            PayrollJournalLine.Description := PayrollAttributes.Description;
+                            PayrollJournalLine.Amount := FieldValue;
+                            PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                            UpdatePayrollJnl(PayrollJournalLine);
+                            PostEmployee(PayrollJournalLine);
+                        end;
                     end;
                 end;
                 if Round(PayrollLine."Net Pay", 0.01, '=') <> Round((LineBalance - PayrollEngine.AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollHeader."No.")

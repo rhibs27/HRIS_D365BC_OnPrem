@@ -450,5 +450,4 @@ codeunit 50015 "OverTime Mgt"
         HRMgt: Codeunit "HR Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        LeaveEarn: Record "Leave Earn";
 }

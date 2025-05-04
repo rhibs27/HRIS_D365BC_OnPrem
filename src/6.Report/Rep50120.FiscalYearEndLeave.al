@@ -135,7 +135,7 @@ report 50120 FiscalYearEndLeave
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1|%2', LeavetypSetup."Marital Status"::" ", Employee."Marital Status");
+        LeavetypSetup.SetFilter("Marital Status", '%1', Employee."Marital Status");
         LeavetypSetup.SetRange(Compensatory, false);
         //LeavetypSetup.SETRANGE("Needed HR Permission",FALSE);
         LeavetypSetup.SetRange("Skip Balance Check", false);

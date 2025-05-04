@@ -320,7 +320,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1|%2', LeavetypSetup."Marital Status"::" ", MaritalStatus);
+        LeavetypSetup.SetFilter("Marital Status", '%1', MaritalStatus);
         LeavetypSetup.SetRange(Compensatory, false);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
@@ -429,7 +429,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1|%2', LeavetypSetup."Marital Status"::" ", MaritalStatus);
+        LeavetypSetup.SetFilter("Marital Status", '%1', MaritalStatus);
         LeavetypSetup.SetRange(Compensatory, false);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
@@ -694,7 +694,7 @@ codeunit 50000 "Leave Mgt."
         LeaveType.SetFilter("Employee No. Filter", Empcode);
         LeaveType.SetFilter("Leave For Employee Type", '%1|%2', JobType, LeaveType."Leave For Employee Type"::" ");
         LeaveType.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveType.Gender::" ");
-        LeaveType.SetFilter("Marital Status", '%1|%2', LeaveType."Marital Status"::" ", Employee."Marital Status");
+        LeaveType.SetFilter("Marital Status", '%1', Employee."Marital Status");
         LeaveType.SetRange(Compensatory, false);
         LeaveType.SetRange("Needed HR Permission", false);
         LeaveType.SetRange("Skip Balance Check", false);

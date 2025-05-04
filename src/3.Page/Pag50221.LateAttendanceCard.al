@@ -33,11 +33,11 @@ page 50221 "Late Attendance Card"
                     Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Attendance Missed Date field.';
                     ApplicationArea = All;
-                    Caption = 'Attendance Missed Date';
+                    Caption = 'Late Attendance Date';
                 }
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -55,6 +55,7 @@ page 50221 "Late Attendance Card"
                 field("Reason Code"; Rec."Reason Code")
                 {
                     Editable = false;
+                    Visible = false;
                     ToolTip = 'Specifies the value of the Reason Code field.';
                     ApplicationArea = All;
                 }
@@ -62,6 +63,8 @@ page 50221 "Late Attendance Card"
                 {
                     ToolTip = 'Specifies the value of the Reason Description field.';
                     ApplicationArea = All;
+                    Editable = false;
+                    Visible = false;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
@@ -187,8 +190,9 @@ page 50221 "Late Attendance Card"
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
         if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Late Attendance");
     end;
+
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
         if Rec."Approval Status" = Rec."Approval Status"::Open then
@@ -198,11 +202,12 @@ page 50221 "Late Attendance Card"
                 else begin
                     Approval.Reset();
                     Approval.SetRange("Document No.", '');
-                    Approval.setRange("Document Type", Approval."Document Type"::"Attendance Missed");
+                    Approval.setRange("Document Type", Approval."Document Type"::"Late Attendance");
                     Approval.SetRange("Employee No", Rec."Employee No.");
                     Approval.DeleteAll();
                 end;
     end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";

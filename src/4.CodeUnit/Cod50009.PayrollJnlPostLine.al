@@ -176,6 +176,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
             PayrollJnlLine.Reset;
             PayrollJnlLine.SetRange("Journal Template Name", TemplateCode);
             PayrollJnlLine.SetRange("Journal Batch Name", BatchCode);
+            PayrollJnlLine.SetFilter("Account No.", '<>%1', '');
             PayrollJnlLine.SetFilter("Attribute Code", '<>%1', '');
             if PayrollJnlLine.FindSet then
                 repeat
@@ -208,6 +209,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
             PayrollJnlLine.Reset;
             PayrollJnlLine.SetRange("Journal Template Name", TemplateCode);
             PayrollJnlLine.SetRange("Journal Batch Name", BatchCode);
+            PayrollJnlLine.SetFilter("Account No.", '<>%1', '');
             PayrollJnlLine.SetFilter("Attribute Code", '%1', '');
             if PayrollJnlLine.FindSet then
                 repeat
@@ -250,6 +252,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
             PayrollJnlLine.Reset;
             PayrollJnlLine.SetRange("Journal Template Name", TemplateCode);
             PayrollJnlLine.SetRange("Journal Batch Name", BatchCode);
+            PayrollJnlLine.SetFilter("Account No.", '<>%1', '');
             PayrollJnlLine.SetCurrentKey("Employee No.");
             if PayrollJnlLine.FindSet then
                 repeat
