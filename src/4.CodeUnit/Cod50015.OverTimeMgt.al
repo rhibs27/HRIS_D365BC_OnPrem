@@ -420,6 +420,28 @@ codeunit 50015 "OverTime Mgt"
             EmployeeAttendanceActivity."OT Hrs" := overTime."Actual OT Hours";
             EmployeeAttendanceActivity.Modify(true);
         end;
+        leaveEarnOverTime(overTimeNo);
+    end;
+
+    procedure leaveEarnOverTime(overTimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+        leaveTypeSetup: Record "Leave Type Setup";
+    begin
+        OverTime.Get(overTimeNo);
+        leaveTypeSetup.SetRange("Substitute Leave", true);
+        if not leaveTypeSetup.FindFirst() then
+            Error('Leave Type not found for substitute leave.');
+        LeaveEarn.Init;
+        LeaveEarn.Validate("Leave Code", leaveTypeSetup."Code");
+        LeaveEarn.Validate(EmpNo, OverTime."Employee No.");
+        LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
+        LeaveEarn.Validate("Fiscal year", OverTime."Fiscal Year");
+        LeaveEarn.Validate("Posted Date", Today);
+        LeaveEarn.Validate("Balancing Days", OverTime."Compensatory Days");
+        LeaveEarn.Validate("Overtime Request No", OverTime."No.");
+        LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
+        LeaveEarn.Insert(true);
     end;
 
     var
@@ -430,5 +452,5 @@ codeunit 50015 "OverTime Mgt"
         HRMgt: Codeunit "HR Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-
+        LeaveEarn: Record "Leave Earn";
 }

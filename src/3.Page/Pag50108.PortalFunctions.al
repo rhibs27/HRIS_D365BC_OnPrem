@@ -162,6 +162,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
             FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
+            FORMAT(ApprovalSetupLine."Request Type"::"Late Attendance"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Late Attendance");
             FORMAT(ApprovalSetupLine."Request Type"::"Employee Transfer"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Transfer");
             FORMAT(ApprovalSetupLine."Request Type"::OverTime):
@@ -204,16 +206,16 @@ page 50108 "Portal Functions"
                 '"approverName" : "' + (Format(ApproverName)) + '"}');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure sendLateAttendance(employeeNo: Code[20]; lateRemarks: Text): Integer
-    var
-        DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training;
-        TypeOpt: Option " ",Open,Released,Rejected,"Pending Approval";
-    begin
-        HrMgt.SendMailFromTemplate(0, DocumentType::"Late Attendance", TypeOpt::Open, '<br>' + lateRemarks, employeeNo, '', 0);
-        exit(200);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure sendLateAttendance(employeeNo: Code[20]; lateRemarks: Text): Integer
+    // var
+    //     DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training;
+    //     TypeOpt: Option " ",Open,Released,Rejected,"Pending Approval";
+    // begin
+    //     HrMgt.SendMailFromTemplate(0, DocumentType::"Late Attendance", TypeOpt::Open, '<br>' + lateRemarks, employeeNo, '', 0);
+    //     exit(200);
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -312,7 +314,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; endDate: Date; remarks: Text; reasonCode: Code[20]; Type: Text)
+    procedure submitAttendanceMissed(startDate: Date; remarks: Text; reasonCode: Code[20]; Type: Text)
     var
         //CancelDocument: Record "Cancel Document";
         AttendanceMissed: Record "Attendance Missed";
@@ -324,7 +326,7 @@ page 50108 "Portal Functions"
     begin
         EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
-        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, endDate, HrMgt.GetEmployeeNo());
+        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
         if EmployeeAct = EmployeeAct::"Attendance Missed" then
@@ -335,14 +337,14 @@ page 50108 "Portal Functions"
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
         AttendanceMissed.Validate("Start Date", startDate);
-        AttendanceMissed.Validate("End Date", endDate);
+        // AttendanceMissed.Validate("End Date", endDate);
         AttendanceMissed.Validate(Remarks, remarks);
-        if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
+        if (AttendanceMissed."Start Date" >= Today) then
             Error('Cannot apply for future date.Please check the date.');
         if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
         AttendanceMissed.TestField("Start Date");
-        AttendanceMissed.TestField("End Date");
+        // AttendanceMissed.TestField("End Date");
         AttendanceMissed.TestField(Remarks);
         AttendanceMissed.Insert(true);
     end;
@@ -3917,6 +3919,7 @@ page 50108 "Portal Functions"
         AllowanceAssignment: Record "Allowance Assignment Header";
         AllowanceAssignmentForApprove: Integer;
         LeaveCancelledForApprove: Integer;
+        LateAttendanceForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -4046,8 +4049,14 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         AllowanceAssignmentForApprove := Approval.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Late Attendance");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        LateAttendanceForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4067,6 +4076,7 @@ page 50108 "Portal Functions"
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
+        ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;
