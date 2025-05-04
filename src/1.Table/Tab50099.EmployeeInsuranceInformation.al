@@ -35,7 +35,10 @@ table 50099 "Employee Insurance Information"
         {
 
         }
-        field(4; "Insurance Company"; Text[50]) { }
+        field(4; "Insurance Company"; Text[50])
+        {
+            TableRelation = "Insurance Company".Name where(Blocked = const(false));
+        }
         field(5; "Policy Number"; Text[30])
         {
             trigger OnValidate()

@@ -13,7 +13,7 @@ table 50015 "Insurance Company"
         {
             Caption = 'Name';
         }
-        field(3; "Type"; Enum "Insurance Claim")
+        field(3; "Type"; Enum "Insurance Company Type")
         {
             Caption = 'Type';
         }
