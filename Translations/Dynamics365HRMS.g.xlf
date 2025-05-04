@@ -10073,6 +10073,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field No. Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 1336580041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Overtime Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 3138423549 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Request No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Overtime Request No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2977078565 - Field 322225615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posted Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10277,6 +10287,11 @@
           <source>Skip Balance Check</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Skip Balance Check - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3594050235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Substitute Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 364000579 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Times Per Service Period</source>
@@ -11182,6 +11197,11 @@
           <source>OT Eligible Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field OT Eligible Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Overtime Claim Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2574111894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll No.</source>
@@ -33203,6 +33223,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Skip Balance Check - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3594050235 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Substitute Leave field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Substitute Leave - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 310427152 - Control 364000579 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Times Per Service Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34337,6 +34362,11 @@
           <source>Specifies the value of the OT Disbursed field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control OT Disbursed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 1402318195 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the OverTime Claim Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control OverTime Claim Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3592273345 - Control 2574111894 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Payroll No. field.</source>
@@ -55837,6 +55867,16 @@
           <source>Outside</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Outside/Inside Valley - EnumValue Outside - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3905506067 - EnumValue 2075624308 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encashment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Overtime Claim Type - EnumValue Encashment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3905506067 - EnumValue 3594050235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Overtime Claim Type - EnumValue Substitute Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 25557770 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

@@ -117,11 +117,6 @@ table 50141 OverTime
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
-                    if Type = Type::"Leave Request" then begin
-                        if EmployeeRec."Confirmation Date" <> 0D then
-                            if "Start Date" < EmployeeRec."Confirmation Date" then
-                                Error('Cannot apply before your confirmation date.');
-                    end;
                 end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -129,11 +124,6 @@ table 50141 OverTime
                     Validate("Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Start Date (BS)");
-                // if "Start Date" <> xRec."Start Date" then begin
-                //     Clear("End Date");
-                //     Clear("End Date (BS)");
-                //     Validate("No. of Days", 0);
-                // end;
                 EmployeeAttendance.Reset;
                 if EmployeeAttendance.get("Employee No.", "Start Date") then begin
                     if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
@@ -146,7 +136,8 @@ table 50141 OverTime
                 end else
                     Error('No Attendance Found on %1', rec."Start Date");
                 //for overtime
-                if GuiAllowed then
+                OnBeforeOTAmountCalculate(Rec, IsHandled);
+                if GuiAllowed and not IsHandled then
                     if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
                         if "Start Date" >= Today then
                             Error('You cannot apply OverTime in current and future date.');
@@ -358,6 +349,20 @@ table 50141 OverTime
         field(23; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
+                    Clear("Compensatory Days");
+                end;
+                if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                    if ("Actual OT Hours" < 8) and ("Actual OT Hours" >= 4) then
+                        "Compensatory Days" := 0.5
+                    else if "Actual OT Hours" >= 8 then
+                        "Compensatory Days" := 1
+                    else if "Actual OT Hours" < 4 then
+                        "Compensatory Days" := 0;
+                end;
+            end;
         }
         field(24; "Employee Work Shift"; Code[10])
         {
@@ -491,7 +496,6 @@ table 50141 OverTime
         field(106; "Time Duration"; Duration) { }
         field(51; "Estimated Hours"; Decimal)
         {
-
         }
 
         field(52; "Actual OT Hours"; Decimal)
@@ -643,7 +647,10 @@ table 50141 OverTime
     //         until AttachmentMandatory.Next = 0;
     ///end;
 
-
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeOTAmountCalculate(Var Overtime: Record OverTime; var IsHandled: Boolean)
+    begin
+    end;
 
     var
         EmpVar: Record Employee;
@@ -695,6 +702,7 @@ table 50141 OverTime
         SalaryLevelRec: Record "Salary Level";
         SalaryGrade: Record "Salary Grade";
         ApproverMgt: Codeunit "Approver Mgt";
+        IsHandled: Boolean;
     //EncashmentPeriodSetup: Record "OT Encashment Setup";
     //Error1: Label 'Cannot apply before your employment date.';
 

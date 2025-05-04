@@ -1976,12 +1976,8 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
     begin
         leave.Get(leavecode);
-        // if LeaveTypeSetup.Get(leave."Leave Code") then
-        //     if LeaveTypeSetup."Substitute Leave" then begin
-        //         OnBefore();
-        //     end;
         OnBeforeLeaveApproved(leave, IsHandled);
-        if IsHandled then begin
+        if not IsHandled then begin
             LeaveEarn.Init;
             LeaveEarn.Validate("Leave Code", leave."Leave Code");
             LeaveEarn.Validate(EmpNo, leave."Employee No.");

@@ -37,6 +37,10 @@ page 50332 "Attendance Missed API"
                 {
                     Caption = 'Employee Work Shift';
                 }
+                field(startDate; Rec."Start Date")
+                {
+                    Caption = 'Start Date';
+                }
                 field(endDate; Rec."End Date")
                 {
                     Caption = 'End Date';
@@ -56,10 +60,6 @@ page 50332 "Attendance Missed API"
                 field(requestedDate; Rec."Requested Date")
                 {
                     Caption = 'Requested Date';
-                }
-                field(startDate; Rec."Start Date")
-                {
-                    Caption = 'Start Date';
                 }
                 field(startDateBS; Rec."Start Date (BS)")
                 {

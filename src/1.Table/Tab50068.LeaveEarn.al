@@ -67,11 +67,11 @@ table 50068 "Leave Earn"
         {
             DataClassification = ToBeClassified;
         }
-        field(15; "Expire leave"; Boolean)
+        field(15; "Overtime Date"; Date)
         {
+            Caption = 'Overtime Date';
             DataClassification = ToBeClassified;
         }
-
     }
 
     keys

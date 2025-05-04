@@ -84,6 +84,7 @@ page 50106 "Overtime Card"
                 {
                     ToolTip = 'Specifies the value of the Encashment Code field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("OT Amount"; Rec."OT Amount")
                 {
@@ -262,7 +263,7 @@ page 50106 "Overtime Card"
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApprovalMgt.ApproveRejectDocument(RecRef, true);
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('Overtime is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -284,7 +285,7 @@ page 50106 "Overtime Card"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApprovalMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('Overtime is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
