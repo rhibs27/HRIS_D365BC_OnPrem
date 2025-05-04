@@ -152,8 +152,8 @@ page 50320 "Employee Insurance Card"
                 begin
                     if not Confirm('Do you want to send request for this insurance?', false) then
                         exit;
-                    Rec.TestField(Status, Rec.Status::Open);
-                    Rec.Validate(Status, Rec.Status::Pending);
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Open);
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Pending);
                     LoanMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
                     Rec.Modify();
                     Message('Reqeust Sent');
@@ -172,9 +172,9 @@ page 50320 "Employee Insurance Card"
                 begin
                     if not Confirm('Do you want to screen this insurance?', false) then
                         exit;
-                    Rec.TestField(Status, Rec.Status::Pending);
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
                     CheckPremiumInsurance(Rec."Employee No."); //Min 6.28.2022
-                    Rec.Validate(Status, Rec.Status::Screened);
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Screened);
                     Rec.Modify;
                     Message('Reqeust Screened');
                 end;
@@ -192,8 +192,8 @@ page 50320 "Employee Insurance Card"
                 begin
                     if not Confirm('Do you want to return this insurance?', false) then
                         exit;
-                    Rec.TestField(Status, Rec.Status::Pending);
-                    Rec.Validate(Status, Rec.Status::Open);
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Open);
                     Rec.Modify;
                     Message('Reqeust Returned');
                 end;
@@ -210,7 +210,7 @@ page 50320 "Employee Insurance Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want reject the request?', false) then
-                        Rec.Validate(Status, Rec.Status::Rejected);
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                     Message('The Employee Insurance request has been rejected.');
                 end;
             }
@@ -228,7 +228,7 @@ page 50320 "Employee Insurance Card"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec.Status := Rec.Status::Open;
+        Rec."Approval Status" := Rec."Approval Status"::Open;
     end;
 
     var
@@ -246,7 +246,7 @@ page 50320 "Employee Insurance Card"
 
     local procedure InsuranceEditControl();
     begin
-        if Rec.Status = Rec.Status::Pending then begin
+        if Rec."Approval Status" = Rec."Approval Status"::Pending then begin
             InsuranceTypeEdit := true;
             InsuranceCompanyEdit := true;
             PolicyNoEdit := true;
@@ -285,7 +285,7 @@ page 50320 "Employee Insurance Card"
         if Rec."Insurance Type" = Rec."Insurance Type"::"Life Insurance" then begin
             EmployeeInsurance.Reset;
             EmployeeInsurance.SetRange("Employee No.", EmployeeNo);
-            EmployeeInsurance.SetRange(Status, EmployeeInsurance.Status::Screened);
+            EmployeeInsurance.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
             EmployeeInsurance.SetRange("Insurance Type", EmployeeInsurance."Insurance Type"::"Life Insurance");
             EmployeeInsurance.CalcSums("Annual Premium Amount");
             LifeInsuranceAmt := EmployeeInsurance."Annual Premium Amount" + Rec."Annual Premium Amount";
@@ -297,7 +297,7 @@ page 50320 "Employee Insurance Card"
             EmpInsHealth.Reset;
             EmpInsHealth.SetRange("Employee No.", EmployeeNo);
             EmpInsHealth.SetRange("Insurance Type", EmpInsHealth."Insurance Type"::"Medical Insurance");
-            EmpInsHealth.SetRange(Status, EmployeeInsurance.Status::Screened);
+            EmpInsHealth.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
             EmpInsHealth.CalcSums("Annual Premium Amount");
             HealthInsAmt := EmpInsHealth."Annual Premium Amount" + Rec."Annual Premium Amount";
             Employee.Get(Rec."Employee No.");
@@ -308,7 +308,7 @@ page 50320 "Employee Insurance Card"
             EmpInsProperty.Reset;
             EmpInsProperty.SetRange("Employee No.", EmployeeNo);
             EmpInsProperty.SetRange("Insurance Type", EmpInsProperty."Insurance Type"::"Property Insurance");
-            EmpInsProperty.SetRange(Status, EmpInsProperty.Status::Screened);
+            EmpInsProperty.SetRange("Approval Status", EmpInsProperty."Approval Status"::Approved);
             EmpInsProperty.CalcSums("Annual Premium Amount");
             PropertyInsAmt := EmpInsProperty."Annual Premium Amount" + Rec."Annual Premium Amount";
             Employee.Get(Rec."Employee No.");

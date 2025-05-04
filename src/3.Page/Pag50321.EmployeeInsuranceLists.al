@@ -108,7 +108,7 @@ page 50321 "Employee Insurance Lists"
                 begin
                     ClearAll();
                     Rec.FilterGroup(2);
-                    Rec.SetRange(Status, Rec.Status::Screened);
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
                     Rec.FilterGroup(0);
                 end;
             }
@@ -124,7 +124,7 @@ page 50321 "Employee Insurance Lists"
                 begin
                     ClearAll();
                     Rec.FilterGroup(2);
-                    Rec.SetRange(Status, Rec.Status::Rejected);
+                    Rec.SetRange("Approval Status", Rec."Approval Status"::Rejected);
                     Rec.FilterGroup(0);
                 end;
             }
@@ -134,7 +134,7 @@ page 50321 "Employee Insurance Lists"
 
     begin
         Rec.FilterGroup(2);
-        Rec.SetRange(Status, Rec.Status::Pending);
+        Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
         Rec.FilterGroup(0)
     end;
 }

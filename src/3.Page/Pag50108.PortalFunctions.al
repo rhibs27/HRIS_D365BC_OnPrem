@@ -1941,7 +1941,7 @@ page 50108 "Portal Functions"
         if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
             if EmpInsurance.Get(IncomingDoc."No.") then begin
                 DocFoundInsurance := true;
-                if EmpInsurance.Status = EmpInsurance.Status::Screened then
+                if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                     Error('Cannot upload in screened insurance.');
                 if IncomingDoc."File Name" <> '' then
                     Error('Attachment already exist.');
@@ -2044,7 +2044,7 @@ page 50108 "Portal Functions"
         end;
         if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
             if EmpInsurance.Get(IncomingDocument."No.") then begin
-                if EmpInsurance.Status = EmpInsurance.Status::Screened then
+                if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                     Error('Cannot delete screened document.');
             end;
         end;

@@ -4136,7 +4136,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeInsurance.Reset;
         EmployeeInsurance.SetRange("Employee No.", EmployeeNo);
         EmployeeInsurance.SetRange("Insurance Type", EmployeeInsurance."Insurance Type"::"Life Insurance");
-        EmployeeInsurance.SetRange(Status, EmployeeInsurance.Status::Screened);
+        EmployeeInsurance.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
         EmployeeInsurance.CalcSums("Annual Premium Amount");
 
         LifeInsuranceAmt := HLInsAmt + EmployeeInsurance."Annual Premium Amount";
@@ -4149,7 +4149,7 @@ codeunit 50008 "Payroll Engine"
         EmpInsHealth.Reset;
         EmpInsHealth.SetRange("Employee No.", EmployeeNo);
         EmpInsHealth.SetRange("Insurance Type", EmpInsHealth."Insurance Type"::"Medical Insurance");
-        EmpInsHealth.SetRange(Status, EmployeeInsurance.Status::Screened);
+        EmpInsHealth.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
         EmpInsHealth.CalcSums("Annual Premium Amount");
         HealthInsAmt := EmpInsHealth."Annual Premium Amount";
         if HealthInsAmt > PayrollGeneralSetup."Tax Ex. Health Insur. Amount" then
@@ -4160,7 +4160,7 @@ codeunit 50008 "Payroll Engine"
         EmpInsProperty.Reset;
         EmpInsProperty.SetRange("Employee No.", EmployeeNo);
         EmpInsProperty.SetRange("Insurance Type", EmpInsProperty."Insurance Type"::"Property Insurance");
-        EmpInsProperty.SetRange(Status, EmpInsProperty.Status::Screened);
+        EmpInsProperty.SetRange("Approval Status", EmpInsProperty."Approval Status"::Approved);
         EmpInsProperty.CalcSums("Annual Premium Amount");
         PropertyInsAmt := EmpInsProperty."Annual Premium Amount";
         if PropertyInsAmt > PayrollGeneralSetup."Tax Ex. Property Insurance Amt" then
