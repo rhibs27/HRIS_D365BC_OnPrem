@@ -1972,18 +1972,26 @@ codeunit 50000 "Leave Mgt."
         leaveEarn: Record "Leave Earn";
         leave: Record Leave;
         EmpAttendActivity: Record "Employee Attendance & Activity";
+        IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
     begin
         leave.Get(leavecode);
-        LeaveEarn.Init;
-        LeaveEarn.Validate("Leave Code", leave."Leave Code");
-        LeaveEarn.Validate(EmpNo, leave."Employee No.");
-        LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-        LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-        LeaveEarn.Validate("Posted Date", Today);
-        LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-        LeaveEarn.Validate("Leave Request No", leave."No.");
-        LeaveEarn.Insert(true);
+        // if LeaveTypeSetup.Get(leave."Leave Code") then
+        //     if LeaveTypeSetup."Substitute Leave" then begin
+        //         OnBefore();
+        //     end;
+        OnBeforeLeaveApproved(leave, IsHandled);
+        if IsHandled then begin
+            LeaveEarn.Init;
+            LeaveEarn.Validate("Leave Code", leave."Leave Code");
+            LeaveEarn.Validate(EmpNo, leave."Employee No.");
+            LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
+            LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
+            LeaveEarn.Validate("Posted Date", Today);
+            LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
+            LeaveEarn.Validate("Leave Request No", leave."No.");
+            LeaveEarn.Insert(true);
+        end;
         //changes in employee attendance and activity
         EmpAttendActivity.Reset;
         EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
@@ -2099,6 +2107,10 @@ codeunit 50000 "Leave Mgt."
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
     end;
 
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
+    begin
+    end;
 
     var
         EngNep: Record "English-Nepali Date";
