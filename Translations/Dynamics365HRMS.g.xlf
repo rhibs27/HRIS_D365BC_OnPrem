@@ -5938,6 +5938,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Annual Premium Amount - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 617144856 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 617144856 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Approved Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 617144856 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5953,10 +5963,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Insurance Amount - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 617144856 - Field 4290892503 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Company</source>
+        <trans-unit id="Table 617144856 - Field 2513373956 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Insurance Company - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Insurance Company Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 617144856 - Field 452407486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Insurance Company Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 1543641927 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Expiry Date (AD)</source>
@@ -6027,6 +6042,11 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 617144856 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1302753547 - Field 4198934148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Carry Forward</source>
@@ -25828,10 +25848,15 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Insurance Amount - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1469501960 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1469501960 - Control 2513373956 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Company field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Insurance Company - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Insurance Company Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1469501960 - Control 452407486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Insurance Company Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Control 1543641927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Expiry Date (AD) field.</source>
@@ -25948,6 +25973,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control insuranceCompany - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 683181821 - Control 3403373862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control insuranceCompanyName - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 683181821 - Control 1291257376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Expiry Date (AD)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26033,10 +26063,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Amount - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2990168411 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2990168411 - Control 452407486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Company field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Company - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Company Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2990168411 - Control 1543641927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Insurance Expiry Date (AD) field.</source>
