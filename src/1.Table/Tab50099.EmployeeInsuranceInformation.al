@@ -31,6 +31,10 @@ table 50099 "Employee Insurance Information"
             end;
         }
         field(3; "Employee Name"; Text[50]) { }
+        field(18; Type; Enum "Employee Insurance Type")
+        {
+
+        }
         field(4; "Insurance Company"; Text[50]) { }
         field(5; "Policy Number"; Text[30])
         {
@@ -104,17 +108,14 @@ table 50099 "Employee Insurance Information"
         {
 
         }
-        field(18; Type; Enum "Employee Insurance Type")
-        {
 
-        }
         field(19; Remarks; Text[250]) { }
-        field(20; "Life Insurance Company"; Enum "Life Insurance Company")
-        {
-        }
-        field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
-        {
-        }
+        //     field(20; "Life Insurance Company"; Enum "Life Insurance Company")
+        //     {
+        //     }
+        //     field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
+        //     {
+        //     }
     }
 
     keys

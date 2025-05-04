@@ -1,7 +1,7 @@
-page 50321 EmployeeInsuranceLists
+page 50321 "Employee Insurance Lists"
 {
     ApplicationArea = All;
-    Caption = 'EmployeeInsuranceLists';
+    Caption = 'Employee Insurance Lists';
     PageType = List;
     SourceTable = "Employee Insurance Information";
     UsageCategory = Lists;
@@ -28,31 +28,27 @@ page 50321 EmployeeInsuranceLists
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Insurance Company"; Rec."Insurance Company")
-                {
-                    ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Life Insurance Company"; Rec."Life Insurance Company")
-                {
-                    ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
-                {
-                    ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field(Status; Rec.Status)
-                {
-                    ToolTip = 'Specifies the value of the Status field.', Comment = '%';
-                    ApplicationArea = All;
-                }
                 field("Type"; Rec."Type")
                 {
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Insurance Company"; Rec."Insurance Company")
+                {
+                    ToolTip = 'Specifies the value of the Insurance Company field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+                // field("Life Insurance Company"; Rec."Life Insurance Company")
+                // {
+                //     ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
+                //     ApplicationArea = All;
+                // }
+                // field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
+                // {
+                //     ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
+                //     ApplicationArea = All;
+                // }
+
                 field("Policy Number"; Rec."Policy Number")
                 {
                     ToolTip = 'Specifies the value of the Policy Number field.', Comment = '%';
@@ -88,6 +84,12 @@ page 50321 EmployeeInsuranceLists
                     ToolTip = 'Specifies the value of the Annual Premium Amount field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field(Status; Rec.Status)
+                {
+                    ToolTip = 'Specifies the value of the Status field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
             }
         }
     }

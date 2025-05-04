@@ -33,14 +33,14 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Insurance Company';
                 }
-                field(lifeInsuranceCompany; Rec."Life Insurance Company")
-                {
-                    Caption = 'Life Insurance Company';
-                }
-                field(medicalPropertyInsCompany; Rec."Medical/Property Ins Company")
-                {
-                    Caption = 'Medical/Property Ins Company';
-                }
+                // field(lifeInsuranceCompany; Rec."Life Insurance Company")
+                // {
+                //     Caption = 'Life Insurance Company';
+                // }
+                // field(medicalPropertyInsCompany; Rec."Medical/Property Ins Company")
+                // {
+                //     Caption = 'Medical/Property Ins Company';
+                // }
                 field(policyNumber; Rec."Policy Number")
                 {
                     Caption = 'Policy Number';

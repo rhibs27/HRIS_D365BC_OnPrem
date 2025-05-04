@@ -5988,20 +5988,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Is Home Loan TieUp - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 617144856 - Field 1793903605 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Life Insurance Company</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Life Insurance Company - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 617144856 - Field 2635139872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Linked Home Loan Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Linked Home Loan Account No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 617144856 - Field 113432700 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medical/Property Ins Company</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Medical/Property Ins Company - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 3338754494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Monthly Premium Amount</source>
@@ -25848,20 +25838,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Is Home Loan TieUp - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1469501960 - Control 1793903605 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Life Insurance Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Life Insurance Company - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1469501960 - Control 2635139872 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Linked Home Loan Account No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Linked Home Loan Account No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1469501960 - Control 113432700 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Medical/Property Ins Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Medical/Property Ins Company - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Control 3338754494 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Monthly Premium Amount field.</source>
@@ -25973,16 +25953,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control isHomeLoanTieUp - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 683181821 - Control 722477541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Life Insurance Company</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control lifeInsuranceCompany - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 683181821 - Control 3350368041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medical/Property Ins Company</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control medicalPropertyInsCompany - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 683181821 - Control 2014022390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Monthly Premium Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26012,6 +25982,86 @@
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Insurance Lists</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 178863986 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Annual Premium Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Annual Premium Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 3236702554 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Company - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1543641927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Expiry Date (AD) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Expiry Date (AD) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 3950582515 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Expiry Date (BS) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Expiry Date (BS) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1647068831 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 513101870 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Start Date (AD) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Start Date (AD) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 356830434 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance Start Date (BS) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Insurance Start Date (BS) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1634642573 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Policy Number field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Policy Number - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Rejected - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2990168411 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Screened action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Action Screened - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 295158414 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
@@ -28087,96 +28137,6 @@
           <source>Specifies the value of the Working Hour field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Working Hour - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>EmployeeInsuranceLists</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 178863986 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Annual Premium Amount field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Annual Premium Amount - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Employee Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 3236702554 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Amount field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Amount - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 4290892503 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Company - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1543641927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Expiry Date (AD) field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Expiry Date (AD) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 3950582515 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Expiry Date (BS) field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Expiry Date (BS) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1647068831 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 513101870 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Start Date (AD) field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Start Date (AD) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 356830434 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Insurance Start Date (BS) field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Insurance Start Date (BS) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1793903605 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Life Insurance Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Life Insurance Company - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 113432700 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Medical/Property Ins Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Medical/Property Ins Company - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1634642573 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Policy Number field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Policy Number - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Status field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Type field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Control Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Action 496445946 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Rejected action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Action Rejected - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3549689995 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screened action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmployeeInsuranceLists - Action Screened - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4217161796 - Control 1270436920 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deputation on field.</source>
@@ -48622,6 +48582,16 @@
           <source>Executes the Generate New Employee Card action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Generate New Employee Card - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 1538464910 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Open the list of insurances of the employee.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Insurance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 1538464910 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Insurance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Insurance - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 3402979117 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Open the list of Language Proficiency of the employee.</source>

@@ -1155,6 +1155,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 RunPageLink = "Employee Code" = field("No.");
                 ToolTip = 'Open the list of References of the employee.';
             }
+            action(Insurance)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Insurance';
+                Image = Insurance;
+                Promoted = true;
+                PromotedCategory = Process;
+                RunObject = Page "Employee Insurance Lists";
+                RunPageLink = "Employee No." = field("No.");
+                ToolTip = 'Open the list of insurances of the employee.';
+            }
             action("Employee Work Experience")
             {
                 ApplicationArea = All;

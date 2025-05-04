@@ -35,18 +35,18 @@ page 50320 "Employee Insurance Card"
                     ApplicationArea = All;
                     Editable = InsuranceCompanyEdit;
                 }
-                field("Life Insurance Company"; Rec."Life Insurance Company")
-                {
-                    ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
-                    ApplicationArea = All;
-                    Editable = LifeInsEdit;
-                }
-                field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
-                {
-                    ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
-                    ApplicationArea = All;
-                    Editable = NonLifeInsEdit;
-                }
+                // field("Life Insurance Company"; Rec."Life Insurance Company")
+                // {
+                //     ToolTip = 'Specifies the value of the Life Insurance Company field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     Editable = LifeInsEdit;
+                // }
+                // field("Medical/Property Ins Company"; Rec."Medical/Property Ins Company")
+                // {
+                //     ToolTip = 'Specifies the value of the Medical/Property Ins Company field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     Editable = NonLifeInsEdit;
+                // }
                 field("Policy Number"; Rec."Policy Number")
                 {
                     ToolTip = 'Specifies the value of the Policy Number field.', Comment = '%';
