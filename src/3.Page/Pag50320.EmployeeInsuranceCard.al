@@ -116,7 +116,7 @@ page 50320 "Employee Insurance Card"
                     ToolTip = 'Specifies the value of the Requested Date field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Type"; Rec."Type")
+                field("Insurance Type"; Rec."Insurance Type")
                 {
                     ToolTip = 'Specifies the value of the Type field.', Comment = '%';
                     ApplicationArea = All;
@@ -263,11 +263,11 @@ page 50320 "Employee Insurance Card"
             InsAmountEdit := false;
             AnnualPremiumAmtEdit := false;
         end;
-        if Rec.Type = Rec.Type::"Life Insurance" then
+        if Rec."Insurance Type" = Rec."Insurance Type"::"Life Insurance" then
             LifeInsEdit := true
         else
             NonLifeInsEdit := false;
-        if Rec.Type in [Rec.Type::"Medical Insurance", Rec.Type::"Property Insurance"] then
+        if Rec."Insurance Type" in [Rec."Insurance Type"::"Medical Insurance", Rec."Insurance Type"::"Property Insurance"] then
             NonLifeInsEdit := true
         else
             LifeInsEdit := false;
@@ -282,21 +282,21 @@ page 50320 "Employee Insurance Card"
         EmpInsProperty: Record "Employee Insurance Information";
         PropertyInsAmt: Decimal;
     begin
-        if Rec.Type = Rec.Type::"Life Insurance" then begin
+        if Rec."Insurance Type" = Rec."Insurance Type"::"Life Insurance" then begin
             EmployeeInsurance.Reset;
             EmployeeInsurance.SetRange("Employee No.", EmployeeNo);
             EmployeeInsurance.SetRange(Status, EmployeeInsurance.Status::Screened);
-            EmployeeInsurance.SetRange(Type, EmployeeInsurance.Type::"Life Insurance");
+            EmployeeInsurance.SetRange("Insurance Type", EmployeeInsurance."Insurance Type"::"Life Insurance");
             EmployeeInsurance.CalcSums("Annual Premium Amount");
             LifeInsuranceAmt := EmployeeInsurance."Annual Premium Amount" + Rec."Annual Premium Amount";
             Employee.Get(EmployeeNo);
             Employee.Validate("Premium of Life Insurance", LifeInsuranceAmt);
             Employee.Modify;
         end;
-        if Rec.Type = Rec.Type::"Medical Insurance" then begin
+        if Rec."Insurance Type" = Rec."Insurance Type"::"Medical Insurance" then begin
             EmpInsHealth.Reset;
             EmpInsHealth.SetRange("Employee No.", EmployeeNo);
-            EmpInsHealth.SetRange(Type, EmpInsHealth.Type::"Medical Insurance");
+            EmpInsHealth.SetRange("Insurance Type", EmpInsHealth."Insurance Type"::"Medical Insurance");
             EmpInsHealth.SetRange(Status, EmployeeInsurance.Status::Screened);
             EmpInsHealth.CalcSums("Annual Premium Amount");
             HealthInsAmt := EmpInsHealth."Annual Premium Amount" + Rec."Annual Premium Amount";
@@ -304,10 +304,10 @@ page 50320 "Employee Insurance Card"
             Employee.Validate("Premium of Health Insurance", HealthInsAmt);
             Employee.Modify;
         end;
-        if Rec.Type = Rec.Type::"Property Insurance" then begin
+        if Rec."Insurance Type" = Rec."Insurance Type"::"Property Insurance" then begin
             EmpInsProperty.Reset;
             EmpInsProperty.SetRange("Employee No.", EmployeeNo);
-            EmpInsProperty.SetRange(Type, EmpInsProperty.Type::"Property Insurance");
+            EmpInsProperty.SetRange("Insurance Type", EmpInsProperty."Insurance Type"::"Property Insurance");
             EmpInsProperty.SetRange(Status, EmpInsProperty.Status::Screened);
             EmpInsProperty.CalcSums("Annual Premium Amount");
             PropertyInsAmt := EmpInsProperty."Annual Premium Amount" + Rec."Annual Premium Amount";

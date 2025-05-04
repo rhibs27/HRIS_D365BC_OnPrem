@@ -4135,7 +4135,7 @@ codeunit 50008 "Payroll Engine"
 
         EmployeeInsurance.Reset;
         EmployeeInsurance.SetRange("Employee No.", EmployeeNo);
-        EmployeeInsurance.SetRange(Type, EmployeeInsurance.Type::"Life Insurance");
+        EmployeeInsurance.SetRange("Insurance Type", EmployeeInsurance."Insurance Type"::"Life Insurance");
         EmployeeInsurance.SetRange(Status, EmployeeInsurance.Status::Screened);
         EmployeeInsurance.CalcSums("Annual Premium Amount");
 
@@ -4148,7 +4148,7 @@ codeunit 50008 "Payroll Engine"
 
         EmpInsHealth.Reset;
         EmpInsHealth.SetRange("Employee No.", EmployeeNo);
-        EmpInsHealth.SetRange(Type, EmpInsHealth.Type::"Medical Insurance");
+        EmpInsHealth.SetRange("Insurance Type", EmpInsHealth."Insurance Type"::"Medical Insurance");
         EmpInsHealth.SetRange(Status, EmployeeInsurance.Status::Screened);
         EmpInsHealth.CalcSums("Annual Premium Amount");
         HealthInsAmt := EmpInsHealth."Annual Premium Amount";
@@ -4159,7 +4159,7 @@ codeunit 50008 "Payroll Engine"
 
         EmpInsProperty.Reset;
         EmpInsProperty.SetRange("Employee No.", EmployeeNo);
-        EmpInsProperty.SetRange(Type, EmpInsProperty.Type::"Property Insurance");
+        EmpInsProperty.SetRange("Insurance Type", EmpInsProperty."Insurance Type"::"Property Insurance");
         EmpInsProperty.SetRange(Status, EmpInsProperty.Status::Screened);
         EmpInsProperty.CalcSums("Annual Premium Amount");
         PropertyInsAmt := EmpInsProperty."Annual Premium Amount";

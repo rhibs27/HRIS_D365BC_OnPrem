@@ -81,7 +81,7 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Status';
                 }
-                field("type"; Rec."Type")
+                field(insuranceType; Rec."Insurance Type")
                 {
                     Caption = 'Type';
                 }

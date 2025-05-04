@@ -31,10 +31,7 @@ table 50099 "Employee Insurance Information"
             end;
         }
         field(3; "Employee Name"; Text[50]) { }
-        field(18; Type; Enum "Employee Insurance Type")
-        {
 
-        }
         field(4; "Insurance Company"; Text[50])
         {
             TableRelation = "Insurance Company".Name where(Blocked = const(false));
@@ -108,6 +105,10 @@ table 50099 "Employee Insurance Information"
         field(15; "Is Home Loan TieUp"; Boolean) { }
         field(16; "Requested Date"; Date) { }
         field(17; Status; Enum "Employee Insurance Status")
+        {
+
+        }
+        field(18; "Insurance Type"; Enum "Employee Insurance Type")
         {
 
         }
