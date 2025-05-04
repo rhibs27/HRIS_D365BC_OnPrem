@@ -135,6 +135,10 @@ table 50066 "Leave Type Setup"
         field(38; "Half Leave Allowed"; Boolean)
         {
         }
+        field(39; "Substitute Leave"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

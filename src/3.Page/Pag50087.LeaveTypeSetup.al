@@ -56,6 +56,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Sick Leave field.';
                     ApplicationArea = All;
                 }
+                field("Substitute Leave"; rec."Substitute Leave")
+                {
+                    ToolTip = 'Specifies the value of the Substitute Leave field.';
+                    ApplicationArea = All;
+                }
                 field("Maternity/Paternity Leave"; Rec."Maternity/Paternity Leave")
                 {
                     ToolTip = 'Specifies the value of the Maternity/Paternity Leave field.';
