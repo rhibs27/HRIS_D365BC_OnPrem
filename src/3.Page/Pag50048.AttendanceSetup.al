@@ -58,6 +58,17 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of the Sync Attendance From field.';
                     ApplicationArea = All;
                 }
+                field("Half Substitute Leave Hrs"; Rec."Half Substitute Leave Hrs")
+                {
+                    ToolTip = 'Specifies the value of the Half Substitute Leave Hrs field.';
+                    ApplicationArea = All;
+                }
+                field("Full Substitute Leave Hrs"; Rec."Full Substitute Leave Hrs")
+                {
+                    ToolTip = 'Specifies the value of the Full Substitute Leave Hrs field.';
+                    ApplicationArea = All;
+                }
+
             }
         }
     }
