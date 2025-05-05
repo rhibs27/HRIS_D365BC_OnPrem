@@ -2,7 +2,6 @@ table 50141 OverTime
 {
     Caption = 'OverTime';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "No."; Code[20])
