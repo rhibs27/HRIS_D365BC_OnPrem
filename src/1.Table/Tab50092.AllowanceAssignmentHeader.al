@@ -2,7 +2,6 @@ table 50092 "Allowance Assignment Header"
 {
     DataCaptionFields = "No.", "Code", "From Date", "To date";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -197,14 +196,19 @@ table 50092 "Allowance Assignment Header"
     fieldgroups { }
 
     trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
     begin
-        // TestField("Approval Status", "Approval Status"::Open);
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", "No.");
-        AllowanceLine.DeleteAll(true);
-        ApprovalHrms.Reset;
-        ApprovalHrms.SetRange("Document No.", "No.");
-        ApprovalHrms.DeleteAll(true);
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            AllowanceLine.Reset;
+            AllowanceLine.SetRange("No.", "No.");
+            AllowanceLine.DeleteAll(true);
+            ApprovalHrms.Reset;
+            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.DeleteAll(true);
+        end;
     end;
 
     trigger OnInsert()

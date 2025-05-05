@@ -439,6 +439,45 @@ codeunit 50022 "Allowance Assignment Mgt"
     end;
     // end;
 
+    procedure RemoveAllowanceAssignmentDayInAttendance(No: Code[20]; AllowanceAssignmentNo: Integer)
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        PRSetup: Record "Payroll General Setup";
+    begin
+        PRSetup.Get;
+        if AllowanceAssignmentLine.Get(No, AllowanceAssignmentNo) then begin
+            EmployeeAttendanceActivity.Reset;
+            EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
+            EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+            if EmployeeAttendanceActivity.FindFirst then begin
+                case AllowanceAssignmentLine."Allowance Type" of
+                    PRSetup."Evening Counter":
+                        EmployeeAttendanceActivity."Evening Counter Days" := 0;
+
+                    PRSetup."Morning Counter":
+                        EmployeeAttendanceActivity."Morning Counter Days" := 0;
+
+                    PRSetup."Festival Counter":
+                        EmployeeAttendanceActivity."Festival Counter Days" := 0;
+
+                    PRSetup."Holiday Counter":
+                        EmployeeAttendanceActivity."Holiday Counter Days" := 0;
+
+                    PRSetup."Friday Counter":
+                        EmployeeAttendanceActivity."Friday Counter Days" := 0;
+
+                    PRSetup."Risk Allowance":
+                        EmployeeAttendanceActivity."Cash Risk Days" := 0;
+
+                    PRSetup."Vault Key":
+                        EmployeeAttendanceActivity."Vault Key Days" := 0;
+                end;
+                EmployeeAttendanceActivity.Modify;
+            end;
+        end;
+    end;
+
     procedure InsertAllowanceHeader()
     var
         AllowanceHeader: Record "Allowance Assignment Header";

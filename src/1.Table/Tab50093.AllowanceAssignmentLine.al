@@ -110,6 +110,14 @@ table 50093 "Allowance Assignment Line"
 
             trigger OnValidate()
             begin
+                if "Allowance Type" <> xRec."Allowance Type" then begin
+                    Clear("From Date");
+                    Clear("To Date");
+                    Clear("Employee Code");
+                    Clear("Employee Name");
+                    Clear("Allowance Amount");
+                    Clear(Panel);
+                end;
                 // TestField("Employee Code", '');
                 // PGSetup.Get;
                 // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then //Min 12.20.2022
@@ -136,6 +144,7 @@ table 50093 "Allowance Assignment Line"
         //}
         field(19; "Approval Status"; Enum "Attendance Status")
         {
+            Editable = false;
         }
         field(20; "No. of Days"; Decimal)
         {
@@ -182,9 +191,11 @@ table 50093 "Allowance Assignment Line"
     fieldgroups { }
 
     trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
     begin
-        // if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Screened, "Approval Status"::Rejected] then
-        // Error('You cannot delete approved or screened or rejected entries.');
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
     end;
 
     trigger OnInsert()
@@ -315,6 +326,7 @@ table 50093 "Allowance Assignment Line"
                 Error('Date is not within period.');
 
         CalculateNoOfDays(Rec);
+        ValidateAllowanceType;
     end;
 
     local procedure ValidateAllowanceType(): Boolean

@@ -40,7 +40,30 @@ page 50151 "Allowance Assign. Substitute"
 
     actions
     {
-        area(Creation) { }
+        area(Processing)
+        {
+            action("Substitute Employee")
+            {
+                Image = Refresh;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Substitute action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    AllowanceLine: Record "Allowance Assignment Line";
+                begin
+                    AllowanceLine.Init();
+                    AllowanceLine.Copy(Rec);
+                    AllowanceLine."Employee Code" := Rec."Employee Code";
+                    AllowanceLine."Employee Name" := Rec."Employee Name";
+                    AllowanceLine.Insert(true);
+                    AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
+                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", AllowanceLine."Substitute of Line No.");
+                end;
+            }
+        }
     }
 
     trigger OnAfterGetRecord()
@@ -63,4 +86,5 @@ page 50151 "Allowance Assign. Substitute"
 
     var
         AllowanceLine: Record "Allowance Assignment Line";
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 }

@@ -79,7 +79,7 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Allowance Type Filter field.';
                     ApplicationArea = All;
-
+                    Visible = false;
                     trigger OnValidate()
                     begin
                         SetLayout();
@@ -93,6 +93,7 @@ page 50149 "Allowance Assignment Card"
                               Type = field(Type);
                 UpdatePropagation = Both;
                 ApplicationArea = All;
+                Editable = IsOpen;
             }
             // group(Approval)
             // {
