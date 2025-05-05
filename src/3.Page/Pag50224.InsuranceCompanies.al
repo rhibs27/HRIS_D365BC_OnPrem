@@ -31,4 +31,8 @@ page 50224 "Insurance Companies"
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("Blocked", false);
+    end;
 }
