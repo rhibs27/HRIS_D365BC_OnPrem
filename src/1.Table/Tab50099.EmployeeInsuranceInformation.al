@@ -133,6 +133,11 @@ table 50099 "Employee Insurance Information"
         }
 
         field(21; Remarks; Text[250]) { }
+
+        field(22; "Premium Paid By"; enum "Premium Paid By")
+        {
+            Caption = 'Premium Paid By';
+        }
         field(37; "Approved Date"; Date) { }
         field(100; Status; Text[20])
         {

@@ -1,4 +1,4 @@
-enum 50119 "Insurance Company Type"
+enum 50120 "Insurance Company Type"
 {
     Extensible = true;
 
