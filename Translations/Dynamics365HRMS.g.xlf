@@ -11223,16 +11223,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Province Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 1908046867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Reason Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 2885572998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Reason Description - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34402,6 +34392,16 @@
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 1661189934 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Hours field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Total OT Hours - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 1661189934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance OT Hrs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Total OT Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3592273345 - Control 830264322 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Updated Payroll Line field.</source>

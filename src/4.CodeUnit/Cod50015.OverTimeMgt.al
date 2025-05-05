@@ -45,16 +45,16 @@ codeunit 50015 "OverTime Mgt"
                     //exit(false);
                 end;
                 if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check In Time" <= StartTime) then
-                    MorningOTHrs := Round((StartTime - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
+                    MorningOTHrs := Round((StartTime - EmployeeAttendance."Check In Time") / 3600000, 0.01, '<');
 
                 if MorningOTHrs < HRSetup."OT eligible hour" then
                     MorningOTHrs := 0;
 
                 if (EmployeeAttendance."Check Out Time" <> 0T) and (EmployeeAttendance."Check Out Time" > EndTime) then
-                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 1, '<');
+                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 0.0, '<');
 
                 if EmployeeAttendance."Check In Time" > StartTime then begin
-                    CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 1, '<');
+                    CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 0.01, '<');
                     EveningOTHrs -= CheckInDifference;
                 end;
                 if EveningOTHrs < HRSetup."OT eligible hour" then
@@ -67,9 +67,9 @@ codeunit 50015 "OverTime Mgt"
                 //     exit(false);
                 // end;
             end else begin
-                TotalOTHrs := Round((EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000, 1, '<');
-                if TotalOTHrs < HRSetup."OT eligible hour" then
-                    Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
+                TotalOTHrs := Round((EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") / 3600000, 0.01, '<');
+                // if TotalOTHrs < HRSetup."OT eligible hour" then
+                //     Error('Total OT hour %1 is less than OT eligible hour %2"', TotalOTHrs, HRSetup."OT eligible hour");
                 //TotalOTHrs := 0;
             end;
         end else begin
@@ -221,6 +221,7 @@ codeunit 50015 "OverTime Mgt"
         TempOvertime.TestField("Start Date");
         // TempOvertime.TestField("End Date");
         TempOvertime.TestField("Actual OT Hours");
+        TempOvertime.TestField("Overtime Claim Type");
         //TempEmpAct.TESTFIELD(Remarks);
         PayrollSetup.Get;
         PayrollSetup.TestField("Friday Counter");
@@ -253,7 +254,12 @@ codeunit 50015 "OverTime Mgt"
         end;
         // if TempOvertime."No. of Days" <= 0 then
         //     Error(ErrorNoOfDays); santosh commented for over time
-
+        if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::Encashment then begin
+            TempOvertime.TestField("OT Amount");
+        end;
+        if TempOvertime."Overtime Claim Type" = TempOvertime."Overtime Claim Type"::"Substitute Leave" then begin
+            TempOvertime.TestField("Compensatory Days");
+        end;
         EmpOvertime.Init;
         EmpOvertime.TransferFields(TempOvertime);
         EmpOvertime.Validate("Approval Status", EmpOvertime."Approval Status"::"Pending");
@@ -353,6 +359,7 @@ codeunit 50015 "OverTime Mgt"
         // if OverTime.FindFirst then
         //     repeat
         if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
+            OverTime."Total OT Hours" := ActualOTHrs;
             OverTime."Actual OT Hours" := ActualOTHrs;
             // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
             OverTime.Modify;
