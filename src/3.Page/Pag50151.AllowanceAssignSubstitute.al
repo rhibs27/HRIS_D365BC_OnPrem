@@ -52,15 +52,20 @@ page 50151 "Allowance Assign. Substitute"
                 ApplicationArea = All;
                 trigger OnAction()
                 var
-                    AllowanceLine: Record "Allowance Assignment Line";
+                    AllowanceLine, AllowanceLine1 : Record "Allowance Assignment Line";
                 begin
                     AllowanceLine.Init();
-                    AllowanceLine.Copy(Rec);
+                    AllowanceLine.TransferFields(Rec);
                     AllowanceLine."Employee Code" := Rec."Employee Code";
                     AllowanceLine."Employee Name" := Rec."Employee Name";
+                    AllowanceLine."Approval Status" := Rec."Approval Status"::Approved;
                     AllowanceLine.Insert(true);
                     AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", AllowanceLine."Substitute of Line No.");
+                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", rec."Substitute of Line No.");
+                    if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then
+                        AllowanceLine1."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
+                    AllowanceLine1.Modify();
+                    CurrPage.Close();
                 end;
             }
         }
@@ -80,8 +85,8 @@ page 50151 "Allowance Assign. Substitute"
         //     AllowanceLine.Insert(true);
         //     AllowanceLine.UpdateSubstitue();
         // end;
-        if rec."Employee Code" = '' then
-            Error('Please Select Substitute Employee');
+        // if rec."Employee Code" = '' then
+        //     Error('Please Select Substitute Employee');
     end;
 
     var

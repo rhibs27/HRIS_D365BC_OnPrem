@@ -273,11 +273,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field From Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3776934679 - Field 982444044 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Substitute</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Is Substitute - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3776934679 - Field 3708568500 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Last Modified By</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -332,6 +327,11 @@
           <source>Substitute of Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Substitute of Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Field 1272631030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Field Substitute Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Date</source>
@@ -19443,11 +19443,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control From Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3852589595 - Control 982444044 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Substitute field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Is Substitute - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3852589595 - Control 3320823955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19472,6 +19467,11 @@
           <source>Specifies the value of the Substitue of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Substitute of Line No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3852589595 - Control 1272631030 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Substitute field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Substitute Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3852589595 - Action 1502113334 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Substitute action.</source>
@@ -19602,11 +19602,6 @@
           <source>Specifies the value of the From Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control From Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 982444044 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Substitute field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control Is Substitute - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3547077343 - Control 3708568500 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Last Modified By field.</source>
@@ -53058,6 +53053,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Adjustment Type - EnumValue System - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 84525694 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Substitute - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 84525694 - EnumValue 1807712316 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Added as Substitute</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Substitute - EnumValue Added as Substitute - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 84525694 - EnumValue 3962490378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substituted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Substitute - EnumValue Substituted - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 657465377 - EnumValue 1526709447 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Default Periods</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55138,8 +55148,13 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Claim - EnumValue Spouse - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 197752431 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue  - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 197752431 - EnumValue 634550112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Life Insurance</source>
+          <source>Non-Life Insurance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue Life Insurance - Property Caption</note>
         </trans-unit>

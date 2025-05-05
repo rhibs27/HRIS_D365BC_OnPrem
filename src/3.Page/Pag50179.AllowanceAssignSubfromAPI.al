@@ -82,7 +82,7 @@ page 50179 "Allowance Assign Subform API"
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
-                field(isSubstitute; Rec."Is Substitute")
+                field(isSubstitute; Rec."Substitute Type")
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;

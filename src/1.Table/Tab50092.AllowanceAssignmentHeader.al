@@ -199,16 +199,16 @@ table 50092 "Allowance Assignment Header"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-            Error(CannotDelete)
-        else begin
-            AllowanceLine.Reset;
-            AllowanceLine.SetRange("No.", "No.");
-            AllowanceLine.DeleteAll(true);
-            ApprovalHrms.Reset;
-            ApprovalHrms.SetRange("Document No.", "No.");
-            ApprovalHrms.DeleteAll(true);
-        end;
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete)
+        // else begin
+        AllowanceLine.Reset;
+        AllowanceLine.SetRange("No.", "No.");
+        AllowanceLine.DeleteAll(true);
+        ApprovalHrms.Reset;
+        ApprovalHrms.SetRange("Document No.", "No.");
+        ApprovalHrms.DeleteAll(true);
+        // end;
     end;
 
     trigger OnInsert()

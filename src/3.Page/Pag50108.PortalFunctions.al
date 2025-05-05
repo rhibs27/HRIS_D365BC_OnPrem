@@ -2080,18 +2080,18 @@ page 50108 "Portal Functions"
         // // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
         // TempAllowanceLine.Insert(true);
         // TempAllowanceLine.UpdateSubstitue;
-        AllowanceLine.TestField("Is Substitute", false);
+        AllowanceLine.TestField("Substitute type", AllowanceLine."Substitute Type"::" ");
         AllowanceLine.TestField("Approval Status", AllowanceLine."Approval Status"::Approved);
         NewAllowanceLine.Reset;
         NewAllowanceLine.SetRange("No.", AllowanceLine."No.");
         NewAllowanceLine.SetRange("Substitute of Line No.", AllowanceLine."Line No.");
-        NewAllowanceLine.SetRange("Is Substitute", true);
+        NewAllowanceLine.SetRange("Substitute Type", NewAllowanceLine."Substitute Type"::"Added as Substitute");
         NewAllowanceLine.SetRange("Employee Code", '');
         if not NewAllowanceLine.FindFirst then begin
             NewAllowanceLine.Reset;
             NewAllowanceLine.Init;
             NewAllowanceLine."No." := AllowanceLine."No.";
-            NewAllowanceLine."Is Substitute" := true;
+            NewAllowanceLine."Substitute Type" := NewAllowanceLine."Substitute Type"::"Added as Substitute";
             NewAllowanceLine."Substitute of Line No." := AllowanceLine."Line No.";
             NewAllowanceLine."Allowance Type" := AllowanceLine."Allowance Type";
             NewAllowanceLine.Type := AllowanceLine.Type;
@@ -2103,6 +2103,8 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Validate("Employee Code", empCode);
             NewAllowanceLine.Insert(true);
         end;
+        AllowanceLine."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
+        AllowanceLine.Modify();
     end;
 
     [ServiceEnabled]

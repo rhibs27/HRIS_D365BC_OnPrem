@@ -69,7 +69,7 @@ query 50019 "Allowance Assign Line Query"
                     column(noOfDays; "No. of Days")
                     {
                     }
-                    column(isSubstitute; "Is Substitute")
+                    column(isSubstitute; "Substitute Type")
                     {
                     }
                     column(panel; Panel)

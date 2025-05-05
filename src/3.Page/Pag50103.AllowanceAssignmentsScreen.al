@@ -100,11 +100,11 @@ page 50103 "Allowance Assignments (Screen)"
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
                     ApplicationArea = All;
                 }
-                field("Is Substitute"; Rec."Is Substitute")
-                {
-                    ToolTip = 'Specifies the value of the Is Substitute field.';
-                    ApplicationArea = All;
-                }
+                // field("Is Substitute"; Rec."Is Substitute")
+                // {
+                //     ToolTip = 'Specifies the value of the Is Substitute field.';
+                //     ApplicationArea = All;
+                // }
                 field("Substitute of Line No."; Rec."Substitute of Line No.")
                 {
                     ToolTip = 'Specifies the value of the Substitue of Line No. field.';

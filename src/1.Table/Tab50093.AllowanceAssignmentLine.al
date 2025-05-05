@@ -95,6 +95,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
+                ValidateAllowanceType;
             end;
         }
         field(8; "To Date"; Date)
@@ -124,7 +125,10 @@ table 50093 "Allowance Assignment Line"
                 //     Error(TEXT003);//santosh
             end;
         }
-        field(10; "Is Substitute"; Boolean) { }
+        field(10; "Substitute Type"; Enum "Allowance Substitute")
+        {
+            InitValue = '';
+        }
         field(11; "Substitute of Line No."; Integer)
         {
             Editable = false;
@@ -194,8 +198,8 @@ table 50093 "Allowance Assignment Line"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-            Error(CannotDelete)
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete)
     end;
 
     trigger OnInsert()
@@ -307,7 +311,7 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine.SetRange("Allowance Type", "Allowance Type");
         AllowanceLine.SetRange(Code, Code);
         AllowanceLine.SetRange("From Date", "From Date");
-        AllowanceLine.SetRange("Is Substitute", false);
+        AllowanceLine.SetRange("Substitute Type", AllowanceLine."Substitute Type"::" ");
         AllowanceLine.SetFilter("Employee Code", '<>%1', '');
         if AllowanceLine.FindFirst then
             if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
@@ -326,7 +330,6 @@ table 50093 "Allowance Assignment Line"
                 Error('Date is not within period.');
 
         CalculateNoOfDays(Rec);
-        ValidateAllowanceType;
     end;
 
     local procedure ValidateAllowanceType(): Boolean
@@ -385,7 +388,7 @@ table 50093 "Allowance Assignment Line"
         NewToDate: Date;
         NewFromDate: Date;
     begin
-        if "Is Substitute" then begin
+        if AllowanceLine."Substitute Type" = "Substitute Type"::"Added as Substitute" then begin
             if ("From Date" = 0D) or ("To Date" = 0D) then
                 exit;
             AllowanceLine.Get("No.", "Substitute of Line No.");
@@ -413,7 +416,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1.Validate("Allowance Type", AllowanceLine."Allowance Type");
                 AllowanceLine1.Validate("Employee Code", AllowanceLine."Employee Code");
                 AllowanceLine1."Substitute of Line No." := AllowanceLine."Line No.";
-                AllowanceLine1."Is Substitute" := true;
+                AllowanceLine1."Substitute Type" := AllowanceLine1."Substitute Type"::"Added as Substitute";
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;
                 //    IF NOT GUIALLOWED THEN BEGIN

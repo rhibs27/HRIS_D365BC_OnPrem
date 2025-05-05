@@ -74,7 +74,7 @@ page 50150 "Allowance Assignment Subform"
                     ToolTip = 'Specifies the value of the Allowance Amount field.';
                     ApplicationArea = All;
                 }
-                field("Is Substitute"; Rec."Is Substitute")
+                field("Substitute Type"; Rec."Substitute Type")
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
@@ -110,26 +110,27 @@ page 50150 "Allowance Assignment Subform"
                 var
                     AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
                 begin
-                    Rec.TestField("Is Substitute", false);
+                    Rec.TestField("Substitute type", rec."Substitute Type"::" ");
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
                     AllowanceLineTemp.Reset;
                     AllowanceLineTemp.SetRange("No.", Rec."No.");
                     AllowanceLineTemp.SetRange("Substitute of Line No.", Rec."Line No.");
-                    AllowanceLineTemp.SetRange("Is Substitute", true);
+                    AllowanceLineTemp.SetRange("Substitute Type", AllowanceLineTemp."Substitute Type"::"Added as Substitute");
                     AllowanceLineTemp.SetRange("Employee Code", '');
                     if not AllowanceLineTemp.FindFirst then begin
                         AllowanceLineTemp.Reset;
                         AllowanceLineTemp.Init;
                         AllowanceLineTemp."No." := Rec."No.";
-                        AllowanceLineTemp."Is Substitute" := true;
+                        AllowanceLineTemp."Substitute type" := AllowanceLineTemp."Substitute type"::"Added as Substitute";
                         AllowanceLineTemp."Substitute of Line No." := Rec."Line No.";
                         AllowanceLineTemp."Allowance Type" := Rec."Allowance Type";
                         AllowanceLineTemp.Type := rec.Type;
                         AllowanceLineTemp.Code := rec.code;
                         AllowanceLineTemp.Panel := rec.Panel;
-                        AllowanceLineTemp."Approval Status" := Rec."Approval Status"::Approved;
+                        // AllowanceLineTemp."Approval Status" := Rec."Approval Status"::Approved;
                         AllowanceLineTemp."From Date" := rec."From Date";
                         AllowanceLineTemp."To Date" := rec."To Date";
+                        AllowanceLineTemp.Insert();
                         /*
                         AllowanceLineTemp."Employee Code" := "Employee Code";
                         AllowanceLineTemp."From Date" := "From Date";
