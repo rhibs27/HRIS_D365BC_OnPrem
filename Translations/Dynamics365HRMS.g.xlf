@@ -83,6 +83,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Agile Email Recipient - Field Responsibility Center - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 1489664975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Activity Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -212,6 +217,11 @@
           <source>Total No. of Employees in %1 in %2 exceeds %3.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - NamedType TEXT002</note>
+        </trans-unit>
+        <trans-unit id="Table 3776934679 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Line - Method OnDelete - NamedType CannotDelete</note>
         </trans-unit>
         <trans-unit id="Table 3776934679 - Field 317591136 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Amount</source>
@@ -19307,6 +19317,11 @@
           <source>Specifies the value of the To Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign. Substitute - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3630165519 - Action 4221150388 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Substitute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assign. Substitute - Action Substitute Employee - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3157096233 - Control 2722267156 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Type Filter field.</source>

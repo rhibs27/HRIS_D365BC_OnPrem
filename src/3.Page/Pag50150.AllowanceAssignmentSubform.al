@@ -108,7 +108,7 @@ page 50150 "Allowance Assignment Subform"
 
                 trigger OnAction()
                 var
-                    AllowanceLineTemp: Record "Allowance Assignment Line";
+                    AllowanceLineTemp: Record "Allowance Assignment Line" temporary;
                 begin
                     Rec.TestField("Is Substitute", false);
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
@@ -130,7 +130,6 @@ page 50150 "Allowance Assignment Subform"
                         AllowanceLineTemp."Approval Status" := Rec."Approval Status"::Approved;
                         AllowanceLineTemp."From Date" := rec."From Date";
                         AllowanceLineTemp."To Date" := rec."To Date";
-                        AllowanceLineTemp.Insert(true);
                         /*
                         AllowanceLineTemp."Employee Code" := "Employee Code";
                         AllowanceLineTemp."From Date" := "From Date";
