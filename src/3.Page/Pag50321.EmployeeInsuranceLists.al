@@ -4,6 +4,7 @@ page 50321 "Employee Insurance Lists"
     Caption = 'Employee Insurance Lists';
     PageType = List;
     SourceTable = "Employee Insurance Information";
+    SourceTableView = where(type = const(Insurance));
     UsageCategory = Lists;
     CardPageId = "Employee Insurance Card";
 
@@ -133,8 +134,8 @@ page 50321 "Employee Insurance Lists"
     trigger OnOpenPage()
 
     begin
-        Rec.FilterGroup(2);
-        Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
-        Rec.FilterGroup(0)
+        // Rec.FilterGroup(2);
+        // Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
+        // Rec.FilterGroup(0)
     end;
 }

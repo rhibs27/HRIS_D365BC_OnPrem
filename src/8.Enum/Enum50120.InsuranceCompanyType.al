@@ -2,11 +2,15 @@ enum 50120 "Insurance Company Type"
 {
     Extensible = true;
 
-    value(0; "Life Insurance")
+    value(0; "")
     {
-        Caption = 'Life Insurance';
+        Caption = '';
     }
-    value(1; "Non-Life Insurance")
+    value(1; "Life Insurance")
+    {
+        Caption = 'Non-Life Insurance';
+    }
+    value(2; "Non-Life Insurance")
     {
         Caption = 'Non-Life Insurance';
     }
