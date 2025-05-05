@@ -6028,6 +6028,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Policy Number - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 617144856 - Field 4148494904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Premium Paid By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Premium Paid By - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 617144856 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56242,6 +56247,16 @@
           <source>Non-Payment</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll Type - EnumValue Non-Payment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4148494904 - EnumValue 3133801257 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Company</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Premium Paid By - EnumValue Company - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4148494904 - EnumValue 1498446062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Premium Paid By - EnumValue Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2585284105 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
