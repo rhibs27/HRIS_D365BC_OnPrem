@@ -36,15 +36,20 @@ page 50150 "Allowance Assignment Subform"
                         CurrPage.Update;
                     end;
                 }
+                field("Employee Code"; Rec."Employee Code")
+                {
+                    ToolTip = 'Specifies the value of the Employee Code field.';
+                    ApplicationArea = All;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name field.';
+                    ApplicationArea = All;
+                }
                 field("From Date"; Rec."From Date")
                 {
                     Caption = 'Date';
                     ToolTip = 'Specifies the value of the Date field.';
-                    ApplicationArea = All;
-                }
-                field("Employee Code"; Rec."Employee Code")
-                {
-                    ToolTip = 'Specifies the value of the Employee Code field.';
                     ApplicationArea = All;
                 }
                 field("Code"; Rec.Code)
@@ -57,11 +62,6 @@ page 50150 "Allowance Assignment Subform"
                 {
                     Visible = false;
                     ToolTip = 'Specifies the value of the Name field.';
-                    ApplicationArea = All;
-                }
-                field("Employee Name"; Rec."Employee Name")
-                {
-                    ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
                 field(Panel; Rec.Panel)

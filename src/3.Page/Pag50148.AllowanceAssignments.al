@@ -61,6 +61,11 @@ page 50148 "Allowance Assignments"
                     ToolTip = 'Specifies the value of the To date field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
                 field("Created Date"; Rec."Created Date")
                 {
                     ToolTip = 'Specifies the value of the Created Date field.';

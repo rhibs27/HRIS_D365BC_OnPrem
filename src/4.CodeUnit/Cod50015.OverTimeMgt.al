@@ -214,10 +214,12 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime2: Record "Overtime";
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
         SalaryLevel: Record "Salary Level";
+        IsHandled: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmForm, false) then
                 exit;
+        OnBeforeApplyOvertime(TempOvertime);
         TempOvertime.TestField("Start Date");
         // TempOvertime.TestField("End Date");
         TempOvertime.TestField("Actual OT Hours");
@@ -442,6 +444,11 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Validate("Overtime Request No", OverTime."No.");
         LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
         LeaveEarn.Insert(true);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
+    begin
     end;
 
     var

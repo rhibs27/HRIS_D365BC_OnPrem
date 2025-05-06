@@ -51,7 +51,7 @@ table 50093 "Allowance Assignment Line"
 
             trigger OnValidate()
             begin
-                TestField("From Date");
+                // TestField("From Date");
                 // if "Approval Status" = "Approval Status"::Screened then
                 // Error('Cannot substitute screened employee.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
@@ -75,13 +75,15 @@ table 50093 "Allowance Assignment Line"
                 OverTimeMgt.CheckApprovedOvertimeExists(Rec);
 
                 if Employee.Get("Employee Code") then
-                    "Employee Name" := Employee."Full Name";
+                    "Employee Name" := Employee."Full Name"
+                else
+                    "Employee Name" := '';
 
                 // if xRec."Employee Code" <> "Employee Code" then
                 //     "Approval Status" := "Approval Status"::"Pending Approval";
 
-                ValidateAllowanceType();
-                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                // ValidateAllowanceType();
+
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -92,10 +94,16 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
+                PayrollGeneralSetup.Get;
+                PayrollGeneralSetup.TestField("Vault Key");
+                if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
+                    if Panel = Panel::" " then
+                        Error('Please select panel.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
                 ValidateAllowanceType;
+                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
         field(8; "To Date"; Date)
@@ -128,6 +136,7 @@ table 50093 "Allowance Assignment Line"
         field(10; "Substitute Type"; Enum "Allowance Substitute")
         {
             InitValue = '';
+            Editable = false;
         }
         field(11; "Substitute of Line No."; Integer)
         {
@@ -225,11 +234,6 @@ table 50093 "Allowance Assignment Line"
             ValidateDate;
             ChangeHeaderApprovalStatus
         end;
-        PayrollGeneralSetup.Get;
-        PayrollGeneralSetup.TestField("Vault Key");
-        if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
-            if Panel = Panel::" " then
-                Error('Please select panel.');
         CheckForGracePeriod;
     end;
 

@@ -19478,6 +19478,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Substitute - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3388401372 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3388401372 - Control 3027137289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approved Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>

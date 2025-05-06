@@ -56,8 +56,9 @@ page 50151 "Allowance Assign. Substitute"
                 begin
                     AllowanceLine.Init();
                     AllowanceLine.TransferFields(Rec);
-                    AllowanceLine."Employee Code" := Rec."Employee Code";
-                    AllowanceLine."Employee Name" := Rec."Employee Name";
+                    AllowanceLine.Validate("Allowance Type", Rec."Allowance Type");
+                    AllowanceLine.Validate("Employee Code", Rec."Employee Code");
+                    AllowanceLine.Validate("From Date", Rec."From Date");
                     AllowanceLine."Approval Status" := Rec."Approval Status"::Approved;
                     AllowanceLine.Insert(true);
                     AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
