@@ -518,6 +518,12 @@ report 50139 "Daily Attendance Update"
 
                         PRSetup."Vault Key":
                             EmployeeAttendanceActivity."Vault Key Days" := 1;
+
+                        PRSetup."Head Teller Allowance":
+                            EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                        PRSetup."Teller Allowance":
+                            EmployeeAttendanceActivity."Teller Allowance Days" := 1;
                     end;
                     EmployeeAttendanceActivity.Modify;
                 end;
