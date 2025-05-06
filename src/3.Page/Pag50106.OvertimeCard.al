@@ -4,6 +4,7 @@ page 50106 "Overtime Card"
     PageType = Card;
     SourceTable = "OverTime";
     ApplicationArea = All;
+    InsertAllowed = false;
     layout
     {
         area(Content)
@@ -58,10 +59,18 @@ page 50106 "Overtime Card"
                 {
                     ToolTip = 'Specifies the value of the Estimated Hours field.';
                     ApplicationArea = All;
+                    Editable = false;
+                    Visible = false;
                 }
                 field("Actual OT Hours"; Rec."Actual OT Hours")
                 {
                     // Editable = false;
+                    ToolTip = 'Specifies the value of the Actual Hours field.';
+                    ApplicationArea = All;
+                }
+                field("Total OT Hours"; Rec."Total OT Hours")
+                {
+                    Caption = 'Attendance OT Hrs';
                     ToolTip = 'Specifies the value of the Actual Hours field.';
                     ApplicationArea = All;
                 }

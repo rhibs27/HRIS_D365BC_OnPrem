@@ -61,6 +61,14 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(16; "Half Substitute Leave Hrs"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(17; "Full Substitute Leave Hrs"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

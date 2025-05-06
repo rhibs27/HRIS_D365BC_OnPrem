@@ -2113,6 +2113,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Deactivate Punch in Count - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 2500997685 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Full Substitute Leave Hrs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Full Substitute Leave Hrs - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 1590120709 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Half Substitute Leave Hrs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Half Substitute Leave Hrs - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 1079701109 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Minimum minutes to be eligible for OT per day</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11272,16 +11282,6 @@
           <source>Province Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Province Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 1908046867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Reason Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 2885572998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Reason Description - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -21512,6 +21512,16 @@
           <source>Specifies the value of the Deactivate Punch in Count field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Deactivate Punch in Count - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 2500997685 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Full Substitute Leave Hrs field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Full Substitute Leave Hrs - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 1590120709 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Half Substitute Leave Hrs field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Half Substitute Leave Hrs - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 557018098 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sync Attendance From field.</source>
@@ -34407,6 +34417,16 @@
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 1661189934 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Hours field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Total OT Hours - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 1661189934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance OT Hrs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Total OT Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3592273345 - Control 830264322 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Updated Payroll Line field.</source>

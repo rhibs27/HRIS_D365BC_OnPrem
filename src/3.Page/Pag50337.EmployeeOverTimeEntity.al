@@ -41,8 +41,8 @@ page 50337 "Employee OverTime Entity"
                 // field(cancelledNo; Rec."Cancelled No.") { }
                 // field(cancelledDocNo; Rec."Cancelled Document No.") { }
                 // field(approverType; Rec."Approver Type") { }
-                field(reasonCode; Rec."Reason Code") { }
-                field(reasonDescription; Rec."Reason Description") { }
+                // field(reasonCode; Rec."Reason Code") { }
+                // field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
                 // field(screenerRemarks; Rec."Screener Remarks") { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }

@@ -68,8 +68,8 @@ query 50010 "OverTime Query"
                     // column(fiscalYear; "Fiscal Year") { }
                     column(approvalStatus; "Approval Status") { }
                     // column(cancelled; Cancelled) { }
-                    column(reasonCode; "Reason Code") { }
-                    column(reasonDescription; "Reason Description") { }
+                    // column(reasonCode; "Reason Code") { }
+                    // column(reasonDescription; "Reason Description") { }
                     column(remarks; Remarks) { }
                     column(rejectionRemarks; "Rejection Remarks") { }
                     column(Status; status) { }

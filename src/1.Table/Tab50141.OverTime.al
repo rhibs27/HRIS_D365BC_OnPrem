@@ -47,6 +47,7 @@ table 50141 OverTime
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
+            Editable = false;
 
             trigger OnValidate()
             begin
@@ -73,7 +74,6 @@ table 50141 OverTime
                     //OTAmountCalculate();
                     // "Bank Account No." := EmpVar."Bank Account No.";
                     // "Contact No." := EmpVar."Mobile Phone No.";
-
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -134,17 +134,7 @@ table 50141 OverTime
                     end;
                 end else
                     Error('No Attendance Found on %1', rec."Start Date");
-                //for overtime
-                OnBeforeOTAmountCalculate(Rec, IsHandled);
-                if GuiAllowed and not IsHandled then
-                    if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
-                        if "Start Date" >= Today then
-                            Error('You cannot apply OverTime in current and future date.');
-                        // Validate("End Date", "Start Date");
-                        //Add Control for OverTime and OverTime Request is Allowed for already attendance date <<santosh<< /3/17/2025/<<
-                        OverTimeMgt.CheckOvertime(Rec);
-                        Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
-                    end;
+                OverTimeMgt.CheckOvertime(Rec);
             end;
         }
         field(8; "Check In Time"; Time)
@@ -180,7 +170,7 @@ table 50141 OverTime
         // }
         field(10; "Requested Date"; Date)
         {
-
+            Editable = false;
         }
         field(11; "Fiscal Year"; Text[10])
         {
@@ -200,10 +190,10 @@ table 50141 OverTime
         }
         field(14; Remarks; Text[100])
         {
-            trigger OnLookup()
-            begin
-                PAGE.Run(PAGE::"Employee List");
-            end;
+            // trigger OnLookup()
+            // begin
+            // PAGE.Run(PAGE::"Employee List");
+            // end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -350,16 +340,32 @@ table 50141 OverTime
             DataClassification = ToBeClassified;
             trigger OnValidate()
             begin
+                TestField("Start Date");
                 if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
                     Clear("Compensatory Days");
+                    Clear("OT Amount");
                 end;
                 if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                    OverTimeMgt.CheckOvertime(Rec);
                     if ("Actual OT Hours" < 8) and ("Actual OT Hours" >= 4) then
                         "Compensatory Days" := 0.5
                     else if "Actual OT Hours" >= 8 then
                         "Compensatory Days" := 1
                     else if "Actual OT Hours" < 4 then
                         "Compensatory Days" := 0;
+                    Clear("OT Amount");
+                end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
+                    OnBeforeOTAmountCalculate(Rec, IsHandled);
+                    if not IsHandled then
+                        if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
+                            if "Start Date" >= Today then
+                                Error('You cannot apply OverTime in current and future date.');
+                            // Validate("End Date", "Start Date");
+                            //Add Control for OverTime and OverTime Request is Allowed for already attendance date <<santosh<< /3/17/2025/<<
+                            // OverTimeMgt.CheckOvertime(Rec);
+                            Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
+                        end;
+                    Clear("Compensatory Days");
                 end;
             end;
         }
@@ -402,9 +408,11 @@ table 50141 OverTime
         }
         field(32; "Compensatory Days"; Decimal)
         {
+            Editable = false;
         }
         field(33; "Payroll No."; Code[20])
         {
+            Editable = false;
         }
         field(34; Ecosystem; Code[20])
         {
@@ -474,21 +482,21 @@ table 50141 OverTime
         // {
         //     Editable = false;
         // }
-        field(48; "Reason Code"; Code[20])
-        {
-            TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
+        // field(48; "Reason Code"; Code[20])
+        // {
+        //     TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
 
-            trigger OnValidate()
-            begin
-                if Standardtext.Get("Reason Code") then
-                    Validate("Reason Description", Standardtext.Description)
-                else
-                    Clear("Reason Description");
-            end;
-        }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
+        //     trigger OnValidate()
+        //     begin
+        //         if Standardtext.Get("Reason Code") then
+        //             Validate("Reason Description", Standardtext.Description)
+        //         else
+        //             Clear("Reason Description");
+        //     end;
+        // }
+        // field(49; "Reason Description"; Text[50])
+        // {
+        // }
         // field(50; "Screener Remarks"; Text[100])
         // {
         // }
@@ -526,6 +534,7 @@ table 50141 OverTime
         }
         field(55; "OT Amount"; Decimal)
         {
+            Editable = false;
         }
         field(56; "OT Disbursed"; Boolean)
         {
