@@ -345,13 +345,14 @@ table 50141 OverTime
                     Clear("Compensatory Days");
                     Clear("OT Amount");
                 end;
+                AttendanceSetup.Get();
                 if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
                     OverTimeMgt.CheckOvertime(Rec);
-                    if ("Actual OT Hours" < 8) and ("Actual OT Hours" >= 4) then
+                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
                         "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= 8 then
+                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
                         "Compensatory Days" := 1
-                    else if "Actual OT Hours" < 4 then
+                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
                         "Compensatory Days" := 0;
                     Clear("OT Amount");
                 end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
@@ -711,6 +712,7 @@ table 50141 OverTime
         SalaryGrade: Record "Salary Grade";
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
+        AttendanceSetup: Record "Attendance Setup";
     //EncashmentPeriodSetup: Record "OT Encashment Setup";
     //Error1: Label 'Cannot apply before your employment date.';
 

@@ -2123,6 +2123,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Half Substitute Leave Hrs - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 1709409376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Max Overtime In Week</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Max Overtime In Week - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 1079701109 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Minimum minutes to be eligible for OT per day</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21522,6 +21527,11 @@
           <source>Specifies the value of the Half Substitute Leave Hrs field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Half Substitute Leave Hrs - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 1709409376 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Max Overtime In Week field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Max Overtime In Week - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 557018098 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sync Attendance From field.</source>

@@ -68,6 +68,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of the Full Substitute Leave Hrs field.';
                     ApplicationArea = All;
                 }
+                field("Max Overtime In Week"; Rec."Max Overtime In Week")
+                {
+                    ToolTip = 'Specifies the value of the Max Overtime In Week field.';
+                    ApplicationArea = All;
+                }
 
             }
         }
