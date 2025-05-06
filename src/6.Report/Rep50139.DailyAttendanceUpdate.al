@@ -87,7 +87,7 @@ report 50139 "Daily Attendance Update"
                 trigger OnAfterGetRecord()
                 begin
                     ScreenOvertime;
-                    ScreenAllowanceAssignment;
+                    // ScreenAllowanceAssignment;
                 end;
             }
 
@@ -470,7 +470,6 @@ report 50139 "Daily Attendance Update"
                             RejectionRemarks := 'No Check In found.'
                         end;
                 end;
-
                 if not EmployeeAttendanceActivity.FindFirst then begin
                     AllowanceAssignmentLine."Approval Status" := AllowanceAssignmentLine."Approval Status"::Rejected;
                     AllowanceAssignmentLine."Rejection Remarks" := RejectionRemarks;
@@ -488,10 +487,9 @@ report 50139 "Daily Attendance Update"
             exit;
         AllowanceAssignmentLine.Reset;
         AllowanceAssignmentLine.SetRange("From Date", FromDate, ToDate);
-        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         if AllowanceAssignmentLine.FindFirst then
             repeat
-
                 EmployeeAttendanceActivity.Reset;
                 EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
                 EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");

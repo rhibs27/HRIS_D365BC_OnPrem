@@ -315,7 +315,7 @@ table 50093 "Allowance Assignment Line"
         AllowanceLine.SetRange("Allowance Type", "Allowance Type");
         AllowanceLine.SetRange(Code, Code);
         AllowanceLine.SetRange("From Date", "From Date");
-        AllowanceLine.SetRange("Substitute Type", AllowanceLine."Substitute Type"::" ");
+        AllowanceLine.Setfilter("Substitute Type", '%1', AllowanceLine."Substitute Type"::"Added as Substitute");
         AllowanceLine.SetFilter("Employee Code", '<>%1', '');
         if AllowanceLine.FindFirst then
             if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then

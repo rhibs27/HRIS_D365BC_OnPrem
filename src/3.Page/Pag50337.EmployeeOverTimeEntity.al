@@ -63,6 +63,9 @@ page 50337 "Employee OverTime Entity"
                 field(eveningOThrs; Rec."Evening OT Hours")
                 {
                 }
+                field(totalOTHours; Rec."Total OT Hours")
+                {
+                }
 
             }
             // part(Attachment; "Attachment Subform")
