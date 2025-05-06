@@ -442,11 +442,14 @@ codeunit 50022 "Allowance Assignment Mgt"
                 PRSetup."Head Teller Allowance":
                     EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
 
-                        PRSetup."Teller Allowance":
-                            EmployeeAttendanceActivity."Teller Allowance Days" := 1;
-                    end;
-                    EmployeeAttendanceActivity.Modify;
-                end;
+                PRSetup."Teller Allowance":
+                    EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+
+                PRSetup."ATM Custodian":
+                    EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+            end;
+            EmployeeAttendanceActivity.Modify;
+        end;
 
         // until AllowanceAssignmentLine.Next = 0;
         // if GuiAllowed then
