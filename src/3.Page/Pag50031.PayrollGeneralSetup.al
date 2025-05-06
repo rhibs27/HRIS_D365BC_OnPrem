@@ -358,6 +358,17 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Loan Attribute field.';
                     ApplicationArea = All;
                 }
+                field("Head Teller Allowance"; Rec."Head Teller Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Head teller allowance field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allowance"; Rec."Teller Allowance")
+                {
+                    ToolTip = 'Specifies the value of the teller allowance field.';
+                    ApplicationArea = All;
+                }
+
             }
             group("Encashment Code Group")
             {
@@ -585,6 +596,27 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Cash Risk Percent field.';
                     ApplicationArea = All;
                 }
+                field("Head Teller Allow. (Regular)"; Rec."Head Teller Allow. (Regular)")
+                {
+                    ToolTip = 'Specifies the value of the "Head Teller Allow. field.';
+                    ApplicationArea = All;
+                }
+                field("Head Teller Allow. (Contract)"; Rec."Head Teller Allow. (Contract)")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allow. (Contract) field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allow. (Regular)"; Rec."Teller Allowance (Regular)")
+                {
+                    ToolTip = 'Specifies the value of the "Head Teller Allow. field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allow. (Contract)"; Rec."Teller Allowance (Contract)")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allow. (Contract) field.';
+                    ApplicationArea = All;
+                }
+
             }
             group(Settlement)
             {

@@ -158,6 +158,16 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Festival Counter Days field.';
                     ApplicationArea = All;
                 }
+                field("Head Teller allow. days"; Rec."Head Teller Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allowance Days field.';
+                    ApplicationArea = All;
+                }
+                field("Teller allow. days"; Rec."Teller Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Teller Allowance Days field.';
+                    ApplicationArea = All;
+                }
                 field("Half Day"; Rec."Half Day")
                 {
                     ToolTip = 'Specifies the value of the Half Day field.';

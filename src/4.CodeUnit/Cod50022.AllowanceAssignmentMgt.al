@@ -370,6 +370,13 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                             PRSetup."Vault Key":
                                 EmployeeAttendanceActivity."Vault Key Days" := 1;
+
+                            PRSetup."Head Teller Allowance":
+                                EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                            PRSetup."Teller Allowance":
+                                EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+
                         end;
                         EmployeeAttendanceActivity.Modify;
                     end;
@@ -429,6 +436,12 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                         PRSetup."Vault Key":
                             EmployeeAttendanceActivity."Vault Key Days" := 1;
+
+                        PRSetup."Head Teller Allowance":
+                            EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                        PRSetup."Teller Allowance":
+                            EmployeeAttendanceActivity."Teller Allowance Days" := 1;
                     end;
                     EmployeeAttendanceActivity.Modify;
                 end;
@@ -472,6 +485,12 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                     PRSetup."Vault Key":
                         EmployeeAttendanceActivity."Vault Key Days" := 0;
+
+                    PRSetup."Head Teller Allowance":
+                        EmployeeAttendanceActivity."Head Teller Allowance Days" := 0;
+
+                    PRSetup."Teller Allowance":
+                        EmployeeAttendanceActivity."Teller Allowance Days" := 0;
                 end;
                 EmployeeAttendanceActivity.Modify;
             end;
@@ -627,6 +646,20 @@ codeunit 50022 "Allowance Assignment Mgt"
                         exit(PGSetup."Morning Counter (Contract)")
                     else
                         exit(PGSetup."Morning Counter (Regular)");
+                end;
+            PGSetup."Head Teller Allowance":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        exit(PGSetup."Head Teller Allow. (Contract)")
+                    else
+                        exit(PGSetup."Head Teller Allow. (Regular)");
+                end;
+            PGSetup."Teller Allowance":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::"Except Contract" then
+                        exit(PGSetup."Teller Allowance (Contract)")
+                    else
+                        exit(PGSetup."Teller Allowance (Regular)");
                 end;
 
             PGSetup."Risk Allowance":
