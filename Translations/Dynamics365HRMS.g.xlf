@@ -5088,6 +5088,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Half Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 49029883 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Allowance Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Head Teller Allowance Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 3119873895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday Counter Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5212,6 +5217,11 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 1742030915 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Allowance Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Teller Allowance Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 934214068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tour Day</source>
@@ -12103,6 +12113,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Gratuity - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1530252350 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Allow. (Contract)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Head Teller Allow. (Contract) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 131313694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Allow. (Regular)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Head Teller Allow. (Regular) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 965181162 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Head Teller Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 976902422 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday All. Amt (Contract)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12492,6 +12517,21 @@
           <source>Tax Ex. Property Insurance Amt</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Tax Ex. Property Insurance Amt - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1955305602 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Teller Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 330753055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Allowance (Contract)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Teller Allowance (Contract) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3020652695 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Allowance (Regular)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Teller Allowance (Regular) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 2550690551 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Days</source>
@@ -23788,6 +23828,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Half Day - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 251429658 - Control 2738635562 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head Teller Allowance Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Head Teller allow. days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 251429658 - Control 3119873895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Holiday Counter Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23912,6 +23957,11 @@
           <source>Specifies the value of the Standard Work Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Standard Work Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 2117685490 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Teller Allowance Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Teller allow. days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 934214068 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Tour Day field.</source>
@@ -35433,6 +35483,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Friday Counter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 965181162 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head teller allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Head Teller Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1104895422 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Holiday Counter Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35547,6 +35602,11 @@
           <source>TA - Out of Pocket Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control TA - Out of Pocket - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1955305602 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the teller allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Teller Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 2187277383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Vault Key Allowance field.</source>
@@ -35688,6 +35748,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Festival Counter(Regular) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1530252350 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head Teller Allow. (Contract) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Head Teller Allow. (Contract) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 131313694 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the "Head Teller Allow. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Head Teller Allow. (Regular) - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 976902422 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Holiday All. Amt (Contract) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35717,6 +35787,16 @@
           <source>Specifies the value of the OT Benefit Component field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control OT Benefit Component - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1577913046 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head Teller Allow. (Contract) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Teller Allow. (Contract) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3222196678 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the "Head Teller Allow. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Teller Allow. (Regular) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3809358026 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the vault Key Allowence (Contract) (Months) field.</source>
