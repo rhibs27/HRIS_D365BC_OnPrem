@@ -51,7 +51,7 @@ codeunit 50015 "OverTime Mgt"
                     MorningOTHrs := 0;
 
                 if (EmployeeAttendance."Check Out Time" <> 0T) and (EmployeeAttendance."Check Out Time" > EndTime) then
-                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 0.0, '<');
+                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 0.01, '<');
 
                 if EmployeeAttendance."Check In Time" > StartTime then begin
                     CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 0.01, '<');
@@ -364,7 +364,7 @@ codeunit 50015 "OverTime Mgt"
             OverTime."Total OT Hours" := ActualOTHrs;
             OverTime."Actual OT Hours" := ActualOTHrs;
             // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
-            OverTime.Modify;
+            // OverTime.Modify;
         end;
         // else begin
         //     OverTime."Rejection Remarks" := RejectionRemarks;

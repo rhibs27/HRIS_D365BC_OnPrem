@@ -94,24 +94,26 @@ codeunit 50019 "SQL Connection Attendance"
     procedure SyncEmployeeAttendance();
     var
         AttenSetup: Record "Attendance Setup";
+        HRSetup: Record "Human Resources Setup";
     begin
         AttenSetup.Get();
+        HRSetup.Get();
         CompInfo.Get;
         SqlConnectionMgt.SetupSQLConnection(SQLConnection);
 
         if FromDate = 0D then
             FromDate := CalcDate(format(AttenSetup."Sync Attendance From"), Today);
         if (ToDate = 0D) and (DeviceID = 0) then
-            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[AttendanceLogs]', 'InputDate', FromDate))
+            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate))
         else
             if (ToDate <> 0D) and (DeviceID = 0) then
-                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate))
+                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate))
             else
                 if (ToDate = 0D) and (DeviceID <> 0) then
-                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[AttendanceLogs]', 'InputDate', FromDate, 'DeviceID', DeviceID))
+                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, 'DeviceID', DeviceID))
                 else
                     if (ToDate <> 0D) and (DeviceID <> 0) then
-                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
+                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
 
         InsertEmpAttendance;
         SqlConnectionMgt.CloseSQLConnection(SQLConnection);
@@ -329,24 +331,26 @@ codeunit 50019 "SQL Connection Attendance"
     procedure SyncUpdateEmployeeAttendance();
     var
         AttenSetup: Record "Attendance Setup";
+        HRSetup: Record "Human Resources Setup";
     begin
         AttenSetup.Get();
+        HRSetup.Get();
         CompInfo.Get;
         SqlConnectionMgt.SetupSQLConnection(SQLConnection);
 
         if FromDate = 0D then
             FromDate := CalcDate(format(AttenSetup."Sync Attendance From"), Today);
         if (ToDate = 0D) and (DeviceID = 0) then
-            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[AttendanceLogs]', 'InputDate', FromDate))
+            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate))
         else
             if (ToDate <> 0D) and (DeviceID = 0) then
-                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate))
+                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate))
             else
                 if (ToDate = 0D) and (DeviceID <> 0) then
-                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[AttendanceLogs]', 'InputDate', FromDate, 'DeviceID', DeviceID))
+                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, 'DeviceID', DeviceID))
                 else
                     if (ToDate <> 0D) and (DeviceID <> 0) then
-                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
+                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
 
         InsertUpdateEmpAttendance;
         SqlConnectionMgt.CloseSQLConnection(SQLConnection);

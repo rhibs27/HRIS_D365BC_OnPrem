@@ -2316,12 +2316,14 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOThrs: Decimal; eveningOThrs: Decimal; OTAmount: Decimal; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOThrs: Decimal; eveningOThrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
         OverTimeMgt: codeUnit "OverTime Mgt";
+        OverTimeType: enum "Overtime Claim Type";
     begin
+        OverTimeType := Enum::"Overtime Claim Type".FromInteger(OverTimeType.Ordinals.Get(OverTimeType.Names.IndexOf(OverTimeClaimType)));
         Employee.Get(HrMgt.GetEmployeeNo());
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
@@ -2332,6 +2334,8 @@ page 50108 "Portal Functions"
         Overtime.Validate("Employee No.", HrMgt.GetEmployeeNo());
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
+        Overtime.Validate("Overtime Claim Type", OverTimeType);
+        Overtime.Validate("Total OT Hours", actualOTHrs);
         Overtime.Validate("Actual OT Hours", actualOTHrs);
         Overtime.Validate("Morning OT Hours", morningOThrs);
         Overtime.Validate("Evening OT Hours", eveningOTHrs);
@@ -2479,9 +2483,6 @@ page 50108 "Portal Functions"
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
-
-        //      '"OTAmount" : "' + Format(OTAmount) +
-        //    '}')
     end;
 
     local procedure "---API1.00 END"()

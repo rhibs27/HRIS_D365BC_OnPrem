@@ -66,6 +66,7 @@ page 50151 "Allowance Assign. Substitute"
                     if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then
                         AllowanceLine1."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
                     AllowanceLine1.Modify();
+                    Message('%1 is Successfully Substituted by %2', Rec."Allowance Type", Rec."Employee Name");
                     CurrPage.Close();
                 end;
             }

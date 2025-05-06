@@ -239,7 +239,6 @@ table 50043 "Attendance Line"
         }
 
 
-
     }
 
     keys

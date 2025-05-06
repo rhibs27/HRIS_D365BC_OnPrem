@@ -410,48 +410,45 @@ codeunit 50022 "Allowance Assignment Mgt"
         // AllowanceAssignmentLine.Reset;
         // AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
         // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-        if AllowanceAssignmentLine.FindSet then
-            repeat
-                EmployeeAttendanceActivity.Reset;
-                EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
-                EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-                if EmployeeAttendanceActivity.FindFirst then begin
-                    case AllowanceAssignmentLine."Allowance Type" of
+        // if AllowanceAssignmentLine.FindSet then
+        // repeat
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
+        EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+        if EmployeeAttendanceActivity.FindFirst then begin
+            case AllowanceAssignmentLine."Allowance Type" of
 
-                        PRSetup."Evening Counter":
-                            EmployeeAttendanceActivity."Evening Counter Days" := 1;
+                PRSetup."Evening Counter":
+                    EmployeeAttendanceActivity."Evening Counter Days" := 1;
 
-                        PRSetup."Morning Counter":
-                            EmployeeAttendanceActivity."Morning Counter Days" := 1;
+                PRSetup."Morning Counter":
+                    EmployeeAttendanceActivity."Morning Counter Days" := 1;
 
-                        PRSetup."Festival Counter":
-                            EmployeeAttendanceActivity."Festival Counter Days" := 1;
+                PRSetup."Festival Counter":
+                    EmployeeAttendanceActivity."Festival Counter Days" := 1;
 
-                        PRSetup."Holiday Counter":
-                            EmployeeAttendanceActivity."Holiday Counter Days" := 1;
+                PRSetup."Holiday Counter":
+                    EmployeeAttendanceActivity."Holiday Counter Days" := 1;
 
-                        PRSetup."Friday Counter":
-                            EmployeeAttendanceActivity."Friday Counter Days" := 1;
+                PRSetup."Friday Counter":
+                    EmployeeAttendanceActivity."Friday Counter Days" := 1;
 
-                        PRSetup."Risk Allowance":
-                            EmployeeAttendanceActivity."Cash Risk Days" := 1;
+                PRSetup."Risk Allowance":
+                    EmployeeAttendanceActivity."Cash Risk Days" := 1;
 
-                        PRSetup."Vault Key":
-                            EmployeeAttendanceActivity."Vault Key Days" := 1;
+                PRSetup."Vault Key":
+                    EmployeeAttendanceActivity."Vault Key Days" := 1;
 
-                        PRSetup."Head Teller Allowance":
-                            EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+                PRSetup."Head Teller Allowance":
+                    EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
 
                         PRSetup."Teller Allowance":
                             EmployeeAttendanceActivity."Teller Allowance Days" := 1;
-
-                        PRSetup."ATM Custodian":
-                            EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
                     end;
                     EmployeeAttendanceActivity.Modify;
                 end;
 
-            until AllowanceAssignmentLine.Next = 0;
+        // until AllowanceAssignmentLine.Next = 0;
         // if GuiAllowed then
         //     Message('Update to employee attendance and activity');
     end;
@@ -664,7 +661,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                 end;
             PGSetup."Teller Allowance":
                 begin
-                    if Employee."Employment Type" = Employee."Employment Type"::"Except Contract" then
+                    if Employee."Employment Type" = Employee."Employment Type"::"Contract" then
                         exit(PGSetup."Teller Allowance (Contract)")
                     else
                         exit(PGSetup."Teller Allowance (Regular)");
