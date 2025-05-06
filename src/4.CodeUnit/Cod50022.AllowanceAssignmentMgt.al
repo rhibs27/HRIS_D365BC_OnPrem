@@ -377,6 +377,8 @@ codeunit 50022 "Allowance Assignment Mgt"
                             PRSetup."Teller Allowance":
                                 EmployeeAttendanceActivity."Teller Allowance Days" := 1;
 
+                            PRSetup."ATM Custodian":
+                                EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
                         end;
                         EmployeeAttendanceActivity.Modify;
                     end;
@@ -442,6 +444,9 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                         PRSetup."Teller Allowance":
                             EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+
+                        PRSetup."ATM Custodian":
+                            EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
                     end;
                     EmployeeAttendanceActivity.Modify;
                 end;
@@ -491,6 +496,9 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                     PRSetup."Teller Allowance":
                         EmployeeAttendanceActivity."Teller Allowance Days" := 0;
+
+                    PRSetup."ATM Custodian":
+                        EmployeeAttendanceActivity."ATM Custodian Allowance days" := 0;
                 end;
                 EmployeeAttendanceActivity.Modify;
             end;
@@ -660,6 +668,13 @@ codeunit 50022 "Allowance Assignment Mgt"
                         exit(PGSetup."Teller Allowance (Contract)")
                     else
                         exit(PGSetup."Teller Allowance (Regular)");
+                end;
+            PGSetup."ATM Custodian":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        exit(PGSetup."ATM Custodian contract (month)")
+                    else
+                        exit(PGSetup."ATM Custodian regular (month)")
                 end;
 
             PGSetup."Risk Allowance":

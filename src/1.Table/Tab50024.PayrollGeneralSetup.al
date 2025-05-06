@@ -436,6 +436,13 @@ table 50024 "Payroll General Setup"
         field(130; "Head Teller Allow. (Regular)"; Decimal) { }
         field(131; "Teller Allowance (Contract)"; Decimal) { }
         field(132; "Teller Allowance (Regular)"; Decimal) { }
+        field(133; "ATM Custodian contract (month)"; Decimal) { }
+        field(134; "ATM Custodian regular (month)"; Decimal) { }
+
+        field(135; "ATM Custodian"; Code[20])
+        {
+            TableRelation = "Payroll Attributes";
+        }
     }
 
     keys

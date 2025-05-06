@@ -368,6 +368,10 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the teller allowance field.';
                     ApplicationArea = All;
                 }
+                field("ATM Custodian"; Rec."ATM Custodian")
+                {
+                    ApplicationArea = All;
+                }
 
             }
             group("Encashment Code Group")
@@ -614,6 +618,16 @@ page 50031 "Payroll General Setup"
                 field("Teller Allow. (Contract)"; Rec."Teller Allowance (Contract)")
                 {
                     ToolTip = 'Specifies the value of the Head Teller Allow. (Contract) field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian regular (month)"; Rec."ATM Custodian regular (month)")
+                {
+                    ToolTip = 'Specifies the value of the ATM Allow. (regular) field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian contract (month)"; Rec."ATM Custodian contract (month)")
+                {
+                    ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
                     ApplicationArea = All;
                 }
 

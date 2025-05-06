@@ -199,6 +199,10 @@ table 50048 "Employee Attendance & Activity"
         {
             Description = 'allowance assignment';
         }
+        field(73; "ATM Custodian Allowance days"; Decimal)
+        {
+            Description = 'allowance assignment';
+        }
 
     }
 
