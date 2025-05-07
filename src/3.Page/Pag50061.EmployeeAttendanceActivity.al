@@ -168,6 +168,11 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Teller Allowance Days field.';
                     ApplicationArea = All;
                 }
+                field("ATM Custodian Allowance days"; Rec."ATM Custodian Allowance days")
+                {
+                    ToolTip = 'Specifies the value of the ATM Custodian Allowance Days field.';
+                    ApplicationArea = All;
+                }
                 field("Half Day"; Rec."Half Day")
                 {
                     ToolTip = 'Specifies the value of the Half Day field.';
