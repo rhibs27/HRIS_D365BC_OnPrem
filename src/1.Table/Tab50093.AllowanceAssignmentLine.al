@@ -339,7 +339,7 @@ table 50093 "Allowance Assignment Line"
         CalculateNoOfDays(Rec);
     end;
 
-    local procedure ValidateAllowanceType(): Boolean
+    procedure ValidateAllowanceType(): Boolean
     begin
         TestField("Allowance Type");
         BaseCalenderChange.Reset;

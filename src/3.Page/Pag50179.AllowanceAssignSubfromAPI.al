@@ -40,6 +40,7 @@ page 50179 "Allowance Assign Subform API"
                     trigger OnValidate()
                     begin
                         Rec.TestField("Allowance Type");
+                        rec.ValidateAllowanceType();
                     end;
                 }
                 field(panel; Rec.Panel)
