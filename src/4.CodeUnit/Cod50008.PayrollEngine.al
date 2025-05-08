@@ -3801,8 +3801,8 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Total Tax Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening" + Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total Tax Remuneration Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening";
-        PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits + CurrentNonPaymentBenefits;
-        // PayrollLine."Total Non-Payments" := CurrentNonPaymentBenefits;
+        PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
+        PayrollLine."Current Non-Payments" := CurrentNonPaymentBenefits;
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
