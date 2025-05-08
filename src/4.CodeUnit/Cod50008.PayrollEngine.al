@@ -2909,8 +2909,8 @@ codeunit 50008 "Payroll Engine"
         PayCyclePeriod.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
         PayCyclePeriod.SetRange("Pay Cycle Code", PayrollHeader."Pay Cycle Code");
         if (ExpiryDate = 0D) or (ExpiryDate >= PGSetup."Payroll Fiscal Year End Date") then begin
-            PayCyclePeriod.SetFilter("Start Date", '<=%1', PGSetup."Payroll Fiscal Year Start Date");
-            PayCyclePeriod.SetFilter("End Date", '>=%1', PGSetup."Payroll Fiscal Year End Date");
+            PayCyclePeriod.SetFilter("Start Date", '<=%1', PGSetup."Payroll Fiscal Year End Date");
+            PayCyclePeriod.SetFilter("End Date", '>=%1', PGSetup."Payroll Fiscal Year Start Date");
         end else begin
             PayCyclePeriod.SetFilter("Start Date", '<=%1', ExpiryDate);
             PayCyclePeriod.SetFilter("End Date", '>=%1', ExpiryDate);
