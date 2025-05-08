@@ -237,7 +237,7 @@ table 50093 "Allowance Assignment Line"
         //     ValidateDate;
         //     ChangeHeaderApprovalStatus
         // end;
-        CheckForGracePeriod;
+        // CheckForGracePeriod;
     end;
 
     trigger OnModify()

@@ -397,6 +397,20 @@ table 50074 "Employee Edit"
         ApproverMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
 
+    trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
+        ApprovalEntry: Record "Approval HRMS";
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
+    end;
 
     trigger OnInsert()
     begin
