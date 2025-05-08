@@ -698,9 +698,19 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Current Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Current Non-Payments"; Rec."Current Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Current Non-Payments field.';
+                    ApplicationArea = All;
+                }
                 field("Projected Benefit"; Rec."Projected Benefit")
                 {
                     ToolTip = 'Specifies the value of the Projected Benefit field.';
+                    ApplicationArea = All;
+                }
+                field("Projected Non-Payments"; Rec."Projected Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Projected Non-Payment field.';
                     ApplicationArea = All;
                 }
                 field("Past Benefit"; Rec."Past Benefit")
