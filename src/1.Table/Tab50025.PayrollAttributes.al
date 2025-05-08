@@ -110,7 +110,7 @@ table 50025 "Payroll Attributes"
         {
             CalcFormula = count("Allowance Assignment Line" where("Allowance Type" = field(Code),
                                                                    Code = field("Branch Filter"),
-                                                                   "No." = field("Entry No. Filter")));
+                                                                   "No." = field("Entry No. Filter"), "substitute Type" = Filter(<> "Allowance Substitute"::Substituted)));
             FieldClass = FlowField;
         }
         field(27; "No. of Days"; Decimal)

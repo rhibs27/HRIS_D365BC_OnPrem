@@ -33,6 +33,7 @@ page 50194 "Attendance Logs"
                 {
                     ToolTip = 'Specifies the value of the Check In Time field.';
                     ApplicationArea = All;
+                    Caption = 'Attendance Time';
                 }
                 field("Check Out Time"; Rec."Check Out Time")
                 {

@@ -103,17 +103,23 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-        if Approved then begin
-            InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved);
-            AllowanceLine.ModifyAll("Approved Date", Today);
-        end else begin
+        if AllowanceLine.Findset() then
+            repeat
+                if Approved then begin
+                    InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
+                    AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
+                    AllowanceLine.Validate("Approved Date", Today);
+                    AllowanceLine.Modify();
+                end;
+            until AllowanceLine.Next() = 0;
+        if not Approved then begin
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
             ApprovalLine.Reset();
             ApprovalLine.SetRange("Document No.", EntryNo);
             ApprovalLine.DeleteAll(true);
             ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment");
         end;
+
     end;
 
     // procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
@@ -388,7 +394,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-    procedure InsertAllowanceAssignmentDayInAttendance(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    procedure InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         // FromDate: Date;
@@ -410,8 +416,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         // AllowanceAssignmentLine.Reset;
         // AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
         // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-        // if AllowanceAssignmentLine.FindSet then
-        // repeat
+        // AllowanceAssignmentLine.Findfirst;
         EmployeeAttendanceActivity.Reset;
         EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
         EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
@@ -611,7 +616,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         if FromDate = 0D then
             Error('Date must have value');
         Clear(NoOfDays);
-        Employee.Get(EmpNo);
+        if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
 
         EngNep.Reset;

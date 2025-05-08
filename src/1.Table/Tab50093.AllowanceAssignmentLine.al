@@ -78,6 +78,8 @@ table 50093 "Allowance Assignment Line"
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
+                if not GuiAllowed then
+                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
                 //     "Approval Status" := "Approval Status"::"Pending Approval";
@@ -103,7 +105,8 @@ table 50093 "Allowance Assignment Line"
                 ValidateDate();
                 Validate("To Date", "From Date");
                 ValidateAllowanceType;
-                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                if GuiAllowed then
+                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
         field(8; "To Date"; Date)
@@ -119,7 +122,7 @@ table 50093 "Allowance Assignment Line"
 
             trigger OnValidate()
             begin
-                if "Allowance Type" <> xRec."Allowance Type" then begin
+                if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
                     Clear("From Date");
                     Clear("To Date");
                     Clear("Employee Code");
@@ -230,10 +233,10 @@ table 50093 "Allowance Assignment Line"
         // TestField("From Date");
 
         //for portal
-        if not GuiAllowed then begin
-            ValidateDate;
-            ChangeHeaderApprovalStatus
-        end;
+        // if not GuiAllowed then begin
+        //     ValidateDate;
+        //     ChangeHeaderApprovalStatus
+        // end;
         CheckForGracePeriod;
     end;
 
@@ -244,8 +247,8 @@ table 50093 "Allowance Assignment Line"
 
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
-        if not GuiAllowed then
-            ChangeHeaderApprovalStatus;
+        // if not GuiAllowed then
+        //     ChangeHeaderApprovalStatus;
     end;
 
     var
@@ -308,22 +311,22 @@ table 50093 "Allowance Assignment Line"
                 end;
             //END;
             until AllowanceLine.Next = 0;
-
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", "No.");
-        AllowanceLine.SetRange(Type, Type);
-        AllowanceLine.SetRange("Allowance Type", "Allowance Type");
-        AllowanceLine.SetRange(Code, Code);
-        AllowanceLine.SetRange("From Date", "From Date");
-        AllowanceLine.Setfilter("Substitute Type", '%1', AllowanceLine."Substitute Type"::"Added as Substitute");
-        AllowanceLine.SetFilter("Employee Code", '<>%1', '');
-        if AllowanceLine.FindFirst then
-            if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
-                if BranchwiseAllowance."Max. No. of Staffs" <> 0 then
-                    if AllowanceLine.Count + 1 > BranchwiseAllowance."Max. No. of Staffs" then
-                        Error(TEXT002, Name, "Allowance Type",
-                                BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
-
+        if Rec."Substitute Type" = Rec."Substitute Type"::" " then begin
+            AllowanceLine.Reset;
+            AllowanceLine.SetRange("No.", "No.");
+            AllowanceLine.SetRange(Type, Type);
+            AllowanceLine.SetRange("Allowance Type", "Allowance Type");
+            AllowanceLine.SetRange(Code, Code);
+            AllowanceLine.SetRange("From Date", "From Date");
+            AllowanceLine.Setfilter("Substitute Type", '%1', AllowanceLine."Substitute Type"::" ");
+            AllowanceLine.SetFilter("Employee Code", '<>%1', '');
+            if AllowanceLine.FindFirst then
+                if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
+                    if BranchwiseAllowance."Max. No. of Staffs" <> 0 then
+                        if AllowanceLine.Count + 1 > BranchwiseAllowance."Max. No. of Staffs" then
+                            Error(TEXT002, Name, "Allowance Type",
+                                    BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
+        end;
         AllowanceHeader.Get("No.");
         if "From Date" <> 0D then
             if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then

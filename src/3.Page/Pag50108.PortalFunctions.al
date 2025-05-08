@@ -2065,6 +2065,7 @@ page 50108 "Portal Functions"
     procedure substituteAllowanceAssignment(entryNo: Code[20]; lineNo: Integer; fromDate: Date; empCode: Code[20]): Text
     var
         AllowanceLine, NewAllowanceLine : Record "Allowance Assignment Line";
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
     begin
         AllowanceLine.Get(entryNo, lineNo);
         // TempAllowanceLine.Copy(AllowanceLine);
@@ -2080,7 +2081,8 @@ page 50108 "Portal Functions"
         // // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
         // TempAllowanceLine.Insert(true);
         // TempAllowanceLine.UpdateSubstitue;
-        AllowanceLine.TestField("Substitute type", AllowanceLine."Substitute Type"::" ");
+        If AllowanceLine."Substitute Type" <> AllowanceLine."Substitute Type"::" " then
+            Error('This Document is already Substituted');
         AllowanceLine.TestField("Approval Status", AllowanceLine."Approval Status"::Approved);
         NewAllowanceLine.Reset;
         NewAllowanceLine.SetRange("No.", AllowanceLine."No.");
@@ -2097,12 +2099,14 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Type := AllowanceLine.Type;
             NewAllowanceLine.Code := AllowanceLine.code;
             NewAllowanceLine.Panel := AllowanceLine.Panel;
-            NewAllowanceLine."To Date" := fromDate;
-            NewAllowanceLine."From Date" := fromDate;
-            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
             NewAllowanceLine.Validate("Employee Code", empCode);
+            NewAllowanceLine.Validate("To Date", fromDate);
+            NewAllowanceLine.Validate("From Date", fromDate);
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
             NewAllowanceLine.Insert(true);
         end;
+        AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(NewAllowanceLine);
+        AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", AllowanceLine."Line No.");
         AllowanceLine."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
         AllowanceLine.Modify();
     end;

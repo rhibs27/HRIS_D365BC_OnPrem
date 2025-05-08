@@ -487,6 +487,7 @@ report 50139 "Daily Attendance Update"
             exit;
         AllowanceAssignmentLine.Reset;
         AllowanceAssignmentLine.SetRange("From Date", FromDate, ToDate);
+        AllowanceAssignmentLine.SetFilter("Substitute Type", '<>%1', AllowanceAssignmentLine."Substitute Type"::Substituted);
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         if AllowanceAssignmentLine.FindFirst then
             repeat
@@ -495,7 +496,6 @@ report 50139 "Daily Attendance Update"
                 EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
                 if EmployeeAttendanceActivity.FindFirst then begin
                     case AllowanceAssignmentLine."Allowance Type" of
-
                         PRSetup."Evening Counter":
                             EmployeeAttendanceActivity."Evening Counter Days" := 1;
 

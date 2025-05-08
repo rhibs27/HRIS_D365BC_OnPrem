@@ -42,6 +42,11 @@ page 50179 "Allowance Assign Subform API"
                         Rec.TestField("Allowance Type");
                     end;
                 }
+                field(panel; Rec.Panel)
+                {
+                    ToolTip = 'Specifies the value of the Panel field.';
+                    ApplicationArea = All;
+                }
                 field(fromDate; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -86,16 +91,15 @@ page 50179 "Allowance Assign Subform API"
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
+                    Editable = true;
                 }
                 field(substituteOfLineNo; Rec."Substitute of Line No.")
                 {
-
                 }
-                field(panel; Rec.Panel)
+                field(allowanceAmount; Rec."Allowance Amount")
                 {
-                    ToolTip = 'Specifies the value of the Panel field.';
-                    ApplicationArea = All;
                 }
+
                 field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

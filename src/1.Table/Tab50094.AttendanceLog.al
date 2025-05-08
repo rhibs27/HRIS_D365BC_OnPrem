@@ -141,11 +141,12 @@ table 50094 "Attendance Log"
         field(29; "Night Shift Check Out Time"; Time) { }
         field(30; "Training Check In Time"; Time) { }
         field(31; "Training Check Out Time"; Time) { }
+        field(32; "Date Time Log"; DateTime) { }
     }
 
     keys
     {
-        key(Key1; "Machine Emp. Code", Date, "Employee ID") { }
+        key(Key1; "Machine Emp. Code", "Employee ID", "Date Time Log") { }
         key(Key2; "Employee ID") { }
     }
 

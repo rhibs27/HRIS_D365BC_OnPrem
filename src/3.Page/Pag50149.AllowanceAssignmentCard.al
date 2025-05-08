@@ -15,11 +15,13 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Code"; Rec.Code)
                 {
                     ToolTip = 'Specifies the value of the Code field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field(Name; Rec.Name)
                 {
@@ -30,6 +32,7 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Week field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("English Month"; Rec."English Month")
                 {

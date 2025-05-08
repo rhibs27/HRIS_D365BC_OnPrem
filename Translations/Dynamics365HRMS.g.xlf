@@ -1603,6 +1603,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1360624493 - Field 1704329695 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Date Time Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Log - Field Date Time Log - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1360624493 - Field 4275459808 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Delayed</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4997,6 +5002,11 @@
           <source>Actual Work Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Actual Work Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3143074245 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian Allowance days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field ATM Custodian Allowance days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3795677189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Date</source>
@@ -11917,6 +11927,21 @@
           <source>Approval Grace Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Approval Grace Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1773357528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field ATM Custodian - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3504364353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian contract (month)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field ATM Custodian contract (month) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1969060745 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian regular (month)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field ATM Custodian regular (month) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1891586249 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bal. Account No.</source>
@@ -21083,6 +21108,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Control Check In Time - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2891534564 - Control 2648433944 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Control Check In Time - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2891534564 - Control 3609610183 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Check Out Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23737,6 +23767,11 @@
           <source>Specifies the value of the Actual Work Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Actual Work Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3143074245 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Custodian Allowance Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control ATM Custodian Allowance days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 3795677189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attendance Date field.</source>
@@ -35702,6 +35737,16 @@
           <source>Specifies the value of the Sick Leave field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Sick Leave - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3504364353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM cust. Allow. (comtract) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control ATM Custodian contract (month) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1969060745 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Allow. (regular) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control ATM Custodian regular (month) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 1312460839 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Base Teaching Hours (facilitator Allowance) field.</source>
