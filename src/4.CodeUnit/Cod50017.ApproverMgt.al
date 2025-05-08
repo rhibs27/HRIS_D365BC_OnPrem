@@ -1,6 +1,5 @@
 codeunit 50017 "Approver Mgt"
 {
-
     // >> Fixed Field  ID used on ALL Table For RECRef >> Santosh 2025-03-04
     // >>RecRef.Field(1) = Document No.
     // >>RecRef.Field(2) = Document Type    
