@@ -368,6 +368,7 @@ codeunit 50017 "Approver Mgt"
             Approver.SetRange("Approval Sequence", 1);
             if Approver.Findfirst() then begin
                 RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
+                Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
                 // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
