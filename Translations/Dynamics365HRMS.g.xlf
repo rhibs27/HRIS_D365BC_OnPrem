@@ -13598,6 +13598,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Past Benefit - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1551245375 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Past Non-Payments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Past Non-Payments - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 4168867772 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Past Retirement Fund</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37457,6 +37462,11 @@
           <source>Specifies the value of the Past Benefit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Past Benefit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 2003736114 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Past Non-Payment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Past Non-Payment - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 4168867772 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Past Retirement Fund field.</source>
