@@ -718,6 +718,12 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Past Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Past Non-Payment"; Rec."Past Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Past Non-Payment field.';
+                    ApplicationArea = All;
+                }
+
                 field("Assessable Income"; Rec."Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Assessable Income field.';

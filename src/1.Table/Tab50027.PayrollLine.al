@@ -877,6 +877,10 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
+        field(171; "Past Non-Payments"; Decimal)
+        {
+            Editable = false;
+        }
     }
 
     keys
