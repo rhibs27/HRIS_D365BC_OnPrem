@@ -3774,7 +3774,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Projected Benefit" := TaxAtOnceProjectionEarning;
         PayrollLine."Projected Non-Payments" := TaxAtOnceProjectedNonPayments;
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
-        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments;
+        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
         PayrollLine."Past Retirement Fund" := Abs(Employee."PF Contribution") + Abs(Employee."PF Contribution (Office)") +
                                       Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
