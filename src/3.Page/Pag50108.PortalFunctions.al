@@ -3945,6 +3945,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange(Cancelled, false);
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         leaveForApprove := Approval.Count();
 
@@ -3952,18 +3953,21 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange(Cancelled, true);
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         LeaveCancelledForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelReqForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Claim");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelClaimApprove := Approval.Count();
 
@@ -3972,6 +3976,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Personal Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         PersonalLoanForApprove := Approval.Count();
 
@@ -3979,6 +3984,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Home Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         HomeLoanForApprove := Approval.Count();
 
@@ -3986,6 +3992,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Vehicle Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         VehicleLoanForApprove := Approval.Count();
 
@@ -3993,29 +4000,34 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Salary Advance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         SalaryAdvanceForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Attendance Missed");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         AttendanceMissedForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Employee Transfer");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeTransferForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Overtime);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         OverTimeForApprove := Approval.Count();
 
         EmployeeTransfer.Reset();
         EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
         EmployeeTransfer.SetRange("Is Transfer Details Added", true);
         TransferAcknowledgeForApprove := EmployeeTransfer.Count();
@@ -4024,17 +4036,20 @@ page 50108 "Portal Functions"
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Transfer Claim");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TransferClaimForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Resignation);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         ResignForApprove := Approval.Count();
 
         DocumentApprover.Reset();
         DocumentApprover.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         DocumentApprover.SetRange("Document Type", DocumentApprover."Document Type"::Resignation);
         DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
         ResignClearanceForApprove := DocumentApprover.Count();
@@ -4042,23 +4057,27 @@ page 50108 "Portal Functions"
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Employee Edit");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeEditForApprove := Approval.Count();
 
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Allowance Assignment");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         AllowanceAssignmentForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Late Attendance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         LateAttendanceForApprove := Approval.Count();
 
