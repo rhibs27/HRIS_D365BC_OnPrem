@@ -135,6 +135,7 @@ page 50061 "Employee Attendance & Activity"
                 }
                 field("Vault Key Days"; Rec."Vault Key Days")
                 {
+                    Caption = 'Key Custodian Days';
                     ToolTip = 'Specifies the value of the Vault Key Days field.';
                     ApplicationArea = All;
                 }
