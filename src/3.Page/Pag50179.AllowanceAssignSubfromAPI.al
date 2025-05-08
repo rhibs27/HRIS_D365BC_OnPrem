@@ -47,16 +47,6 @@ page 50179 "Allowance Assign Subform API"
                     ToolTip = 'Specifies the value of the Panel field.';
                     ApplicationArea = All;
                 }
-                field(fromDate; Rec."From Date")
-                {
-                    ToolTip = 'Specifies the value of the From Date field.';
-                    ApplicationArea = All;
-
-                    trigger OnValidate()
-                    begin
-                        Rec.TestField("From Date");
-                    end;
-                }
                 field(employeeCode; Rec."Employee Code")
                 {
                     ToolTip = 'Specifies the value of the Employee Code field.';
@@ -65,6 +55,15 @@ page 50179 "Allowance Assign Subform API"
                     trigger OnValidate()
                     begin
                         Rec.TestField("Employee Code");
+                    end;
+                }
+                field(fromDate; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        Rec.TestField("From Date");
                     end;
                 }
                 field(employeeName; Rec."Employee Name")

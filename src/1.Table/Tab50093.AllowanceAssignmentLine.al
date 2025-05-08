@@ -78,8 +78,8 @@ table 50093 "Allowance Assignment Line"
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
-                if not GuiAllowed then
-                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                // if not GuiAllowed then
+                //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
                 //     "Approval Status" := "Approval Status"::"Pending Approval";
@@ -105,8 +105,8 @@ table 50093 "Allowance Assignment Line"
                 ValidateDate();
                 Validate("To Date", "From Date");
                 ValidateAllowanceType;
-                if GuiAllowed then
-                    Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                // if GuiAllowed then
+                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
         field(8; "To Date"; Date)

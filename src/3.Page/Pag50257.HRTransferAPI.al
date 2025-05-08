@@ -1,9 +1,6 @@
 page 50257 "HR Transfer API"
 {
-
-
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
-
     EntityName = 'HRTransfer';
     EntitySetName = 'HRTransfers';
     PageType = API;
