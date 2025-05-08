@@ -3102,7 +3102,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCalcCurrentEarning;
         TaxAtOnceCalcProjectionEarning;
 
-        TaxAtOnceTotalAnnualEarning := TaxAtOnceCurrentEarning + TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + TaxatOnceCurrentNonPayments + TaxAtOnceProjectedNonPayments;
+        TaxAtOnceTotalAnnualEarning := TaxAtOnceCurrentEarning + TaxAtOnceProjectionEarning + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + Employee."Total Earning" + TaxatOnceCurrentNonPayments + TaxAtOnceProjectedNonPayments;
 
         //RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
@@ -3774,7 +3774,8 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Projected Benefit" := TaxAtOnceProjectionEarning;
         PayrollLine."Projected Non-Payments" := TaxAtOnceProjectedNonPayments;
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
-        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
+        PayrollLine."Past Non-Payments" := Employee."Non-Payment";
+        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
         PayrollLine."Past Retirement Fund" := Abs(Employee."PF Contribution") + Abs(Employee."PF Contribution (Office)") +
                                       Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
