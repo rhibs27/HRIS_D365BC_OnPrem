@@ -765,14 +765,8 @@ End Function
         <Field Name="Name">
           <DataField>Name</DataField>
         </Field>
-        <Field Name="Week">
-          <DataField>Week</DataField>
-        </Field>
-        <Field Name="EnglishMonth">
-          <DataField>EnglishMonth</DataField>
-        </Field>
-        <Field Name="EnglishYear">
-          <DataField>EnglishYear</DataField>
+        <Field Name="FiscalYear">
+          <DataField>FiscalYear</DataField>
         </Field>
         <Field Name="AllowanceType">
           <DataField>AllowanceType</DataField>

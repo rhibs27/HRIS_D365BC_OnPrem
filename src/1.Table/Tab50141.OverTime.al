@@ -592,7 +592,7 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("OT No.");
                             NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
 
                     //for out of office

@@ -1547,14 +1547,19 @@ table 50027 "Payroll Line"
     local procedure GetAmountAfterAbsentism(CalculatedAmount: Decimal): Decimal
     var
         PostedPayHeader: Record "Posted Payroll Header";
+        TotalDaysInMonth: Decimal;
     begin
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            TotalDaysInMonth := PGSetup."Total Days" / 12
+        else
+            TotalDaysInMonth := "Total Days";
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
             if not PayrollHeader.Irregular then begin
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
-                    exit((CalculatedAmount / "Total Days") * ("Present Days" + "Week off Days" + "Leave Days") +
+                    exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 else
-                    exit((CalculatedAmount / ("Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+                    exit((CalculatedAmount / (TotalDaysInMonth * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
             end;
         end else begin
             if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
@@ -1568,13 +1573,13 @@ table 50027 "Payroll Line"
                     exit(-(CalculatedAmount / PayrollHeader."Total Days" * "Absent Days"));
 
                 if "Prior Absent Days" + "Prior Leave Days" + "Prior Present Days" = 0 then
-                    exit((CalculatedAmount / PayrollHeader."Total Days") * ("Total Days" - "Absent Days"))
+                    exit((CalculatedAmount / TotalDaysInMonth) * ("Total Days" - "Absent Days"))
                 else
-                    exit((CalculatedAmount / PayrollHeader."Total Days") * ("Total Days" - "Absent Days") +
+                    exit((CalculatedAmount / TotalDaysInMonth) * ("Total Days" - "Absent Days") +
                         (CalculatedAmount / ("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") *
                         (("Prior Absent Days" + "Prior Leave Days" + "Prior Present Days") - "Prior Absent Days"))) //deduct on prior absent.
             end else
-                exit((CalculatedAmount / (PayrollHeader."Total Days" * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
+                exit((CalculatedAmount / (TotalDaysInMonth * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
         end;
     end;
 

@@ -9,7 +9,7 @@ codeunit 50017 "Approver Mgt"
     // >>RecRef.Field(100) = Status 
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
-    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
+    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status")
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -47,7 +47,10 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
                     Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
-                        Approval.Validate("Approval Status", "Approval Status"::Open);
+                        if ApprovalStatus = ApprovalStatus::Pending then
+                            Approval.Validate("Approval Status", "Approval Status"::Open);
+                        if ApprovalStatus = ApprovalStatus::Open then
+                            Approval.Validate("Approval Status", "Approval Status"::Created);
                         count := count + 1;
                     end else
                         Approval.Validate("Approval Status", "Approval Status"::Created);
@@ -368,6 +371,7 @@ codeunit 50017 "Approver Mgt"
             if Approver.Findfirst() then begin
                 RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
                 Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
+                Approver.Modify();
                 // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
@@ -428,6 +432,20 @@ codeunit 50017 "Approver Mgt"
                 exit(true)
         end;
     end;
+
+    procedure UpdateFirstApproverStatus(DocNo: Code[20]): Boolean
+    var
+        Approver: Record "Approval HRMS";
+    begin
+        Approver.Reset();
+        Approver.SetRange("Document No.", DocNo);
+        Approver.SetRange("Approval Sequence", 1);
+        if Approver.FindFirst() then begin
+            Approver.Validate("Approval Status", Approver."Approval Status"::Open);
+            Approver.Modify();
+        end;
+    end;
+
 
     var
         HRMgt: Codeunit "HR Mgt.";

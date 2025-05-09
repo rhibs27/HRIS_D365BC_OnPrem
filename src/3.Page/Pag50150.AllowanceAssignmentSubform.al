@@ -105,6 +105,7 @@ page 50150 "Allowance Assignment Subform"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
+                Visible = DocumentApproved;
 
                 trigger OnAction()
                 var
@@ -141,6 +142,63 @@ page 50150 "Allowance Assignment Subform"
                     Page.Run(Page::"Allowance Assign. Substitute", AllowanceLineTemp);
                 end;
             }
+            action("Allowance In Range")
+            {
+                Image = Insert;
+                ToolTip = 'Executes the Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentOpen;
+
+                trigger OnAction()
+                var
+                    FilterPage: FilterPageBuilder;
+                    AllowanceLine: Record "Allowance Assignment Line";
+                    FromDate: Date;
+                    ToDate: Date;
+                    AllowanceType: Code[20];
+                    EmployeeCode: Code[20];
+                    panel: Enum panel;
+                    AllowanceAssignmentHeader: Record "Allowance Assignment Header";
+                begin
+                    IF AllowanceAssignmentHeader.Get(Rec."No.") THEN
+                        if AllowanceAssignmentHeader."Approval Status" = AllowanceAssignmentHeader."Approval Status"::Open then begin
+                            FilterPage.AddRecord('Select Employee Details', AllowanceLine);
+                            FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
+                            FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
+                            FilterPage.AddField('Select Employee Details', AllowanceLine."Employee Code");
+                            FilterPage.AddField('Select Employee Details', AllowanceLine."Allowance Type");
+                            if FilterPage.RunModal() then begin
+                                AllowanceLine.SetView(FilterPage.GetView('Select Employee Details'));
+                                Evaluate(FromDate, AllowanceLine.GetFilter("From Date"));
+                                Evaluate(ToDate, AllowanceLine.GetFilter("To Date"));
+                                Evaluate(AllowanceType, AllowanceLine.GetFilter("Allowance Type"));
+                                Evaluate(EmployeeCode, AllowanceLine.GetFilter("Employee Code"));
+                            end;
+                            AllowanceAssignmentMgt.InsertAllowanceLine(rec."No.", AllowanceType, panel::" ", EmployeeCode, FromDate, ToDate);
+                            CurrPage.Update();
+                        end;
+                end;
+            }
+            action("Approve Substitute")
+            {
+                Image = Approve;
+                ToolTip = 'Executes the Approve Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentApproved;
+                trigger OnAction()
+                var
+                    AllowanceLine1: Record "Allowance Assignment Line";
+                begin
+                    Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
+                    AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
+                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
+                    Rec.Modify();
+                    Message('Substitute Allowance is Approved');
+                end;
+            }
+
         }
     }
 
@@ -175,8 +233,11 @@ page 50150 "Allowance Assignment Subform"
         AllowanceTypeFilter: Code[20];
         [InDataSet]
         ToDateEditable: Boolean;
+        DocumentOpen: Boolean;
+        DocumentApproved: Boolean;
         FormEditable: Boolean;
         Typefilter: Text;
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 
     procedure _SetFilter(_AllowanceTypeFilter: Code[20])
     begin
@@ -186,9 +247,14 @@ page 50150 "Allowance Assignment Subform"
     end;
 
     local procedure SetLayout()
+    var
+        AllowanceHeader: Record "Allowance Assignment Header";
     begin
         ToDateEditable := true;
-
+        if AllowanceHeader.Get(rec."No.") then begin
+            DocumentOpen := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Open;
+            DocumentApproved := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved;
+        end;
         if Rec."Allowance Type" = 'FRIDAY COUNTER' then
             ToDateEditable := false;
 

@@ -833,6 +833,9 @@ codeunit 50000 "Leave Mgt."
         //     else
         //         Error('Approver line Not Found');
         // end;
+        if GuiAllowed then
+            ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
+
         Leave.modify();
         HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, '', Leave."Employee No.", Leave."No.", 0);   //For email
         exit(Leave."No.");

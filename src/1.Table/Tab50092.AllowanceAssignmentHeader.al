@@ -52,7 +52,7 @@ table 50092 "Allowance Assignment Header"
                             Name := OrganizationStructureList.Name;
                 end;
                 //GetApprover();
-                CheckForSameWeek;
+                // CheckForSameWeek;
             end;
         }
         field(3; Name; Text[100])
@@ -61,17 +61,34 @@ table 50092 "Allowance Assignment Header"
         }
         field(4; "From Date"; Date)
         {
-            Editable = false;
+            trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
+            begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
+                else
+                    Clear("Fiscal Year");
+                if Rec."From Date" <> xRec."From Date" then
+                    Clear("To date");
+            end;
+            // Editable = false;
+
         }
         field(5; "To date"; Date)
         {
-            Editable = false;
+            // Editable = false;
 
             trigger OnValidate()
             begin
                 TestField("From Date");
                 if "From Date" > "To date" then
                     Error('Invalid date.');
+                if "To date" > "From Date" + 32 then
+                    Error('Date range exceed');
+                CheckForExistingDate();
             end;
         }
         field(6; "Type"; Enum "Branchwise/Extension Type")
@@ -132,31 +149,38 @@ table 50092 "Allowance Assignment Header"
         // {
         //     Editable = false;
         // }
-        field(17; Week; Enum WeekNumber)
+        // field(17; Week; Enum WeekNumber)
+        // {
+        //     trigger OnValidate()
+        //     begin
+        //         // CheckLineExist;
+        //         CalculateWeekStartEndDate;
+        //         CheckForSameWeek;
+        //     end;
+        // }
+        // field(18; "English Month"; Enum "English Month")
+        // {
+        //     Editable = false;
+        //     trigger OnValidate()
+        //     begin
+        // TestField(Week);
+        // CheckLineExist;
+        // CalculateWeekStartEndDate;
+        // CheckForSameWeek;
+        //     end;
+        // }
+        // field(19; "English Year"; Integer)
+        // {
+        //     trigger OnValidate()
+        //     begin
+        //         // CheckForSameWeek;
+        //     end;
+        // }
+        field(19; "Fiscal Year"; text[10])
         {
             trigger OnValidate()
             begin
-                // CheckLineExist;
-                CalculateWeekStartEndDate;
-                CheckForSameWeek;
-            end;
-        }
-        field(18; "English Month"; Enum "English Month")
-        {
-            Editable = false;
-            trigger OnValidate()
-            begin
-                TestField(Week);
-                // CheckLineExist;
-                CalculateWeekStartEndDate;
-                CheckForSameWeek;
-            end;
-        }
-        field(19; "English Year"; Integer)
-        {
-            trigger OnValidate()
-            begin
-                CheckForSameWeek;
+                // CheckForSameWeek;
             end;
         }
         field(20; "Change Approver Remarks"; Text[250]) { }
@@ -230,7 +254,7 @@ table 50092 "Allowance Assignment Header"
                     begin
                         HRSetup.TestField("Allowance Assignment Series");
                         NoSeriesMgt.InitSeries(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
-                        ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type");
+                        ApproverMgt.InsertApproval("Employee No.", "No.", "Activity Type", "Approval Status");
                     end;
             end;
     end;
@@ -304,70 +328,84 @@ table 50092 "Allowance Assignment Header"
     //     end;
     // end;
 
-    local procedure CalculateWeekStartEndDate()
-    var
-        EnglishNepaliDate: Record "English-Nepali Date";
-        ToDate: Date;
-    begin
-        TestField(Week);
-        if "English Month" = "English Month"::" " then
-            "English Month" := Date2DMY(Today, 2);
+    // local procedure CalculateWeekStartEndDate()
+    // var
+    //     EnglishNepaliDate: Record "English-Nepali Date";
+    //     ToDate: Date;
+    // begin
+    //     // TestField(Week);
+    //     if "English Month" = "English Month"::" " then
+    //         "English Month" := Date2DMY(Today, 2);
 
-        if "English Month" = "English Month"::" " then
-            exit;
+    //     if "English Month" = "English Month"::" " then
+    //         exit;
 
-        "From Date" := 0D;
-        "To date" := 0D;
-        if "English Year" = 0 then begin
-            if "English Month" < Date2DMY(Today, 2) then
-                "English Year" := Date2DMY(Today, 3) + 1
-            else
-                "English Year" := Date2DMY(Today, 3);
-        end;
-        EnglishNepaliDate.Reset;
-        EnglishNepaliDate.SetRange("English Month", "English Month");
-        EnglishNepaliDate.SetRange("English Year", "English Year");
-        EnglishNepaliDate.FindFirst;
-        case Week of
-            Week::"Week 1":
-                begin
-                    "From Date" := EnglishNepaliDate."English Date";
-                    "To date" := CalcDate('<1W>', EnglishNepaliDate."English Date") - 1;
-                end;
-            Week::"Week 2":
-                begin
-                    "From Date" := CalcDate('<1W>', EnglishNepaliDate."English Date");
-                    "To date" := CalcDate('<2W>', EnglishNepaliDate."English Date") - 1;
-                end;
-            Week::"Week 3":
-                begin
-                    "From Date" := CalcDate('<2W>', EnglishNepaliDate."English Date");
-                    "To date" := CalcDate('<3W>', EnglishNepaliDate."English Date") - 1;
-                end;
-            Week::"Week 4":
-                begin
-                    "From Date" := CalcDate('<3W>', EnglishNepaliDate."English Date");
-                    EnglishNepaliDate.FindLast;
-                    ToDate := CalcDate('<4W>', EnglishNepaliDate."English Date");
-                    if EnglishNepaliDate."English Date" < ToDate then
-                        "To date" := EnglishNepaliDate."English Date"
-                    else
-                        "To date" := ToDate;
-                end;
-        end;
-        // if Modify then;
-    end;
-
-    local procedure CheckForSameWeek()
+    //     "From Date" := 0D;
+    //     "To date" := 0D;
+    //     if "English Year" = 0 then begin
+    //         if "English Month" < Date2DMY(Today, 2) then
+    //             "English Year" := Date2DMY(Today, 3) + 1
+    //         else
+    //             "English Year" := Date2DMY(Today, 3);
+    //     end;
+    //     EnglishNepaliDate.Reset;
+    //     EnglishNepaliDate.SetRange("English Month", "English Month");
+    //     EnglishNepaliDate.SetRange("English Year", "English Year");
+    //     EnglishNepaliDate.FindFirst;
+    //     // case Week of
+    //     Week::"Week 1":
+    //         begin
+    //             "From Date" := EnglishNepaliDate."English Date";
+    //             "To date" := CalcDate('<1W>', EnglishNepaliDate."English Date") - 1;
+    //         end;
+    //     Week::"Week 2":
+    //         begin
+    //             "From Date" := CalcDate('<1W>', EnglishNepaliDate."English Date");
+    //             "To date" := CalcDate('<2W>', EnglishNepaliDate."English Date") - 1;
+    //         end;
+    //     Week::"Week 3":
+    //         begin
+    //             "From Date" := CalcDate('<2W>', EnglishNepaliDate."English Date");
+    //             "To date" := CalcDate('<3W>', EnglishNepaliDate."English Date") - 1;
+    //         end;
+    //     Week::"Week 4":
+    //         begin
+    //             "From Date" := CalcDate('<3W>', EnglishNepaliDate."English Date");
+    //             EnglishNepaliDate.FindLast;
+    //             ToDate := CalcDate('<4W>', EnglishNepaliDate."English Date");
+    //             if EnglishNepaliDate."English Date" < ToDate then
+    //                 "To date" := EnglishNepaliDate."English Date"
+    //             else
+    //                 "To date" := ToDate;
+    //         end;
+    // end;
+    // if Modify then;
+    // end;
+    // 
+    // local procedure CheckForSameWeek()
+    // begin
+    //     AllowanceHeader.Reset;
+    //     AllowanceHeader.SetFilter("No.", '<>%1', "No.");
+    //     AllowanceHeader.SetRange(Week, Week);
+    //     AllowanceHeader.SetRange("English Year", "English Year");
+    //     AllowanceHeader.SetRange("English Month", "English Month");
+    //     AllowanceHeader.SetRange(Code, Code);
+    //     AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
+    //     if AllowanceHeader.FindFirst then
+    //         Error('Allowance for this %1 of month %2 and %3 has already been assigned.', type, "English Month", Week);
+    // end;
+    procedure CheckForExistingDate()
     begin
         AllowanceHeader.Reset;
         AllowanceHeader.SetFilter("No.", '<>%1', "No.");
-        AllowanceHeader.SetRange(Week, Week);
-        AllowanceHeader.SetRange("English Year", "English Year");
-        AllowanceHeader.SetRange("English Month", "English Month");
+        AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");
         AllowanceHeader.SetRange(Code, Code);
         AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
-        if AllowanceHeader.FindFirst then
-            Error('Allowance for this %1 of month %2 and %3 has already been assigned.', type, "English Month", Week);
+        if AllowanceHeader.Findset then
+            repeat
+                if ("From Date" <= AllowanceHeader."To date") and ("To date" >= AllowanceHeader."From Date") then
+                    Error('Allowance for this period month %1 and %2 is already been assigned in %3.', "From Date", "To date", AllowanceHeader."No.");
+            until AllowanceHeader.Next() = 0;
+
     end;
 }

@@ -314,7 +314,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; remarks: Text; reasonCode: Code[20]; Type: Text)
+    procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; Type: Text)
     var
         //CancelDocument: Record "Cancel Document";
         AttendanceMissed: Record "Attendance Missed";
@@ -329,10 +329,12 @@ page 50108 "Portal Functions"
         AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
-        if EmployeeAct = EmployeeAct::"Attendance Missed" then
+        if EmployeeAct = EmployeeAct::"Attendance Missed" then begin
+            AttendanceMissed.Validate("Check In Time", checkInTime);
+            AttendanceMissed.Validate("Check Out Time", checkOutTime);
             AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed")
-        else if EmployeeAct = EmployeeAct::"Late Attendance" then
-            AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
+        end else if EmployeeAct = EmployeeAct::"Late Attendance" then
+                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
         AttendanceMissed.Validate("Requested Date", Today);
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
@@ -2103,7 +2105,8 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Validate("To Date", fromDate);
             NewAllowanceLine.Validate("From Date", fromDate);
             NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
-            NewAllowanceLine.Insert(true);
+            AllowanceAssignmentMgt.GetLineNo(NewAllowanceLine);
+            NewAllowanceLine.Insert();
         end;
         AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(NewAllowanceLine);
         AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", AllowanceLine."Line No.");
@@ -2123,6 +2126,18 @@ page 50108 "Portal Functions"
         AllowanceLine.SetRange("No.", No);
         AllowanceMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine);
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure insertAllowanceInRange(documentNo: Code[20]; allowanceType: code[20]; panel: Text; employeeNo: Code[20]; fromDate: date; toDate: date)
+    var
+        PanelENum: Enum Panel;
+    begin
+        if panel <> '' then
+            PanelEnum := Enum::Panel.FromInteger(PanelENum.Ordinals.Get(PanelENum.Names.IndexOf(panel)));
+        AllowanceMgt.InsertAllowanceLine(DocumentNo, AllowanceType, PanelENum, EmployeeNo, FromDate, ToDate);
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]

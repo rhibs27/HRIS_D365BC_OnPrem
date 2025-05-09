@@ -16,9 +16,10 @@ report 50081 "Branch Allowance Data"
                 column(EntryNo; "No.") { }
                 // column("Code"; Code) { }
                 // column(Name; Name) { }
-                column(EnglishMonth; "English Month") { }
-                column(EnglishYear; "English Year") { }
-                column(Week; Week) { }
+                // column(EnglishMonth; "English Month") { }
+                // column(EnglishYear; "English Year") { }
+                column(Fiscalear; "Fiscal Year") { }
+                // column(Week; Week) { }
                 column(EmailEMECM; EmailEMECM) { }
                 column(EmailBM; EmailBM) { }
                 dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
@@ -84,8 +85,8 @@ report 50081 "Branch Allowance Data"
 
                 trigger OnPreDataItem()
                 begin
-                    SetRange("English Month", EnglishMonth);
-                    SetRange("English Year", EnglishYear);
+                    // SetRange("English Month", EnglishMonth);
+                    // SetRange("English Year", EnglishYear);
                 end;
             }
 

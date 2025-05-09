@@ -38,9 +38,9 @@ page 50177 "Allowance Header API"
             // field(approverID; Rec."Approver ID") { }
             field(approverDate; Rec."Approved Date") { }
             // field(approverName; Rec."Approver Name") { }
-            field(week; Rec.Week) { }
-            field(englishMonth; Rec."English Month") { }
-            field(englishYear; Rec."English Year") { }
+            // field(week; Rec.Week) { }
+            // field(englishMonth; Rec."English Month") { }
+            field(fiscalYear; Rec."Fiscal Year") { }
             field(createdBy; Rec."Created By") { }
             field(return; Rec.Return) { }
             field(rejectionRemarks; Rec."Rejection Remarks")
@@ -77,7 +77,7 @@ page 50177 "Allowance Header API"
     var
         HrMgt: Codeunit "HR Mgt.";
     begin
-        GetMonthlyFilter;
+        // GetMonthlyFilter;
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         Rec.SetAscending("No.", false);
     end;

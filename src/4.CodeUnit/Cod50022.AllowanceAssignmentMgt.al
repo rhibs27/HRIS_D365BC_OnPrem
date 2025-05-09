@@ -34,13 +34,14 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         // Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         // if GuiAllowed then
         //     if not Confirm(Confirmation, false) then
         //         exit;
         // if AllowanceAssignment."Approver ID" = '' then
         //     Error('Please select an approver.');
-
+        ApproverMgt.UpdateFirstApproverStatus(AllowanceAssignment."No.");
         AllowanceLineCheck.Copy(AllowanceLine);
         if AllowanceLineCheck.FindFirst then
             repeat
@@ -117,7 +118,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             ApprovalLine.Reset();
             ApprovalLine.SetRange("Document No.", EntryNo);
             ApprovalLine.DeleteAll(true);
-            ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment");
+            ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment", EmpAllowance."Approval Status");
         end;
 
     end;
@@ -349,7 +350,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
             if AllowanceAssignmentLine.FindFirst then
                 repeat
-
                     EmployeeAttendanceActivity.Reset;
                     EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
                     EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
@@ -522,8 +522,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         OrganizationStructureList: Record "Organization Structure List";
     begin
         AllowanceHeadFilterPage.AddTable(AllowanceHeaderText, DATABASE::"Allowance Assignment Header");
-        AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
-        AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Year");
+        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
+        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Year");
         if AllowanceHeadFilterPage.RunModal then begin
             Employee.Reset;
             Employee.SetRange("NAV Login ID", UserId);
@@ -531,13 +531,13 @@ codeunit 50022 "Allowance Assignment Mgt"
             // if not Employee.Screener then
             //     Error('You are not allowed to generate allowance.');
             AllowanceHeader1.SetView(AllowanceHeadFilterPage.GetView(AllowanceHeaderText));
-            Evaluate(EnglishMonth, AllowanceHeader1.GetFilter("English Month"));
-            Evaluate(EnglishYear, AllowanceHeader1.GetFilter("English Year"));
-            if EnglishMonth = EnglishMonth::" " then
-                Error('English month must have value.');
-            if EnglishYear = 0 then
-                Error('English year must have value.');
-            GLSetup.Get;
+            // Evaluate(EnglishMonth, AllowanceHeader1.GetFilter("English Month"));
+            // Evaluate(EnglishYear, AllowanceHeader1.GetFilter("English Year"));
+            // if EnglishMonth = EnglishMonth::" " then
+            //     Error('English month must have value.');
+            // if EnglishYear = 0 then
+            //     Error('English year must have value.');
+            // GLSetup.Get;
             // branch
             OrganizationStructureList.Reset;
 
@@ -551,19 +551,19 @@ codeunit 50022 "Allowance Assignment Mgt"
                     while counter <= 4 do begin
                         //AllowanceHeader.RESET;
                         Clear(AllowanceHeader);
-                        AllowanceHeader.SetRange(Week, counter);
+                        // AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
                         AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
+                        // AllowanceHeader.SetRange("English Year", EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
                             AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
                             AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            AllowanceHeader.Validate("English Year", EnglishYear);
-                            AllowanceHeader.Week := counter;
-                            AllowanceHeader.Validate("English Month", EnglishMonth);
+                            // AllowanceHeader.Validate("English Year", EnglishYear);
+                            // AllowanceHeader.Week := counter;
+                            // AllowanceHeader.Validate("English Month", EnglishMonth);
                             // AllowanceHeader.GetApprover();
                             AllowanceHeader.Validate("Last Modified By", UserId);
                             AllowanceHeader.Validate("Last Modified Date", Today);
@@ -582,19 +582,20 @@ codeunit 50022 "Allowance Assignment Mgt"
                     while counter <= 4 do begin
                         //AllowanceHeader.RESET;
                         Clear(AllowanceHeader);
-                        AllowanceHeader.SetRange(Week, counter);
+                        // AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
                         AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
+                        // AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("Fiscal Year",EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
                             AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
                             AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            AllowanceHeader.Validate("English Year", EnglishYear);
-                            AllowanceHeader.Week := counter;
-                            AllowanceHeader.Validate("English Month", EnglishMonth);
+                            // AllowanceHeader.Validate("English Year", EnglishYear);
+                            // AllowanceHeader.Week := counter;
+                            // AllowanceHeader.Validate("English Month", EnglishMonth);
                             // AllowanceHeader.GetApprover();
                             AllowanceHeader.Validate("Last Modified By", UserId);
                             AllowanceHeader.Validate("Last Modified Date", Today);
@@ -611,6 +612,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
+
     begin
         PGSetup.Get;
         if FromDate = 0D then
@@ -715,7 +717,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure RejectAllowanceAssigment(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
         AllowanceAssignmentPageBuilder: FilterPageBuilder;
-        AllowanceAssignmentLine2: Record "Allowance Assignment Line";
+        AllowanceAssignmentLine1, AllowanceAssignmentLine2 : Record "Allowance Assignment Line";
     begin
         Employee.Get(HrMgt.GetEmployeeNo);
         // if not Employee.Screener then
@@ -726,12 +728,54 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine2.SetView(AllowanceAssignmentPageBuilder.GetView('Reject Allowance Assignment'));
             if AllowanceAssignmentLine2.GetFilter("Rejection Remarks") = '' then
                 Error('Rejection remarks must have value');
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
             AllowanceAssignmentLine.Validate("Rejection Remarks", AllowanceAssignmentLine2.GetFilter("Rejection Remarks"));
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify;
+            AllowanceAssignmentLine1.Get(AllowanceAssignmentLine."No.", AllowanceAssignmentLine."Substitute of Line No.");
+            AllowanceAssignmentLine1.Validate("Substitute Type", AllowanceAssignmentLine."Substitute Type"::" ");
+            AllowanceAssignmentLine1.Modify();
             Message('Success');
         end;
+    end;
+
+    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
+    var
+        AllowanceAssignLine: Record "Allowance Assignment Line";
+        AllowanceAssignHeader: Record "Allowance Assignment Header";
+        AssignDate: Date;
+    begin
+        AllowanceAssignHeader.Get(DocumentNo);
+        AssignDate := FromDate;
+        for FromDate := FromDate to ToDate do begin
+            AllowanceAssignLine.Init();
+            AllowanceAssignLine.Validate("No.", DocumentNo);
+            AllowanceAssignLine.Validate(Code, AllowanceAssignHeader.Code);
+            AllowanceAssignLine.Validate(Name, AllowanceAssignHeader.Name);
+            AllowanceAssignLine.Validate(Type, AllowanceAssignHeader.Type);
+            AllowanceAssignLine.Validate("Allowance Type", AllowanceType);
+            AllowanceAssignLine.Validate(Panel, Panel);
+            AllowanceAssignLine.Validate("Employee Code", EmployeeNo);
+            AllowanceAssignLine.Validate("From Date", FromDate);
+            AllowanceAssignLine.Validate("Approval Status", AllowanceAssignLine."Approval Status"::Open);
+            AllowanceAssignLine.Validate("Substitute Type", AllowanceAssignLine."Substitute Type"::" ");
+            GetLineNo(AllowanceAssignLine);
+            AllowanceAssignLine.Insert();
+            AssignDate := FromDate + 1;
+        end;
+    end;
+
+    procedure GetLineNo(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    var
+        AllowanceLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceLine.Reset;
+        AllowanceLine.SetCurrentKey("No.", "Line No.");
+        AllowanceLine.SetRange("No.", AllowanceAssignmentLine."No.");
+        if AllowanceLine.FindLast then
+            AllowanceAssignmentLine."Line No." := AllowanceLine."Line No." + 10000
+        else
+            AllowanceAssignmentLine."Line No." := 10000;
     end;
 
 

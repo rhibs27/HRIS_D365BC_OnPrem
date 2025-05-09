@@ -54,7 +54,7 @@ table 50093 "Allowance Assignment Line"
                 // TestField("From Date");
                 // if "Approval Status" = "Approval Status"::Screened then
                 // Error('Cannot substitute screened employee.');
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 //TESTFIELD("Allowance Type");
                 PayrollGeneralSetup.Get;
                 PayrollGeneralSetup.TestField("Risk Allowance");
@@ -113,7 +113,7 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                ValidateDate();
+                // ValidateDate();
             end;
         }
         field(9; "Allowance Type"; Code[20])
@@ -183,8 +183,9 @@ table 50093 "Allowance Assignment Line"
                 if Panel <> Panel::" " then begin
                     PayrollGeneralSetup.Get;
                     PayrollGeneralSetup.TestField("Vault Key");
-                    if "Allowance Type" <> PayrollGeneralSetup."Vault Key" then
-                        Error('Allowance type must be vault key to select panel.');
+                    PayrollGeneralSetup.TestField("ATM Custodian");
+                    if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
+                        Error('Panel is not allowed in this Allowance Type');
                     AllowanceMgt.CheckForPanel(Rec);
                 end;
             end;
@@ -218,13 +219,14 @@ table 50093 "Allowance Assignment Line"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
+        "Approval Status" := "Approval Status"::Open;
 
         if "Line No." = 0 then
             GetLineNo();
 
-        if AllowanceHeader.Get("No.") then begin
-            Week := AllowanceHeader.Week;
-        end;
+        // if AllowanceHeader.Get("No.") then begin
+        //     Week := AllowanceHeader.Week;
+        // end;
 
         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
             Error('Document is already screened.');
@@ -328,6 +330,8 @@ table 50093 "Allowance Assignment Line"
                                     BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
         end;
         AllowanceHeader.Get("No.");
+        AllowanceHeader.TestField("From Date");
+        AllowanceHeader.TestField("To date");
         if "From Date" <> 0D then
             if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
                 Error('Date is not within period.');

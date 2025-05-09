@@ -35,9 +35,22 @@ page 50361 "Attendance missed Card"
                     ApplicationArea = All;
                     Caption = 'Attendance Missed Date';
                 }
+                field("Check In Time"; Rec."Check In Time")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Check In Time field.';
+                    ApplicationArea = All;
+                }
+                field("Check Out Time"; Rec."Check Out Time")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Check Out Time field.';
+                    ApplicationArea = All;
+                }
+
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
@@ -52,17 +65,17 @@ page 50361 "Attendance missed Card"
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
                 }
-                field("Reason Code"; Rec."Reason Code")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Reason Code field.';
-                    ApplicationArea = All;
-                }
-                field("Reason Description"; Rec."Reason Description")
-                {
-                    ToolTip = 'Specifies the value of the Reason Description field.';
-                    ApplicationArea = All;
-                }
+                // field("Reason Code"; Rec."Reason Code")
+                // {
+                //     Editable = false;
+                //     ToolTip = 'Specifies the value of the Reason Code field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Reason Description"; Rec."Reason Description")
+                // {
+                //     ToolTip = 'Specifies the value of the Reason Description field.';
+                //     ApplicationArea = All;
+                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -189,7 +202,7 @@ page 50361 "Attendance missed Card"
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
         if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed");
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Attendance Missed", rec."Approval Status");
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

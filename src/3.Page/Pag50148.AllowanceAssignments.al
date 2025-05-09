@@ -36,21 +36,26 @@ page 50148 "Allowance Assignments"
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
                 }
-                field("English Month"; Rec."English Month")
-                {
-                    ToolTip = 'Specifies the value of the English Month field.';
-                    ApplicationArea = All;
-                }
-                field("English Year"; Rec."English Year")
+                // field("English Month"; Rec."English Month")
+                // {
+                //     ToolTip = 'Specifies the value of the English Month field.';
+                //     ApplicationArea = All;
+                // }
+                // field("English Year"; Rec."English Year")
+                // {
+                //     ToolTip = 'Specifies the value of the English Year field.';
+                //     ApplicationArea = All;
+                // }
+                field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     ToolTip = 'Specifies the value of the English Year field.';
                     ApplicationArea = All;
                 }
-                field(Week; Rec.Week)
-                {
-                    ToolTip = 'Specifies the value of the Week field.';
-                    ApplicationArea = All;
-                }
+                // field(Week; Rec.Week)
+                // {
+                //     ToolTip = 'Specifies the value of the Week field.';
+                //     ApplicationArea = All;
+                // }
                 field("From Date"; Rec."From Date")
                 {
                     ToolTip = 'Specifies the value of the From Date field.';
@@ -118,7 +123,7 @@ page 50148 "Allowance Assignments"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Create Allowance Header action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     if not Confirm('Do you want to created allowance header for all branch and extension counter?') then

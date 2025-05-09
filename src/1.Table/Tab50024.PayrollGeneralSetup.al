@@ -89,9 +89,7 @@ table 50024 "Payroll General Setup"
                 //ValidateHRMSMonth;
             end;
         }
-        field(22;
-        "Make Payroll Slip Confidential";
-        Boolean)
+        field(22; "Make Payroll Slip Confidential"; Boolean)
         { }
         field(23; "Per Step Salary Percentage"; Decimal)
         {
@@ -443,6 +441,10 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Payroll Attributes";
         }
+        field(136; "Total Days From"; Enum MonthYear)
+        {
+        }
+
     }
 
     keys

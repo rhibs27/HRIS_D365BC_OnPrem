@@ -59,12 +59,11 @@ page 50151 "Allowance Assign. Substitute"
                     AllowanceLine.Validate("Allowance Type", Rec."Allowance Type");
                     AllowanceLine.Validate("Employee Code", Rec."Employee Code");
                     AllowanceLine.Validate("From Date", Rec."From Date");
-                    AllowanceLine."Approval Status" := Rec."Approval Status"::Approved;
-                    AllowanceLine.Insert(true);
-                    AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", rec."Substitute of Line No.");
+                    AllowanceLine."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                    AllowanceAssignmentMgt.GetLineNo(AllowanceLine);
+                    AllowanceLine.Insert();
                     if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then
-                        AllowanceLine1."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
+                        AllowanceLine1."Substitute Type" := Rec."Substitute Type"::Substituted;
                     AllowanceLine1.Modify();
                     Message('%1 is Successfully Substituted by %2', Rec."Allowance Type", Rec."Employee Name");
                     CurrPage.Close();

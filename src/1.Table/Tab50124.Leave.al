@@ -656,7 +656,7 @@ table 50124 Leave
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
                 end;
             end;

@@ -22,9 +22,9 @@ report 50080 "Staff Allowance Details"
             column(Type; Type) { }
             column("Code"; Code) { }
             column(Name; Name) { }
-            column(Week; Week) { }
-            column(EnglishMonth; "English Month") { }
-            column(EnglishYear; "English Year") { }
+            // column(Week; Week) { }
+            // column(EnglishMonth; "English Month") { }
+            column(FiscalYear; "Fiscal Year") { }
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
                 DataItemLink = "No." = field("No.");
@@ -43,8 +43,8 @@ report 50080 "Staff Allowance Details"
 
             trigger OnPreDataItem()
             begin
-                SetRange("English Month", EnglishMonth);
-                SetRange("English Year", EnglishYear);
+                // SetRange("English Month", EnglishMonth);
+                // SetRange("Fiscal Year",FiscalYear);
             end;
         }
     }

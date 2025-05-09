@@ -427,7 +427,7 @@ table 50074 "Employee Edit"
                     begin
                         HRSetup.TestField("Employee Change No. Series");
                         NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                        ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                        ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;
     end;

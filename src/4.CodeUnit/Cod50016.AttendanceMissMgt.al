@@ -420,6 +420,8 @@ codeunit 50016 "AttendanceMiss Mgt"
                         EmpAttendActivity."Week Off Day" := 0;
                     EmpAttendActivity."Tour Day" := 0;
                     EmpAttendActivity."Source No." := AttendanceMissed."No.";
+                    EmpAttendActivity."Check In Time" := AttendanceMissed."Check In Time";
+                    EmpAttendActivity."Check Out Time" := AttendanceMissed."Check Out Time";
                     EmpAttendActivity."Employee Activity Found" := true;
                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
                     EmpAttendActivity.Modify;

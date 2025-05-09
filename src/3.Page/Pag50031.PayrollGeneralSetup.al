@@ -98,6 +98,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Total Days field.';
                     ApplicationArea = All;
                 }
+                field("Total Days From"; Rec."Total Days From")
+                {
+                    ToolTip = 'Specifies the value of the Total Days From field.';
+                    ApplicationArea = All;
+                }
                 field("Parking Account No."; Rec."Parking Account No.")
                 {
                     ToolTip = 'Specifies the value of the Parking Account No. field.';
