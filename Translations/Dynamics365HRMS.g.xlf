@@ -24433,6 +24433,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Vault Key Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Key Custodian Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Vault Key Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 251429658 - Control 572629000 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Week field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44118,45 +44123,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 2955301999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Date of Joining Of Transfer field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Date of Joining Of Transfer - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 276376150 - Control 1651921640 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Department field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Department - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 276376150 - Control 3566412157 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code (To) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Department Code (To) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 3334877077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Department Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Department Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 276376150 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Deputation On field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Deputation On - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 276376150 - Control 245640434 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deputation On (To) field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Deputation On (To) - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 276376150 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Description field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 276376150 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Employee Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee No. field.</source>
@@ -44183,11 +44158,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Incoming Supervisior Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 496135737 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the line No field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control line No - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 276376150 - Control 3175088364 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Notify to field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -44203,11 +44173,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Remarks - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Requested Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Requested Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 276376150 - Control 4180430401 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To Branch field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -44222,11 +44187,6 @@
           <source>Specifies the value of the Transfer Effective Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Transfer Effective Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 276376150 - Control 314634805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Transfer Propose Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Transfer Propose Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Control 2731701685 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer Type field.</source>
