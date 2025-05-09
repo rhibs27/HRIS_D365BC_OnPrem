@@ -37,7 +37,7 @@ page 50361 "Attendance missed Card"
                 }
                 field(Remarks; Rec.Remarks)
                 {
-                    Editable = false;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
