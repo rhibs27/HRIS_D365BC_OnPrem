@@ -5,7 +5,6 @@ page 50222 "Transfer Journal"
     PageType = Worksheet;
     SourceTable = "Transfer Journal";
     UsageCategory = Tasks;
-
     layout
     {
         area(Content)
@@ -16,21 +15,52 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
-                field("Department Code (To)"; Rec."Department Code (To)")
-                {
-                    ToolTip = 'Specifies the value of the Department Code (To) field.', Comment = '%';
-                }
                 field("Deputation On (To)"; Rec."Deputation On (To)")
                 {
                     ToolTip = 'Specifies the value of the Deputation On (To) field.', Comment = '%';
                 }
+                field("Province Code (To)"; Rec."Province Code (To)")
+                {
+                    ToolTip = 'Specifies the value of the Province Code (To) field.', Comment = '%';
+                    Editable = ProvinceEdit;
+                }
+                field("To Branch"; Rec."To Branch")
+                {
+                    ToolTip = 'Specifies the value of the To Branch field.', Comment = '%';
+                    Editable = BranchEdit;
+                }
+                field("Department Code (To)"; Rec."Department Code (To)")
+                {
+                    ToolTip = 'Specifies the value of the Department Code (To) field.', Comment = '%';
+                    Editable = DepartmentEdit;
+                }
                 field("Extension Counter (To)"; Rec."Extension Counter (To)")
                 {
                     ToolTip = 'Specifies the value of the Extension Counter (To) field.', Comment = '%';
+                    Editable = ExtensionCounterEdit;
                 }
-                field("Extension Counter Code"; Rec."Extension Counter Code")
+                field("Unit (To)"; Rec."Unit (To)")
                 {
-                    ToolTip = 'Specifies the value of the Extension Counter Code field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Unit (To) field.', Comment = '%';
+                    Editable = UnitEdit;
+                }
+                field("Functional Title (To)"; Rec."Functional Title (To)")
+                {
+                    ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
+                    Editable = UnitEdit;
+                }
+
+                field("Transfer Type"; Rec."Transfer Type")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
+                }
+                field("Transfer Category"; Rec."Transfer Category")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
+                }
+                field("Transfer Effective Date"; Rec."Transfer Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
                 }
                 field("Incoming Supervisior"; Rec."Incoming Supervisior")
                 {
@@ -44,52 +74,44 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Notify to field.', Comment = '%';
                 }
-                field("Province Code (To)"; Rec."Province Code (To)")
-                {
-                    ToolTip = 'Specifies the value of the Province Code (To) field.', Comment = '%';
-                }
+
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
-                field("To Branch"; Rec."To Branch")
-                {
-                    ToolTip = 'Specifies the value of the To Branch field.', Comment = '%';
-                }
-                field("Transfer Category"; Rec."Transfer Category")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
-                }
-                field("Transfer Effective Date"; Rec."Transfer Effective Date")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
-                }
-                field("Transfer Type"; Rec."Transfer Type")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
-                }
-                field("Unit (To)"; Rec."Unit (To)")
-                {
-                    ToolTip = 'Specifies the value of the Unit (To) field.', Comment = '%';
-                }
-                field("Unit Code"; Rec."Unit Code")
-                {
-                    ToolTip = 'Specifies the value of the Unit Code field.', Comment = '%';
-                }
             }
         }
     }
-    trigger OnAfterGetRecord()
+    actions
+    {
+        area(Processing)
+        {
+            action(Post)
+            {
+                trigger OnAction()
+                begin
+
+                end;
+            }
+        }
+    }
+
+    // trigger OnAfterGetRecord()
+    // begin
+    //     SetFieldEnable;
+    // end;
+
+    trigger OnAfterGetCurrRecord()
     begin
-        SetFieldEnable;
+        SetFieldEnable
     end;
 
     var
-        DepartmentVisible: Boolean;
-        UnitVisible: Boolean;
-        ProvinceVisible: Boolean;
-        BranchVisible: Boolean;
-        ExtensionCounterVisible: Boolean;
+        // DepartmentVisible: Boolean;
+        // UnitVisible: Boolean;
+        // ProvinceVisible: Boolean;
+        // BranchVisible: Boolean;
+        // ExtensionCounterVisible: Boolean;
         UnitEdit: Boolean;
         DepartmentEdit: Boolean;
         ExtensionCounterEdit: Boolean;
@@ -106,11 +128,11 @@ page 50222 "Transfer Journal"
                     ExtensionCounterEdit := true;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    ExtensionCounterVisible := true;
-                    BranchVisible := true;
-                    ProvinceVisible := true;
-                    UnitVisible := false;
-                    DepartmentVisible := false;
+                    // ExtensionCounterVisible := true;
+                    // BranchVisible := true;
+                    // ProvinceVisible := true;
+                    // UnitVisible := false;
+                    // DepartmentVisible := false;
                 END;
             Rec."Deputation on"::Province:
                 BEGIN
@@ -119,11 +141,11 @@ page 50222 "Transfer Journal"
                     ExtensionCounterEdit := false;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    ExtensionCounterVisible := false;
-                    BranchVisible := false;
-                    ProvinceVisible := true;
-                    UnitVisible := false;
-                    DepartmentVisible := false;
+                    // ExtensionCounterVisible := false;
+                    // BranchVisible := false;
+                    // ProvinceVisible := true;
+                    // UnitVisible := false;
+                    // DepartmentVisible := false;
                 END;
             Rec."Deputation on"::Department:
                 BEGIN
@@ -132,11 +154,11 @@ page 50222 "Transfer Journal"
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                    ExtensionCounterVisible := false;
-                    BranchVisible := false;
-                    ProvinceVisible := true;
-                    UnitVisible := true;
-                    DepartmentVisible := true;
+                    // ExtensionCounterVisible := false;
+                    // BranchVisible := false;
+                    // ProvinceVisible := true;
+                    // UnitVisible := true;
+                    // DepartmentVisible := true;
                 END;
             Rec."Deputation on"::Unit:
                 BEGIN
@@ -145,11 +167,11 @@ page 50222 "Transfer Journal"
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                    ExtensionCounterVisible := false;
-                    BranchVisible := false;
-                    ProvinceVisible := true;
-                    UnitVisible := true;
-                    DepartmentVisible := true;
+                    // ExtensionCounterVisible := false;
+                    // BranchVisible := false;
+                    // ProvinceVisible := true;
+                    // UnitVisible := true;
+                    // DepartmentVisible := true;
                 END;
             Rec."Deputation on"::"Extension Counter":
                 BEGIN
@@ -158,11 +180,11 @@ page 50222 "Transfer Journal"
                     ExtensionCounterEdit := TRUE;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    ExtensionCounterVisible := true;
-                    BranchVisible := true;
-                    ProvinceVisible := true;
-                    UnitVisible := false;
-                    DepartmentVisible := false;
+                    // ExtensionCounterVisible := true;
+                    // BranchVisible := true;
+                    // ProvinceVisible := true;
+                    // UnitVisible := false;
+                    // DepartmentVisible := false;
                 END;
         END;
     END;

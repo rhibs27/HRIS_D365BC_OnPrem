@@ -314,7 +314,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; Type: Text)
+    procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; type: Text)
     var
         //CancelDocument: Record "Cancel Document";
         AttendanceMissed: Record "Attendance Missed";

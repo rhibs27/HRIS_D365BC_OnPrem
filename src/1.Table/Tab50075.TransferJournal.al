@@ -4,7 +4,7 @@ table 50075 "Transfer Journal"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "line No"; Integer)
+        field(1; "Entry No"; Integer)
         {
             // trigger OnValidate()
             // begin
@@ -469,7 +469,7 @@ table 50075 "Transfer Journal"
         {
             Description = 'Transfer';
             // TableRelation = Province;
-            Editable = false;
+            // Editable = false;
             trigger OnValidate()
             begin
                 // if "Province Code (To)" <> xRec."Province Code (To)" then begin
@@ -931,21 +931,19 @@ table 50075 "Transfer Journal"
         //     DataClassification = ToBeClassified;
         // }
     }
-    // keys
-    // {
-    //     key(Key1; "No.")
-    //     {
-    //         Clustered = true;
-    //     }
-    //     key(Key2; "Start Date")
-    //     {
-    //     }
-    // }
+    keys
+    {
+        key(Key1; "Entry No")
+        {
+            Clustered = true;
+        }
+    }
     trigger OnInsert()
     begin
+        GetEntryNo;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
-        GetLineNo;
+
         // HRSetup.Get;
 
         // if "No." = '' then
@@ -968,16 +966,15 @@ table 50075 "Transfer Journal"
         // InsertAttachmentLines;
     end;
 
-    local procedure GetLineNo()
+    local procedure GetEntryNo()
     var
         TransferJournal: Record "Transfer Journal";
+
     begin
-        TransferJournal.Reset;
-        TransferJournal.SetRange("Line No", "Line No");
-        if TransferJournal.FindLast then
-            "Line No" := TransferJournal."Line No" + 10000
+        if TransferJournal.FindLast() then
+            "Entry No" := TransferJournal."Entry No" + 1
         else
-            "Line No" := 10000;
+            "Entry No" := 1;
     end;
 
     // trigger OnDelete()

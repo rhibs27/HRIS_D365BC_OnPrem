@@ -44163,6 +44163,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Extension Counter (To) - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 276376150 - Control 3049170359 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Functional Title (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Functional Title (To) - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 276376150 - Control 2584380905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Incoming Supervisior field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>

@@ -917,12 +917,12 @@ page 50066 "Transfer Card"
 
     trigger OnOpenPage()
     begin
-        case rec.Type of
-            rec.Type::"Attendance Missed":
-                begin
-                    ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
-                end;
-        end;
+        // case rec.Type of
+        //     rec.Type::"Attendance Missed":
+        //         begin
+        //             ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
+        //         end;
+        // end;
         SetLayout;
         GetTransferName;
         Rec.CalcFields("Outgoing Reporting Person Name");

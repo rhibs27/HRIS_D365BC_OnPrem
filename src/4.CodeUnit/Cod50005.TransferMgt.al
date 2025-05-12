@@ -1130,6 +1130,15 @@ codeunit 50005 "Transfer Mgt."
         PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer);
     end;
 
+    procedure PostTransferInBulk(Var TransferJournal: Record "Transfer Journal")
+    var
+        TransferRequest: Record "Employee/HR Transfer";
+    begin
+        TransferRequest.Init();
+        TransferRequest.Validate("Employee No.", TransferJournal."Employee No.");
+        // TransferRequest.Validate();
+    end;
+
     // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")
     // var
     //     EmpActPageBuilder: FilterPageBuilder;
