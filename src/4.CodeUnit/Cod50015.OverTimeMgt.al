@@ -29,7 +29,6 @@ codeunit 50015 "OverTime Mgt"
         EveningOTHrs := 0;
         TotalOTHrs := 0;
         CheckInDifference := 0;
-
         EmployeeAttendance.Reset;
         EmployeeAttendance.SetRange("Employee No.", OverTime."Employee No.");
         EmployeeAttendance.SetRange("Attendance Date", OverTime."Start Date");

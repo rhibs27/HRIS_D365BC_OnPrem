@@ -90,17 +90,11 @@ page 50222 "Transfer Journal"
             {
                 trigger OnAction()
                 begin
-
+                    TransferMgt.PostTransferInBulk(Rec);
                 end;
             }
         }
     }
-
-    // trigger OnAfterGetRecord()
-    // begin
-    //     SetFieldEnable;
-    // end;
-
     trigger OnAfterGetCurrRecord()
     begin
         SetFieldEnable
@@ -117,6 +111,8 @@ page 50222 "Transfer Journal"
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;
         ProvinceEdit: Boolean;
+        TransferMgt: Codeunit "Transfer Mgt.";
+
 
     LOCAL PROCEDURE SetFieldEnable();
     BEGIN

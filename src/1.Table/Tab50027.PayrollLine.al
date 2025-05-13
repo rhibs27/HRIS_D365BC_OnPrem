@@ -1555,9 +1555,12 @@ table 50027 "Payroll Line"
             TotalDaysInMonth := "Total Days";
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
             if not PayrollHeader.Irregular then begin
+                // if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
+                //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
+                //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
                 if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
-                    exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
-                        (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
+                    exit((CalculatedAmount) +
+                        (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "LWP Days") / TotalDaysInMonth))
                 else
                     exit((CalculatedAmount / (TotalDaysInMonth * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
             end;

@@ -1134,9 +1134,32 @@ codeunit 50005 "Transfer Mgt."
     var
         TransferRequest: Record "Employee/HR Transfer";
     begin
-        TransferRequest.Init();
-        TransferRequest.Validate("Employee No.", TransferJournal."Employee No.");
-        // TransferRequest.Validate();
+        if TransferJournal.FindSet() then
+            repeat
+                TransferRequest.Init();
+                TransferRequest.Validate("Employee No.", TransferJournal."Employee No.");
+                TransferRequest.Validate("Department Code (To)", TransferJournal."Department Code (To)");
+                TransferRequest.Validate("Province Code (To)", TransferJournal."Province Code (To)");
+                TransferRequest.Validate("To Branch", TransferJournal."To Branch");
+                TransferRequest.Validate("Department Code (To)", TransferJournal."Department Code (To)");
+                TransferRequest.Validate("Extension Counter (To)", TransferJournal."Extension Counter (To)");
+                TransferRequest.Validate("Unit (To)", TransferJournal."Unit (To)");
+                TransferRequest.Validate("Functional Title (To)", TransferJournal."Functional Title (To)");
+                TransferRequest.Validate("Transfer Category", TransferJournal."Transfer Category");
+                TransferRequest.Validate("Transfer Effective Date", TransferJournal."Transfer Effective Date");
+                TransferRequest.Validate("Incoming Supervisior", TransferJournal."Incoming Supervisior");
+                TransferRequest.Validate("Notify to", TransferJournal."Notify to");
+                TransferRequest.Validate(Remarks, TransferJournal.Remarks);
+                TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
+                TransferRequest.Validate("Is Transfer Details Added", true);
+                TransferRequest.Validate("Approved Date", Today);
+                TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
+                TransferRequest.Insert(true);
+                TransferJournal.Validate(Posted, true);
+                TransferJournal.Validate("Transfer Request No", TransferRequest."No.");
+                TransferJournal.Modify();
+            until TransferJournal.next() = 0;
+        Message('Transfer is posted');
     end;
 
     // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")

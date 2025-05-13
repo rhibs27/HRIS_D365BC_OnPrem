@@ -17693,6 +17693,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Journal - Field Transfer Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 276376150 - Field 151032009 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel Order No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Journal - Field Travel Order No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 276376150 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Journal - Field Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 276376150 - Field 2249987928 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Unit (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40487,6 +40497,81 @@
           <source>Executes the Timesheet Summary action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Action Timesheet Summary - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Transfer Order</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 3566412157 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Department Code (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Department Code (To) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 3404248433 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Extension Counter (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Extension Counter (To) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 3049170359 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Functional Title (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Functional Title (To) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2584380905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisior field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Incoming Supervisior - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2709328988 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisior Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Incoming Supervisior Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 3175088364 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Notify to field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Notify to - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 593021391 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Province Code (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Province Code (To) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 4180430401 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Branch field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control To Branch - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2200544733 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer Category field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Transfer Category - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 1780950718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer Effective Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Transfer Effective Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2731701685 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Transfer Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 381828648 - Control 2249987928 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Unit (To) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Transfer Order - Control Unit (To) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1167299014 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>New,Process,Reports,Candidate,Screen,Show Attribute Entries,Candidate Evaluation,Send Mails,Selection</source>

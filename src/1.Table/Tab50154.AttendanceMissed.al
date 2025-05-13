@@ -101,14 +101,16 @@ table 50154 "Attendance Missed"
             var
                 EmpAttendanceActivity: Record "Employee Attendance & Activity";
             begin
-                //>>check for leave
-                EmpAttendanceActivity.Reset; //Min 4.11.2022
-                EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                EmpAttendanceActivity.SetRange("Attendance Date", "Start Date");
-                if EmpAttendanceActivity.FindFirst then begin
-                    "Check In Time" := EmpAttendanceActivity."Check In Time";
-                    "Check Out Time" := EmployeeAttendanceActivity."Check Out Time";
+                If GuiAllowed then begin
+                    EmpAttendanceActivity.Reset;
+                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
+                    EmpAttendanceActivity.SetRange("Attendance Date", "Start Date");
+                    if EmpAttendanceActivity.FindFirst then begin
+                        "Check In Time" := EmpAttendanceActivity."Check In Time";
+                        "Check Out Time" := EmployeeAttendanceActivity."Check Out Time";
+                    end;
                 end;
+
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then

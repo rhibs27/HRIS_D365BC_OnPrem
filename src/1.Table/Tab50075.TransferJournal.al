@@ -25,9 +25,9 @@ table 50075 "Transfer Journal"
             //         end;
             // end;
         }
-        // field(2; Type; Enum "Employee Activity Type")
-        // {
-        // }
+        field(2; Type; Enum "Employee Activity Type")
+        {
+        }
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -299,6 +299,9 @@ table 50075 "Transfer Journal"
         //         end;
         //     end;
         // }
+        field(23; "Travel Order No"; Code[20])
+        {
+        }
         field(24; "Employee Work Shift"; Code[10])
         {
             Editable = false;

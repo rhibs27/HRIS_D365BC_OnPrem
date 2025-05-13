@@ -987,7 +987,8 @@ table 50140 "Employee/HR Transfer"
                         begin
                             HRSetup.TestField("Transfer No.");
                             NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
+                            if Type <> type::"HR Transfer" then
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                             //"Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
                             //"Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
                         end;
