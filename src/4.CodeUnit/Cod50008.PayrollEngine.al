@@ -3746,9 +3746,15 @@ codeunit 50008 "Payroll Engine"
     end;
 
     procedure GetPreviousPayCycleCodeDays(PayrollHeader: Record "Payroll Header"): Decimal
+    var
+        TotalDaysInPeviousMonth: Decimal;
     begin
         GetPreviousPayCycleCode(PayrollHeader);
-        exit(PreviousPayCyclePeriod."End Date" - PreviousPayCyclePeriod."Start Date" + 1);
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            TotalDaysInPeviousMonth := PGSetup."Total Days" / 12
+        else
+            TotalDaysInPeviousMonth := (PreviousPayCyclePeriod."End Date" - PreviousPayCyclePeriod."Start Date" + 1);
+        exit(TotalDaysInPeviousMonth);
     end;
 
     local procedure GetSlabAmount()
