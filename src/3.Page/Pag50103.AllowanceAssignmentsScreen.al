@@ -8,39 +8,40 @@ page 50103 "Allowance Assignments (Screen)"
     SaveValues = true;
     SourceTable = "Allowance Assignment Line";
     UsageCategory = Lists;
+    SourceTableView = where("Approval Status" = const("Pending Approval"), "Substitute Type" = const("Added as Substitute"));
     ApplicationArea = All;
 
     layout
     {
         area(Content)
         {
-            group(Control27)
-            {
-                ShowCaption = false;
-                field(EnglishMonth; EnglishMonth)
-                {
-                    Caption = 'English Month';
-                    ToolTip = 'Specifies the value of the English Month field.';
-                    ApplicationArea = All;
+            // group(Control27)
+            // {
+            //     ShowCaption = false;
+            //     field(EnglishMonth; EnglishMonth)
+            //     {
+            //         Caption = 'English Month';
+            //         ToolTip = 'Specifies the value of the English Month field.';
+            //         ApplicationArea = All;
 
-                    trigger OnValidate()
-                    begin
-                        GetEnglishDateFilter;
-                    end;
-                }
-                field(EnglishYear; EnglishYear)
-                {
-                    BlankZero = true;
-                    Caption = 'English Year';
-                    ToolTip = 'Specifies the value of the English Year field.';
-                    ApplicationArea = All;
+            //         trigger OnValidate()
+            //         begin
+            //             GetEnglishDateFilter;
+            //         end;
+            //     }
+            //     field(EnglishYear; EnglishYear)
+            //     {
+            //         BlankZero = true;
+            //         Caption = 'English Year';
+            //         ToolTip = 'Specifies the value of the English Year field.';
+            //         ApplicationArea = All;
 
-                    trigger OnValidate()
-                    begin
-                        GetEnglishDateFilter;
-                    end;
-                }
-            }
+            //         trigger OnValidate()
+            //         begin
+            //             GetEnglishDateFilter;
+            //         end;
+            //     }
+            // }
             repeater(Control2)
             {
                 Editable = false;
@@ -173,6 +174,7 @@ page 50103 "Allowance Assignments (Screen)"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -193,6 +195,7 @@ page 50103 "Allowance Assignments (Screen)"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Unscreen action.';
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -221,19 +224,65 @@ page 50103 "Allowance Assignments (Screen)"
                     end;
                 end;
             }
-            action(Reject)
+            // action(Reject)
+            // {
+            //     Image = Reject;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     ToolTip = 'Executes the Reject action.';
+            //     ApplicationArea = All;
+            //     Visible = false;
+
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want to reject this document?', false) then
+            //             AllowanceMgt.RejectAllowanceAssigment(Rec);
+            //     end;
+            // }
+            action("Reject Substitute")
             {
-                Image = Reject;
+                Image = Approve;
+                ToolTip = 'Executes the Reject Substitute action.';
+                ApplicationArea = All;
+                Visible = rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+                trigger OnAction()
+                var
+                    AllowanceLine1: Record "Allowance Assignment Line";
+                begin
+                    if Confirm('Do you want to Reject this document?', false) then begin
+                        Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+                        Rec.Modify();
+                        if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                            AllowanceLine1."Substitute Type" := Rec."Substitute Type"::" ";
+                            AllowanceLine1."Approved Date" := Today;
+                            AllowanceLine1.Modify();
+                        end;
+                    end;
+                    Message('Substitute Allowance is Rejected');
+                end;
+            }
+            action("Approve Substitute")
+            {
+                Image = Approve;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                ToolTip = 'Executes the Reject action.';
+                ToolTip = 'Executes the Approve action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to reject this document?', false) then
-                        AllowanceMgt.RejectAllowanceAssigment(Rec);
+                    if Confirm('Do you want to approve this document?', false) then begin
+                        Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
+                        AllowanceMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
+                        AllowanceMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
+                        Rec.Modify();
+                    end;
+                    Message('Substitute Allowance is Approved');
                 end;
             }
         }

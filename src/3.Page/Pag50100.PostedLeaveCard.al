@@ -221,6 +221,7 @@ page 50100 "Posted Leave Card"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Apply for Leave action.';
                 ApplicationArea = All;
+                Visible = IsOpen;
 
                 trigger OnAction()
                 begin

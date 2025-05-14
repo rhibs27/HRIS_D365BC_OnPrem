@@ -1548,6 +1548,7 @@ table 50027 "Payroll Line"
     var
         PostedPayHeader: Record "Posted Payroll Header";
         TotalDaysInMonth: Decimal;
+        TotalAmount: Decimal;
     begin
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             TotalDaysInMonth := PGSetup."Total Days" / 12
@@ -1558,10 +1559,13 @@ table 50027 "Payroll Line"
                 // if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
                 //         (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days"))) //deduct on prior absent.
-                if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
-                    exit((CalculatedAmount) +
-                        (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "LWP Days") / TotalDaysInMonth))
-                else
+                if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then begin
+                    TotalAmount := (CalculatedAmount) + (CalculatedAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * ("Prior Present Days" - "Prior Absent Days")) - ((CalculatedAmount * "LWP Days") / TotalDaysInMonth);
+                    if TotalAmount > 0 then
+                        exit(TotalAmount)
+                    else
+                        exit(0);
+                end else
                     exit((CalculatedAmount / (TotalDaysInMonth * AttendanceSetup."Working Hour per day")) * ("Paid Hours"))
             end;
         end else begin

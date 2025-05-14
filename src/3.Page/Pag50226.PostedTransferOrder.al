@@ -3,7 +3,7 @@ page 50226 "Posted Transfer Order"
     ApplicationArea = All;
     Caption = 'Posted Transfer Order';
     PageType = List;
-    SourceTable = "Transfer Journal";
+    SourceTable = "Employee Journal";
     UsageCategory = Lists;
     InsertAllowed = false;
     Editable = false;

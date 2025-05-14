@@ -346,6 +346,8 @@ table 50141 OverTime
                     Clear("OT Amount");
                 end;
                 AttendanceSetup.Get();
+                AttendanceSetup.TestField("Full Substitute Leave Hrs");
+                AttendanceSetup.TestField("Half Substitute Leave Hrs");
                 if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
                     OverTimeMgt.CheckOvertime(Rec);
                     if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then

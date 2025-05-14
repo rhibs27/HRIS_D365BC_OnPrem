@@ -1,6 +1,6 @@
-table 50075 "Transfer Journal"
+table 50075 "Employee Journal"
 {
-    Caption = 'Transfer Journal';
+    Caption = 'Employee Journal';
     DataClassification = ToBeClassified;
     fields
     {
@@ -353,7 +353,111 @@ table 50075 "Transfer Journal"
         // {
         //     Editable = false;
         // }
-        field(39; Cancelled; Boolean)
+        field(39; Cancelled; Boolean) //Used in all Employee activity
+        {
+        }
+        field(40; "Leave Code"; Code[20])
+        {
+            TableRelation = "Leave Type Setup";
+
+            trigger OnValidate()
+            Var
+                LeaveTypeVar: Record "Leave Type Setup";
+            begin
+                if "Leave Code" <> xRec."Leave Code" then begin
+                    Clear("For Death Of");
+                    // if GuiAllowed then
+                    //     leaveMgt.GenerateLeaveAttachment(Rec);
+                    if LeaveTypeVar.Get("Leave Code") then begin
+                        Validate("Leave Description", LeaveTypeVar.Description);
+                        Validate("Pay Type", LeaveTypeVar."Pay Type");
+                        Clear("Start Date");
+                        Clear("End Date");
+                        Clear("No. of Days");
+                    end else begin
+                        Clear("Leave Description");
+                        Clear("Pay Type");
+                    end;
+                    Clear("Compensatory Date");
+                    Clear("Child's Gender");
+                    // Clear("Contact No."); //nilesh
+                end;
+                /*IF "Leave Code" = 'COMPENSATORY' THEN //Min 8.7.2022
+                  ERROR(Text002);*/
+
+            end;
+        }
+        field(41; "Leave Description"; Text[50])
+        {
+            Editable = false;
+        }
+        field(42; "Leave Type"; Enum "Leave Type")
+        {
+
+            trigger OnValidate()
+            var
+                WorkShift: Record "Employee Work Shift";
+            begin
+                WorkShift.Get("Employee Work Shift");
+                case "Leave Type" of
+                    "Leave Type"::"Full Day":
+                        begin
+                            Validate("Start Time", WorkShift."Start Time");
+                            Validate("End Time", WorkShift."End Time");
+                        end;
+
+                    "Leave Type"::"First Half":
+                        begin
+                            Validate("Start Time", WorkShift."Start Time");
+                            Validate("End Time", WorkShift."Lunch Start");
+                        end;
+
+                    "Leave Type"::"Second Half":
+                        begin
+                            Validate("Start Time", WorkShift."Lunch Start");
+                            Validate("End Time", WorkShift."End Time");
+                        end;
+                end;
+                if "Leave Type" <> xRec."Leave Type" then begin
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("No. of Days");
+                end;
+
+                if "End Date" <> 0D then
+                    "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
+            end;
+        }
+        field(43; "Pay Type"; Enum "Leave Pay Type")
+        {
+            Editable = false;
+        }
+        field(44; "Start Time"; Time)
+        {
+            Description = 'also used for OT';
+            trigger OnValidate()
+            begin
+            end;
+        }
+        field(45; "End Time"; Time)
+        {
+            Description = 'also used for OT';
+            trigger OnValidate()
+            begin
+            end;
+        }
+        field(46; "Compensatory Date"; Date)
+        {
+
+            trigger OnValidate()
+            begin
+                leaveMgt.CheckForCompensatory("Leave Code", "Employee No.", "Compensatory Date", "No. of Days");
+            end;
+        }
+        field(47; "For Death Of"; Enum "For Death Of")
+        {
+        }
+        field(48; "Child's Gender"; Enum Gender)
         {
         }
         // field(40; "Cancelled No."; Code[20])
@@ -416,10 +520,10 @@ table 50075 "Transfer Journal"
         //         else
         //             Clear("Reason Description");
         //     end;
+        // // }
+        // field(49; "Reason Description"; Text[50])
+        // {
         // }
-        field(49; "Reason Description"; Text[50])
-        {
-        }
         field(50; Description; Text[250])
         {
         }
@@ -901,7 +1005,7 @@ table 50075 "Transfer Journal"
         {
             DataClassification = ToBeClassified;
         }
-        field(103; "Transfer Request No"; Code[20])
+        field(103; "Document No"; Code[20])
         {
             DataClassification = ToBeClassified;
             Editable = false;
@@ -921,18 +1025,6 @@ table 50075 "Transfer Journal"
             DataClassification = ToBeClassified;
             TableRelation = "Dimension Value".Code;
         }
-        // field(200; "Transf. Claim Recomm. Remarks"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-        // field(201; "Transf. Claim Reviewer Remarks"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-        // field(202; "Transf. Claim Approver Remarks"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
     }
     keys
     {
@@ -943,9 +1035,9 @@ table 50075 "Transfer Journal"
     }
     trigger OnInsert()
     begin
-        GetEntryNo;
-        if "Requested Date" = 0D then
-            "Requested Date" := Today;
+        // GetEntryNo;
+        // if "Requested Date" = 0D then
+        //     "Requested Date" := Today;
 
         // HRSetup.Get;
 
@@ -969,74 +1061,15 @@ table 50075 "Transfer Journal"
         // InsertAttachmentLines;
     end;
 
-    local procedure GetEntryNo()
-    var
-        TransferJournal: Record "Transfer Journal";
-
-    begin
-        if TransferJournal.FindLast() then
-            "Entry No" := TransferJournal."Entry No" + 1
-        else
-            "Entry No" := 1;
-    end;
-
-    // trigger OnDelete()
+    // local procedure GetEntryNo()
     // var
-    //     CannotDelete: Label 'Cannot delete document.';
-    //     ApprovalEntry: Record "Approval HRMS";
+    //     EmployeeJournal: Record "Employee Journal";
+
     // begin
-    //     if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-    //         Error(CannotDelete)
-    //     else begin
-    //         ApprovalEntry.Reset();
-    //         ApprovalEntry.SetRange("Document No.", "No.");
-    //         ApprovalEntry.SetRange("Employee No", "Employee No.");
-    //         ApprovalEntry.DeleteAll();
-    //     end;
-    // end;
-
-
-    // local procedure InsertAttachmentLines()
-    // var
-    //     IncomingDocument: Record "Incoming Document";
-    //     AttachmentMandatory: Record "Attachment Setup";
-    // begin
-    //     case Type of
-    //         Type::"Employee Transfer", Type::"HR Transfer":
-    //             begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
-    //                 IncomingDocument.SetRange("No.", "No.");
-    //                 IncomingDocument.DeleteAll(true);
-    //                 AttachmentMandatory.Reset;
-    //                 AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
-    //                 AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
-    //                 if AttachmentMandatory.FindFirst then
-    //                     repeat
-    //                         Clear(IncomingDocument);
-    //                         IncomingDocument.Reset;
-    //                         IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
-    //                         IncomingDocument.SetRange("No.", "No.");
-    //                         IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //                         if not IncomingDocument.FindFirst then begin
-    //                             IncomingDocument.Reset;
-    //                             IncomingDocument.Init;
-    //                             IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                             IncomingDocument.Description := Rec.TableName;
-    //                             IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                             IncomingDocument."No." := "No.";
-    //                             IncomingDocument."Employee Code" := "Employee No.";
-    //                             IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
-    //                             if Type = Type::"Employee Transfer" then
-    //                                 IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
-    //                             else if Type = Type::"HR Transfer" then
-    //                                 IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"HR Transfer";
-
-    //                             IncomingDocument.Insert(true);
-    //                         end;
-    //                     until AttachmentMandatory.Next = 0;
-    //             end;
-    //     end;
+    //     if EmployeeJournal.FindLast() then
+    //         "Entry No" := EmployeeJournal."Entry No" + 1
+    //     else
+    //         "Entry No" := 1;
     // end;
 
     // local procedure ValidateTransfer()
@@ -1164,25 +1197,16 @@ table 50075 "Transfer Journal"
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
-        // HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
-        // LeaveTypeVar: Record "Leave Type Setup";
-        // WorkShift: Record "Employee Work Shift";
+        LeaveMgt: Codeunit "Leave Mgt.";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         "Employee Tranfer": Record "Employee/HR Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
-        // INVALID: Label 'Invalid %1';
-        // EmpRelative: Record "Employee Relative";
-        // SystemAccessControl: Record "System Access Control";
-        // AccessControlLine: Record "Access Control Request Line";
         ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // // DepartVar: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
         Standardtext: Record "Standard Text";
         BranchNameTo: Text;
         DepartmentNameTo: Text;
@@ -1199,15 +1223,6 @@ table 50075 "Transfer Journal"
         FunctionalTitle: Record "Functional Title";
         FunctionalDescFrom: Text;
         FunctionalDescTo: Text;
-        //EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        //LeaveError: Label 'You cannot apply leave in Present day %1.';
-        // EmpActivityRec: Record "Employee Activity";
         Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        //Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        //EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        //PayrollGenSetup: Record "Payroll General Setup";
-        //SalaryLevelRec: Record "Salary Level";
-        //SalaryGrade: Record "Salary Grade";
-        // EncashmentPeriodSetup: Record "OT Encashment Setup";
         Error1: Label 'Cannot apply before your employment date.';
 }
