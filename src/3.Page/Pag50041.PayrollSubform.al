@@ -80,7 +80,7 @@ page 50041 "Payroll Subform"
                 }
                 field("LWP Days"; Rec."LWP Days")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
                 }

@@ -1130,35 +1130,49 @@ codeunit 50005 "Transfer Mgt."
         PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer);
     end;
 
-    procedure PostTransferInBulk(Var TransferJournal: Record "Transfer Journal")
+    procedure PostTransferInBulk()
     var
-        TransferRequest: Record "Employee/HR Transfer";
+        TransferRequest, EmphrTransfer : Record "Employee/HR Transfer";
+        PostedEmployeeTransfer: Record "Posted Employee Journal";
+        TransferEmployeeJournal: Record "Employee Journal";
     begin
-        if TransferJournal.FindSet() then
+        TransferEmployeeJournal.Reset();
+        TransferEmployeeJournal.SetRange(Type, TransferEmployeeJournal.Type::"HR Transfer");
+        if TransferEmployeeJournal.FindSet() then
             repeat
+                EmphrTransfer.Reset;
+                EmphrTransfer.SetFilter(Type, '%1|%2', EmphrTransfer.Type::"HR Transfer", EmphrTransfer.Type::"Employee Transfer");
+                EmphrTransfer.SetRange("Employee No.", TransferEmployeeJournal."Employee No.");
+                EmphrTransfer.SetFilter("Approval Status", '%1|%2|%3', EmphrTransfer."Approval Status"::Pending, EmphrTransfer."Approval Status"::Approved, EmphrTransfer."Approval Status"::"On Hold");
+                if EmphrTransfer.FindFirst then
+                    Error('Transfer card of employee %1 is still open or pending.Please verify Line No %2', EmphrTransfer."Employee Name", TransferEmployeeJournal."Entry No");
                 TransferRequest.Init();
-                TransferRequest.Validate("Employee No.", TransferJournal."Employee No.");
-                TransferRequest.Validate("Department Code (To)", TransferJournal."Department Code (To)");
-                TransferRequest.Validate("Province Code (To)", TransferJournal."Province Code (To)");
-                TransferRequest.Validate("To Branch", TransferJournal."To Branch");
-                TransferRequest.Validate("Department Code (To)", TransferJournal."Department Code (To)");
-                TransferRequest.Validate("Extension Counter (To)", TransferJournal."Extension Counter (To)");
-                TransferRequest.Validate("Unit (To)", TransferJournal."Unit (To)");
-                TransferRequest.Validate("Functional Title (To)", TransferJournal."Functional Title (To)");
-                TransferRequest.Validate("Transfer Category", TransferJournal."Transfer Category");
-                TransferRequest.Validate("Transfer Effective Date", TransferJournal."Transfer Effective Date");
-                TransferRequest.Validate("Incoming Supervisior", TransferJournal."Incoming Supervisior");
-                TransferRequest.Validate("Notify to", TransferJournal."Notify to");
-                TransferRequest.Validate(Remarks, TransferJournal.Remarks);
+                TransferRequest.Validate("No.", '');
+                TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
+                TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
+                TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
+                TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
+                TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
+                TransferRequest.Validate("Extension Counter (To)", TransferEmployeeJournal."Extension Counter (To)");
+                TransferRequest.Validate("Unit (To)", TransferEmployeeJournal."Unit (To)");
+                TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
+                TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
+                TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
+                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisior");
+                TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
+                TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
-                TransferRequest.Validate("Is Transfer Details Added", true);
+                TransferRequest.Validate("Is Transfer Details Added", false);
                 TransferRequest.Validate("Approved Date", Today);
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);
-                TransferJournal.Validate(Posted, true);
-                TransferJournal.Validate("Transfer Request No", TransferRequest."No.");
-                TransferJournal.Modify();
-            until TransferJournal.next() = 0;
+                PostedEmployeeTransfer.Init();
+                PostedEmployeeTransfer.TransferFields(TransferEmployeeJournal);
+                TransferEmployeeJournal.Delete();
+                PostedEmployeeTransfer.Validate(Posted, true);
+                PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
+                PostedEmployeeTransfer.Insert(true);
+            until TransferEmployeeJournal.next() = 0;
         Message('Transfer is posted');
     end;
 
@@ -1179,7 +1193,6 @@ codeunit 50005 "Transfer Mgt."
     //             Error('Only Screener can change approver');
     //         if EmpAct.GetFilter("Approver Code") = '' then
     //             Error('Approver Code cannot be blank.');
-
     //         EmployeehrTransfer.Validate("Approver Code", EmpAct.GetFilter("Approver Code"));
     //         EmployeehrTransfer.Modify;
     //         Message('Updated');
