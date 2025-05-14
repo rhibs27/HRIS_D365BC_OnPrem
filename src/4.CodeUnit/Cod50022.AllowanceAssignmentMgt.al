@@ -263,6 +263,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Allowance Type", Allowancetype);
+        AllowanceAssignmentLine.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
         AllowanceAssignmentLine.SetRange("From Date", FromDate);
         if AllowanceAssignmentLine.FindFirst then
             Error('Employee already exist for same allowance type.');

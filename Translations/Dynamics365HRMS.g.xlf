@@ -20453,6 +20453,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Approve Substitute - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3852589595 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Substitute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Reject Substitute - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3852589595 - Action 1502113334 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20633,30 +20638,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control Week - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 982255190 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the English Month field.</source>
+        <trans-unit id="Page 3547077343 - Action 2619566919 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control EnglishMonth - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Approve Substitute - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 982255190 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>English Month</source>
+        <trans-unit id="Page 3547077343 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control EnglishMonth - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 4012576223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the English Year field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control EnglishYear - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Control 4012576223 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>English Year</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Control EnglishYear - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Action 113888489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reject action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Reject - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Reject Substitute - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3547077343 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Screen action.</source>

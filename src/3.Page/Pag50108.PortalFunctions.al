@@ -2104,7 +2104,7 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Validate("Employee Code", empCode);
             NewAllowanceLine.Validate("To Date", fromDate);
             NewAllowanceLine.Validate("From Date", fromDate);
-            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending Approval";
             AllowanceAssignmentMgt.GetLineNo(NewAllowanceLine);
             NewAllowanceLine.Insert();
         end;
@@ -4308,4 +4308,25 @@ page 50108 "Portal Functions"
                 END;
             UNTIL AttachmentMandatory.NEXT = 0;
     END;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure employeeProfilePicture(empCode: Code[20]): text
+    var
+        Employee: Record Employee;
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+    begin
+        Employee.Get(EmpCode);
+        if Employee.Image.HasValue then begin
+            if ItemTenantMedia.Get(Employee.Image.MediaId) then begin
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
 }

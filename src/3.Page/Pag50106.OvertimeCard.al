@@ -149,7 +149,7 @@ page 50106 "Overtime Card"
                 field(Remarks; Rec.Remarks)
                 {
                     Caption = 'Reason for OT';
-                    Editable = true;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Reason for OT field.';
                     ApplicationArea = All;
                 }

@@ -15,7 +15,7 @@ codeunit 50015 "OverTime Mgt"
 
     procedure CheckOvertimeEligibility(var OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
-        WorkShift: Record "Employee Work Shift";
+        // WorkShift: Record "Employee Work Shift";
         // AttendanceLog: Record "Attendance Log";
         EmployeeAttendance: Record "Employee Attendance & Activity";
         MorningOTHrs: Decimal;
@@ -312,9 +312,10 @@ codeunit 50015 "OverTime Mgt"
     begin
         // if not UpdateOvertime then
         //     exit;
-
-        Workshift.Reset;
-        Workshift.FindFirst;
+        Employee.Get(OverTime."Employee No.");
+        // Workshift.Reset;
+        WorkShift.get(Employee."Employee Work Shift");
+        // Workshift.FindFirst;
         Workshift.TestField("Start Time");
         Workshift.TestField("End Time");
         Workshift.TestField("Friday End Time");

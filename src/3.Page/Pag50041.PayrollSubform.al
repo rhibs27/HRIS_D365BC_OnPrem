@@ -83,6 +83,7 @@ page 50041 "Payroll Subform"
                     // Editable = false;
                     ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
+                    Caption = 'Unpaid Days';
                 }
                 field("Prior Leave Days"; Rec."Prior Leave Days")
                 {
