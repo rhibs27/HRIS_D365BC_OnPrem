@@ -891,6 +891,25 @@ page 50041 "Payroll Subform"
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
                 ApplicationArea = All;
             }
+            action("Get Line Attribute")
+            {
+                Image = GetBinContent;
+                ApplicationArea = All;
+                ToolTip = 'Executes the Get Line Attribute action.';
+                trigger OnAction()
+                var
+                    payrollLine: Record "Payroll Line";
+                begin
+                    Rec.TestStatusOpen();
+                    CurrPage.SetSelectionFilter(payrollLine);
+                    payrollLine.MarkedOnly(true);
+                    if payrollLine.FindSet() then
+                        repeat
+                            payrollLine.ValidateEmployee();
+                        until payrollLine.Next() = 0;
+                end;
+            }
+
             action(Dimensions)
             {
                 AccessByPermission = tabledata Dimension = R;
