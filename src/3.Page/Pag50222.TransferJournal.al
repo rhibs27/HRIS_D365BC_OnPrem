@@ -80,6 +80,13 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                 }
             }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("Emp Act. No"),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
+            }
         }
     }
     actions
@@ -101,7 +108,9 @@ page 50222 "Transfer Journal"
     }
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        Rec.Type := Rec.Type::"HR Transfer";
+        Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
+        Rec.Type := Rec.Type::"Employee Journal";
+
     end;
 
     trigger OnAfterGetCurrRecord()

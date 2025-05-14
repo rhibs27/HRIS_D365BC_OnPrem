@@ -4,26 +4,22 @@ table 50075 "Employee Journal"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "Entry No"; Integer)
+        field(1; "Emp Act. No"; Code[20])
         {
-            // trigger OnValidate()
-            // begin
-            //     HRSetup.Get;
-            //     if "No." <> xRec."No." then
-            //         if Cancelled then begin
-            //             NoSeriesMgt.TestManual(HRSetup."Cancel Document No. Series");
-            //             "No. Series" := '';
-            //         end else begin
-            //             case Type of
-            //                 //for transfer
-            //                 Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
-            //                     begin
-            //                         NoSeriesMgt.TestManual(HRSetup."Transfer No.");
-            //                         "No. Series" := '';
-            //                     end;
-            //             end;
-            //         end;
-            // end;
+            trigger OnValidate()
+            begin
+                HRSetup.Get;
+                if "Emp Act. No" <> xRec."Emp Act. No" then
+                    case Type of
+                        //for Employee Journal
+                        Type::"Employee Journal":
+                            begin
+                                NoSeriesMgt.TestManual(HRSetup."Employee Act. Journal Series");
+                                "No. Series" := '';
+                            end;
+                    end;
+
+            end;
         }
         field(2; Type; Enum "Employee Activity Type")
         {
@@ -222,6 +218,10 @@ table 50075 "Employee Journal"
             Editable = false;
             TableRelation = "Functional Title";
         }
+        field(22; "Line No"; Integer)
+        {
+            Editable = false;
+        }
         // field(22; "Recommender Code"; Code[50])
         // {
         //     TableRelation = Employee;
@@ -312,6 +312,10 @@ table 50075 "Employee Journal"
             Editable = false;
             TableRelation = "Salary Level";
         }
+        field(26; "Employee Act Type"; Enum "Employee Activity Type")
+        {
+            Editable = false;
+        }
         // field(26; "Recommender Name"; Text[50])
         // {
         //     Editable = false;
@@ -320,6 +324,10 @@ table 50075 "Employee Journal"
         // {
         //     Editable = false;
         // }
+        field(27; "Posting Date"; Date)
+        {
+            Editable = false;
+        }
         field(28; "Extension Counter Code"; Code[20])
         {
             // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
@@ -1028,37 +1036,68 @@ table 50075 "Employee Journal"
     }
     keys
     {
-        key(Key1; "Entry No")
+        key(Key1; "Emp Act. No", "Line No")
         {
             Clustered = true;
         }
     }
     trigger OnInsert()
     begin
+        "User ID" := UserId;
         // GetEntryNo;
         // if "Requested Date" = 0D then
-        //     "Requested Date" := Today;
+        "Requested Date" := Today;
+        HRSetup.Get;
+        if "Emp Act. No" = '' then
+            if Cancelled then begin
+                HRSetup.TestField("Employee Act. Journal Series");
+                NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
+            end else begin
+                case Type of
+                    //for transfer
+                    Type::"Employee Journal":
+                        begin
+                            HRSetup.TestField("Employee Act. Journal Series");
+                            NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
+                            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+                        end;
+                end;
+            end;
+    end;
 
-        // HRSetup.Get;
+    procedure SetUpNewLine(LastActJnlLine: Record "Employee Journal")
+    var
+        ActivityJournal: Record "Employee Journal";
+        EmpVar: Record Employee;
+        EngNep: Record "English-Nepali Date";
+        CurrDocumentNo: Boolean;
+    begin
+        ActivityJournal.Reset();
+        ActivityJournal.SetRange("Emp Act. No", LastActJnlLine."Emp Act. No");
+        ActivityJournal.SetRange("Employee Act Type", LastActJnlLine."Employee Act Type");
+        ActivityJournal.SetRange("Approval Status", ActivityJournal."Approval Status"::Open);
+        if ActivityJournal.FindFirst() then
+            CurrDocumentNo := true;
 
-        // if "No." = '' then
-        //     if Cancelled then begin
-        //         HRSetup.TestField("Cancel Document No. Series");
-        //         NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-        //     end else begin
-        //         case Type of
-        //             //for transfer
-        //             Type::"Employee Transfer", Type::"HR Transfer", Type::"Transfer Claim":
-        //                 begin
-        //                     HRSetup.TestField("Transfer No.");
-        //                     NoSeriesMgt.InitSeries(HRSetup."Transfer No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-        //                     ApproverMgt.InsertApproval("Employee No.", "No.", Type);
-        //                     //"Temporary Address" := HRMgt.GetEmployeeNo; //Min 7.14.2022
-        //                     //"Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
-        //                 end;
-        //         end;
-        //     end;
-        // InsertAttachmentLines;
+        ActivityJournal.Reset();
+        ActivityJournal.SetRange("Emp Act. No", LastActJnlLine."Emp Act. No");
+        ActivityJournal.SetRange("Employee Act Type", LastActJnlLine."Employee Act Type");
+        ActivityJournal.SetFilter("Approval Status", '%1|%2', ActivityJournal."Approval Status"::"Pending", ActivityJournal."Approval Status"::Approved);
+        if ActivityJournal.FindFirst() then
+            CurrDocumentNo := false;
+
+        if CurrDocumentNo then begin
+            "Posting Date" := LastActJnlLine."Posting Date";
+            "Emp Act. No" := LastActJnlLine."Emp Act. No";
+        end
+        else
+            if not CurrDocumentNo then begin
+                HRSetup.Get();
+                "Posting Date" := WorkDate();
+                "No. Series" := HRSetup."Employee Act. Journal Series";
+                "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
+                ;
+            end;
     end;
 
     // local procedure GetEntryNo()
@@ -1197,6 +1236,7 @@ table 50075 "Employee Journal"
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
+        HrMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";

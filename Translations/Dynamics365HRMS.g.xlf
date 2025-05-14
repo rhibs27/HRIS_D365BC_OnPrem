@@ -6218,6 +6218,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Document No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 943480789 - Field 832593267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Act. No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Emp Act. No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 943480789 - Field 398093632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Act Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Employee Act Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 943480789 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6247,11 +6257,6 @@
           <source>End Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field End Time - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 943480789 - Field 329134311 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Entry No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Entry No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 943480789 - Field 3404248433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extension Counter (To)</source>
@@ -6317,6 +6322,11 @@
           <source>Leave Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Leave Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 943480789 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Journal - Field Line No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 943480789 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. of Days</source>
@@ -51613,6 +51623,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Candidate Nos. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1697582796 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Employee Act. Journal field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Employee Act. Journal Series - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 4029997524 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Employee Change No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53933,6 +53948,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field EmpActivity No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 1697582796 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Employee Act. Journal Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Employee Act. Journal Series - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 4029997524 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Employee Change No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56202,6 +56222,11 @@
           <source>Employee Edit</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Employee Edit - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 943480789 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Employee Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3659416491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Transfer</source>

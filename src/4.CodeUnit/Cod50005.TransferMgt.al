@@ -1145,7 +1145,7 @@ codeunit 50005 "Transfer Mgt."
                 EmphrTransfer.SetRange("Employee No.", TransferEmployeeJournal."Employee No.");
                 EmphrTransfer.SetFilter("Approval Status", '%1|%2|%3', EmphrTransfer."Approval Status"::Pending, EmphrTransfer."Approval Status"::Approved, EmphrTransfer."Approval Status"::"On Hold");
                 if EmphrTransfer.FindFirst then
-                    Error('Transfer card of employee %1 is still open or pending.Please verify Line No %2', EmphrTransfer."Employee Name", TransferEmployeeJournal."Entry No");
+                    Error('Transfer card of employee %1 is still open or pending.Please verify Document %3 Line No %2', EmphrTransfer."Employee Name", TransferEmployeeJournal."Line No", TransferEmployeeJournal."Emp Act. No");
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
