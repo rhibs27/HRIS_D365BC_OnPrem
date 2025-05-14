@@ -3,8 +3,9 @@ page 50222 "Transfer Journal"
     ApplicationArea = All;
     Caption = 'Transfer Journal';
     PageType = Worksheet;
-    SourceTable = "Transfer Journal";
+    SourceTable = "Employee Journal";
     UsageCategory = Tasks;
+    AutoSplitKey = true;
     layout
     {
         area(Content)
@@ -47,7 +48,6 @@ page 50222 "Transfer Journal"
                 field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
-                    Editable = UnitEdit;
                 }
 
                 field("Transfer Type"; Rec."Transfer Type")
@@ -88,13 +88,22 @@ page 50222 "Transfer Journal"
         {
             action(Post)
             {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Post;
                 trigger OnAction()
                 begin
-                    TransferMgt.PostTransferInBulk(Rec);
+                    TransferMgt.PostTransferInBulk();
                 end;
             }
         }
     }
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    begin
+        Rec.Type := Rec.Type::"HR Transfer";
+    end;
+
     trigger OnAfterGetCurrRecord()
     begin
         SetFieldEnable
