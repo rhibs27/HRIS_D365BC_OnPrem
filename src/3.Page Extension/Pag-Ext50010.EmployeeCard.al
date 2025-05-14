@@ -43,10 +43,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             visible = false;
         }
-        modify("Employment Date")
-        {
-            Editable = false;
-        }
+        // modify("Employment Date")
+        // {
+        //    Editable = false;
+        // }
         modify("Application Method")
 
         {

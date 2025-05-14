@@ -198,7 +198,28 @@ page 50150 "Allowance Assignment Subform"
                     Message('Substitute Allowance is Approved');
                 end;
             }
-
+            action("Reject Substitute")
+            {
+                Image = Approve;
+                ToolTip = 'Executes the Reject Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentApproved;
+                trigger OnAction()
+                var
+                    AllowanceLine1: Record "Allowance Assignment Line";
+                begin
+                    Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+                    if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                        AllowanceLine1."Substitute Type" := Rec."Substitute Type"::" ";
+                        AllowanceLine1."Approved Date" := Today;
+                        AllowanceLine1.Modify();
+                    end;
+                    rec.Modify();
+                    Message('Substitute Allowance is Rejected');
+                end;
+            }
         }
     }
 
