@@ -3,7 +3,7 @@ page 50222 "Transfer Journal"
     ApplicationArea = All;
     Caption = 'Transfer Journal';
     PageType = Worksheet;
-    SourceTable = "Employee Journal";
+    SourceTable = "Employee Activity Journal";
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -45,6 +45,14 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Unit (To) field.', Comment = '%';
                     Editable = UnitEdit;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
+                    // Editable = false;
+                }
+                field(Status; Rec.Status)
+                {
+                }
                 field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
@@ -83,9 +91,7 @@ page 50222 "Transfer Journal"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("Emp Act. No"),
-                                "Document Type" = field(Type);
-                ApplicationArea = all;
+                SubPageLink = "Document No." = field("Emp Act. No");
             }
         }
     }
@@ -93,6 +99,28 @@ page 50222 "Transfer Journal"
     {
         area(Processing)
         {
+            action("Send For Approval")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = SendApprovalRequest;
+                trigger OnAction()
+                begin
+                    EmpActMgt.SendForApproval(Rec."Emp Act. No");
+                end;
+            }
+            action("Approve")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Approve;
+                trigger OnAction()
+                begin
+                    ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                end;
+            }
             action(Post)
             {
                 Promoted = true;
@@ -101,16 +129,28 @@ page 50222 "Transfer Journal"
                 Image = Post;
                 trigger OnAction()
                 begin
-                    TransferMgt.PostTransferInBulk();
+                    EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                end;
+            }
+            action(Reject)
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = Reject;
+                trigger OnAction()
+                begin
+                    EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
         }
     }
-    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    trigger OnNewRecord(BelowxRec: Boolean)
     begin
+        Rec."Approval Status" := Rec."Approval Status"::Open;
         Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
         Rec.Type := Rec.Type::"Employee Journal";
-
+        Rec.SetUpNewLine(xRec);
     end;
 
     trigger OnAfterGetCurrRecord()
@@ -130,7 +170,8 @@ page 50222 "Transfer Journal"
         BranchEdit: Boolean;
         ProvinceEdit: Boolean;
         TransferMgt: Codeunit "Transfer Mgt.";
-
+        EmpActMgt: Codeunit EmployeeActivityMgt;
+        ApproverMgt: Codeunit "Approver Mgt";
 
     LOCAL PROCEDURE SetFieldEnable();
     BEGIN

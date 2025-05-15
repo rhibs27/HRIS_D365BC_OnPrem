@@ -1,6 +1,6 @@
-table 50075 "Employee Journal"
+table 50075 "Employee Activity Journal"
 {
-    Caption = 'Employee Journal';
+    Caption = 'Employee Activity Journal';
     DataClassification = ToBeClassified;
     fields
     {
@@ -344,6 +344,10 @@ table 50075 "Employee Journal"
         }
         field(33; "Payroll No."; Code[20])
         {
+        }
+        field(34; "Requester Employee"; Code[20])
+        {
+            TableRelation = Employee;
         }
         // field(34; Ecosystem; Code[20])
         // {
@@ -1044,30 +1048,31 @@ table 50075 "Employee Journal"
     trigger OnInsert()
     begin
         "User ID" := UserId;
+        "Requester Employee" := HrMgt.GetEmployeeNo();
         // GetEntryNo;
         // if "Requested Date" = 0D then
         "Requested Date" := Today;
-        HRSetup.Get;
-        if "Emp Act. No" = '' then
-            if Cancelled then begin
-                HRSetup.TestField("Employee Act. Journal Series");
-                NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
-            end else begin
-                case Type of
-                    //for transfer
-                    Type::"Employee Journal":
-                        begin
-                            HRSetup.TestField("Employee Act. Journal Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
-                            ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
-                        end;
-                end;
-            end;
+        // HRSetup.Get;
+        // if "Emp Act. No" = '' then
+        //     if Cancelled then begin
+        //         HRSetup.TestField("Employee Act. Journal Series");
+        //         NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
+        //     end else begin
+        //         case Type of
+        //             //for transfer
+        //             Type::"Employee Journal":
+        //                 begin
+        //                     HRSetup.TestField("Employee Act. Journal Series");
+        //                     NoSeriesMgt.InitSeries(HRSetup."Employee Act. Journal Series", xRec."No. Series", "Requested Date", "Emp Act. No", "No. Series");
+        //                     ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
+        //                 end;
+        //         end;
+        //     end;
     end;
 
-    procedure SetUpNewLine(LastActJnlLine: Record "Employee Journal")
+    procedure SetUpNewLine(LastActJnlLine: Record "Employee Activity Journal")
     var
-        ActivityJournal: Record "Employee Journal";
+        ActivityJournal: Record "Employee Activity Journal";
         EmpVar: Record Employee;
         EngNep: Record "English-Nepali Date";
         CurrDocumentNo: Boolean;
@@ -1087,7 +1092,7 @@ table 50075 "Employee Journal"
             CurrDocumentNo := false;
 
         if CurrDocumentNo then begin
-            "Posting Date" := LastActJnlLine."Posting Date";
+            // "Posting Date" := LastActJnlLine."Posting Date";
             "Emp Act. No" := LastActJnlLine."Emp Act. No";
         end
         else
@@ -1096,7 +1101,7 @@ table 50075 "Employee Journal"
                 "Posting Date" := WorkDate();
                 "No. Series" := HRSetup."Employee Act. Journal Series";
                 "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
-                ;
+                ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
     end;
 

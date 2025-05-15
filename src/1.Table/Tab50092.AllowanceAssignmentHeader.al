@@ -189,8 +189,11 @@ table 50092 "Allowance Assignment Header"
             DataClassification = ToBeClassified;
             Description = 'Only for Portal functionalities.';
             trigger OnValidate()
+            var
+                Employee: Record Employee;
             begin
-                "Branch Code" := HrMgt.GetBranchCode;
+                Employee.Get("Employee No.");
+                "Branch Code" := Employee."Branch Code";
             end;
         }
         field(22; "Branch Code"; Code[20])

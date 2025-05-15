@@ -118,7 +118,7 @@ table 50093 "Allowance Assignment Line"
         }
         field(9; "Allowance Type"; Code[20])
         {
-            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code));
+            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
 
             trigger OnValidate()
             begin
