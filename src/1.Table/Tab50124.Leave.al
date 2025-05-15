@@ -571,6 +571,10 @@ table 50124 Leave
         {
             DataClassification = ToBeClassified;
         }
+        field(62; "Form Journal"; Boolean)
+        {
+
+        }
         field(100; "Status"; Text[20])
         {
         }
