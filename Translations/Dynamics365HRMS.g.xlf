@@ -38858,6 +38858,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Dimensions - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 3884601073 - Action 3387221720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Get Line Attribute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Get Line Attribute - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Action 3652447633 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Payroll Attributes Usage action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
