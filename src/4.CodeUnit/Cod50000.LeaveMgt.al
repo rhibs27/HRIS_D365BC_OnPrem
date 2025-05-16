@@ -2106,39 +2106,7 @@ codeunit 50000 "Leave Mgt."
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
     end;
 
-    procedure PostLeaveJournal()
-    var
-        LeaveRequest: Record Leave;
-        leaveJournal: Record "Employee Journal";
-        PostedLeaveJournal: Record "Posted Employee Journal";
-    begin
-        leaveJournal.Reset();
-        leaveJournal.SetRange(Type, leaveJournal.Type::"HR Transfer");
-        if leaveJournal.FindSet() then
-            repeat
-                LeaveRequest.Reset();
-                LeaveRequest.Init();
-                LeaveRequest.Validate("No.", '');
-                LeaveRequest.Validate("Employee No.", leaveJournal."Employee No.");
-                LeaveRequest.Validate("Leave Code", leaveJournal."Leave Code");
-                LeaveRequest.Validate("Leave Description", leaveJournal."Leave Description");
-                LeaveRequest.Validate("Leave Type", leaveJournal."Leave Type");
-                LeaveRequest.Validate("Start Date", leaveJournal."Start Date");
-                LeaveRequest.Validate("End Date", leaveJournal."End Date");
-                LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
-                LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
-                LeaveRequest.Validate("Approved Date", Today);
-                LeaveRequest.Validate(Type, LeaveRequest.Type::"Leave Request");
-                LeaveRequest.Insert(true);
-                PostedLeaveJournal.Init();
-                PostedLeaveJournal.TransferFields(leaveJournal);
-                leaveJournal.Delete();
-                PostedLeaveJournal.Validate(Posted, true);
-                PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
-                PostedLeaveJournal.Insert(true);
-            until leaveJournal.next() = 0;
-        Message('Leave is posted');
-    end;
+
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)

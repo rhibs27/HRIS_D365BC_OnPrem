@@ -84,5 +84,9 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Late Attendance';
     }
+    value(21; "Employee Journal")
+    {
+        Caption = 'Employee Journal';
+    }
 
 }
