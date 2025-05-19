@@ -888,7 +888,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             }
             group("Insurance Details")
             {
-
+                Visible = false;
                 field("Insurance Code"; Rec."Insurance Code")
                 {
                     ApplicationArea = All;
@@ -1323,6 +1323,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         MedicalInsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
                     end;
                 }
+                action("Employee Insurance")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = List;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Medical insurance action.';
+                    trigger OnAction()
+                    begin
+                        MedicalInsuranceMgt.OpenEmployeeInsurance(Rec."No.");
+                    end;
+                }
                 action("Bulk Cash")
                 {
                     ApplicationArea = All;
@@ -1438,7 +1452,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         IF CONFIRM('Do you want to renew the contract?', FALSE) THEN
-                            HRMgt.PopUpForContractRenew(Rec);
+                            ServiceHistoryMgt.PopUpForContractRenew(Rec);
                     end;
                 }
                 action("Generate Leave Balance")
@@ -1773,7 +1787,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         IF CONFIRM('Do you want to assign job function?', FALSE) THEN
-                            HRMgt.PopUpForJobAssignment(Rec);
+                            ServiceHistoryMgt.PopUpForJobAssignment(Rec);
                     end;
                 }
                 action("Appointment Job Function")
@@ -1808,7 +1822,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         IF CONFIRM('Do you want to add job function?', FALSE) THEN
-                            HRMgt.PopUpForJobAddition(Rec);
+                            ServiceHistoryMgt.PopUpForJobAddition(Rec);
                     end;
                 }
                 action("UpdatePRAttributes")
@@ -2030,6 +2044,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;
         ProvinceEdit: Boolean;

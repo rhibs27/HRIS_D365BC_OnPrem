@@ -215,6 +215,7 @@ report 50048 "Attendance Update Job Queue"
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         CalendarDescription: Text;
         UpdateOvertime: Boolean;
         UpdateDailyAttendance: Boolean;
@@ -547,7 +548,7 @@ report 50048 "Attendance Update Job Queue"
                     if EmployeeTransfer.FindFirst then
                         exit;
                 end;
-                ServiceCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
+                ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
                 Employee.Validate("Functional Title", Transfer."Functional Title");
                 Employee.Validate("Deputation on", Transfer."Deputation On");
                 case Employee."Deputation on" of
@@ -569,8 +570,8 @@ report 50048 "Attendance Update Job Queue"
                     ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
                     ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-                    ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                    ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                     ServiceHistory.Validate("Document No.", Transfer."No."); //Min 9.26.2022
                     PreviousServiceHistory.Reset;
                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
@@ -618,7 +619,7 @@ report 50048 "Attendance Update Job Queue"
             EmployeeServiceHistory.SetFilter("Service Event", '%1|%2|%3', EmployeeServiceHistory."Service Event"::Transfer, EmployeeServiceHistory."Service Event"::"Temporary Deputation", EmployeeServiceHistory."Service Event"::"Officiating Arrangement");
             EmployeeServiceHistory.SetRange("Document No.", TransferRec."No.");
             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
-                HRMgt.ApprovedTransferUpdate(TransferRec);
+                ServiceHistoryMgt.ApprovedTransferUpdate(TransferRec);
         end;
     end;
 

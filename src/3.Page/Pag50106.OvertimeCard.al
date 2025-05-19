@@ -45,6 +45,12 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
+                field("Employee Work Shift"; Rec."Employee Work Shift")
+                {
+                    Caption = 'Employee Work Shift';
+                    ToolTip = 'Specifies the value of the Employee Work Shift field.';
+                    ApplicationArea = All;
+                }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';

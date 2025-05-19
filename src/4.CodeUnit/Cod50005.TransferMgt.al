@@ -429,7 +429,7 @@ codeunit 50005 "Transfer Mgt."
             EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::"On Hold");
             EmpTransfer.Modify;
             HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpTransfer.Type::"Employee Transfer", EmpTransfer."Approval Status"::"On Hold", EmpTransfer.Remarks, '', EmpTransfer."No.", 0);
-            HRMgt.ReinstateCancelTransfer(EmpTransfer); //Min -- Reinstate while Hold transfer
+            ServiceHistoryMgt.ReinstateCancelTransfer(EmpTransfer); //Min -- Reinstate while Hold transfer
             EmpServiceActivityRec.Reset; //Min 3.13.2022 -- For Remove Transfer Hold Doc. line
             EmpServiceActivityRec.SetRange("Document No.", EmpTransfer."No.");
             if EmpServiceActivityRec.FindFirst then
@@ -1025,12 +1025,12 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
-        /*IF "Transfer Category" = "Transfer Category"::"Temporary" THEN //Min 1.1 >>
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::"Temporary Deputation",EmpAct.Remarks,"Date of Joining Of Transfer");
-        IF "Transfer Category" = "Transfer Category"::Officiating THEN
-          ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::"Officiating Arrangement",EmpAct.Remarks,"Date of Joining Of Transfer");
-        IF "Transfer Category" = "Transfer Category"::General THEN
-          ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::Transfer,EmpAct.Remarks,"Date of Joining Of Transfer");*/
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::"Temporary" THEN //Santosh Add Service History After Transfe Approved and acknowledge>>
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::Officiating THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         GLSetup.Get;
         //checking for attachment mandatory
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
@@ -1161,6 +1161,7 @@ codeunit 50005 "Transfer Mgt."
         HRMgt: Codeunit "HR Mgt.";
         EmployeeRec: Record Employee;
         OverTimeMgt: Codeunit "OverTime Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         // DimensionValue: Record "Dimension Value";
         OrganizationStructureList: Record "Organization Structure List";
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';

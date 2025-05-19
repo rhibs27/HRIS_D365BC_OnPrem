@@ -195,8 +195,8 @@ report 50077 "Formation of Department/Branch"
             ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
             ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
             ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-            ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
             ServiceHistory.Insert(true);
         end;
     end;
@@ -221,6 +221,7 @@ report 50077 "Formation of Department/Branch"
         EffectiveDate: Date;
         EmpServiceHistory: Record "Employee Service History";
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         Remarks: Text;
         ServiceHistoryCode: Code[20];
         BlockedDeputationFrom: Boolean;
@@ -384,7 +385,7 @@ report 50077 "Formation of Department/Branch"
 
         if Employee.Find('-') then
             repeat
-                ServiceHistoryCode := HRMgt.AddToServiceHistory(Employee."No.", EmpServiceHistory."Service Event"::"Formation of Department/Unit/Functional Title", Remarks, EffectiveDate);
+                ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", EmpServiceHistory."Service Event"::"Formation of Department/Unit/Functional Title", Remarks, EffectiveDate);
                 ValdiateDeputationOnCode;
                 Employee.Modify;
 
@@ -392,8 +393,8 @@ report 50077 "Formation of Department/Branch"
                     EmpServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
                     EmpServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
                     EmpServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-                    EmpServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(Employee."Deputation on", Employee."No."));
-                    EmpServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
+                    EmpServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(Employee."Deputation on", Employee."No."));
+                    EmpServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
                     EmpServiceHistory.Modify;
                 end;
             until Employee.Next = 0;
