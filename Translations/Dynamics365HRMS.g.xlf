@@ -57069,7 +57069,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue  - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 197752431 - EnumValue 634550112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Non-Life Insurance</source>
+          <source>Life Insurance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue Life Insurance - Property Caption</note>
         </trans-unit>

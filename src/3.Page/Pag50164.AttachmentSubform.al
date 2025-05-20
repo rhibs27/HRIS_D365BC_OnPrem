@@ -83,16 +83,20 @@ page 50164 "Attachment Subform"
                     ToolTip = 'Specifies the value of the Employee Activity Type field.';
                     ApplicationArea = All;
                 }
+                field(ext; Extension)
+                {
+                    Visible = not isGUIAllowed;
+                }
+                field(ShowUpload; ShowUpload)
+                { Visible = not isGUIAllowed; }
+                field(ShowDownload; ShowDownload)
+                { Visible = not isGUIAllowed; }
+                field(ShowDelete; ShowDelete)
+                { Visible = not isGUIAllowed; }
                 field(importAttachment; ImportAttachmentDocument)
                 {
                     Visible = not isGUIAllowed;
                 }
-                field(showUpload; ShowUpload)
-                { Visible = not isGUIAllowed; }
-                field(showDownload; ShowDownload)
-                { Visible = not isGUIAllowed; }
-                field(ShowDelete; ShowDelete)
-                { Visible = not isGUIAllowed; }
             }
         }
     }
@@ -227,8 +231,9 @@ page 50164 "Attachment Subform"
     }
     trigger OnModifyRecord(): Boolean
     begin
-        if ImportAttachmentDocument <> '' then
-            PortalFunction.uploadAttachment(Rec."No.", Rec."Entry No.", Rec."File Name", FileMgt.GetExtension(Rec."File Name"));
+        if not GuiAllowed then
+            if ImportAttachmentDocument <> '' then
+                AttachmentMgt.uploadAttachment(Rec, ImportAttachmentDocument, Extension);
     end;
 
     trigger OnOpenPage()
@@ -281,5 +286,6 @@ page 50164 "Attachment Subform"
         ShowUpload: Boolean;
         ShowDownload: Boolean;
         ShowDelete: Boolean;
+        Extension: text;
 
 }

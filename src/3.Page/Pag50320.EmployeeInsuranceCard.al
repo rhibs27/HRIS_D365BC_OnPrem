@@ -3,8 +3,8 @@ page 50320 "Employee Insurance Card"
     ApplicationArea = All;
     Caption = 'Employee Insurance Card';
     PageType = Card;
+    InsertAllowed = false;
     SourceTable = "Employee Insurance Information";
-
     layout
     {
         area(Content)
@@ -182,6 +182,7 @@ page 50320 "Employee Insurance Card"
                 PromotedCategory = Process;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Send Request action.';
+                Visible = IsOpen;
                 trigger OnAction()
                 begin
                     if not Confirm('Do you want to send request for this insurance?', false) then
@@ -230,7 +231,7 @@ page 50320 "Employee Insurance Card"
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApprovalMgt.ApproveRejectDocument(RecRef, true);
                         Rec."Rejection Remarks" := '';
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('Insurance is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -325,6 +326,7 @@ page 50320 "Employee Insurance Card"
         ApprovalStatusView: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
         IsPending: Boolean;
+        IsOpen: Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
@@ -334,6 +336,8 @@ page 50320 "Employee Insurance Card"
     local procedure InsuranceEditControl();
     begin
         IsPending := Rec."Approval Status" = rec."Approval Status"::Pending;
+        IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else
@@ -371,6 +375,7 @@ page 50320 "Employee Insurance Card"
             NonLifeInsEdit := true
         else
             LifeInsEdit := false;
+        RecRef.GetTable(Rec);
     end;
 
     local procedure CheckPremiumInsurance(EmployeeNo: Code[20]);

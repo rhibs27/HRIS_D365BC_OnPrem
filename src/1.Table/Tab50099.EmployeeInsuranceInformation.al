@@ -145,7 +145,7 @@ table 50099 "Employee Insurance Information"
         field(24; "Expired"; Boolean) { }
         field(100; Status; Text[20])
         {
-            TableRelation = Employee;
+            TableRelation = "Status Master";
         }
         //     field(20; "Life Insurance Company"; Enum "Life Insurance Company")
         //     {
@@ -165,7 +165,11 @@ table 50099 "Employee Insurance Information"
     trigger OnInsert()
     begin
         "Requested Date" := Today;
-        Validate("Employee No.", "Employee No.");
+        if not GuiAllowed then begin
+            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            "Approval Status" := "Approval Status"::Pending;
+            Validate(Type, Rec.Type::Insurance);
+        end;
         if "Insurance No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Employee Insurance No.");
@@ -178,14 +182,15 @@ table 50099 "Employee Insurance Information"
         EmpInsurance.SETFILTER("Insurance No.",'<>%1',"Insurance No.");
         IF EmpInsurance.FINDFIRST THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
-        if not GuiAllowed then begin
-            ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
-            LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
-            IncomingDoc.Reset;
-            IncomingDoc.SetRange("No.", '');
-            IncomingDoc.SetRange("Employee Code", "Employee No.");
-            IncomingDoc.ModifyAll("No.", "Insurance No.");
-        end;
+        // if not GuiAllowed then begin
+        //     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
+        // LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
+        // IncomingDoc.Reset;
+        // IncomingDoc.SetRange("No.", '');
+        // IncomingDoc.SetRange("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
+        // IncomingDoc.SetRange("Employee Code", "Employee No.");
+        // IncomingDoc.ModifyAll("No.", "Insurance No.");
+        // end;
         if GuiAllowed then begin
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
@@ -227,6 +232,7 @@ table 50099 "Employee Insurance Information"
         EmpInsurance: Record "Employee Insurance Information";
         LoanMgt: Codeunit "Loan Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
+        Hrmgt: Codeunit "HR Mgt.";
         SpecialCharsErr: Label 'You cannot enter the special characters. ';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?';
         Len: Integer;
