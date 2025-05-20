@@ -3782,8 +3782,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
         PayrollLine."Past Non-Payments" := Employee."Non-Payment";
         PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
-        PayrollLine."Past Retirement Fund" := Abs(Employee."PF Contribution") + Abs(Employee."PF Contribution (Office)") +
-                                      Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
+        PayrollLine."Past Retirement Fund" := Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
         PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
