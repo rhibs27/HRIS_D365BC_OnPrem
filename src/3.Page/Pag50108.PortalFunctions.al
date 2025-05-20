@@ -177,10 +177,12 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
             FORMAT(ApprovalSetupLine."Request Type"::"Allowance Assignment"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Allowance Assignment");
+            FORMAT(ApprovalSetupLine."Request Type"::Insurance):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Insurance);
             else
                 Error('Approval Setup Not found');
         END;
-        // Get approval from employee table based on deputaion type and approval role << santosh>> 11-3-25
+        // Get approval from employee table based on deputation type and approval role << santosh>> 11-3-25
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         if ApprovalSetupLine.Findset() then
@@ -4331,5 +4333,24 @@ page 50108 "Portal Functions"
                 exit(base64.ToBase64(InStr));
             end;
         end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        //EmpActivity: Record "Employee Activity";
+        EmployeeInsurance: Record "Employee Insurance Information";
+        RecRef: RecordRef;
+    begin
+        EmployeeInsurance.Get(empInsuranceNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
+            EmployeeInsurance.Modify;
+        end;
+        RecRef.GetTable(EmployeeInsurance);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 }

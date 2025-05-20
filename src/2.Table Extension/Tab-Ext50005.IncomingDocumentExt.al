@@ -16,20 +16,20 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         {
             TableRelation = "Attachment Master".Code;
             DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                CheckSampleAttachment;
-            end;
+            // trigger OnValidate()
+            // begin
+            //     CheckSampleAttachment;
+            // end;
         }
         field(50004; "Employee Code"; Code[20])
         { DataClassification = CustomerContent; }
         field(50005; "Type"; Enum "Incoming Document Sample")
         {
             DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                CheckSampleAttachment;
-            end;
+            // trigger OnValidate()
+            // begin
+            //     CheckSampleAttachment;
+            // end;
         }
         field(50006; "Leave Type Code"; Code[20])
         {

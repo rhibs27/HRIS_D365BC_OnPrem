@@ -150,7 +150,6 @@ codeunit 50007 "MedicalInsurance Mgt"
                     ResignationApprover.Validate("Functional Title", Employee."Functional Title");
                     ResignationApprover.Insert(true);
                 end;
-
             until Employee.Next = 0;
     end;
 
@@ -185,6 +184,38 @@ codeunit 50007 "MedicalInsurance Mgt"
                 exit;
             Medicalinsurance.Validate("Insurance Status", Medicalinsurance."Insurance Status"::"Forwarded to Insurance Co.");
             Medicalinsurance.Modify;
+        end;
+    end;
+
+    procedure OpenEmployeeInsurance(EmployeeCode: Code[20])
+    var
+        Approval: Record "Approval HRMS";
+        EmployeeInsurance, EmployeeInsurance1 : Record "Employee Insurance Information";
+    begin
+        Clear(Employee);
+        // Clear Approval line 
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.SetRange("Employee No", EmployeeCode);
+        Approval.DeleteAll();
+
+        Employee.Get(EmployeeCode);
+        EmployeeInsurance.Reset();
+        EmployeeInsurance.SetRange("Employee No.", EmployeeCode);
+        EmployeeInsurance.SetRange("Approval Status", EmployeeInsurance."Approval Status"::open);
+        if EmployeeInsurance.Findfirst() then begin
+            Message('This Employee Already has open Leave Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Employee Insurance Card", EmployeeInsurance)
+        end else begin
+            EmployeeInsurance1.Init;
+            EmployeeInsurance1.Validate("Employee No.", EmployeeCode);
+            EmployeeInsurance1.Validate(Type, EmployeeInsurance1.Type::Insurance);
+            EmployeeInsurance1.Validate("Approval Status", EmployeeInsurance1."Approval Status"::Open);
+            EmployeeInsurance1.Validate("Requested Date", Today);
+            EmployeeInsurance1.Insert(true);
+            if GuiAllowed then
+                PAGE.Run(PAGE::"Employee Insurance Card", EmployeeInsurance1);
         end;
     end;
 
