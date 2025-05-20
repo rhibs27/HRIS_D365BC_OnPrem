@@ -423,7 +423,12 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
         }
         field(50011; "Premium of Life Insurance"; Decimal)
-        { DataClassification = CustomerContent; }
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Insurance Information"."Annual Premium Amount" where("Employee No." = field("No."), "Insurance Type" = const("Employee Insurance Type"::"Life Insurance"),
+                                                                                                                    "Approval Status" = const("Approval Status"::Approved), Expired = const(false)));
+            Editable = false;
+        }
         field(50012; "Tax Code"; Code[20])
         {
             TableRelation = "Tax Setup Header";
@@ -1237,8 +1242,11 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50113; "Premium Property Insurance"; Decimal)
         {
-            DataClassification = CustomerContent;
             Description = 'Insurance';
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Insurance Information"."Annual Premium Amount" where("Employee No." = field("No."), "Insurance Type" = const("Employee Insurance Type"::"Property Insurance"),
+                                                                                                                    "Approval Status" = const("Approval Status"::Approved), Expired = const(false)));
+            Editable = false;
         }
         field(50114; "Premium Amount"; Decimal)
         {
@@ -1366,7 +1374,10 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50139; "Premium of Health Insurance"; Decimal)
         {
-            DataClassification = CustomerContent;
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Insurance Information"."Annual Premium Amount" where("Employee No." = field("No."), "Insurance Type" = const("Employee Insurance Type"::"Medical Insurance"),
+                                                                                                                    "Approval Status" = const("Approval Status"::Approved), Expired = const(false)));
+            Editable = false;
         }
         field(50140; "Last Placement Date"; Date)
         {
@@ -1511,6 +1522,13 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 MailManagement.ValidateEmailAddressField("Emergency Contact Email");
             end;
+        }
+        field(50165; "Insurance Premium"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Insurance Information"."Annual Premium Amount" where("Employee No." = field("No."),
+                                                                                                                    "Approval Status" = const("Approval Status"::Approved), Expired = const(false)));
+            Editable = false;
         }
     }
     keys

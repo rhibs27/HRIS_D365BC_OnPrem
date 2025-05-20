@@ -81,6 +81,9 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Requested Date';
                 }
+                field(approvalStatus; Rec."Approval Status")
+                {
+                }
                 field(status; Rec.Status)
                 {
                     Caption = 'Status';
