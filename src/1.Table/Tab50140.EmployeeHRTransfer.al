@@ -499,17 +499,23 @@ table 50140 "Employee/HR Transfer"
         {
             Description = 'Transfer';
             // TableRelation = Province;
-            Editable = false;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            // Editable = false;
             trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
             begin
-                // if "Province Code (To)" <> xRec."Province Code (To)" then begin
-                //     if ProvinceVar.Get("Province Code (To)") then begin
-                //         "Shortcut Dimension 1 Code (To)" := '';
-                //         "Department Code (To)" := '';
-                //         "Unit (To)" := '';
-                //         "Extension Counter (To)" := '';
-                //     end;
-                // end;
+                if "Province Code (To)" <> xRec."Province Code (To)" then begin
+                    // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
+                    //     if ProvinceVar.Get("Province Code (To)") then begin
+                    //         ProvinceName := OrganizationStructureList."Province Name";
+                    //         "Shortcut Dimension 1 Code (To)" := '';
+                    //         "Department Code (To)" := '';
+                    //         "Unit (To)" := '';
+                    //         "Extension Counter (To)" := '';
+                    //     end;
+                    // end;
+                end;
             end;
         }
         field(56; "Unit (To)"; Code[20])
