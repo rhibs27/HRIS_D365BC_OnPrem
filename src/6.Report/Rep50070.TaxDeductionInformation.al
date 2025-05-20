@@ -85,7 +85,7 @@ report 50070 "Tax Deduction Information"
                 //oman changed
                 InsertPreviousPayrollHistory(Employee."No.");
                 InsertCurrentPayrollData;
-                DeputationValue := HRMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No.");
+                DeputationValue := ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No.");
             end;
 
             trigger OnPreDataItem()
@@ -314,6 +314,7 @@ report 50070 "Tax Deduction Information"
         PayCyclePeriod: Record "Pay Cycle Period";
         PayCycleTermText: Text;
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         DeputationValue: Text;
         SalaryLevel: Record "Salary Level";
         RemoteAreaAmt: Decimal;

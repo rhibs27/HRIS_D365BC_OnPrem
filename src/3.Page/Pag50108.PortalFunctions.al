@@ -37,6 +37,7 @@ page 50108 "Portal Functions"
         FileManagement: Codeunit "File Management";
         AttachmentMgt: Codeunit "Attachment Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
         EligibleLoan: Decimal;
@@ -518,6 +519,7 @@ page 50108 "Portal Functions"
             Format(tempLeave."For Death Of"::Daughter):
                 tempLeave.Validate("For Death Of", tempLeave."For Death Of"::Daughter);
         end;
+        tempLeave.Validate("Approval Status", tempLeave."Approval Status"::Pending);
         tempLeave.Insert(true);
         //For Approver Line Generate
         // if not HRSetup."Approval From Setup" then
@@ -1025,6 +1027,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
         TravelRequest.Insert(true);
         if TravelMgt.ApplyForTravelClaim(TravelRequest) then
             exit(200);
@@ -2337,7 +2340,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOThrs: Decimal; eveningOThrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
@@ -3559,7 +3562,7 @@ page 50108 "Portal Functions"
     procedure exitDeputationValue(): Text
     begin
         Employee.Get(HrMgt.GetEmployeeNo);
-        exit(HrMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
+        exit(ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
     end;
 
     [ServiceEnabled]

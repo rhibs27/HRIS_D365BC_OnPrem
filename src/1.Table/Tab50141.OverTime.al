@@ -135,6 +135,8 @@ table 50141 OverTime
                 end else
                     Error('No Attendance Found on %1', rec."Start Date");
                 OverTimeMgt.CheckOvertime(Rec);
+                if "Start Date" <> xRec."Start Date" then
+                    Clear("Overtime Claim Type");
             end;
         }
         field(8; "Check In Time"; Time)

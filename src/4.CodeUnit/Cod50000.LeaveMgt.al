@@ -662,6 +662,7 @@ codeunit 50000 "Leave Mgt."
         NoMgmt: Codeunit NoSeriesManagement;
         ServiceHistory: Record "Employee Service History";
         ServiceHistoryCode: Code[20];
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
     begin
         Employee.Get(Empcode);
         Employee.TestField("Confirmation Date");
@@ -719,13 +720,13 @@ codeunit 50000 "Leave Mgt."
                     LeaveEarn.Insert(true);
             until LeaveType.Next = 0;
 
-        ServiceHistoryCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::Confirmation, 'Confirmed', Employee."Confirmation Date");
+        ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::Confirmation, 'Confirmed', Employee."Confirmation Date");
         if ServiceHistory.Get(ServiceHistoryCode) then begin
             ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
             ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
             ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-            ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
             ServiceHistory.Modify;
         end;
     end;

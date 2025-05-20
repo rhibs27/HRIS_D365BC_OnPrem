@@ -56,6 +56,9 @@ query 50010 "OverTime Query"
                     column(checkInTime; "Check In Time") { }
                     column(checkOutTime; "Check Out Time") { }
                     column(overtimeClaimType; "Overtime Claim Type") { }
+                    // column(endDate; "End Date") { }
+                    // column(endDateBS; "End Date (BS)") { }
+                    // column(noOfDays; "No. of Days") { }
                     column(requestedDate; "Requested Date") { }
                     column(approvalStatus; "Approval Status") { }
                     column(remarks; Remarks) { }

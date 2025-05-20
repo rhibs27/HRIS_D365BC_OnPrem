@@ -8,7 +8,7 @@ enum 50120 "Insurance Company Type"
     }
     value(1; "Life Insurance")
     {
-        Caption = 'Non-Life Insurance';
+        Caption = 'Life Insurance';
     }
     value(2; "Non-Life Insurance")
     {

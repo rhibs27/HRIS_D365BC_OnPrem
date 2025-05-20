@@ -122,6 +122,7 @@ report 50129 "Current Date Transfer Update"
     var
         InitialDate: Date;
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         FromDate: Date;
         ToDate: Date;
         GeneralTransferUpdate: Boolean;
@@ -152,7 +153,7 @@ report 50129 "Current Date Transfer Update"
             EmployeeServiceHistory.Reset;
             EmployeeServiceHistory.SetRange("Document No.", Transfer."No.");
             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
-                HRMgt.ApprovedTransferUpdate(Transfer);
+                ServiceHistoryMgt.ApprovedTransferUpdate(Transfer);
         end;
     end;
 

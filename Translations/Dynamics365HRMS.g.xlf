@@ -19298,36 +19298,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedRejectApprovalAPI - NamedType ErrorReject</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 338880451 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedTransferUpdate - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 338880451 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedTransferUpdate - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2713014571 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectResignationAPI - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2713014571 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectResignationAPI - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2713014571 - NamedType 1413009673" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to approve or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectResignationAPI - NamedType ApproveNotEligibleError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2713014571 - NamedType 19195952" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You are not Eligible to recommend or reject this document </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApproveRejectResignationAPI - NamedType RecommendNotEligibleError</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2781101943 - NamedType 1397003111" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start time cannot be greater than end time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19462,16 +19432,6 @@
           <source>Update Employment Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method UpdateEmploymentDate - NamedType UpdateEmploymentDate</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 957893033 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method UpdateMissedTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 957893033 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method UpdateMissedTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 3004614702 - Method 726041078 - NamedType 1031791836" size-unit="char" translate="yes" xml:space="preserve">
           <source>Select the CSV Requisition File.</source>
@@ -19872,6 +19832,26 @@
           <source>No %1.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Resignation Mgt - Method SendResignationApproval - NamedType NoRecommender</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1494781731 - Method 338880451 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method ApprovedTransferUpdate - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1494781731 - Method 338880451 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method ApprovedTransferUpdate - NamedType ConfirmReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1494781731 - Method 957893033 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method UpdateMissedTransfer - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1494781731 - Method 957893033 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method UpdateMissedTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 731959137 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
           <source>Either server or database information not found.</source>
@@ -35448,6 +35428,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Work Shift field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Employee Work Shift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3592273345 - Control 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Control Employee Work Shift - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3592273345 - Control 3757697615 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Encashment Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -50612,6 +50602,11 @@
           <source>Executes the Contract Renew action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Contract Renew - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 2624977916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Executes the Medical insurance action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Insurance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 1127130218 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Generate Leave Balance action.</source>

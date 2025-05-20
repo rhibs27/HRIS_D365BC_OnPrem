@@ -26,8 +26,8 @@ table 50098 "Employee Declaration"
                     Validate("Salary Level", Empvar."Salary Level");
                     Validate("Functional Title", Empvar."Functional Title");
                     Validate("Deputation On", Empvar."Deputation on");
-                    Validate("Deputation Code", HRMgt.ExitTransferDeputationWiseCode("Deputation On", "Employee No."));
-                    Validate("Deputation Value", HRMgt.ExitTransferDeputationWiseValue("Deputation On", "Employee No."));
+                    Validate("Deputation Code", ServiceHistoryMgt.ExitTransferDeputationWiseCode("Deputation On", "Employee No."));
+                    Validate("Deputation Value", ServiceHistoryMgt.ExitTransferDeputationWiseValue("Deputation On", "Employee No."));
                     Validate("Fiscal Year", HRMgt.ReturnFiscalYear(CalcDate('<-1Y>'))); //Min -- Validate Previous Fiscal Year
                 end else begin
                     Validate("Employee Name", '');
@@ -199,6 +199,7 @@ table 50098 "Employee Declaration"
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         DimValue: Record "Dimension Value";
         EmpDeclaration: Record "Employee Declaration";
 

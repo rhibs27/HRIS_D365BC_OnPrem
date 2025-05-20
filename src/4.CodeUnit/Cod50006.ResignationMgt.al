@@ -402,7 +402,7 @@ codeunit 50006 "Resignation Mgt"
         Resignation.Get(resignationCode);
         InsertResignationApprover(Resignation); //resignation clearance approver
         HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
-        HrMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
+        ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."HR Proposed Date");
 
     end;
 
@@ -411,4 +411,5 @@ codeunit 50006 "Resignation Mgt"
         Employee1: Record Employee;
         HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
 }
