@@ -6473,11 +6473,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Employee No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 617144856 - Field 1481297009 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Expired</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Expired - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 617144856 - Field 3236702554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6552,11 +6547,6 @@
           <source>Premium Paid By</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Premium Paid By - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 617144856 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Rejection Remarks</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
@@ -26888,11 +26878,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Annual Premium Amount - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1469501960 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Status field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Approval Status - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1469501960 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -26968,11 +26953,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Policy Number - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1469501960 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1469501960 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -26987,11 +26967,6 @@
           <source>Specifies the value of the Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1469501960 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Approve Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Action Approve Request - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>
@@ -53003,11 +52978,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Insurance Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 1544502523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Insurance Premium</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Insurance Premium - Property Caption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2689139806 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Job Title Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56979,7 +56949,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue  - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 197752431 - EnumValue 634550112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Non-Life Insurance</source>
+          <source>Life Insurance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Company Type - EnumValue Life Insurance - Property Caption</note>
         </trans-unit>
