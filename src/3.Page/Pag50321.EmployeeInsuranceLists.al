@@ -1,6 +1,10 @@
 page 50321 "Employee Insurance Lists"
 {
     ApplicationArea = All;
+    Editable = false;
+    InsertAllowed = false;
+    DeleteAllowed = false;
+    ModifyAllowed = false;
     Caption = 'Employee Insurance Lists';
     PageType = List;
     SourceTable = "Employee Insurance Information";

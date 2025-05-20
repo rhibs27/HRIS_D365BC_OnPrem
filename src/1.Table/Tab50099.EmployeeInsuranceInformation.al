@@ -1,6 +1,8 @@
 table 50099 "Employee Insurance Information"
 {
     DataClassification = CustomerContent;
+    LookupPageId = "Employee Insurance Lists";
+    DrillDownPageId = "Employee Insurance Lists";
 
     fields
     {
@@ -24,7 +26,7 @@ table 50099 "Employee Insurance Information"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
+            Editable = false;
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then
@@ -125,20 +127,22 @@ table 50099 "Employee Insurance Information"
 
         }
         field(18; "Is Home Loan TieUp"; Boolean) { }
-        field(19; "Requested Date"; Date) { }
-
+        field(19; "Requested Date"; Date)
+        {
+            Editable = false;
+        }
         field(20; "Insurance Type"; Enum "Employee Insurance Type")
         {
-
         }
-
         field(21; Remarks; Text[250]) { }
 
         field(22; "Premium Paid By"; enum "Premium Paid By")
         {
             Caption = 'Premium Paid By';
         }
+        field(23; "Rejection Remarks"; Text[250]) { }
         field(37; "Approved Date"; Date) { }
+        field(24; "Expired"; Boolean) { }
         field(100; Status; Text[20])
         {
             TableRelation = Employee;
@@ -166,6 +170,7 @@ table 50099 "Employee Insurance Information"
             HRSetup.Get;
             HRSetup.TestField("Employee Insurance No.");
             NoSeriesMgt.InitSeries(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
+            ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
         /*EmpInsurance.RESET;
         EmpInsurance.SETRANGE("Employee No.","Employee No.");
@@ -174,6 +179,7 @@ table 50099 "Employee Insurance Information"
         IF EmpInsurance.FINDFIRST THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
         if not GuiAllowed then begin
+            ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
             LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
             IncomingDoc.Reset;
             IncomingDoc.SetRange("No.", '');
@@ -220,6 +226,7 @@ table 50099 "Employee Insurance Information"
         IncomingDoc: Record "Incoming Document";
         EmpInsurance: Record "Employee Insurance Information";
         LoanMgt: Codeunit "Loan Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
         SpecialCharsErr: Label 'You cannot enter the special characters. ';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?';
         Len: Integer;

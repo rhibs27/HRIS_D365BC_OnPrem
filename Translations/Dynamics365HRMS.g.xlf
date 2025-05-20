@@ -6473,6 +6473,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Employee No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 617144856 - Field 1481297009 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Expired</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Expired - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 617144856 - Field 3236702554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insurance Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6547,6 +6552,11 @@
           <source>Premium Paid By</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Premium Paid By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 617144856 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Insurance Information - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 617144856 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
@@ -26898,6 +26908,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Annual Premium Amount - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1469501960 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1469501960 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -26973,6 +26988,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Policy Number - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1469501960 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1469501960 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -26987,6 +27007,11 @@
           <source>Specifies the value of the Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1469501960 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Action Approve Request - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Request action.</source>
@@ -50238,6 +50263,96 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 2036335498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Annual Premium Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn annualPremiumAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 1998524818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 369588863 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceCompany - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 3403373862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Company Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceCompanyName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 1291257376 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Expiry Date (AD)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceExpiryDateAD - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 1867668220 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Expiry Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceExpiryDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 3340778645 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 512598661 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Start Date (AD)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceStartDateAD - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 3162610377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Start Date (BS)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceStartDateBS - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 2032729398 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn insuranceType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 2769945832 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Home Loan TieUp</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn isHomeLoanTieUp - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 2014022390 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Premium Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn monthlyPremiumAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 3783727397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Policy Number</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn policyNumber - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 3837270088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn requestedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 998393528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Query 1936714861 - QueryColumn 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52982,6 +53097,11 @@
           <source>Insurance Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Insurance Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 1544502523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Insurance Premium</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Insurance Premium - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2689139806 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Job Title Code</source>

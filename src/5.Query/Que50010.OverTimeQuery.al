@@ -51,32 +51,18 @@ query 50010 "OverTime Query"
                     {
                     }
                     column(employeeName; "Employee Name") { }
-                    // column(salaryLevel; "Salary Level Code") { }
-                    // column(department; Department) { }
-                    // column(departmentName; "Department Name") { }
-                    // column(branchCode; "Shortcut Dimension 1 Code") { }
-                    // column(branchName; "Branch Name") { }
-                    // column(functionalTitle; "Functional Title") { }
                     column(startDate; "Start Date") { }
                     column(startDateBS; "Start Date (BS)") { }
                     column(checkInTime; "Check In Time") { }
                     column(checkOutTime; "Check Out Time") { }
                     column(overtimeClaimType; "Overtime Claim Type") { }
-                    // column(endDate; "End Date") { }
-                    // column(endDateBS; "End Date (BS)") { }
-                    // column(noOfDays; "No. of Days") { }
                     column(requestedDate; "Requested Date") { }
-                    // column(fiscalYear; "Fiscal Year") { }
                     column(approvalStatus; "Approval Status") { }
-                    // column(cancelled; Cancelled) { }
-                    // column(reasonCode; "Reason Code") { }
-                    // column(reasonDescription; "Reason Description") { }
                     column(remarks; Remarks) { }
                     column(rejectionRemarks; "Rejection Remarks") { }
                     column(status; status) { }
                     column(timeDuration; "Time Duration") { }
                     column(actualHours; "Actual OT Hours") { }
-                    // column(EstimatedHours; "Estimated Hours") { }
                     column(encashmentCode; "Encashment Code") { }
                     column(morningOThrs; "Morning OT Hours")
                     {

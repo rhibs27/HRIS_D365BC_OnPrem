@@ -93,6 +93,14 @@ page 50320 "Employee Insurance Card"
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
                     ApplicationArea = All;
                     Editable = false;
+                    Visible = StatusView;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Status field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = false;
+                    Visible = ApprovalStatusView;
                 }
                 field("Annual Premium Amount"; Rec."Annual Premium Amount")
                 {
@@ -132,6 +140,26 @@ page 50320 "Employee Insurance Card"
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    Editable = IsPending;
+                    Visible = IsPending;
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+                }
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("Insurance No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
             part(Attachments; "Attachment Subform")
             {
@@ -139,6 +167,7 @@ page 50320 "Employee Insurance Card"
                 SubPageLink = "No." = field("Insurance No.");
             }
         }
+
     }
     actions
     {
@@ -159,6 +188,7 @@ page 50320 "Employee Insurance Card"
                         exit;
                     Rec.TestField("Approval Status", Rec."Approval Status"::Open);
                     Rec.Validate("Approval Status", Rec."Approval Status"::Pending);
+                    ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
                     LoanMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
                     Rec.Modify();
                     Message('Reqeust Sent');
@@ -173,6 +203,7 @@ page 50320 "Employee Insurance Card"
                 PromotedCategory = Process;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Screen action.';
+                Visible = false;
                 trigger OnAction()
                 begin
                     if not Confirm('Do you want to screen this insurance?', false) then
@@ -184,6 +215,25 @@ page 50320 "Employee Insurance Card"
                     Message('Reqeust Screened');
                 end;
             }
+            action("Approve Request")
+            {
+                Image = Approve;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Rec."Rejection Remarks" := '';
+                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
             action("Return Request")
             {
                 ApplicationArea = All;
@@ -193,6 +243,7 @@ page 50320 "Employee Insurance Card"
                 PromotedCategory = Process;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Return Request action.';
+                Visible = false;
                 trigger OnAction()
                 begin
                     if not Confirm('Do you want to return this insurance?', false) then
@@ -205,20 +256,42 @@ page 50320 "Employee Insurance Card"
             }
             action("Reject Request")
             {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
                 Image = Reject;
+                Promoted = true;
                 PromotedCategory = Process;
+                PromotedIsBig = true;
                 PromotedOnly = true;
                 ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want reject the request?', false) then
-                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-                    Message('The Employee Insurance request has been rejected.');
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Insurance is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
+            // action("Reject Request")
+            // {
+            //     ApplicationArea = All;
+            //     Promoted = true;
+            //     PromotedIsBig = true;
+            //     Image = Reject;
+            //     PromotedCategory = Process;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Reject Request action.';
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want reject the request?', false) then
+            //             Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+            //         Message('The Employee Insurance request has been rejected.');
+            //     end;
+            // }
         }
     }
     trigger OnOpenPage()
@@ -248,10 +321,32 @@ page 50320 "Employee Insurance Card"
         AnnualPremiumAmtEdit: Boolean;
         LifeInsEdit: Boolean;
         NonLifeInsEdit: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        ApproverMgt: Codeunit "Approver Mgt";
+        IsPending: Boolean;
+        RecRef: RecordRef;
+        ApprovalMgt: Codeunit "Approver Mgt";
+        HrMgt: Codeunit "HR Mgt.";
+
+
 
     local procedure InsuranceEditControl();
     begin
+        IsPending := Rec."Approval Status" = rec."Approval Status"::Pending;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
         if Rec."Approval Status" = Rec."Approval Status"::Pending then begin
+            InsuranceTypeEdit := false;
+            InsuranceCompanyEdit := false;
+            PolicyNoEdit := false;
+            InsStartDateEdit := false;
+            InsEndDateEdit := false;
+            InsAmountEdit := false;
+            AnnualPremiumAmtEdit := false;
+        end else if Rec."Approval Status" = Rec."Approval Status"::open then begin
             InsuranceTypeEdit := true;
             InsuranceCompanyEdit := true;
             PolicyNoEdit := true;
