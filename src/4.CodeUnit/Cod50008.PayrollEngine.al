@@ -228,8 +228,7 @@ codeunit 50008 "Payroll Engine"
             CalcProjectionRetirementFund; //SUMAN
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."PF Contribution (Office)") +
-                                             Abs(Employee."PF Contribution") + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
         //RetirementFundLimit1 := TotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
