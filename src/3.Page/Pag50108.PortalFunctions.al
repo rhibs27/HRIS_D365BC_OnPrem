@@ -469,7 +469,7 @@ page 50108 "Portal Functions"
     begin
         tempLeave.Reset;
         HRSetup.Get();
-        LeaveMgt.CheckPendingLeave(leaveCode, HrMgt.GetEmployeeNo());
+        // LeaveMgt.CheckPendingLeave(leaveCode, HrMgt.GetEmployeeNo());
         tempLeave.Init;
         tempLeave.Validate("Employee No.", HrMgt.GetEmployeeNo());
         tempLeave.Validate("Leave Code", leaveCode);
@@ -770,32 +770,50 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getLeaveAttachmentAPI(leaveNo: Code[20]): Text
+    procedure getAttachmentAPI(docNo: Code[20]): text
     var
         TempIncomingDoc: Record "Incoming Document";
-        leave: Record leave;
         NoOfDays: Integer;
         LeaveType: Record "Leave Type Setup";
         AttachmentSetup: Record "Attachment Setup";
         Filename: Text;
+        JsonObject: JsonObject;
+        JsonText: text;
+        JsonArray: JsonArray;
     begin
-        leave.Get(leaveNo);
         TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", leaveNo);
-        If not TempIncomingDoc.FindFirst() then
+        TempIncomingDoc.SETRANGE("No.", docNo);
+        If TempIncomingDoc.Findset() then begin
+            repeat
+                Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+                Clear(JsonObject);
+                JsonObject.Add('attachmentCode', TempIncomingDoc."Attachment Code");
+                JsonObject.Add('empActivityType', format(TempIncomingDoc."Employee Activity Type"));
+                JsonObject.Add('empCode', TempIncomingDoc."Employee Code");
+                JsonObject.Add('entryNo', TempIncomingDoc."Entry No.");
+                JsonObject.Add('fileName', Filename);
+                JsonObject.Add('leaveCode', TempIncomingDoc."Leave Type Code");
+                JsonObject.Add('number', TempIncomingDoc."No.");
+                JsonObject.Add('ShowDelete', false);
+                JsonObject.Add('ShowDownload', true);
+                JsonObject.Add('ShowUpload', false);
+                JsonArray.Add(JsonObject);
+            until TempIncomingDoc.Next() = 0;
+        end else
             Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+        // exit('{' +
+        // '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+        //   '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+        //   '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+        //   '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        // '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        // '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        // '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        // '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        // '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
+        // '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -1719,29 +1737,29 @@ page 50108 "Portal Functions"
         end;
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getLoanAttachmentAPI(LoanNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        Filename: Text;
-    begin
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", LoanNo);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getLoanAttachmentAPI(LoanNo: Code[20]): Text
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     Filename: Text;
+    // begin
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SETRANGE("No.", LoanNo);
+    //     If not TempIncomingDoc.FindFirst() then
+    //         Error('Document Not Found');
+    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+    //     exit('{' +
+    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2305,34 +2323,34 @@ page 50108 "Portal Functions"
         exit('success');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getResignAttachmentAPI(ResignNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        Resignation: Record Resignation;
-        // // NoOfDays: Integer;
-        // LeaveType: Record "Leave Type Setup";
-        AttachmentSetup: Record "Attachment Setup";
-        Filename: Text;
-    begin
-        Resignation.Get(ResignNo);
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", ResignNo);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getResignAttachmentAPI(ResignNo: Code[20]): Text
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     Resignation: Record Resignation;
+    //     // // NoOfDays: Integer;
+    //     // LeaveType: Record "Leave Type Setup";
+    //     AttachmentSetup: Record "Attachment Setup";
+    //     Filename: Text;
+    // begin
+    //     Resignation.Get(ResignNo);
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SETRANGE("No.", ResignNo);
+    //     If not TempIncomingDoc.FindFirst() then
+    //         Error('Document Not Found');
+    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+    //     exit('{' +
+    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    // end;
 
     local procedure "------OverTime API---------"()
     begin
@@ -2950,31 +2968,31 @@ page 50108 "Portal Functions"
     //     exit(RemoteAreaAllow);
     // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getTransferAttachmentAPI(TransferCode: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        AttachmentSetup: Record "Attachment Setup";
-        Filename: Text;
-    begin
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getTransferAttachmentAPI(TransferCode: Code[20]): Text
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     AttachmentSetup: Record "Attachment Setup";
+    //     Filename: Text;
+    // begin
 
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", TransferCode);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    end;
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SETRANGE("No.", TransferCode);
+    //     If not TempIncomingDoc.FindFirst() then
+    //         Error('Document Not Found');
+    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+    //     exit('{' +
+    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3947,6 +3965,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove: Integer;
         LeaveCancelledForApprove: Integer;
         LateAttendanceForApprove: Integer;
+        InsuranceForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -4100,9 +4119,16 @@ page 50108 "Portal Functions"
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         LateAttendanceForApprove := Approval.Count();
+        Approval.Reset();
+
+        Approval.SetRange("Document Type", Approval."Document Type"::Insurance);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        InsuranceForApprove := Approval.Count();
 
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4123,6 +4149,7 @@ page 50108 "Portal Functions"
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
+        ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;
@@ -4339,7 +4366,6 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
-        //EmpActivity: Record "Employee Activity";
         EmployeeInsurance: Record "Employee Insurance Information";
         RecRef: RecordRef;
     begin

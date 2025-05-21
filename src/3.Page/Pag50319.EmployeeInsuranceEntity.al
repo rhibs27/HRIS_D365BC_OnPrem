@@ -111,4 +111,11 @@ page 50319 "Employee Insurance Entity"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("Insurance No.", false);
+    end;
 }

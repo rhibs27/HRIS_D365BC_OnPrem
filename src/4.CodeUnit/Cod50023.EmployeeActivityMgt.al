@@ -98,7 +98,7 @@ codeunit 50023 EmployeeActivityMgt
         leaveJournal.setrange("Approval Status", leaveJournal."Approval Status"::Approved);
         if leaveJournal.FindSet() then
             repeat
-                LeaveMgt.CheckPendingLeave(leaveJournal."Leave Code", leaveJournal."Employee No.");
+                LeaveMgt.CheckPendingLeave('', leaveJournal."Leave Code", leaveJournal."Employee No.");
                 LeaveMgt.CheckRemainingLeaveDays(leaveJournal."Leave Code", leaveJournal."Employee No.", leaveJournal."No. of Days");
                 LeaveMgt.CheckForEmployeeLimit(leaveJournal."Leave Code", leaveJournal."Employee No.");
                 LeaveRequest.Reset();

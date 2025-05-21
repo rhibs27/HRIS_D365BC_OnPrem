@@ -132,6 +132,6 @@ query 50020 "Employee Insurance Query"
         HRMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, HRMgt.GetEmployeeNo());
-        CurrQuery.SetRange(type, type::Overtime);
+        CurrQuery.SetRange(type, type::Insurance);
     end;
 }

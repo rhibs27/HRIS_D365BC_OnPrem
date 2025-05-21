@@ -769,7 +769,7 @@ codeunit 50000 "Leave Mgt."
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
-        CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
+        // CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
@@ -881,12 +881,13 @@ codeunit 50000 "Leave Mgt."
     //     end;
     // end;
 
-    procedure CheckPendingLeave(LeaveCode: Code[20]; EmployeeNo: code[20])
+    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: code[20])
     var
         LeaveTable: Record "Leave";
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTable.Reset;
+        LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
         LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
         LeaveTable.SetRange("Leave Code", LeaveCode);

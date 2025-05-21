@@ -1083,7 +1083,7 @@ codeunit 50005 "Transfer Mgt."
                 //UpdatePortalTransferEffDate(0D,"Employee No."); //Min 4.27.2022
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
             EmployeeRec.Validate("Disable Punch in", false);
-            EmployeeRec.Validate("Global Dimension 1 Code", EmpHrTransfer."Shortcut Dimension 1 Code (To)");
+            // EmployeeRec.Validate("Global Dimension 1 Code", EmpHrTransfer."Shortcut Dimension 1 Code (To)");
             EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
             EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
