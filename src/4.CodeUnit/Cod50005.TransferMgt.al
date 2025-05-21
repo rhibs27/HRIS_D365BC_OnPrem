@@ -1088,6 +1088,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
             EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+            EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
             EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
             EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
             EmployeeRec.Modify;
