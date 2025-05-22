@@ -16,8 +16,7 @@ codeunit 50005 "Transfer Mgt."
         // Employee.Get(EmpCode);
         // Employee.TestField("Confirmation Date");
         // if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
-        //     Error(RequestError); commented for testing Santosh
-
+        //     Error(RequestError); commented for testing Santos
         // HRSetup.Get;
         // Employee1.Reset;
         // Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
@@ -171,7 +170,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -314,7 +313,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -1157,17 +1156,41 @@ codeunit 50005 "Transfer Mgt."
 
     procedure HandoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
     var
+        IncomingDocument: Record "Incoming Document";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
-        if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
-            Error('You arenot Eligible Takeover')
+        IncomingDocument.Reset();
+        IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+        if IncomingDocument.FindSet() then
+            repeat
+                if IncomingDocument."File Name" = '' then
+                    Error('Upload Attachment');
+            until IncomingDocument.Next() = 0;
+        if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
         else begin
             EmpHrTransfer.Validate(Handover, true);
             EmpHrTransfer.Modify();
             if GuiAllowed then
                 Message('Takeover Successfull');
         end;
+    end;
+
+    procedure TakeoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
+    var
+        IncomingDocument: Record "Incoming Document";
+    begin
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField(Handover, true);
+        if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
+        else begin
+            EmpHrTransfer.Validate(Takeover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Takeover Successfull');
+        end
     end;
 
     var
