@@ -233,7 +233,7 @@ page 50164 "Attachment Subform"
     begin
         if not GuiAllowed then
             if ImportAttachmentDocument <> '' then
-                AttachmentMgt.uploadAttachment(Rec, ImportAttachmentDocument, Extension);
+                AttachmentMgt.uploadAttachment(Rec, ImportAttachmentDocument, Extension);//Import Attachment for insurance
     end;
 
     trigger OnOpenPage()

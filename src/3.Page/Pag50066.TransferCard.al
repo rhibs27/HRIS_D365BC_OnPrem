@@ -322,6 +322,7 @@ page 50066 "Transfer Card"
 
                         trigger OnValidate()
                         begin
+                            Rec.TestField("To Branch");
                             GetTransferName;
                         end;
                     }
@@ -349,7 +350,7 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
                         ApplicationArea = All;
                     }
-                    field("Shortcut Dimension 1 Code (To)"; Rec."Shortcut Dimension 1 Code (To)")
+                    field("To Branch"; Rec."To Branch")
                     {
                         Caption = 'Branch Code (To)';
                         Editable = BranchEdit;
@@ -361,6 +362,18 @@ page 50066 "Transfer Card"
                             GetTransferName;
                         end;
                     }
+                    // field("Shortcut Dimension 1 Code (To)"; Rec."Shortcut Dimension 1 Code (To)")
+                    // {
+                    //     Caption = 'Branch Code (To)';
+                    //     Editable = BranchEdit;
+                    //     ToolTip = 'Specifies the value of the Branch Code (To) field.';
+                    //     ApplicationArea = All;
+
+                    //     trigger OnValidate()
+                    //     begin
+                    //         GetTransferName;
+                    //     end;
+                    // }
                     field("Branch Name To"; BranchNameTo)
                     {
                         Editable = false;
@@ -409,6 +422,7 @@ page 50066 "Transfer Card"
 
                         trigger OnValidate()
                         begin
+                            rec.TestField("Department Code (To)");
                             GetTransferName;
                         end;
                     }
@@ -549,7 +563,7 @@ page 50066 "Transfer Card"
             group("Incoming Branch")
             {
                 Visible = not IsOpen or not IsPending;
-                Editable = IsApproved and rec."Is Transfer Details Added";
+                Editable = (IsApproved or IsHold) and rec."Is Transfer Details Added";
                 field("Date of Joining Of Transfer"; Rec."Date of Joining Of Transfer")
                 {
                     ToolTip = 'Specifies the value of the Date of Joining Of Transfer field.';
@@ -707,6 +721,26 @@ page 50066 "Transfer Card"
                     end;
                 end;
             }
+            action("Resume Transfer")
+            {
+                Image = Stop;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsHold;
+                ToolTip = 'Executes the Hold Transfer action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to hold this document?', false) then begin
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
+                        Rec.Modify();
+                        Message('Transfer Document is Resumed');
+                    end;
+                end;
+            }
             action("Cancel Transfer")
             {
                 Image = Cancel;
@@ -757,13 +791,27 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = (IsHold or IsApproved) and rec."Is Transfer Details Added";
+                Visible = (IsHold or IsApproved) and rec.Handover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     TransferMgt.AcknowledgeTransfer(Rec);
+                end;
+            }
+            action("HandOver")
+            {
+                Image = HumanResources;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsApproved and rec."Is Transfer Details Added";
+                ToolTip = 'Executes the Acknowledge Transfer action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    TransferMgt.HandoverApprove(Rec);
                 end;
             }
             // action("Access Control")
@@ -1038,7 +1086,7 @@ page 50066 "Transfer Card"
         case Rec."Deputation On (To)" of
             Rec."Deputation On (To)"::"Extension Counter":
                 begin
-                    BranchEdit := false;
+                    BranchEdit := true;
                     ProvinceEdit := false;
                     // // SubProvinceEdit := false; := false; := false;
                     ExtensionCounterEdit := true;
@@ -1050,7 +1098,7 @@ page 50066 "Transfer Card"
                     BranchEdit := true;
                     ProvinceEdit := false;
                     // SubProvinceEdit := false; := false;
-                    ExtensionCounterEdit := false;
+                    ExtensionCounterEdit := true;
                     UnitEdit := false;
                     DepartEdit := false;
                 end;
@@ -1079,7 +1127,7 @@ page 50066 "Transfer Card"
                     // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := true;
-                    DepartEdit := false;
+                    DepartEdit := true;
                 end;
 
             Rec."Deputation On (To)"::Department:
@@ -1141,7 +1189,7 @@ page 50066 "Transfer Card"
         // if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
         //     BranchName := DimValue.Name;
 
-        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Rec."Shortcut Dimension 1 Code (To)") then
+        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Rec."To Branch") then
             BranchNameTo := OrganizationStructureList.Name;
 
         // if DepartVar.Get(Rec.Department) then

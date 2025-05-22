@@ -679,8 +679,8 @@ page 50108 "Portal Functions"
                 repeat
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
+                    Clear(TempIncomingDoc."Entry No.");
                     TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                    //TempIncomingDoc.Validate("No.", leave."No.");
                     TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                     TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                     TempIncomingDoc.Validate(Description, Format(LeaveType.Code) + ': ' + LeaveType.Description);
@@ -730,46 +730,6 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getLeaveAttachmentCode(leaveCode: Code[20]; startDate: Date; endDate: Date): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        NoOfDays: Integer;
-        LeaveType: Record "Leave Type Setup";
-        AttachmentSetup: Record "Attachment Setup";
-        AttachmentCode: Text;
-        leaveTypeEnum: Enum "Leave Type";
-    begin
-        TempIncomingDoc.Reset;
-        LeaveType.Get(leaveCode);
-        TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
-        TempIncomingDoc.SETRANGE("Leave Type Code", leaveCode);
-        TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.Find('-') then
-            repeat
-                if TempIncomingDoc."File Name" <> '' then
-                    Clear(TempIncomingDoc."File Name");
-            until TempIncomingDoc.Next = 0;
-        TempIncomingDoc.DeleteAll;
-        if (startDate = 0D) or (endDate = 0D) then
-            NoOfDays := 0
-        else
-            NoOfDays := leaveMgt.CalculateNoOfDays(StartDate, EndDate, LeaveCode, TempIncomingDoc."Employee Activity Type"::"leave Request", leaveTypeEnum::"Full Day", HrMgt.GetEmployeeNo());
-        // NoOfDays := endDate - startDate;
-        // leave.TestField("Leave Code");
-        IF NoOfDays >= LeaveType."No. of Days for Attachment" THEN BEGIN
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Find('-') then
-                repeat
-                    AttachmentCode += AttachmentSetup."Attachment Code" + '/';
-                until AttachmentSetup.Next = 0;
-        end;
-        exit('{' + '"attachmentCode" : "' + (Format(AttachmentCode)) + '"}');
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
     procedure getAttachmentAPI(docNo: Code[20]): text
     var
         TempIncomingDoc: Record "Incoming Document";
@@ -787,6 +747,9 @@ page 50108 "Portal Functions"
             repeat
                 Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
                 Clear(JsonObject);
+                JsonObject.Add('ShowDelete', false);
+                JsonObject.Add('ShowDownload', true);
+                JsonObject.Add('ShowUpload', false);
                 JsonObject.Add('attachmentCode', TempIncomingDoc."Attachment Code");
                 JsonObject.Add('empActivityType', format(TempIncomingDoc."Employee Activity Type"));
                 JsonObject.Add('empCode', TempIncomingDoc."Employee Code");
@@ -794,13 +757,10 @@ page 50108 "Portal Functions"
                 JsonObject.Add('fileName', Filename);
                 JsonObject.Add('leaveCode', TempIncomingDoc."Leave Type Code");
                 JsonObject.Add('number', TempIncomingDoc."No.");
-                JsonObject.Add('ShowDelete', false);
-                JsonObject.Add('ShowDownload', true);
-                JsonObject.Add('ShowUpload', false);
                 JsonArray.Add(JsonObject);
             until TempIncomingDoc.Next() = 0;
         end else
-            Error('Document Not Found');
+            Error('Attachment not available for this Document');
         JsonArray.WriteTo(JsonText);
         exit(JsonText);
         // exit('{' +
@@ -2605,14 +2565,14 @@ page 50108 "Portal Functions"
             exit('not found');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure removeFeedbackAttachment(fname: Text)
-    begin
-        //LoanMgt.DeleteAttachment(IncomingDocument);
-        //IncomingDocument.MODIFY;
-        Clear(fname);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure removeFeedbackAttachment(fname: Text)
+    // begin
+    //     //LoanMgt.DeleteAttachment(IncomingDocument);
+    //     //IncomingDocument.MODIFY;
+    //     Clear(fname);
+    // end;
 
     // [ServiceEnabled]
     // [Scope('Personalization')]
@@ -2968,31 +2928,30 @@ page 50108 "Portal Functions"
     //     exit(RemoteAreaAllow);
     // end;
 
-    // [ServiceEnabled]
-    // [Scope('Personalization')]
-    // procedure getTransferAttachmentAPI(TransferCode: Code[20]): Text
-    // var
-    //     TempIncomingDoc: Record "Incoming Document";
-    //     AttachmentSetup: Record "Attachment Setup";
-    //     Filename: Text;
-    // begin
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getTransferAttachmentAPI(transferCode: Code[20]): Text
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        Filename: Text;
+    begin
 
-    //     TempIncomingDoc.Reset;
-    //     TempIncomingDoc.SETRANGE("No.", TransferCode);
-    //     If not TempIncomingDoc.FindFirst() then
-    //         Error('Document Not Found');
-    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-    //     exit('{' +
-    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    // end;
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SETRANGE("No.", TransferCode);
+        If not TempIncomingDoc.FindFirst() then
+            Error('Document Not Found');
+        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+        exit('{' +
+        '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]

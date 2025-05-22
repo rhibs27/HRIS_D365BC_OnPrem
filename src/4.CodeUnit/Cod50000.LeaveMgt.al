@@ -1614,10 +1614,11 @@ codeunit 50000 "Leave Mgt."
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Find('-') then
+            if AttachmentSetup.Findset then
                 repeat
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
+                    Clear(TempIncomingDoc."Entry No.");
                     TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                     TempIncomingDoc.Validate("No.", leave."No.");
                     TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");

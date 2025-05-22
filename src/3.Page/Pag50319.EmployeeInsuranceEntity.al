@@ -96,6 +96,10 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Remarks';
                 }
+                field(rejectionRemarks; Rec."Rejection Remarks")
+                {
+                }
+
                 field(annualPremiumAmount; Rec."Annual Premium Amount")
                 {
                     Caption = 'Annual Premium Amount';

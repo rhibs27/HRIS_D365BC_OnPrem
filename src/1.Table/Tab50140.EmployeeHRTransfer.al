@@ -432,6 +432,18 @@ table 50140 "Employee/HR Transfer"
         // {
         //     Editable = false;
         // }
+        field(45; Handover; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(46; "Deputation on Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(47; "Deputation on Code To"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(48; "Reason Code"; Code[20])
         {
             TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
@@ -749,7 +761,7 @@ table 50140 "Employee/HR Transfer"
         field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee;
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"));
 
             trigger OnValidate()
             begin
@@ -904,11 +916,11 @@ table 50140 "Employee/HR Transfer"
         field(97; "On Hold Date"; Date)
         {
             Description = 'Transfer';
-
+            Editable = false;
             trigger OnValidate()
             begin
-                if "On Hold Date" <> 0D then
-                    Validate("Transfer Effective Date", "On Hold Date")
+                // if "On Hold Date" <> 0D then
+                //     Validate("Transfer Effective Date", "On Hold Date")
             end;
         }
         field(98; "Reason For Cancel"; Text[50])
@@ -1008,14 +1020,14 @@ table 50140 "Employee/HR Transfer"
         CannotDelete: Label 'Cannot delete document.';
         ApprovalEntry: Record "Approval HRMS";
     begin
-        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-            Error(CannotDelete)
-        else begin
-            ApprovalEntry.Reset();
-            ApprovalEntry.SetRange("Document No.", "No.");
-            ApprovalEntry.SetRange("Employee No", "Employee No.");
-            ApprovalEntry.DeleteAll();
-        end;
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete)
+        // else begin
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document No.", "No.");
+        ApprovalEntry.SetRange("Employee No", "Employee No.");
+        ApprovalEntry.DeleteAll();
+        // end;
     end;
 
 
@@ -1181,6 +1193,65 @@ table 50140 "Employee/HR Transfer"
         // if EmpHie.FindFirst then
         //     ExtensionNameTo := EmpHie.Description;
     end;
+
+    // local procedure ValidateDeputationOn();
+    // var
+    //     OrganizationStructureLine: Record "Organization Structure line";
+    //     OrganizationStructureList: Record "Organization Structure List";
+    // begin
+    //     TestField("Deputation On (To)");
+    //     case "Deputation on" of
+    //         "Deputation on"::Branch:
+    //             if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then begin
+    //                 Validate("Deputation On Code", OrganizationStructureList.Code);
+    //                 Validate("Branch Name", OrganizationStructureList.Name);
+    //                 Validate("Province Code", OrganizationStructureList."Province Code");
+    //             end;
+    //         "Deputation on"::Department:
+    //             if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
+    //                 Validate("Deputation On Code", OrganizationStructureList.Code);
+    //                 Validate("Department Name", OrganizationStructureList.Name);
+    //                 Validate("Province Code", OrganizationStructureList."Province Code");
+
+    //             end;
+    //         "Deputation on"::Province:
+    //             if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
+    //                 Validate("Deputation On Code", OrganizationStructureList.Code);
+    //                 Validate("Province Code", OrganizationStructureList."Province Code");
+    //                 Validate("Province Name", OrganizationStructureList."Province Name");
+    //             end;
+    //         "Deputation on"::"Extension Counter":
+    //             begin
+    //                 if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then begin
+    //                     Validate("Deputation On Code", OrganizationStructureList.Code);
+    //                     Validate("Extension Counter Name", OrganizationStructureList.Name);
+    //                     Validate("Province Code", OrganizationStructureList."Province Code");
+    //                 end;
+    //                 OrganizationStructureLine.Reset();
+    //                 OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Branch);
+    //                 OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::"Extension Counter");
+    //                 OrganizationStructureLine.SetRange("Reporting Code", "Extension Counter Code");
+    //                 if OrganizationStructureLine.FindFirst() then
+    //                     Validate("Branch Code", OrganizationStructureLine.Code);
+
+    //             end;
+    //         "Deputation on"::Unit:
+    //             begin
+    //                 if OrganizationStructureList.Get(OrganizationStructureList.Type::unit, "Unit Name") then begin
+    //                     Validate("Deputation On Code", OrganizationStructureList.Code);
+    //                     Validate("Unit Name", OrganizationStructureList.Name);
+    //                     Validate("Province Code", OrganizationStructureList."Province Code");
+    //                     Validate("Province Name", OrganizationStructureList."Province Name");
+    //                 end;
+    //                 OrganizationStructureLine.Reset();
+    //                 OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Department);
+    //                 OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Unit);
+    //                 OrganizationStructureLine.SetRange("Reporting Code", "Unit Code");
+    //                 if OrganizationStructureLine.FindFirst() then
+    //                     Validate("Department Code", OrganizationStructureLine.Code);
+    //             end;
+    //     end;
+    // end;
 
     var
         EmpVar: Record Employee;
