@@ -422,6 +422,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                     EmpAttendActivity."Source No." := AttendanceMissed."No.";
                     EmpAttendActivity."Check In Time" := AttendanceMissed."Check In Time";
                     EmpAttendActivity."Check Out Time" := AttendanceMissed."Check Out Time";
+                    EmpAttendActivity."Attendance Update" := true;
                     EmpAttendActivity."Employee Activity Found" := true;
                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
                     EmpAttendActivity.Modify;

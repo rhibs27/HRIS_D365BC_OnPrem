@@ -279,21 +279,34 @@ report 50139 "Daily Attendance Update"
             AttendanceLine."Holiday Remarks" := '';
             AttendanceLine."Week Off Day" := 0;
         end;
-        AttendanceLog.Reset;
-        AttendanceLog.SetRange(Date, InitialDate);
-        AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        if AttendanceLog.FindFirst then begin
-            AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
-            AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-            AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
-            AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
-            AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
-            AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
-            if (AttendanceLine."Check In Time" <> 0T) then begin
-                AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-                AttendanceLine.Validate("Present Day", 1);
+        if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
+            if not EmployeeAttendanceActivity."Attendance Update" then begin
+                AttendanceLog.Reset;
+                AttendanceLog.SetRange(Date, InitialDate);
+                AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+                if AttendanceLog.FindFirst then begin
+                    AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
+                    // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
+                    // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
+                    // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
+                    // AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
+                    // AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
+                    if (AttendanceLine."Check In Time" <> 0T) then begin
+                        AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
+                        AttendanceLine.Validate("Present Day", 1);
+                    end;
+                end;
             end;
-        end;
+        // to get Checkout time
+        if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
+            if not EmployeeAttendanceActivity."Attendance Update" then begin
+                AttendanceLog.Reset;
+                AttendanceLog.SetRange(Date, InitialDate);
+                AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+                if AttendanceLog.Findlast then begin
+                    AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
+                end;
+            end;
         EngNep.Reset; //Min 1.25.2023
         EngNep.SetRange("English Date", InitialDate);
         if EngNep.FindFirst then

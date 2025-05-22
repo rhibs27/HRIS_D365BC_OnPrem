@@ -191,6 +191,7 @@ table 50048 "Employee Attendance & Activity"
         field(53; "Training Day"; Decimal) { }
 
         field(54; "Training Check Out Time"; Time) { }
+        field(55; "Attendance Update"; Boolean) { }
         field(71; "Head Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
