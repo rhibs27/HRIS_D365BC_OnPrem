@@ -15383,6 +15383,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Current Deduction - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3879133702 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Current Non-Payments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Current Non-Payments - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15613,6 +15618,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Past Benefit - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1551245375 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Past Non-Payments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Past Non-Payments - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 4168867772 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Past Retirement Fund</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15667,6 +15677,11 @@
           <source>Projected Benefit</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Projected Benefit - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1906271473 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Projected Non-Payments</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Projected Non-Payments - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 1668615646 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Projected Retirement Fund</source>
@@ -28623,6 +28638,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1538991725 - Control 1261567229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm By Human resource department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Is Transfer Details Added - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1538991725 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40963,6 +40983,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Current Deduction - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 744131227 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Current Non-Payments field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Current Non-Payment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3668632682 - Control 3488572172 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Disable Person Reduction field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -41058,6 +41083,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Past Benefit - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 2003736114 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Past Non-Payments field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Past Non-Payment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3668632682 - Control 4168867772 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Past Retirement Fund field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -41102,6 +41132,11 @@
           <source>Specifies the value of the Projected Benefit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Projected Benefit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 443525968 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Projected Non-Payments field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Projected Non-Payment - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 1668615646 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Projected Retirement Fund field.</source>

@@ -682,6 +682,9 @@ table 50035 "Posted Payroll Line"
         field(163; "LWP Days"; Decimal) { }
         field(164; "Prior Leave Days"; Decimal) { }
         field(165; "Property Insurance Premium"; Decimal) { }
+        field(167; "Current Non-Payments"; Decimal) { }
+        field(170; "Projected Non-Payments"; Decimal) { }
+        field(171; "Past Non-Payments"; Decimal) { }
         field(181; "Posting Date"; Date) { }
         field(174; Reversed; Boolean) { }
         field(175; "CIT Posted 1"; Boolean) { }
