@@ -2694,6 +2694,17 @@ page 50108 "Portal Functions"
         TransferMgt.AcknowledgeTransfer(EmployeeTransfer);
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure handoverTransfer(empActivityNo: Code[20])
+    var
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        TransferMgt: Codeunit "Transfer Mgt.";
+    begin
+        EmployeeTransfer.Get(empActivityNo);
+        TransferMgt.HandoverApprove(EmployeeTransfer);
+    end;
+
     // [ServiceEnabled]
     // [Scope('Personalization')]
     // procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])

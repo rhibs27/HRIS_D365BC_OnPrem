@@ -1165,7 +1165,8 @@ codeunit 50005 "Transfer Mgt."
         else begin
             EmpHrTransfer.Validate(Handover, true);
             EmpHrTransfer.Modify();
-            Message('Takeover Successfull');
+            if GuiAllowed then
+                Message('Takeover Successfull');
         end;
     end;
 

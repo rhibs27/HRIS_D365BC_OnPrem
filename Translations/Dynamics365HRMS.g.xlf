@@ -28628,6 +28628,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1538991725 - Control 1261567229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm By Human resource department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Is Transfer Details Added - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1538991725 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
