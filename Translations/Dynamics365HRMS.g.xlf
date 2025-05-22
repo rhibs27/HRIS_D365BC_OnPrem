@@ -7728,6 +7728,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Deputation On (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 3613563659 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation on Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Deputation on Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1615497166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation on Code To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Deputation on Code To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7787,6 +7797,11 @@
           <source>Functional Title (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Title (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1376382783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Handover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Handover - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 2584380905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Incoming Supervisior</source>
@@ -19947,16 +19962,6 @@
           <source>Confirm Reject?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RecommendTransfer - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 1577402000 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RejectTransfer - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 1148580165 - Method 1577402000 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Transfer Mgt. - Method RejectTransfer - NamedType ConfirmReject</note>
         </trans-unit>
         <trans-unit id="Codeunit 1148580165 - Method 2340189372 - NamedType 358455804" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.</source>
@@ -44943,15 +44948,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Province Name To - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1733013553 - Control 1995501282 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1733013553 - Control 4180430401 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Code (To) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Shortcut Dimension 1 Code (To) - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control To Branch - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1733013553 - Control 1995501282 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1733013553 - Control 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Code (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Shortcut Dimension 1 Code (To) - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control To Branch - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 2249987928 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Unit (To) field.</source>
@@ -45128,6 +45133,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Confirm Transfer Details - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Action 3673351775 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Acknowledge Transfer action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action HandOver - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Action 632618024 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Hold Transfer action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45137,6 +45147,11 @@
           <source>Executes the Reject Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Action 4071040206 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Hold Transfer action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Resume Transfer - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Action 1794729387 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Return Transfer action.</source>

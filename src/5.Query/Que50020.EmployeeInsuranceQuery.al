@@ -118,6 +118,7 @@ query 50020 "Employee Insurance Query"
                     {
                         Caption = 'Remarks';
                     }
+                    column(rejectionRemarks; "Rejection Remarks") { }
                     column(annualPremiumAmount; "Annual Premium Amount")
                     {
                         Caption = 'Annual Premium Amount';

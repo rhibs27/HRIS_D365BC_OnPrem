@@ -157,7 +157,8 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             begin
                 Validate("Global Dimension 1 Code", "Branch Code");
-                ValidateDeputationOn();
+                if "Deputation on" <> "Deputation on"::"Extension Counter" then
+                    ValidateDeputationOn();
             end;
         }
         field(50134; "Branch Name"; Text[50])
@@ -245,7 +246,8 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
-                ValidateDeputationOn();
+                if "Deputation on" <> "Deputation on"::Unit then
+                    ValidateDeputationOn();
                 // TestField("Deputation on");
                 // if "Deputation on" = "Deputation on"::Department then begin
                 //     Clear("Province Code");
