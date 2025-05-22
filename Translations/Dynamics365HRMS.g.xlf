@@ -7678,6 +7678,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Branch Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1061882940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Branch Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cancelled</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7717,6 +7722,11 @@
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1026142324 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Department Name To - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
@@ -7778,6 +7788,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Counter Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1055780678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Counter Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1514067815 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7788,6 +7808,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field From Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 2926372823 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Desc To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Desc To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7797,6 +7822,11 @@
           <source>Functional Title (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Title (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Desc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Title Desc - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 1376382783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Handover</source>
@@ -7888,6 +7918,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Code (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 516153626 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1908046867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reason Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7978,6 +8018,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 371991071 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Takeover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Takeover - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1799028647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Temporary Address</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8047,6 +8092,16 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 655095483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1105874526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Name To - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User ID</source>
@@ -44784,7 +44839,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Department - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 3334877077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the DepartmentName field.</source>
+          <source>Specifies the value of the Department Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Department Name - Property ToolTip</note>
         </trans-unit>
@@ -44824,14 +44879,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Province Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 237720087 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the ProvinceName field.</source>
+          <source>Specifies the value of the Province Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Province Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1733013553 - Control 1577567912 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Shortcut Dimension 1 Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Shortcut Dimension 1 Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 2951275221 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Unit Code field.</source>
@@ -45147,6 +45197,11 @@
           <source>Do you want to send transfer request ?</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Send Approval Request - Method OnAction - NamedType ConfirmTransfer</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Action 927674879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Acknowledge Transfer action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action TakeOver - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Action 3382071339 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Transfer Claim action.</source>

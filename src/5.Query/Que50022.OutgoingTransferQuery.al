@@ -86,10 +86,8 @@ query 50022 "Outgoing Transfer Query"
             column(transferClaim; "Transfer Claim")
             {
             }
-            column(handover; Handover)
-            {
-
-            }
+            column(handover; Handover) { }
+            column(takeover; Takeover) { }
         }
 
     }

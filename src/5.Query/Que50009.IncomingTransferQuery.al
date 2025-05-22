@@ -94,6 +94,7 @@ query 50009 "Incoming Transfer Query"
             column(transferClaim; "Transfer Claim")
             {
             }
+            column(handover; Handover) { }
             // column(transferAllowanceApproval; "Transfer Allowance Approval") { }
         }
 
