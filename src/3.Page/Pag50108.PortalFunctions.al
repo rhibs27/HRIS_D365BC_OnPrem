@@ -763,17 +763,6 @@ page 50108 "Portal Functions"
             Error('Attachment not available for this Document');
         JsonArray.WriteTo(JsonText);
         exit(JsonText);
-        // exit('{' +
-        // '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-        //   '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-        //   '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-        //   '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        // '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        // '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        // '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        // '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        // '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
-        // '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]

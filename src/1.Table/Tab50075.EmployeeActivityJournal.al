@@ -43,6 +43,7 @@ table 50075 "Employee Activity Journal"
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
+                    Validate("Deputation On Code", EmpVar."Deputation On Code");
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -400,6 +401,7 @@ table 50075 "Employee Activity Journal"
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
+                ValidateDeputationOnTo
             end;
         }
         field(55; "Unit (To)"; Code[20])
@@ -427,6 +429,7 @@ table 50075 "Employee Activity Journal"
                         "Unit (To)" := '';
                         "Shortcut Dimension 1 Code (To)" := '';
                         "Extension Counter (To)" := '';
+                        ValidateDeputationOnTo
                     end;
                 end;
             end;
@@ -485,7 +488,7 @@ table 50075 "Employee Activity Journal"
         field(63; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee;
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"));
             trigger OnValidate()
             var
                 Employee: Record Employee;
@@ -500,17 +503,17 @@ table 50075 "Employee Activity Journal"
         field(65; "Incoming Supervisor"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee;
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"));
 
             trigger OnValidate()
             begin
-                if "Incoming Supervisor" <> '' then begin //Min 12.13.2022
-                    EmployeeRec.Get("Incoming Supervisor");
-                    if SalaryLevel.Get("Salary Level Code") then;
-                    if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                    if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                        Error('Salary level of Incoming Supervisor (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                end;
+                // if "Incoming Supervisor" <> '' then begin //Min 12.13.2022
+                //     EmployeeRec.Get("Incoming Supervisor");
+                //     if SalaryLevel.Get("Salary Level Code") then;
+                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
+                //         Error('Salary level of Incoming Supervisor (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
+                // end;
                 if EmpVar.Get("Incoming Supervisor") then
                     Validate("Incoming Supervisor Name", EmpVar."Full Name")
                 else
@@ -583,10 +586,22 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                ValidateDeputationOnTo
+            end;
+        }
+        field(79; "Deputation On Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(80; "Deputation On Code To"; Code[20])
+        {
+            DataClassification = ToBeClassified;
         }
 
         // OverTime 
-        field(80; "Overtime Claim Type"; Enum "Overtime Claim Type")
+        field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
             trigger OnValidate()
@@ -620,10 +635,10 @@ table 50075 "Employee Activity Journal"
                 end;
             end;
         }
-        field(81; "Estimated Hours"; Decimal)
+        field(91; "Estimated Hours"; Decimal)
         {
         }
-        field(82; "Actual OT Hours"; Decimal)
+        field(92; "Actual OT Hours"; Decimal)
         {
             trigger OnValidate()
             begin
@@ -633,23 +648,23 @@ table 50075 "Employee Activity Journal"
                         Error('You cannot submit overtime less than %1 hour(s).', HRSetup."OT eligible hour");
             end;
         }
-        field(83; "OT Amount"; Decimal)
+        field(93; "OT Amount"; Decimal)
         {
             Editable = false;
         }
-        field(84; "OT Eligible Hours"; Decimal)
+        field(94; "OT Eligible Hours"; Decimal)
         {
             Editable = false;
         }
-        field(85; "Morning OT Hours"; Decimal)
+        field(95; "Morning OT Hours"; Decimal)
         {
             Editable = false;
         }
-        field(86; "Evening OT Hours"; Decimal)
+        field(96; "Evening OT Hours"; Decimal)
         {
             Editable = false;
         }
-        field(87; "Total OT Hours"; Decimal)
+        field(97; "Total OT Hours"; Decimal)
         {
             Editable = false;
         }
@@ -710,6 +725,33 @@ table 50075 "Employee Activity Journal"
                 ApprovalHRMS.DeleteAll();
                 ApproverMgt.InsertApproval(HrMgt.GetEmployeeNo(), "Emp Act. No", Type, "Approval Status");
             end;
+    end;
+
+    local procedure ValidateDeputationOnTo();
+    var
+        OrganizationStructureLine: Record "Organization Structure line";
+        OrganizationStructureList: Record "Organization Structure List";
+    begin
+        TestField("Deputation On (To)");
+        case "Deputation on (To)" of
+            "Deputation on"::Branch:
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "TO Branch") then begin
+                    Validate("Deputation On Code To", OrganizationStructureList.Code);
+                    // Validate("Branch Name To", OrganizationStructureList.Name);
+                    // Validate("Province Code (To)", OrganizationStructureList."Province Code");
+                end;
+            "Deputation on"::Department:
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code (To)") then begin
+                    Validate("Deputation On Code To", OrganizationStructureList.Code);
+                    // Validate("Department Name To", OrganizationStructureList.Name);
+                    // Validate("Province Code (To)", OrganizationStructureList."Province Code");
+
+                end;
+            "Deputation on"::Province:
+                if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
+                    Validate("Deputation On Code To", OrganizationStructureList.Code);
+                end;
+        end;
     end;
 
     var

@@ -163,9 +163,7 @@ page 50100 "Posted Leave Card"
             part(Attachment; "Attachment Subform")
             {
                 SubPageLink = "No." = field("No."),
-                              Type = const(" "),
-                              "Employee Code" = field("Employee No."),
-                              "Leave Type Code" = field("Leave Code");
+                              "Employee Code" = field("Employee No.");
                 ApplicationArea = All;
             }
             part("Approval Subform"; "HRMS Approval Entry")

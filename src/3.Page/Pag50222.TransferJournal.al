@@ -16,6 +16,14 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
+                field("Transfer Type"; Rec."Transfer Type")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
+                }
+                field("Transfer Category"; Rec."Transfer Category")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
+                }
                 field("Deputation On (To)"; Rec."Deputation On (To)")
                 {
                     ToolTip = 'Specifies the value of the Deputation On (To) field.', Comment = '%';
@@ -59,15 +67,6 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
                 }
-
-                field("Transfer Type"; Rec."Transfer Type")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
-                }
-                field("Transfer Category"; Rec."Transfer Category")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
-                }
                 field("Transfer Effective Date"; Rec."Transfer Effective Date")
                 {
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
@@ -80,9 +79,13 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Incoming Supervisor Name field.', Comment = '%';
                 }
-                field("Notify to"; Rec."Notify to")
+                field("Outgoing Branch Rep. Person"; Rec."Outgoing Branch Rep. Person")
                 {
-                    ToolTip = 'Specifies the value of the Notify to field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person to field.', Comment = '%';
+                }
+                field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
+                {
+                    ToolTip = 'Specifies the value of the OOutgoing Reporting Person Name to field.', Comment = '%';
                 }
 
                 field(Remarks; Rec.Remarks)

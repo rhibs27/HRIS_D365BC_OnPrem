@@ -60,6 +60,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
+                TransferRequest.Validate("Deputation On (To)", TransferEmployeeJournal."Deputation On (To)");
                 TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
                 TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
                 TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");

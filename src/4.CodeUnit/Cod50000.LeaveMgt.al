@@ -773,14 +773,14 @@ codeunit 50000 "Leave Mgt."
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
-        end else begin
+            // end else begin
             // CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
             // if not LeaveTypeSetup.Compensatory then
             //     CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
             // CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
             // CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
-            if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
-                GenerateLeaveAttachment(leave);
+            //     if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
+            //         GenerateLeaveAttachment(leave);
         end;
 
         Leave.TestField("Start Date");
@@ -809,8 +809,8 @@ codeunit 50000 "Leave Mgt."
 
         CheckDependability(Leave."Leave Code", Leave."Employee No.");
         CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
-        Leave.Validate("User ID", UserId);
-        Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
+        if GuiAllowed then
+            Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
         if GuiAllowed then
             AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
         // Leavevar.Init;
@@ -834,10 +834,10 @@ codeunit 50000 "Leave Mgt."
         //     else
         //         Error('Approver line Not Found');
         // end;
-        if GuiAllowed then
+        if GuiAllowed then begin
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
-
-        Leave.modify();
+            Leave.modify();
+        end;
         HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, '', Leave."Employee No.", Leave."No.", 0);   //For email
         exit(Leave."No.");
     end;

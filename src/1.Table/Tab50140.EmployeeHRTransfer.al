@@ -634,13 +634,14 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
-                // if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
-                //     EmployeeRec.Get("Outgoing Branch Rep. Person");
-                //     if SalaryLevel.Get("Salary Level Code") then;
-                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //         Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                // end;
+                if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
+                    EmployeeRec.Get("Outgoing Branch Rep. Person");
+                    "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
+                    // if SalaryLevel.Get("Salary Level Code") then;
+                    // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+                    // if SalaryLevel.Rank >= SalaryLevel1.Rank then
+                    //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
+                end;
             end;
         }
         // field(78; "Transfer Claim Reviewer"; Code[20])
@@ -662,10 +663,10 @@ table 50140 "Employee/HR Transfer"
         // }
         field(81; "Outgoing Reporting Person Name"; Text[100])
         {
-            CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
+            // CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
             Description = 'Transfer';
             Editable = false;
-            FieldClass = FlowField;
+            // FieldClass = FlowField;
         }
         // field(82; Reviewer; Code[20])
         // {
