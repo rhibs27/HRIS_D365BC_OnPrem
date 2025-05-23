@@ -59,7 +59,6 @@ table 50140 "Employee/HR Transfer"
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
-                    // Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
 
@@ -235,7 +234,7 @@ table 50140 "Employee/HR Transfer"
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
+            // TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -313,6 +312,7 @@ table 50140 "Employee/HR Transfer"
         field(45; Handover; Boolean)
         {
             DataClassification = ToBeClassified;
+            Editable = false;
         }
         field(46; "Deputation on Code"; Code[20])
         {
@@ -450,6 +450,7 @@ table 50140 "Employee/HR Transfer"
         field(58; Takeover; Boolean)
         {
             DataClassification = ToBeClassified;
+            Editable = false;
         }
         // field(58; "Reporting Line 1 (To)"; Code[20])
         // {
@@ -893,7 +894,7 @@ table 50140 "Employee/HR Transfer"
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
                     AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
-                    AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
+                    // AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
                     if AttachmentMandatory.FindFirst then
                         repeat
                             Clear(IncomingDocument);
@@ -914,7 +915,6 @@ table 50140 "Employee/HR Transfer"
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
                                 else if Type = Type::"HR Transfer" then
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"HR Transfer";
-
                                 IncomingDocument.Insert(true);
                             end;
                         until AttachmentMandatory.Next = 0;
