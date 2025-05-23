@@ -89,9 +89,7 @@ table 50024 "Payroll General Setup"
                 //ValidateHRMSMonth;
             end;
         }
-        field(22;
-        "Make Payroll Slip Confidential";
-        Boolean)
+        field(22; "Make Payroll Slip Confidential"; Boolean)
         { }
         field(23; "Per Step Salary Percentage"; Decimal)
         {
@@ -424,6 +422,29 @@ table 50024 "Payroll General Setup"
         }
         field(125; "Next Fiscal Year Start Date"; Date) { }
         field(126; "Next Fiscal Year End Date"; Date) { }
+        field(127; "Head Teller Allowance"; code[20])
+        {
+            TableRelation = "Payroll Attributes";
+        }
+        field(128; "Teller Allowance"; Code[20])
+        {
+            TableRelation = "Payroll Attributes";
+        }
+        field(129; "Head Teller Allow. (Contract)"; Decimal) { }
+        field(130; "Head Teller Allow. (Regular)"; Decimal) { }
+        field(131; "Teller Allowance (Contract)"; Decimal) { }
+        field(132; "Teller Allowance (Regular)"; Decimal) { }
+        field(133; "ATM Custodian contract (month)"; Decimal) { }
+        field(134; "ATM Custodian regular (month)"; Decimal) { }
+
+        field(135; "ATM Custodian"; Code[20])
+        {
+            TableRelation = "Payroll Attributes";
+        }
+        field(136; "Total Days From"; Enum MonthYear)
+        {
+        }
+
     }
 
     keys

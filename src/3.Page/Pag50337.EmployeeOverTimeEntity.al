@@ -23,6 +23,7 @@ page 50337 "Employee OverTime Entity"
                 {
                 }
                 field(employeeName; Rec."Employee Name") { }
+                field(employeeWorkShift; Rec."Employee Work Shift") { }
                 // field(salaryLevel; Rec."Salary Level Code") { }
                 // field(department; Rec.Department) { }
                 // field(departmentName; Rec."Department Name") { }
@@ -55,12 +56,17 @@ page 50337 "Employee OverTime Entity"
                 field(actualHours; Rec."Actual OT Hours") { }
                 field(estimatedHours; Rec."Estimated Hours") { }
                 field(encashmentCode; Rec."Encashment Code") { }
+                field(overTimeClaimType; Rec."Overtime Claim Type") { }
+                field(compensatoryDays; Rec."Compensatory Days") { }
                 field(oTAmount; Rec."OT Amount") { }
                 field(oTDisbursed; Rec."OT Disbursed") { }
                 field(morningOThrs; Rec."Morning OT Hours")
                 {
                 }
                 field(eveningOThrs; Rec."Evening OT Hours")
+                {
+                }
+                field(totalOTHours; Rec."Total OT Hours")
                 {
                 }
 

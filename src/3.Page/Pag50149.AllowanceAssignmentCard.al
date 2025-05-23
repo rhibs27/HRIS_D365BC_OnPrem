@@ -15,28 +15,31 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Code"; Rec.Code)
                 {
                     ToolTip = 'Specifies the value of the Code field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field(Name; Rec.Name)
                 {
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
                 }
-                field(Week; Rec.Week)
-                {
-                    ToolTip = 'Specifies the value of the Week field.';
-                    ApplicationArea = All;
-                }
-                field("English Month"; Rec."English Month")
-                {
-                    ToolTip = 'Specifies the value of the English Month field.';
-                    ApplicationArea = All;
-                }
-                field("English Year"; Rec."English Year")
+                // field(Week; Rec.Week)
+                // {
+                //     ToolTip = 'Specifies the value of the Week field.';
+                //     ApplicationArea = All;
+                //     Editable = IsOpen;
+                // }
+                // field("English Month"; Rec."English Month")
+                // {
+                //     ToolTip = 'Specifies the value of the English Month field.';
+                //     ApplicationArea = All;
+                // }
+                field("Fiscal Year"; Rec."Fiscal Year")
                 {
                     Editable = false;
                     ToolTip = 'Specifies the value of the English Year field.';
@@ -44,15 +47,17 @@ page 50149 "Allowance Assignment Card"
                 }
                 field("From Date"; Rec."From Date")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the From Date field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("To date"; Rec."To date")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the To date field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                     trigger OnValidate()
                     begin
                         CurrPage.Update;
@@ -79,7 +84,7 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Allowance Type Filter field.';
                     ApplicationArea = All;
-
+                    Visible = false;
                     trigger OnValidate()
                     begin
                         SetLayout();
@@ -93,6 +98,7 @@ page 50149 "Allowance Assignment Card"
                               Type = field(Type);
                 UpdatePropagation = Both;
                 ApplicationArea = All;
+                Editable = IsOpen;
             }
             // group(Approval)
             // {

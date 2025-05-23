@@ -16,8 +16,7 @@ codeunit 50005 "Transfer Mgt."
         // Employee.Get(EmpCode);
         // Employee.TestField("Confirmation Date");
         // if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
-        //     Error(RequestError); commented for testing Santosh
-
+        //     Error(RequestError); commented for testing Santos
         // HRSetup.Get;
         // Employee1.Reset;
         // Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
@@ -171,7 +170,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -314,7 +313,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -322,7 +321,7 @@ codeunit 50005 "Transfer Mgt."
         Employee.Get(HRMgt.GetEmployeeNo);
         case EmpHrTransfer."Deputation On (To)" of
             EmpHrTransfer."Deputation On (To)"::Branch:
-                EmpHrTransfer.TestField("Shortcut Dimension 1 Code (To)");
+                EmpHrTransfer.TestField("To Branch");
             EmpHrTransfer."Deputation On (To)"::Department:
                 EmpHrTransfer.TestField("Department Code (To)");
             EmpHrTransfer."Deputation On (To)"::"Extension Counter":
@@ -404,40 +403,41 @@ codeunit 50005 "Transfer Mgt."
         ConfirmReject: Label 'Confirm Reject?';
         TransferPageBuilder: FilterPageBuilder;
         EmpTransfer: Record "Employee/HR Transfer";
-        GetDate: Date;
+        GetHoldDate, TransferEffectiveDate : Date;
         EmpServiceActivityRec: Record "Employee Service History";
     begin
-        Employee.Get(HRMgt.GetEmployeeNo);
+        // Employee.Get(HRMgt.GetEmployeeNo);
         // if not Employee.Screener then
         //     Error('You are not eligible to put this document on hold');
-        EmpTransfer.TestField("Approval Status", EmpTransfer."Approval Status"::Approved);
-
+        EmpHrTransfer.TestField("Approval Status", EmpTransfer."Approval Status"::Approved);
         TransferPageBuilder.AddRecord('Transfer Document', EmpTransfer);
         TransferPageBuilder.ADdField('Transfer Document', EmpTransfer."On Hold Date");
+        TransferPageBuilder.AddField('Transfer Document', EmpTransfer."Transfer Effective Date");
         TransferPageBuilder.ADdField('Transfer Document', EmpTransfer."Reason For Hold");
         if TransferPageBuilder.RunModal then begin
             EmpTransfer.SetView(TransferPageBuilder.GetView('Transfer Document'));
             //IF EmpActivity.FINDFIRST THEN;
-            Evaluate(GetDate, EmpTransfer.GetFilter("On Hold Date"));
-            if GetDate = 0D then
-                Error('Please enter on hold date.');
+            Evaluate(GetHoldDate, EmpTransfer.GetFilter("On Hold Date"));
+            Evaluate(TransferEffectiveDate, EmpTransfer.GetFilter("Transfer Effective Date"));
+            if (GetHoldDate = 0D) and (TransferEffectiveDate = 0D) then
+                Error('Please enter on date.');
             if EmpTransfer.GetFilter("Reason For Hold") = '' then
                 Error('Please enter reason.');
-            EmpTransfer.Validate("On Hold Date", GetDate);
-            EmpTransfer.Validate("Transfer Effective Date", GetDate);
-            EmpTransfer.Validate("Reason For Hold", EmpTransfer.GetFilter("Reason For Hold"));
-            EmpTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::"On Hold");
-            EmpTransfer.Modify;
-            HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpTransfer.Type::"Employee Transfer", EmpTransfer."Approval Status"::"On Hold", EmpTransfer.Remarks, '', EmpTransfer."No.", 0);
-            HRMgt.ReinstateCancelTransfer(EmpTransfer); //Min -- Reinstate while Hold transfer
-            EmpServiceActivityRec.Reset; //Min 3.13.2022 -- For Remove Transfer Hold Doc. line
-            EmpServiceActivityRec.SetRange("Document No.", EmpTransfer."No.");
-            if EmpServiceActivityRec.FindFirst then
-                EmpServiceActivityRec.Delete;
-            if EmployeeRec.Get(EmpTransfer."Employee No.") then begin //Min -- For Enable Punchin
-                EmployeeRec."Disable Punch in" := false;
-                EmployeeRec.Modify;
-            end;
+            EmpHrTransfer.Validate("On Hold Date", GetHoldDate);
+            EmpHrTransfer.Validate("Transfer Effective Date", TransferEffectiveDate);
+            EmpHrTransfer.Validate("Reason For Hold", EmpTransfer.GetFilter("Reason For Hold"));
+            EmpHrTransfer.Validate("Approval Status", EmpTransfer."Approval Status"::"On Hold");
+            EmpHrTransfer.Modify;
+            // HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpTransfer.Type::"Employee Transfer", EmpTransfer."Approval Status"::"On Hold", EmpTransfer.Remarks, '', EmpTransfer."No.", 0);
+            // ServiceHistoryMgt.ReinstateCancelTransfer(EmpTransfer); //Min -- Reinstate while Hold transfer
+            // EmpServiceActivityRec.Reset; //Min 3.13.2022 -- For Remove Transfer Hold Doc. line
+            // EmpServiceActivityRec.SetRange("Document No.", EmpTransfer."No.");
+            // if EmpServiceActivityRec.FindFirst then
+            //     EmpServiceActivityRec.Delete;
+            // if EmployeeRec.Get(EmpTransfer."Employee No.") then begin //Min -- For Enable Punchin
+            //     EmployeeRec."Disable Punch in" := false;
+            //     EmployeeRec.Modify;
+            // end;
             Message('Document has been put on hold.');
         end;
     end;
@@ -494,88 +494,87 @@ codeunit 50005 "Transfer Mgt."
     //     end;
     // end;
 
-    procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
-    var
-        ConfirmApprove: Label 'Confirm Approve?';
-        ConfirmReject: Label 'Confirm Reject?';
-    begin
-        EmpHrTransfer.TestField("Rejection Remarks");
-        //     case EmpHrTransfer."Approval Status" of
-        //         EmpHrTransfer."Approval Status"::"Pending Approval":
-        //             begin
-        //                 if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
-        //                     Error('You are not eligible to reject this document');
-        //             end;
+    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    // begin
+    //     EmpHrTransfer.TestField("Rejection Remarks");
+    //     case EmpHrTransfer."Approval Status" of
+    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //             begin
+    //                 if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
+    //                     Error('You are not eligible to reject this document');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Recommended:
-        //             begin
-        //                 if EmpHrTransfer.Reviewer <> HRMgt.GetEmployeeNo then
-        //                     Error('You are not eligible to reject this document.');
-        //             end;
+    //         EmpHrTransfer."Approval Status"::Recommended:
+    //             begin
+    //                 if EmpHrTransfer.Reviewer <> HRMgt.GetEmployeeNo then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
-        //             begin
-        //                 Employee.Get(HRMgt.GetEmployeeNo);
-        //                 if not Employee.Screener then
-        //                     Error('You are not eligible to reject this document.');
-        //             end;
+    //         EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
+    //             begin
+    //                 Employee.Get(HRMgt.GetEmployeeNo);
+    //                 if not Employee.Screener then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Screened:
-        //             begin
-        //                 if EmpHrTransfer."Approver Code" <> HRMgt.GetEmployeeNo then
-        //                     Error('You are eligible to reject this document.');
-        //             end;
-        //     end;
-        //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
-        //     EmpHrTransfer.Modify;
-        //     if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
-        //         EmployeeRec."Disable Punch in" := false;
-        //         EmployeeRec.Modify;
-        //     end;
-        //     Message('Document has been rejected.');
-        // end;
+    //         EmpHrTransfer."Approval Status"::Screened:
+    //             begin
+    //                 if EmpHrTransfer."Approver Code" <> HRMgt.GetEmployeeNo then
+    //                     Error('You are eligible to reject this document.');
+    //             end;
+    //     end;
+    //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
+    //     EmpHrTransfer.Modify;
+    //     if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
+    //         EmployeeRec."Disable Punch in" := false;
+    //         EmployeeRec.Modify;
+    //     end;
+    //     Message('Document has been rejected.');
+    // end;
 
-        // procedure RejectTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
-        // var
-        //     ConfirmApprove: Label 'Confirm Approve?';
-        //     ConfirmReject: Label 'Confirm Reject?';
-        // begin
-        //     EmpHrTransfer.TestField("Rejection Remarks");
-        //     case EmpHrTransfer."Approval Status" of
-        //         EmpHrTransfer."Approval Status"::"Pending Approval":
-        //             begin
-        //                 if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
-        //                     Error('You are not eligible to reject this document');
-        //             end;
+    // procedure RejectTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // var
+    //     ConfirmApprove: Label 'Confirm Approve?';
+    //     ConfirmReject: Label 'Confirm Reject?';
+    // begin
+    //     EmpHrTransfer.TestField("Rejection Remarks");
+    //     case EmpHrTransfer."Approval Status" of
+    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //             begin
+    //                 if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
+    //                     Error('You are not eligible to reject this document');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Recommended:
-        //             begin
-        //                 if EmpHrTransfer.Reviewer <> employeeNo then
-        //                     Error('You are not eligible to reject this document.');
-        //             end;
+    //         EmpHrTransfer."Approval Status"::Recommended:
+    //             begin
+    //                 if EmpHrTransfer.Reviewer <> employeeNo then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
-        //             begin
-        //                 Employee.Get(employeeNo);
-        //                 if not Employee.Screener then
-        //                     Error('You are not eligible to reject this document.');
-        //             end;
+    //         EmpHrTransfer."Approval Status"::Reviewed, EmpHrTransfer."Approval Status"::"On Hold":
+    //             begin
+    //                 Employee.Get(employeeNo);
+    //                 if not Employee.Screener then
+    //                     Error('You are not eligible to reject this document.');
+    //             end;
 
-        //         EmpHrTransfer."Approval Status"::Screened:
-        //             begin
-        //                 if EmpHrTransfer."Approver Code" <> employeeNo then
-        //                     Error('You are eligible to reject this document.');
-        //             end;
-        //     end;
-        EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
-        EmpHrTransfer.Modify;
-        if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
-            EmployeeRec."Disable Punch in" := false;
-            EmployeeRec.Modify;
-        end;
-        Message('Document has been rejected.');
-
-    end;
+    //         EmpHrTransfer."Approval Status"::Screened:
+    //             begin
+    //                 if EmpHrTransfer."Approver Code" <> employeeNo then
+    //                     Error('You are eligible to reject this document.');
+    //             end;
+    //     end;
+    //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Rejected);
+    //     EmpHrTransfer.Modify;
+    //     if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
+    //         EmployeeRec."Disable Punch in" := false;
+    //         EmployeeRec.Modify;
+    //     end;
+    //     Message('Document has been rejected.');
+    // end;
 
     procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee/HR Transfer")
     var
@@ -1018,19 +1017,23 @@ codeunit 50005 "Transfer Mgt."
         ServiceHistory: Record "Employee Service History";
         PreviousServiceHistory: Record "Employee Service History";
     begin
-        if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer."Is Transfer Details Added" then
+        if GuiAllowed then
+            if not Confirm(ConfirmAcknowledge, false) then
+                exit;
+        EmpHrTransfer.TestField(Handover, true);
+        if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
             Error('You arenot Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
-        /*IF "Transfer Category" = "Transfer Category"::"Temporary" THEN //Min 1.1 >>
-            ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::"Temporary Deputation",EmpAct.Remarks,"Date of Joining Of Transfer");
-        IF "Transfer Category" = "Transfer Category"::Officiating THEN
-          ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::"Officiating Arrangement",EmpAct.Remarks,"Date of Joining Of Transfer");
-        IF "Transfer Category" = "Transfer Category"::General THEN
-          ServiceHistoryCode := AddToServiceHistory(EmpAct."Employee No.",ServiceHistory."Service Event"::Transfer,EmpAct.Remarks,"Date of Joining Of Transfer");*/
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::"Temporary" THEN //Santosh Add Service History After Transfe Approved and acknowledge>>
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::Officiating THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+        IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         GLSetup.Get;
         //checking for attachment mandatory
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
@@ -1055,9 +1058,7 @@ codeunit 50005 "Transfer Mgt."
         //   ERROR('You are not eligible to acknowledge this transfer');*/
         // if Employee1.Screener then
         //     EmpHrTransfer."Transfer Remarks" += 'by screener (' + Employee1."No." + ')';
-        if GuiAllowed then
-            if not Confirm(ConfirmAcknowledge, false) then
-                exit;
+
         EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
         EmpHrTransfer.Modify;
 
@@ -1083,13 +1084,13 @@ codeunit 50005 "Transfer Mgt."
                 //UpdatePortalTransferEffDate(0D,"Employee No."); //Min 4.27.2022
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
             EmployeeRec.Validate("Disable Punch in", false);
-            EmployeeRec.Validate("Global Dimension 1 Code", EmpHrTransfer."Shortcut Dimension 1 Code (To)");
             EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+            EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
+            EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+            EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
             EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
-            EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
             EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
-            EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
             EmployeeRec.Modify;
         end;
         Message(Acknowledged);
@@ -1147,12 +1148,50 @@ codeunit 50005 "Transfer Mgt."
     //             Error('Only Screener can change approver');
     //         if EmpAct.GetFilter("Approver Code") = '' then
     //             Error('Approver Code cannot be blank.');
-
     //         EmployeehrTransfer.Validate("Approver Code", EmpAct.GetFilter("Approver Code"));
     //         EmployeehrTransfer.Modify;
     //         Message('Updated');
     //     end;
     // end;
+
+    procedure HandoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
+    var
+        IncomingDocument: Record "Incoming Document";
+    begin
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField("Is Transfer Details Added", true);
+        IncomingDocument.Reset();
+        IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+        if IncomingDocument.FindSet() then
+            repeat
+                if IncomingDocument."File Name" = '' then
+                    Error('Upload Attachment');
+            until IncomingDocument.Next() = 0;
+        if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
+        else begin
+            EmpHrTransfer.Validate(Handover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Takeover Successfull');
+        end;
+    end;
+
+    procedure TakeoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
+    var
+        IncomingDocument: Record "Incoming Document";
+    begin
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField(Handover, true);
+        if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
+        else begin
+            EmpHrTransfer.Validate(Takeover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Takeover Successfull');
+        end
+    end;
 
     var
         Employee: Record Employee;
@@ -1162,6 +1201,7 @@ codeunit 50005 "Transfer Mgt."
         HRMgt: Codeunit "HR Mgt.";
         EmployeeRec: Record Employee;
         OverTimeMgt: Codeunit "OverTime Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         // DimensionValue: Record "Dimension Value";
         OrganizationStructureList: Record "Organization Structure List";
         TransferError: Label 'You cannot Approve HR Transfer of Effective Date %1 in %2.';

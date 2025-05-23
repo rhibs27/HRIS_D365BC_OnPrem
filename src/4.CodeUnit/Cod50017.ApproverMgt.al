@@ -1,6 +1,5 @@
 codeunit 50017 "Approver Mgt"
 {
-
     // >> Fixed Field  ID used on ALL Table For RECRef >> Santosh 2025-03-04
     // >>RecRef.Field(1) = Document No.
     // >>RecRef.Field(2) = Document Type    
@@ -10,7 +9,7 @@ codeunit 50017 "Approver Mgt"
     // >>RecRef.Field(100) = Status 
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
-    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type")
+    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status")
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -48,7 +47,10 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
                     Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
-                        Approval.Validate("Approval Status", "Approval Status"::Open);
+                        if ApprovalStatus = ApprovalStatus::Pending then
+                            Approval.Validate("Approval Status", "Approval Status"::Open);
+                        if ApprovalStatus = ApprovalStatus::Open then
+                            Approval.Validate("Approval Status", "Approval Status"::Created);
                         count := count + 1;
                     end else
                         Approval.Validate("Approval Status", "Approval Status"::Created);
@@ -368,6 +370,8 @@ codeunit 50017 "Approver Mgt"
             Approver.SetRange("Approval Sequence", 1);
             if Approver.Findfirst() then begin
                 RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
+                Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
+                Approver.Modify();
                 // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
@@ -428,6 +432,71 @@ codeunit 50017 "Approver Mgt"
                 exit(true)
         end;
     end;
+
+    procedure UpdateFirstApproverStatus(DocNo: Code[20]): Boolean
+    var
+        Approver: Record "Approval HRMS";
+    begin
+        Approver.Reset();
+        Approver.SetRange("Document No.", DocNo);
+        Approver.SetRange("Approval Sequence", 1);
+        if Approver.FindFirst() then begin
+            Approver.Validate("Approval Status", Approver."Approval Status"::Open);
+            Approver.Modify();
+        end;
+    end;
+
+    //>> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
+    procedure ApproveJournalDocument(EmpActNo: Code[20]; Approved: Boolean)
+    var
+        EmployeeActivityJournal: Record "Employee Activity Journal";
+        Approver: Record "Approval HRMS";
+        Approver2: Record "Approval HRMS";
+        ApproveNotEligibleError: Label 'You are not Eligible to Approve or reject this document ';
+        // ApprovalStatusField: text;
+        ApprovalStatusEnum: Enum "Approval Status";
+        // EmpActType: Enum "Employee Activity Type";
+        StatusMaster: Record "Status Master";
+    begin
+        // Get the fields dynamically using FieldRef
+        EmployeeActivityJournal.SetRange("Emp Act. No", EmpActNo);
+        EmployeeActivityJournal.SetRange("Approval Status", EmployeeActivityJournal."Approval Status"::Pending);
+        if EmployeeActivityJournal.FindSet() then begin
+            CheckApprover(EmpActNo);
+            Approver.Reset();
+            Approver.SetRange("Document No.", EmpActNo);
+            Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
+            if Approver.FindSet() then begin
+                repeat
+                    if Approved then begin
+                        Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
+                        Approver.Validate("Approved By", HRMgt.GetEmpName());
+                        EmployeeActivityJournal.ModifyAll(Status, Approver.Status);
+                    end;
+                    Approver.Modify();
+                until Approver.Next() = 0;
+                // Modify the record dynamically
+            end;
+            //Find next approval step
+            if Approved then begin
+                Approver2.Reset();
+                Approver2.SetRange("Document No.", EmpActNo);
+                Approver2.SetRange("Approval Sequence", Approver."Approval Sequence" + 1);
+                if Approver2.FindSet() then
+                    repeat
+                        Approver2."Approval Status" := Approver2."Approval Status"::Open;
+                        Approver2.Modify;
+                    until Approver2.Next() = 0
+                else begin
+                    // If no next approval step found then set the status to approved
+                    EmployeeActivityJournal.ModifyAll("Approval Status", ApprovalStatusEnum::Approved);
+                    EmployeeActivityJournal.ModifyAll("Approved Date", Today);
+                end;
+            end;
+        end else
+            Error('Document Status Must be in Pending');
+    end;
+
 
     var
         HRMgt: Codeunit "HR Mgt.";

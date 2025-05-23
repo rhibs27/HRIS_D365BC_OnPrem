@@ -51,10 +51,10 @@ table 50093 "Allowance Assignment Line"
 
             trigger OnValidate()
             begin
-                TestField("From Date");
+                // TestField("From Date");
                 // if "Approval Status" = "Approval Status"::Screened then
                 // Error('Cannot substitute screened employee.');
-                AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
+                // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 //TESTFIELD("Allowance Type");
                 PayrollGeneralSetup.Get;
                 PayrollGeneralSetup.TestField("Risk Allowance");
@@ -75,13 +75,17 @@ table 50093 "Allowance Assignment Line"
                 OverTimeMgt.CheckApprovedOvertimeExists(Rec);
 
                 if Employee.Get("Employee Code") then
-                    "Employee Name" := Employee."Full Name";
+                    "Employee Name" := Employee."Full Name"
+                else
+                    "Employee Name" := '';
+                // if not GuiAllowed then
+                //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
                 //     "Approval Status" := "Approval Status"::"Pending Approval";
 
-                ValidateAllowanceType();
-                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
+                // ValidateAllowanceType();
+
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -92,31 +96,51 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
+                PayrollGeneralSetup.Get;
+                PayrollGeneralSetup.TestField("Vault Key");
+                if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
+                    if Panel = Panel::" " then
+                        Error('Please select panel.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
+                ValidateAllowanceType;
+                // if GuiAllowed then
+                Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
         field(8; "To Date"; Date)
         {
             trigger OnValidate()
             begin
-                ValidateDate();
+                // ValidateDate();
             end;
         }
         field(9; "Allowance Type"; Code[20])
         {
-            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code));
+            TableRelation = "Branchwise/Extension Allowance"."Allowance Type" where(Code = field(Code), Type = field(Type));
 
             trigger OnValidate()
             begin
+                if ("Allowance Type" <> xRec."Allowance Type") and GuiAllowed then begin
+                    Clear("From Date");
+                    Clear("To Date");
+                    Clear("Employee Code");
+                    Clear("Employee Name");
+                    Clear("Allowance Amount");
+                    Clear(Panel);
+                end;
                 // TestField("Employee Code", '');
                 // PGSetup.Get;
                 // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then //Min 12.20.2022
                 //     Error(TEXT003);//santosh
             end;
         }
-        field(10; "Is Substitute"; Boolean) { }
+        field(10; "Substitute Type"; Enum "Allowance Substitute")
+        {
+            InitValue = '';
+            Editable = false;
+        }
         field(11; "Substitute of Line No."; Integer)
         {
             Editable = false;
@@ -136,6 +160,7 @@ table 50093 "Allowance Assignment Line"
         //}
         field(19; "Approval Status"; Enum "Attendance Status")
         {
+            Editable = false;
         }
         field(20; "No. of Days"; Decimal)
         {
@@ -158,8 +183,9 @@ table 50093 "Allowance Assignment Line"
                 if Panel <> Panel::" " then begin
                     PayrollGeneralSetup.Get;
                     PayrollGeneralSetup.TestField("Vault Key");
-                    if "Allowance Type" <> PayrollGeneralSetup."Vault Key" then
-                        Error('Allowance type must be vault key to select panel.');
+                    PayrollGeneralSetup.TestField("ATM Custodian");
+                    if ("Allowance Type" <> PayrollGeneralSetup."Vault Key") and ("Allowance Type" <> PayrollGeneralSetup."ATM Custodian") then
+                        Error('Panel is not allowed in this Allowance Type');
                     AllowanceMgt.CheckForPanel(Rec);
                 end;
             end;
@@ -182,22 +208,25 @@ table 50093 "Allowance Assignment Line"
     fieldgroups { }
 
     trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
     begin
-        // if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Screened, "Approval Status"::Rejected] then
-        // Error('You cannot delete approved or screened or rejected entries.');
+        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+        //     Error(CannotDelete)
     end;
 
     trigger OnInsert()
     begin
         "Created By" := UserId;
         "Created Date" := Today;
+        "Approval Status" := "Approval Status"::Open;
 
         if "Line No." = 0 then
             GetLineNo();
 
-        if AllowanceHeader.Get("No.") then begin
-            Week := AllowanceHeader.Week;
-        end;
+        // if AllowanceHeader.Get("No.") then begin
+        //     Week := AllowanceHeader.Week;
+        // end;
 
         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
             Error('Document is already screened.');
@@ -206,16 +235,11 @@ table 50093 "Allowance Assignment Line"
         // TestField("From Date");
 
         //for portal
-        if not GuiAllowed then begin
-            ValidateDate;
-            ChangeHeaderApprovalStatus
-        end;
-        PayrollGeneralSetup.Get;
-        PayrollGeneralSetup.TestField("Vault Key");
-        if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
-            if Panel = Panel::" " then
-                Error('Please select panel.');
-        CheckForGracePeriod;
+        // if not GuiAllowed then begin
+        //     ValidateDate;
+        //     ChangeHeaderApprovalStatus
+        // end;
+        // CheckForGracePeriod;
     end;
 
     trigger OnModify()
@@ -225,8 +249,8 @@ table 50093 "Allowance Assignment Line"
 
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
-        if not GuiAllowed then
-            ChangeHeaderApprovalStatus;
+        // if not GuiAllowed then
+        //     ChangeHeaderApprovalStatus;
     end;
 
     var
@@ -289,23 +313,25 @@ table 50093 "Allowance Assignment Line"
                 end;
             //END;
             until AllowanceLine.Next = 0;
-
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", "No.");
-        AllowanceLine.SetRange(Type, Type);
-        AllowanceLine.SetRange("Allowance Type", "Allowance Type");
-        AllowanceLine.SetRange(Code, Code);
-        AllowanceLine.SetRange("From Date", "From Date");
-        AllowanceLine.SetRange("Is Substitute", false);
-        AllowanceLine.SetFilter("Employee Code", '<>%1', '');
-        if AllowanceLine.FindFirst then
-            if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
-                if BranchwiseAllowance."Max. No. of Staffs" <> 0 then
-                    if AllowanceLine.Count + 1 > BranchwiseAllowance."Max. No. of Staffs" then
-                        Error(TEXT002, Name, "Allowance Type",
-                                BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
-
+        if Rec."Substitute Type" = Rec."Substitute Type"::" " then begin
+            AllowanceLine.Reset;
+            AllowanceLine.SetRange("No.", "No.");
+            AllowanceLine.SetRange(Type, Type);
+            AllowanceLine.SetRange("Allowance Type", "Allowance Type");
+            AllowanceLine.SetRange(Code, Code);
+            AllowanceLine.SetRange("From Date", "From Date");
+            AllowanceLine.Setfilter("Substitute Type", '%1', AllowanceLine."Substitute Type"::" ");
+            AllowanceLine.SetFilter("Employee Code", '<>%1', '');
+            if AllowanceLine.FindFirst then
+                if BranchwiseAllowance.Get(Type, Code, "Allowance Type") then
+                    if BranchwiseAllowance."Max. No. of Staffs" <> 0 then
+                        if AllowanceLine.Count + 1 > BranchwiseAllowance."Max. No. of Staffs" then
+                            Error(TEXT002, Name, "Allowance Type",
+                                    BranchwiseAllowance.FieldCaption("Max. No. of Staffs"));
+        end;
         AllowanceHeader.Get("No.");
+        AllowanceHeader.TestField("From Date");
+        AllowanceHeader.TestField("To date");
         if "From Date" <> 0D then
             if ("From Date" < AllowanceHeader."From Date") or ("From Date" > AllowanceHeader."To date") then
                 Error('Date is not within period.');
@@ -317,7 +343,7 @@ table 50093 "Allowance Assignment Line"
         CalculateNoOfDays(Rec);
     end;
 
-    local procedure ValidateAllowanceType(): Boolean
+    procedure ValidateAllowanceType(): Boolean
     begin
         TestField("Allowance Type");
         BaseCalenderChange.Reset;
@@ -373,7 +399,7 @@ table 50093 "Allowance Assignment Line"
         NewToDate: Date;
         NewFromDate: Date;
     begin
-        if "Is Substitute" then begin
+        if AllowanceLine."Substitute Type" = "Substitute Type"::"Added as Substitute" then begin
             if ("From Date" = 0D) or ("To Date" = 0D) then
                 exit;
             AllowanceLine.Get("No.", "Substitute of Line No.");
@@ -401,7 +427,7 @@ table 50093 "Allowance Assignment Line"
                 AllowanceLine1.Validate("Allowance Type", AllowanceLine."Allowance Type");
                 AllowanceLine1.Validate("Employee Code", AllowanceLine."Employee Code");
                 AllowanceLine1."Substitute of Line No." := AllowanceLine."Line No.";
-                AllowanceLine1."Is Substitute" := true;
+                AllowanceLine1."Substitute Type" := AllowanceLine1."Substitute Type"::"Added as Substitute";
                 AllowanceLine1."From Date" := NewFromDate;
                 AllowanceLine1."To Date" := NewToDate;
                 //    IF NOT GUIALLOWED THEN BEGIN

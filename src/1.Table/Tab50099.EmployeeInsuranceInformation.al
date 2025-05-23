@@ -1,6 +1,8 @@
 table 50099 "Employee Insurance Information"
 {
     DataClassification = CustomerContent;
+    LookupPageId = "Employee Insurance Lists";
+    DrillDownPageId = "Employee Insurance Lists";
 
     fields
     {
@@ -18,10 +20,13 @@ table 50099 "Employee Insurance Information"
                 end;
             end;
         }
-        field(2; "Employee No."; Code[20])
+        field(2; Type; Enum "Employee Activity Type")
+        {
+        }
+        field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
+            Editable = false;
             trigger OnValidate()
             begin
                 if Employee.Get("Employee No.") then
@@ -30,9 +35,28 @@ table 50099 "Employee Insurance Information"
                     Clear("Employee Name");
             end;
         }
-        field(3; "Employee Name"; Text[50]) { }
-        field(4; "Insurance Company"; Text[50]) { }
-        field(5; "Policy Number"; Text[30])
+        field(4; "Employee Name"; Text[50]) { }
+        field(5; "Insurance Company Code"; Code[20])
+        {
+            TableRelation = "Insurance Company" where(Blocked = const(false));
+            trigger OnValidate()
+            var
+                InsuranceCompany: Record "Insurance Company";
+            begin
+                if "Insurance Company Code" <> '' then begin
+                    if not InsuranceCompany.Get("Insurance Company Code") then
+                        Error('Kindly select the company from the dropdown list');
+                    Validate("Insurance Company Name", InsuranceCompany.Name);
+                end else
+                    Clear("Insurance Company Name");
+            end;
+        }
+
+        field(6; "Insurance Company Name"; Text[50])
+        {
+            Editable = false;
+        }
+        field(7; "Policy Number"; Text[30])
         {
             trigger OnValidate()
             begin
@@ -47,7 +71,7 @@ table 50099 "Employee Insurance Information"
                     Error(Text019, Rec."Policy Number", EmpInsurance."Insurance No.");
             end;
         }
-        field(6; "Insurance Start Date (AD)"; Date)
+        field(8; "Insurance Start Date (AD)"; Date)
         {
             trigger OnValidate()
             begin
@@ -61,11 +85,11 @@ table 50099 "Employee Insurance Information"
                     Error(Error002, Today);
             end;
         }
-        field(7; "Insurance Start Date (BS)"; Text[20])
+        field(9; "Insurance Start Date (BS)"; Text[20])
         {
             Editable = false;
         }
-        field(8; "Insurance Expiry Date (AD)"; Date)
+        field(10; "Insurance Expiry Date (AD)"; Date)
         {
             trigger OnValidate()
             begin
@@ -79,12 +103,12 @@ table 50099 "Employee Insurance Information"
                     Error(Error001, "Insurance Start Date (AD)");
             end;
         }
-        field(9; "Insurance Expiry Date (BS)"; Text[20])
+        field(11; "Insurance Expiry Date (BS)"; Text[20])
         {
             Editable = false;
         }
-        field(10; "Insurance Amount"; Decimal) { }
-        field(11; "Annual Premium Amount"; Decimal)
+        field(12; "Insurance Amount"; Decimal) { }
+        field(13; "Annual Premium Amount"; Decimal)
         {
             trigger OnValidate()
             begin
@@ -92,29 +116,43 @@ table 50099 "Employee Insurance Information"
                     Error('Annual Premium Amount Should be less than Insurance Amount.');
             end;
         }
-        field(12; "Monthly Premium Amount"; Decimal) { }
-        field(13; "Linked Home Loan Account No."; Text[30]) { }
-        field(14; "No. Series"; Code[20])
+        field(14; "Monthly Premium Amount"; Decimal) { }
+        field(15; "Linked Home Loan Account No."; Text[30]) { }
+        field(17; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(15; "Is Home Loan TieUp"; Boolean) { }
-        field(16; "Requested Date"; Date) { }
-        field(17; Status; Enum "Employee Insurance Status")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
 
         }
-        field(18; Type; Enum "Employee Insurance Type")
+        field(18; "Is Home Loan TieUp"; Boolean) { }
+        field(19; "Requested Date"; Date)
         {
+            Editable = false;
+        }
+        field(20; "Insurance Type"; Enum "Employee Insurance Type")
+        {
+        }
+        field(21; Remarks; Text[250]) { }
 
-        }
-        field(19; Remarks; Text[250]) { }
-        field(20; "Life Insurance Company"; Enum "Life Insurance Company")
+        field(22; "Premium Paid By"; enum "Premium Paid By")
         {
+            Caption = 'Premium Paid By';
         }
-        field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
+        field(23; "Rejection Remarks"; Text[250]) { }
+        field(37; "Approved Date"; Date) { }
+        field(24; "Expired"; Boolean) { }
+        field(100; Status; Text[20])
         {
+            TableRelation = "Status Master";
         }
+        //     field(20; "Life Insurance Company"; Enum "Life Insurance Company")
+        //     {
+        //     }
+        //     field(21; "Medical/Property Ins Company"; Enum "Medical/Property Ins Company")
+        //     {
+        //     }
     }
 
     keys
@@ -127,11 +165,16 @@ table 50099 "Employee Insurance Information"
     trigger OnInsert()
     begin
         "Requested Date" := Today;
-        Validate("Employee No.", "Employee No.");
+        if not GuiAllowed then begin
+            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            "Approval Status" := "Approval Status"::Pending;
+            Validate(Type, Rec.Type::Insurance);
+        end;
         if "Insurance No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Employee Insurance No.");
             NoSeriesMgt.InitSeries(HRSetup."Employee Insurance No.", xRec."No. Series", "Requested Date", "Insurance No.", "No. Series");
+            ApproverMgt.InsertApproval("Employee No.", "Insurance No.", Type, "Approval Status");
         end;
         /*EmpInsurance.RESET;
         EmpInsurance.SETRANGE("Employee No.","Employee No.");
@@ -139,13 +182,15 @@ table 50099 "Employee Insurance Information"
         EmpInsurance.SETFILTER("Insurance No.",'<>%1',"Insurance No.");
         IF EmpInsurance.FINDFIRST THEN
           ERROR('Insurance of employee %1 (%2) is pending.',EmpInsurance."Employee Name","Employee No.");*/
-        if not GuiAllowed then begin
-            LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
-            IncomingDoc.Reset;
-            IncomingDoc.SetRange("No.", '');
-            IncomingDoc.SetRange("Employee Code", "Employee No.");
-            IncomingDoc.ModifyAll("No.", "Insurance No.");
-        end;
+        // if not GuiAllowed then begin
+        //     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
+        // LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
+        // IncomingDoc.Reset;
+        // IncomingDoc.SetRange("No.", '');
+        // IncomingDoc.SetRange("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
+        // IncomingDoc.SetRange("Employee Code", "Employee No.");
+        // IncomingDoc.ModifyAll("No.", "Insurance No.");
+        // end;
         if GuiAllowed then begin
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Insurance);
@@ -165,11 +210,11 @@ table 50099 "Employee Insurance Information"
 
     trigger OnModify()
     begin
-        if Status in [Status::Open, Status::Pending] then //Min
+        if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then //Min
             LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
         if not GuiAllowed then
-            if Status = Status::Open then
-                Status := Status::Pending;
+            if "Approval Status" = "Approval Status"::Open then
+                "Approval Status" := "Approval Status"::Pending;
         /*EmpInsurance.RESET; //Min >> --- For add control in duplicate Policy No.
         EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
         EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
@@ -186,6 +231,8 @@ table 50099 "Employee Insurance Information"
         IncomingDoc: Record "Incoming Document";
         EmpInsurance: Record "Employee Insurance Information";
         LoanMgt: Codeunit "Loan Mgt.";
+        ApproverMgt: Codeunit "Approver Mgt";
+        Hrmgt: Codeunit "HR Mgt.";
         SpecialCharsErr: Label 'You cannot enter the special characters. ';
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?';
         Len: Integer;

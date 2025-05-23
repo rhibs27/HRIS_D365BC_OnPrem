@@ -80,9 +80,10 @@ page 50041 "Payroll Subform"
                 }
                 field("LWP Days"; Rec."LWP Days")
                 {
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Specifies the value of the LWP Days field.';
                     ApplicationArea = All;
+                    Caption = 'Unpaid Days';
                 }
                 field("Prior Leave Days"; Rec."Prior Leave Days")
                 {
@@ -698,9 +699,19 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Current Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Current Non-Payments"; Rec."Current Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Current Non-Payments field.';
+                    ApplicationArea = All;
+                }
                 field("Projected Benefit"; Rec."Projected Benefit")
                 {
                     ToolTip = 'Specifies the value of the Projected Benefit field.';
+                    ApplicationArea = All;
+                }
+                field("Projected Non-Payments"; Rec."Projected Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Projected Non-Payment field.';
                     ApplicationArea = All;
                 }
                 field("Past Benefit"; Rec."Past Benefit")
@@ -708,6 +719,12 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Past Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Past Non-Payment"; Rec."Past Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Past Non-Payment field.';
+                    ApplicationArea = All;
+                }
+
                 field("Assessable Income"; Rec."Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Assessable Income field.';
@@ -874,6 +891,25 @@ page 50041 "Payroll Subform"
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
                 ApplicationArea = All;
             }
+            action("Get Line Attribute")
+            {
+                Image = GetBinContent;
+                ApplicationArea = All;
+                ToolTip = 'Executes the Get Line Attribute action.';
+                trigger OnAction()
+                var
+                    payrollLine: Record "Payroll Line";
+                begin
+                    Rec.TestStatusOpen();
+                    CurrPage.SetSelectionFilter(payrollLine);
+                    payrollLine.MarkedOnly(true);
+                    if payrollLine.FindSet() then
+                        repeat
+                            payrollLine.ValidateEmployee();
+                        until payrollLine.Next() = 0;
+                end;
+            }
+
             action(Dimensions)
             {
                 AccessByPermission = tabledata Dimension = R;

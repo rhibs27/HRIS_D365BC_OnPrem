@@ -135,6 +135,7 @@ page 50061 "Employee Attendance & Activity"
                 }
                 field("Vault Key Days"; Rec."Vault Key Days")
                 {
+                    Caption = 'Key Custodian Days';
                     ToolTip = 'Specifies the value of the Vault Key Days field.';
                     ApplicationArea = All;
                 }
@@ -156,6 +157,21 @@ page 50061 "Employee Attendance & Activity"
                 field("Festival Counter Days"; Rec."Festival Counter Days")
                 {
                     ToolTip = 'Specifies the value of the Festival Counter Days field.';
+                    ApplicationArea = All;
+                }
+                field("Head Teller allow. days"; Rec."Head Teller Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allowance Days field.';
+                    ApplicationArea = All;
+                }
+                field("Teller allow. days"; Rec."Teller Allowance Days")
+                {
+                    ToolTip = 'Specifies the value of the Teller Allowance Days field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian Allowance days"; Rec."ATM Custodian Allowance days")
+                {
+                    ToolTip = 'Specifies the value of the ATM Custodian Allowance Days field.';
                     ApplicationArea = All;
                 }
                 field("Half Day"; Rec."Half Day")

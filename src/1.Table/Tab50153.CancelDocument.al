@@ -579,7 +579,7 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Leave Request");
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Leave Request", "Approval Status");
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
                         end;
@@ -587,7 +587,7 @@ table 50153 "Cancel Document"
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Attendance Missed");
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type::"Attendance Missed", "Approval Status");
                         end;
                 end;
             end;

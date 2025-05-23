@@ -69,6 +69,12 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Allowance Assignment field.';
             }
+            field("Employee Act. Journal Series"; Rec."Employee Act. Journal Series")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Employee Act. Journal field.';
+            }
+
             field("Training No."; Rec."Training No.")
             {
                 ApplicationArea = All;
@@ -615,6 +621,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Portal SQL Password field.';
+                }
+                field("SQL Table Name"; Rec."SQL Table Name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the SQL Table Name field.';
                 }
             }
             group("Contract Expiry")

@@ -42,15 +42,10 @@ page 50179 "Allowance Assign Subform API"
                         Rec.TestField("Allowance Type");
                     end;
                 }
-                field(fromDate; Rec."From Date")
+                field(panel; Rec.Panel)
                 {
-                    ToolTip = 'Specifies the value of the From Date field.';
+                    ToolTip = 'Specifies the value of the Panel field.';
                     ApplicationArea = All;
-
-                    trigger OnValidate()
-                    begin
-                        Rec.TestField("From Date");
-                    end;
                 }
                 field(employeeCode; Rec."Employee Code")
                 {
@@ -60,6 +55,15 @@ page 50179 "Allowance Assign Subform API"
                     trigger OnValidate()
                     begin
                         Rec.TestField("Employee Code");
+                    end;
+                }
+                field(fromDate; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        Rec.TestField("From Date");
                     end;
                 }
                 field(employeeName; Rec."Employee Name")
@@ -82,20 +86,19 @@ page 50179 "Allowance Assign Subform API"
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
-                field(isSubstitute; Rec."Is Substitute")
+                field(isSubstitute; Rec."Substitute Type")
                 {
                     ToolTip = 'Specifies the value of the Is Substitute field.';
                     ApplicationArea = All;
+                    Editable = true;
                 }
                 field(substituteOfLineNo; Rec."Substitute of Line No.")
                 {
-
                 }
-                field(panel; Rec.Panel)
+                field(allowanceAmount; Rec."Allowance Amount")
                 {
-                    ToolTip = 'Specifies the value of the Panel field.';
-                    ApplicationArea = All;
                 }
+
                 field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

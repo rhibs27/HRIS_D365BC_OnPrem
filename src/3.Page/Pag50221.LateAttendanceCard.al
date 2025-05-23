@@ -35,6 +35,19 @@ page 50221 "Late Attendance Card"
                     ApplicationArea = All;
                     Caption = 'Late Attendance Date';
                 }
+                field("Check In Time"; Rec."Check In Time")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Check In Time field.';
+                    ApplicationArea = All;
+                }
+                field("Check Out Time"; Rec."Check Out Time")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Check Out Time field.';
+                    ApplicationArea = All;
+                }
+
                 field(Remarks; Rec.Remarks)
                 {
                     Editable = IsOpen;
@@ -190,7 +203,7 @@ page 50221 "Late Attendance Card"
         IsOpen := (Rec."Approval Status" = Rec."Approval Status"::Open) or (Rec."Approval Status" = Rec."Approval Status"::" ");
         RecRef.GetTable(Rec);
         if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Late Attendance");
+            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Late Attendance", rec."Approval Status");
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

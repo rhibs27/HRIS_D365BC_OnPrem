@@ -40,7 +40,36 @@ page 50151 "Allowance Assign. Substitute"
 
     actions
     {
-        area(Creation) { }
+        area(Processing)
+        {
+            action("Substitute Employee")
+            {
+                Image = Refresh;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Substitute action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    AllowanceLine, AllowanceLine1 : Record "Allowance Assignment Line";
+                begin
+                    AllowanceLine.Init();
+                    AllowanceLine.TransferFields(Rec);
+                    AllowanceLine.Validate("Allowance Type", Rec."Allowance Type");
+                    AllowanceLine.Validate("Employee Code", Rec."Employee Code");
+                    AllowanceLine.Validate("From Date", Rec."From Date");
+                    AllowanceLine."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                    AllowanceAssignmentMgt.GetLineNo(AllowanceLine);
+                    AllowanceLine.Insert();
+                    if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then
+                        AllowanceLine1."Substitute Type" := Rec."Substitute Type"::Substituted;
+                    AllowanceLine1.Modify();
+                    Message('%1 is Successfully Substituted by %2', Rec."Allowance Type", Rec."Employee Name");
+                    CurrPage.Close();
+                end;
+            }
+        }
     }
 
     trigger OnAfterGetRecord()
@@ -57,10 +86,11 @@ page 50151 "Allowance Assign. Substitute"
         //     AllowanceLine.Insert(true);
         //     AllowanceLine.UpdateSubstitue();
         // end;
-        if rec."Employee Code" = '' then
-            Error('Please Select Substitute Employee');
+        // if rec."Employee Code" = '' then
+        //     Error('Please Select Substitute Employee');
     end;
 
     var
         AllowanceLine: Record "Allowance Assignment Line";
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
 }

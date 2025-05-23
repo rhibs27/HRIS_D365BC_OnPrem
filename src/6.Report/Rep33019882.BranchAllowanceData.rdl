@@ -976,14 +976,8 @@ End Function
         <Field Name="EntryNo">
           <DataField>EntryNo</DataField>
         </Field>
-        <Field Name="EnglishMonth">
-          <DataField>EnglishMonth</DataField>
-        </Field>
-        <Field Name="EnglishYear">
-          <DataField>EnglishYear</DataField>
-        </Field>
-        <Field Name="Week">
-          <DataField>Week</DataField>
+        <Field Name="Fiscalear">
+          <DataField>Fiscalear</DataField>
         </Field>
         <Field Name="EmailEMECM">
           <DataField>EmailEMECM</DataField>

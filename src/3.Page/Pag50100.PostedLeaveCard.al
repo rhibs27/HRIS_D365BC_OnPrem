@@ -213,6 +213,25 @@ page 50100 "Posted Leave Card"
     {
         area(Processing)
         {
+            action("Apply for Leave")
+            {
+                Image = Apply;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Apply for Leave action.';
+                ApplicationArea = All;
+                Visible = IsOpen;
+
+                trigger OnAction()
+                begin
+                    if LeaveMgt.ApplyForLeave(Rec) <> '' then begin
+                        // IsApplied := true;
+                        Message('Leave has been sent for apporval.');
+                        CurrPage.Close;
+                    end;
+                end;
+            }
             action("Recommend Request")
             {
                 Image = Register;

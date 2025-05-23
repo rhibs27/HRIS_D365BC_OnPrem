@@ -45,6 +45,13 @@ page 50332 "Attendance Missed API"
                 {
                     Caption = 'End Date';
                 }
+                field(checkInTime; Rec."Check In Time")
+                {
+                }
+                field(checkOutTime; Rec."Check Out Time")
+                {
+                }
+
                 field(no; Rec."No.")
                 {
                     Caption = 'No.';

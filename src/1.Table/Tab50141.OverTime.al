@@ -2,7 +2,6 @@ table 50141 OverTime
 {
     Caption = 'OverTime';
     DataClassification = ToBeClassified;
-
     fields
     {
         field(1; "No."; Code[20])
@@ -136,6 +135,8 @@ table 50141 OverTime
                 end else
                     Error('No Attendance Found on %1', rec."Start Date");
                 OverTimeMgt.CheckOvertime(Rec);
+                if "Start Date" <> xRec."Start Date" then
+                    Clear("Overtime Claim Type");
             end;
         }
         field(8; "Check In Time"; Time)
@@ -346,13 +347,16 @@ table 50141 OverTime
                     Clear("Compensatory Days");
                     Clear("OT Amount");
                 end;
+                AttendanceSetup.Get();
+                AttendanceSetup.TestField("Full Substitute Leave Hrs");
+                AttendanceSetup.TestField("Half Substitute Leave Hrs");
                 if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
                     OverTimeMgt.CheckOvertime(Rec);
-                    if ("Actual OT Hours" < 8) and ("Actual OT Hours" >= 4) then
+                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
                         "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= 8 then
+                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
                         "Compensatory Days" := 1
-                    else if "Actual OT Hours" < 4 then
+                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
                         "Compensatory Days" := 0;
                     Clear("OT Amount");
                 end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
@@ -592,7 +596,7 @@ table 50141 OverTime
                         begin
                             HRSetup.TestField("OT No.");
                             NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);//Create Approval line from Setup Santosh 
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
 
                     //for out of office
@@ -712,6 +716,7 @@ table 50141 OverTime
         SalaryGrade: Record "Salary Grade";
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
+        AttendanceSetup: Record "Attendance Setup";
     //EncashmentPeriodSetup: Record "OT Encashment Setup";
     //Error1: Label 'Cannot apply before your employment date.';
 

@@ -499,7 +499,7 @@ permissionset 50000 D365HRMSPermission
         page "Employee Vehicle Loan List" = X,
         page "Employee Work Qualification" = X,
         page "Employee Work Shift" = X,
-        page EmployeeInsuranceLists = X,
+        page "Employee Insurance Lists" = X,
         page "Employeewise KPI" = X,
         page "Employeewise KPI List" = X,
         page "Encashment Setup" = X,

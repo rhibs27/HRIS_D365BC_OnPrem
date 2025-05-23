@@ -98,22 +98,18 @@ table 50154 "Attendance Missed"
         field(7; "Start Date"; Date)
         {
             trigger OnValidate()
+            var
+                EmpAttendanceActivity: Record "Employee Attendance & Activity";
             begin
-                // //>>check for leave
-                // if Type = Type::"Leave Request" then begin
-                //     if EmployeeRec."Contract Expiry Date" <> 0D then
-                //         if "Start Date" > EmployeeRec."Contract Expiry Date" then
-                //             Error('Cannot apply leave after contract expiry date');
-                //     EmpAttendanceActivity.Reset; //Min 4.11.2022
-                //     EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                //     EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
-                //     if EmpAttendanceActivity.FindFirst then
-                //         repeat
-                //             if EmpAttendanceActivity."Present Day" = 1 then
-                //                 Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-                //         until EmpAttendanceActivity.Next = 0;
-                // end;
-                //<<check for leave
+                If GuiAllowed then begin
+                    EmpAttendanceActivity.Reset;
+                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
+                    EmpAttendanceActivity.SetRange("Attendance Date", "Start Date");
+                    if EmpAttendanceActivity.FindFirst then begin
+                        "Check In Time" := EmpAttendanceActivity."Check In Time";
+                        "Check Out Time" := EmployeeAttendanceActivity."Check Out Time";
+                    end;
+                end;
 
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -422,6 +418,15 @@ table 50154 "Attendance Missed"
         {
             Editable = false;
         }
+        field(42; "Check In Time"; Time)
+        {
+
+        }
+        field(43; "Check Out Time"; Time)
+        {
+
+        }
+
         // field(42; "Screener ID"; Code[20])
         // {
         //     Editable = false;
@@ -542,7 +547,7 @@ table 50154 "Attendance Missed"
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                             //if HRSetup."Approval From Setup" then
                             // InsertApproval();
                         end;
@@ -550,7 +555,7 @@ table 50154 "Attendance Missed"
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type);
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
                 end;
             end;

@@ -94,24 +94,26 @@ codeunit 50019 "SQL Connection Attendance"
     procedure SyncEmployeeAttendance();
     var
         AttenSetup: Record "Attendance Setup";
+        HRSetup: Record "Human Resources Setup";
     begin
         AttenSetup.Get();
+        HRSetup.Get();
         CompInfo.Get;
         SqlConnectionMgt.SetupSQLConnection(SQLConnection);
 
         if FromDate = 0D then
             FromDate := CalcDate(format(AttenSetup."Sync Attendance From"), Today);
         if (ToDate = 0D) and (DeviceID = 0) then
-            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[AttendanceLogs]', 'InputDate', FromDate))
+            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate))
         else
             if (ToDate <> 0D) and (DeviceID = 0) then
-                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate))
+                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate))
             else
                 if (ToDate = 0D) and (DeviceID <> 0) then
-                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[AttendanceLogs]', 'InputDate', FromDate, 'DeviceID', DeviceID))
+                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, 'DeviceID', DeviceID))
                 else
                     if (ToDate <> 0D) and (DeviceID <> 0) then
-                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
+                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
 
         InsertEmpAttendance;
         SqlConnectionMgt.CloseSQLConnection(SQLConnection);
@@ -203,11 +205,13 @@ codeunit 50019 "SQL Connection Attendance"
         MachineId: Integer;
         MachineIdCode: Text[50];
         mode: Integer;
+        DateTimeLog: DateTime;
         CheckInOutTime: Time; // Variable to store the time from SQL
     begin
         while SQLDataReader.Read do begin
             MachineId := SQLDataReader.GetValue(1);
-            mode := SQLDataReader.GetValue(6);
+            // mode := SQLDataReader.GetValue(6);
+            DateTimeLog := SQLDataReader.GetValue(3);
 
             // Get the check-in/check-out time from SQL data
 
@@ -217,60 +221,61 @@ codeunit 50019 "SQL Connection Attendance"
             AttendanceLog1.Reset();
             AttendanceLog1.SetRange("Machine Code", MachineId);
             AttendanceLog1.SetRange("Machine Emp. Code", SQLDataReader.GetValue(2));
-            AttendanceLog1.SetRange(Date, DT2Date(SQLDataReader.GetValue(3)));
+            AttendanceLog1.SetRange("Date Time Log", DateTimeLog);
             // If no record exists, insert a new one
             if not AttendanceLog1.FindFirst() then begin
                 AttendanceLog.Reset();
                 AttendanceLog.Init;
                 AttendanceLog.Validate("Machine Code", MachineId);
                 AttendanceLog.Validate("Date", DT2DATE(SQLDataReader.GetValue(3)));
-
-                case mode of
-                    0: // Check-In
-                        begin
-                            AttendanceLog.Validate("Check In Time", CheckInOutTime);
-                        end;
-                    1: // Check-Out
-                        begin
-                            AttendanceLog.Validate("Check Out Time", CheckInOutTime);
-                        end;
-                    4: // Training Check-In
-                        begin
-                            AttendanceLog.Validate("Training Check In Time", CheckInOutTime);
-                        end;
-                    5: // Training Check-Out
-                        begin
-                            AttendanceLog.Validate("Training Check Out Time", CheckInOutTime);
-                        end;
-                end;
+                AttendanceLog.Validate("Date Time Log", DateTimeLog);
+                AttendanceLog.Validate("Check In Time", CheckInOutTime);
+                // case mode of
+                //     0: // Check-In
+                //         begin
+                //             AttendanceLog.Validate("Check In Time", CheckInOutTime);
+                //         end;
+                //     1: // Check-Out
+                //         begin
+                //             AttendanceLog.Validate("Check Out Time", CheckInOutTime);
+                //         end;
+                //     4: // Training Check-In
+                //         begin
+                //             AttendanceLog.Validate("Training Check In Time", CheckInOutTime);
+                //         end;
+                //     5: // Training Check-Out
+                //         begin
+                //             AttendanceLog.Validate("Training Check Out Time", CheckInOutTime);
+                //         end;
+                // end;
 
                 AttendanceLog.Validate("Machine Emp. Code", SQLDataReader.GetValue(2));
                 AttendanceLog."Biometrics Attendance" := true;
                 if AttendanceLog.Insert(true) then;
-            end else begin
-                // If a record exists, modify it based on mode
-                case mode of
-                    0: // Check-In
-                        begin
-                            AttendanceLog1.Validate("Check In Time", CheckInOutTime);
-                            AttendanceLog1.Modify();
-                        end;
-                    1: // Check-Out
-                        begin
-                            AttendanceLog1.Validate("Check Out Time", CheckInOutTime);
-                            AttendanceLog1.Modify();
-                        end;
-                    4: // Training Check-In
-                        begin
-                            AttendanceLog1.Validate("Training Check In Time", CheckInOutTime);
-                            AttendanceLog1.Modify();
-                        end;
-                    5: // Training Check-Out
-                        begin
-                            AttendanceLog1.Validate("Training Check Out Time", CheckInOutTime);
-                            AttendanceLog1.Modify();
-                        end;
-                end;
+                // end else begin
+                //     // If a record exists, modify it based on mode
+                //     case mode of
+                //         0: // Check-In
+                //             begin
+                //                 AttendanceLog1.Validate("Check In Time", CheckInOutTime);
+                //                 AttendanceLog1.Modify();
+                //             end;
+                //         1: // Check-Out
+                //             begin
+                //                 AttendanceLog1.Validate("Check Out Time", CheckInOutTime);
+                //                 AttendanceLog1.Modify();
+                //             end;
+                //         4: // Training Check-In
+                //             begin
+                //                 AttendanceLog1.Validate("Training Check In Time", CheckInOutTime);
+                //                 AttendanceLog1.Modify();
+                //             end;
+                //         5: // Training Check-Out
+                //             begin
+                //                 AttendanceLog1.Validate("Training Check Out Time", CheckInOutTime);
+                //                 AttendanceLog1.Modify();
+                //             end;
+                //     end;
             end;
         end;
         Commit;
@@ -329,24 +334,26 @@ codeunit 50019 "SQL Connection Attendance"
     procedure SyncUpdateEmployeeAttendance();
     var
         AttenSetup: Record "Attendance Setup";
+        HRSetup: Record "Human Resources Setup";
     begin
         AttenSetup.Get();
+        HRSetup.Get();
         CompInfo.Get;
         SqlConnectionMgt.SetupSQLConnection(SQLConnection);
 
         if FromDate = 0D then
             FromDate := CalcDate(format(AttenSetup."Sync Attendance From"), Today);
         if (ToDate = 0D) and (DeviceID = 0) then
-            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[AttendanceLogs]', 'InputDate', FromDate))
+            ReadRecords(StrSubstNo('%1 where %2 >= ''%3''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate))
         else
             if (ToDate <> 0D) and (DeviceID = 0) then
-                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate))
+                ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate))
             else
                 if (ToDate = 0D) and (DeviceID <> 0) then
-                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[AttendanceLogs]', 'InputDate', FromDate, 'DeviceID', DeviceID))
+                    ReadRecords(StrSubstNo('%1 where %2 >= ''%3'' and %4 = ''%5''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, 'DeviceID', DeviceID))
                 else
                     if (ToDate <> 0D) and (DeviceID <> 0) then
-                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[AttendanceLogs]', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
+                        ReadRecords(StrSubstNo('%1 where %2 between ''%3'' and ''%4'' and %5 = ''%6''', '[' + Format(HRSetup."SQL Table Name") + ']', 'InputDate', FromDate, ToDate, 'DeviceID', DeviceID));
 
         InsertUpdateEmpAttendance;
         SqlConnectionMgt.CloseSQLConnection(SQLConnection);

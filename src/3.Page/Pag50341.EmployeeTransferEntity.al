@@ -151,6 +151,13 @@ page 50341 "Employee Transfer Entity"
                 field(transferClaim;Rec."Transfer Claim")
                 {
                 }
+                field(handover;Rec.Handover)
+                {
+                }
+                field(takeover;Rec.Takeover)
+                {
+                }
+
 
             }
             group("Transfer Claim")

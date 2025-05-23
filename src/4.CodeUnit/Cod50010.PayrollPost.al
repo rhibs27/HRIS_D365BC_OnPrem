@@ -40,8 +40,8 @@ codeunit 50010 "Payroll-Post"
         PayrollHeader.TestField("Pay Cycle Period");
         PayrollHeader.TestField("Pay Cycle Term");
         PayrollHeader.TestField(Status, PayrollHeader.Status::Released);
-        if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
-            PayrollHeader.TestField("Employee Type"); //ratan 1.21.2021
+        // if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
+        //     PayrollHeader.TestField("Employee Type"); //ratan 1.21.2021
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
         if DateNotAllowed(PayrollHeader."Posting Date") then
             PayrollHeader.FieldError("Posting Date", Text003);

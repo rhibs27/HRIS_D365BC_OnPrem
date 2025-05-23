@@ -69,6 +69,10 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(18; "Max Overtime In Week"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

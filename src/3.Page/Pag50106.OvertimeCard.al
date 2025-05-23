@@ -45,6 +45,12 @@ page 50106 "Overtime Card"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
+                field("Employee Work Shift"; Rec."Employee Work Shift")
+                {
+                    Caption = 'Employee Work Shift';
+                    ToolTip = 'Specifies the value of the Employee Work Shift field.';
+                    ApplicationArea = All;
+                }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
@@ -149,7 +155,7 @@ page 50106 "Overtime Card"
                 field(Remarks; Rec.Remarks)
                 {
                     Caption = 'Reason for OT';
-                    Editable = true;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Reason for OT field.';
                     ApplicationArea = All;
                 }
@@ -326,7 +332,7 @@ page 50106 "Overtime Card"
     begin
         SetLayout;
         if IsOpen then
-            ApprovalMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Overtime);
+            ApprovalMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::Overtime, Rec."Approval Status");
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

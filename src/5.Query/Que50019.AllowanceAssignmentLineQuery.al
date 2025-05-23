@@ -21,72 +21,57 @@ query 50019 "Allowance Assign Line Query"
             column(fullName; "Full Name")
             {
             }
-            dataitem(ApprovalHRMS; "Approval HRMS")
+            dataitem(AllowanceAssignmentLine; "Allowance Assignment Line")
             {
-                DataItemLink = "Approver No" = employee."No.";
+                DataItemLink = "Employee Code" = employee."No.";
+                column(no; "No.") { }
+                column(lineNo; "Line No.")
+                {
+                }
+                column(type; Type)
+                {
+                }
+                column(code; Code)
+                {
+                }
+                column(allowanceType; "Allowance Type")
+                { }
+                column(fromDate; "From Date")
+                {
+                }
+                column(employeeCode; "Employee Code")
+                {
+                }
+                column(employeeName; "Employee Name")
+                {
+                }
+                column(toDate; "To Date")
+                {
+                }
+                column(noOfDays; "No. of Days")
+                {
+                }
+                column(isSubstitute; "Substitute Type")
+                {
+                }
+                column(panel; Panel)
+                {
+                }
+                column(allowanceAmount; "Allowance Amount")
+                {
+                }
 
-                column(no; "Document No.")
+                column(approvalStatus; "Approval Status")
                 {
-                }
-                column(approverCode; "Approver No")
-                {
-                }
-                column(approverName; "Approver Name")
-                {
-                }
-                column(approvalStatusLine; "Approval Status")
-                {
-                }
-                column(approvalSequence; "Approval Sequence")
-                {
-                }
-                dataitem(AllowanceAssignmentLine; "Allowance Assignment Line")
-                {
-                    DataItemLink = "No." = ApprovalHRMS."Document No.";
-                    column(lineNo; "Line No.")
-                    {
-                    }
-                    column(type; Type)
-                    {
-                    }
-                    column(code; Code)
-                    {
-                    }
-                    column(allowanceType; "Allowance Type")
-                    { }
-                    column(fromDate; "From Date")
-                    {
-                    }
-                    column(employeeCode; "Employee Code")
-                    {
-                    }
-                    column(employeeName; "Employee Name")
-                    {
-                    }
-                    column(toDate; "To Date")
-                    {
-                    }
-                    column(noOfDays; "No. of Days")
-                    {
-                    }
-                    column(isSubstitute; "Is Substitute")
-                    {
-                    }
-                    column(panel; Panel)
-                    {
-                    }
-                    column(approvalStatus; "Approval Status")
-                    {
-                    }
                 }
             }
         }
     }
-
     trigger OnBeforeOpen()
     var
-        Hrmgt: Codeunit "HR Mgt.";
+        HrMgt: Codeunit "HR Mgt.";
     begin
-        CurrQuery.SetRange(empNo, Hrmgt.GetEmployeeNo());
+        CurrQuery.SetRange(empNo, HrMgt.GetEmployeeNo());
+        CurrQuery.SetRange(approvalStatus, approvalStatus::Approved);
     end;
 }

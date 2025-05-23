@@ -98,6 +98,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Total Days field.';
                     ApplicationArea = All;
                 }
+                field("Total Days From"; Rec."Total Days From")
+                {
+                    ToolTip = 'Specifies the value of the Total Days From field.';
+                    ApplicationArea = All;
+                }
                 field("Parking Account No."; Rec."Parking Account No.")
                 {
                     ToolTip = 'Specifies the value of the Parking Account No. field.';
@@ -358,6 +363,21 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Loan Attribute field.';
                     ApplicationArea = All;
                 }
+                field("Head Teller Allowance"; Rec."Head Teller Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Head teller allowance field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allowance"; Rec."Teller Allowance")
+                {
+                    ToolTip = 'Specifies the value of the teller allowance field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian"; Rec."ATM Custodian")
+                {
+                    ApplicationArea = All;
+                }
+
             }
             group("Encashment Code Group")
             {
@@ -585,6 +605,37 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Cash Risk Percent field.';
                     ApplicationArea = All;
                 }
+                field("Head Teller Allow. (Regular)"; Rec."Head Teller Allow. (Regular)")
+                {
+                    ToolTip = 'Specifies the value of the "Head Teller Allow. field.';
+                    ApplicationArea = All;
+                }
+                field("Head Teller Allow. (Contract)"; Rec."Head Teller Allow. (Contract)")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allow. (Contract) field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allow. (Regular)"; Rec."Teller Allowance (Regular)")
+                {
+                    ToolTip = 'Specifies the value of the "Head Teller Allow. field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Allow. (Contract)"; Rec."Teller Allowance (Contract)")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Allow. (Contract) field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian regular (month)"; Rec."ATM Custodian regular (month)")
+                {
+                    ToolTip = 'Specifies the value of the ATM Allow. (regular) field.';
+                    ApplicationArea = All;
+                }
+                field("ATM Custodian contract (month)"; Rec."ATM Custodian contract (month)")
+                {
+                    ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
+                    ApplicationArea = All;
+                }
+
             }
             group(Settlement)
             {

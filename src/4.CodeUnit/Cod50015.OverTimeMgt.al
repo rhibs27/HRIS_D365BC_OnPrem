@@ -15,7 +15,7 @@ codeunit 50015 "OverTime Mgt"
 
     procedure CheckOvertimeEligibility(var OverTime: Record OverTime; StartTime: Time; EndTime: Time; StandardWorkingHrs: Decimal; var TotalOTHrs: Decimal; var RejectionRemarks: Text): Boolean
     var
-        WorkShift: Record "Employee Work Shift";
+        // WorkShift: Record "Employee Work Shift";
         // AttendanceLog: Record "Attendance Log";
         EmployeeAttendance: Record "Employee Attendance & Activity";
         MorningOTHrs: Decimal;
@@ -29,7 +29,6 @@ codeunit 50015 "OverTime Mgt"
         EveningOTHrs := 0;
         TotalOTHrs := 0;
         CheckInDifference := 0;
-
         EmployeeAttendance.Reset;
         EmployeeAttendance.SetRange("Employee No.", OverTime."Employee No.");
         EmployeeAttendance.SetRange("Attendance Date", OverTime."Start Date");
@@ -51,7 +50,7 @@ codeunit 50015 "OverTime Mgt"
                     MorningOTHrs := 0;
 
                 if (EmployeeAttendance."Check Out Time" <> 0T) and (EmployeeAttendance."Check Out Time" > EndTime) then
-                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 0.0, '<');
+                    EveningOTHrs := Round((EmployeeAttendance."Check Out Time" - EndTime) / 3600000, 0.01, '<');
 
                 if EmployeeAttendance."Check In Time" > StartTime then begin
                     CheckInDifference := Round((EmployeeAttendance."Check In Time" - StartTime) / 3600000, 0.01, '<');
@@ -214,10 +213,12 @@ codeunit 50015 "OverTime Mgt"
         EmpOvertime2: Record "Overtime";
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
         SalaryLevel: Record "Salary Level";
+        IsHandled: Boolean;
     begin
         if GuiAllowed then
             if not Confirm(ConfirmForm, false) then
                 exit;
+        OnBeforeApplyOvertime(TempOvertime);
         TempOvertime.TestField("Start Date");
         // TempOvertime.TestField("End Date");
         TempOvertime.TestField("Actual OT Hours");
@@ -311,9 +312,10 @@ codeunit 50015 "OverTime Mgt"
     begin
         // if not UpdateOvertime then
         //     exit;
-
-        Workshift.Reset;
-        Workshift.FindFirst;
+        Employee.Get(OverTime."Employee No.");
+        // Workshift.Reset;
+        WorkShift.get(Employee."Employee Work Shift");
+        // Workshift.FindFirst;
         Workshift.TestField("Start Time");
         Workshift.TestField("End Time");
         Workshift.TestField("Friday End Time");
@@ -362,7 +364,7 @@ codeunit 50015 "OverTime Mgt"
             OverTime."Total OT Hours" := ActualOTHrs;
             OverTime."Actual OT Hours" := ActualOTHrs;
             // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
-            OverTime.Modify;
+            // OverTime.Modify;
         end;
         // else begin
         //     OverTime."Rejection Remarks" := RejectionRemarks;
@@ -449,6 +451,11 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Validate("Overtime Request No", OverTime."No.");
         LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
         LeaveEarn.Insert(true);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
+    begin
     end;
 
     var

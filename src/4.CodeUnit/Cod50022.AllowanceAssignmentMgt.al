@@ -34,13 +34,14 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         // Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
+        ApproverMgt: Codeunit "Approver Mgt";
     begin
         // if GuiAllowed then
         //     if not Confirm(Confirmation, false) then
         //         exit;
         // if AllowanceAssignment."Approver ID" = '' then
         //     Error('Please select an approver.');
-
+        ApproverMgt.UpdateFirstApproverStatus(AllowanceAssignment."No.");
         AllowanceLineCheck.Copy(AllowanceLine);
         if AllowanceLineCheck.FindFirst then
             repeat
@@ -103,17 +104,23 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
-        if Approved then begin
-            InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-            AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved);
-            AllowanceLine.ModifyAll("Approved Date", Today);
-        end else begin
+        if AllowanceLine.Findset() then
+            repeat
+                if Approved then begin
+                    InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
+                    AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
+                    AllowanceLine.Validate("Approved Date", Today);
+                    AllowanceLine.Modify();
+                end;
+            until AllowanceLine.Next() = 0;
+        if not Approved then begin
             AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
             ApprovalLine.Reset();
             ApprovalLine.SetRange("Document No.", EntryNo);
             ApprovalLine.DeleteAll(true);
-            ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment");
+            ApproverMgt.InsertApproval(EmpAllowance."Employee No.", EntryNo, EmpAllowance."Activity Type"::"Allowance Assignment", EmpAllowance."Approval Status");
         end;
+
     end;
 
     // procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
@@ -256,6 +263,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentLine.SetFilter("Line No.", '<>%1', LineNo);
         AllowanceAssignmentLine.SetRange("Employee Code", EmpNo);
         AllowanceAssignmentLine.SetRange("Allowance Type", Allowancetype);
+        AllowanceAssignmentLine.SetFilter("Approval Status", '<>%1', AllowanceAssignmentLine."Approval Status"::Rejected);
         AllowanceAssignmentLine.SetRange("From Date", FromDate);
         if AllowanceAssignmentLine.FindFirst then
             Error('Employee already exist for same allowance type.');
@@ -343,7 +351,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
             if AllowanceAssignmentLine.FindFirst then
                 repeat
-
                     EmployeeAttendanceActivity.Reset;
                     EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
                     EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
@@ -370,6 +377,15 @@ codeunit 50022 "Allowance Assignment Mgt"
 
                             PRSetup."Vault Key":
                                 EmployeeAttendanceActivity."Vault Key Days" := 1;
+
+                            PRSetup."Head Teller Allowance":
+                                EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                            PRSetup."Teller Allowance":
+                                EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+
+                            PRSetup."ATM Custodian":
+                                EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
                         end;
                         EmployeeAttendanceActivity.Modify;
                     end;
@@ -379,7 +395,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-    procedure InsertAllowanceAssignmentDayInAttendance(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    procedure InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         // FromDate: Date;
@@ -401,43 +417,99 @@ codeunit 50022 "Allowance Assignment Mgt"
         // AllowanceAssignmentLine.Reset;
         // AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
         // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-        if AllowanceAssignmentLine.FindSet then
-            repeat
-                EmployeeAttendanceActivity.Reset;
-                EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
-                EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-                if EmployeeAttendanceActivity.FindFirst then begin
-                    case AllowanceAssignmentLine."Allowance Type" of
+        // AllowanceAssignmentLine.Findfirst;
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
+        EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+        if EmployeeAttendanceActivity.FindFirst then begin
+            case AllowanceAssignmentLine."Allowance Type" of
 
-                        PRSetup."Evening Counter":
-                            EmployeeAttendanceActivity."Evening Counter Days" := 1;
+                PRSetup."Evening Counter":
+                    EmployeeAttendanceActivity."Evening Counter Days" := 1;
 
-                        PRSetup."Morning Counter":
-                            EmployeeAttendanceActivity."Morning Counter Days" := 1;
+                PRSetup."Morning Counter":
+                    EmployeeAttendanceActivity."Morning Counter Days" := 1;
 
-                        PRSetup."Festival Counter":
-                            EmployeeAttendanceActivity."Festival Counter Days" := 1;
+                PRSetup."Festival Counter":
+                    EmployeeAttendanceActivity."Festival Counter Days" := 1;
 
-                        PRSetup."Holiday Counter":
-                            EmployeeAttendanceActivity."Holiday Counter Days" := 1;
+                PRSetup."Holiday Counter":
+                    EmployeeAttendanceActivity."Holiday Counter Days" := 1;
 
-                        PRSetup."Friday Counter":
-                            EmployeeAttendanceActivity."Friday Counter Days" := 1;
+                PRSetup."Friday Counter":
+                    EmployeeAttendanceActivity."Friday Counter Days" := 1;
 
-                        PRSetup."Risk Allowance":
-                            EmployeeAttendanceActivity."Cash Risk Days" := 1;
+                PRSetup."Risk Allowance":
+                    EmployeeAttendanceActivity."Cash Risk Days" := 1;
 
-                        PRSetup."Vault Key":
-                            EmployeeAttendanceActivity."Vault Key Days" := 1;
-                    end;
-                    EmployeeAttendanceActivity.Modify;
-                end;
+                PRSetup."Vault Key":
+                    EmployeeAttendanceActivity."Vault Key Days" := 1;
 
-            until AllowanceAssignmentLine.Next = 0;
+                PRSetup."Head Teller Allowance":
+                    EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                PRSetup."Teller Allowance":
+                    EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+
+                PRSetup."ATM Custodian":
+                    EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+            end;
+            EmployeeAttendanceActivity.Modify;
+        end;
+
+        // until AllowanceAssignmentLine.Next = 0;
         // if GuiAllowed then
         //     Message('Update to employee attendance and activity');
     end;
     // end;
+
+    procedure RemoveAllowanceAssignmentDayInAttendance(No: Code[20]; AllowanceAssignmentNo: Integer)
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        PRSetup: Record "Payroll General Setup";
+    begin
+        PRSetup.Get;
+        if AllowanceAssignmentLine.Get(No, AllowanceAssignmentNo) then begin
+            EmployeeAttendanceActivity.Reset;
+            EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
+            EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
+            if EmployeeAttendanceActivity.FindFirst then begin
+                case AllowanceAssignmentLine."Allowance Type" of
+                    PRSetup."Evening Counter":
+                        EmployeeAttendanceActivity."Evening Counter Days" := 0;
+
+                    PRSetup."Morning Counter":
+                        EmployeeAttendanceActivity."Morning Counter Days" := 0;
+
+                    PRSetup."Festival Counter":
+                        EmployeeAttendanceActivity."Festival Counter Days" := 0;
+
+                    PRSetup."Holiday Counter":
+                        EmployeeAttendanceActivity."Holiday Counter Days" := 0;
+
+                    PRSetup."Friday Counter":
+                        EmployeeAttendanceActivity."Friday Counter Days" := 0;
+
+                    PRSetup."Risk Allowance":
+                        EmployeeAttendanceActivity."Cash Risk Days" := 0;
+
+                    PRSetup."Vault Key":
+                        EmployeeAttendanceActivity."Vault Key Days" := 0;
+
+                    PRSetup."Head Teller Allowance":
+                        EmployeeAttendanceActivity."Head Teller Allowance Days" := 0;
+
+                    PRSetup."Teller Allowance":
+                        EmployeeAttendanceActivity."Teller Allowance Days" := 0;
+
+                    PRSetup."ATM Custodian":
+                        EmployeeAttendanceActivity."ATM Custodian Allowance days" := 0;
+                end;
+                EmployeeAttendanceActivity.Modify;
+            end;
+        end;
+    end;
 
     procedure InsertAllowanceHeader()
     var
@@ -451,8 +523,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         OrganizationStructureList: Record "Organization Structure List";
     begin
         AllowanceHeadFilterPage.AddTable(AllowanceHeaderText, DATABASE::"Allowance Assignment Header");
-        AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
-        AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Year");
+        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
+        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Year");
         if AllowanceHeadFilterPage.RunModal then begin
             Employee.Reset;
             Employee.SetRange("NAV Login ID", UserId);
@@ -460,13 +532,13 @@ codeunit 50022 "Allowance Assignment Mgt"
             // if not Employee.Screener then
             //     Error('You are not allowed to generate allowance.');
             AllowanceHeader1.SetView(AllowanceHeadFilterPage.GetView(AllowanceHeaderText));
-            Evaluate(EnglishMonth, AllowanceHeader1.GetFilter("English Month"));
-            Evaluate(EnglishYear, AllowanceHeader1.GetFilter("English Year"));
-            if EnglishMonth = EnglishMonth::" " then
-                Error('English month must have value.');
-            if EnglishYear = 0 then
-                Error('English year must have value.');
-            GLSetup.Get;
+            // Evaluate(EnglishMonth, AllowanceHeader1.GetFilter("English Month"));
+            // Evaluate(EnglishYear, AllowanceHeader1.GetFilter("English Year"));
+            // if EnglishMonth = EnglishMonth::" " then
+            //     Error('English month must have value.');
+            // if EnglishYear = 0 then
+            //     Error('English year must have value.');
+            // GLSetup.Get;
             // branch
             OrganizationStructureList.Reset;
 
@@ -480,19 +552,19 @@ codeunit 50022 "Allowance Assignment Mgt"
                     while counter <= 4 do begin
                         //AllowanceHeader.RESET;
                         Clear(AllowanceHeader);
-                        AllowanceHeader.SetRange(Week, counter);
+                        // AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
                         AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
+                        // AllowanceHeader.SetRange("English Year", EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
                             AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
                             AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            AllowanceHeader.Validate("English Year", EnglishYear);
-                            AllowanceHeader.Week := counter;
-                            AllowanceHeader.Validate("English Month", EnglishMonth);
+                            // AllowanceHeader.Validate("English Year", EnglishYear);
+                            // AllowanceHeader.Week := counter;
+                            // AllowanceHeader.Validate("English Month", EnglishMonth);
                             // AllowanceHeader.GetApprover();
                             AllowanceHeader.Validate("Last Modified By", UserId);
                             AllowanceHeader.Validate("Last Modified Date", Today);
@@ -511,19 +583,20 @@ codeunit 50022 "Allowance Assignment Mgt"
                     while counter <= 4 do begin
                         //AllowanceHeader.RESET;
                         Clear(AllowanceHeader);
-                        AllowanceHeader.SetRange(Week, counter);
+                        // AllowanceHeader.SetRange(Week, counter);
                         AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
                         AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
+                        // AllowanceHeader.SetRange("English Year", EnglishYear);
+                        // AllowanceHeader.SetRange("Fiscal Year",EnglishYear);
                         if not AllowanceHeader.FindFirst then begin
                             AllowanceHeader.Init;
                             AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
                             AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
                             AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            AllowanceHeader.Validate("English Year", EnglishYear);
-                            AllowanceHeader.Week := counter;
-                            AllowanceHeader.Validate("English Month", EnglishMonth);
+                            // AllowanceHeader.Validate("English Year", EnglishYear);
+                            // AllowanceHeader.Week := counter;
+                            // AllowanceHeader.Validate("English Month", EnglishMonth);
                             // AllowanceHeader.GetApprover();
                             AllowanceHeader.Validate("Last Modified By", UserId);
                             AllowanceHeader.Validate("Last Modified Date", Today);
@@ -540,12 +613,13 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
+
     begin
         PGSetup.Get;
         if FromDate = 0D then
             Error('Date must have value');
         Clear(NoOfDays);
-        Employee.Get(EmpNo);
+        if Employee.Get(EmpNo) then;
         NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
 
         EngNep.Reset;
@@ -589,6 +663,27 @@ codeunit 50022 "Allowance Assignment Mgt"
                     else
                         exit(PGSetup."Morning Counter (Regular)");
                 end;
+            PGSetup."Head Teller Allowance":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        exit(PGSetup."Head Teller Allow. (Contract)")
+                    else
+                        exit(PGSetup."Head Teller Allow. (Regular)");
+                end;
+            PGSetup."Teller Allowance":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::"Contract" then
+                        exit(PGSetup."Teller Allowance (Contract)")
+                    else
+                        exit(PGSetup."Teller Allowance (Regular)");
+                end;
+            PGSetup."ATM Custodian":
+                begin
+                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        exit(PGSetup."ATM Custodian contract (month)")
+                    else
+                        exit(PGSetup."ATM Custodian regular (month)")
+                end;
 
             PGSetup."Risk Allowance":
                 begin
@@ -623,7 +718,7 @@ codeunit 50022 "Allowance Assignment Mgt"
     procedure RejectAllowanceAssigment(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
         AllowanceAssignmentPageBuilder: FilterPageBuilder;
-        AllowanceAssignmentLine2: Record "Allowance Assignment Line";
+        AllowanceAssignmentLine1, AllowanceAssignmentLine2 : Record "Allowance Assignment Line";
     begin
         Employee.Get(HrMgt.GetEmployeeNo);
         // if not Employee.Screener then
@@ -634,12 +729,54 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine2.SetView(AllowanceAssignmentPageBuilder.GetView('Reject Allowance Assignment'));
             if AllowanceAssignmentLine2.GetFilter("Rejection Remarks") = '' then
                 Error('Rejection remarks must have value');
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
             AllowanceAssignmentLine.Validate("Rejection Remarks", AllowanceAssignmentLine2.GetFilter("Rejection Remarks"));
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify;
+            AllowanceAssignmentLine1.Get(AllowanceAssignmentLine."No.", AllowanceAssignmentLine."Substitute of Line No.");
+            AllowanceAssignmentLine1.Validate("Substitute Type", AllowanceAssignmentLine."Substitute Type"::" ");
+            AllowanceAssignmentLine1.Modify();
             Message('Success');
         end;
+    end;
+
+    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
+    var
+        AllowanceAssignLine: Record "Allowance Assignment Line";
+        AllowanceAssignHeader: Record "Allowance Assignment Header";
+        AssignDate: Date;
+    begin
+        AllowanceAssignHeader.Get(DocumentNo);
+        AssignDate := FromDate;
+        for FromDate := FromDate to ToDate do begin
+            AllowanceAssignLine.Init();
+            AllowanceAssignLine.Validate("No.", DocumentNo);
+            AllowanceAssignLine.Validate(Code, AllowanceAssignHeader.Code);
+            AllowanceAssignLine.Validate(Name, AllowanceAssignHeader.Name);
+            AllowanceAssignLine.Validate(Type, AllowanceAssignHeader.Type);
+            AllowanceAssignLine.Validate("Allowance Type", AllowanceType);
+            AllowanceAssignLine.Validate(Panel, Panel);
+            AllowanceAssignLine.Validate("Employee Code", EmployeeNo);
+            AllowanceAssignLine.Validate("From Date", FromDate);
+            AllowanceAssignLine.Validate("Approval Status", AllowanceAssignLine."Approval Status"::Open);
+            AllowanceAssignLine.Validate("Substitute Type", AllowanceAssignLine."Substitute Type"::" ");
+            GetLineNo(AllowanceAssignLine);
+            AllowanceAssignLine.Insert();
+            AssignDate := FromDate + 1;
+        end;
+    end;
+
+    procedure GetLineNo(var AllowanceAssignmentLine: Record "Allowance Assignment Line")
+    var
+        AllowanceLine: Record "Allowance Assignment Line";
+    begin
+        AllowanceLine.Reset;
+        AllowanceLine.SetCurrentKey("No.", "Line No.");
+        AllowanceLine.SetRange("No.", AllowanceAssignmentLine."No.");
+        if AllowanceLine.FindLast then
+            AllowanceAssignmentLine."Line No." := AllowanceLine."Line No." + 10000
+        else
+            AllowanceAssignmentLine."Line No." := 10000;
     end;
 
 

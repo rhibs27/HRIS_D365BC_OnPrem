@@ -85,7 +85,7 @@ report 50130 "Tax Deduction Info Mob App"
                 //oman changed
                 InsertPreviousPayrollHistory(Employee."No.");
                 InsertCurrentPayrollData;
-                DeputationValue := HRMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No.");
+                DeputationValue := ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No.");
             end;
 
             trigger OnPreDataItem()
@@ -315,6 +315,7 @@ report 50130 "Tax Deduction Info Mob App"
         PayCyclePeriod: Record "Pay Cycle Period";
         PayCycleTermText: Text;
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         DeputationValue: Text;
         SalaryLevel: Record "Salary Level";
         RemoteAreaAmt: Decimal;

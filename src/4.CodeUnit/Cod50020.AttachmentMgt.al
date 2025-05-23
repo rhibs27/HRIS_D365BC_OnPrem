@@ -371,7 +371,7 @@ codeunit 50020 "Attachment Mgt."
                and (IncomingDocument."File Name" <> '') then
                 Error('Cannot delete attachment..');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
-            if EmpInsurance.Status = EmpInsurance.Status::Screened then
+            if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                 Error('Cannot delete attachment.');
         end else if AppraisalEmp.Get(IncomingDocument."No.") then begin //Min
             if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
@@ -544,6 +544,69 @@ codeunit 50020 "Attachment Mgt."
         // FileMgt.BLOBExportToServerFile(TempBlob, ClientFileName);
         // FileName := ClientFileName;
         // exit(FileName);
+    end;
+
+    procedure uploadAttachment(Var IncomingDoc: Record "Incoming Document"; fname: Text; ext: Text): Text
+    var
+        // IncomingDoc: Record "Incoming Document";
+        TempBlob: Codeunit "Temp Blob";
+        DocFoundEmpActivity: Boolean;
+        DocFoundEmpLoan: Boolean;
+        EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        Leave: record leave;
+        DocFoundEmpLeave: Boolean;
+        //EmployeeActivity: Record "Employee Activity";
+        //LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
+        LoanType: Enum "Loan Type";
+        //ActivityType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee";
+        ActivityType: Enum "Employee Activity Type";
+        DocFoundInsurance: Boolean;
+        EmpInsurance: Record "Employee Insurance Information";
+        AppraisalDocFound: Boolean;
+        AppraisalEmp: Record Appraisal;
+        base64: Codeunit "Base64 Convert";
+        Outstream: OutStream;
+        instream: InStream;
+        TargetDirectory: Text;
+        ServerFilePath: text;
+        ServerFolderPath: text;
+        File: File;
+        CleanedFileName: text;
+        AttachmentMgt: Codeunit "Attachment Mgt.";
+    begin
+        // IncomingDoc.Get(entryNo);
+        IncomingDoc."No." := IncomingDoc.GetFilter("No.");
+        HRSetup.Get;
+        DocFoundEmpActivity := false;
+        DocFoundEmpLoan := false;
+        AppraisalDocFound := false;
+        DocFoundEmpLeave := false; //Min
+        if IncomingDoc."File Name" <> '' then
+            Error('File already exist. Please remove the file first.');
+
+
+        TargetDirectory := HRSetup."Attachment Storage Location";
+
+        if TargetDirectory = '' then
+            Error('Attachment Storage Location is not configured.');
+
+        if not TargetDirectory.EndsWith('\') then
+            TargetDirectory := TargetDirectory + '\';
+
+        CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
+
+        // Construct server file path with unique name
+        ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
+        // Construct server file path with unique name
+        tempblob.CreateOutStream(outStream);
+        base64.FromBase64(fname, Outstream);
+        TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        File.CREATE(ServerFilePath);       // Create the file on the server
+        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        CopyStream(OutStream, InStream);  // Write the data
+        File.CLOSE;
+        IncomingDoc."File Name" := ServerFilePath;
+        IncomingDoc.MODIFY;
     end;
 
 }

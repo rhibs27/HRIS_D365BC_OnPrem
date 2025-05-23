@@ -29,18 +29,22 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Employee Name';
                 }
-                field(insuranceCompany; Rec."Insurance Company")
+                field(insuranceCompany; Rec."Insurance Company Code")
                 {
                     Caption = 'Insurance Company';
                 }
-                field(lifeInsuranceCompany; Rec."Life Insurance Company")
+                field(insuranceCompanyName; Rec."Insurance Company Name")
                 {
-                    Caption = 'Life Insurance Company';
+                    Caption = 'Insurance Company Name';
                 }
-                field(medicalPropertyInsCompany; Rec."Medical/Property Ins Company")
-                {
-                    Caption = 'Medical/Property Ins Company';
-                }
+                // field(lifeInsuranceCompany; Rec."Life Insurance Company")
+                // {
+                //     Caption = 'Life Insurance Company';
+                // }
+                // field(medicalPropertyInsCompany; Rec."Medical/Property Ins Company")
+                // {
+                //     Caption = 'Medical/Property Ins Company';
+                // }
                 field(policyNumber; Rec."Policy Number")
                 {
                     Caption = 'Policy Number';
@@ -77,11 +81,14 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Requested Date';
                 }
+                field(approvalStatus; Rec."Approval Status")
+                {
+                }
                 field(status; Rec.Status)
                 {
                     Caption = 'Status';
                 }
-                field("type"; Rec."Type")
+                field(insuranceType; Rec."Insurance Type")
                 {
                     Caption = 'Type';
                 }
@@ -89,6 +96,10 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Remarks';
                 }
+                field(rejectionRemarks; Rec."Rejection Remarks")
+                {
+                }
+
                 field(annualPremiumAmount; Rec."Annual Premium Amount")
                 {
                     Caption = 'Annual Premium Amount';
@@ -104,4 +115,11 @@ page 50319 "Employee Insurance Entity"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        HrMgt: Codeunit "HR Mgt.";
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("Insurance No.", false);
+    end;
 }

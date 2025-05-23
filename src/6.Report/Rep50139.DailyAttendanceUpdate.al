@@ -87,7 +87,7 @@ report 50139 "Daily Attendance Update"
                 trigger OnAfterGetRecord()
                 begin
                     ScreenOvertime;
-                    ScreenAllowanceAssignment;
+                    // ScreenAllowanceAssignment;
                 end;
             }
 
@@ -220,6 +220,7 @@ report 50139 "Daily Attendance Update"
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         CalendarDescription: Text;
         UpdateOvertime: Boolean;
         UpdateDailyAttendance: Boolean;
@@ -470,7 +471,6 @@ report 50139 "Daily Attendance Update"
                             RejectionRemarks := 'No Check In found.'
                         end;
                 end;
-
                 if not EmployeeAttendanceActivity.FindFirst then begin
                     AllowanceAssignmentLine."Approval Status" := AllowanceAssignmentLine."Approval Status"::Rejected;
                     AllowanceAssignmentLine."Rejection Remarks" := RejectionRemarks;
@@ -488,16 +488,15 @@ report 50139 "Daily Attendance Update"
             exit;
         AllowanceAssignmentLine.Reset;
         AllowanceAssignmentLine.SetRange("From Date", FromDate, ToDate);
-        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+        AllowanceAssignmentLine.SetFilter("Substitute Type", '<>%1', AllowanceAssignmentLine."Substitute Type"::Substituted);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         if AllowanceAssignmentLine.FindFirst then
             repeat
-
                 EmployeeAttendanceActivity.Reset;
                 EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
                 EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
                 if EmployeeAttendanceActivity.FindFirst then begin
                     case AllowanceAssignmentLine."Allowance Type" of
-
                         PRSetup."Evening Counter":
                             EmployeeAttendanceActivity."Evening Counter Days" := 1;
 
@@ -518,6 +517,12 @@ report 50139 "Daily Attendance Update"
 
                         PRSetup."Vault Key":
                             EmployeeAttendanceActivity."Vault Key Days" := 1;
+
+                        PRSetup."Head Teller Allowance":
+                            EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+
+                        PRSetup."Teller Allowance":
+                            EmployeeAttendanceActivity."Teller Allowance Days" := 1;
                     end;
                     EmployeeAttendanceActivity.Modify;
                 end;
@@ -554,7 +559,7 @@ report 50139 "Daily Attendance Update"
                     if TransferEmp.FindFirst then
                         exit;
                 end;
-                ServiceCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
+                ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
                 Employee.Validate("Functional Title", Transfer."Functional Title");
                 Employee.Validate("Deputation on", Transfer."Deputation On");
                 case Employee."Deputation on" of
@@ -576,8 +581,8 @@ report 50139 "Daily Attendance Update"
                     ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
                     ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-                    ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                    ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                     ServiceHistory.Validate("Document No.", Transfer."No."); //Min 9.26.2022
                     PreviousServiceHistory.Reset;
                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
@@ -625,7 +630,7 @@ report 50139 "Daily Attendance Update"
             EmployeeServiceHistory.SetFilter("Service Event", '%1|%2|%3', EmployeeServiceHistory."Service Event"::Transfer, EmployeeServiceHistory."Service Event"::"Temporary Deputation", EmployeeServiceHistory."Service Event"::"Officiating Arrangement");
             EmployeeServiceHistory.SetRange("Document No.", EmployeeTransferRec."No.");
             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
-                HRMgt.ApprovedTransferUpdate(EmployeeTransferRec);
+                ServiceHistoryMgt.ApprovedTransferUpdate(EmployeeTransferRec);
         end;
     end;
 

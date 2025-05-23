@@ -662,6 +662,7 @@ codeunit 50000 "Leave Mgt."
         NoMgmt: Codeunit NoSeriesManagement;
         ServiceHistory: Record "Employee Service History";
         ServiceHistoryCode: Code[20];
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
     begin
         Employee.Get(Empcode);
         Employee.TestField("Confirmation Date");
@@ -719,13 +720,13 @@ codeunit 50000 "Leave Mgt."
                     LeaveEarn.Insert(true);
             until LeaveType.Next = 0;
 
-        ServiceHistoryCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::Confirmation, 'Confirmed', Employee."Confirmation Date");
+        ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::Confirmation, 'Confirmed', Employee."Confirmation Date");
         if ServiceHistory.Get(ServiceHistoryCode) then begin
             ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
             ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
             ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-            ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-            ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+            ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
             ServiceHistory.Modify;
         end;
     end;
@@ -768,7 +769,7 @@ codeunit 50000 "Leave Mgt."
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
-        CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
+        // CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
@@ -833,6 +834,9 @@ codeunit 50000 "Leave Mgt."
         //     else
         //         Error('Approver line Not Found');
         // end;
+        if GuiAllowed then
+            ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
+
         Leave.modify();
         HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, '', Leave."Employee No.", Leave."No.", 0);   //For email
         exit(Leave."No.");
@@ -877,12 +881,13 @@ codeunit 50000 "Leave Mgt."
     //     end;
     // end;
 
-    procedure CheckPendingLeave(LeaveCode: Code[20]; EmployeeNo: code[20])
+    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: code[20])
     var
         LeaveTable: Record "Leave";
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTable.Reset;
+        LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
         LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
         LeaveTable.SetRange("Leave Code", LeaveCode);
@@ -1609,10 +1614,11 @@ codeunit 50000 "Leave Mgt."
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Find('-') then
+            if AttachmentSetup.Findset then
                 repeat
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
+                    Clear(TempIncomingDoc."Entry No.");
                     TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
                     TempIncomingDoc.Validate("No.", leave."No.");
                     TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
@@ -2102,6 +2108,8 @@ codeunit 50000 "Leave Mgt."
         end else
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
     end;
+
+
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)

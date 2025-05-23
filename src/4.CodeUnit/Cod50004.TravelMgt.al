@@ -189,7 +189,7 @@ codeunit 50004 "Travel Mgt."
                 TravelReq.Validate("Lodging Per Day Limit", SalaryLevel."India Lodging Allowance");
             end;
         end;
-
+        ApproverMgt.UpdateFirstApproverStatus(TravelReq."No.");
         //api>>
         if not GuiAllowed then
             if TravelReq."Advance Cash" > 0 then
@@ -662,6 +662,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.TestField("Start Date");
             TravelRequest.TestField("End Date");
         end;
+        ApproverMgt.UpdateFirstApproverStatus(TravelRequest."No.");
         // TravelReq.TestField("Claim Type");
         if TravelRequest2.Get(TravelRequest."Travel Order No.") then
             if (TravelRequest2."Travel Claimed") then
@@ -1497,6 +1498,7 @@ codeunit 50004 "Travel Mgt."
         HRSetup: Record "Human Resources Setup";
         LeaveMgt: Codeunit "Leave Mgt.";
         AttendanceSetup: Record "Attendance Setup";
+        ApproverMgt: Codeunit "Approver Mgt";
 
     [IntegrationEvent(false, false)]
     procedure OnAfterApplyTravelClaim(TravelClaimNo: Code[20])

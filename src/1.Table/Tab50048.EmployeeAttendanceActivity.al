@@ -191,6 +191,18 @@ table 50048 "Employee Attendance & Activity"
         field(53; "Training Day"; Decimal) { }
 
         field(54; "Training Check Out Time"; Time) { }
+        field(71; "Head Teller Allowance Days"; Decimal)
+        {
+            Description = 'allowance assignment';
+        }
+        field(72; "Teller Allowance Days"; Decimal)
+        {
+            Description = 'allowance assignment';
+        }
+        field(73; "ATM Custodian Allowance days"; Decimal)
+        {
+            Description = 'allowance assignment';
+        }
 
     }
 

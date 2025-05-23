@@ -37,6 +37,7 @@ page 50108 "Portal Functions"
         FileManagement: Codeunit "File Management";
         AttachmentMgt: Codeunit "Attachment Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
         EligibleLoan: Decimal;
@@ -176,10 +177,12 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
             FORMAT(ApprovalSetupLine."Request Type"::"Allowance Assignment"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Allowance Assignment");
+            FORMAT(ApprovalSetupLine."Request Type"::Insurance):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Insurance);
             else
                 Error('Approval Setup Not found');
         END;
-        // Get approval from employee table based on deputaion type and approval role << santosh>> 11-3-25
+        // Get approval from employee table based on deputation type and approval role << santosh>> 11-3-25
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         if ApprovalSetupLine.Findset() then
@@ -314,7 +317,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitAttendanceMissed(startDate: Date; remarks: Text; reasonCode: Code[20]; Type: Text)
+    procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; type: Text)
     var
         //CancelDocument: Record "Cancel Document";
         AttendanceMissed: Record "Attendance Missed";
@@ -329,10 +332,12 @@ page 50108 "Portal Functions"
         AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
-        if EmployeeAct = EmployeeAct::"Attendance Missed" then
+        if EmployeeAct = EmployeeAct::"Attendance Missed" then begin
+            AttendanceMissed.Validate("Check In Time", checkInTime);
+            AttendanceMissed.Validate("Check Out Time", checkOutTime);
             AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed")
-        else if EmployeeAct = EmployeeAct::"Late Attendance" then
-            AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
+        end else if EmployeeAct = EmployeeAct::"Late Attendance" then
+                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
         AttendanceMissed.Validate("Requested Date", Today);
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
@@ -464,7 +469,7 @@ page 50108 "Portal Functions"
     begin
         tempLeave.Reset;
         HRSetup.Get();
-        LeaveMgt.CheckPendingLeave(leaveCode, HrMgt.GetEmployeeNo());
+        // LeaveMgt.CheckPendingLeave(leaveCode, HrMgt.GetEmployeeNo());
         tempLeave.Init;
         tempLeave.Validate("Employee No.", HrMgt.GetEmployeeNo());
         tempLeave.Validate("Leave Code", leaveCode);
@@ -514,6 +519,7 @@ page 50108 "Portal Functions"
             Format(tempLeave."For Death Of"::Daughter):
                 tempLeave.Validate("For Death Of", tempLeave."For Death Of"::Daughter);
         end;
+        tempLeave.Validate("Approval Status", tempLeave."Approval Status"::Pending);
         tempLeave.Insert(true);
         //For Approver Line Generate
         // if not HRSetup."Approval From Setup" then
@@ -673,8 +679,8 @@ page 50108 "Portal Functions"
                 repeat
                     TempIncomingDoc.Reset;
                     TempIncomingDoc.Init;
+                    Clear(TempIncomingDoc."Entry No.");
                     TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-                    //TempIncomingDoc.Validate("No.", leave."No.");
                     TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
                     TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                     TempIncomingDoc.Validate(Description, Format(LeaveType.Code) + ': ' + LeaveType.Description);
@@ -724,72 +730,50 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getLeaveAttachmentCode(leaveCode: Code[20]; startDate: Date; endDate: Date): Text
+    procedure getAttachmentAPI(docNo: Code[20]): text
     var
         TempIncomingDoc: Record "Incoming Document";
-        NoOfDays: Integer;
-        LeaveType: Record "Leave Type Setup";
-        AttachmentSetup: Record "Attachment Setup";
-        AttachmentCode: Text;
-        leaveTypeEnum: Enum "Leave Type";
-    begin
-        TempIncomingDoc.Reset;
-        LeaveType.Get(leaveCode);
-        TempIncomingDoc.SetRange("Employee Code", HrMgt.GetEmployeeNo());
-        TempIncomingDoc.SETRANGE("Leave Type Code", leaveCode);
-        TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.Find('-') then
-            repeat
-                if TempIncomingDoc."File Name" <> '' then
-                    Clear(TempIncomingDoc."File Name");
-            until TempIncomingDoc.Next = 0;
-        TempIncomingDoc.DeleteAll;
-        if (startDate = 0D) or (endDate = 0D) then
-            NoOfDays := 0
-        else
-            NoOfDays := leaveMgt.CalculateNoOfDays(StartDate, EndDate, LeaveCode, TempIncomingDoc."Employee Activity Type"::"leave Request", leaveTypeEnum::"Full Day", HrMgt.GetEmployeeNo());
-        // NoOfDays := endDate - startDate;
-        // leave.TestField("Leave Code");
-        IF NoOfDays >= LeaveType."No. of Days for Attachment" THEN BEGIN
-            AttachmentSetup.Reset;
-            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-            AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);
-            if AttachmentSetup.Find('-') then
-                repeat
-                    AttachmentCode += AttachmentSetup."Attachment Code" + '/';
-                until AttachmentSetup.Next = 0;
-        end;
-        exit('{' + '"attachmentCode" : "' + (Format(AttachmentCode)) + '"}');
-    end;
-
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getLeaveAttachmentAPI(leaveNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        leave: Record leave;
         NoOfDays: Integer;
         LeaveType: Record "Leave Type Setup";
         AttachmentSetup: Record "Attachment Setup";
         Filename: Text;
+        JsonObject: JsonObject;
+        JsonText: text;
+        JsonArray: JsonArray;
     begin
-        leave.Get(leaveNo);
         TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", leaveNo);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+        TempIncomingDoc.SETRANGE("No.", docNo);
+        If TempIncomingDoc.Findset() then begin
+            repeat
+                Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+                Clear(JsonObject);
+                JsonObject.Add('ShowDelete', false);
+                JsonObject.Add('ShowDownload', true);
+                JsonObject.Add('ShowUpload', false);
+                JsonObject.Add('attachmentCode', TempIncomingDoc."Attachment Code");
+                JsonObject.Add('empActivityType', format(TempIncomingDoc."Employee Activity Type"));
+                JsonObject.Add('empCode', TempIncomingDoc."Employee Code");
+                JsonObject.Add('entryNo', TempIncomingDoc."Entry No.");
+                JsonObject.Add('fileName', Filename);
+                JsonObject.Add('leaveCode', TempIncomingDoc."Leave Type Code");
+                JsonObject.Add('number', TempIncomingDoc."No.");
+                JsonArray.Add(JsonObject);
+            until TempIncomingDoc.Next() = 0;
+        end else
+            Error('Attachment not available for this Document');
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+        // exit('{' +
+        // '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+        //   '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+        //   '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+        //   '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+        // '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+        // '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+        // '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+        // '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+        // '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
+        // '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -1021,6 +1005,7 @@ page 50108 "Portal Functions"
         TravelRequest.Validate(Reimbursable, reimbursable);
         TravelRequest.Validate("Out of Pocket Expense", outOfPocketExpense);
         TravelRequest.Validate("Travel Order No.", travelOrderNo);
+        TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
         TravelRequest.Insert(true);
         if TravelMgt.ApplyForTravelClaim(TravelRequest) then
             exit(200);
@@ -1712,29 +1697,29 @@ page 50108 "Portal Functions"
         end;
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getLoanAttachmentAPI(LoanNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        Filename: Text;
-    begin
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", LoanNo);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getLoanAttachmentAPI(LoanNo: Code[20]): Text
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     Filename: Text;
+    // begin
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SETRANGE("No.", LoanNo);
+    //     If not TempIncomingDoc.FindFirst() then
+    //         Error('Document Not Found');
+    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+    //     exit('{' +
+    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -1943,7 +1928,7 @@ page 50108 "Portal Functions"
         if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
             if EmpInsurance.Get(IncomingDoc."No.") then begin
                 DocFoundInsurance := true;
-                if EmpInsurance.Status = EmpInsurance.Status::Screened then
+                if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                     Error('Cannot upload in screened insurance.');
                 if IncomingDoc."File Name" <> '' then
                     Error('Attachment already exist.');
@@ -2046,7 +2031,7 @@ page 50108 "Portal Functions"
         end;
         if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
             if EmpInsurance.Get(IncomingDocument."No.") then begin
-                if EmpInsurance.Status = EmpInsurance.Status::Screened then
+                if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
                     Error('Cannot delete screened document.');
             end;
         end;
@@ -2065,6 +2050,7 @@ page 50108 "Portal Functions"
     procedure substituteAllowanceAssignment(entryNo: Code[20]; lineNo: Integer; fromDate: Date; empCode: Code[20]): Text
     var
         AllowanceLine, NewAllowanceLine : Record "Allowance Assignment Line";
+        AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
     begin
         AllowanceLine.Get(entryNo, lineNo);
         // TempAllowanceLine.Copy(AllowanceLine);
@@ -2080,29 +2066,35 @@ page 50108 "Portal Functions"
         // // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
         // TempAllowanceLine.Insert(true);
         // TempAllowanceLine.UpdateSubstitue;
-        AllowanceLine.TestField("Is Substitute", false);
+        If AllowanceLine."Substitute Type" <> AllowanceLine."Substitute Type"::" " then
+            Error('This Document is already Substituted');
         AllowanceLine.TestField("Approval Status", AllowanceLine."Approval Status"::Approved);
         NewAllowanceLine.Reset;
         NewAllowanceLine.SetRange("No.", AllowanceLine."No.");
         NewAllowanceLine.SetRange("Substitute of Line No.", AllowanceLine."Line No.");
-        NewAllowanceLine.SetRange("Is Substitute", true);
+        NewAllowanceLine.SetRange("Substitute Type", NewAllowanceLine."Substitute Type"::"Added as Substitute");
         NewAllowanceLine.SetRange("Employee Code", '');
         if not NewAllowanceLine.FindFirst then begin
             NewAllowanceLine.Reset;
             NewAllowanceLine.Init;
             NewAllowanceLine."No." := AllowanceLine."No.";
-            NewAllowanceLine."Is Substitute" := true;
+            NewAllowanceLine."Substitute Type" := NewAllowanceLine."Substitute Type"::"Added as Substitute";
             NewAllowanceLine."Substitute of Line No." := AllowanceLine."Line No.";
             NewAllowanceLine."Allowance Type" := AllowanceLine."Allowance Type";
             NewAllowanceLine.Type := AllowanceLine.Type;
             NewAllowanceLine.Code := AllowanceLine.code;
             NewAllowanceLine.Panel := AllowanceLine.Panel;
-            NewAllowanceLine."To Date" := fromDate;
-            NewAllowanceLine."From Date" := fromDate;
-            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::Approved;
             NewAllowanceLine.Validate("Employee Code", empCode);
-            NewAllowanceLine.Insert(true);
+            NewAllowanceLine.Validate("To Date", fromDate);
+            NewAllowanceLine.Validate("From Date", fromDate);
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending Approval";
+            AllowanceAssignmentMgt.GetLineNo(NewAllowanceLine);
+            NewAllowanceLine.Insert();
         end;
+        AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(NewAllowanceLine);
+        AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(AllowanceLine."No.", AllowanceLine."Line No.");
+        AllowanceLine."Substitute Type" := AllowanceLine."Substitute Type"::Substituted;
+        AllowanceLine.Modify();
     end;
 
     [ServiceEnabled]
@@ -2117,6 +2109,18 @@ page 50108 "Portal Functions"
         AllowanceLine.SetRange("No.", No);
         AllowanceMgt.SendApprovalAllowanceAssignment(AllowanceHead, AllowanceLine);
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure insertAllowanceInRange(documentNo: Code[20]; allowanceType: code[20]; panel: Text; employeeNo: Code[20]; fromDate: date; toDate: date)
+    var
+        PanelENum: Enum Panel;
+    begin
+        if panel <> '' then
+            PanelEnum := Enum::Panel.FromInteger(PanelENum.Ordinals.Get(PanelENum.Names.IndexOf(panel)));
+        AllowanceMgt.InsertAllowanceLine(DocumentNo, AllowanceType, PanelENum, EmployeeNo, FromDate, ToDate);
+    end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2279,34 +2283,34 @@ page 50108 "Portal Functions"
         exit('success');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure getResignAttachmentAPI(ResignNo: Code[20]): Text
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        Resignation: Record Resignation;
-        // // NoOfDays: Integer;
-        // LeaveType: Record "Leave Type Setup";
-        AttachmentSetup: Record "Attachment Setup";
-        Filename: Text;
-    begin
-        Resignation.Get(ResignNo);
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SETRANGE("No.", ResignNo);
-        If not TempIncomingDoc.FindFirst() then
-            Error('Document Not Found');
-        Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
-        exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-          '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-          '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-          '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure getResignAttachmentAPI(ResignNo: Code[20]): Text
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     Resignation: Record Resignation;
+    //     // // NoOfDays: Integer;
+    //     // LeaveType: Record "Leave Type Setup";
+    //     AttachmentSetup: Record "Attachment Setup";
+    //     Filename: Text;
+    // begin
+    //     Resignation.Get(ResignNo);
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SETRANGE("No.", ResignNo);
+    //     If not TempIncomingDoc.FindFirst() then
+    //         Error('Document Not Found');
+    //     Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
+    //     exit('{' +
+    //     '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+    //       '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
+    //       '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
+    //       '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
+    //     '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
+    //     '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
+    //     '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
+    //     '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
+    //     '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
+    // end;
 
     local procedure "------OverTime API---------"()
     begin
@@ -2314,12 +2318,14 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOThrs: Decimal; eveningOThrs: Decimal; OTAmount: Decimal; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
         OverTimeMgt: codeUnit "OverTime Mgt";
+        OverTimeType: enum "Overtime Claim Type";
     begin
+        OverTimeType := Enum::"Overtime Claim Type".FromInteger(OverTimeType.Ordinals.Get(OverTimeType.Names.IndexOf(OverTimeClaimType)));
         Employee.Get(HrMgt.GetEmployeeNo());
         /*SalaryLevel.GET(Employee."Salary Level");
         IF NOT SalaryLevel."OT Eligible" THEN
@@ -2330,6 +2336,8 @@ page 50108 "Portal Functions"
         Overtime.Validate("Employee No.", HrMgt.GetEmployeeNo());
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
+        Overtime.Validate("Overtime Claim Type", OverTimeType);
+        Overtime.Validate("Total OT Hours", actualOTHrs);
         Overtime.Validate("Actual OT Hours", actualOTHrs);
         Overtime.Validate("Morning OT Hours", morningOThrs);
         Overtime.Validate("Evening OT Hours", eveningOTHrs);
@@ -2477,9 +2485,6 @@ page 50108 "Portal Functions"
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
-
-        //      '"OTAmount" : "' + Format(OTAmount) +
-        //    '}')
     end;
 
     local procedure "---API1.00 END"()
@@ -2560,14 +2565,14 @@ page 50108 "Portal Functions"
             exit('not found');
     end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure removeFeedbackAttachment(fname: Text)
-    begin
-        //LoanMgt.DeleteAttachment(IncomingDocument);
-        //IncomingDocument.MODIFY;
-        Clear(fname);
-    end;
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure removeFeedbackAttachment(fname: Text)
+    // begin
+    //     //LoanMgt.DeleteAttachment(IncomingDocument);
+    //     //IncomingDocument.MODIFY;
+    //     Clear(fname);
+    // end;
 
     // [ServiceEnabled]
     // [Scope('Personalization')]
@@ -2687,6 +2692,28 @@ page 50108 "Portal Functions"
         EmployeeTransfer.Validate("Date of Joining Of Transfer", dateOfJoining);
         EmployeeTransfer."Transfer Remarks" := transferRemarks;
         TransferMgt.AcknowledgeTransfer(EmployeeTransfer);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure handoverTransfer(empActivityNo: Code[20])
+    var
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        TransferMgt: Codeunit "Transfer Mgt.";
+    begin
+        EmployeeTransfer.Get(empActivityNo);
+        TransferMgt.HandoverApprove(EmployeeTransfer);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure takeoverTransfer(empActivityNo: Code[20])
+    var
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        TransferMgt: Codeunit "Transfer Mgt.";
+    begin
+        EmployeeTransfer.Get(empActivityNo);
+        TransferMgt.TakeoverApprove(EmployeeTransfer);
     end;
 
     // [ServiceEnabled]
@@ -2925,10 +2952,9 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getTransferAttachmentAPI(TransferCode: Code[20]): Text
+    procedure getTransferAttachmentAPI(transferCode: Code[20]): Text
     var
         TempIncomingDoc: Record "Incoming Document";
-        AttachmentSetup: Record "Attachment Setup";
         Filename: Text;
     begin
 
@@ -2938,7 +2964,7 @@ page 50108 "Portal Functions"
             Error('Document Not Found');
         Filename := AttachmentMgt.SanitizeFileAttachment(TempIncomingDoc."File Name");
         exit('{' +
-        '"Attachment_Code" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
+        '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
           '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
           '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
           '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
@@ -3535,7 +3561,7 @@ page 50108 "Portal Functions"
     procedure exitDeputationValue(): Text
     begin
         Employee.Get(HrMgt.GetEmployeeNo);
-        exit(HrMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
+        exit(ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
     end;
 
     [ServiceEnabled]
@@ -3911,6 +3937,7 @@ page 50108 "Portal Functions"
         AttendanceMissedForApprove: Integer;
         EmployeeTransferForApprove: Integer;
         TransferAcknowledgeForApprove: Integer;
+        TransferHandoverForApprove: Integer;
         TransferClaimForApprove: Integer;
         EmployeeTransfer: Record "Employee/HR Transfer";
         DocumentApprover: Record "Document Approver";
@@ -3920,6 +3947,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove: Integer;
         LeaveCancelledForApprove: Integer;
         LateAttendanceForApprove: Integer;
+        InsuranceForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -3938,6 +3966,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange(Cancelled, false);
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         leaveForApprove := Approval.Count();
 
@@ -3945,18 +3974,21 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetRange(Cancelled, true);
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         LeaveCancelledForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Request");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelReqForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Travel Claim");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelClaimApprove := Approval.Count();
 
@@ -3965,6 +3997,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Personal Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         PersonalLoanForApprove := Approval.Count();
 
@@ -3972,6 +4005,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Home Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         HomeLoanForApprove := Approval.Count();
 
@@ -3979,6 +4013,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Vehicle Loan");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         VehicleLoanForApprove := Approval.Count();
 
@@ -3986,48 +4021,62 @@ page 50108 "Portal Functions"
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Salary Advance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         SalaryAdvanceForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Attendance Missed");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         AttendanceMissedForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Employee Transfer");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeTransferForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Overtime);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         OverTimeForApprove := Approval.Count();
 
         EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
+        EmployeeTransfer.SetRange("Outgoing Branch Rep. Person", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
         EmployeeTransfer.SetRange("Is Transfer Details Added", true);
-        TransferAcknowledgeForApprove := EmployeeTransfer.Count();
+        TransferHandoverForApprove := EmployeeTransfer.Count();
 
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
+        EmployeeTransfer.SetRange(Handover, true);
+        TransferAcknowledgeForApprove := EmployeeTransfer.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Transfer Claim");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TransferClaimForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Resignation);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         ResignForApprove := Approval.Count();
 
         DocumentApprover.Reset();
         DocumentApprover.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         DocumentApprover.SetRange("Document Type", DocumentApprover."Document Type"::Resignation);
         DocumentApprover.SetRange("Approval Status", DocumentApprover."Approval Status"::Open);
         ResignClearanceForApprove := DocumentApprover.Count();
@@ -4035,28 +4084,39 @@ page 50108 "Portal Functions"
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Employee Edit");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         EmployeeEditForApprove := Approval.Count();
 
         Appraisal.Reset();
         Appraisal.SetRange("Approver Code", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Appraisal.SetRange(Status, Appraisal."Status"::Reviewed);
         AppraisalForApprove := Appraisal.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Allowance Assignment");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         AllowanceAssignmentForApprove := Approval.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Late Attendance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         LateAttendanceForApprove := Approval.Count();
+        Approval.Reset();
 
-        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove;
+        Approval.SetRange("Document Type", Approval."Document Type"::Insurance);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        InsuranceForApprove := Approval.Count();
+
+        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4072,11 +4132,13 @@ page 50108 "Portal Functions"
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
+        ',"TransferHandoverForApprove": "' + format(TransferHandoverForApprove) + '"' +
         ',"TransferAcknowledgeForApprove": "' + format(TransferAcknowledgeForApprove) + '"' +
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
+        ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;
@@ -4267,4 +4329,43 @@ page 50108 "Portal Functions"
                 END;
             UNTIL AttachmentMandatory.NEXT = 0;
     END;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure employeeProfilePicture(empCode: Code[20]): text
+    var
+        Employee: Record Employee;
+        InStr: InStream;
+        TempBlob: CodeUnit "Temp Blob";
+        ItemTenantMedia: Record "Tenant Media";
+        base64: Codeunit "Base64 Convert";
+    begin
+        Employee.Get(EmpCode);
+        if Employee.Image.HasValue then begin
+            if ItemTenantMedia.Get(Employee.Image.MediaId) then begin
+                ItemTenantMedia.CalcFields(Content);
+                TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
+                TempBlob.CreateInStream(InStr);
+                exit(base64.ToBase64(InStr));
+            end;
+        end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        EmployeeInsurance: Record "Employee Insurance Information";
+        RecRef: RecordRef;
+    begin
+        EmployeeInsurance.Get(empInsuranceNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
+            EmployeeInsurance.Modify;
+        end;
+        RecRef.GetTable(EmployeeInsurance);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
 }

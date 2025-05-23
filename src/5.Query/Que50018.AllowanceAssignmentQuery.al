@@ -59,9 +59,9 @@ query 50018 "Allowance Assignment Query"
                     column(fromDate; "From Date") { }
                     column(toDate; "To date") { }
                     column(approvalStatus; "Approval Status") { }
-                    column(Week; Week) { }
-                    column(englishMonth; "English Month") { }
-                    column(englishYear; "English Year") { }
+                    // column(Week; Week) { }
+                    // column(englishMonth; "English Month") { }
+                    // column(englishYear; "English Year") { }
                     column(allowanceType; "Allowance Type Filter") { }
                     column(return; Return)
                     {

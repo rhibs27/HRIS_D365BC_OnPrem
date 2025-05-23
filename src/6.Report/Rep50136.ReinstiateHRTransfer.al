@@ -92,6 +92,7 @@ report 50136 "Re-instiate HR Transfer"
     var
         InitialDate: Date;
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         FromDate: Date;
         ToDate: Date;
         EmployeeActivity: Record "Employee Activity";
@@ -127,7 +128,7 @@ report 50136 "Re-instiate HR Transfer"
                     if EmpActivity.FindFirst then
                         exit;
                 end;
-                ServiceCode := HRMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
+                ServiceCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", ServiceHistory."Service Event"::"Back From Deputation", 'Reinstating Transfer', InitialDate); //Min 1.3
                 Employee.Validate("Functional Title", EmployeeActivity."Functional Title");
                 Employee.Validate("Deputation on", EmployeeActivity."Deputation On");
                 case Employee."Deputation on" of
@@ -149,8 +150,8 @@ report 50136 "Re-instiate HR Transfer"
                     ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
                     ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
                     ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
-                    ServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                    ServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
+                    ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                     ServiceHistory.Validate("Document No.", EmployeeActivity."No."); //Min 9.26.2022
                     PreviousServiceHistory.Reset;
                     PreviousServiceHistory.SetRange("Employee No.", Employee."No.");

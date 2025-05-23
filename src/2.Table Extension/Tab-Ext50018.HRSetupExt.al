@@ -681,5 +681,14 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
+        field(50145; "SQL Table Name"; Text[20])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50146; "Employee Act. Journal Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+            DataClassification = CustomerContent;
+        }
     }
 }

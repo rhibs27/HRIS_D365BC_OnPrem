@@ -46,6 +46,11 @@ page 50109 "Employee Transfer Requests"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field("Is Transfer Details Added"; Rec."Is Transfer Details Added")
+                {
+                    ToolTip = 'Confirm By Human resource department';
+                    ApplicationArea = All;
+                }
             }
         }
     }

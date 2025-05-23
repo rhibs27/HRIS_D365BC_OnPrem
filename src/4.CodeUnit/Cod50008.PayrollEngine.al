@@ -82,6 +82,8 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentEarning: Decimal;
         TaxAtOnceCurrentDeduction: Decimal;
         TaxAtOnceCurrentDonation: Decimal;
+        TaxatOnceCurrentNonPayments: Decimal;
+        TaxAtOnceProjectedNonPayments: Decimal;
         TaxAtOnceProjectionEarning: Decimal;
         TaxAtOnceTotalAnnualEarning: Decimal;
         TaxAtOnceTaxableAmt: Decimal;
@@ -219,15 +221,14 @@ codeunit 50008 "Payroll Engine"
         end else
             RemainingMonth := 0;
 
-        TotalAnnualEarning := CurrentEarning + ProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";     // +  TaxOldEmployeeTotalEarning(Employee."No.")  //>>pradhan
+        TotalAnnualEarning := CurrentEarning + ProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit;     // +  TaxOldEmployeeTotalEarning(Employee."No.")  //>>pradhan
 
         //Retirement
         if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then begin
             CalcProjectionRetirementFund; //SUMAN
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
-                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."PF Contribution (Office)") +
-                                             Abs(Employee."PF Contribution") + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
+                                             EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
         //RetirementFundLimit1 := TotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
@@ -289,9 +290,9 @@ codeunit 50008 "Payroll Engine"
             exit;
         end;
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit   //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit   //Min 4.22.2022
         else
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit - FLRecovery - InsuranceRecovery;     //settlement //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit - FLRecovery - InsuranceRecovery;     //settlement //Min 4.22.2022
 
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
@@ -557,7 +558,9 @@ codeunit 50008 "Payroll Engine"
 
                         if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then
                             if PayrollAttributes."Apply Every Month" then
-                                ProjectedNonPaymentBenefit += UsageAmount * RemainingMonth;
+                                ProjectedNonPaymentBenefit += UsageAmount * RemainingMonth
+                            else
+                                ProjectedNonPaymentBenefit += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
@@ -2926,6 +2929,7 @@ codeunit 50008 "Payroll Engine"
     begin
         //pradhan>>
         TaxAtOnceCurrentEarning := 0;
+        TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
         for FieldID := 47 to 100 do begin //Min 9.16.2022
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
@@ -2958,7 +2962,8 @@ codeunit 50008 "Payroll Engine"
                 else if (PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment") then begin
                     if FieldValue <> 0 then begin
                         if PayrollAttributes.Subtype = PayrollAttributes.Subtype::Donation then
-                            TaxAtOnceCurrentDonation += FieldValue
+                            TaxAtOnceCurrentDonation += FieldValue;
+                        TaxatOnceCurrentNonPayments += FieldValue;
                     end;
                 end;
             end;
@@ -2976,6 +2981,7 @@ codeunit 50008 "Payroll Engine"
         FieldRefs: FieldRef;
     begin
         TaxAtOnceProjectionEarning := 0;
+        TaxAtOnceProjectedNonPayments := 0;
         PayrollColumnConfiguration.Reset;
         PayrollColumnConfiguration.SetRange("Table No.", Database::"Level Wise Attributes");
         if PayrollColumnConfiguration.FindSet then begin
@@ -3031,7 +3037,32 @@ codeunit 50008 "Payroll Engine"
                     end;
                 end;
             until PayrollAttributesUsage.Next = 0;
-        //<<pradhan
+
+        PayrollAttributesUsage.Reset;
+        PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
+        PayrollAttributesUsage.SetRange(Type, PayrollAttributesUsage.Type::"Non-Payment");
+        if PayrollAttributesUsage.FindFirst then
+            repeat
+                PayrollAttributesUsage.CalcFields("Formula Exists");
+                UsageAmount := 0;
+                if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
+                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
+                        (PayrollAttributes."Non-Taxable" = false)
+                       then begin
+                        if PayrollAttributesUsage.Amount <> 0 then
+                            UsageAmount := PayrollAttributesUsage.Amount
+                        else if PayrollAttributesUsage."Formula Exists" then begin
+                            UsageAmount := EvaluateAmount(PayrollAttributes.Formula, false);
+                        end;
+                        UsageAmount := Round(UsageAmount, 0.01, '=');
+                        if PayrollAttributes."Apply Every Month" then
+                            TaxAtOnceProjectedNonPayments += UsageAmount * RemainingMonth
+                        else begin
+                            TaxAtOnceProjectedNonPayments += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                        end;
+                    end;
+                end;
+            until PayrollAttributesUsage.Next = 0;
     end;
 
     procedure GetTax(StartAmount: Decimal; EndAmount: Decimal): Decimal
@@ -3070,7 +3101,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCalcCurrentEarning;
         TaxAtOnceCalcProjectionEarning;
 
-        TaxAtOnceTotalAnnualEarning := TaxAtOnceCurrentEarning + TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
+        TaxAtOnceTotalAnnualEarning := TaxAtOnceCurrentEarning + TaxAtOnceProjectionEarning + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + Employee."Total Earning" + TaxatOnceCurrentNonPayments + TaxAtOnceProjectedNonPayments;
 
         //RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TaxAtOnceTotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
@@ -3714,9 +3745,15 @@ codeunit 50008 "Payroll Engine"
     end;
 
     procedure GetPreviousPayCycleCodeDays(PayrollHeader: Record "Payroll Header"): Decimal
+    var
+        TotalDaysInPeviousMonth: Decimal;
     begin
         GetPreviousPayCycleCode(PayrollHeader);
-        exit(PreviousPayCyclePeriod."End Date" - PreviousPayCyclePeriod."Start Date" + 1);
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            TotalDaysInPeviousMonth := PGSetup."Total Days" / 12
+        else
+            TotalDaysInPeviousMonth := (PreviousPayCyclePeriod."End Date" - PreviousPayCyclePeriod."Start Date" + 1);
+        exit(TotalDaysInPeviousMonth);
     end;
 
     local procedure GetSlabAmount()
@@ -3740,10 +3777,11 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Projection Month" := RemainingMonth;
         PayrollLine."Tax for Period" := MonthlyTax;
         PayrollLine."Projected Benefit" := TaxAtOnceProjectionEarning;
+        PayrollLine."Projected Non-Payments" := TaxAtOnceProjectedNonPayments;
         PayrollLine."Past Benefit" := Employee."Total Earning" + EmpPayOpen."Total Benefit Opening";
-        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning;
-        PayrollLine."Past Retirement Fund" := Abs(Employee."PF Contribution") + Abs(Employee."PF Contribution (Office)") +
-                                      Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
+        PayrollLine."Past Non-Payments" := Employee."Non-Payment";
+        PayrollLine."Assessable Income" := TaxAtOnceProjectionEarning + Employee."Total Earning" + Employee."Non-Payment" + EmpPayOpen."Total Benefit Opening" + TaxAtOnceCurrentEarning + TaxAtOnceProjectedNonPayments + TaxatOnceCurrentNonPayments;
+        PayrollLine."Past Retirement Fund" := Abs(Employee."RF Deposit") + Abs(Employee."Total Retirement Contribution") + EmpPayOpen."Total RF Opening" + Abs(Employee."Lump Sum CIT");
         PayrollLine."Projected Retirement Fund" := ProjectionEarning;
         PayrollLine."Actual RF Contribution" := TotalContributionToRetirementFund;
         PayrollLine."1/3 of Assessable Income" := RetirementFundLimit1;
@@ -3769,7 +3807,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Total SST Paid" := Employee."Social Security Tax" + EmpPayOpen."Total Social Security Opening";
         PayrollLine."Total Tax Remuneration Paid" := Employee."Remuneration & Benefits Tax" + EmpPayOpen."Total Tax Remuneration Opening";
         PayrollLine."Current Benefit" := TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits;
-        PayrollLine."Total Non-Payments" := CurrentNonPaymentBenefits;
+        PayrollLine."Current Non-Payments" := CurrentNonPaymentBenefits;
         PayrollLine."Current Deduction" := TaxAtOnceCurrentDeduction;
 
         PayrollLine."Net Pay" := Round(TaxAtOnceCurrentEarning - TaxAtOnceCurrentDeduction + LumpSumCIT - MonthlyTax + CurrentNonTaxableBenefits - AddTaxOnInterestAllowance(PayrollLine."Employee No.", PayrollLine."Document No.") + SettlementAmount, 0.01, '=');
@@ -4135,8 +4173,8 @@ codeunit 50008 "Payroll Engine"
 
         EmployeeInsurance.Reset;
         EmployeeInsurance.SetRange("Employee No.", EmployeeNo);
-        EmployeeInsurance.SetRange(Type, EmployeeInsurance.Type::"Life Insurance");
-        EmployeeInsurance.SetRange(Status, EmployeeInsurance.Status::Screened);
+        EmployeeInsurance.SetRange("Insurance Type", EmployeeInsurance."Insurance Type"::"Life Insurance");
+        EmployeeInsurance.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
         EmployeeInsurance.CalcSums("Annual Premium Amount");
 
         LifeInsuranceAmt := HLInsAmt + EmployeeInsurance."Annual Premium Amount";
@@ -4148,8 +4186,8 @@ codeunit 50008 "Payroll Engine"
 
         EmpInsHealth.Reset;
         EmpInsHealth.SetRange("Employee No.", EmployeeNo);
-        EmpInsHealth.SetRange(Type, EmpInsHealth.Type::"Medical Insurance");
-        EmpInsHealth.SetRange(Status, EmployeeInsurance.Status::Screened);
+        EmpInsHealth.SetRange("Insurance Type", EmpInsHealth."Insurance Type"::"Medical Insurance");
+        EmpInsHealth.SetRange("Approval Status", EmployeeInsurance."Approval Status"::Approved);
         EmpInsHealth.CalcSums("Annual Premium Amount");
         HealthInsAmt := EmpInsHealth."Annual Premium Amount";
         if HealthInsAmt > PayrollGeneralSetup."Tax Ex. Health Insur. Amount" then
@@ -4159,8 +4197,8 @@ codeunit 50008 "Payroll Engine"
 
         EmpInsProperty.Reset;
         EmpInsProperty.SetRange("Employee No.", EmployeeNo);
-        EmpInsProperty.SetRange(Type, EmpInsProperty.Type::"Property Insurance");
-        EmpInsProperty.SetRange(Status, EmpInsProperty.Status::Screened);
+        EmpInsProperty.SetRange("Insurance Type", EmpInsProperty."Insurance Type"::"Property Insurance");
+        EmpInsProperty.SetRange("Approval Status", EmpInsProperty."Approval Status"::Approved);
         EmpInsProperty.CalcSums("Annual Premium Amount");
         PropertyInsAmt := EmpInsProperty."Annual Premium Amount";
         if PropertyInsAmt > PayrollGeneralSetup."Tax Ex. Property Insurance Amt" then

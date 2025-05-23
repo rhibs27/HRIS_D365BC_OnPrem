@@ -60,6 +60,12 @@ query 50007 "Attendance Missed Query"
                     column(endDate; "End Date")
                     {
                     }
+                    column(checkInTime; "Check In Time")
+                    {
+                    }
+                    column(checkOutTime; "Check Out Time")
+                    {
+                    }
                     column(startDateBS; "Start Date (BS)")
                     {
                     }

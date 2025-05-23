@@ -537,7 +537,7 @@ table 50026 "Payroll Header"
 
         PGSetup.Get;
         AttendanceSetup.Get;
-        TestField("Employee Type");
+        //TestField("Employee Type");
 
         Employee.Reset;
         Employee.SetCurrentKey("Employment Type");
@@ -555,9 +555,9 @@ table 50026 "Payroll Header"
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
             Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date"); //Min
         if "Employee Type" = "Employee Type"::Contract then
-            Employee.SetRange("Employment Type", Employee."Employment Type"::Contract)
-        else
-            Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation);
+            Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
+        // else
+        //     Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type", Employee."Employment Type"::Probation);
         if Employee.FindSet then
             repeat
                 if PayrollEngine.IsValidEmployee(Employee, "From Date", "To Date") then begin

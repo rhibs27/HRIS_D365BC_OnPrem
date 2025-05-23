@@ -119,7 +119,7 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary)
     var
-        AttendanceMissed1: Record "Attendance Missed";
+        AttendanceMissed1, AttendanceMissed2 : Record "Attendance Missed";
         //EmployeeActivity: Record "Employee Activity";
         //CancelDocument2: Record "Cancel Document";
         //EmployeeActivity2: Record "Employee Activity";
@@ -130,13 +130,19 @@ codeunit 50016 "AttendanceMiss Mgt"
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        if AttendanceMissed.Type = AttendanceMissed.Type::"Leave Request" then begin //Min 10.13.2022
-            leave.Reset;
-            leave.SetRange("Cancelled Document No.", AttendanceMissed."Cancelled Document No.");
-            leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
-            if leave.FindFirst then
-                Error(LeaveCancelError, leave."No.", leave."Leave Code");
-        end;
+        // if AttendanceMissed.Type = AttendanceMissed.Type::"Leave Request" then begin //Min 10.13.2022
+        //     leave.Reset;
+        //     leave.SetRange("Cancelled Document No.", AttendanceMissed."Cancelled Document No.");
+        //     leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
+        //     if leave.FindFirst then
+        //         Error(LeaveCancelError, leave."No.", leave."Leave Code");
+        // end;
+        AttendanceMissed2.Reset();
+        AttendanceMissed2.SetRange("Employee No.", AttendanceMissed."Employee No.");
+        AttendanceMissed2.SetRange("Start Date", AttendanceMissed."Start Date");
+        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
+        if AttendanceMissed2.FindFirst then
+            Error('%1 already applied on %2', AttendanceMissed.Type, AttendanceMissed."Start Date");
         PayrollSetup.Get;
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
@@ -414,6 +420,8 @@ codeunit 50016 "AttendanceMiss Mgt"
                         EmpAttendActivity."Week Off Day" := 0;
                     EmpAttendActivity."Tour Day" := 0;
                     EmpAttendActivity."Source No." := AttendanceMissed."No.";
+                    EmpAttendActivity."Check In Time" := AttendanceMissed."Check In Time";
+                    EmpAttendActivity."Check Out Time" := AttendanceMissed."Check Out Time";
                     EmpAttendActivity."Employee Activity Found" := true;
                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
                     EmpAttendActivity.Modify;

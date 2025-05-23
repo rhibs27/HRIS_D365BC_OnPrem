@@ -73,6 +73,7 @@ report 50133 "Formation of Functional Title"
         EffectiveDate: Date;
         EmpServiceHistory: Record "Employee Service History";
         HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         Remarks: Text;
         ServiceHistoryCode: Code[20];
         BlockedFunctionalTitleFrom: Boolean;
@@ -96,14 +97,14 @@ report 50133 "Formation of Functional Title"
         Employee.SetRange("Functional Title", FunctionalTitleFrom);
         if Employee.Find('-') then
             repeat
-                ServiceHistoryCode := HRMgt.AddToServiceHistory(Employee."No.", EmpServiceHistory."Service Event"::"Formation of Department/Unit/Functional Title", Remarks, EffectiveDate);
+                ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(Employee."No.", EmpServiceHistory."Service Event"::"Formation of Department/Unit/Functional Title", Remarks, EffectiveDate);
 
                 if EmpServiceHistory.Get(ServiceHistoryCode) then begin
                     EmpServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
                     EmpServiceHistory.Validate("Functional Title (To)", FunctionalTitleTo);
                     EmpServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-                    EmpServiceHistory.Validate("Deputation Code (To)", HRMgt.ExitTransferDeputationWiseCode(Employee."Deputation on", Employee."No."));
-                    EmpServiceHistory.Validate("Deputation Value (To)", HRMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
+                    EmpServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(Employee."Deputation on", Employee."No."));
+                    EmpServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(Employee."Deputation on", Employee."No."));
                     EmpServiceHistory.Modify;
                 end;
             until Employee.Next = 0;

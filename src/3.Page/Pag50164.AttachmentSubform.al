@@ -83,6 +83,20 @@ page 50164 "Attachment Subform"
                     ToolTip = 'Specifies the value of the Employee Activity Type field.';
                     ApplicationArea = All;
                 }
+                field(ext; Extension)
+                {
+                    Visible = not isGUIAllowed;
+                }
+                field(ShowUpload; ShowUpload)
+                { Visible = not isGUIAllowed; }
+                field(ShowDownload; ShowDownload)
+                { Visible = not isGUIAllowed; }
+                field(ShowDelete; ShowDelete)
+                { Visible = not isGUIAllowed; }
+                field(importAttachment; ImportAttachmentDocument)
+                {
+                    Visible = not isGUIAllowed;
+                }
             }
         }
     }
@@ -215,6 +229,12 @@ page 50164 "Attachment Subform"
             }
         }
     }
+    trigger OnModifyRecord(): Boolean
+    begin
+        if not GuiAllowed then
+            if ImportAttachmentDocument <> '' then
+                AttachmentMgt.uploadAttachment(Rec, ImportAttachmentDocument, Extension);//Import Attachment for insurance
+    end;
 
     trigger OnOpenPage()
     begin
@@ -255,9 +275,17 @@ page 50164 "Attachment Subform"
         EmpLoan: Record "Employee Loan/Advance";
         Leave: Record Leave;
         TravelRequest: Record "Travel Request";
+        fileMgt: Codeunit "File Management";
         Candidate: Record Candidate;
         [InDataSet]
         isGUIAllowed: Boolean;
         HrMgt: Codeunit "HR Mgt.";
         PreviewAttachment: Page "Preview Attachment";
+        ImportAttachmentDocument: text;
+        PortalFunction: Page "Portal Functions";
+        ShowUpload: Boolean;
+        ShowDownload: Boolean;
+        ShowDelete: Boolean;
+        Extension: text;
+
 }

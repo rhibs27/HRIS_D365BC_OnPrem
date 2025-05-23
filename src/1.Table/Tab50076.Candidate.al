@@ -474,6 +474,7 @@ table 50076 Candidate
         IncomingDocument: Record "Incoming Document";
         // LoanMgt: Codeunit "Loan Mgt.";
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
         FunctionalTitle: Record "Functional Title";
         EvaluationAttributes: Record "Evaluation Attribute";
         ServiceHistory: Record "Employee Service History";
@@ -600,7 +601,7 @@ table 50076 Candidate
         Employee.Validate("Salary Grade", Rec."Salary Grade");
         Employee."Converted To Emp. Date" := Today;
         Employee.Insert(true);
-        HRMgt.AddToServiceHistoryAppointment(Rec."No.", ServiceHistory."Service Event"::Appointment, 'Appointed', Employee."Employment Date", Rec."Vacancy Code", Employee."No.");
+        ServiceHistoryMgt.AddToServiceHistoryAppointment(Rec."No.", ServiceHistory."Service Event"::Appointment, 'Appointed', Employee."Employment Date", Rec."Vacancy Code", Employee."No.");
 
         EmpQualification.Reset;
         EmpQualification.SetRange("Employee No.", "No.");
