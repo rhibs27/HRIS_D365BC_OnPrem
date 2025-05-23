@@ -4,7 +4,7 @@ table 50095 "Posted Employee Journal"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "Entry No"; Integer)
+        field(1; "Emp Act. No"; Code[20])
         {
         }
         field(2; Type; Enum "Employee Activity Type")
@@ -371,6 +371,10 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
+        }
+        field(101; "Entry No"; Integer)
+        {
+            DataClassification = ToBeClassified;
         }
     }
     keys

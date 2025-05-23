@@ -14733,6 +14733,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Document No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 832593267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Act. No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Emp Act. No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 398093632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Act Type</source>
           <note from="Developer" annotates="general" priority="2"></note>

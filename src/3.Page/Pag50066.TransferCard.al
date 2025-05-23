@@ -916,7 +916,7 @@ page 50066 "Transfer Card"
         // end;
         SetLayout;
         // GetTransferName;
-        Rec.CalcFields("Outgoing Reporting Person Name");
+        // Rec.CalcFields("Outgoing Reporting Person Name");
         RecRef.GetTable(Rec);
     end;
 

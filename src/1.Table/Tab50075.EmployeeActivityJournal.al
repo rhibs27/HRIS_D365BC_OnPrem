@@ -429,9 +429,9 @@ table 50075 "Employee Activity Journal"
                         "Unit (To)" := '';
                         "Shortcut Dimension 1 Code (To)" := '';
                         "Extension Counter (To)" := '';
-                        ValidateDeputationOnTo
                     end;
                 end;
+                ValidateDeputationOnTo
             end;
         }
         field(57; "Travel Order No"; Code[20])

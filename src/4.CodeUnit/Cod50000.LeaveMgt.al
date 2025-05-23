@@ -758,6 +758,19 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
     end;
 
+    procedure CheckLeaveApproved(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date)
+    var
+        Leave: Record "Leave";
+    begin
+        Leave.Reset();
+        Leave.SetRange("Employee No.", EmployeeCode);
+        Leave.SetRange("Start Date", StartDate, EndDate);
+        Leave.SetRange("End Date", StartDate, EndDate);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        if leave.FindFirst() then
+            Error('Leave for %1 is already approved on this date range', Leave."Employee Name");
+    end;
+
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
         //Leavevar: Record "Leave";
@@ -769,18 +782,19 @@ codeunit 50000 "Leave Mgt."
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
-        // CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
+        CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
+        CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
-            // end else begin
-            // CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
-            // if not LeaveTypeSetup.Compensatory then
-            //     CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
-            // CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
-            // CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
-            //     if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
-            //         GenerateLeaveAttachment(leave);
+        end else begin
+            CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
+            if not LeaveTypeSetup.Compensatory then
+                CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
+            CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
+            CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
+            // if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
+            //     GenerateLeaveAttachment(leave);
         end;
 
         Leave.TestField("Start Date");
@@ -796,10 +810,6 @@ codeunit 50000 "Leave Mgt."
         if GuiAllowed then
             if LeaveTypeSetup."Bereavement Leave" then
                 Leave.TestField("For Death Of");
-        //maternity and paternity leave`
-        // IF GuiAllowed Then
-        //     if LeaveTypeSetup."Maternity/Paternity Leave" then
-        // Leave.TestField("Child's Gender");
         if Leave."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
         Leave.TestField("Leave Code");
@@ -813,27 +823,6 @@ codeunit 50000 "Leave Mgt."
             Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
         if GuiAllowed then
             AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
-        // Leavevar.Init;
-        // Leavevar.TransferFields(Leave);
-        //Leavevar.TestField("Approver Code");
-        // if Leavevar."Recommender Code" <> '' then
-        //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
-        // else
-        //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
-        //For Approval 
-        //if Guiallowed then
-        // InsertLeaveApproval(leave);
-        // if HRSetup."Approval From Setup" then begin
-        //     Approval.Reset();
-        //     Approval.SetRange("Document No.", leave."No.");
-        //     if Approval.Findset() then
-        //         repeat
-        //             Approval.Validate("Approval Status", Approval."Approval Status"::"Pending Approval");
-        //             Approval.Modify()
-        //         until approval.Next() = 0
-        //     else
-        //         Error('Approver line Not Found');
-        // end;
         if GuiAllowed then begin
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
@@ -2108,8 +2097,6 @@ codeunit 50000 "Leave Mgt."
         end else
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
     end;
-
-
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
