@@ -51,17 +51,26 @@ query 50009 "Incoming Transfer Query"
             //current
             column(department; Department) { }
             column(departmentName; "Department Name") { }
-            column(branchCode; "Shortcut Dimension 1 Code") { }
+            column(branchCode; "From Branch") { }
             column(branchName; "Branch Name") { }
             column(functionalTitle; "Functional Title") { }
+            column(functionalTitleDesc; "Functional Title Desc") { }
+            column(extensionCounterName; "Extension Counter Name") { }
+            column(unitName; "Unit Name") { }
             column(deputationOn; "Deputation On") { }
             column(extensionCounterCode; "Extension Counter Code") { }
             // propose
             column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
             column(functionalTitleTo; "Functional Title (To)") { }
+            column(functionalDescTo; "Functional Desc To") { }
             column(provinceCodeTo; "Province Code (To)") { }
             column(unitTo; "Unit (To)") { }
+            column(unitNameTo; "Unit Name To") { }
             column(departmentCodeTo; "Department Code (To)") { }
+            column(departmentNameTo; "Department Name To") { }
+            column(extensionNameTo; "Extension Name To")
+            {
+            }
             column(extensionCounterTo; "Extension Counter (To)") { }
             column(deputationOnTo; "Deputation On (To)") { }
             column(proposedTransferDate; "Transfer Effective Date") { }
@@ -95,6 +104,7 @@ query 50009 "Incoming Transfer Query"
             {
             }
             column(handover; Handover) { }
+            column(takeover; Takeover) { }
             // column(transferAllowanceApproval; "Transfer Allowance Approval") { }
         }
 

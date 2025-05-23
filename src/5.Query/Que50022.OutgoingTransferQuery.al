@@ -14,12 +14,8 @@ query 50022 "Outgoing Transfer Query"
         {
             //general
             column(no; "No.") { }
-            column(type; Type)
-            {
-            }
-            column(employeeNo; "Employee No.")
-            {
-            }
+            column(type; Type) { }
+            column(employeeNo; "Employee No.") { }
             column(employeeName; "Employee Name") { }
             column(salaryLevel; "Salary Level Code") { }
             column(startDate; "Start Date") { }
@@ -30,15 +26,9 @@ query 50022 "Outgoing Transfer Query"
             column(requestedDate; "Requested Date") { }
             column(fiscalYear; "Fiscal Year") { }
             column(approvalStatus; "Approval Status") { }
-            column(status; Status)
-            {
-            }
-            column(isTransferDetailsAdded; "Is Transfer Details Added")
-            {
-            }
-            column(transferProposeDate; "Transfer Propose Date")
-            {
-            }
+            column(status; Status) { }
+            column(isTransferDetailsAdded; "Is Transfer Details Added") { }
+            column(transferProposeDate; "Transfer Propose Date") { }
             column(reasonCode; "Reason Code") { }
             column(reasonDescription; "Reason Description") { }
             column(reasonForTransfer; "Reason for Transfer") { }
@@ -54,26 +44,32 @@ query 50022 "Outgoing Transfer Query"
             column(branchCode; "Shortcut Dimension 1 Code") { }
             column(branchName; "Branch Name") { }
             column(functionalTitle; "Functional Title") { }
+            column(functionalTitleDesc; "Functional Title Desc") { }
             column(deputationOn; "Deputation On") { }
             column(extensionCounterCode; "Extension Counter Code") { }
+            column(unitName; "Unit Name") { }
+            column(extensionCounterName; "Extension Counter Name") { }
             // propose
-            column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
+            // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
+            column(toBranch; "To Branch") { }
             column(functionalTitleTo; "Functional Title (To)") { }
+            column(functionalDescTo; "Functional Desc To") { }
             column(provinceCodeTo; "Province Code (To)") { }
             column(unitTo; "Unit (To)") { }
+            column(unitNameTo; "Unit Name To") { }
             column(departmentCodeTo; "Department Code (To)") { }
+            column(departmentNameTo; "Department Name To") { }
+            column(branchNameTo; "Branch Name To") { }
             column(extensionCounterTo; "Extension Counter (To)") { }
+            column(extensionNameTo; "Extension Name To") { }
             column(deputationOnTo; "Deputation On (To)") { }
             column(proposedTransferDate; "Transfer Effective Date") { }
             column(incomingSupervisior; "Incoming Supervisior") { }
             column(incomingSupervisiorName; "Incoming Supervisior Name") { }
-            column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person")
-            {
-            }
+            column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person") { }
             column(outgoingReportingPersonName; "Outgoing Reporting Person Name") { }
             column(dateofJoiningOfTransfer; "Date of Joining Of Transfer") { }
             column(description; Description) { }
-
             column(transferRemarks; "Transfer Remarks") { }
             column(relocationAllow; "Relocation Allow.") { }
             column(outstationDiscomfortAllow; "Outstation/Discomfort Allow.") { }
@@ -83,13 +79,10 @@ query 50022 "Outgoing Transfer Query"
             column(relocationDistance; "Relocation Distance") { }
             column(outstationDistance; "Outstation Distance") { }
             column(BMAFDistance; "BMAF Distance") { }
-            column(transferClaim; "Transfer Claim")
-            {
-            }
+            column(transferClaim; "Transfer Claim") { }
             column(handover; Handover) { }
             column(takeover; Takeover) { }
         }
-
     }
 
     trigger OnBeforeOpen()

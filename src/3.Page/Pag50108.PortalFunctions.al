@@ -3992,7 +3992,6 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelClaimApprove := Approval.Count();
 
-
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
         Approval.SetRange("Loan Type", Approval."Loan Type"::"Personal Loan");
@@ -4048,16 +4047,15 @@ page 50108 "Portal Functions"
 
         EmployeeTransfer.Reset();
         EmployeeTransfer.SetRange("Outgoing Branch Rep. Person", HrMgt.GetEmployeeNo());
-        Approval.SetFilter("Document No.", '<>%1', '');
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
-        EmployeeTransfer.SetRange("Is Transfer Details Added", true);
+        EmployeeTransfer.SetRange(Handover, true);
+        EmployeeTransfer.SetRange(Takeover, false);
         TransferHandoverForApprove := EmployeeTransfer.Count();
 
         EmployeeTransfer.Reset();
         EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
-        Approval.SetFilter("Document No.", '<>%1', '');
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
-        EmployeeTransfer.SetRange(Handover, true);
+        EmployeeTransfer.SetRange(Takeover, true);
         TransferAcknowledgeForApprove := EmployeeTransfer.Count();
 
         Approval.Reset();
