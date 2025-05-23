@@ -863,6 +863,8 @@ tableextension 50013 "Employee Ext" extends Employee
         // { DataClassification = CustomerContent; }
         // field(50074; "Approver Name"; Text[50])
         // { DataClassification = CustomerContent; }
+        field(50074; "Staff Type"; Enum "Staff Type")
+        { DataClassification = CustomerContent; }
         field(50075; "Service Period"; Integer)
         { DataClassification = CustomerContent; }
         field(50076; "Converted To Emp. Date"; Date)
