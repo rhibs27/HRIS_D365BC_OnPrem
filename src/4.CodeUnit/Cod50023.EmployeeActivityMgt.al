@@ -69,7 +69,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
                 TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
-                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisior");
+                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);

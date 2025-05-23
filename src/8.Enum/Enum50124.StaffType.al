@@ -1,7 +1,7 @@
-enum 50120 "Staff Type"
+enum 50124 "Staff Type"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';
