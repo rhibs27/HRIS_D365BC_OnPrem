@@ -92,6 +92,14 @@ page 50066 "Transfer Card"
                     Editable = false;
                     Visible = not IsOpen;
                 }
+                field("Is Request for Handover"; Rec.Handover)
+                {
+                    Visible = rec.Handover;
+                }
+                field("Is Takeover"; Rec.Takeover)
+                {
+                    Visible = rec.Handover;
+                }
                 field("Transfer Claims"; rec."Transfer Claim")
                 {
                     Caption = 'Transfer Claim';
@@ -711,7 +719,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = (IsHold or IsApproved) and rec.Handover;
+                Visible = (IsApproved) and rec.Takeover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -726,7 +734,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved and rec."Is Transfer Details Added";
+                Visible = IsApproved and rec."Is Transfer Details Added" and not rec.Handover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -741,7 +749,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved and rec.Handover;
+                Visible = IsApproved and rec.Handover and not Rec.Takeover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -1047,13 +1055,13 @@ page 50066 "Transfer Card"
                 end;
         end;
 
-        if Rec."Transfer Type" = Rec."Transfer Type"::"Cross Transfer" then begin
-            ProvinceEdit := true;
-            FunctionalEdit := true;
-            BranchEdit := true;
-            DepartEdit := true;
-            UnitEdit := true;
-        end;
+        // if Rec."Transfer Type" = Rec."Transfer Type"::"Cross Transfer" then begin
+        //     ProvinceEdit := true;
+        //     FunctionalEdit := true;
+        //     BranchEdit := true;
+        //     DepartEdit := true;
+        //     UnitEdit := true;
+        // end;
     end;
 
     procedure GetTransferEditibility()

@@ -1020,20 +1020,20 @@ codeunit 50005 "Transfer Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmAcknowledge, false) then
                 exit;
-        EmpHrTransfer.TestField(Handover, true);
+        EmpHrTransfer.TestField(TakeOver, true);
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
-            Error('You arenot Eligible for Employee Acknowledge');
+            Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::"Temporary" THEN //Santosh Add Service History After Transfe Approved and acknowledge>>
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::Officiating THEN
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         GLSetup.Get;
         //checking for attachment mandatory
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
@@ -1049,7 +1049,7 @@ codeunit 50005 "Transfer Mgt."
                 IncomingDoc.SetRange("No.", EmpHrTransfer."No.");
                 IncomingDoc.SetRange("File Name", '');
                 if IncomingDoc.FindFirst then
-                    Error('Attachmentment filenot Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+                    Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
             until AttachmentSetup.Next = 0;
 
         //  CheckEmployeeActivityApproval(EmpAct);
@@ -1173,7 +1173,7 @@ codeunit 50005 "Transfer Mgt."
             EmpHrTransfer.Validate(Handover, true);
             EmpHrTransfer.Modify();
             if GuiAllowed then
-                Message('Takeover Successfull');
+                Message('Handover Submitted Successfully');
         end;
     end;
 
