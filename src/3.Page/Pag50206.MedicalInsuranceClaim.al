@@ -40,11 +40,6 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
                 }
-                // field("Sub Province Code"; Rec."Sub Province Code")
-                // {
-                //     ToolTip = 'Specifies the value of the Sub Province Code field.';
-                //     ApplicationArea = All;
-                // }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.';
@@ -56,6 +51,35 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field("Status"; Rec."Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field(Remarks; Rec.Remarks)
+                {
+                    // Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    // Editable = IsPending;
+                    // Visible = IsPending;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        // CurrPage.Update();
+                        // RecRef.GetTable(Rec);
+                    end;
+                }
+
                 field("Insurance Status"; Rec."Insurance Status")
                 {
                     ToolTip = 'Specifies the value of the Insurance Status field.';
@@ -104,6 +128,14 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Discharge Date field.';
                     ApplicationArea = All;
                 }
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No."),
+                                "Employee No" = field("Employee No."),
+                                "Document Type" = field(Type);
+                ApplicationArea = all;
             }
         }
     }

@@ -5448,6 +5448,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Attendance Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 658722546 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Update</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Attendance Update - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 3500005727 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cash Risk Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11098,31 +11103,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1411835413 - NamedType 3548723355" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Cannot apply before your employment date.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - NamedType Error1</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - NamedType 4211155011" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Invalid %1</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - NamedType INVALID</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - NamedType 2822857925" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply leave in Present day %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - NamedType LeaveError</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You cannot apply Transfer of Effective Date less than %1.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - NamedType Text001</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - NamedType 3752334001" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Compensatory leave has been restricted in HRMS.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - NamedType Text002</note>
-        </trans-unit>
         <trans-unit id="Table 1411835413 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11132,21 +11112,6 @@
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Approved Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 3967614788 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approver Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Approver Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 1865071614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approver Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Approver Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 868085935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approver Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Approver Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1411835413 - Field 4248640148 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bank Account No.</source>
@@ -11203,11 +11168,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Discharge Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 2619908208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Ecosystem</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Ecosystem - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1411835413 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11242,21 +11202,6 @@
           <source>Father Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Father Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 1732244563 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Final Approver</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Final Approver - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 654625103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Final Approver Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Final Approver Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 3086072818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Final Approver Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Final Approver Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1411835413 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fiscal Year</source>
@@ -11303,11 +11248,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field No. Series - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 144386111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Office Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Office Code - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1411835413 - Field 2574111894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Payroll No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11327,26 +11267,6 @@
           <source>Province Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Province Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 1908046867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Reason Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 2885572998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason Description</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Reason Description - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 1709631354 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommender Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Recommender Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 2717344192 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Recommender Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Recommender Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1411835413 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -11368,21 +11288,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Salary Level Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 3861972777 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screener Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Screener Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 3396419250 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screener ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Screener ID - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1411835413 - Field 3366830696 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screener Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Screener Name - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1411835413 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shortcut Dimension 1 Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11402,6 +11307,11 @@
           <source>Start Date (BS)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Start Date (BS) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1411835413 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Medical Insurance Claim - Field Status - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1411835413 - Field 2859879418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Insurance Claim Amount</source>
@@ -19483,6 +19393,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method UpdateEmploymentDate - NamedType UpdateEmploymentDate</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 462279619 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Approve?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method ApproveRejectMedicalInsurance - NamedType ConfirmApprove</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 462279619 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm Reject?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method ApproveRejectMedicalInsurance - NamedType ConfirmReject</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 128519748 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to confirm cancel resignation request?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method CancelMedicalInsuranceApproval - NamedType ConfirmCancel</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 4155666311 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to confirm screen this document?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method ScreenMedicalInsurance - NamedType ConfirmScreen</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 961280438 - NamedType 1110775650" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to send resignation request?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method SendMedicalInsuranceApproval - NamedType ConfirmResign</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 961280438 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. of leave days must be greater than 0.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method SendMedicalInsuranceApproval - NamedType ErrorNoOfDays</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 961280438 - NamedType 19132630" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation request approval has been sent.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method SendMedicalInsuranceApproval - NamedType ApprovalRequestSent</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 961280438 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No Recommender Code.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoRecommender</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2742640792 - Method 961280438 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No Approver Code.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Insurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoApprover</note>
+        </trans-unit>
         <trans-unit id="Codeunit 3004614702 - Method 726041078 - NamedType 1031791836" size-unit="char" translate="yes" xml:space="preserve">
           <source>Select the CSV Requisition File.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -19657,51 +19612,6 @@
           <source>Document already verfied.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Loan Mgt. - Method VerifyLoan - NamedType AlreadyVerified</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 462279619 - NamedType 1617940983" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Approve?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method ApproveRejectMedicalInsurance - NamedType ConfirmApprove</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 462279619 - NamedType 3117940871" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Confirm Reject?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method ApproveRejectMedicalInsurance - NamedType ConfirmReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 128519748 - NamedType 4236608720" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to confirm cancel resignation request?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method CancelMedicalInsuranceApproval - NamedType ConfirmCancel</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 4155666311 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to confirm screen this document?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method ScreenMedicalInsurance - NamedType ConfirmScreen</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 961280438 - NamedType 1110775650" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send resignation request?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType ConfirmResign</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 961280438 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of leave days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 961280438 - NamedType 19132630" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Resignation request approval has been sent.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType ApprovalRequestSent</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 961280438 - NamedType 3892755782" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Recommender Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoRecommender</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 367847825 - Method 961280438 - NamedType 2636930096" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No Approver Code.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit MedicalInsurance Mgt - Method SendMedicalInsuranceApproval - NamedType NoApprover</note>
         </trans-unit>
         <trans-unit id="Codeunit 621810791 - Method 1432892794 - NamedType 3099596048" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to send request ?</source>
@@ -34688,6 +34598,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Location Incentive Setup - Control Location Incentive 3 - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1411835413 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1411835413 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34723,6 +34638,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Province Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1411835413 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1411835413 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1411835413 - Control 1141149497 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Job Title field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34737,6 +34662,11 @@
           <source>Specifies the value of the Shortcut Dimension 1 Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Shortcut Dimension 1 Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1411835413 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1411835413 - Control 695970231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Child Name field.</source>
@@ -50654,7 +50584,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Contract Renew - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2624977916 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Executes the Medical insurance action.</source>
+          <source>Executes the insurance action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Employee Insurance - Property ToolTip</note>
         </trans-unit>
@@ -50663,10 +50593,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Generate Leave Balance - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Action 2207066755 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+        <trans-unit id="PageExtension 866835530 - Action 2388265397 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Medical insurance action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Medical insurance - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Medical insurance Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 2609406903 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the OT Form action.</source>

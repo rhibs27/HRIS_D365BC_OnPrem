@@ -35,9 +35,9 @@ page 50343 "Medical Insurance Claim Entity"
                 {
                     Editable = true;
                 }
-                field(approverType; Rec."Approver Type") { }
-                field(reasonCode; Rec."Reason Code") { }
-                field(reasonDescription; Rec."Reason Description") { }
+                // field(approverType; Rec."Approver Type") { }
+                // field(reasonCode; Rec."Reason Code") { }
+                // field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
                 field(insuranceClaim; Rec."Insurance Claim") { }
                 field(fatherName; Rec."Father Name") { }
