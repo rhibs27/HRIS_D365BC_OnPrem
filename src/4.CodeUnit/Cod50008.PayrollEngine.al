@@ -255,6 +255,7 @@ codeunit 50008 "Payroll Engine"
         LoanOutstanding.SetRange("Scheme Code", '');
         if LoanOutstanding.FindFirst then
             HLInsAmt := LoanOutstanding.EMI * 12;
+        Employee.CalcFields("Premium of Life Insurance", "Premium of Health Insurance", "Premium Property Insurance");
         InsuranceAmount := Employee."Premium of Life Insurance" + HLInsAmt;
         InsuranceLimit1 := PGSetup."Tax Ex. Life Insurance Amt.";
         if InsuranceAmount > InsuranceLimit1 then
