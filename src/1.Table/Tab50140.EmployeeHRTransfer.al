@@ -630,7 +630,7 @@ table 50140 "Employee/HR Transfer"
         field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"));
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"), status = const("Employee Status"::Active));
 
             trigger OnValidate()
             begin
@@ -688,7 +688,7 @@ table 50140 "Employee/HR Transfer"
         field(84; "Incoming Supervisior"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"));
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"), status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
                 // if "Incoming Supervisior" <> '' then begin //Min 12.13.2022
