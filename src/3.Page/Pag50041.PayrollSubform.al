@@ -872,6 +872,11 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the 36% Slab field.';
                     ApplicationArea = All;
                 }
+                field("39% Slab"; Rec."39% Slab")
+                {
+                    ToolTip = 'Specifies the value of the 40% Slab field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }

@@ -881,6 +881,9 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
+        field(172; "39% Slab"; Decimal)
+        {
+        }
     }
 
     keys

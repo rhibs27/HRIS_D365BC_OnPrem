@@ -37248,6 +37248,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Journal Batches - Control Posting No. Series - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3181578682 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Plan</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3181578682 - NamedType 3114637384" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to import employees in Employee Payroll Adjustment? Existing lines will be deleted.</source>
           <note from="Developer" annotates="general" priority="2"></note>

@@ -482,6 +482,7 @@ table 50026 "Payroll Header"
                     PayrollLine."10% Slab" := 10;
                     PayrollLine."30% Slab" := 0;
                     PayrollLine."36% Slab" := 0;
+                    PayrollLine."39% Slab" := 0;
                     PayrollLine."Assessable Income" := 0;
                     PayrollLine.Modify;
                 until PayrollLine.Next = 0;
