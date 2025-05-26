@@ -100,13 +100,7 @@ table 50143 "Medical Insurance Claim"
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
-                    if Type = Type::"Leave Request" then begin
-                        if EmployeeRec."Confirmation Date" <> 0D then
-                            if "Start Date" < EmployeeRec."Confirmation Date" then
-                                Error('Cannot apply before your confirmation date.');
-                    end;
                 end;
-
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then
@@ -170,35 +164,35 @@ table 50143 "Medical Insurance Claim"
         field(14; Remarks; Text[100])
         {
 
-            trigger OnLookup()
-            begin
-                PAGE.Run(PAGE::"Employee List");
-            end;
+            // trigger OnLookup()
+            // begin
+            //     PAGE.Run(PAGE::"Employee List");
+            // end;
         }
         field(15; "User ID"; Text[50])
         {
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; Enum "Employee Act. Approval Status")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
             trigger OnValidate()
             begin
-                if "Approval Status" = "Approval Status"::Approved then
-                    if Type = Type::Resignation then begin
-                        EmployeeRec.Get("Employee No.");
-                        // EmployeeRec.Validate("Resignation Date", "HR Proposed Date");
-                        // EmployeeRec.VALIDATE(Status,EmployeeRec.Status::Inactive);
-                        EmployeeRec.Modify;
-                    end;
-                if "Approval Status" = "Approval Status"::Screened then begin
-                    Validate("Screener Date", Today);
-                    Validate("Screener ID", HRMgt.GetEmployeeNo);
-                end;
-                if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                    Validate("Final Approver Date", Today);
-                    Validate("Final Approver", HRMgt.GetEmployeeNo);
-                end;
+                // if "Approval Status" = "Approval Status"::Approved then
+                //     if Type = Type::Resignation then begin
+                //         EmployeeRec.Get("Employee No.");
+                //         // EmployeeRec.Validate("Resignation Date", "HR Proposed Date");
+                //         // EmployeeRec.VALIDATE(Status,EmployeeRec.Status::Inactive);
+                //         EmployeeRec.Modify;
+                //     end;
+                // if "Approval Status" = "Approval Status"::Screened then begin
+                //     Validate("Screener Date", Today);
+                //     Validate("Screener ID", HRMgt.GetEmployeeNo);
+                // end;
+                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
+                //     Validate("Final Approver Date", Today);
+                //     Validate("Final Approver", HRMgt.GetEmployeeNo);
+                // end;
             end;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
