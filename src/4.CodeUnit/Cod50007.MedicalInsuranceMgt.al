@@ -5,6 +5,9 @@ codeunit 50007 "Insurance Mgt"
         //EmployeeAct: Record "Employee Activity";
         MedicalInsurance: Record "Medical Insurance Claim";
     begin
+        Employee.Get(EmployeeCode);
+        if Employee.Status <> Employee.Status::Active then
+            Error('Employee is not active.');
         MedicalInsurance.Reset;
         MedicalInsurance.SetRange("Employee No.", EmployeeCode);
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");

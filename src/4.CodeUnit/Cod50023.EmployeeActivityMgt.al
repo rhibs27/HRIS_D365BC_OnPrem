@@ -85,8 +85,11 @@ codeunit 50023 EmployeeActivityMgt
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
-            until TransferEmployeeJournal.next() = 0;
-        Message('Transfer is posted');
+            until TransferEmployeeJournal.next() = 0
+        else
+            Error('There is no Document to post');
+        Message('Transfer is posted')
+
     end;
 
     procedure PostLeaveJournal(EmpActNo: Code[20])
@@ -139,15 +142,17 @@ codeunit 50023 EmployeeActivityMgt
         if Reject then begin
             EmployeeActJournal.TestField("Approval Status", EmployeeActJournal."Approval Status"::Pending);
             ApproverMgt.CheckApprover(EmployeeActJournal."Emp Act. No");
-            Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-            Approver.Validate("Rejected By", HRMgt.GetEmpName());
-            EmployeeActJournal.ModifyAll("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            Approver.Modify();
+            // Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
+            // Approver.Validate("Rejected By", HRMgt.GetEmpName());
+            EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
+            EmployeeActJournal.Modify();
+            // EmployeeActJournal.Modify("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
+            // Approver.Modify();
             // Get the Rejected Status from Status Master
             StatusMaster.Reset();
             StatusMaster.SetRange(Rejected, true);
             if StatusMaster.FindFirst() then begin
-                EmployeeActJournal.ModifyAll(Status, StatusMaster.Status);
+                EmployeeActJournal.Validate(Status, StatusMaster.Status);
             end
             else
                 Error('Rejected Status not Found On Status Master Setup');
