@@ -1,10 +1,10 @@
-query 50009 "Incoming Transfer Query"
+query 50022 "Outgoing Transfer Query"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
     APIVersion = 'v2.0';
-    EntityName = 'incomingTransferApproval';
-    EntitySetName = 'incomingTransferApprovalEntity';
+    EntityName = 'outgoingTransferApproval';
+    EntitySetName = 'outgoingTransferApprovalEntity';
     QueryType = API;
     OrderBy = descending(no);
 
@@ -14,12 +14,8 @@ query 50009 "Incoming Transfer Query"
         {
             //general
             column(no; "No.") { }
-            column(type; Type)
-            {
-            }
-            column(employeeNo; "Employee No.")
-            {
-            }
+            column(type; Type) { }
+            column(employeeNo; "Employee No.") { }
             column(employeeName; "Employee Name") { }
             column(salaryLevel; "Salary Level Code") { }
             column(startDate; "Start Date") { }
@@ -30,15 +26,9 @@ query 50009 "Incoming Transfer Query"
             column(requestedDate; "Requested Date") { }
             column(fiscalYear; "Fiscal Year") { }
             column(approvalStatus; "Approval Status") { }
-            column(status; Status)
-            {
-            }
-            column(isTransferDetailsAdded; "Is Transfer Details Added")
-            {
-            }
-            column(transferProposeDate; "Transfer Propose Date")
-            {
-            }
+            column(status; Status) { }
+            column(isTransferDetailsAdded; "Is Transfer Details Added") { }
+            column(transferProposeDate; "Transfer Propose Date") { }
             column(reasonCode; "Reason Code") { }
             column(reasonDescription; "Reason Description") { }
             column(reasonForTransfer; "Reason for Transfer") { }
@@ -51,16 +41,17 @@ query 50009 "Incoming Transfer Query"
             //current
             column(department; Department) { }
             column(departmentName; "Department Name") { }
-            column(branchCode; "From Branch") { }
+            column(branchCode; "Shortcut Dimension 1 Code") { }
             column(branchName; "Branch Name") { }
             column(functionalTitle; "Functional Title") { }
             column(functionalTitleDesc; "Functional Title Desc") { }
-            column(extensionCounterName; "Extension Counter Name") { }
-            column(unitName; "Unit Name") { }
             column(deputationOn; "Deputation On") { }
             column(extensionCounterCode; "Extension Counter Code") { }
+            column(unitName; "Unit Name") { }
+            column(extensionCounterName; "Extension Counter Name") { }
             // propose
-            column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
+            // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
+            column(toBranch; "To Branch") { }
             column(functionalTitleTo; "Functional Title (To)") { }
             column(functionalDescTo; "Functional Desc To") { }
             column(provinceCodeTo; "Province Code (To)") { }
@@ -68,30 +59,18 @@ query 50009 "Incoming Transfer Query"
             column(unitNameTo; "Unit Name To") { }
             column(departmentCodeTo; "Department Code (To)") { }
             column(departmentNameTo; "Department Name To") { }
-            column(extensionNameTo; "Extension Name To")
-            {
-            }
+            column(branchNameTo; "Branch Name To") { }
             column(extensionCounterTo; "Extension Counter (To)") { }
+            column(extensionNameTo; "Extension Name To") { }
             column(deputationOnTo; "Deputation On (To)") { }
             column(transferEffectiveDate; "Transfer Effective Date") { }
             column(incomingSupervisior; "Incoming Supervisior") { }
             column(incomingSupervisiorName; "Incoming Supervisior Name") { }
-            column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person")
-            {
-            }
+            column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person") { }
             column(outgoingReportingPersonName; "Outgoing Reporting Person Name") { }
-
-            // remark and approver
-            // column(reviewer; Reviewer) { }
-            // column(reviewerName; "Reviewer Name") { }
             column(dateofJoiningOfTransfer; "Date of Joining Of Transfer") { }
-            // column(reviewerRemarks; "Reviewer Remarks") { }
             column(description; Description) { }
-
             column(transferRemarks; "Transfer Remarks") { }
-            // column(transferClaimReviewer; "Transfer Claim Reviewer") { }
-            // column(transferClaimRecommender; "Transfer Claim Recommender") { }
-            // column(transferClaimReviewerName; "Transfer Claim Reviewer Name") { }
             column(relocationAllow; "Relocation Allow.") { }
             column(outstationDiscomfortAllow; "Outstation/Discomfort Allow.") { }
             column(BMAccomodationAllow; "BM Accomodation Allow.") { }
@@ -100,20 +79,16 @@ query 50009 "Incoming Transfer Query"
             column(relocationDistance; "Relocation Distance") { }
             column(outstationDistance; "Outstation Distance") { }
             column(BMAFDistance; "BMAF Distance") { }
-            column(transferClaim; "Transfer Claim")
-            {
-            }
+            column(transferClaim; "Transfer Claim") { }
             column(handover; Handover) { }
             column(takeover; Takeover) { }
-            // column(transferAllowanceApproval; "Transfer Allowance Approval") { }
         }
-
     }
 
     trigger OnBeforeOpen()
     var
         HrMgt: Codeunit "HR Mgt.";
     begin
-        CurrQuery.SetRange(incomingSupervisior, HrMgt.GetEmployeeNo());
+        CurrQuery.SetRange(outgoingBranchRepPerson, HrMgt.GetEmployeeNo());
     end;
 }

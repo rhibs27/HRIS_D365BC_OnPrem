@@ -453,6 +453,90 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Insert(true);
     end;
 
+    procedure GetOvertimeDetails(Var EmployeeOvertimeJournal: Record "Employee Activity Journal")
+    var
+        WorkShift: Record "Employee Work Shift";
+        StartTime: Time;
+        EndTime: Time;
+        StandardWorkingHrs: Decimal;
+        ActualOTHrs: Decimal;
+        RejectionRemarks: Text;
+        MorningOTHrs: Decimal;
+        EveningOTHrs: Decimal;
+        CheckInDifference: Decimal;
+        TotalOTHrs: Decimal;
+    begin
+        Employee.Get(EmployeeOvertimeJournal."Employee No.");
+        if WorkShift.get(Employee."Employee Work Shift") then begin
+            Workshift.TestField("Start Time");
+            Workshift.TestField("End Time");
+            Workshift.TestField("Friday End Time");
+            Workshift.TestField("Winter Start Date");
+            Workshift.TestField("Winter End Date");
+            Workshift.TestField("Winter End Time");
+            StartTime := 0T;
+            EndTime := 0T;
+            StandardWorkingHrs := 0;
+            StartTime := WorkShift."Start Time";
+        end else
+            Error('Employee WorkShift not Found');
+
+        if HRMgt.IsWinter(EmployeeOvertimeJournal."Start Date", Workshift) then begin
+            if HRMgt.IsFriday(EmployeeOvertimeJournal."Start Date") then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."Winter End Time";
+        end else begin
+            if HRMgt.IsFriday(EmployeeOvertimeJournal."Start Date") then
+                EndTime := WorkShift."Friday End Time"
+            else
+                EndTime := WorkShift."End Time";
+        end;
+        StandardWorkingHrs := (EndTime - StartTime) / 3600000;
+
+        HRSetup.Get;
+        HRSetup.TestField("OT eligible hour");
+        MorningOTHrs := 0;
+        EveningOTHrs := 0;
+        TotalOTHrs := 0;
+        CheckInDifference := 0;
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeOvertimeJournal."Employee No.");
+        EmployeeAttendanceActivity.SetRange("Attendance Date", EmployeeOvertimeJournal."Start Date");
+        if EmployeeAttendanceActivity.FindFirst then begin
+            if (EmployeeAttendanceActivity."Check In Time" = 0T) or (EmployeeAttendanceActivity."Check Out Time" = 0T) then begin
+                Error('Check in or Check out not found.');
+            end;
+            if LeaveMgt.GetNonWokingDays(EmployeeOvertimeJournal."Start Date", EmployeeOvertimeJournal."Start Date", EmployeeOvertimeJournal."Employee No.") = 0 then begin
+                if (EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time") < StandardWorkingHrs then begin
+                    Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));
+                end;
+                if (EmployeeAttendanceActivity."Check In Time" <> 0T) and (EmployeeAttendanceActivity."Check In Time" <= StartTime) then
+                    MorningOTHrs := Round((StartTime - EmployeeAttendanceActivity."Check In Time") / 3600000, 0.01, '<');
+
+                if MorningOTHrs < HRSetup."OT eligible hour" then
+                    MorningOTHrs := 0;
+
+                if (EmployeeAttendanceActivity."Check Out Time" <> 0T) and (EmployeeAttendanceActivity."Check Out Time" > EndTime) then
+                    EveningOTHrs := Round((EmployeeAttendanceActivity."Check Out Time" - EndTime) / 3600000, 0.01, '<');
+
+                if EmployeeAttendanceActivity."Check In Time" > StartTime then begin
+                    CheckInDifference := Round((EmployeeAttendanceActivity."Check In Time" - StartTime) / 3600000, 0.01, '<');
+                    EveningOTHrs -= CheckInDifference;
+                end;
+                if EveningOTHrs < HRSetup."OT eligible hour" then
+                    EveningOTHrs := 0;
+                EmployeeOvertimeJournal."Morning OT Hours" := MorningOTHrs;
+                EmployeeOvertimeJournal."Evening OT Hours" := EveningOTHrs;
+                EmployeeOvertimeJournal."Total OT Hours" := MorningOTHrs + EveningOTHrs;
+            end else begin
+                EmployeeOvertimeJournal."Total OT Hours" := Round((EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time") / 3600000, 0.01, '<');
+            end;
+        end else begin
+            Error('Attendance Log not found.');
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
     begin

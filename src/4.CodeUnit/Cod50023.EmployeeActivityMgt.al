@@ -60,6 +60,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
+                TransferRequest.Validate("Deputation On (To)", TransferEmployeeJournal."Deputation On (To)");
                 TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
                 TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
                 TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
@@ -69,11 +70,12 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
                 TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
-                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisior");
+                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
+                TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
-                TransferRequest.Validate("Is Transfer Details Added", false);
+                TransferRequest.Validate("Is Transfer Details Added", true);
                 TransferRequest.Validate("Approved Date", Today);
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);

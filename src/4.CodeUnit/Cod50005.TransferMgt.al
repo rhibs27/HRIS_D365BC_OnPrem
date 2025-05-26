@@ -16,8 +16,7 @@ codeunit 50005 "Transfer Mgt."
         // Employee.Get(EmpCode);
         // Employee.TestField("Confirmation Date");
         // if Today > CalcDate('<2Y>', Employee."Confirmation Date") then
-        //     Error(RequestError); commented for testing Santosh
-
+        //     Error(RequestError); commented for testing Santos
         // HRSetup.Get;
         // Employee1.Reset;
         // Employee1.SetRange("Functional Title", HRSetup."HR Head Functional Title");
@@ -171,7 +170,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -311,10 +310,11 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Transfer Effective Date");
         EmpHrTransfer.TestField("Functional Title (To)");
         EmpHrTransfer.TestField("Deputation On (To)");
-        EmpHrTransfer.TestField(Description);
+        if EmpHrTransfer.Type = EmpHrTransfer.Type::"Employee Transfer" then
+            EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
-        EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); //Min
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");
@@ -1021,20 +1021,20 @@ codeunit 50005 "Transfer Mgt."
         if GuiAllowed then
             if not Confirm(ConfirmAcknowledge, false) then
                 exit;
-        EmpHrTransfer.TestField(Handover, true);
+        EmpHrTransfer.TestField(TakeOver, true);
         if not (EmpHrTransfer."Approval Status" in [EmpHrTransfer."Approval Status"::Approved, EmpHrTransfer."Approval Status"::"On Hold"]) and not EmpHrTransfer.Handover then
             Error('Approval Status must be approved or on hold');
         if EmpHrTransfer."Incoming Supervisior" <> HRMgt.GetEmployeeNo then
-            Error('You arenot Eligible for Employee Acknowledge');
+            Error('You are not Eligible for Employee Acknowledge');
         EmpHrTransfer.TestField("Date of Joining Of Transfer");
         EmpHrTransfer.TestField("Transfer Remarks");
         EmpHrTransfer.Validate("Acknowledged Date", Today);
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::"Temporary" THEN //Santosh Add Service History After Transfe Approved and acknowledge>>
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Temporary Deputation", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::Officiating THEN
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::"Officiating Arrangement", EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         IF EmpHrTransfer."Transfer Category" = "Transfer Category"::General THEN
-            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."Employee No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
+            ServiceHistoryCode := ServiceHistoryMgt.AddToServiceHistory(EmpHrTransfer."No.", ServiceHistory."Service Event"::Transfer, EmpHrTransfer.Remarks, EmpHrTransfer."Date of Joining Of Transfer");
         GLSetup.Get;
         //checking for attachment mandatory
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
@@ -1050,7 +1050,7 @@ codeunit 50005 "Transfer Mgt."
                 IncomingDoc.SetRange("No.", EmpHrTransfer."No.");
                 IncomingDoc.SetRange("File Name", '');
                 if IncomingDoc.FindFirst then
-                    Error('Attachmentment filenot Uploaded for attachment %1', AttachmentSetup."Attachment Code");
+                    Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
             until AttachmentSetup.Next = 0;
 
         //  CheckEmployeeActivityApproval(EmpAct);
@@ -1157,16 +1157,41 @@ codeunit 50005 "Transfer Mgt."
 
     procedure HandoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
     var
+        IncomingDocument: Record "Incoming Document";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
-        if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
-            Error('You arenot Eligible Takeover')
+        IncomingDocument.Reset();
+        IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
+        if IncomingDocument.FindSet() then
+            repeat
+                if IncomingDocument."File Name" = '' then
+                    Error('Upload Attachment');
+            until IncomingDocument.Next() = 0;
+        if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
         else begin
             EmpHrTransfer.Validate(Handover, true);
             EmpHrTransfer.Modify();
-            Message('Takeover Successfull');
+            if GuiAllowed then
+                Message('Handover Submitted Successfully');
         end;
+    end;
+
+    procedure TakeoverApprove(var EmpHrTransfer: Record "Employee/HR Transfer")
+    var
+        IncomingDocument: Record "Incoming Document";
+    begin
+        EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
+        EmpHrTransfer.TestField(Handover, true);
+        if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
+            Error('You arenot Eligible')
+        else begin
+            EmpHrTransfer.Validate(Takeover, true);
+            EmpHrTransfer.Modify();
+            if GuiAllowed then
+                Message('Takeover Successfull');
+        end
     end;
 
     var

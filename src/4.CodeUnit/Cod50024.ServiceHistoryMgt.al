@@ -8,6 +8,7 @@ codeunit 50024 "Service History Mgt"
     var
         EmpServiceHis: Record "Employee Service History";
         Candidate: Record Candidate;
+        EmployeeTransfer: Record "Employee/HR Transfer";
     begin
         case ServiceEvent of
             ServiceEvent::Appointment:
@@ -27,7 +28,7 @@ codeunit 50024 "Service History Mgt"
             //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
-            ServiceEvent::"Internal Appointment", ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Back From Deputation", ServiceEvent::"Officiating Arrangement":
+            ServiceEvent::"Internal Appointment", ServiceEvent::"Back From Deputation":
                 begin
                     Employee.Get(DocNo);
                     EmpServiceHis.Init;
@@ -45,7 +46,31 @@ codeunit 50024 "Service History Mgt"
                         EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
                     EmpServiceHis.Insert(true);
                 end;
-
+            ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Officiating Arrangement":
+                begin
+                    EmployeeTransfer.Get(DocNo);
+                    Employee.get(EmployeeTransfer."Employee No.");
+                    EmpServiceHis.Init;
+                    EmpServiceHis.Validate("Service Event", ServiceEvent);
+                    EmpServiceHis.Validate("Employee No.", EmployeeTransfer."Employee No.");
+                    EmpServiceHis.Validate("Functional Title (From)", Employee."Functional Title");
+                    EmpServiceHis.Validate("Salary Level (From)", Employee."Salary Level");
+                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
+                    EmpServiceHis.Validate("Deputation On(From)", Employee."Deputation on");
+                    EmpServiceHis.Validate("Deputation Code (From)", Employee."Deputation On Code");
+                    EmpServiceHis.Validate("Deputation Value (From)", ExitTransferDeputationWiseValue(EmpServiceHis."Deputation On(From)", EmpServiceHis."Employee No."));
+                    EmpServiceHis.Validate(Remarks, RemarksVar);
+                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    EmpServiceHis.Validate("Functional Title (To)", EmployeeTransfer."Functional Title (To)");
+                    EmpServiceHis.Validate("Deputation On (To)", EmployeeTransfer."Deputation On (To)");
+                    EmpServiceHis.Validate("Deputation Code (To)", EmployeeTransfer."Deputation on Code To");
+                    // EmpServiceHis.Validate("Deputation Value (to)", ExitTransferDeputationWiseValue(EmpServiceHis."Deputation Code (To)", EmpServiceHis."Employee No."));
+                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    EmpServiceHis.Validate("Salary Grade (From)", Employee."Salary Grade");
+                    if ServiceEvent <> ServiceEvent::"Internal Appointment" then
+                        EmpServiceHis.Validate("Salary Grade (To)", Employee."Salary Grade");
+                    EmpServiceHis.Insert(true);
+                end;
         end;
         exit(EmpServiceHis."Service History Code");
     end;

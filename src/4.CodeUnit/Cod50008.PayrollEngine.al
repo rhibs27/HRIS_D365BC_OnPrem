@@ -3769,6 +3769,8 @@ codeunit 50008 "Payroll Engine"
                 PayrollLine."30% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
             5:
                 PayrollLine."36% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+            6:
+                PayrollLine."39% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
         end;
     end;
 

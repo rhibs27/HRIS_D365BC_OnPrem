@@ -156,6 +156,8 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
+                if "Branch Code" <> xRec."Branch Code" then
+                    Clear("Branch Name");
                 Validate("Global Dimension 1 Code", "Branch Code");
                 if "Deputation on" <> "Deputation on"::"Extension Counter" then
                     ValidateDeputationOn();
@@ -246,6 +248,8 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
+                if "Department Code" <> xRec."Department Code" then
+                    Clear("Department Name");
                 if "Deputation on" <> "Deputation on"::Unit then
                     ValidateDeputationOn();
                 // TestField("Deputation on");
@@ -870,6 +874,8 @@ tableextension 50013 "Employee Ext" extends Employee
         // { DataClassification = CustomerContent; }
         // field(50074; "Approver Name"; Text[50])
         // { DataClassification = CustomerContent; }
+        field(50074; "Staff Type"; Enum "Staff Type")
+        { DataClassification = CustomerContent; }
         field(50075; "Service Period"; Integer)
         { DataClassification = CustomerContent; }
         field(50076; "Converted To Emp. Date"; Date)
@@ -1797,8 +1803,7 @@ tableextension 50013 "Employee Ext" extends Employee
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
                     Validate("Deputation On Code", OrganizationStructureList.Code);
-                    Validate("Province Code", OrganizationStructureList."Province Code");
-                    Validate("Province Name", OrganizationStructureList."Province Name");
+                    Validate("Province Name", OrganizationStructureList."Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                 end;
@@ -1946,6 +1951,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Department Name");
         Clear("Unit Name");
         Clear("Branch Name");
+        Clear("Branch Code");
         Clear("Posting Region");
         Clear("Inside/Outside Valley");
         Clear("Deputation On Code");
