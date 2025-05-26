@@ -141,7 +141,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ScreenMedicalInsurance(Rec);
+                    InsuranceMgt.ScreenMedicalInsurance(Rec);
                     CurrPage.Close();
                 end;
             }
@@ -183,7 +183,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ApproveRejectMedicalInsurance(true, Rec);
+                    InsuranceMgt.ApproveRejectMedicalInsurance(true, Rec);
                 end;
             }
             action("Rejected by Insurance Company")
@@ -199,7 +199,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ApproveRejectMedicalInsurance(false, Rec);
+                    InsuranceMgt.ApproveRejectMedicalInsurance(false, Rec);
                 end;
             }
         }
@@ -212,7 +212,7 @@ page 50206 "Medical Insurance Claim"
 
     var
         HRMgt: Codeunit "HR Mgt.";
-        MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        InsuranceMgt: Codeunit "Insurance Mgt";
         ApprovalSent: Boolean;
         Screen: Boolean;
         Screened: Boolean;

@@ -1,4 +1,4 @@
-codeunit 50007 "MedicalInsurance Mgt"
+codeunit 50007 "Insurance Mgt"
 {
     procedure OpenMedicalInsuranePage(EmployeeCode: Code[20])
     var
@@ -8,7 +8,7 @@ codeunit 50007 "MedicalInsurance Mgt"
         MedicalInsurance.Reset;
         MedicalInsurance.SetRange("Employee No.", EmployeeCode);
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
-        MedicalInsurance.SetFilter("Approval Status", '<>%1', MedicalInsurance."Approval Status"::"Pending Approval");
+        MedicalInsurance.SetFilter("Approval Status", '<>%1', MedicalInsurance."Approval Status"::"Pending");
         if not MedicalInsurance.FindFirst then begin
             MedicalInsurance.Init;
             MedicalInsurance.Validate(Type, MedicalInsurance.Type::"Medical Insurance Claim");
@@ -196,7 +196,7 @@ codeunit 50007 "MedicalInsurance Mgt"
         // Clear Approval line 
         Approval.Reset();
         Approval.SetRange("Document No.", '');
-        Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
+        Approval.setRange("Document Type", Approval."Document Type"::Insurance);
         Approval.SetRange("Employee No", EmployeeCode);
         Approval.DeleteAll();
 
@@ -205,7 +205,7 @@ codeunit 50007 "MedicalInsurance Mgt"
         EmployeeInsurance.SetRange("Employee No.", EmployeeCode);
         EmployeeInsurance.SetRange("Approval Status", EmployeeInsurance."Approval Status"::open);
         if EmployeeInsurance.Findfirst() then begin
-            Message('This Employee Already has open Leave Request.Click Ok to Open');
+            Message('This Employee Already has open Insurance Request.Click Ok to Open');
             PAGE.Run(PAGE::"Employee Insurance Card", EmployeeInsurance)
         end else begin
             EmployeeInsurance1.Init;

@@ -1309,7 +1309,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE
                     end;
                 }
-                action("Medical insurance")
+                action("Medical insurance Claim")
                 {
                     ApplicationArea = All;
                     Promoted = true;
@@ -1320,7 +1320,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Medical insurance action.';
                     trigger OnAction()
                     begin
-                        MedicalInsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
+                        InsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
                     end;
                 }
                 action("Employee Insurance")
@@ -1331,10 +1331,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = List;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Medical insurance action.';
+                    ToolTip = 'Executes the insurance action.';
                     trigger OnAction()
                     begin
-                        //                        MedicalInsuranceMgt.OpenEmployeeInsurance(Rec."No.");
+                        InsuranceMgt.OpenEmployeeInsurance(Rec."No.");
                     end;
                 }
                 action("Bulk Cash")
@@ -2043,7 +2043,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
-        MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        InsuranceMgt: Codeunit "Insurance Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;
