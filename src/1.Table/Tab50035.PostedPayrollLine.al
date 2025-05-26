@@ -703,6 +703,9 @@ table 50035 "Posted Payroll Line"
         field(180; "PF Posted 2"; Boolean)
         {
         }
+        field(172; "39% Slab"; Decimal)
+        {
+        }
     }
 
     keys

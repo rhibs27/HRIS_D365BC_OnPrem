@@ -15323,6 +15323,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field 36% Slab - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2386461917 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>39% Slab</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field 39% Slab - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 836412028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Absent Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40902,6 +40907,11 @@
           <source>Specifies the value of the 36% Slab field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control 36% Slab - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3668632682 - Control 2386461917 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the 39% Slab field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control 39% Slab - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 836412028 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Absent Days field.</source>
