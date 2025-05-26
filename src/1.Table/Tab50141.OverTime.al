@@ -419,12 +419,12 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
+        // field(34; Ecosystem; Code[20])
+        // {
+        // }
+        // field(35; "Office Code"; Code[20])
+        // {
+        // }
         field(36; "Rejection Remarks"; Text[100])
         {
         }
@@ -671,44 +671,9 @@ table 50141 OverTime
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
         OverTimeMgt: Codeunit "OverTime Mgt";
-        // HRMgt: Codeunit "HR Mgt.";
-        // LeaveTypeVar: Record "Leave Type Setup";
-        // WorkShift: Record "Employee Work Shift";
-        // SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee/HR Transfer";
-        // SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
-        // INVALID: Label 'Invalid %1';
-        // EmpRelative: Record "Employee Relative";
-        // SystemAccessControl: Record "System Access Control";
-        // AccessControlLine: Record "Access Control Request Line";
-        // ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // DepartVar: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
-        Standardtext: Record "Standard Text";
-        // BranchNameTo: Text;
-        // DepartmentNameTo: Text;
-        // ProvinceNameTo: Text;
-        // SubProvinceNameTo: Text;
-        // ExtensionNameTo: Text;
-        // UnitNameTo: Text;
-        // BranchName: Text;
-        // DepartmentName: Text;
-        // ProvinceName: Text;
-        // SubProvinceName: Text;
-        // ExtensionName: Text;
-        // UnitName: Text;
-        // Overtime: Record OverTime;
-        // FunctionalTitle: Record "Functional Title";
-        // FunctionalDescFrom: Text;
-        // FunctionalDescTo: Text;
-        // EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        // LeaveError: Label 'You cannot apply leave in Present day %1.';
-        // EmpActivityRec: Record "Employee Activity";
-        // Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Text002: Label 'Compensatory leave has been restricted in HRMS.';
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         PayrollGenSetup: Record "Payroll General Setup";
@@ -717,41 +682,5 @@ table 50141 OverTime
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
         AttendanceSetup: Record "Attendance Setup";
-    //EncashmentPeriodSetup: Record "OT Encashment Setup";
-    //Error1: Label 'Cannot apply before your employment date.';
-
-    // procedure ReopenDocument()
-    // var
-    //     EmpActFilterPageBuilder: FilterPageBuilder;
-    //     RecommenderCode: Code[20];
-    //     ApproverCode: Code[20];
-    // begin
-    //     if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Open] then
-    //         Error('You cannot change Recommender and Approver of already open or approved request.');
-
-    //     if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
-    //         exit;
-
-    //     EmpActFilterPageBuilder.AddRecord('Employee Activity', Rec);
-    //     EmpActFilterPageBuilder.ADdField('Employee Activity', "Recommender Code");
-    //     EmpActFilterPageBuilder.ADdField('Employee Activity', "Approver Code");
-    //     EmpActFilterPageBuilder.RunModal;
-    //     Overtime.SetView(EmpActFilterPageBuilder.GetView('Employee Activity'));
-    //     RecommenderCode := Overtime.GetFilter("Recommender Code");
-    //     ApproverCode := Overtime.GetFilter("Approver Code");
-
-    //     if (RecommenderCode = '') and (ApproverCode = '') then
-    //         Error('Please select either recommender or approver of the request.');
-
-    //     if RecommenderCode <> '' then begin
-    //         TestField("Approver Type", "Approver Type"::"With Recommendation");
-    //         Validate("Recommender Code", RecommenderCode);
-    //     end;
-    //     if ApproverCode <> '' then
-    //         Validate("Approver Code", ApproverCode);
-    //     Modify;
-
-    //     Message('The request has been update sucessfully.');
-    // end;
 
 }

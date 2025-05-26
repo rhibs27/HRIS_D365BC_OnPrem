@@ -110,11 +110,12 @@ table 50124 Leave
                     Validate("Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Start Date (BS)");
-                if "Start Date" <> xRec."Start Date" then begin
-                    Clear("End Date");
-                    Clear("End Date (BS)");
-                    // Validate("No. of Days", 0);
-                end;
+                if GuiAllowed then
+                    if "Start Date" <> xRec."Start Date" then begin
+                        Clear("End Date");
+                        Clear("End Date (BS)");
+                        // Validate("No. of Days", 0);
+                    end;
             end;
         }
         field(8; "End Date"; Date)
@@ -469,26 +470,28 @@ table 50124 Leave
 
             trigger OnValidate()
             begin
-                if "Leave Code" <> xRec."Leave Code" then begin
-                    Clear("For Death Of");
-                    if GuiAllowed then
-                        leaveMgt.GenerateLeaveAttachment(Rec);
-                    if LeaveTypeVar.Get("Leave Code") then begin
-                        Validate("Leave Description", LeaveTypeVar.Description);
-                        Validate("Pay Type", LeaveTypeVar."Pay Type");
-                        Clear("Start Date");
-                        Clear("End Date");
-                        Clear("No. of Days");
-                    end else begin
-                        Clear("Leave Description");
-                        Clear("Pay Type");
+                if GuiAllowed then begin
+                    if "Leave Code" <> xRec."Leave Code" then begin
+                        Clear("For Death Of");
+                        if GuiAllowed then
+                            leaveMgt.GenerateLeaveAttachment(Rec);
+                        if LeaveTypeVar.Get("Leave Code") then begin
+                            Validate("Leave Description", LeaveTypeVar.Description);
+                            Validate("Pay Type", LeaveTypeVar."Pay Type");
+                            Clear("Start Date");
+                            Clear("End Date");
+                            Clear("No. of Days");
+                        end else begin
+                            Clear("Leave Description");
+                            Clear("Pay Type");
+                        end;
+                        Clear("Compensatory Date");
+                        Clear("Child's Gender");
+                        // Clear("Contact No."); //nilesh
                     end;
-                    Clear("Compensatory Date");
-                    Clear("Child's Gender");
-                    // Clear("Contact No."); //nilesh
-                end;
-                /*IF "Leave Code" = 'COMPENSATORY' THEN //Min 8.7.2022
-                  ERROR(Text002);*/
+                end else
+                    if LeaveTypeVar.Get("Leave Code") then
+                        Validate("Leave Description", LeaveTypeVar.Description)
 
             end;
         }
@@ -498,7 +501,6 @@ table 50124 Leave
         }
         field(53; "Leave Type"; Enum "Leave Type")
         {
-
             trigger OnValidate()
             begin
                 WorkShift.Get("Employee Work Shift");
@@ -602,44 +604,9 @@ table 50124 Leave
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        //Leave: Record "Leave";
-        //SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
-        //INVALID: Label 'Invalid %1';
-        //EmpRelative: Record "Employee Relative";
-        //SystemAccessControl: Record "System Access Control";
-        //AccessControlLine: Record "Access Control Request Line";
-        //ProvinceVar: Record Province;
-        //SubProvinceVar: Record "Sub Province";
-        //DepartVar: Record Department;
-        //EmpHie: Record "Employee Hierarchy Master";
-        //Standardtext: Record "Standard Text";
-        //BranchNameTo: Text;
-        //DepartmentNameTo: Text;
-        //ProvinceNameTo: Text;
-        //SubProvinceNameTo: Text;
-        //ExtensionNameTo: Text;
-        //UnitNameTo: Text;
-        //BranchName: Text;
-        //DepartmentName: Text;
-        //ProvinceName: Text;
-        //SubProvinceName: Text;
-        //ExtensionName: Text;
-        //UnitName: Text;
-        //FunctionalTitle: Record "Functional Title";
-        //FunctionalDescFrom: Text;
-        //FunctionalDescTo: Text;
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveError: Label 'You cannot apply leave in Present day %1.';
-        //EmpActivityRec: Record "Employee Activity";
-        //Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
-        //Text002: Label 'Compensatory leave has been restricted in HRMS.';
-        //EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        //PayrollGenSetup: Record "Payroll General Setup";
-        //SalaryLevelRec: Record "Salary Level";
-        //SalaryGrade: Record "Salary Grade";
-        //EncashmentPeriodSetup: Record "OT Encashment Setup";
-        //Error1: Label 'Cannot apply before your employment date.';
         leaveMgt: Codeunit "Leave Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalEntry: Record "Approval HRMS";
@@ -648,6 +615,12 @@ table 50124 Leave
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
+        if not GuiAllowed then begin
+            "Employee No." := HRMgt.GetEmployeeNo();
+            Type := type::"Leave Request";
+            "User ID" := userID;
+            "Approval Status" := "Approval Status"::Pending;
+        end;
         HRSetup.Get;
         if "No." = '' then
             if Cancelled then begin
@@ -664,7 +637,9 @@ table 50124 Leave
                         end;
                 end;
             end;
-
+        if not GuiAllowed then begin
+            leaveMgt.ApplyForLeave(Rec)
+        end;
     end;
 
     trigger OnDelete()

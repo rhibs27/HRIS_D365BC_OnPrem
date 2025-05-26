@@ -16,6 +16,14 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                 }
+                field("Transfer Type"; Rec."Transfer Type")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
+                }
+                field("Transfer Category"; Rec."Transfer Category")
+                {
+                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
+                }
                 field("Deputation On (To)"; Rec."Deputation On (To)")
                 {
                     ToolTip = 'Specifies the value of the Deputation On (To) field.', Comment = '%';
@@ -49,38 +57,35 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                     // Editable = false;
+                    Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)
                 {
+                    Visible = StatusView;
                 }
                 field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
                 }
-
-                field("Transfer Type"; Rec."Transfer Type")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
-                }
-                field("Transfer Category"; Rec."Transfer Category")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
-                }
                 field("Transfer Effective Date"; Rec."Transfer Effective Date")
                 {
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
                 }
-                field("Incoming Supervisior"; Rec."Incoming Supervisior")
+                field("Incoming Supervisor"; Rec."Incoming Supervisor")
                 {
-                    ToolTip = 'Specifies the value of the Incoming Supervisior field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Incoming Supervisor field.', Comment = '%';
                 }
-                field("Incoming Supervisior Name"; Rec."Incoming Supervisior Name")
+                field("Incoming Supervisor Name"; Rec."Incoming Supervisor Name")
                 {
-                    ToolTip = 'Specifies the value of the Incoming Supervisior Name field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Incoming Supervisor Name field.', Comment = '%';
                 }
-                field("Notify to"; Rec."Notify to")
+                field("Outgoing Branch Rep. Person"; Rec."Outgoing Branch Rep. Person")
                 {
-                    ToolTip = 'Specifies the value of the Notify to field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person to field.', Comment = '%';
+                }
+                field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
+                {
+                    ToolTip = 'Specifies the value of the OOutgoing Reporting Person Name to field.', Comment = '%';
                 }
 
                 field(Remarks; Rec.Remarks)
@@ -91,7 +96,7 @@ page 50222 "Transfer Journal"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("Emp Act. No");
+                SubPageLink = "Document No." = field("Emp Act. No"), "Document Type" = field(Type);
             }
         }
     }
@@ -158,88 +163,70 @@ page 50222 "Transfer Journal"
         SetFieldEnable
     end;
 
+    trigger OnOpenPage()
+    begin
+        SetFieldEnable;
+    end;
+
     var
-        // DepartmentVisible: Boolean;
-        // UnitVisible: Boolean;
-        // ProvinceVisible: Boolean;
-        // BranchVisible: Boolean;
-        // ExtensionCounterVisible: Boolean;
         UnitEdit: Boolean;
         DepartmentEdit: Boolean;
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;
         ProvinceEdit: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+
         TransferMgt: Codeunit "Transfer Mgt.";
         EmpActMgt: Codeunit EmployeeActivityMgt;
         ApproverMgt: Codeunit "Approver Mgt";
 
     LOCAL PROCEDURE SetFieldEnable();
     BEGIN
-        CASE Rec."Deputation on" OF
-            Rec."Deputation on"::Branch:
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        CASE Rec."Deputation on (To)" OF
+            Rec."Deputation on (To)"::Branch:
                 BEGIN
                     ProvinceEdit := false;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    // ExtensionCounterVisible := true;
-                    // BranchVisible := true;
-                    // ProvinceVisible := true;
-                    // UnitVisible := false;
-                    // DepartmentVisible := false;
                 END;
-            Rec."Deputation on"::Province:
+            Rec."Deputation on (To)"::Province:
                 BEGIN
                     ProvinceEdit := true;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    // ExtensionCounterVisible := false;
-                    // BranchVisible := false;
-                    // ProvinceVisible := true;
-                    // UnitVisible := false;
-                    // DepartmentVisible := false;
                 END;
-            Rec."Deputation on"::Department:
+            Rec."Deputation on (To)"::Department:
                 BEGIN
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                    // ExtensionCounterVisible := false;
-                    // BranchVisible := false;
-                    // ProvinceVisible := true;
-                    // UnitVisible := true;
-                    // DepartmentVisible := true;
                 END;
-            Rec."Deputation on"::Unit:
+            Rec."Deputation on (To)"::Unit:
                 BEGIN
                     ProvinceEdit := false;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
-                    // ExtensionCounterVisible := false;
-                    // BranchVisible := false;
-                    // ProvinceVisible := true;
-                    // UnitVisible := true;
-                    // DepartmentVisible := true;
                 END;
-            Rec."Deputation on"::"Extension Counter":
+            Rec."Deputation on (To)"::"Extension Counter":
                 BEGIN
                     ProvinceEdit := false;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
                     DepartmentEdit := FALSE;
                     UnitEdit := FALSE;
-                    // ExtensionCounterVisible := true;
-                    // BranchVisible := true;
-                    // ProvinceVisible := true;
-                    // UnitVisible := false;
-                    // DepartmentVisible := false;
                 END;
         END;
     END;

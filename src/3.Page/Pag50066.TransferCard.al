@@ -92,6 +92,14 @@ page 50066 "Transfer Card"
                     Editable = false;
                     Visible = not IsOpen;
                 }
+                field("Is Request for Handover"; Rec.Handover)
+                {
+                    Visible = rec.Handover;
+                }
+                field("Is Takeover"; Rec.Takeover)
+                {
+                    Visible = rec.Handover;
+                }
                 field("Transfer Claims"; rec."Transfer Claim")
                 {
                     Caption = 'Transfer Claim';
@@ -121,6 +129,7 @@ page 50066 "Transfer Card"
                 }
                 field("Notify to"; Rec."Notify to")
                 {
+                    Visible = false;
                     ToolTip = 'Specifies the value of the Notify to field.';
                     ApplicationArea = All;
                     Editable = IsApproved and not rec."Is Transfer Details Added";
@@ -181,123 +190,69 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Deputation On field.';
                         ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("Extension Counter Code"; Rec."Extension Counter Code")
-                    {
-                        ToolTip = 'Specifies the value of the Extension Counter Code field.';
-                        ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("Extension Name"; ExtensionName)
-                    {
-                        ToolTip = 'Specifies the value of the ExtensionName field.';
-                        ApplicationArea = All;
+                        // trigger OnValidate()
+                        // begin
+                        //     GetTransferName;
+                        // end;
                     }
                     field("Functional Title"; Rec."Functional Title")
                     {
                         ToolTip = 'Specifies the value of the Functional Title field.';
                         ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
                     }
-                    field("Functional Title Desc"; FunctionalDescFrom)
+                    field("Functional Title Desc"; Rec."Functional Title Desc")
                     {
                         Caption = 'Functional Title Description( From)';
                         Editable = false;
                         ToolTip = 'Specifies the value of the Functional Title Description( From) field.';
                         ApplicationArea = All;
                     }
-                    field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
-                    {
-                        ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
-                        ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("Branch Name"; BranchName)
-                    {
-                        ToolTip = 'Specifies the value of the BranchName field.';
-                        ApplicationArea = All;
-                    }
-                    // field("Sub Province Code"; Rec."Sub Province Code")
-                    // {
-                    //     ToolTip = 'Specifies the value of the Sub Province Code field.';
-                    //     ApplicationArea = All;
-
-                    //     trigger OnValidate()
-                    //     begin
-                    //         GetTransferName;
-                    //     end;
-                    // }
-                    // field("Sub-Province Name"; SubProvinceName)
-                    // {
-                    //     ToolTip = 'Specifies the value of the SubProvinceName field.';
-                    //     ApplicationArea = All;
-                    // }
                     field("Province Code"; Rec."Province Code")
                     {
                         ToolTip = 'Specifies the value of the Province Code field.';
                         ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
                     }
-                    field("Province Name"; ProvinceName)
+                    field("Province Name"; Rec."Province Name")
                     {
-                        ToolTip = 'Specifies the value of the ProvinceName field.';
+                        ToolTip = 'Specifies the value of the Province Name field.';
                         ApplicationArea = All;
                     }
-                    field("Unit Code"; Rec."Unit Code")
+                    field("Branch Name"; rec."From Branch")
                     {
-                        ToolTip = 'Specifies the value of the Unit Code field.';
-                        ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
-                    }
-                    field("Unit Name"; UnitName)
-                    {
-                        ToolTip = 'Specifies the value of the UnitName field.';
+                        ToolTip = 'Specifies the value of the BranchName field.';
                         ApplicationArea = All;
                     }
                     field(Department; Rec.Department)
                     {
                         ToolTip = 'Specifies the value of the Department field.';
                         ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            GetTransferName;
-                        end;
                     }
-                    field("Department Name"; DepartmentName)
+                    field("Department Name"; Rec."Department Name")
                     {
-                        ToolTip = 'Specifies the value of the DepartmentName field.';
+                        ToolTip = 'Specifies the value of the Department Name field.';
                         ApplicationArea = All;
                     }
-                    // field("Office Code"; Rec."Office Code")
-                    // {
-                    //     ToolTip = 'Specifies the value of the Office Code field.';
-                    //     ApplicationArea = All;
-                    // }
+                    field("Unit Code"; Rec."Unit Code")
+                    {
+                        ToolTip = 'Specifies the value of the Unit Code field.';
+                        ApplicationArea = All;
+                    }
+                    field("Unit Name"; rec."Unit Name")
+                    {
+                        ToolTip = 'Specifies the value of the UnitName field.';
+                        ApplicationArea = All;
+                    }
+
+                    field("Extension Counter Code"; Rec."Extension Counter Code")
+                    {
+                        ToolTip = 'Specifies the value of the Extension Counter Code field.';
+                        ApplicationArea = All;
+                    }
+                    field("Extension Name"; Rec."Extension Counter Name")
+                    {
+                        ToolTip = 'Specifies the value of the ExtensionName field.';
+                        ApplicationArea = All;
+                    }
                 }
                 group("Proposed Placement")
                 {
@@ -311,27 +266,10 @@ page 50066 "Transfer Card"
                         trigger OnValidate()
                         begin
                             SetLayout;
-                            GetTransferName;
+                            // GetTransferName;
                         end;
                     }
-                    field("Extension Counter (To)"; Rec."Extension Counter (To)")
-                    {
-                        Editable = ExtensionCounterEdit;
-                        ToolTip = 'Specifies the value of the Extension Counter (To) field.';
-                        ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            Rec.TestField("To Branch");
-                            GetTransferName;
-                        end;
-                    }
-                    field("Extension Name To"; ExtensionNameTo)
-                    {
-                        Editable = false;
-                        ToolTip = 'Specifies the value of the ExtensionNameTo field.';
-                        ApplicationArea = All;
-                    }
                     field("Functional Title (To)"; Rec."Functional Title (To)")
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
@@ -340,14 +278,30 @@ page 50066 "Transfer Card"
 
                         trigger OnValidate()
                         begin
-                            GetTransferName;
+                            // GetTransferName;
                         end;
                     }
-                    field(FunctionalTitleTo; FunctionalDescTo)
+                    field(FunctionalTitleTo; Rec."Functional Desc To")
                     {
                         Caption = 'Functional Title Description(To)';
-                        //Editable = ForScreen;
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
+                        ApplicationArea = All;
+                    }
+                    field("Province Code (To)"; Rec."Province Code (To)")
+                    {
+                        Editable = ProvinceEdit;
+                        ToolTip = 'Specifies the value of the Province Code (To) field.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            // GetTransferName;
+                        end;
+                    }
+                    field("Province Name To"; Rec."Province Name To")
+                    {
+                        Editable = false;
+                        ToolTip = 'Specifies the value of the ProvinceNameTo field.';
                         ApplicationArea = All;
                     }
                     field("To Branch"; Rec."To Branch")
@@ -359,77 +313,31 @@ page 50066 "Transfer Card"
 
                         trigger OnValidate()
                         begin
-                            GetTransferName;
+                            // GetTransferName;
                         end;
                     }
-                    // field("Shortcut Dimension 1 Code (To)"; Rec."Shortcut Dimension 1 Code (To)")
-                    // {
-                    //     Caption = 'Branch Code (To)';
-                    //     Editable = BranchEdit;
-                    //     ToolTip = 'Specifies the value of the Branch Code (To) field.';
-                    //     ApplicationArea = All;
-
-                    //     trigger OnValidate()
-                    //     begin
-                    //         GetTransferName;
-                    //     end;
-                    // }
-                    field("Branch Name To"; BranchNameTo)
+                    field("Branch Name To"; Rec."Branch Name To")
                     {
                         Editable = false;
                         ToolTip = 'Specifies the value of the BranchNameTo field.';
                         ApplicationArea = All;
                     }
-                    // field("Sub Province Code (To)"; Rec."Sub Province Code (To)")
-                    // {
-                    //     Editable = // SubProvinceEdit := false;;
-                    //     ToolTip = 'Specifies the value of the Sub Province Code (To) field.';
-                    //     ApplicationArea = All;
-
-                    //     trigger OnValidate()
-                    //     begin
-                    //         GetTransferName;
-                    //     end;
-                    // }
-                    // field("SubProvince Name To"; SubProvinceNameTo)
-                    // {
-                    //     Editable = false;
-                    //     ToolTip = 'Specifies the value of the SubProvinceNameTo field.';
-                    //     ApplicationArea = All;
-                    // }
-                    field("Province Code (To)"; Rec."Province Code (To)")
+                    field("Extension Counter (To)"; Rec."Extension Counter (To)")
                     {
-                        Editable = ProvinceEdit;
-                        ToolTip = 'Specifies the value of the Province Code (To) field.';
+                        Editable = ExtensionCounterEdit;
+                        ToolTip = 'Specifies the value of the Extension Counter (To) field.';
                         ApplicationArea = All;
 
                         trigger OnValidate()
                         begin
-                            GetTransferName;
+                            Rec.TestField("To Branch");
+                            // GetTransferName;
                         end;
                     }
-                    field("Province Name To"; ProvinceNameTo)
+                    field("Extension Name To"; rec."Extension Name To")
                     {
                         Editable = false;
-                        ToolTip = 'Specifies the value of the ProvinceNameTo field.';
-                        ApplicationArea = All;
-                    }
-                    field("Unit (To)"; Rec."Unit (To)")
-                    {
-                        Editable = UnitEdit;
-                        ToolTip = 'Specifies the value of the Unit (To) field.';
-                        ApplicationArea = All;
-
-                        trigger OnValidate()
-                        begin
-                            rec.TestField("Department Code (To)");
-                            GetTransferName;
-                        end;
-                    }
-                    field("Unit Name To"; UnitNameTo)
-                    {
-                        Editable = false;
-                        ToolTip = 'Specifies the value of the UnitNameTo field.';
+                        ToolTip = 'Specifies the value of the ExtensionNameTo field.';
                         ApplicationArea = All;
                     }
                     field("Department Code (To)"; Rec."Department Code (To)")
@@ -440,15 +348,35 @@ page 50066 "Transfer Card"
 
                         trigger OnValidate()
                         begin
-                            GetTransferName;
+                            // GetTransferName;
                         end;
                     }
-                    field("Department Name To"; DepartmentNameTo)
+                    field("Department Name To"; "Department Name To")
                     {
                         Editable = false;
                         ToolTip = 'Specifies the value of the DepartmentNameTo field.';
                         ApplicationArea = All;
                     }
+
+                    field("Unit (To)"; Rec."Unit (To)")
+                    {
+                        Editable = UnitEdit;
+                        ToolTip = 'Specifies the value of the Unit (To) field.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            Rec.TestField("Department Code (To)");
+                            // GetTransferName;
+                        end;
+                    }
+                    field("Unit Name To"; Rec."Unit Name To")
+                    {
+                        Editable = false;
+                        ToolTip = 'Specifies the value of the UnitNameTo field.';
+                        ApplicationArea = All;
+                    }
+
                     field("Incoming Supervisior"; Rec."Incoming Supervisior")
                     {
                         ToolTip = 'Specifies the value of the Incoming Supervisior field.';
@@ -791,7 +719,7 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = (IsHold or IsApproved) and rec.Handover;
+                Visible = (IsApproved) and rec.Takeover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
                 trigger OnAction()
@@ -806,12 +734,27 @@ page 50066 "Transfer Card"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = IsApproved and rec."Is Transfer Details Added";
+                Visible = IsApproved and rec."Is Transfer Details Added" and not rec.Handover;
                 ToolTip = 'Executes the Acknowledge Transfer action.';
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
                     TransferMgt.HandoverApprove(Rec);
+                end;
+            }
+            action("TakeOver")
+            {
+                Image = HumanResources;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsApproved and rec.Handover and not Rec.Takeover;
+                ToolTip = 'Executes the Acknowledge Transfer action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    TransferMgt.TakeoverApprove(Rec);
                 end;
             }
             // action("Access Control")
@@ -954,7 +897,7 @@ page 50066 "Transfer Card"
     trigger OnAfterGetRecord()
     begin
         SetLayout;
-        GetTransferName;
+        // GetTransferName;
         GetTransferEditibility;
     end;
 
@@ -972,8 +915,8 @@ page 50066 "Transfer Card"
         //         end;
         // end;
         SetLayout;
-        GetTransferName;
-        Rec.CalcFields("Outgoing Reporting Person Name");
+        // GetTransferName;
+        // Rec.CalcFields("Outgoing Reporting Person Name");
         RecRef.GetTable(Rec);
     end;
 
@@ -1014,19 +957,19 @@ page 50066 "Transfer Card"
         ForAck: Boolean;
         TypeFilter: Text;
         [InDataSet]
-        ForScreenButton: Boolean;
-        BranchNameTo: Text;
-        DepartmentNameTo: Text;
-        ProvinceNameTo: Text;
-        SubProvinceNameTo: Text;
-        ExtensionNameTo: Text;
+        // ForScreenButton: Boolean;
+        // BranchNameTo: Text;
+        // DepartmentNameTo: Text;
+        // ProvinceNameTo: Text;
+        // SubProvinceNameTo: Text;
+        // ExtensionNameTo: Text;
         UnitNameTo: Text;
-        BranchName: Text;
-        DepartmentName: Text;
-        ProvinceName: Text;
-        SubProvinceName: Text;
-        ExtensionName: Text;
-        UnitName: Text;
+        // BranchName: Text;
+        // DepartmentName: Text;
+        // ProvinceName: Text;
+        // SubProvinceName: Text;
+        // ExtensionName: Text;
+        // UnitName: Text;
         [InDataSet]
         // // SubProvinceEdit := false;: Boolean;
         [InDataSet]
@@ -1036,8 +979,8 @@ page 50066 "Transfer Card"
         TransferCategoryEditable: Boolean;
         HRSetup: Record "Human Resources Setup";
         FunctionalTitle: Record "Functional Title";
-        FunctionalDescFrom: Text;
-        FunctionalDescTo: Text;
+        // FunctionalDescFrom: Text;
+        // FunctionalDescTo: Text;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         IsPending: Boolean;
@@ -1063,22 +1006,6 @@ page 50066 "Transfer Card"
         IsACK := rec."Approval Status" = rec."Approval Status"::Acknowledged;
         RecRef.GetTable(Rec);
 
-        // case Rec."Approval Status" of
-        //     Rec."Approval Status"::Open:
-        //         IsOpen := true;
-        //     Rec."Approval Status"::"Pending":
-        //         ISPending := true;
-        //     Rec."Approval Status"::Approved, Rec."Approval Status"::"On Hold":
-        //         begin
-        //             ISPending := true;
-        //             ISApproved := true;
-        //         end;
-        //     Rec."Approval Status"::Acknowledged:
-        //         begin
-        //             IsApproved := true;
-        //             IsPending := true;
-        //         end;
-        // end;
         if Rec.Type in [Rec.Type::"HR Transfer", Rec.Type::"Employee Transfer"] then begin //Min 12.11.2022
             if Rec."Approval Status" = Rec."Approval Status"::Approved then
                 ForAck := true;
@@ -1097,7 +1024,6 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := true;
                     ProvinceEdit := false;
-                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := true;
                     UnitEdit := false;
                     DepartEdit := false;
@@ -1106,25 +1032,14 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := true;
-                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := false;
                     DepartEdit := false;
                 end;
-            // Rec."Deputation On (To)"::"Sub Province":
-            //     begin
-            //         BranchEdit := false;
-            //         ProvinceEdit := false;
-            //         // SubProvinceEdit := false; := true;
-            //         ExtensionCounterEdit := false;
-            //         UnitEdit := false;
-            //         DepartEdit := false;
-            //     end;
             Rec."Deputation On (To)"::Unit:
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
                     UnitEdit := true;
                     DepartEdit := true;
@@ -1134,119 +1049,19 @@ page 50066 "Transfer Card"
                 begin
                     BranchEdit := false;
                     ProvinceEdit := false;
-                    // SubProvinceEdit := false; := false;
                     ExtensionCounterEdit := false;
-                    UnitEdit := false;
+                    UnitEdit := true;
                     DepartEdit := true;
                 end;
         end;
 
-        if Rec."Transfer Type" = Rec."Transfer Type"::"Cross Transfer" then begin
-            ProvinceEdit := true;
-            FunctionalEdit := true;
-            BranchEdit := true;
-            DepartEdit := true;
-            UnitEdit := true;
-        end;
-
-        // if Rec.Type = Rec.Type::"HR Transfer" then begin
-        //     ForReview := true;
-        //     if Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "] then
-        //         ForOpen := true;
+        // if Rec."Transfer Type" = Rec."Transfer Type"::"Cross Transfer" then begin
+        //     ProvinceEdit := true;
+        //     FunctionalEdit := true;
+        //     BranchEdit := true;
+        //     DepartEdit := true;
+        //     UnitEdit := true;
         // end;
-    end;
-
-    local procedure GetTransferName()
-    var
-        GLSetup: Record "General Ledger Setup";
-        // DimValue: Record "Dimension Value";
-        // DepartVar: Record Department;
-        ProvinceVar: Record Province;
-        OrganizationStructureList: Record "Organization Structure List";
-    // SubProvinceVar: Record "Sub Province";
-    // EmpHie: Record "Employee Hierarchy Master";
-    begin
-        Clear(BranchName);
-        Clear(BranchNameTo);
-        Clear(DepartmentNameTo);
-        Clear(DepartmentName);
-        Clear(ProvinceName);
-        Clear(ProvinceNameTo);
-        Clear(SubProvinceName);
-        Clear(SubProvinceNameTo);
-        Clear(UnitNameTo);
-        Clear(UnitName);
-        Clear(ExtensionName);
-        Clear(ExtensionNameTo);
-        Clear(OrganizationStructureList);
-        GLSetup.Get;
-
-        if FunctionalTitle.Get(Rec."Functional Title") then
-            FunctionalDescFrom := FunctionalTitle.Description;
-        if FunctionalTitle.Get(Rec."Functional Title (To)") then
-            FunctionalDescTo := FunctionalTitle.Description;
-
-        // if DimValue.Get(GLSetup."Global Dimension 1 Code", Rec."Shortcut Dimension 1 Code") then
-        //     BranchName := DimValue.Name;
-
-        if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Rec."To Branch") then
-            BranchNameTo := OrganizationStructureList.Name;
-
-        // if DepartVar.Get(Rec.Department) then
-        //     DepartmentName := DepartVar.Name;
-
-        if OrganizationStructureList.Get(OrganizationStructureList.type::Department, Rec."Department Code (To)") then
-            DepartmentNameTo := OrganizationStructureList.Name;
-
-        if ProvinceVar.Get(Rec."Province Code") then
-            ProvinceName := ProvinceVar.Description;
-
-        if ProvinceVar.Get(Rec."Province Code (To)") then
-            ProvinceNameTo := ProvinceVar.Description;
-
-        // SubProvinceVar.Reset;
-        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code");
-        // if SubProvinceVar.FindFirst then
-        //     SubProvinceName := SubProvinceVar.City;
-
-        // SubProvinceVar.Reset;
-        // SubProvinceVar.SetRange(Code, Rec."Sub Province Code (To)");
-        // if SubProvinceVar.FindFirst then
-        //     SubProvinceNameTo := SubProvinceVar.City;
-
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        // EmpHie.SetRange(Code, Rec."Unit Code");
-        // if EmpHie.FindFirst then
-        //     UnitName := EmpHie.Description;
-
-        if OrganizationStructureList.Get(OrganizationStructureList.type::unit, Rec."Unit Code") then
-            UnitName := OrganizationStructureList.Name;
-
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-        // EmpHie.SetRange(Code, Rec."Unit (To)");
-        // if EmpHie.FindFirst then
-        //     UnitNameTo := EmpHie.Description;
-        if OrganizationStructureList.Get(OrganizationStructureList.type::unit, Rec."Unit (To)") then
-            UnitNameTo := OrganizationStructureList.Name;
-
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        // EmpHie.SetRange(Code, Rec."Extension Counter Code");
-        // if EmpHie.FindFirst then
-        //     ExtensionName := EmpHie.Description;
-
-        if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Rec."Extension Counter Code") then
-            ExtensionName := OrganizationStructureList.Name;
-
-        // EmpHie.Reset;
-        // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-        // EmpHie.SetRange(Code, Rec."Extension Counter (To)");
-        // if EmpHie.FindFirst then
-        //     ExtensionNameTo := EmpHie.Description;
-        if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Rec."Extension Counter (To)") then
-            ExtensionNameTo := OrganizationStructureList.Name;
     end;
 
     procedure GetTransferEditibility()

@@ -4843,10 +4843,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - NamedType Text001</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3730373372 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Acknowledged Date</source>
+        <trans-unit id="Table 3589989410 - Field 3540177482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Acknowledged Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Actual OT Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
@@ -4857,16 +4857,6 @@
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Approved Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 2999336007 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>BM Accomodation Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field BM Accomodation Allow. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 425322685 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>BMAF Distance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field BMAF Distance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -4933,6 +4923,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Deputation On (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 163506987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Deputation On Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 3666477422 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Deputation On Code To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4983,6 +4983,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field End Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2999614507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Estimated Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Estimated Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1039546900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Evening OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Evening OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3404248433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extension Counter (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5018,20 +5028,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Functional Title (To) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 2584380905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Incoming Supervisior</source>
+        <trans-unit id="Table 3589989410 - Field 2685357722 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisior - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 2709328988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Incoming Supervisior Name</source>
+        <trans-unit id="Table 3589989410 - Field 2237329363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisior Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 1261567229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Transfer Details Added</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Is Transfer Details Added - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Incoming Supervisor Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Code</source>
@@ -5053,6 +5058,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Line No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1207451066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Morning OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Morning OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. of Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5068,15 +5078,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Notify to - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 937998898 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Officiating Allow.</source>
+        <trans-unit id="Table 3589989410 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Officiating Allow. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field OT Amount - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3233325486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On Hold Date</source>
+        <trans-unit id="Table 3589989410 - Field 2904977159 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Eligible Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field On Hold Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field OT Eligible Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 597139954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outgoing Branch Rep. Person</source>
@@ -5088,15 +5098,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outgoing Reporting Person Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 121522185 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Outstation Distance</source>
+        <trans-unit id="Table 3589989410 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outstation Distance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3833855904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Outstation/Discomfort Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Outstation/Discomfort Allow. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Overtime Claim Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 336097804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Type</source>
@@ -5133,11 +5138,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Reason For Cancel - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 1393460892 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason For Hold</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Reason For Hold - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 956636400 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reason for Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5148,25 +5148,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 2451993319 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Relocation Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Relocation Allow. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3592163955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Relocation Distance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Relocation Distance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Remarks - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3326069168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Remote Area Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Remote Area Allow. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3252948560 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Requested Date</source>
@@ -5218,35 +5203,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 1799028647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary Address</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Temporary Address - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 570233103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary District</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Temporary District - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3507210259 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary Province</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Temporary Province - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Branch</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field To Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 1661189934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Total OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 2200544733 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Category</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Transfer Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3589989410 - Field 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer Claim</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Transfer Claim - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 1780950718 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Effective Date</source>
@@ -7678,6 +7648,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Branch Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1061882940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Branch Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cancelled</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7717,6 +7692,11 @@
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1026142324 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Department Name To - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation On</source>
@@ -7778,6 +7758,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Counter Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1055780678 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Counter Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Counter Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1514067815 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Extension Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Extension Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Fiscal Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7788,6 +7778,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field From Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 2926372823 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Desc To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Desc To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7797,6 +7792,11 @@
           <source>Functional Title (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Title (To) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 2696944170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Desc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Functional Title Desc - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 1376382783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Handover</source>
@@ -7888,6 +7888,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Code (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 516153626 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Province Name To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1908046867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reason Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7978,6 +7988,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 371991071 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Takeover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Takeover - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1799028647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Temporary Address</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8047,6 +8062,16 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 655095483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 1105874526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Name To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Unit Name To - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 613435904 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User ID</source>
@@ -11698,11 +11723,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Department Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 2619908208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Ecosystem</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Ecosystem - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11762,11 +11782,6 @@
           <source>No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field No. Series - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 144386111 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Office Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Office Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>OT Amount</source>
@@ -14618,10 +14633,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3730373372 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Acknowledged Date</source>
+        <trans-unit id="Table 504766950 - Field 3540177482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Actual OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Acknowledged Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Actual OT Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
@@ -14632,16 +14647,6 @@
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Approved Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 2999336007 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>BM Accomodation Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field BM Accomodation Allow. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 425322685 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>BMAF Distance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field BMAF Distance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -14708,6 +14713,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Deputation On (To) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 163506987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Deputation On Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 3666477422 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Deputation On Code To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14717,6 +14732,16 @@
           <source>Document No</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Document No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 832593267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Act. No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Emp Act. No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 398093632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Act Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Employee Act Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -14753,6 +14778,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Entry No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 2999614507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Estimated Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Estimated Hours - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1039546900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Evening OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Evening OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 3404248433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extension Counter (To)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14788,20 +14823,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Functional Title (To) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 2584380905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Incoming Supervisior</source>
+        <trans-unit id="Table 504766950 - Field 2685357722 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisior - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 2709328988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Incoming Supervisior Name</source>
+        <trans-unit id="Table 504766950 - Field 2237329363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Incoming Supervisor Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisior Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 1261567229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Transfer Details Added</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Is Transfer Details Added - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Incoming Supervisor Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1958363482 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave Code</source>
@@ -14818,6 +14848,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Leave Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1207451066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Morning OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Morning OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. of Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14833,15 +14873,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Notify to - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 937998898 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Officiating Allow.</source>
+        <trans-unit id="Table 504766950 - Field 503080369 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Officiating Allow. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field OT Amount - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3233325486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>On Hold Date</source>
+        <trans-unit id="Table 504766950 - Field 2904977159 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OT Eligible Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field On Hold Date - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field OT Eligible Hours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 597139954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Outgoing Branch Rep. Person</source>
@@ -14853,15 +14893,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outgoing Reporting Person Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 121522185 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Outstation Distance</source>
+        <trans-unit id="Table 504766950 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outstation Distance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3833855904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Outstation/Discomfort Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Outstation/Discomfort Allow. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Overtime Claim Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 336097804 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Pay Type</source>
@@ -14878,6 +14913,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Posted - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Posting Date - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14893,11 +14933,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Reason For Cancel - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 1393460892 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Reason For Hold</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Reason For Hold - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 504766950 - Field 956636400 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Reason for Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14908,30 +14943,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 2451993319 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Relocation Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Relocation Allow. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3592163955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Relocation Distance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Relocation Distance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 504766950 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Remarks - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3326069168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Remote Area Allow.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Remote Area Allow. - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 504766950 - Field 3252948560 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Requested Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Requested Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 2525401224 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requester Employee</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Requester Employee - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1141149497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Level Code</source>
@@ -14973,35 +14998,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 504766950 - Field 1799028647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary Address</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Temporary Address - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 570233103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary District</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Temporary District - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3507210259 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Temporary Province</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Temporary Province - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 504766950 - Field 4180430401 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Branch</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field To Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 1661189934 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total OT Hours</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Total OT Hours - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 2200544733 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Category</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Transfer Category - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 504766950 - Field 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer Claim</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Transfer Claim - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 1780950718 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Effective Date</source>
@@ -35568,6 +35578,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Card - Action Submit - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 455662022 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the End Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fiscal Year field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control Fiscal Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control No. of Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 455662022 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Journal - Control Start Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 123945236 - Control 1139063383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Actual Hours field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39883,11 +39933,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3730373372 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Acknowledged Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Acknowledged Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 504766950 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -39897,16 +39942,6 @@
           <source>Specifies the value of the Approved Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Approved Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 2999336007 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the BM Accomodation Allow. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control BM Accomodation Allow. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 425322685 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the BMAF Distance field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control BMAF Distance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 504766950 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Name field.</source>
@@ -40053,20 +40088,15 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Functional Title (To) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 2584380905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Incoming Supervisior field.</source>
+        <trans-unit id="Page 504766950 - Control 2685357722 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisor field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Incoming Supervisior - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Incoming Supervisor - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 2709328988 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Incoming Supervisior Name field.</source>
+        <trans-unit id="Page 504766950 - Control 2237329363 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisor Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Incoming Supervisior Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 1261567229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Transfer Details Added field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Is Transfer Details Added - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Incoming Supervisor Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 504766950 - Control 1958363482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave Code field.</source>
@@ -40098,16 +40128,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Notify to - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 937998898 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Officiating Allow. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Officiating Allow. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3233325486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the On Hold Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control On Hold Date - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 504766950 - Control 597139954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Outgoing Branch Rep. Person field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40117,16 +40137,6 @@
           <source>Specifies the value of the Outgoing Reporting Person Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Outgoing Reporting Person Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 121522185 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Outstation Distance field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Outstation Distance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3833855904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Outstation/Discomfort Allow. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Outstation/Discomfort Allow. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 504766950 - Control 336097804 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Pay Type field.</source>
@@ -40158,11 +40168,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Reason For Cancel - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 1393460892 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Reason For Hold field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Reason For Hold - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 504766950 - Control 956636400 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Reason for Transfer field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40173,25 +40178,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Rejection Remarks - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 2451993319 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relocation Allow. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Relocation Allow. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3592163955 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relocation Distance field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Relocation Distance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 504766950 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3326069168 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remote Area Allow. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Remote Area Allow. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 504766950 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
@@ -40238,21 +40228,6 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 504766950 - Control 1799028647 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Address field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Temporary Address - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 570233103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary District field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Temporary District - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3507210259 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Temporary Province field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Temporary Province - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 504766950 - Control 4180430401 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the To Branch field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -40262,11 +40237,6 @@
           <source>Specifies the value of the Transfer Category field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Transfer Category - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 504766950 - Control 3382071339 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Transfer Claim field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Transfer Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 504766950 - Control 1780950718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer Effective Date field.</source>
@@ -44819,7 +44789,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Department - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 3334877077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the DepartmentName field.</source>
+          <source>Specifies the value of the Department Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Department Name - Property ToolTip</note>
         </trans-unit>
@@ -44859,14 +44829,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Province Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 237720087 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the ProvinceName field.</source>
+          <source>Specifies the value of the Province Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Province Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1733013553 - Control 1577567912 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Shortcut Dimension 1 Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Shortcut Dimension 1 Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 2951275221 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Unit Code field.</source>
@@ -45183,6 +45148,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Send Approval Request - Method OnAction - NamedType ConfirmTransfer</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Action 927674879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Acknowledge Transfer action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action TakeOver - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Action 3382071339 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Transfer Claim action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45323,20 +45293,25 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Functional Title (To) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 2584380905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Incoming Supervisior field.</source>
+        <trans-unit id="Page 276376150 - Control 2685357722 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisor field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Incoming Supervisior - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Incoming Supervisor - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 2709328988 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Incoming Supervisior Name field.</source>
+        <trans-unit id="Page 276376150 - Control 2237329363 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Incoming Supervisor Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Incoming Supervisior Name - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Incoming Supervisor Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 276376150 - Control 3175088364 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Notify to field.</source>
+        <trans-unit id="Page 276376150 - Control 597139954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Outgoing Branch Rep. Person to field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Notify to - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Outgoing Branch Rep. Person - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Control 3895839318 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the OOutgoing Reporting Person Name to field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Outgoing Reporting Person Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Control 593021391 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code (To) field.</source>
@@ -51248,6 +51223,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Sol Id - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 3275815306 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Staff Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Staff Type - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2264532377 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Sub Unit Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53447,6 +53427,11 @@
           <source>Sol Id</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Sol Id - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 3275815306 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Staff Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Staff Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2264532377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Sub Unit Code</source>
@@ -58697,6 +58682,21 @@
           <source>Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 3992303763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clerical staff</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Clerical staff - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 2831894130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Non Clerical Staff</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Non Clerical Staff - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1626074402 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

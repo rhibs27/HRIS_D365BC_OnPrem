@@ -37,15 +37,11 @@ page 50338 "Employee Leave Entity"
                 field(requestedDate; Rec."Requested Date") { }
                 field(fiscalYear; Rec."Fiscal Year") { }
                 field(approvalStatus; Rec."Approval Status") { }
-                field(status; Rec.Status)
-                {
-                }
+                field(status; Rec.Status) { }
                 field(cancelled; Rec.Cancelled) { }
                 field(cancelledNo; Rec."Cancelled No.") { }
                 field(cancelledDocNo; Rec."Cancelled Document No.") { }
                 field(approverType; Rec."Approver Type") { }
-                // field(reasonCode; Rec."Reason Code") { }
-                // field(reasonDescription; Rec."Reason Description") { }
             }
             group(Leave)
             {
@@ -62,20 +58,11 @@ page 50338 "Employee Leave Entity"
                 field(remarks; Rec.Remarks) { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }
             }
-            group(Approval)
-            {
-                // field(recommenderCode; Rec."Recommender Code")
-                // {
-                // }
-                // field(recommenderName; Rec."Recommender Name") { }
-                // field(approverCode; Rec."Approver Code") { }
-                // field(approverName; Rec."Approver Name") { }
-            }
             part(Attachment; "Attachment Subform")
             {
                 EntityName = 'attachmentEntity';
                 EntitySetName = 'attachmentEntities';
-                SubPageLink = "No." = field("No."), "Employee Code" = field("Employee No.");
+                SubPageLink = "No." = field("No.");
             }
             part(HRMSApproval; "HRMS Approval Entry")
             {
@@ -86,10 +73,16 @@ page 50338 "Employee Leave Entity"
         }
     }
     trigger OnOpenPage()
-    var
-        HrMgt: Codeunit "HR Mgt.";
     begin
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         Rec.SetAscending("No.", false);
     end;
+
+    trigger OnNewRecord(BelowxRec: Boolean);
+    begin
+        Rec.Validate("Employee No.", HrMgt.GetEmployeeNo());
+    end;
+
+    var
+        HrMgt: Codeunit "HR Mgt.";
 }

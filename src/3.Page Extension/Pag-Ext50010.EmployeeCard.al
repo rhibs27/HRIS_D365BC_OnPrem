@@ -438,6 +438,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Employment Type field.';
 
                 }
+                field("Staff Type"; Rec."Staff Type")
+                {
+                    ApplicationArea = All;
+                    Editable = true;
+                    ToolTip = 'Specifies the value of the Staff Type field.';
+                }
                 field("Probation Period"; Rec."Probation Period")
                 {
                     ApplicationArea = All;

@@ -763,17 +763,6 @@ page 50108 "Portal Functions"
             Error('Attachment not available for this Document');
         JsonArray.WriteTo(JsonText);
         exit(JsonText);
-        // exit('{' +
-        // '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-        //   '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-        //   '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-        //   '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        // '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        // '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        // '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        // '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        // '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
-        // '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -2705,6 +2694,17 @@ page 50108 "Portal Functions"
         TransferMgt.HandoverApprove(EmployeeTransfer);
     end;
 
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure takeoverTransfer(empActivityNo: Code[20])
+    var
+        EmployeeTransfer: Record "Employee/HR Transfer";
+        TransferMgt: Codeunit "Transfer Mgt.";
+    begin
+        EmployeeTransfer.Get(empActivityNo);
+        TransferMgt.TakeoverApprove(EmployeeTransfer);
+    end;
+
     // [ServiceEnabled]
     // [Scope('Personalization')]
     // procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])
@@ -3926,6 +3926,7 @@ page 50108 "Portal Functions"
         AttendanceMissedForApprove: Integer;
         EmployeeTransferForApprove: Integer;
         TransferAcknowledgeForApprove: Integer;
+        TransferHandoverForApprove: Integer;
         TransferClaimForApprove: Integer;
         EmployeeTransfer: Record "Employee/HR Transfer";
         DocumentApprover: Record "Document Approver";
@@ -3979,7 +3980,6 @@ page 50108 "Portal Functions"
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::Open);
         TravelClaimApprove := Approval.Count();
-
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Loan);
@@ -4035,12 +4035,17 @@ page 50108 "Portal Functions"
         OverTimeForApprove := Approval.Count();
 
         EmployeeTransfer.Reset();
-        EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
-        Approval.SetFilter("Document No.", '<>%1', '');
+        EmployeeTransfer.SetRange("Outgoing Branch Rep. Person", HrMgt.GetEmployeeNo());
         EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
-        EmployeeTransfer.SetRange("Is Transfer Details Added", true);
-        TransferAcknowledgeForApprove := EmployeeTransfer.Count();
+        EmployeeTransfer.SetRange(Handover, true);
+        EmployeeTransfer.SetRange(Takeover, false);
+        TransferHandoverForApprove := EmployeeTransfer.Count();
 
+        EmployeeTransfer.Reset();
+        EmployeeTransfer.SetRange("Incoming Supervisior", HrMgt.GetEmployeeNo());
+        EmployeeTransfer.SetRange("Approval Status", EmployeeTransfer."Approval Status"::Approved);
+        EmployeeTransfer.SetRange(Takeover, true);
+        TransferAcknowledgeForApprove := EmployeeTransfer.Count();
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Transfer Claim");
@@ -4097,7 +4102,7 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         InsuranceForApprove := Approval.Count();
 
-        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove
+        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
          + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
@@ -4114,6 +4119,7 @@ page 50108 "Portal Functions"
         ',"AppraisalForApprove": "' + format(AppraisalForApprove) + '"' +
         ',"EmployeeTransferForApprove": "' + format(EmployeeTransferForApprove) + '"' +
         ',"AttendanceMissedForApprove": "' + format(AttendanceMissedForApprove) + '"' +
+        ',"TransferHandoverForApprove": "' + format(TransferHandoverForApprove) + '"' +
         ',"TransferAcknowledgeForApprove": "' + format(TransferAcknowledgeForApprove) + '"' +
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
