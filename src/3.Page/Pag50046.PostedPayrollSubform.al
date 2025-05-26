@@ -699,6 +699,11 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the 36% Slab field.';
                     ApplicationArea = All;
                 }
+                field("39% Slab"; Rec."39% Slab")
+                {
+                    ToolTip = 'Specifies the value of the 39% Slab field.';
+                    ApplicationArea = All;
+                }
                 field("Property Insurance Premium"; Rec."Property Insurance Premium")
                 {
                     ToolTip = 'Specifies the value of the Property Insurance Premium field.';
