@@ -63,7 +63,7 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterTo; "Extension Counter (To)") { }
             column(extensionNameTo; "Extension Name To") { }
             column(deputationOnTo; "Deputation On (To)") { }
-            column(proposedTransferDate; "Transfer Effective Date") { }
+            column(transferEffectiveDate; "Transfer Effective Date") { }
             column(incomingSupervisior; "Incoming Supervisior") { }
             column(incomingSupervisiorName; "Incoming Supervisior Name") { }
             column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person") { }

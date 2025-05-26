@@ -706,7 +706,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                         exit(Round(PGSetup."Cash Risk Percent" / 100 * Employee."Contract Salary Amount" / NoOfDays, 0.00001, '='));
                     end;
                 end;
-
             PGSetup."Friday Counter":
                 begin
                     SalaryLevel.Get(Employee."Salary Level");

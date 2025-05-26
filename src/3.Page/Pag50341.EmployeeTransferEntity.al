@@ -66,6 +66,7 @@ page 50341 "Employee Transfer Entity"
             group(Transfer)
             {
                 field(transferType; Rec."Transfer Type") { }
+                field(transferEffectiveDate;Rec."Transfer Effective Date") { }
                 field(deputationOn; Rec."Deputation On") { }
                 field(extensionCounterCode; Rec."Extension Counter Code") { }
                 field(functionalTitleTo; Rec."Functional Title (To)") { }

@@ -392,10 +392,10 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.';
                         ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            Rec.CalcFields("Outgoing Reporting Person Name");
-                        end;
+                        // trigger OnValidate()
+                        // begin
+                        //     Rec.CalcFields("Outgoing Reporting Person Name");
+                        // end;
                     }
                     field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
                     {
@@ -524,7 +524,7 @@ page 50066 "Transfer Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
+                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
