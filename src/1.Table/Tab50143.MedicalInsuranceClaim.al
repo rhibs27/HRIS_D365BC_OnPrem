@@ -35,7 +35,7 @@ table 50143 "Medical Insurance Claim"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
+            Editable = false;
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -207,7 +207,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
+            Editable = false;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -249,13 +249,13 @@ table 50143 "Medical Insurance Claim"
                 if EmpRelative.FindFirst then begin
                     case "Insurance Claim" of
                         "Insurance Claim"::Father:
-                            Validate("Father Name", EmpRelative."First Name" + ' ' + EmpRelative."Middle Name" + ' ' + EmpRelative."Last Name");
+                            Validate("Father Name", EmpRelative."Full Name");
                         "Insurance Claim"::Mother:
-                            Validate("Mother Name", EmpRelative."First Name" + ' ' + EmpRelative."Middle Name" + ' ' + EmpRelative."Last Name");
+                            Validate("Mother Name", EmpRelative."Full Name");
                         "Insurance Claim"::Spouse:
-                            Validate("Spouse Name", EmpRelative."First Name" + ' ' + EmpRelative."Middle Name" + ' ' + EmpRelative."Last Name");
+                            Validate("Spouse Name", EmpRelative."Full Name");
                         "Insurance Claim"::Child:
-                            Validate("Child Name", EmpRelative."First Name" + ' ' + EmpRelative."Middle Name" + ' ' + EmpRelative."Last Name");
+                            Validate("Child Name", EmpRelative."Full Name");
                         else
                             Error('Please enter the family details in "Employee Relative" table.');
                     end;
@@ -292,7 +292,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(60; "Insurance Status"; Enum "Insurance Status")
         {
-
+            Editable = false;
         }
         field(100; Status; Text[50])
         {
@@ -316,6 +316,11 @@ table 50143 "Medical Insurance Claim"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
+        if not GuiAllowed then begin
+            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            "Approval Status" := "Approval Status"::Pending;
+            Validate(Type, Rec.Type::"Medical Insurance Claim");
+        end;
         HRSetup.Get;
         if "No." = '' then
             if Cancelled then begin
@@ -323,17 +328,48 @@ table 50143 "Medical Insurance Claim"
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
-
                     //for medical insurance claim
                     Type::"Medical Insurance Claim":
                         begin
                             HRSetup.TestField("Medical Insurance No.");
                             NoSeriesMgt.InitSeries(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
                 end;
             end;
+        if GuiAllowed then begin
+            AttachmentSetup.Reset;
+            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Medical Insurance Claim");
+            if AttachmentSetup.Find('-') then
+                repeat
+                    IncomingDoc.Init;
+                    IncomingDoc.Validate("No.", "No.");
+                    IncomingDoc.Validate("Table ID", Database::"Medical Insurance Claim");
+                    IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    IncomingDoc.Validate("Employee Code", "Employee No.");
+                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Medical Insurance Claim");
+                    IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
+                    IncomingDoc.Insert;
+                until AttachmentSetup.Next = 0;
+        end;
+        if not GuiAllowed then begin
+            InsuranceMgt.SendMedicalInsuranceApproval(Rec)
+        end;
+    end;
 
-        // InsertAttachmentLines;
+    trigger OnDelete()
+    var
+        ApprovalEntry: Record "Approval HRMS";
+        CannotDelete: Label 'Cannot delete document.';
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
     end;
 
     var
@@ -345,4 +381,8 @@ table 50143 "Medical Insurance Claim"
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmpRelative: Record "Employee Relative";
+        ApproverMgt: Codeunit "Approver Mgt";
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
+        InsuranceMgt: Codeunit "Insurance Mgt";
 }

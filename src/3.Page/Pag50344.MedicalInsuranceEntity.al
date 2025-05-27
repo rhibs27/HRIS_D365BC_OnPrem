@@ -17,29 +17,24 @@ page 50344 "Medical Insurance Entity"
         {
             repeater(General)
             {
-                field(No; Rec."No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
-                field(employeeno; Rec."Employee No.")
-                {
-                    Editable = true;
-                }
-                field(employeename; Rec."Employee Name") { }
+                field(employeeNo; Rec."Employee No.") { }
+                field(employeeName; Rec."Employee Name") { }
 
-                field(startdate; Rec."Start Date") { }
-                field(startdateBS; Rec."Start Date (BS)") { }
-                field(enddate; Rec."End Date") { }
-                field(enddateBS; Rec."End Date (BS)") { }
-                field(requesteddate; Rec."Requested Date") { }
-                field(fiscalyear; Rec."Fiscal Year") { }
-                field(approvalstatus; Rec."Approval Status") { }
+                field(startDate; Rec."Start Date") { }
+                field(startDateBS; Rec."Start Date (BS)") { }
+                field(endDate; Rec."End Date") { }
+                field(endDateBS; Rec."End Date (BS)") { }
+                field(requestedDate; Rec."Requested Date") { }
+                field(fiscalYear; Rec."Fiscal Year") { }
+                field(approvalStatus; Rec."Approval Status") { }
+                field(status; Rec.Status) { }
                 field(cancelledNo; Rec."Cancelled No.") { }
                 field(cancelledDocNo; Rec."Cancelled Document No.")
                 {
                     Editable = true;
                 }
-                // field(approverType; Rec."Approver Type") { }
-                // field(reasonCode; Rec."Reason Code") { }
-                // field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
                 field(insuranceClaim; Rec."Insurance Claim") { }
                 field(fatherName; Rec."Father Name") { }
@@ -50,20 +45,22 @@ page 50344 "Medical Insurance Entity"
                 field(medicalPrescriptionDate; Rec."Medical Prescription Date") { }
                 field(dischargeDate; Rec."Discharge Date")
                 {
-                    trigger OnValidate()
-                    var
-                        //EmpActivity: Record "Employee Activity";
-                        MedicalInsuranceClaim: Record "Medical Insurance Claim";
-                    begin
-                        if Rec.Type = Rec.Type::"Medical Insurance Claim" then begin
-                            Rec."Insurance Status" := Rec."Insurance Status"::"Request to DTMD";
-                            MedicalInsuranceClaim.Init;
-                            MedicalInsuranceClaim.Copy(Rec);
-                            MedicalInsuranceClaim.Insert(true);
-                        end;
-                    end;
+                }
+                part(Attachment; "Attachment Subform")
+                {
+                    EntityName = 'attachmentEntity';
+                    EntitySetName = 'attachmentEntities';
+                    SubPageLink = "No." = field("No.");
                 }
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
+    end;
+
+    var
+        HrMgt: Codeunit "HR Mgt.";
 }

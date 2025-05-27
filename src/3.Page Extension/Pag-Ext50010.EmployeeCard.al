@@ -1326,7 +1326,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Medical insurance action.';
                     trigger OnAction()
                     begin
-                        InsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
+                        InsuranceMgt.OpenMedicalInsurancePage(Rec."No.");
                     end;
                 }
                 action("Employee Insurance")
