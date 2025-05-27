@@ -30,6 +30,7 @@ codeunit 50007 "Insurance Mgt"
     procedure SendMedicalInsuranceApproval(var medicalInsuranceClaim: Record "Medical Insurance Claim")
     var
         MedicalInsurance: Record "Medical Insurance Claim";
+        IncomingDoc: Record "Incoming Document";
 
     begin
         medicalInsurance.Reset();
@@ -38,7 +39,12 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
         if MedicalInsurance.FindFirst then
             Error('This Employee Already has Pending Medical Insurance Claim Request.');
-
+        IncomingDoc.Reset();
+        IncomingDoc.SetRange("No.", medicalInsuranceClaim."No.");
+        if IncomingDoc.Findset() then begin
+            if incomingDoc."File Name" = '' then      //attachment mandatory for leave
+                Error('Attachment must be uploaded');
+        end;
         if GuiAllowed then begin
             ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
@@ -124,80 +130,79 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.Modify;
     end;
 
-    local procedure InsertAttachmentLinesMedicalInsurance(var EmpAct: Record "Employee Activity")
-    var
-        IncomingDocument: Record "Incoming Document";
-        AttachmentMandatory: Record "Attachment Setup";
-    begin
-        AttachmentMandatory.Reset;
-        //AttachmentMandatory.SETRANGE("Table ID", DATABASE::"Employee Activity");
-        AttachmentMandatory.SetFilter(Type, Format(EmpAct.Type));
-        if AttachmentMandatory.FindFirst then
-            repeat
-                IncomingDocument.Reset;
-                IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-                IncomingDocument.SetRange("Order No.", EmpAct."No.");
-                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-                if not IncomingDocument.FindFirst then begin
-                    IncomingDocument.Reset;
-                    IncomingDocument.Init;
-                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-                    IncomingDocument.Description := EmpAct.TableName;
-                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-                    IncomingDocument."No." := EmpAct."No.";
-                    IncomingDocument."Order No." := EmpAct."Employee No.";
-                    IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-                    IncomingDocument.Insert(true);
+    // local procedure InsertAttachmentLinesMedicalInsurance(var EmpAct: Record "Employee Activity")
+    // var
+    //     IncomingDocument: Record "Incoming Document";
+    //     AttachmentMandatory: Record "Attachment Setup";
+    // begin
+    //     AttachmentMandatory.Reset;
+    //     //AttachmentMandatory.SETRANGE("Table ID", DATABASE::"Employee Activity");
+    //     AttachmentMandatory.SetFilter(Type, Format(EmpAct.Type));
+    //     if AttachmentMandatory.FindFirst then
+    //         repeat
+    //             IncomingDocument.Reset;
+    //             IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
+    //             IncomingDocument.SetRange("Order No.", EmpAct."No.");
+    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+    //             if not IncomingDocument.FindFirst then begin
+    //                 IncomingDocument.Reset;
+    //                 IncomingDocument.Init;
+    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+    //                 IncomingDocument.Description := EmpAct.TableName;
+    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+    //                 IncomingDocument."No." := EmpAct."No.";
+    //                 IncomingDocument."Order No." := EmpAct."Employee No.";
+    //                 // IncomingDocument."Table ID" := DATABASE::"Employee Activity";
+    //                 IncomingDocument.Insert(true);
+    //             end;
+    //         until AttachmentMandatory.Next = 0;
+    // end;
 
-                end;
-            until AttachmentMandatory.Next = 0;
-    end;
+    // local procedure InsertMedicalInsuranceApprover(var EmpAct: Record "Employee Activity")
+    // var
+    //     ResignationApprover: Record "Document Approver";
+    //     Employee: Record Employee;
+    //     EmpFieldRef: FieldRef;
+    //     EmpRecordRef: RecordRef;
+    // begin
+    //     Employee.Reset;
+    //     Employee.SetRange("Resignation Approver", true);
+    //     if Employee.FindFirst then
+    //         repeat
+    //             ResignationApprover.Reset;
+    //             ResignationApprover.SetRange("Document No.", EmpAct."No.");
+    //             ResignationApprover.SetRange("Employee No.", Employee."No.");
+    //             //ResignationApprover.SETRANGE("Approver Type", ResignationApprover."Approver Type"::"Finance & Accounts");
+    //             if not ResignationApprover.FindFirst then begin
+    //                 ResignationApprover.Init;
+    //                 ResignationApprover."Document No." := EmpAct."No.";
+    //                 ResignationApprover.Validate("Employee No.", Employee."No.");
+    //                 ResignationApprover."Approval Status" := ResignationApprover."Approval Status"::Open;
+    //                 ResignationApprover.Validate("Functional Title", Employee."Functional Title");
+    //                 ResignationApprover.Insert(true);
+    //             end;
+    //         until Employee.Next = 0;
+    // end;
 
-    local procedure InsertMedicalInsuranceApprover(var EmpAct: Record "Employee Activity")
-    var
-        ResignationApprover: Record "Document Approver";
-        Employee: Record Employee;
-        EmpFieldRef: FieldRef;
-        EmpRecordRef: RecordRef;
-    begin
-        Employee.Reset;
-        Employee.SetRange("Resignation Approver", true);
-        if Employee.FindFirst then
-            repeat
-                ResignationApprover.Reset;
-                ResignationApprover.SetRange("Document No.", EmpAct."No.");
-                ResignationApprover.SetRange("Employee No.", Employee."No.");
-                //ResignationApprover.SETRANGE("Approver Type", ResignationApprover."Approver Type"::"Finance & Accounts");
-                if not ResignationApprover.FindFirst then begin
-                    ResignationApprover.Init;
-                    ResignationApprover."Document No." := EmpAct."No.";
-                    ResignationApprover.Validate("Employee No.", Employee."No.");
-                    ResignationApprover."Approval Status" := ResignationApprover."Approval Status"::Open;
-                    ResignationApprover.Validate("Functional Title", Employee."Functional Title");
-                    ResignationApprover.Insert(true);
-                end;
-            until Employee.Next = 0;
-    end;
+    // local procedure SetMedicalInsuranceApprover(var EmpAct: Record "Employee Activity"; var Receipient: Text)
+    // var
+    //     DocumentApprover: Record "Document Approver";
+    // begin
+    //     DocumentApprover.Reset;
+    //     DocumentApprover.SetRange("Document No.", EmpAct."No.");
+    //     DocumentApprover.SetFilter("Employee No.", '<>%1', '');
+    //     if DocumentApprover.FindFirst then
+    //         repeat
+    //             Employee.Get(DocumentApprover."Employee No.");
+    //             if Employee."Company E-Mail" <> '' then begin
+    //                 if Receipient <> '' then
+    //                     Receipient += ';' + Employee."Company E-Mail"
+    //                 else
+    //                     Receipient := Employee."Company E-Mail";
+    //             end;
 
-    local procedure SetMedicalInsuranceApprover(var EmpAct: Record "Employee Activity"; var Receipient: Text)
-    var
-        DocumentApprover: Record "Document Approver";
-    begin
-        DocumentApprover.Reset;
-        DocumentApprover.SetRange("Document No.", EmpAct."No.");
-        DocumentApprover.SetFilter("Employee No.", '<>%1', '');
-        if DocumentApprover.FindFirst then
-            repeat
-                Employee.Get(DocumentApprover."Employee No.");
-                if Employee."Company E-Mail" <> '' then begin
-                    if Receipient <> '' then
-                        Receipient += ';' + Employee."Company E-Mail"
-                    else
-                        Receipient := Employee."Company E-Mail";
-                end;
-
-            until DocumentApprover.Next = 0;
-    end;
+    //         until DocumentApprover.Next = 0;
+    // end;
 
     procedure ScreenMedicalInsurance(var Medicalinsurance: Record "Medical Insurance Claim")
     var

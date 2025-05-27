@@ -355,8 +355,6 @@ table 50143 "Medical Insurance Claim"
         if not GuiAllowed then begin
             InsuranceMgt.SendMedicalInsuranceApproval(Rec)
         end;
-
-        // InsertAttachmentLines;
     end;
 
     trigger OnDelete()
