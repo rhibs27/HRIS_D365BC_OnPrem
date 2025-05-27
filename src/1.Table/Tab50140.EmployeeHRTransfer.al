@@ -396,16 +396,16 @@ table 50140 "Employee/HR Transfer"
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Province Code (To)" <> xRec."Province Code (To)" then begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
-                        // if ProvinceVar.Get("Province Code (To)") then begin
-                        //     "Province Name To" := OrganizationStructureList."Province Name";
-                        //     "Shortcut Dimension 1 Code (To)" := '';
-                        // end;
-                        "Department Code (To)" := '';
-                        "Unit (To)" := '';
-                        "Extension Counter (To)" := '';
-                        ValidateDeputationOnTo();
-                    end;
+                    // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
+                    // if ProvinceVar.Get("Province Code (To)") then begin
+                    //     "Province Name To" := OrganizationStructureList."Province Name";
+                    //     "Shortcut Dimension 1 Code (To)" := '';
+                    // end;
+                    "Department Code (To)" := '';
+                    "Unit (To)" := '';
+                    "Extension Counter (To)" := '';
+                    ValidateDeputationOnTo();
+                    // end;
                 end;
             end;
         }
@@ -1065,7 +1065,7 @@ table 50140 "Employee/HR Transfer"
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    Validate("Province Code (To)", OrganizationStructureList."Province Code");
+                    // Validate("Province Code (To)", OrganizationStructureList."Province Code");
                     Validate("Province Name To", OrganizationStructureList."Province Name");
                 end;
         end;
