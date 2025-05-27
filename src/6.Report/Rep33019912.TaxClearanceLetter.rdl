@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Dear Sir/Madam,
+                    <Value>Dear Sir/Madam,
 
 This is to inform that </Value>
                     <Style>
@@ -31,56 +31,56 @@ This is to inform that </Value>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!GenderValue.Value</Value>
+                    <Value>=Fields!GenderValue.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value xml:space="preserve" EvaluationMode="Auto"> </Value>
+                    <Value xml:space="preserve"> </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!FullName_Employee.Value</Value>
+                    <Value>=Fields!FullName_Employee.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto"> of NIC Asia Bank Limited has paid </Value>
+                    <Value> of ABC Limited has paid </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!GenderValue5.Value</Value>
+                    <Value>=Fields!GenderValue5.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto"> applicable taxes during </Value>
+                    <Value> applicable taxes during </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!GenderValue5.Value</Value>
+                    <Value>=Fields!GenderValue5.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto"> tenure at the 
+                    <Value> tenure at the 
 
 bank for </Value>
                     <Style>
@@ -89,82 +89,70 @@ bank for </Value>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!FiscalYear.Value</Value>
+                    <Value>=Fields!FiscalYear.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">. Hence, you are kindly requested to provide </Value>
+                    <Value>. Hence, you are kindly requested to provide </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!GenderValue5.Value</Value>
+                    <Value>=Fields!GenderValue5.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto"> tax clearance certificate for fiscal year </Value>
+                    <Value> tax clearance certificate for fiscal year </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!FiscalYear.Value</Value>
+                    <Value>=Fields!FiscalYear.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">. </Value>
+                    <Value>. </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!GenderValue3.Value</Value>
+                    <Value>=Fields!GenderValue3.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto"> PAN number is </Value>
+                    <Value> PAN number is </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">=Fields!PANNo.Value</Value>
+                    <Value>=Fields!PANNo.Value</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value EvaluationMode="Auto">.</Value>
-                    <Style>
-                      <FontFamily>Segoe UI</FontFamily>
-                      <FontSize>8pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value>.</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -176,7 +164,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -188,7 +176,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -200,7 +188,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -212,7 +200,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -224,7 +212,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -236,7 +224,19 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Sincerely Yours,
+                    <Value />
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Sincerely Yours,
 </Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
@@ -269,7 +269,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -281,7 +281,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto" />
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -293,7 +293,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">..………………..</Value>
+                    <Value>..………………..</Value>
                     <Style>
                       <FontFamily>Segoe UI</FontFamily>
                       <FontSize>8pt</FontSize>
@@ -305,7 +305,7 @@ bank for </Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">
+                    <Value>
 Authorized Signature
 
 DNA &amp; Talent Management Department
@@ -352,7 +352,7 @@ DNA &amp; Talent Management Department
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">TAX CLEARANCE LETTER</Value>
+                      <Value>TAX CLEARANCE LETTER</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontWeight>Bold</FontWeight>
@@ -402,7 +402,7 @@ DNA &amp; Talent Management Department
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!CompanyAddress.Value+","+"Phone No."+Fields!CompanyPhone.Value</Value>
+                      <Value>=Fields!CompanyAddress.Value+","+"Phone No."+Fields!CompanyPhone.Value</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -438,7 +438,7 @@ DNA &amp; Talent Management Department
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">The Chief Tax Administrator 
+                      <Value>The Chief Tax Administrator 
 
 Tax Office</Value>
                       <Style />
@@ -469,7 +469,7 @@ Tax Office</Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">Subject: To Provide Tax Clearance Certificate</Value>
+                      <Value>Subject: To Provide Tax Clearance Certificate</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
@@ -502,14 +502,14 @@ Tax Office</Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">Date: </Value>
+                      <Value>Date: </Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!TDate.Value</Value>
+                      <Value>=Fields!TDate.Value</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -542,14 +542,14 @@ Tax Office</Value>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">Ref No.: </Value>
+                      <Value>Ref No.: </Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!referenceNo.Value</Value>
+                      <Value>=Fields!referenceNo.Value</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8pt</FontSize>

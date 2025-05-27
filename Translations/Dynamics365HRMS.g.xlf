@@ -30949,7 +30949,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Experience Letter with Fun Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 900836314 - Action 2745321877 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Extra Mileage Calculation Report action.</source>
+          <source>Executes the Extra Overtime Calculation Report action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Extra Mileage Calculation Report - Property ToolTip</note>
         </trans-unit>

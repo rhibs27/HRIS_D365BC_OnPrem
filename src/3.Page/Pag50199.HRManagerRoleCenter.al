@@ -459,8 +459,8 @@ page 50199 "HR Manager Role Center"
                     PromotedCategory = "Report";
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    RunObject = report "Extramileage Calculation Repor";
-                    ToolTip = 'Executes the Extra Mileage Calculation Report action.';
+                    RunObject = report "Overtime Calculation Report";
+                    ToolTip = 'Executes the Extra Overtime Calculation Report action.';
                     ApplicationArea = All;
                 }
                 action("Training Attendance Report")
