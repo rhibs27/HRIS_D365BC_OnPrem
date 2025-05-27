@@ -347,10 +347,13 @@ table 50143 "Medical Insurance Claim"
                     IncomingDoc.Validate("Table ID", Database::"Medical Insurance Claim");
                     IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
                     IncomingDoc.Validate("Employee Code", "Employee No.");
-                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
+                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::"Medical Insurance Claim");
                     IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
                     IncomingDoc.Insert;
                 until AttachmentSetup.Next = 0;
+        end;
+        if not GuiAllowed then begin
+            InsuranceMgt.SendMedicalInsuranceApproval(Rec)
         end;
 
         // InsertAttachmentLines;
@@ -383,4 +386,5 @@ table 50143 "Medical Insurance Claim"
         ApproverMgt: Codeunit "Approver Mgt";
         AttachmentSetup: Record "Attachment Setup";
         IncomingDoc: Record "Incoming Document";
+        InsuranceMgt: Codeunit "Insurance Mgt";
 }

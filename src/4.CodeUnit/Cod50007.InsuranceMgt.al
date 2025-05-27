@@ -30,6 +30,7 @@ codeunit 50007 "Insurance Mgt"
     procedure SendMedicalInsuranceApproval(var medicalInsuranceClaim: Record "Medical Insurance Claim")
     var
         MedicalInsurance: Record "Medical Insurance Claim";
+
     begin
         medicalInsurance.Reset();
         MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
@@ -37,6 +38,7 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
         if MedicalInsurance.FindFirst then
             Error('This Employee Already has Pending Medical Insurance Claim Request.');
+
         if GuiAllowed then begin
             ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
