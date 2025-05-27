@@ -136,9 +136,7 @@ page 50206 "Medical Insurance Claim"
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
-                SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
-                                "Document Type" = field(Type);
+                SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
             }
             part(Attachment; "Attachment Subform")

@@ -35,7 +35,7 @@ table 50143 "Medical Insurance Claim"
         field(3; "Employee No."; Code[20])
         {
             TableRelation = Employee;
-
+            Editable = false;
             trigger OnValidate()
             begin
                 if EmpVar.Get("Employee No.") then begin
@@ -207,7 +207,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
+            Editable = false;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -292,7 +292,7 @@ table 50143 "Medical Insurance Claim"
         }
         field(60; "Insurance Status"; Enum "Insurance Status")
         {
-
+            Editable = false;
         }
         field(100; Status; Text[50])
         {
@@ -328,7 +328,6 @@ table 50143 "Medical Insurance Claim"
                 NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
-
                     //for medical insurance claim
                     Type::"Medical Insurance Claim":
                         begin

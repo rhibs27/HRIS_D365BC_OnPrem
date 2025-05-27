@@ -1,6 +1,6 @@
 codeunit 50007 "Insurance Mgt"
 {
-    procedure OpenMedicalInsuranePage(EmployeeCode: Code[20])
+    procedure OpenMedicalInsurancePage(EmployeeCode: Code[20])
     var
         //EmployeeAct: Record "Employee Activity";
         MedicalInsurance: Record "Medical Insurance Claim";
@@ -11,22 +11,32 @@ codeunit 50007 "Insurance Mgt"
         MedicalInsurance.Reset;
         MedicalInsurance.SetRange("Employee No.", EmployeeCode);
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
-        MedicalInsurance.SetFilter("Approval Status", '<>%1', MedicalInsurance."Approval Status"::"Pending");
-        if not MedicalInsurance.FindFirst then begin
+        MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Open);
+        if MedicalInsurance.FindFirst then begin
+            Message('This Employee Already has open Leave Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
+        end
+        else begin
             MedicalInsurance.Init;
             MedicalInsurance.Validate(Type, MedicalInsurance.Type::"Medical Insurance Claim");
             MedicalInsurance.Validate("Employee No.", EmployeeCode);
+            MedicalInsurance.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
+            MedicalInsurance.Validate("Approval Status", MedicalInsurance."Approval Status"::Open);
             MedicalInsurance.Insert(true);
             PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
-        end
-        else
-            PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
+        end;
     end;
 
     procedure SendMedicalInsuranceApproval(var medicalInsuranceClaim: Record "Medical Insurance Claim")
     var
-        myInt: Integer;
+        MedicalInsurance: Record "Medical Insurance Claim";
     begin
+        medicalInsurance.Reset();
+        MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
+        MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");
+        MedicalInsurance.SetRange("Approval Status", MedicalInsurance."Approval Status"::Pending);
+        if MedicalInsurance.FindFirst then
+            Error('This Employee Already has Pending Medical Insurance Claim Request.');
         if GuiAllowed then begin
             ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
             medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
