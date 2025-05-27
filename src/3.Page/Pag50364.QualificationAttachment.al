@@ -44,7 +44,7 @@ page 50364 "Qualification Attachment"
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
                         // check file size 
-                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, RecordId.TableNo);
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Emp Qualification Type"::Education));
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then

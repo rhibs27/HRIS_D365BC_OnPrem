@@ -150,7 +150,7 @@ page 50100 "Posted Leave Card"
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     Editable = IsPending;
-                    Visible = IsPending;
+                    Visible = IsPending or IsRejected;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
                     trigger OnValidate()

@@ -243,21 +243,23 @@ table 50143 "Medical Insurance Claim"
                 Clear("Mother Name");
                 Clear("Spouse Name");
                 Clear("Child Name");
-                EmpRelative.Reset;
-                EmpRelative.SetRange("Employee No.", "Employee No.");
-                EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
-                if EmpRelative.FindFirst then begin
-                    case "Insurance Claim" of
-                        "Insurance Claim"::Father:
-                            Validate("Father Name", EmpRelative."Full Name");
-                        "Insurance Claim"::Mother:
-                            Validate("Mother Name", EmpRelative."Full Name");
-                        "Insurance Claim"::Spouse:
-                            Validate("Spouse Name", EmpRelative."Full Name");
-                        "Insurance Claim"::Child:
-                            Validate("Child Name", EmpRelative."Full Name");
-                        else
-                            Error('Please enter the family details in "Employee Relative" table.');
+                if "Insurance Claim" <> "Insurance Claim"::"General Checkup" then begin
+                    EmpRelative.Reset;
+                    EmpRelative.SetRange("Employee No.", "Employee No.");
+                    EmpRelative.SetRange("Relative Code", Format("Insurance Claim"));
+                    if EmpRelative.FindFirst then begin
+                        case "Insurance Claim" of
+                            "Insurance Claim"::Father:
+                                Validate("Father Name", EmpRelative."Full Name");
+                            "Insurance Claim"::Mother:
+                                Validate("Mother Name", EmpRelative."Full Name");
+                            "Insurance Claim"::Spouse:
+                                Validate("Spouse Name", EmpRelative."Full Name");
+                            "Insurance Claim"::Child:
+                                Validate("Child Name", EmpRelative."Full Name");
+                            else
+                                Error('Please enter the family details in "Employee Relative" table.');
+                        end;
                     end;
                 end;
             end;
