@@ -19,19 +19,19 @@ page 50344 "Medical Insurance Entity"
             {
                 field(No; Rec."No.") { }
                 field(type; Rec.Type) { }
-                field(employeeno; Rec."Employee No.")
+                field(employeeNo; Rec."Employee No.")
                 {
                     Editable = true;
                 }
-                field(employeename; Rec."Employee Name") { }
+                field(employeeName; Rec."Employee Name") { }
 
-                field(startdate; Rec."Start Date") { }
-                field(startdateBS; Rec."Start Date (BS)") { }
-                field(enddate; Rec."End Date") { }
-                field(enddateBS; Rec."End Date (BS)") { }
-                field(requesteddate; Rec."Requested Date") { }
-                field(fiscalyear; Rec."Fiscal Year") { }
-                field(approvalstatus; Rec."Approval Status") { }
+                field(startDate; Rec."Start Date") { }
+                field(startDateBS; Rec."Start Date (BS)") { }
+                field(endDate; Rec."End Date") { }
+                field(endDateBS; Rec."End Date (BS)") { }
+                field(requestedDate; Rec."Requested Date") { }
+                field(fiscalYear; Rec."Fiscal Year") { }
+                field(approvalStatus; Rec."Approval Status") { }
                 field(cancelledNo; Rec."Cancelled No.") { }
                 field(cancelledDocNo; Rec."Cancelled Document No.")
                 {

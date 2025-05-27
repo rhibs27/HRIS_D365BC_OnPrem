@@ -53,30 +53,34 @@ page 50206 "Medical Insurance Claim"
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
+                    Editable = false;
+                    Visible = ApprovalStatusView;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
                 field("Status"; Rec."Status")
                 {
+                    Editable = false;
+                    Visible = StatusView;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
                 field(Remarks; Rec.Remarks)
                 {
-                    // Editable = IsOpen;
+                    Editable = IsOpen;
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    // Editable = IsPending;
-                    // Visible = IsPending;
+                    Editable = IsPending;
+                    Visible = IsPending;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                     trigger OnValidate()
                     begin
-                        // CurrPage.Update();
-                        // RecRef.GetTable(Rec);
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
                     end;
                 }
 
@@ -144,13 +148,13 @@ page 50206 "Medical Insurance Claim"
     {
         area(Creation)
         {
-            action("Send Request to DTMD")
+            action("Approve Request")
             {
                 Image = SendApprovalRequest;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ApprovalSent;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Request to DTMD action.';
                 ApplicationArea = All;
 
@@ -167,7 +171,7 @@ page 50206 "Medical Insurance Claim"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = Screen;
+                // Visible = Screen;
                 ToolTip = 'Executes the Screen action.';
                 ApplicationArea = All;
 
@@ -183,7 +187,7 @@ page 50206 "Medical Insurance Claim"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = Screened;
+                Visible = IsApproved;
                 ToolTip = 'Executes the Send to Insurance Company action.';
                 ApplicationArea = All;
 
@@ -246,15 +250,25 @@ page 50206 "Medical Insurance Claim"
         HRMgt: Codeunit "HR Mgt.";
         InsuranceMgt: Codeunit "Insurance Mgt";
         ApprovalSent: Boolean;
-        Screen: Boolean;
-        Screened: Boolean;
         ApproveReject: Boolean;
+        IsOpen: Boolean;
+        IsPending: Boolean;
+        IsApproved: Boolean;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+        RecRef: RecordRef;
 
     procedure SetLayout()
     begin
-        ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
-        Screen := Rec."Insurance Status" = Rec."Insurance Status"::"Request to DTMD";
-        Screened := Rec."Insurance Status" = Rec."Insurance Status"::Screened;
+        IsPending := rec."Approval Status" = rec."Approval Status"::"Pending";
+        IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsApproved := rec."Approval Status" = rec."Approval Status"::Approved;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        RecRef.GetTable(Rec);
+        // ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
         ApproveReject := Rec."Insurance Status" = Rec."Insurance Status"::"Forwarded to Insurance Co.";
     end;
 }

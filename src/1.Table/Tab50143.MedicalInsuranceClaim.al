@@ -329,11 +329,27 @@ table 50143 "Medical Insurance Claim"
                         begin
                             HRSetup.TestField("Medical Insurance No.");
                             NoSeriesMgt.InitSeries(HRSetup."Medical Insurance No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");//Create Approval line from Setup Santosh 
                         end;
                 end;
             end;
 
         // InsertAttachmentLines;
+    end;
+
+    trigger OnDelete()
+    var
+        ApprovalEntry: Record "Approval HRMS";
+        CannotDelete: Label 'Cannot delete document.';
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
     end;
 
     var
@@ -345,4 +361,5 @@ table 50143 "Medical Insurance Claim"
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
         EmpRelative: Record "Employee Relative";
+        ApproverMgt: Codeunit "Approver Mgt";
 }
