@@ -81,6 +81,6 @@ query 50023 "Medical Insurance Claim Query"
         HRMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, HRMgt.GetEmployeeNo());
-        CurrQuery.SetRange(type, type::Overtime);
+        CurrQuery.SetRange(type, type::"Medical Insurance Claim");
     end;
 }

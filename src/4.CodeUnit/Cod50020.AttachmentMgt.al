@@ -206,7 +206,7 @@ codeunit 50020 "Attachment Mgt."
 
         // Prompt the user to select a file and upload into TempBlob
         if UploadIntoStream('Select a file to upload', '', '', FileName, InStream) then begin
-            CheckAttachmentSizeLimit(InStream, IncomingDocument."Table ID"); //Check file size limit
+            CheckAttachmentSizeLimit(InStream, format(IncomingDocument."Employee Activity Type")); //Check file size limit
             // Check File Extension
             Extension := FileMgt.GetExtension(FileName);
             if Extension = '' then
@@ -246,7 +246,7 @@ codeunit 50020 "Attachment Mgt."
             Error('File upload canceled.');
     end;
 
-    procedure CheckAttachmentSizeLimit(InStream: InStream; TableID: Integer);
+    procedure CheckAttachmentSizeLimit(InStream: InStream; EmpActType: text);
     var
         FileSize: Integer;
         AttachmentSetup: Record "Attachment Setup";
@@ -257,7 +257,7 @@ codeunit 50020 "Attachment Mgt."
         // if TableID = 0 then
         //     AttachmentSetup.SetRange(Type, AttachmentSetupType)
         // else
-        AttachmentSetup.SetRange("Table ID", TableID);
+        AttachmentSetup.SetFilter(Type, EmpActType);
         if AttachmentSetup.FindFirst() then
             MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;
         if MaxFileSize = 0 then
@@ -601,6 +601,8 @@ codeunit 50020 "Attachment Mgt."
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
+        AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
         File.CREATE(ServerFilePath);       // Create the file on the server
         File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
         CopyStream(OutStream, InStream);  // Write the data

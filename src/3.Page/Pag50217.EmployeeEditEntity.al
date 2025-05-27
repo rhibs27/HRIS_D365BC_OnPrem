@@ -268,13 +268,14 @@ page 50217 "Employee Edit Entity"
         Outstream: OutStream;
         FileName: text;
         AttachmentMgt: Codeunit "Attachment Mgt.";
+        AttachmentType: Enum "Attachment Setup Type";
     begin
         AttachmentMgt.checkAttachmentExtension(extension);
         FileName := Rec."Employee No." + '.' + extension;
         TempBlob.CreateOutStream(outStream);
         base64.FromBase64(attachmentImport, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        AttachmentMgt.CheckAttachmentSizeLimit(InStream, Rec.RecordId.TableNo);//checkfileSIze
+        AttachmentMgt.CheckAttachmentSizeLimit(InStream, Format(AttachmentType::"Employee Profile"));//checkfileSIze
         Rec.Attachment.ImportStream(Instream, FileName);
     end;
 }

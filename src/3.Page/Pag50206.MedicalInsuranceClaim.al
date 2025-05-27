@@ -74,7 +74,7 @@ page 50206 "Medical Insurance Claim"
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     Editable = IsPending;
-                    Visible = IsPending;
+                    Visible = IsPending or IsRejected;
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                     trigger OnValidate()
@@ -236,21 +236,20 @@ page 50206 "Medical Insurance Claim"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = IsApproved;
+                Visible = IsApproved and not ApproveReject;
                 ToolTip = 'Executes the Send to Insurance Company action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     HRMgt: Codeunit "HR Mgt.";
                     EmpAct: Record "Employee Activity";
                     ApprovalRequestSent: Label 'Insurance Claim email to company has been sent.';
                 begin
-                    if Rec."Insurance Status" = Rec."Insurance Status"::Screened then begin
-                        HRMgt.SendMailFromTemplate(Database::"Employee Activity", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-                        Message(ApprovalRequestSent);
+                    if Rec."Approval Status" = Rec."Approval Status"::Approved then begin
+                        HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
                         Rec.Validate("Insurance Status", Rec."Insurance Status"::"Forwarded to Insurance Co.");
                         Rec.Modify;
+                        Message(ApprovalRequestSent);
                     end;
                     CurrPage.Close();
                 end;
@@ -295,6 +294,12 @@ page 50206 "Medical Insurance Claim"
         SetLayout();
     end;
 
+    trigger OnOpenPage()
+
+    begin
+        SetLayout();
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         InsuranceMgt: Codeunit "Insurance Mgt";
@@ -305,6 +310,7 @@ page 50206 "Medical Insurance Claim"
         IsPending: Boolean;
         IsApproved: Boolean;
         StatusView: Boolean;
+        IsRejected: Boolean;
         ApprovalStatusView: Boolean;
         RecRef: RecordRef;
 
@@ -313,6 +319,7 @@ page 50206 "Medical Insurance Claim"
         IsPending := rec."Approval Status" = rec."Approval Status"::"Pending";
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApproved := rec."Approval Status" = rec."Approval Status"::Approved;
+        IsRejected := rec."Approval Status" = rec."Approval Status"::Rejected;
         if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
             StatusView := true
         else

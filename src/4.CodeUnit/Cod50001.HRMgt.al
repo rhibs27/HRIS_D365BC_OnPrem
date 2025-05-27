@@ -6260,15 +6260,15 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     //     Message('Document has been recommended');
     // end;
-    procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
-    begin
-        // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
-        //     Error('You are not eligible to recommend this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
-        // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
-        // EmpHrTransfer.Modify;
-        // Message('Document has been recommended');
-    end;
+    // procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // begin
+    //     // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
+    //     //     Error('You are not eligible to recommend this document');
+    //     // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+    //     // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
+    //     // EmpHrTransfer.Modify;
+    //     // Message('Document has been recommended');
+    // end;
 
     // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
     // var
@@ -6282,15 +6282,15 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     //     Message('Document has been reviewed.');
     // end;
-    procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
-    begin
-        // if EmpHrTransfer.Reviewer <> employeeNo then
-        //     Error('You are not elibile to review this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
-        // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Reviewed);
-        // EmpHrTransfer.Modify;
-        // Message('Document has been reviewed.');
-    end;
+    // procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // begin
+    // if EmpHrTransfer.Reviewer <> employeeNo then
+    //     Error('You are not elibile to review this document');
+    // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
+    // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Reviewed);
+    // EmpHrTransfer.Modify;
+    // Message('Document has been reviewed.');
+    // end;
 
     // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
     // var
@@ -6870,15 +6870,15 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    local procedure GetTransferClaimApprover(var EmpAct: Record "Employee Activity")
-    begin
+    // local procedure GetTransferClaimApprover(var EmpAct: Record "Employee Activity")
+    // begin
 
-        /*HRSetup.GET;
-        HRSetup.TESTFIELD("Transfer Claim Approver");
-        
-        */
+    //     /*HRSetup.GET;
+    //     HRSetup.TESTFIELD("Transfer Claim Approver");
 
-    end;
+    //     */
+
+    // end;
 
     procedure GetEmployeeName(EmpCode: Code[20]; var EmpName: Text)
     var
@@ -8534,58 +8534,58 @@ codeunit 50001 "HR Mgt."
     // end;
 
 
-    procedure ScreenCancelledLeave(EmpAct: Record "Employee Activity")
-    var
-        LeaveEarn: Record "Leave Earn";
-        EmpAttendActivity: Record "Employee Attendance & Activity";
-    begin
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Approved);
-        EmpAct.TestField(Type, EmpAct.Type::"Leave Request");
-        Employee.Get(GetEmployeeNo);
-        // if not Employee.Screener then
-        //     Error('You are not eligible to screen this document.');
-        if EmpAct.Type = EmpAct.Type::"Leave Request" then begin
-            //LeaveEarn.RESET;
-            LeaveEarn.Init;
-            LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
-            LeaveEarn.Validate("Leave Description", EmpAct."Leave Description");
-            LeaveEarn.Validate("Leave Request No", EmpAct."No.");
-            LeaveEarn.Validate(EmpNo, EmpAct."Employee No.");
-            LeaveEarn.Validate("Employee Full Name", EmpAct."Employee Name");
-            LeaveEarn.Validate("Fiscal year", ReturnFiscalYear(Today));
-            LeaveEarn.Validate("Posted Date", Today);
-            LeaveEarn.Validate("Balancing Days", EmpAct."No. of Days");
-            LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
-            LeaveEarn.Insert(true);
+    // procedure ScreenCancelledLeave(EmpAct: Record "Employee Activity")
+    // var
+    //     LeaveEarn: Record "Leave Earn";
+    //     EmpAttendActivity: Record "Employee Attendance & Activity";
+    // begin
+    //     EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Approved);
+    //     EmpAct.TestField(Type, EmpAct.Type::"Leave Request");
+    //     Employee.Get(GetEmployeeNo);
+    //     // if not Employee.Screener then
+    //     //     Error('You are not eligible to screen this document.');
+    //     if EmpAct.Type = EmpAct.Type::"Leave Request" then begin
+    //         //LeaveEarn.RESET;
+    //         LeaveEarn.Init;
+    //         LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
+    //         LeaveEarn.Validate("Leave Description", EmpAct."Leave Description");
+    //         LeaveEarn.Validate("Leave Request No", EmpAct."No.");
+    //         LeaveEarn.Validate(EmpNo, EmpAct."Employee No.");
+    //         LeaveEarn.Validate("Employee Full Name", EmpAct."Employee Name");
+    //         LeaveEarn.Validate("Fiscal year", ReturnFiscalYear(Today));
+    //         LeaveEarn.Validate("Posted Date", Today);
+    //         LeaveEarn.Validate("Balancing Days", EmpAct."No. of Days");
+    //         LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
+    //         LeaveEarn.Insert(true);
 
-            EmpAttendActivity.Reset;
-            EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
-            EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
-            if EmpAttendActivity.Find('-') then
-                repeat
-                    if EmpAttendActivity."Check In Time" <> 0T then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                        EmpAttendActivity."Present Day" := 1;
-                    end else begin
-                        EmpAttendActivity."Present Day" := 0;
-                        EmpAttendActivity."Absent Day" := 1;
-                    end;
-                    if LeaveMgt.GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                    end;
-                    EmpAttendActivity."Leave Day" := 0;
-                    //EmpAttendActivity."Week Off Day" := 0;
-                    EmpAttendActivity."Tour Day" := 0;
-                    EmpAttendActivity."Source No." := EmpAct."No.";
-                    EmpAttendActivity."Employee Activity Found" := true;
-                    EmpAttendActivity."Leave Description" := '';
-                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                    EmpAttendActivity.Modify;
-                until EmpAttendActivity.Next = 0;
-        end;
-        EmpAct."Approval Status" := EmpAct."Approval Status"::Screened;
-        EmpAct.Modify;
-    end;
+    //         EmpAttendActivity.Reset;
+    //         EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
+    //         EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
+    //         if EmpAttendActivity.Find('-') then
+    //             repeat
+    //                 if EmpAttendActivity."Check In Time" <> 0T then begin
+    //                     EmpAttendActivity."Absent Day" := 0;
+    //                     EmpAttendActivity."Present Day" := 1;
+    //                 end else begin
+    //                     EmpAttendActivity."Present Day" := 0;
+    //                     EmpAttendActivity."Absent Day" := 1;
+    //                 end;
+    //                 if LeaveMgt.GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
+    //                     EmpAttendActivity."Absent Day" := 0;
+    //                 end;
+    //                 EmpAttendActivity."Leave Day" := 0;
+    //                 //EmpAttendActivity."Week Off Day" := 0;
+    //                 EmpAttendActivity."Tour Day" := 0;
+    //                 EmpAttendActivity."Source No." := EmpAct."No.";
+    //                 EmpAttendActivity."Employee Activity Found" := true;
+    //                 EmpAttendActivity."Leave Description" := '';
+    //                 EmpAttendActivity."Created Datetime" := CurrentDateTime;
+    //                 EmpAttendActivity.Modify;
+    //             until EmpAttendActivity.Next = 0;
+    //     end;
+    //     EmpAct."Approval Status" := EmpAct."Approval Status"::Screened;
+    //     EmpAct.Modify;
+    // end;
 
     procedure ApproveRejectCancelAttendanceMissed(EmpAct: Record "Employee Activity"; IsApproved: Boolean)
     var

@@ -40,6 +40,7 @@ page 50350 "Notice Picture"
                     InStream: InStream;
                     AttachmentMgt: Codeunit "Attachment Mgt.";
                     Extension: Text;
+                    AttachmentType: Enum "Attachment Setup Type";
                 begin
                     Rec.TestField("Entry No.");
 
@@ -48,7 +49,7 @@ page 50350 "Notice Picture"
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FileName, InStream) then begin
                         // check file size 
-                        AttachmentMgt.CheckAttachmentSizeLimit(InStream, RecordId.TableNo);
+                        AttachmentMgt.CheckAttachmentSizeLimit(InStream, Format(AttachmentType::Notice));
                         // Check File Extension
                         Extension := FileManagement.GetExtension(FileName);
                         if Extension = '' then

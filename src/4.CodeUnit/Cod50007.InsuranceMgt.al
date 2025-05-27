@@ -33,6 +33,10 @@ codeunit 50007 "Insurance Mgt"
         IncomingDoc: Record "Incoming Document";
 
     begin
+        medicalInsuranceClaim.TestField("Insurance Claim");
+        medicalInsuranceClaim.TestField("Medical Prescription Date");
+        medicalInsuranceClaim.TestField("Discharge Date");
+        medicalInsuranceClaim.TestField("Total Insurance Claim Amount");
         medicalInsurance.Reset();
         MedicalInsurance.SetRange("Employee No.", medicalInsuranceClaim."Employee No.");
         MedicalInsurance.SetRange(Type, MedicalInsurance.Type::"Medical Insurance Claim");

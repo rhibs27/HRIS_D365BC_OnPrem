@@ -134,7 +134,7 @@ page 50108 "Portal Functions"
     // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getEmployeeApproval(empActType: Code[20]): text
+    procedure getEmployeeApproval(empActType: Code[30]): text
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -3939,6 +3939,7 @@ page 50108 "Portal Functions"
         LeaveCancelledForApprove: Integer;
         LateAttendanceForApprove: Integer;
         InsuranceForApprove: Integer;
+        MedicalInsuranceClaimForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -4104,8 +4105,14 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         InsuranceForApprove := Approval.Count();
 
+        Approval.SetRange("Document Type", Approval."Document Type"::"Medical Insurance Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        MedicalInsuranceClaimForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4128,6 +4135,7 @@ page 50108 "Portal Functions"
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
         ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
+        ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
 
     end;
@@ -4339,22 +4347,41 @@ page 50108 "Portal Functions"
             end;
         end;
     end;
-
+    //API for Insurance and Medical Insurance Claim Approval --santosh 5/27/2025--
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; empActType: text)
     var
         EmployeeInsurance: Record "Employee Insurance Information";
+        EmployeeMedicalInsurance: Record "Medical Insurance Claim";
+        EmployeeActType: Enum "Employee Activity Type";
         RecRef: RecordRef;
     begin
-        EmployeeInsurance.Get(empInsuranceNo);
-        if not isApproved then begin
-            if rejectionRemarks = '' then
-                Error('Rejection Remarks is empty');
-            EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
-            EmployeeInsurance.Modify;
+        case empActType of
+            Format(EmployeeActType::"Medical Insurance Claim"):
+                begin
+                    EmployeeMedicalInsurance.Get(empInsuranceNo);
+                    if not isApproved then begin
+                        if rejectionRemarks = '' then
+                            Error('Rejection Remarks is empty');
+                        EmployeeMedicalInsurance.Validate("Rejection Remarks", rejectionRemarks);
+                        EmployeeMedicalInsurance.Modify;
+                    end;
+                    RecRef.GetTable(EmployeeMedicalInsurance);
+                    ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+                end;
+            Format(EmployeeActType::Insurance):
+                begin
+                    EmployeeInsurance.Get(empInsuranceNo);
+                    if not isApproved then begin
+                        if rejectionRemarks = '' then
+                            Error('Rejection Remarks is empty');
+                        EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
+                        EmployeeInsurance.Modify;
+                    end;
+                    RecRef.GetTable(EmployeeInsurance);
+                    ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+                end;
         end;
-        RecRef.GetTable(EmployeeInsurance);
-        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 }
