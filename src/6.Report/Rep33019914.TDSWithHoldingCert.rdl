@@ -11,145 +11,6 @@
       <rd:DataSourceID>777a4f16-834e-40b9-b47e-1a89cdc124f8</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-        </Field>
-        <Field Name="FullName">
-          <DataField>FullName</DataField>
-        </Field>
-        <Field Name="FiscalYearStartDate">
-          <DataField>FiscalYearStartDate</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="EtdsMonth">
-          <DataField>EtdsMonth</DataField>
-        </Field>
-        <Field Name="PAN1">
-          <DataField>PAN1</DataField>
-        </Field>
-        <Field Name="PAN2">
-          <DataField>PAN2</DataField>
-        </Field>
-        <Field Name="PAN3">
-          <DataField>PAN3</DataField>
-        </Field>
-        <Field Name="PAN4">
-          <DataField>PAN4</DataField>
-        </Field>
-        <Field Name="PAN5">
-          <DataField>PAN5</DataField>
-        </Field>
-        <Field Name="PAN6">
-          <DataField>PAN6</DataField>
-        </Field>
-        <Field Name="PAN7">
-          <DataField>PAN7</DataField>
-        </Field>
-        <Field Name="PAN8">
-          <DataField>PAN8</DataField>
-        </Field>
-        <Field Name="PAN9">
-          <DataField>PAN9</DataField>
-        </Field>
-        <Field Name="MobilePhoneNo">
-          <DataField>MobilePhoneNo</DataField>
-        </Field>
-        <Field Name="PermanentDistrict">
-          <DataField>PermanentDistrict</DataField>
-        </Field>
-        <Field Name="PermanentVDC">
-          <DataField>PermanentVDC</DataField>
-        </Field>
-        <Field Name="WardNo">
-          <DataField>WardNo</DataField>
-        </Field>
-        <Field Name="PermanentHouse">
-          <DataField>PermanentHouse</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore1">
-          <DataField>TaxableAmtTextArrayBefore1</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore2">
-          <DataField>TaxableAmtTextArrayBefore2</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore3">
-          <DataField>TaxableAmtTextArrayBefore3</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore4">
-          <DataField>TaxableAmtTextArrayBefore4</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore5">
-          <DataField>TaxableAmtTextArrayBefore5</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore6">
-          <DataField>TaxableAmtTextArrayBefore6</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore7">
-          <DataField>TaxableAmtTextArrayBefore7</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore8">
-          <DataField>TaxableAmtTextArrayBefore8</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayBefore9">
-          <DataField>TaxableAmtTextArrayBefore9</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayAfter1">
-          <DataField>TaxableAmtTextArrayAfter1</DataField>
-        </Field>
-        <Field Name="TaxableAmtTextArrayAfter2">
-          <DataField>TaxableAmtTextArrayAfter2</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore1">
-          <DataField>TdsAmtTextArrayBefore1</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore2">
-          <DataField>TdsAmtTextArrayBefore2</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore3">
-          <DataField>TdsAmtTextArrayBefore3</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore4">
-          <DataField>TdsAmtTextArrayBefore4</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore5">
-          <DataField>TdsAmtTextArrayBefore5</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore6">
-          <DataField>TdsAmtTextArrayBefore6</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore7">
-          <DataField>TdsAmtTextArrayBefore7</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore8">
-          <DataField>TdsAmtTextArrayBefore8</DataField>
-        </Field>
-        <Field Name="TdsAmtTextArrayBefore9">
-          <DataField>TdsAmtTextArrayBefore9</DataField>
-        </Field>
-        <Field Name="TDSAmtTextArrayAfter1">
-          <DataField>TDSAmtTextArrayAfter1</DataField>
-        </Field>
-        <Field Name="TDSAmtTextArrayAfter2">
-          <DataField>TDSAmtTextArrayAfter2</DataField>
-        </Field>
-        <Field Name="TotalTaxableText">
-          <DataField>TotalTaxableText</DataField>
-        </Field>
-        <Field Name="TotalTdsText">
-          <DataField>TotalTdsText</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -9394,12 +9255,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -9439,4 +9294,143 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="FullName">
+          <DataField>FullName</DataField>
+        </Field>
+        <Field Name="FiscalYearStartDate">
+          <DataField>FiscalYearStartDate</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EtdsMonth">
+          <DataField>EtdsMonth</DataField>
+        </Field>
+        <Field Name="PAN1">
+          <DataField>PAN1</DataField>
+        </Field>
+        <Field Name="PAN2">
+          <DataField>PAN2</DataField>
+        </Field>
+        <Field Name="PAN3">
+          <DataField>PAN3</DataField>
+        </Field>
+        <Field Name="PAN4">
+          <DataField>PAN4</DataField>
+        </Field>
+        <Field Name="PAN5">
+          <DataField>PAN5</DataField>
+        </Field>
+        <Field Name="PAN6">
+          <DataField>PAN6</DataField>
+        </Field>
+        <Field Name="PAN7">
+          <DataField>PAN7</DataField>
+        </Field>
+        <Field Name="PAN8">
+          <DataField>PAN8</DataField>
+        </Field>
+        <Field Name="PAN9">
+          <DataField>PAN9</DataField>
+        </Field>
+        <Field Name="MobilePhoneNo">
+          <DataField>MobilePhoneNo</DataField>
+        </Field>
+        <Field Name="PermanentDistrict">
+          <DataField>PermanentDistrict</DataField>
+        </Field>
+        <Field Name="PermanentVDC">
+          <DataField>PermanentVDC</DataField>
+        </Field>
+        <Field Name="WardNo">
+          <DataField>WardNo</DataField>
+        </Field>
+        <Field Name="PermanentHouse">
+          <DataField>PermanentHouse</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore1">
+          <DataField>TaxableAmtTextArrayBefore1</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore2">
+          <DataField>TaxableAmtTextArrayBefore2</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore3">
+          <DataField>TaxableAmtTextArrayBefore3</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore4">
+          <DataField>TaxableAmtTextArrayBefore4</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore5">
+          <DataField>TaxableAmtTextArrayBefore5</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore6">
+          <DataField>TaxableAmtTextArrayBefore6</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore7">
+          <DataField>TaxableAmtTextArrayBefore7</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore8">
+          <DataField>TaxableAmtTextArrayBefore8</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayBefore9">
+          <DataField>TaxableAmtTextArrayBefore9</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayAfter1">
+          <DataField>TaxableAmtTextArrayAfter1</DataField>
+        </Field>
+        <Field Name="TaxableAmtTextArrayAfter2">
+          <DataField>TaxableAmtTextArrayAfter2</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore1">
+          <DataField>TdsAmtTextArrayBefore1</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore2">
+          <DataField>TdsAmtTextArrayBefore2</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore3">
+          <DataField>TdsAmtTextArrayBefore3</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore4">
+          <DataField>TdsAmtTextArrayBefore4</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore5">
+          <DataField>TdsAmtTextArrayBefore5</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore6">
+          <DataField>TdsAmtTextArrayBefore6</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore7">
+          <DataField>TdsAmtTextArrayBefore7</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore8">
+          <DataField>TdsAmtTextArrayBefore8</DataField>
+        </Field>
+        <Field Name="TdsAmtTextArrayBefore9">
+          <DataField>TdsAmtTextArrayBefore9</DataField>
+        </Field>
+        <Field Name="TDSAmtTextArrayAfter1">
+          <DataField>TDSAmtTextArrayAfter1</DataField>
+        </Field>
+        <Field Name="TDSAmtTextArrayAfter2">
+          <DataField>TDSAmtTextArrayAfter2</DataField>
+        </Field>
+        <Field Name="TotalTaxableText">
+          <DataField>TotalTaxableText</DataField>
+        </Field>
+        <Field Name="TotalTdsText">
+          <DataField>TotalTdsText</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

@@ -281,7 +281,7 @@ permissionset 50000 D365HRMSPermission
         report "Export Posted Payroll Value" = X,
         report "Extra Mileage EMail Send" = X,
         report "Extra Working Hour Report" = X,
-        report "Extramileage Calculation Repor" = X,
+        report "Overtime Calculation Report" = X,
         report FiscalYearEndLeave = X,
         report "Formation of Department/Branch" = X,
         report "Formation of Functional Title" = X,

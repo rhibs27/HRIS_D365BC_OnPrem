@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value EvaluationMode="Auto">Extramileage Calculation Report</Value>
+                    <Value>OverTime Calculation Report</Value>
                     <Style>
                       <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -97,7 +97,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Employee No.</Value>
+                                  <Value>Employee No.</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -129,7 +129,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Employee Name</Value>
+                                  <Value>Employee Name</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -161,7 +161,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Job Position</Value>
+                                  <Value>Job Position</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -193,7 +193,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Attendance Date</Value>
+                                  <Value>Attendance Date</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -225,7 +225,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Check In Time</Value>
+                                  <Value>Check In Time</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -257,7 +257,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Check Out Time</Value>
+                                  <Value>Check Out Time</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -289,7 +289,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Punch Out Remarks</Value>
+                                  <Value>Punch Out Remarks</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -321,7 +321,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Remarks</Value>
+                                  <Value>Remarks</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -353,7 +353,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">Day Type</Value>
+                                  <Value>Day Type</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -385,7 +385,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">OverTime Disbursed</Value>
+                                  <Value>OverTime Disbursed</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -417,7 +417,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">OT Status</Value>
+                                  <Value>OT Status</Value>
                                   <Style>
                                     <FontSize>12pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -454,7 +454,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!EmployeeNo_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!EmployeeNo_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -483,7 +483,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!EmployeeName_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!EmployeeName_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -512,7 +512,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!SalaryLevelCode.Value</Value>
+                                  <Value>=Fields!SalaryLevelCode.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -541,7 +541,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!AttendanceDate_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!AttendanceDate_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -570,7 +570,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!CheckInTime_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!CheckInTime_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -588,7 +588,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -600,7 +599,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!CheckOutTime_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!CheckOutTime_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -629,7 +628,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!PunchoutRemarks_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!PunchoutRemarks_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -658,7 +657,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!LateRemarks_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!LateRemarks_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -687,7 +686,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!DayType_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!DayType_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -716,7 +715,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!OvertimeDisbursed_EmployeeAttendanceActivity.Value</Value>
+                                  <Value>=Fields!OvertimeDisbursed_EmployeeAttendanceActivity.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -745,7 +744,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ApprovalStatus.Value</Value>
+                                  <Value>=Fields!ApprovalStatus.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>

@@ -11,100 +11,6 @@
       <rd:DataSourceID>a05acae0-ce1b-4cf3-8b38-b8209df84cf3</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="No_Employee">
-          <DataField>No_Employee</DataField>
-        </Field>
-        <Field Name="FullName_Employee">
-          <DataField>FullName_Employee</DataField>
-        </Field>
-        <Field Name="Date">
-          <DataField>Date</DataField>
-        </Field>
-        <Field Name="DepartmentCode_Employee">
-          <DataField>DepartmentCode_Employee</DataField>
-        </Field>
-        <Field Name="GlobalDimension1Code_Employee">
-          <DataField>GlobalDimension1Code_Employee</DataField>
-        </Field>
-        <Field Name="CompanyPic">
-          <DataField>CompanyPic</DataField>
-        </Field>
-        <Field Name="CompanyAddress">
-          <DataField>CompanyAddress</DataField>
-        </Field>
-        <Field Name="CompanyPhone">
-          <DataField>CompanyPhone</DataField>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-        </Field>
-        <Field Name="AmountFormat">
-          <DataField>AmountFormat</DataField>
-        </Field>
-        <Field Name="SalaryLevel_Employee">
-          <DataField>SalaryLevel_Employee</DataField>
-        </Field>
-        <Field Name="LevelName">
-          <DataField>LevelName</DataField>
-        </Field>
-        <Field Name="branch">
-          <DataField>branch</DataField>
-        </Field>
-        <Field Name="department">
-          <DataField>department</DataField>
-        </Field>
-        <Field Name="FromDate">
-          <DataField>FromDate</DataField>
-        </Field>
-        <Field Name="ToDate">
-          <DataField>ToDate</DataField>
-        </Field>
-        <Field Name="ResignationDate">
-          <DataField>ResignationDate</DataField>
-        </Field>
-        <Field Name="FiscalYear">
-          <DataField>FiscalYear</DataField>
-        </Field>
-        <Field Name="PANNo">
-          <DataField>PANNo</DataField>
-        </Field>
-        <Field Name="referenceNo">
-          <DataField>referenceNo</DataField>
-        </Field>
-        <Field Name="TDate">
-          <DataField>TDate</DataField>
-        </Field>
-        <Field Name="GenderValue">
-          <DataField>GenderValue</DataField>
-        </Field>
-        <Field Name="GenderValue2">
-          <DataField>GenderValue2</DataField>
-        </Field>
-        <Field Name="GenderValue3">
-          <DataField>GenderValue3</DataField>
-        </Field>
-        <Field Name="GenderValue4">
-          <DataField>GenderValue4</DataField>
-        </Field>
-        <Field Name="GenderValue5">
-          <DataField>GenderValue5</DataField>
-        </Field>
-        <Field Name="deputation">
-          <DataField>deputation</DataField>
-        </Field>
-        <Field Name="DeputationCode">
-          <DataField>DeputationCode</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -694,12 +600,6 @@ Tax Office</Value>
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -739,4 +639,98 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="No_Employee">
+          <DataField>No_Employee</DataField>
+        </Field>
+        <Field Name="FullName_Employee">
+          <DataField>FullName_Employee</DataField>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+        </Field>
+        <Field Name="DepartmentCode_Employee">
+          <DataField>DepartmentCode_Employee</DataField>
+        </Field>
+        <Field Name="GlobalDimension1Code_Employee">
+          <DataField>GlobalDimension1Code_Employee</DataField>
+        </Field>
+        <Field Name="CompanyPic">
+          <DataField>CompanyPic</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="CompanyPhone">
+          <DataField>CompanyPhone</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+        <Field Name="SalaryLevel_Employee">
+          <DataField>SalaryLevel_Employee</DataField>
+        </Field>
+        <Field Name="LevelName">
+          <DataField>LevelName</DataField>
+        </Field>
+        <Field Name="branch">
+          <DataField>branch</DataField>
+        </Field>
+        <Field Name="department">
+          <DataField>department</DataField>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+        </Field>
+        <Field Name="ResignationDate">
+          <DataField>ResignationDate</DataField>
+        </Field>
+        <Field Name="FiscalYear">
+          <DataField>FiscalYear</DataField>
+        </Field>
+        <Field Name="PANNo">
+          <DataField>PANNo</DataField>
+        </Field>
+        <Field Name="referenceNo">
+          <DataField>referenceNo</DataField>
+        </Field>
+        <Field Name="TDate">
+          <DataField>TDate</DataField>
+        </Field>
+        <Field Name="GenderValue">
+          <DataField>GenderValue</DataField>
+        </Field>
+        <Field Name="GenderValue2">
+          <DataField>GenderValue2</DataField>
+        </Field>
+        <Field Name="GenderValue3">
+          <DataField>GenderValue3</DataField>
+        </Field>
+        <Field Name="GenderValue4">
+          <DataField>GenderValue4</DataField>
+        </Field>
+        <Field Name="GenderValue5">
+          <DataField>GenderValue5</DataField>
+        </Field>
+        <Field Name="deputation">
+          <DataField>deputation</DataField>
+        </Field>
+        <Field Name="DeputationCode">
+          <DataField>DeputationCode</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

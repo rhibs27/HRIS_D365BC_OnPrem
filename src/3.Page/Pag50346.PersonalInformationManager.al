@@ -458,7 +458,7 @@ page 50346 "Personal Information Manager"
                     PromotedCategory = "Report";
                     PromotedIsBig = true;
                     PromotedOnly = true;
-                    RunObject = report "Extramileage Calculation Repor";
+                    RunObject = report "Overtime Calculation Report";
                     ToolTip = 'Executes the Extra Mileage Calculation Report action.';
                     ApplicationArea = All;
                 }
