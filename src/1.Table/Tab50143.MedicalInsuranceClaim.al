@@ -316,6 +316,11 @@ table 50143 "Medical Insurance Claim"
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
+        if not GuiAllowed then begin
+            Validate("Employee No.", Hrmgt.GetEmployeeNo());
+            "Approval Status" := "Approval Status"::Pending;
+            Validate(Type, Rec.Type::"Medical Insurance Claim");
+        end;
         HRSetup.Get;
         if "No." = '' then
             if Cancelled then begin
@@ -333,6 +338,21 @@ table 50143 "Medical Insurance Claim"
                         end;
                 end;
             end;
+        if GuiAllowed then begin
+            AttachmentSetup.Reset;
+            AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Medical Insurance Claim");
+            if AttachmentSetup.Find('-') then
+                repeat
+                    IncomingDoc.Init;
+                    IncomingDoc.Validate("No.", "No.");
+                    IncomingDoc.Validate("Table ID", Database::"Medical Insurance Claim");
+                    IncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
+                    IncomingDoc.Validate("Employee Code", "Employee No.");
+                    IncomingDoc.Validate("Employee Activity Type", IncomingDoc."Employee Activity Type"::Insurance);
+                    IncomingDoc."Entry No." := IncomingDoc.GetEntryNo();
+                    IncomingDoc.Insert;
+                until AttachmentSetup.Next = 0;
+        end;
 
         // InsertAttachmentLines;
     end;
@@ -362,4 +382,6 @@ table 50143 "Medical Insurance Claim"
         DimValue: Record "Dimension Value";
         EmpRelative: Record "Employee Relative";
         ApproverMgt: Codeunit "Approver Mgt";
+        AttachmentSetup: Record "Attachment Setup";
+        IncomingDoc: Record "Incoming Document";
 }

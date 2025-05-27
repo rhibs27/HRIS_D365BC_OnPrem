@@ -23,49 +23,60 @@ codeunit 50007 "Insurance Mgt"
             PAGE.Run(PAGE::"Medical Insurance Claim", MedicalInsurance);
     end;
 
-    procedure SendMedicalInsuranceApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean
+    procedure SendMedicalInsuranceApproval(var medicalInsuranceClaim: Record "Medical Insurance Claim")
     var
-        EmpAct: Record "Employee Activity";
-        ConfirmResign: Label 'Do you want to send resignation request?';
-        ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
-        ApprovalRequestSent: Label 'Resignation request approval has been sent.';
-        NoRecommender: Label 'No Recommender Code.';
-        NoApprover: Label 'No Approver Code.';
-        ResignationDays: Integer;
+        myInt: Integer;
     begin
-        if not Confirm(ConfirmResign, false) then
-            exit;
-
-
-        EmpAct.Reset;
-        EmpAct.Init;
-        EmpAct.TransferFields(TempEmpAct);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
-        EmpAct.Validate("User ID", UserId);
-        Employee.Get(EmpAct."Employee No.");
-        // EmpAct.Validate("Recommender Code", Employee."Approver Code");
-        EmpAct.Validate("Approver Code", HRMgt.GetHrHead());
-
-        if EmpAct."Recommender Code" = '' then
-            Error(NoRecommender);
-        if EmpAct."Approver Code" = '' then
-            Error(NoApprover);
-
-        if EmpAct."Requested Date" = 0D then
-            EmpAct."Requested Date" := Today;
-
-
-
-
-        EmpAct.Insert(true);
-
-        HRMgt.InsertAttachmentLines(EmpAct."No.", EmpAct.Type, EmpAct."Employee No.");//attachment
-        // ResignationMgt.InsertResignationApprover(EmpAct); //resignation approver
-
-        HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-        Message(ApprovalRequestSent);
-        exit(true);
+        if GuiAllowed then begin
+            ApproverMgt.UpdateFirstApproverStatus(medicalInsuranceClaim."No.");
+            medicalInsuranceClaim.Validate("Approval Status", medicalInsuranceClaim."Approval Status"::"Pending");
+            medicalInsuranceClaim.Modify();
+        end;
     end;
+
+    // procedure SendMedicalInsuranceApproval(TempEmpAct: Record "Employee Activity" temporary): Boolean
+    // var
+    //     EmpAct: Record "Employee Activity";
+    //     ConfirmResign: Label 'Do you want to send resignation request?';
+    //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
+    //     ApprovalRequestSent: Label 'Resignation request approval has been sent.';
+    //     NoRecommender: Label 'No Recommender Code.';
+    //     NoApprover: Label 'No Approver Code.';
+    //     ResignationDays: Integer;
+    // begin
+    //     if not Confirm(ConfirmResign, false) then
+    //         exit;
+
+
+    //     EmpAct.Reset;
+    //     EmpAct.Init;
+    //     EmpAct.TransferFields(TempEmpAct);
+    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.Validate("User ID", UserId);
+    //     Employee.Get(EmpAct."Employee No.");
+    //     // EmpAct.Validate("Recommender Code", Employee."Approver Code");
+    //     EmpAct.Validate("Approver Code", HRMgt.GetHrHead());
+
+    //     if EmpAct."Recommender Code" = '' then
+    //         Error(NoRecommender);
+    //     if EmpAct."Approver Code" = '' then
+    //         Error(NoApprover);
+
+    //     if EmpAct."Requested Date" = 0D then
+    //         EmpAct."Requested Date" := Today;
+
+
+
+
+    //     EmpAct.Insert(true);
+
+    //     // HRMgt.InsertAttachmentLines(EmpAct."No.", EmpAct.Type, EmpAct."Employee No.");//attachment
+    //     // ResignationMgt.InsertResignationApprover(EmpAct); //resignation approver
+
+    //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+    //     Message(ApprovalRequestSent);
+    //     exit(true);
+    // end;
 
     procedure CancelMedicalInsuranceApproval(var EmpAct: Record "Employee Activity")
     var
@@ -226,6 +237,7 @@ codeunit 50007 "Insurance Mgt"
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
+        ApproverMgt: Codeunit "Approver Mgt";
 
 
 }

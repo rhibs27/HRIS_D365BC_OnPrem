@@ -141,6 +141,11 @@ page 50206 "Medical Insurance Claim"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+            }
         }
     }
 
@@ -160,7 +165,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    Rec.Validate("Insurance Status", Rec."Insurance Status"::"Request to DTMD");
+                    InsuranceMgt.SendMedicalInsuranceApproval(Rec);
                     CurrPage.Close();
                 end;
             }

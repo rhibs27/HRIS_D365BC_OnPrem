@@ -17,7 +17,7 @@ page 50344 "Medical Insurance Entity"
         {
             repeater(General)
             {
-                field(No; Rec."No.") { }
+                field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
                 field(employeeNo; Rec."Employee No.")
                 {
@@ -50,20 +50,27 @@ page 50344 "Medical Insurance Entity"
                 field(medicalPrescriptionDate; Rec."Medical Prescription Date") { }
                 field(dischargeDate; Rec."Discharge Date")
                 {
-                    trigger OnValidate()
-                    var
-                        //EmpActivity: Record "Employee Activity";
-                        MedicalInsuranceClaim: Record "Medical Insurance Claim";
-                    begin
-                        if Rec.Type = Rec.Type::"Medical Insurance Claim" then begin
-                            Rec."Insurance Status" := Rec."Insurance Status"::"Request to DTMD";
-                            MedicalInsuranceClaim.Init;
-                            MedicalInsuranceClaim.Copy(Rec);
-                            MedicalInsuranceClaim.Insert(true);
-                        end;
-                    end;
+                    // trigger OnValidate()
+                    // var
+                    //     //EmpActivity: Record "Employee Activity";
+                    //     MedicalInsuranceClaim: Record "Medical Insurance Claim";
+                    // begin
+                    //     if Rec.Type = Rec.Type::"Medical Insurance Claim" then begin
+                    //         Rec."Insurance Status" := Rec."Insurance Status"::"Request to DTMD";
+                    //         MedicalInsuranceClaim.Init;
+                    //         MedicalInsuranceClaim.Copy(Rec);
+                    //         MedicalInsuranceClaim.Insert(true);
+                    //     end;
+                    // end;
+                }
+                part(Attachment; "Attachment Subform")
+                {
+                    EntityName = 'attachmentEntity';
+                    EntitySetName = 'attachmentEntities';
+                    SubPageLink = "No." = field("No.");
                 }
             }
+
         }
     }
 }
