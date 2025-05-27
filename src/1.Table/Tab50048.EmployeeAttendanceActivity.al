@@ -191,7 +191,9 @@ table 50048 "Employee Attendance & Activity"
         field(53; "Training Day"; Decimal) { }
 
         field(54; "Training Check Out Time"; Time) { }
-        field(55; "Attendance Update"; Boolean) { }
+
+        //transfer field in attendance line upto feild 54
+
         field(71; "Head Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
@@ -204,6 +206,7 @@ table 50048 "Employee Attendance & Activity"
         {
             Description = 'allowance assignment';
         }
+        field(74; "Attendance Update"; Boolean) { }
 
     }
 
