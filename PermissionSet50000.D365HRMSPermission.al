@@ -766,7 +766,7 @@ permissionset 50000 D365HRMSPermission
         page "HR Recruitment Officer" = X,
         page "HRMS Approval Entry" = X,
         page "Loan & Advance cues" = X,
-        page "Medical Insurance Claim Entity" = X,
+        // page "Medical Insurance Claim Entity" = X,
         page "Medical Insurance Entity" = X,
         page "Notice Card" = X,
         page "Notice Picture" = X,

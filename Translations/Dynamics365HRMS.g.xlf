@@ -34689,7 +34689,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Control Total Insurance Claim Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1411835413 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Send Request to DTMD action.</source>
+          <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Approve Request - Property ToolTip</note>
         </trans-unit>
@@ -34698,15 +34698,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Reimbursed - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1411835413 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1411835413 - Action 2831934036 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Rejected by Insurance Company action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Rejected by Insurance Company - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1411835413 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
+        <trans-unit id="Page 1411835413 - Action 1982064486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Send Request to DTMD action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Screen - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Send Approve Request - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1411835413 - Action 432593246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send to Insurance Company action.</source>
@@ -34717,11 +34722,6 @@
           <source>Insurance Claim email to company has been sent.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Send to Insurance Company - Method OnAction - NamedType ApprovalRequestSent</note>
-        </trans-unit>
-        <trans-unit id="Page 134964540 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>medicalInsuranceClaimEntity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2110272054 - Control 4248640148 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Bank Account No. field.</source>
@@ -34748,11 +34748,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control Employee Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2110272054 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2110272054 - Control 240740173 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Father Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34772,6 +34767,11 @@
           <source>Specifies the value of the Mother Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control Mother Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2110272054 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim Lists - Control No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2110272054 - Control 2124449996 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Spouse Name field.</source>

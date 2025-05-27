@@ -88,10 +88,12 @@ page 50206 "Medical Insurance Claim"
                 {
                     ToolTip = 'Specifies the value of the Insurance Status field.';
                     ApplicationArea = All;
+                    Visible = IsApproved;
                 }
             }
             group("Insurance Details")
             {
+                Editable = IsOpen;
                 field("Insurance Claim"; Rec."Insurance Claim")
                 {
                     ToolTip = 'Specifies the value of the Insurance Claim field.';
@@ -141,6 +143,7 @@ page 50206 "Medical Insurance Claim"
             }
             part(Attachment; "Attachment Subform")
             {
+                Editable = IsOpen;
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = All;
             }
@@ -151,7 +154,7 @@ page 50206 "Medical Insurance Claim"
     {
         area(Creation)
         {
-            action("Approve Request")
+            action("Send Approve Request")
             {
                 Image = SendApprovalRequest;
                 Promoted = true;
@@ -164,26 +167,69 @@ page 50206 "Medical Insurance Claim"
                 trigger OnAction()
                 begin
                     InsuranceMgt.SendMedicalInsuranceApproval(Rec);
+                    Message('Medical Insurance Claim request has been sent.');
                     CurrPage.Close();
                 end;
             }
-            action(Screen)
+            action("Approve Request")
             {
                 Image = Approve;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                // Visible = Screen;
-                ToolTip = 'Executes the Screen action.';
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
 
                 trigger OnAction()
                 begin
-                    InsuranceMgt.ScreenMedicalInsurance(Rec);
-                    CurrPage.Close();
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Medical Insurance Claim is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
             }
+            action("Reject Request")
+            {
+                Image = Reject;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Medical Insurance Claim is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
+                end;
+            }
+            // action(Screen)
+            // {
+            //     Image = Approve;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Screen action.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     begin
+            //         InsuranceMgt.ScreenMedicalInsurance(Rec);
+            //         CurrPage.Close();
+            //     end;
+            // }
             action("Send to Insurance Company")
             {
                 Image = SendApprovalRequest;
@@ -252,6 +298,7 @@ page 50206 "Medical Insurance Claim"
     var
         HRMgt: Codeunit "HR Mgt.";
         InsuranceMgt: Codeunit "Insurance Mgt";
+        ApprovalMgt: Codeunit "Approver Mgt";
         ApprovalSent: Boolean;
         ApproveReject: Boolean;
         IsOpen: Boolean;

@@ -19,10 +19,7 @@ page 50344 "Medical Insurance Entity"
             {
                 field(no; Rec."No.") { }
                 field(type; Rec.Type) { }
-                field(employeeNo; Rec."Employee No.")
-                {
-                    Editable = true;
-                }
+                field(employeeNo; Rec."Employee No.") { }
                 field(employeeName; Rec."Employee Name") { }
 
                 field(startDate; Rec."Start Date") { }
@@ -32,14 +29,12 @@ page 50344 "Medical Insurance Entity"
                 field(requestedDate; Rec."Requested Date") { }
                 field(fiscalYear; Rec."Fiscal Year") { }
                 field(approvalStatus; Rec."Approval Status") { }
+                field(status; Rec.Status) { }
                 field(cancelledNo; Rec."Cancelled No.") { }
                 field(cancelledDocNo; Rec."Cancelled Document No.")
                 {
                     Editable = true;
                 }
-                // field(approverType; Rec."Approver Type") { }
-                // field(reasonCode; Rec."Reason Code") { }
-                // field(reasonDescription; Rec."Reason Description") { }
                 field(remarks; Rec.Remarks) { }
                 field(insuranceClaim; Rec."Insurance Claim") { }
                 field(fatherName; Rec."Father Name") { }
@@ -50,18 +45,6 @@ page 50344 "Medical Insurance Entity"
                 field(medicalPrescriptionDate; Rec."Medical Prescription Date") { }
                 field(dischargeDate; Rec."Discharge Date")
                 {
-                    // trigger OnValidate()
-                    // var
-                    //     //EmpActivity: Record "Employee Activity";
-                    //     MedicalInsuranceClaim: Record "Medical Insurance Claim";
-                    // begin
-                    //     if Rec.Type = Rec.Type::"Medical Insurance Claim" then begin
-                    //         Rec."Insurance Status" := Rec."Insurance Status"::"Request to DTMD";
-                    //         MedicalInsuranceClaim.Init;
-                    //         MedicalInsuranceClaim.Copy(Rec);
-                    //         MedicalInsuranceClaim.Insert(true);
-                    //     end;
-                    // end;
                 }
                 part(Attachment; "Attachment Subform")
                 {
@@ -70,7 +53,14 @@ page 50344 "Medical Insurance Entity"
                     SubPageLink = "No." = field("No.");
                 }
             }
-
         }
     }
+    trigger OnOpenPage()
+    begin
+        Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetAscending("No.", false);
+    end;
+
+    var
+        HrMgt: Codeunit "HR Mgt.";
 }
