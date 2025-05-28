@@ -7638,6 +7638,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Approved Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 3934799345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Approver Role From - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 292137982 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Approver Role To - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 2999336007 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>BM Accomodation Allow.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11502,6 +11512,11 @@
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 385130008 - Field 4217760661 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>District code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field District code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 385130008 - Field 4218549915 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Name</source>
@@ -44708,6 +44723,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Reason For Cancel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 333147355 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Role field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Approver Role - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 333147355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Approver Role - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the BranchName field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44772,6 +44797,16 @@
           <source>Specifies the value of the UnitName field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Unit Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 292137982 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Role (To) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Approver Role To - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 292137982 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role (To)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Approver Role To - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 1061882940 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the BranchNameTo field.</source>

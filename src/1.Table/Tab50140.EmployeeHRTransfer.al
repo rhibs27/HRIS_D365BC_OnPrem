@@ -54,6 +54,7 @@ table 50140 "Employee/HR Transfer"
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
+                    Validate("Approver Role From", EmpVar."Approver Role");
                     ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -451,6 +452,15 @@ table 50140 "Employee/HR Transfer"
         {
             DataClassification = ToBeClassified;
             Editable = false;
+        }
+        field(59; "Approver Role From"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(60; "Approver Role To"; Code[20])
+        {
+            DataClassification = ToBeClassified;
         }
         // field(58; "Reporting Line 1 (To)"; Code[20])
         // {

@@ -36,16 +36,15 @@ table 50147 "Organization Structure List"
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        field(8; "District Name"; Text[50])
+        field(8; "District code"; Code[10])
         {
-            TableRelation = District."District Name";
+            TableRelation = District."District Code";
             trigger OnValidate()
             var
                 District: Record District;
             begin
-                District.Reset();
-                District.SetRange("District Name", "District Name");
-                if District.FindFirst() then begin
+                if District.Get("District code") then begin
+                    Validate("District Name", District."District Name");
                     Validate("Province Code", District.Province);
                     Validate("Province Name", District."Province Name");
                     Validate("Region", District.Region);
@@ -75,6 +74,11 @@ table 50147 "Organization Structure List"
         }
         field(12; "Blocked"; Boolean)
         {
+        }
+        field(13; "District Name"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
         }
     }
     keys

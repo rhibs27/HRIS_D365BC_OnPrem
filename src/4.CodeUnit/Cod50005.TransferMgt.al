@@ -926,8 +926,8 @@ codeunit 50005 "Transfer Mgt."
         PGSetup.TestField("BM Functional Title");
         if EmpTransfer."Functional Title (To)" <> PGSetup."BM Functional Title" then
             exit;
-        if OrganizationStructureListCurrent.Get(OrganizationStructureListCurrent.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code") then
-            if not OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code (To)") then
+        if OrganizationStructureListCurrent.Get(OrganizationStructureListCurrent.Type::Branch, EmpTransfer."From Branch") then
+            if not OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."To Branch") then
                 exit;
         if OrganizationStructureListCurrent."InsideOutside Valley" = OrganizationStructureListCurrent."InsideOutside Valley"::Inside then
             if OrganizationStructureList."InsideOutside Valley" = OrganizationStructureList."InsideOutside Valley"::Inside then
@@ -987,7 +987,7 @@ codeunit 50005 "Transfer Mgt."
         RemoteArea: Record "Remote Area Category";
         RemoteAreaAllowance: Decimal;
     begin
-        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."Shortcut Dimension 1 Code (To)") then begin
+        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, EmpTransfer."To Branch") then begin
             if RemoteArea.Get(OrganizationStructureList."Remote Area Category") then begin
                 Employee.Get(EmpTransfer."Employee No.");
                 SalaryLevel.Get(Employee."Salary Level");
@@ -1092,6 +1092,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
             EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
+            EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Modify;
         end;
         Message(Acknowledged);
