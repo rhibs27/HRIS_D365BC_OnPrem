@@ -11353,6 +11353,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Municipality - Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 316116824 - Field 3662076853 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>District Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Municipality - Field District Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 316116824 - Field 4218549915 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>District Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11372,6 +11377,11 @@
           <source>No of ward</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Municipality - Field No of ward - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 316116824 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Municipality Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Municipality - Field Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3790228025 - Field 162023462 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Dec</source>
@@ -11528,10 +11538,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field InsideOutside Valley - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 385130008 - Field 316116824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Municipality</source>
+        <trans-unit id="Table 385130008 - Field 1644037675 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Municipality Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Municipality - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Municipality Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 385130008 - Field 669297861 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Municipality Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Municipality Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 385130008 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -28568,6 +28583,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Employee No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1538991725 - Control 2348825299 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Transfer Claimed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Transfer Requests - Control Is Claimed - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1538991725 - Control 1261567229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Confirm By Human resource department</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34813,6 +34833,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Municipalities - Control Description - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4171089046 - Control 3662076853 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the District Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Municipalities - Control District Code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4171089046 - Control 1187760923 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the District Name field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -34822,6 +34847,11 @@
           <source>Specifies the value of the No of ward field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Municipalities - Control No of ward - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4171089046 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Municipality Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Municipalities - Control Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2204238867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>municipalities</source>
@@ -35238,6 +35268,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 4217760661 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the District code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control District code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 4218549915 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the District Name field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -35248,10 +35283,15 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control InsideOutside Valley - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 198483192 - Control 316116824 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 198483192 - Control 1644037675 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Municipality field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Municipality - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Municipality Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 198483192 - Control 669297861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Municipality field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Municipality Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 198483192 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Name field.</source>
@@ -57732,6 +57772,31 @@
           <source>Year</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum MonthYear - EnumValue Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 122557560 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source></source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Municipality Type - EnumValue  - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 122557560 - EnumValue 3391407432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Metropolitan municipality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Municipality Type - EnumValue Metropolitan municipality - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 122557560 - EnumValue 316116824 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Municipality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Municipality Type - EnumValue Municipality - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 122557560 - EnumValue 787869728 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rural Municipality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Municipality Type - EnumValue Rural Municipality - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 122557560 - EnumValue 3184197671 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-metropolitan Municipality</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Municipality Type - EnumValue Sub-metropolitan Municipality - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2906764345 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

@@ -483,14 +483,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Province Code"; Rec."Province Code")
                 {
                     Editable = ProvinceEdit;
-                    Visible = ProvinceVisible;
+                    Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Code field.';
 
                 }
                 field("Province Name"; Rec."Province Name")
                 {
-                    Visible = ProvinceVisible;
+                    Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Name field.';
 

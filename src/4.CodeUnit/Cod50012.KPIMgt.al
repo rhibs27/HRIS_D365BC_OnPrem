@@ -70,7 +70,7 @@ codeunit 50012 "KPI Mgt."
                     exit((HrSetup."Location Incentive 3" / 100) * (CategoryIncentive / 100));
                 if not (OrganizationStructureList."District Name" in [Employee."Permanent District", Employee."Temporary District"]) then
                     exit((HrSetup."Location Incentive 2" / 100) * (CategoryIncentive) / 100);
-                if not (OrganizationStructureList.Municipality in [Employee."Permanent VDC", Employee."Temporary VDC"]) then
+                if not (OrganizationStructureList."Municipality Name" in [Employee."Permanent VDC", Employee."Temporary VDC"]) then
                     exit((HrSetup."Location Incentive 1" / 100) * (CategoryIncentive) / 100);
                 exit(0);
             end;
