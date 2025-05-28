@@ -243,10 +243,10 @@ page 50206 "Medical Insurance Claim"
                 var
                     HRMgt: Codeunit "HR Mgt.";
                     EmpAct: Record "Employee Activity";
-                    ApprovalRequestSent: Label 'Insurance Claim email to company has been sent.';
+                    ApprovalRequestSent: Label 'Insurance Claim to company has been sent.';
                 begin
                     if Rec."Approval Status" = Rec."Approval Status"::Approved then begin
-                        HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
+                        // HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
                         Rec.Validate("Insurance Status", Rec."Insurance Status"::"Forwarded to Insurance Co.");
                         Rec.Modify;
                         Message(ApprovalRequestSent);
