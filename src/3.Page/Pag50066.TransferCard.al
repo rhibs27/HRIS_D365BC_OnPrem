@@ -195,6 +195,12 @@ page 50066 "Transfer Card"
                         //     GetTransferName;
                         // end;
                     }
+                    field("Approver Role"; Rec."Approver Role From")
+                    {
+                        Caption = 'Approver Role From';
+                        ToolTip = 'Specifies the value of the Approver Role field.';
+                        ApplicationArea = All;
+                    }
                     field("Functional Title"; Rec."Functional Title")
                     {
                         ToolTip = 'Specifies the value of the Functional Title field.';
@@ -287,6 +293,13 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
                         ApplicationArea = All;
                     }
+                    field("Approver Role To"; Rec."Approver Role To")
+                    {
+                        Caption = 'Approver Role (To)';
+                        ToolTip = 'Specifies the value of the Approver Role (To) field.';
+                        ApplicationArea = All;
+                    }
+
                     field("Province Code (To)"; Rec."Province Code (To)")
                     {
                         Editable = ProvinceEdit;
