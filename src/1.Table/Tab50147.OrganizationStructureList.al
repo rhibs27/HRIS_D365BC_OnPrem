@@ -21,7 +21,7 @@ table 50147 "Organization Structure List"
         {
             Editable = false;
         }
-        field(5; "Province Code"; text[10])
+        field(5; "Province Code"; text[20])
         {
             Editable = false;
             DataClassification = ToBeClassified;
@@ -36,7 +36,7 @@ table 50147 "Organization Structure List"
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        field(8; "District code"; Code[10])
+        field(8; "District code"; Code[20])
         {
             TableRelation = District."District Code";
             trigger OnValidate()
@@ -77,7 +77,7 @@ table 50147 "Organization Structure List"
             TableRelation = "Remote Area Category";
             DataClassification = CustomerContent;
         }
-        field(11; "Remote Area Reduction"; Code[10])
+        field(11; "Remote Area Reduction"; Code[20])
         {
             TableRelation = "Remote Area Category";
             DataClassification = CustomerContent;
@@ -85,7 +85,7 @@ table 50147 "Organization Structure List"
         field(12; "Blocked"; Boolean)
         {
         }
-        field(13; "District Name"; Text[30])
+        field(13; "District Name"; Text[50])
         {
             DataClassification = ToBeClassified;
             Editable = false;
