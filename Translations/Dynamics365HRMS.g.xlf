@@ -34734,7 +34734,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Send to Insurance Company - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1411835413 - Action 432593246 - Method 1377591017 - NamedType 19132630" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Insurance Claim email to company has been sent.</source>
+          <source>Insurance Claim to company has been sent.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Medical Insurance Claim - Action Send to Insurance Company - Method OnAction - NamedType ApprovalRequestSent</note>
         </trans-unit>
