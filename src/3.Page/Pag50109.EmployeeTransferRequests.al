@@ -51,6 +51,11 @@ page 50109 "Employee Transfer Requests"
                     ToolTip = 'Confirm By Human resource department';
                     ApplicationArea = All;
                 }
+                field("Is Claimed"; Rec."Transfer Claim")
+                {
+                    ToolTip = 'Is Transfer Claimed';
+                    ApplicationArea = All;
+                }
             }
         }
     }
