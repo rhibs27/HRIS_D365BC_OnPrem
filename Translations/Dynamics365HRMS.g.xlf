@@ -11693,11 +11693,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Branch Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 748949104 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Branch Type - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 512637497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Calculate Overtime</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11737,6 +11732,11 @@
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Deputation Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
@@ -35553,15 +35553,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Approval Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1448531377 - Control 748949104 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Type field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Branch Type - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1448531377 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1448531377 - Control 2327667423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Deputation Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1448531377 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the End Date field.</source>

@@ -14,19 +14,19 @@ page 50246 "Overtime Bulk Card"
             {
                 Caption = 'General';
 
-                field("Branch Type"; Rec."Branch Type")
+                field("Deputation Type"; Rec."Deputation Type")
                 {
                     ToolTip = 'Specifies the value of the Branch Type field.', Comment = '%';
                     Editable = IsOpen;
                     ApplicationArea = all;
                 }
-                field("Code"; Rec."Code")
+                field("Deputation Code"; Rec."Deputation Code")
                 {
-                    Editable = Rec."Branch Type" = Rec."Branch Type"::"Extension Counter";
+                    Editable = Rec."Deputation Type" = Rec."Deputation Type"::"Extension Counter";
                     ToolTip = 'Specifies the value of the Code field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field(Name; Rec.Name)
+                field("Deputation Name"; Rec."Deputation Name")
                 {
                     ToolTip = 'Specifies the value of the Name field.', Comment = '%';
                     ApplicationArea = All;
