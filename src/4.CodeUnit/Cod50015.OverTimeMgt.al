@@ -537,8 +537,8 @@ codeunit 50015 "OverTime Mgt"
         OverTime1.Reset;
         OverTime1.SetFilter("No.", '<>%1', OverTime."No.");
         OverTime1.SetRange("Fiscal Year", OverTime."Fiscal Year");
-        OverTime.SetRange("Branch Type", OverTime."Branch Type");
-        OverTime1.SetRange(Code, OverTime.Code);
+        OverTime.SetRange("Deputation Type", OverTime."Deputation Type");
+        OverTime1.SetRange("Deputation Code", OverTime."Deputation Code");
         OverTime1.SetFilter("Approval Status", '<>%1', OverTime1."Approval Status"::Rejected);
         if OverTime1.Findset then
             repeat
@@ -678,10 +678,10 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
         OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record      
         Employee.Reset();
-        if OverTime."Branch Type" = OverTime."Branch Type"::Department then
+        if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
             Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
         else
-            Employee.SetRange("Deputation On code", OverTime.Code);
+            Employee.SetRange("Deputation On code", OverTime."Deputation Code");
         Employee.SetRange("Staff Type", Employee."Staff Type"::"Non Clerical Staff");
         if Employee.FindSet() then
             repeat
@@ -705,8 +705,8 @@ codeunit 50015 "OverTime Mgt"
                                 OvertimeLine.Validate("Employee Code", Employee."No.");
                                 OvertimeLine.Validate("Employee Name", Employee.FullName);
                                 OvertimeLine.Validate("Employee Work Shift", Employee."Employee Work Shift");
-                                OvertimeLine.Validate(Code, OverTime.Code);
-                                OvertimeLine.Validate(Name, OverTime.Name);
+                                OvertimeLine.Validate(Code, OverTime."Deputation Code");
+                                OvertimeLine.Validate(Name, OverTime."Deputation Name");
                                 OvertimeLine.Validate(Type, OverTime.Type);
                                 OvertimeLine.Validate("Overtime Date", CurrentDate);
                                 OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");

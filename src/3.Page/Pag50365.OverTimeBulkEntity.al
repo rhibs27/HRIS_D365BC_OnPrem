@@ -33,9 +33,9 @@ page 50365 "OverTime Bulk Entity"
                 field(remarks; Rec.Remarks) { }
                 field(rejectionRemarks; Rec."Rejection Remarks") { }
                 field(status; Rec.status) { }
-                field(branchType; Rec."Branch Type") { }
-                field(code; Rec.Code) { }
-                field(name; Rec.Name) { }
+                field(deputationType; Rec."Deputation Type") { }
+                field(deputationCode; Rec."Deputation Code") { }
+                field(deputationName; Rec."Deputation Name") { }
             }
             part(overtimeLines; "Overtime Subform")
             {

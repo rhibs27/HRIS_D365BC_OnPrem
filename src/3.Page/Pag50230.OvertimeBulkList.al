@@ -18,13 +18,13 @@ page 50230 "Overtime Bulk List"
                     ToolTip = 'Specifies the value of the Emp Act. No field.';
                     ApplicationArea = All;
                 }
-                field("Branch Type"; Rec."Branch Type")
+                field("Deputation Type"; Rec."Deputation Type")
                 {
                 }
-                field(Code; Rec.Code)
+                field("Deputation Code"; Rec."Deputation Code")
                 {
                 }
-                field(Name; Rec.Name)
+                field("Deputation Name"; Rec."Deputation Name")
                 {
                 }
                 field("Start Date"; Rec."Start Date")

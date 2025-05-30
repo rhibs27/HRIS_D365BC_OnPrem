@@ -402,7 +402,6 @@ table 50141 OverTime
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
             Editable = false;
         }
         field(31; "Unit Code"; Code[20])
@@ -562,47 +561,47 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(62; "Code"; Code[20])
+        field(62; "Deputation Code"; Code[20])
         {
             NotBlank = true;
-            TableRelation = if ("Branch Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if ("Branch Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+            TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if ("Deputation Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
 
             trigger OnValidate()
             begin
                 // CheckLineExist();
                 // GLsetup.Get;
-                Clear(Name);
+                Clear("Deputation Name");
                 if not GuiAllowed then
                     Employee.Get(HrMgt.GetEmployeeNo())
                 else
                     Employee.Get("Employee No.");
-                if "Branch Type" = "Branch Type"::Branch then begin
-                    if Code <> '' then
-                        TestField(Code, Employee."Branch Code");
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
-                        Name := OrganizationStructureList.Name;
-                end else if "Branch Type" = "Branch Type"::"Extension Counter" then begin
-                    if Code <> '' then
+                if "Deputation Type" = "Deputation Type"::Branch then begin
+                    if "Deputation Code" <> '' then
+                        TestField("Deputation Code", Employee."Branch Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Deputation Code") then
+                        "Deputation Name" := OrganizationStructureList.Name;
+                end else if "Deputation Type" = "Deputation Type"::"Extension Counter" then begin
+                    if "Deputation Code" <> '' then
                         // TestField(Code, Employee."Extension Counter Code");
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
-                            Name := OrganizationStructureList.Name;
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Deputation Code") then
+                            "Deputation Name" := OrganizationStructureList.Name;
                 end;
                 //GetApprover();
                 // CheckForSameWeek;
             end;
         }
-        field(63; Name; Text[100])
+        field(63; "Deputation Name"; Text[100])
         {
             Editable = false;
         }
-        field(64; "Branch Type"; Enum "Deputation Type")
+        field(64; "Deputation Type"; Enum "Deputation Type")
         {
-            ValuesAllowed = branch, "Extension Counter", department;
+            ValuesAllowed = Branch, Department;
             trigger OnValidate()
             begin
-                if "Branch Type" = "Branch Type"::Branch then
-                    Validate(Code, "Branch Code")
+                if "Deputation Type" = "Deputation Type"::Branch then
+                    Validate("Deputation Code", "Branch Code")
             end;
         }
         field(65; "Get Employee"; Boolean)
@@ -674,6 +673,7 @@ table 50141 OverTime
     var
         ApprovalEntry: Record "Approval HRMS";
         CannotDelete: Label 'Cannot delete document.';
+        OverTimeLine: Record "Overtime Line";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
@@ -682,6 +682,8 @@ table 50141 OverTime
             ApprovalEntry.SetRange("Document No.", "No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            OverTimeLine.SetRange("No.", "No.");
+            OverTimeLine.DeleteAll();
         end;
     end;
     // local procedure InsertAttendanceMissedAttachment()
