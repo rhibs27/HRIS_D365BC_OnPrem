@@ -1,4 +1,4 @@
-enum 50124 "Staff Type"
+enum 50125 "Staff Type"
 {
     Extensible = true;
 

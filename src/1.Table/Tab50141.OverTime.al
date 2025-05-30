@@ -17,7 +17,7 @@ table 50141 OverTime
                         case Type of
 
                             //for OT
-                            Type::Overtime:
+                            Type::Overtime, type::"Overtime Bulk":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."OT No.");
                                     "No. Series" := '';
@@ -123,20 +123,24 @@ table 50141 OverTime
                     Validate("Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Start Date (BS)");
-                EmployeeAttendance.Reset;
-                if EmployeeAttendance.get("Employee No.", "Start Date") then begin
-                    if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
-                        Error('No punch in or punch out found.');
-                    end
-                    else begin
-                        Validate("Check In Time", EmployeeAttendance."Check In Time");
-                        Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                if type = type::Overtime then begin
+                    EmployeeAttendance.Reset;
+                    if EmployeeAttendance.get("Employee No.", "Start Date") then begin
+                        if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                            Error('No punch in or punch out found.');
+                        end
+                        else begin
+                            Validate("Check In Time", EmployeeAttendance."Check In Time");
+                            Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                        end;
+                    end else
+                        Error('No Attendance Found on %1', rec."Start Date");
+                    OverTimeMgt.CheckOvertime(Rec);
+                    if "Start Date" <> xRec."Start Date" then begin
+                        Clear("Overtime Claim Type");
+                        Clear("End Date");
                     end;
-                end else
-                    Error('No Attendance Found on %1', rec."Start Date");
-                OverTimeMgt.CheckOvertime(Rec);
-                if "Start Date" <> xRec."Start Date" then
-                    Clear("Overtime Claim Type");
+                end;
             end;
         }
         field(8; "Check In Time"; Time)
@@ -149,19 +153,25 @@ table 50141 OverTime
             // DataClassification = ToBeClassified;
             Editable = false;
         }
-        // field(8; "End Date"; Date)
-        // {
+        field(22; "End Date"; Date)
+        {
 
-        //     trigger OnValidate()
-        //     begin
-        //         EngNepDate.Reset;
-        //         EngNepDate.SetRange("English Date", "End Date");
-        //         if EngNepDate.FindFirst then
-        //             Validate("End Date (BS)", EngNepDate."Nepali Date")
-        //         else
-        //             Clear("End Date (BS)");
-        //     end;
-        // }
+            trigger OnValidate()
+            begin
+                TestField("Start Date");
+                if "Start Date" > "End date" then
+                    Error('Invalid date.');
+                if "End date" > "Start Date" + 32 then // 32 days is the maximum range for Nepali date conversion
+                    Error('Date range exceed');
+                OverTimeMgt.CheckForExistingDate(Rec);
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "End Date");
+                if EngNepDate.FindFirst then
+                    Validate("End Date (BS)", EngNepDate."Nepali Date")
+                else
+                    Clear("End Date (BS)");
+            end;
+        }
         // field(9; "No. of Days"; Decimal)
         // {
         //     Editable = false;
@@ -182,10 +192,10 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        // field(13; "End Date (BS)"; Text[20])
-        // {
-        //     Editable = false;
-        // }
+        field(26; "End Date (BS)"; Text[20])
+        {
+            Editable = false;
+        }
         field(13; "Branch Code"; Text[20])
         {
             Editable = false;
@@ -204,18 +214,7 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-
-            trigger OnValidate()
-            begin
-                // if "Approval Status" = "Approval Status"::Screened then begin
-                //     Validate("Screener Date", Today);
-                //     Validate("Screener ID", HRMgt.GetEmployeeNo);
-                // end;
-                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                //     Validate("Final Approver Date", Today);
-                //     Validate("Final Approver", HRMgt.GetEmployeeNo);
-                // end;
-            end;
+            Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -563,6 +562,59 @@ table 50141 OverTime
         {
             Editable = false;
         }
+        field(62; "Code"; Code[20])
+        {
+            NotBlank = true;
+            TableRelation = if ("Branch Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if ("Branch Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+
+            trigger OnValidate()
+            begin
+                // CheckLineExist();
+                // GLsetup.Get;
+                Clear(Name);
+                if not GuiAllowed then
+                    Employee.Get(HrMgt.GetEmployeeNo())
+                else
+                    Employee.Get("Employee No.");
+                if "Branch Type" = "Branch Type"::Branch then begin
+                    if Code <> '' then
+                        TestField(Code, Employee."Branch Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
+                        Name := OrganizationStructureList.Name;
+                end else if "Branch Type" = "Branch Type"::"Extension Counter" then begin
+                    if Code <> '' then
+                        // TestField(Code, Employee."Extension Counter Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
+                            Name := OrganizationStructureList.Name;
+                end;
+                //GetApprover();
+                // CheckForSameWeek;
+            end;
+        }
+        field(63; Name; Text[100])
+        {
+            Editable = false;
+        }
+        field(64; "Branch Type"; Enum "Deputation Type")
+        {
+            ValuesAllowed = branch, "Extension Counter", department;
+            trigger OnValidate()
+            begin
+                if "Branch Type" = "Branch Type"::Branch then
+                    Validate(Code, "Branch Code")
+            end;
+        }
+        field(65; "Get Employee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(66; "Calculate Overtime"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+
+        }
 
         field(100; Status; text[20])
         {
@@ -592,7 +644,7 @@ table 50141 OverTime
                 case Type of
 
                     //for overtime
-                    Type::Overtime:
+                    Type::Overtime, type::"Overtime Bulk":
                         begin
                             HRSetup.TestField("OT No.");
                             NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
@@ -682,5 +734,8 @@ table 50141 OverTime
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
         AttendanceSetup: Record "Attendance Setup";
+        HrMgt: Codeunit "HR Mgt.";
+        OrganizationStructureList: Record "Organization Structure List";
+        Employee: Record Employee;
 
 }

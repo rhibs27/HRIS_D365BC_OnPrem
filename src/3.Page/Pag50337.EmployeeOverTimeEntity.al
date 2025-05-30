@@ -93,6 +93,7 @@ page 50337 "Employee OverTime Entity"
         HrMgt: Codeunit "HR Mgt.";
     begin
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.SetRange(Type, Rec.Type::"Overtime");
         Rec.SetAscending("No.", false);
     end;
 
