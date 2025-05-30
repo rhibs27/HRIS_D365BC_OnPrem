@@ -1,7 +1,6 @@
 enum 50143 "Branchwise/Extension Type"
 {
     Extensible = true;
-    
     value(0; "")
     {
         Caption = '';

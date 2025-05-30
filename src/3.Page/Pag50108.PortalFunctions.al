@@ -2342,24 +2342,35 @@ page 50108 "Portal Functions"
             exit(200);
     end;
 
-    // [ServiceEnabled]
-    // [Scope('Personalization')]
-    // procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
-    // var
-    //     //EmpActivity: Record "Employee Activity";
-    //     OverTime: Record OverTime;
-    // begin
-    //     OverTime.Get(empOverTimeNo);
-    //     if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending") then
-    //         OverTimeMgt.RecommendEmployeeOverTimeAPI(empOverTimeNo, approvalCode)
-    //     else begin
-    //         if not isApproved then begin
-    //             OverTime.Validate("Rejection Remarks", rejectionRemarks);
-    //             OverTime.Modify;
-    //         end;
-    //         OverTimeMgt.ApprovedRejectOverTimeApprovalAPI(isApproved, empOverTimeNo, approvalCode);
-    //     end;
-    // end;
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getEmployeeOverTimeLine(OverTimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+    begin
+        OverTime.Get(OverTimeNo);
+        OverTimeMgt.GetEmployee(OverTime);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure getEmployeeOverTimeAmount(OverTimeNo: Code[20])
+    begin
+        OverTimeMgt.GetOvertimeLineDetails(OverTimeNo);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure sendOvertimeLineApproval(OvertimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+        OverTimeLine: Record "Overtime Line";
+    begin
+        OverTime.Get(OvertimeNo);
+        OverTimeLine.Reset;
+        OverTimeLine.SetRange("No.", OvertimeNo);
+        OverTimeMgt.SendApprovalOvertimeBulk(OverTime, OverTimeLine);
+    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]

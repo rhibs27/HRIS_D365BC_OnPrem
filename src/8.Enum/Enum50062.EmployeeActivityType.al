@@ -88,5 +88,9 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Employee Journal';
     }
+    value(22; "Overtime Bulk")
+    {
+        Caption = 'Overtime Bulk';
+    }
 
 }

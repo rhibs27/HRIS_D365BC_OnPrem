@@ -1373,6 +1373,23 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE;
                     end;
                 }
+                action("OT Bulk")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = PhysicalInventory;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the OT Form action.';
+                    trigger OnAction()
+                    var
+                        OvertimeMgt: Codeunit "OverTime Mgt";
+                    begin
+                        OvertimeMgt.OpenOTBulk(Rec."No.");
+                        CurrPage.CLOSE;
+                    end;
+                }
                 action("Apply for Promotion")
                 {
                     ApplicationArea = All;
