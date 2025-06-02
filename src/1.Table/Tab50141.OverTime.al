@@ -104,6 +104,7 @@ table 50141 OverTime
             trigger OnValidate()
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
+
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -112,7 +113,7 @@ table 50141 OverTime
                 else
                     Clear("Fiscal Year");
                 if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
+                    EmployeeRec.Get(HrMgt.GetEmployeeNo());
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
