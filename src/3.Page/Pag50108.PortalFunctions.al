@@ -181,6 +181,8 @@ page 50108 "Portal Functions"
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Insurance);
             FORMAT(ApprovalSetupLine."Request Type"::"Medical Insurance Claim"):
                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Medical Insurance Claim");
+            FORMAT(ApprovalSetupLine."Request Type"::"Overtime Bulk"):
+                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Overtime Bulk");
             else
                 Error('Approval Setup Not found');
         END;
