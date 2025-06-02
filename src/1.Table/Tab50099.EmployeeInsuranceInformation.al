@@ -208,19 +208,19 @@ table 50099 "Employee Insurance Information"
         end;
     end;
 
-    trigger OnModify()
-    begin
-        if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then //Min
-            LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
-        if not GuiAllowed then
-            if "Approval Status" = "Approval Status"::Open then
-                "Approval Status" := "Approval Status"::Pending;
-        /*EmpInsurance.RESET; //Min >> --- For add control in duplicate Policy No.
-        EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
-        EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
-        IF EmpInsurance.FINDFIRST THEN
-          ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
-    end;
+    // trigger OnModify()
+    // begin
+    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then //Min
+    //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
+    //     if not GuiAllowed then
+    //         if "Approval Status" = "Approval Status"::Open then
+    //             "Approval Status" := "Approval Status"::Pending;
+    /*EmpInsurance.RESET; //Min >> --- For add control in duplicate Policy No.
+    EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
+    EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
+    IF EmpInsurance.FINDFIRST THEN
+//       ERROR(Text019,Rec."Policy Number",EmpInsurance."Insurance No.");*/
+    // end;
 
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
