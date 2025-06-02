@@ -635,6 +635,8 @@ table 50141 OverTime
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         HRSetup.Get;
+        if (not GuiAllowed) and (type = Type::"Overtime Bulk") then
+            Validate("Employee No.", HrMgt.GetEmployeeNo());
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
