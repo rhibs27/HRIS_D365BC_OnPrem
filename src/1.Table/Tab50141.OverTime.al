@@ -55,7 +55,7 @@ table 50141 OverTime
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Branch Code", EmpVar."Branch Code");
                     Validate(Department, EmpVar."Department Code");
-                    // Validate("Deputation On", EmpVar."Deputation on");
+                    validate("Deputation Code", EmpVar."Deputation on code");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
@@ -573,9 +573,10 @@ table 50141 OverTime
                 // CheckLineExist();
                 // GLsetup.Get;
                 Clear("Deputation Name");
-                if not GuiAllowed then
-                    Employee.Get(HrMgt.GetEmployeeNo())
-                else
+                if not GuiAllowed then begin
+                    Employee.Get(HrMgt.GetEmployeeNo());
+                    "Deputation Code" := Employee."No.";
+                end else
                     Employee.Get("Employee No.");
                 if "Deputation Type" = "Deputation Type"::Branch then begin
                     if "Deputation Code" <> '' then
