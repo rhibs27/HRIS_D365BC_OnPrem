@@ -929,6 +929,33 @@ table 50140 "Employee/HR Transfer"
                             end;
                         until AttachmentMandatory.Next = 0;
                 end;
+            Type::"Transfer Claim":
+                begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.SetRange("No.", "No.");
+                    IncomingDocument.DeleteAll(true);
+                    AttachmentMandatory.Reset;
+                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Travel Claim");
+                    if AttachmentMandatory.FindFirst then
+                        repeat
+                            Clear(IncomingDocument);
+                            IncomingDocument.Reset;
+                            IncomingDocument.SetRange("No.", "No.");
+                            IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                            if not IncomingDocument.FindFirst then begin
+                                IncomingDocument.Reset;
+                                IncomingDocument.Init;
+                                IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                                IncomingDocument.Description := Rec.TableName;
+                                IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                                IncomingDocument."No." := "No.";
+                                IncomingDocument."Employee Code" := "Employee No.";
+                                IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Transfer Claim";
+                                IncomingDocument.Insert(true);
+                            end;
+                        until AttachmentMandatory.Next = 0;
+                end;
         end;
     end;
 

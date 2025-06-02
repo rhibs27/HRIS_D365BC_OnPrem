@@ -131,7 +131,10 @@ page 50164 "Attachment Subform"
                             if HrMgt.GetEmployeeNo() = rec."Employee Code" then
                                 AttachmentMgt.UploadAttachment(Rec)
                             else
-                                Error('You arenot Allowed to Upload attachment');
+                                Error('You arenot Allowed to Upload attachment')
+                        else
+                            AttachmentMgt.UploadAttachment(Rec)
+
                     end else if (Rec."Leave Type Code" <> '') then begin
                         if Leave.Get(Rec."No.") then begin
                             IF NOT (Leave."Approval Status" IN [Leave."Approval Status"::Open, Leave."Approval Status"::" "]) THEN

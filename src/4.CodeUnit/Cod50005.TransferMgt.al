@@ -588,10 +588,10 @@ codeunit 50005 "Transfer Mgt."
         EmployeeTransfer1.Get(EmpHrTransfer."Transfer Request No");
         EmployeeTransfer1."Transfer Claim" := true;
         EmployeeTransfer1.Modify();
-        EmployeeTransfer.Init();
+        // EmployeeTransfer.Init();
         EmployeeTransfer.TransferFields(EmpHrTransfer);
         EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
-        EmployeeTransfer.Insert(true);
+        EmployeeTransfer.Modify();
         if GuiAllowed then
             Message('Document has been sent for approval.');
     end;
@@ -1106,8 +1106,7 @@ codeunit 50005 "Transfer Mgt."
     procedure OpenTransferClaim(EmpCode: Code[20]; TransferOrderNo: Code[20])
     var
         //EmpAct: Record "Employee Activity" temporary;
-        EmployeeTransfer: Record "Employee/HR Transfer" temporary;
-        EmployeeTransfer2: Record "Employee/HR Transfer";
+        EmployeeTransfer, EmployeeTransfer2 : Record "Employee/HR Transfer";
         Approval: Record "Approval HRMS";
     begin
         Approval.Reset();
@@ -1115,21 +1114,30 @@ codeunit 50005 "Transfer Mgt."
         Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
-        EmployeeTransfer2.get(TransferOrderNo);
-        EmployeeTransfer2.TestField("Approval Status", EmployeeTransfer2."Approval Status"::Acknowledged);
-        EmployeeTransfer.Init;
-        EmployeeTransfer.TransferFields(EmployeeTransfer2);
-        EmployeeTransfer."No." := '';
-        EmployeeTransfer."Approved Date" := 0D;
-        EmployeeTransfer.Validate("Transfer Request No", EmployeeTransfer2."No.");
-        EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
-        // EmployeeTransfer.Validate("Employee No.", EmpCode);
-        EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Open);
-        EmployeeTransfer.Validate(Status, '');
-        EmployeeTransfer.Validate("Requested Date", Today);
-        EmployeeTransfer.Insert;
-        Commit();
-        PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer);
+        EmployeeTransfer2.Reset();
+        EmployeeTransfer2.SetRange("Employee No.", EmpCode);
+        EmployeeTransfer2.SetRange("Transfer Request No", TransferOrderNo);
+        EmployeeTransfer2.SetRange("Approval Status", EmployeeTransfer2."Approval Status"::open);
+        if EmployeeTransfer2.Findfirst() then begin
+            Message('This Employee Already has open Transfer claim Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer2)
+        end else begin
+            EmployeeTransfer2.get(TransferOrderNo);
+            EmployeeTransfer2.TestField("Approval Status", EmployeeTransfer2."Approval Status"::Acknowledged);
+            EmployeeTransfer.Init;
+            EmployeeTransfer.TransferFields(EmployeeTransfer2);
+            EmployeeTransfer."No." := '';
+            EmployeeTransfer."Approved Date" := 0D;
+            EmployeeTransfer.Validate("Transfer Request No", EmployeeTransfer2."No.");
+            EmployeeTransfer.Validate(Type, EmployeeTransfer.Type::"Transfer Claim");
+            // EmployeeTransfer.Validate("Employee No.", EmpCode);
+            EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Open);
+            EmployeeTransfer.Validate(Status, '');
+            EmployeeTransfer.Validate("Requested Date", Today);
+            EmployeeTransfer.Insert(true);
+            Commit();
+            PAGE.Run(PAGE::"Transfer Claim Form", EmployeeTransfer);
+        end;
     end;
 
     // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")
