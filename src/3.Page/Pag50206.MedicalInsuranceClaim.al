@@ -135,17 +135,17 @@ page 50206 "Medical Insurance Claim"
                     ApplicationArea = All;
                 }
             }
-            part("Approval Subform"; "HRMS Approval Entry")
-            {
-                Editable = false;
-                SubPageLink = "Document No." = field("No.");
-                ApplicationArea = all;
-            }
             part(Attachment; "Attachment Subform")
             {
                 Editable = IsOpen;
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = All;
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
             }
         }
     }
@@ -163,7 +163,6 @@ page 50206 "Medical Insurance Claim"
                 Visible = IsOpen;
                 ToolTip = 'Executes the Send Request to DTMD action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     InsuranceMgt.SendMedicalInsuranceApproval(Rec);
@@ -181,7 +180,6 @@ page 50206 "Medical Insurance Claim"
                 Visible = IsPending;
                 ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to approve the request?', false) then begin

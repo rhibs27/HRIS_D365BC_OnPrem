@@ -1,4 +1,4 @@
-query 50023 "Medical Insurance Claim Query"
+query 50024 "Medical Insurance Claim Query"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
