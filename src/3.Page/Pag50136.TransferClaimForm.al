@@ -2,7 +2,6 @@ page 50136 "Transfer Claim Form"
 {
     PageType = Card;
     SourceTable = "Employee/HR Transfer";
-    // SourceTableView = WHERE(Type = FILTER("Employee Transfer" | "HR Transfer"));
     ApplicationArea = All;
 
     layout
@@ -95,6 +94,12 @@ page 50136 "Transfer Claim Form"
                     ToolTip = 'Specifies the value of the Officiating Allow. field.';
                     ApplicationArea = All;
                 }
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+                Editable = IsOpen;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -221,7 +226,6 @@ page 50136 "Transfer Claim Form"
                 Visible = IsOpen;
                 ToolTip = 'Executes the Request Allowance Claim action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     TransferMgt.RequestTransferAllowanceClaim(Rec);
@@ -252,7 +256,7 @@ page 50136 "Transfer Claim Form"
                     //     Error('Cannot approve this document.');
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('Transfer Allowance is Approved by %1', HRMgt.GetEmpName());
                     end;
                     // end;
                 end;
@@ -283,7 +287,7 @@ page 50136 "Transfer Claim Form"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('Transfer Claim is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
@@ -293,8 +297,8 @@ page 50136 "Transfer Claim Form"
     trigger OnOpenPage()
     begin
         SetLayout();
-        if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim", Rec."Approval Status");
+        // if IsOpen then
+        //     ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim", Rec."Approval Status");
     end;
 
     trigger OnAfterGetRecord()
@@ -319,19 +323,19 @@ page 50136 "Transfer Claim Form"
         // end;
     end;
 
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        if not IsApplied and IsOpen then
-            if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('')
-            else begin
-                Approval.Reset();
-                Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
-                Approval.SetRange("Document No.", '');
-                Approval.SetRange("Employee No", Rec."Employee No.");
-                Approval.DeleteAll();
-            end;
-    end;
+    // trigger OnQueryClosePage(CloseAction: Action): Boolean
+    // begin
+    //     if not IsApplied and IsOpen then
+    //         if not Confirm('The data will be erased. Do you want to continue?', true) then
+    //             Error('')
+    //         else begin
+    //             Approval.Reset();
+    //             Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
+    //             Approval.SetRange("Document No.", '');
+    //             Approval.SetRange("Employee No", Rec."Employee No.");
+    //             Approval.DeleteAll();
+    //         end;
+    // end;
 
     var
         Employee: Record Employee;

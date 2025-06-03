@@ -55,22 +55,22 @@ table 50149 "Approval HRMS"
             var
                 ApprovalEmployee: Record Employee;
                 Employee: Record Employee;
-                ApprovalSalaryLevel: Record "Salary Level";
-                SalaryLevel: Record "Salary Level";
+            // ApprovalSalaryLevel: Record "Salary Level";
+            // SalaryLevel: Record "Salary Level";
             begin
                 Employee.Reset();
                 ApprovalEmployee.Reset();
-                SalaryLevel.Reset();
-                ApprovalSalaryLevel.Reset();
+                // SalaryLevel.Reset();
+                // ApprovalSalaryLevel.Reset();
                 if "Approver No" = "Employee No" then
                     Error('You cannot choose your own Employee ID as Recommender.');
                 if Employee.Get("Employee No") then;
                 if not ApprovalEmployee.Get("Approver No") then
                     Error('Approver Not Found');
-                if SalaryLevel.Get(Employee."Salary Level") then;
-                if ApprovalSalaryLevel.Get(ApprovalEmployee."Salary Level") then;
-                if SalaryLevel.Rank >= ApprovalSalaryLevel.Rank then
-                    Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
+                // if SalaryLevel.Get(Employee."Salary Level") then;
+                // if ApprovalSalaryLevel.Get(ApprovalEmployee."Salary Level") then;
+                // if SalaryLevel.Rank >= ApprovalSalaryLevel.Rank then
+                //     Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
             end;
         }
         field(9; "Loan Type"; Enum "Loan Type")

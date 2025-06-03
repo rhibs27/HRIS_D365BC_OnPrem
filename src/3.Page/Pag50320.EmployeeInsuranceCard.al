@@ -192,7 +192,7 @@ page 50320 "Employee Insurance Card"
                     ApproverMgt.UpdateFirstApproverStatus(Rec."Insurance No.");
                     LoanMgt.CheckInsuranceAttachment(Rec."Insurance No.", Rec."Employee No.");
                     Rec.Modify();
-                    Message('Reqeust Sent');
+                    Message('Request Sent');
                 end;
             }
             action(Screen)
@@ -213,7 +213,7 @@ page 50320 "Employee Insurance Card"
                     CheckPremiumInsurance(Rec."Employee No."); //Min 6.28.2022
                     Rec.Validate("Approval Status", Rec."Approval Status"::Screened);
                     Rec.Modify;
-                    Message('Reqeust Screened');
+                    Message('Request Screened');
                 end;
             }
             action("Approve Request")
@@ -252,7 +252,7 @@ page 50320 "Employee Insurance Card"
                     Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
                     Rec.Validate("Approval Status", Rec."Approval Status"::Open);
                     Rec.Modify;
-                    Message('Reqeust Returned');
+                    Message('Request Returned');
                 end;
             }
             action("Reject Request")
