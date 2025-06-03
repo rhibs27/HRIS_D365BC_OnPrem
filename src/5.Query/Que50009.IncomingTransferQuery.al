@@ -45,6 +45,7 @@ query 50009 "Incoming Transfer Query"
             column(provinceCode; "Province Code") { }
             column(provinceName; "Province Name") { }
             column(unitCode; "Unit Code") { }
+            column(approverRoleFrom; "Approver Role From") { }
             column(remarks; Remarks) { }
             column(screenerRemarks; "Screener Remarks") { }
             column(rejectionRemarks; "Rejection Remarks") { }
@@ -77,6 +78,10 @@ query 50009 "Incoming Transfer Query"
             }
             column(extensionCounterTo; "Extension Counter (To)") { }
             column(deputationOnTo; "Deputation On (To)") { }
+            column(approverRoleTo; "Approver Role To")
+            {
+
+            }
             column(proposedTransferDate; "Transfer Effective Date") { }
             column(incomingSupervisior; "Incoming Supervisior") { }
             column(incomingSupervisiorName; "Incoming Supervisior Name") { }

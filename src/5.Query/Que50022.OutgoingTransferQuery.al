@@ -40,6 +40,9 @@ query 50022 "Outgoing Transfer Query"
             column(rejectionRemarks; "Rejection Remarks") { }
             column(transferType; "Transfer Type") { }
             //current
+            column(approverRoleFrom; "Approver Role From")
+            {
+            }
             column(department; Department) { }
             column(departmentName; "Department Name") { }
             column(branchCode; "Shortcut Dimension 1 Code") { }
@@ -52,6 +55,9 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterName; "Extension Counter Name") { }
             // propose
             // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
+            column(approverRoleTo; "Approver Role To")
+            {
+            }
             column(branchCodeTo; "To Branch") { }
             column(functionalTitleTo; "Functional Title (To)") { }
             column(functionalDescTo; "Functional Desc To") { }
