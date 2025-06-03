@@ -419,6 +419,7 @@ page 50066 "Transfer Card"
             }
             part(Attachment; "Attachment Subform")
             {
+                Editable = not IsACK;
                 SubPageLink = "No." = field("No.");
                 Visible = IsApproved and rec."Is Transfer Details Added" or IsACK or IsHold;
                 ApplicationArea = All;
