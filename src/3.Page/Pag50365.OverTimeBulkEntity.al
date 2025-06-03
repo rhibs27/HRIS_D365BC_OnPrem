@@ -6,8 +6,8 @@ page 50365 "OverTime Bulk Entity"
     ApplicationArea = All;
     Caption = 'overTimeEntity';
     DelayedInsert = true;
-    EntityName = 'overtimeBulk';
-    EntitySetName = 'overtimeBulkEntity';
+    EntityName = 'overtimeSelfBulkSelf';
+    EntitySetName = 'overtimeSelfBulkEntity';
     PageType = API;
     SourceTable = OverTime;
 

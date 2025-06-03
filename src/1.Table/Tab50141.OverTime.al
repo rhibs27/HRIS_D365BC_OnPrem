@@ -575,7 +575,7 @@ table 50141 OverTime
                 Clear("Deputation Name");
                 if not GuiAllowed then begin
                     Employee.Get(HrMgt.GetEmployeeNo());
-                    "Deputation Code" := Employee."No.";
+                    "Deputation Code" := Employee."Deputation On Code";
                 end else
                     Employee.Get("Employee No.");
                 if "Deputation Type" = "Deputation Type"::Branch then begin
@@ -637,8 +637,10 @@ table 50141 OverTime
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         HRSetup.Get;
-        if (not GuiAllowed) and (type = Type::"Overtime Bulk") then
+        if (not GuiAllowed) and (type = Type::"Overtime Bulk") then begin
             Validate("Employee No.", HrMgt.GetEmployeeNo());
+            Validate("Approval Status", "Approval Status"::Open);
+        end;
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");

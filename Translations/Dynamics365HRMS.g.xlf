@@ -11658,11 +11658,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Check Out Time - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Code - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1075377117 - Field 1976374057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Compensatory Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11677,6 +11672,16 @@
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Department Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 2660490446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Deputation Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Type</source>
@@ -11747,11 +11752,6 @@
           <source>Morning OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Morning OT Hours - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1075377117 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No.</source>
@@ -35533,10 +35533,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Approval Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1448531377 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1448531377 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Deputation Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1448531377 - Control 2660490446 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Deputation Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1448531377 - Control 2327667423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Branch Type field.</source>
@@ -35547,11 +35552,6 @@
           <source>Specifies the value of the End Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control End Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1448531377 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Bulk Card - Control Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1448531377 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the OT Date field.</source>
