@@ -1,4 +1,4 @@
-page 50245 "Resignation Plan List"
+page 50247 "Resignation Plan List"
 {
 
     CardPageId = "Payroll Plan";
