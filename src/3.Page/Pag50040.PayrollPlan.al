@@ -471,6 +471,8 @@ page 50040 "Payroll Plan"
             Rec.Validate(Type, Rec.Type::Payroll)
         else if TypeFilter = Format(Rec.Type::Resignation) then
             Rec.Validate(Type, Rec.Type::Resignation)
+        else if TypeFilter = Format(Rec.Type::Settlement) then
+            Rec.Validate(Type, Rec.Type::Settlement)
         else begin
             Rec.Validate(Type, Rec.Type::Adjustment);
             Rec.Validate(Irregular, true);

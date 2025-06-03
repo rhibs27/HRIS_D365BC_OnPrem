@@ -24,6 +24,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Name field.', Comment = '%';
                 }
+                field("Sol ID"; Rec."Sol ID")
+                {
+                    ToolTip = 'Specifies the value of the Sol ID field.', Comment = '%';
+                }
                 field(Province; Rec."Province Name")
                 {
                     ToolTip = 'Specifies the value of the Province field.', Comment = '%';

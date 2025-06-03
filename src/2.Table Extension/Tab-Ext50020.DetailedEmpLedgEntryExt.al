@@ -231,22 +231,22 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
                     begin
                         if PayrollAttributes."Static GL Ledger" then begin
                             PayrollAttributes.TestField("Static GL Ledger Account");
-                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code for Region");
+                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS Expense Code");
                         end else
-                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."GL Code for Region");
+                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
                     end else begin
                     if PayrollAttributes."Static GL Ledger" then begin
                         PayrollAttributes.TestField("Static GL Ledger Account");
-                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code For Branch");
+                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code");
                     end else
-                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."GL Code For Branch");
+                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code");
                 end;
             end;
         end else begin
             if PayrollAttributes."Static GL Ledger" then
-                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code For Branch")
+                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code")
             else
-                Validate("Finacle GL No", PayrollAttributes."GL Code For Branch")
+                Validate("Finacle GL No", PayrollAttributes."CBS GL Code")
         end;
         if PayrollAttributes."Finacle GL Name" <> '' then
             Validate("Finacle GL Name", StrSubstNo('%1 %2-%3', PayrollAttributes."Finacle GL Name", EngNepDate."Nepali Year", EngNepDate."Nepali Month"))

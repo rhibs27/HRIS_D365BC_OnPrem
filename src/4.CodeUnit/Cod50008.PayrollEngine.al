@@ -184,7 +184,7 @@ codeunit 50008 "Payroll Engine"
                          "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");//pradhan
         //Check Employee Status
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         TaxSetupHeader.Get(Employee."Tax Code");
@@ -215,7 +215,7 @@ codeunit 50008 "Payroll Engine"
                 RemainingMonth := 0;
         if (PayrollHeader.Type <> PayrollHeader.Type::Adjustment) or (PayrollHeader."Gross Payment") then
             CalcCurrentEarning;
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then begin
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
             CalcProjectionEarning();
             EmployeeLumpsum := Employee."Lumpsum CIT (Not Actual)" + Employee."Lumpsum RF (Not Actual)";
         end else
@@ -224,7 +224,7 @@ codeunit 50008 "Payroll Engine"
         TotalAnnualEarning := CurrentEarning + ProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit;     // +  TaxOldEmployeeTotalEarning(Employee."No.")  //>>pradhan
 
         //Retirement
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then begin
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
             CalcProjectionRetirementFund; //SUMAN
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
@@ -433,7 +433,7 @@ codeunit 50008 "Payroll Engine"
                     if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                         if PayrollAttributes."Non-Taxable" = false then begin
                             if FieldValue <> 0 then begin
-                                if (PayrollHeader.Type = PayrollHeader.Type::Resignation) and
+                                if (PayrollHeader.Type = PayrollHeader.Type::Settlement) and
                                    ((PGSetup.Gratuity = PayrollAttributes.Code) or (PGSetup."Leave Encashment" = PayrollAttributes.Code)) then
                                     SettlementAmount += FieldValue
                                 else
@@ -1809,7 +1809,7 @@ codeunit 50008 "Payroll Engine"
         Clear(SettlementStartDate);
         Clear(SickLeave);
         Clear(AnnualLeave);
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
             GetSettlementAttendance(PayrollLine, PayrollHeader);
             exit;
         end;
@@ -1936,7 +1936,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Present Days", AttendanceSummary."Present Day" + LatterPresentDays);
             if LeaveDays > AttendanceSummary."Absent Day" then begin
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + AttendanceSummary."Absent Day");
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then;
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", AttendanceSummary."Absent Day");
 
                 PayrollLine.Validate("Absent Days", AbsentDays + LWPDays);
@@ -1951,7 +1951,7 @@ codeunit 50008 "Payroll Engine"
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + LeaveDays);
                 if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
                     PayrollLine.Validate("Prior Absent Days", PriorLWPDays);
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then;
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", LeaveDays);
             end;
             PayrollLine.Validate("Prior Present Days", PriorPresentDays);
@@ -1961,7 +1961,7 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("OT Hrs", AttendanceSummary."OT Hrs");
             PayrollLine.Validate("OT Days", AttendanceSummary."OT Days");
             PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
-            if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+            if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                 EmployeeAttendActivity.Reset();
                 EmployeeAttendActivity.SetRange("Attendance Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
                 EmployeeAttendActivity.SetRange("Absent Day", 1);
@@ -2948,7 +2948,7 @@ codeunit 50008 "Payroll Engine"
                 if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                     if PayrollAttributes."Non-Taxable" = false then begin
                         if FieldValue <> 0 then begin
-                            if not ((PayrollHeader.Type = PayrollHeader.Type::Resignation) and
+                            if not ((PayrollHeader.Type = PayrollHeader.Type::Settlement) and
                                  ((PGSetup.Gratuity = PayrollAttributes.Code) or (PGSetup."Leave Encashment" = PayrollAttributes.Code))) then
                                 TaxAtOnceCurrentEarning += FieldValue;
                         end;
@@ -3643,7 +3643,7 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Leave Encashment":
                 begin
-                    if PayrollHeader.Type = PayrollHeader.Type::Resignation then //settlement
+                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then //settlement
                         exit(Round((LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance) / HRMgt.GetNoDaysInMonth * PayrollLineVar."Annual Leave Days"
                                      + LevelWiseAttributes."Total Basic Salary" / HRMgt.GetNoDaysInMonth * PayrollLineVar."Sick Leave Days", 0.01, '='));
                 end;

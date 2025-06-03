@@ -523,6 +523,16 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Posted Payroll Adj No. Series field.';
                     ApplicationArea = All;
                 }
+                field("Resignation Plan No. Series"; Rec."Resigned Plan No. Series")
+                {
+                    ToolTip = 'Specifies the value of the Resignation Plan No. Series field.';
+                    ApplicationArea = All;
+                }
+                field("Posted Resignation Plan No. Series"; Rec."Posted ResignedPlan No. Series")
+                {
+                    ToolTip = 'Specifies the value of the Posted Resignation Plan No. Series field.';
+                    ApplicationArea = All;
+                }
             }
             group("Specific Components")
             {

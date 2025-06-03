@@ -1,12 +1,11 @@
-page 50208 "Payroll Settlement Plan List"
+page 50245 "Resignation Plan List"
 {
-    // version PRM19.01.01
 
-    CardPageId = "Payroll Settlement Plan";
+    CardPageId = "Payroll Plan";
     Editable = false;
     PageType = List;
     SourceTable = "Payroll Header";
-    SourceTableView = where(Type = const(Settlement));
+    SourceTableView = where(Type = const(Resignation));
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -54,6 +53,11 @@ page 50208 "Payroll Settlement Plan List"
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.';
+                    ApplicationArea = All;
+                }
+                field("Employee Type"; Rec."Employee Type")
+                {
+                    ToolTip = 'Specifies the value of the Employee Type field.';
                     ApplicationArea = All;
                 }
                 field("Assigned User ID"; Rec."Assigned User ID")

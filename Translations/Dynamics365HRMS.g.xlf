@@ -11578,6 +11578,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Remote Area Reduction - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 385130008 - Field 3263109631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sol ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Organization Structure List - Field Sol ID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 385130008 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12198,6 +12203,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Branch Filter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 717703913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CBS Expense Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field CBS Expense Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 3754179328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CBS GL Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field CBS GL Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12267,16 +12282,6 @@
           <source>G/L Account No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field G/L Account No. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2858165342 - Field 910520699 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>GL Code For Branch</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field GL Code For Branch - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2858165342 - Field 561404895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>GL Code for Region</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field GL Code for Region - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2858165342 - Field 1424395051 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Irregular</source>
@@ -12988,6 +12993,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Posted Payroll Adj No. Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 1571992485 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted ResignedPlan No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Posted ResignedPlan No. Series - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 740136561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Method</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -13022,6 +13032,11 @@
           <source>Remote Area Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Remote Area Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 3546390414 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resigned Plan No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Resigned Plan No. Series - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 1753554737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Return Tax</source>
@@ -35463,6 +35478,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Remote Area Reduction - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 198483192 - Control 3263109631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Sol ID field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Organization Structure list - Control Sol ID - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 198483192 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -36787,6 +36807,16 @@
           <source>Specifies the value of the Posted Payroll Adj No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Posted Payroll Adj No. Series - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 1649707505 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posted Resignation Plan No. Series field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Posted Resignation Plan No. Series - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 3152740666 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Resignation Plan No. Series field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Resignation Plan No. Series - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 581685109 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Salary Plan No. Series field.</source>
@@ -43192,6 +43222,56 @@
           <source>Executes the Verified action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation List - Action Verified - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Assigned User ID field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Assigned User ID - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 545490910 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Employee Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 1424395051 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Irregular field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Irregular - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 2516326926 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Narration field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Narration - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 4117176191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Pay Cycle Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Pay Cycle Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Pay Cycle Term field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 3710982960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Posting Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Posting Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 330858068 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 227370865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval</source>
@@ -50878,6 +50958,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Detailed Empl. Ledger Entries - Control Payroll Attribute Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 142891621 - Control 538791596 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 339962132">
+          <source>Specifies the value of the Posting Region field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension DImensionValue - Control Head Office - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 219593816 - Action 2479349597 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 219593816">
           <source>Executes the Preview action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53082,6 +53167,11 @@
           <source>Sol ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Detailed Emp. Ledg. Entry Ext - Field Sol ID - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2889811678 - Field 538791596 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1468132285">
+          <source>Head Office</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Dimension Value Ext - Field Head Office - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1431060665 - Field 337701178 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 282138634">
           <source>Attachment Document Type</source>
@@ -58417,6 +58507,11 @@
           <source>Resignation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll Header Type - EnumValue Resignation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2072948606 - EnumValue 2197284175 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll Header Type - EnumValue Settlement - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3344715179 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>

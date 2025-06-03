@@ -965,7 +965,7 @@ page 50041 "Payroll Subform"
     trigger OnAfterGetRecord()
     begin
         PayrollHeader.Get(Rec."Document No.");
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             SettlementVisible := true;
     end;
 
