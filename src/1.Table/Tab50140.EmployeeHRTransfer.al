@@ -226,7 +226,7 @@ table 50140 "Employee/HR Transfer"
         {
             Editable = false;
         }
-        field(27; "Functional Title Desc"; Text[50])
+        field(27; "Functional Title Desc"; Text[100])
         {
             Editable = false;
         }
