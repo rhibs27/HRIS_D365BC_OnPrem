@@ -76,9 +76,10 @@ table 50147 "Organization Structure List"
         field(12; "Blocked"; Boolean)
         {
         }
-        field(13; "Sol ID"; Code[20])
+        field(16; "Sol ID"; Code[20])
         {
-            DataClassification = ToBeClassified;
+            Caption = 'Sol ID';
+            DataClassification = CustomerContent;
         }
     }
     keys
