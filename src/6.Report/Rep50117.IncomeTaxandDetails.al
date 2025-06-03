@@ -44,7 +44,7 @@ report 50117 "Income Tax and Details"
 
                         if "Attribute Sub Type" = "Attribute Sub Type"::"Lump Sum Contribution" then begin
                             if PostedPayrollHead.Get("Document No.") then
-                                if PostedPayrollHead.Type in [PostedPayrollHead.Type::Payroll, PostedPayrollHead.Type::Resignation] then
+                                if PostedPayrollHead.Type in [PostedPayrollHead.Type::Payroll, PostedPayrollHead.Type::Settlement] then
                                     CurrReport.Skip;
                         end;
 

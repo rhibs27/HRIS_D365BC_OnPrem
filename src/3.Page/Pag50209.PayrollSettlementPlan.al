@@ -305,12 +305,12 @@ page 50209 "Payroll Settlement Plan"
 
     trigger OnInit()
     begin
-        Rec.Validate(Type, Rec.Type::Resignation);
+        Rec.Validate(Type, Rec.Type::Settlement);
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec.Validate(Type, Rec.Type::Resignation);
+        Rec.Validate(Type, Rec.Type::Settlement);
     end;
 
     var

@@ -180,11 +180,11 @@ report 50000 "Validate Travel Claim"
                 PayrollAttribtes.Get(DetailedLedgerEntry."Payroll Attribute Code");
                 if PayrollAttribtes.Type in [PayrollAttribtes.Type::Benefits, PayrollAttribtes.Type::"Non-Payment"] then begin
                     if Employee."Deputation on" in [Employee."Deputation on"::"Province"] then
-                        DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."GL Code for Region")
+                        DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."CBS Expense Code")
                     else
-                        DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."GL Code For Branch");
+                        DetailedLedgerEntry.Validate("Finacle GL No", Employee."Sol Id" + PayrollAttribtes."CBS GL Code");
                 end else begin
-                    DetailedLedgerEntry.Validate("Finacle GL No", PayrollAttribtes."GL Code For Branch");
+                    DetailedLedgerEntry.Validate("Finacle GL No", PayrollAttribtes."CBS GL Code");
                 end;
                 if PayrollAttribtes."Finacle GL Name" <> '' then
                     DetailedLedgerEntry.Validate("Finacle GL Name", StrSubstNo('%1 %2-%3', PayrollAttribtes."Finacle GL Name", EngNep."Nepali Year", EngNep."Nepali Month"))

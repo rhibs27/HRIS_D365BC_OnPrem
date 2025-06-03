@@ -14,11 +14,12 @@ table 50026 "Payroll Header"
                     PRSetup.Get;
                     if Type = Type::Payroll then
                         NoSeriesMngt.TestManual(PRSetup."Salary Plan No. Series")
-                    else if Type = Type::Resignation then
+                    else if Type = Type::Settlement then
                         NoSeriesMngt.TestManual(PRSetup."Settlement No. Series")
                     else if Type = Type::Adjustment then
-                        NoSeriesMngt.TestManual(PRSetup."Payroll Adj No. Series");
-
+                        NoSeriesMngt.TestManual(PRSetup."Payroll Adj No. Series")
+                    else if Type = Type::Resignation then
+                        NoSeriesMngt.TestManual(PRSetup."Resigned Plan No. Series");
                     "No. Series" := '';
                 end;
             end;
@@ -356,10 +357,12 @@ table 50026 "Payroll Header"
     begin
         if Type = Type::Payroll then
             PRSetup.TestField("Salary Plan No. Series")
-        else if Type = Type::Resignation then
+        else if Type = Type::Settlement then
             PRSetup.TestField("Settlement No. Series")
         else if Type = Type::Adjustment then
-            PRSetup.TestField("Payroll Adj No. Series");
+            PRSetup.TestField("Payroll Adj No. Series")
+        else if Type = Type::Resignation then
+            PRsetup.TestField("Resigned Plan No. Series");
     end;
 
     procedure GetNoSeries(): Code[20]
@@ -367,19 +370,23 @@ table 50026 "Payroll Header"
         if Type = Type::Payroll then
             exit(PRSetup."Salary Plan No. Series")
         else if Type = Type::Resignation then
-            exit(PRSetup."Settlement No. Series")
+            exit(PRSetup."Resigned Plan No. Series")
         else if Type = Type::Adjustment then
-            exit(PRSetup."Payroll Adj No. Series");
+            exit(PRSetup."Payroll Adj No. Series")
+        else if Type = Type::Settlement then
+            exit(PRSetup."Settlement No. Series");
     end;
 
     procedure InitRecord()
     begin
         if Type = Type::Payroll then
             NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Salary Plan Posting No. Series")
-        else if Type = Type::Resignation then
+        else if Type = Type::Settlement then
             NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Settlement Posting No. Series")
         else if Type = Type::Adjustment then
-            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Posted Payroll Adj No. Series");
+            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Posted Payroll Adj No. Series")
+        else if Type = Type::Resignation then
+            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Posted ResignedPlan No. Series");
         "Posting Description" := Format(Text001) + ' ' + "No.";
         "Document Date" := Today;
         "Posting Date" := Today;
@@ -479,7 +486,7 @@ table 50026 "Payroll Header"
                     PayrollLine."Current Deduction" := 0;
                     PayrollLine."Net Pay" := 0;
                     PayrollLine."1% Slab" := 0;
-                    PayrollLine."10% Slab" := 10;
+                    PayrollLine."10% Slab" := 0;
                     PayrollLine."30% Slab" := 0;
                     PayrollLine."36% Slab" := 0;
                     PayrollLine."39% Slab" := 0;
@@ -544,7 +551,7 @@ table 50026 "Payroll Header"
         Employee.SetCurrentKey("Employment Type");
         //Employee.SETFILTER("No.",'PT3265'); //Min For Check
         //Employee.SETFILTER("No.",'%1|%2|%3','MM2154','SP3875','SP3988');
-        if Type = Type::Resignation then begin
+        if Type = Type::Settlement then begin
             Employee.SetRange(Status, Employee.Status::Inactive);
             if "Employee Type" = "Employee Type"::Regular then
                 Employee.SetFilter("Resignation Date", '<>%1', 0D)

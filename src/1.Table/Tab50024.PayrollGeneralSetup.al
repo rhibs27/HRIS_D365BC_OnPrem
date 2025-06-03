@@ -444,7 +444,14 @@ table 50024 "Payroll General Setup"
         field(136; "Total Days From"; Enum MonthYear)
         {
         }
-
+        field(137; "Resigned Plan No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(138; "Posted ResignedPlan No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
     }
 
     keys
@@ -460,7 +467,7 @@ table 50024 "Payroll General Setup"
     procedure ValidateHRMSMonth()
     begin
         if Rec."HRMS Month" <> xRec."HRMS Month" then begin
-            if CheckSalaryAtMongth("HRMS Month") then
+            if CheckSalaryAtMonth("HRMS Month") then
                 Error('Month end has already performed for %1', "HRMS Month");
             //IF FORMAT("HRMS Month") <>  EngToNepaliDate.getNepaliMonth(TODAY) THEN
             //ERROR('Hrms month must be %1',EngToNepaliDate.getNepaliMonth(TODAY));
@@ -468,7 +475,7 @@ table 50024 "Payroll General Setup"
         //<<ratan 1.21.2021
     end;
 
-    local procedure CheckSalaryAtMongth(HRMSMonth: Enum "Nepali Month"): Boolean
+    local procedure CheckSalaryAtMonth(HRMSMonth: Enum "Nepali Month"): Boolean
     var
         PostedPayrollheader: Record "Posted Payroll Header";
     begin

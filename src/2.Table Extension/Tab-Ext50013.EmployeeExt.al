@@ -1790,6 +1790,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol Id");
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
@@ -1799,6 +1800,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol Id");
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
@@ -1806,6 +1808,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Province Name", OrganizationStructureList."Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol Id");
                 end;
             "Deputation on"::"Extension Counter":
                 begin
@@ -1955,6 +1958,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Posting Region");
         Clear("Inside/Outside Valley");
         Clear("Deputation On Code");
+        Clear("Sol Id")
     end;
 
     local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Integer) ReturnText: Text;
