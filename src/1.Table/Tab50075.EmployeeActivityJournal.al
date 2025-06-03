@@ -407,7 +407,7 @@ table 50075 "Employee Activity Journal"
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Organization Structure list"::unit));
             trigger OnValidate()
             begin
                 if "Unit (To)" <> xRec."Unit (To)" then begin
@@ -440,7 +440,7 @@ table 50075 "Employee Activity Journal"
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
 
             trigger OnValidate()
             var
