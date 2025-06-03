@@ -75,4 +75,15 @@ page 50245 "Overtime Subform"
             }
         }
     }
+    var
+        Overtime: Record OverTime;
+        HRMgt: Codeunit "HR Mgt.";
+
+    trigger OnAfterGetRecord()
+    begin
+        if not GuiAllowed then
+            if Overtime.Get(rec."No.") then
+                if not (Overtime."Employee No." = HRMgt.GetEmployeeNo()) then
+                    Error('Auth Error');
+    end;
 }
