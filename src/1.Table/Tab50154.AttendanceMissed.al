@@ -378,7 +378,7 @@ table 50154 "Attendance Missed"
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
+            //TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
