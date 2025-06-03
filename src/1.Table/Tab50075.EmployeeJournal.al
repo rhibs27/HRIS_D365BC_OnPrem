@@ -604,7 +604,7 @@ table 50075 "Employee Activity Journal"
         field(56; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Organization Structure list"::unit));
             trigger OnValidate()
             begin
                 if "Unit (To)" <> xRec."Unit (To)" then begin
@@ -668,7 +668,7 @@ table 50075 "Employee Activity Journal"
         field(62; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
 
             trigger OnValidate()
             var
@@ -864,10 +864,10 @@ table 50075 "Employee Activity Journal"
         // }
         field(81; "Outgoing Reporting Person Name"; Text[30])
         {
-            CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
+            // CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
             Description = 'Transfer';
             Editable = false;
-            FieldClass = FlowField;
+            // FieldClass = FlowField;
         }
         // field(82; Reviewer; Code[20])
         // {

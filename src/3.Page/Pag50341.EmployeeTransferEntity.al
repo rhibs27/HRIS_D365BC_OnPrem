@@ -52,6 +52,7 @@ page 50341 "Employee Transfer Entity"
                 field(transferProposeDate;rec."Transfer Propose Date")
                 {
                 }
+                field(transferEffectiveDate; Rec."Transfer Effective Date") { }
                 field(cancelled; Rec.Cancelled) { }
                 field(reasonCode; Rec."Reason Code") { }
                 field(reasonDescription; Rec."Reason Description") { }
