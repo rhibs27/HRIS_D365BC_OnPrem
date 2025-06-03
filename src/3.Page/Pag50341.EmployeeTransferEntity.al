@@ -54,6 +54,7 @@ page 50341 "Employee Transfer Entity"
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Transfer") { }
                 field(provinceCode;Rec."Province Code") { }
+                field(provinceName;Rec."Province Name") { }
                 field(unitCode;Rec."Unit Code") { }
                 field(unitName;Rec."Unit Name") { }
                 field(departmentName;Rec."Department Name") { }

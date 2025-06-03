@@ -43,6 +43,7 @@ query 50009 "Incoming Transfer Query"
             column(reasonDescription; "Reason Description") { }
             column(reasonForTransfer; "Reason for Transfer") { }
             column(provinceCode; "Province Code") { }
+            column(provinceName; "Province Name") { }
             column(unitCode; "Unit Code") { }
             column(remarks; Remarks) { }
             column(screenerRemarks; "Screener Remarks") { }
@@ -64,10 +65,13 @@ query 50009 "Incoming Transfer Query"
             column(functionalTitleTo; "Functional Title (To)") { }
             column(functionalDescTo; "Functional Desc To") { }
             column(provinceCodeTo; "Province Code (To)") { }
+            column(provinceNameTo; "Province Name To") { }
             column(unitTo; "Unit (To)") { }
             column(unitNameTo; "Unit Name To") { }
             column(departmentCodeTo; "Department Code (To)") { }
             column(departmentNameTo; "Department Name To") { }
+            column(branchCodeTo; "To Branch") { }
+            column(branchNameTo; "Branch Name To") { }
             column(extensionNameTo; "Extension Name To")
             {
             }

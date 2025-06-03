@@ -396,18 +396,28 @@ table 50140 "Employee/HR Transfer"
             var
                 OrganizationStructureList: Record "Organization Structure List";
             begin
-                if "Province Code (To)" <> xRec."Province Code (To)" then begin
-                    // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
-                    // if ProvinceVar.Get("Province Code (To)") then begin
-                    //     "Province Name To" := OrganizationStructureList."Province Name";
-                    //     "Shortcut Dimension 1 Code (To)" := '';
-                    // end;
+                // if "Province Code (To)" <> xRec."Province Code (To)" then begin
+                //     // if OrganizationStructureList.Get(OrganizationStructureList.Type, OrganizationStructureList.Code) then begin
+                //     // if ProvinceVar.Get("Province Code (To)") then begin
+                //     //     "Province Name To" := OrganizationStructureList."Province Name";
+                //     //     "Shortcut Dimension 1 Code (To)" := '';
+                //     // end;
+
+                //     ValidateDeputationOnTo();
+                if "Deputation on (To)" = "Deputation on (To)"::Province then begin
                     "Department Code (To)" := '';
                     "Unit (To)" := '';
                     "Extension Counter (To)" := '';
-                    ValidateDeputationOnTo();
-                    // end;
+                    Clear("Branch Name To");
+                    Clear("To Branch");
+                    ValidateDeputationOnTo()
+                end else begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (To)") then
+                        Validate("Province Name To", OrganizationStructureList.Name)
+                    else
+                        Clear("Province Name");
                 end;
+                // end;
             end;
         }
         field(56; "Unit (To)"; Code[20])
@@ -416,11 +426,13 @@ table 50140 "Employee/HR Transfer"
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Organization Structure list"::unit));
             trigger OnValidate()
             begin
+
                 if "Unit (To)" <> xRec."Unit (To)" then begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Extension Counter (To)") then begin
-                        "Province Code (To)" := OrganizationStructureList."Province Code";
+                    Clear("Unit Name To");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Unit (To)") then begin
+                        // "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Extension Name To" := '';
-                        "Unit (To)" := OrganizationStructureList.Name;
+                        "Unit Name To" := OrganizationStructureList.Name;
                         "Shortcut Dimension 1 Code (To)" := '';
                     end;
                 end;
@@ -441,8 +453,12 @@ table 50140 "Employee/HR Transfer"
                     //     "Department Name To" := OrganizationStructureList.Name;
                     // end;
                     "Unit (To)" := '';
+                    "Unit Name To" := '';
                     "Shortcut Dimension 1 Code (To)" := '';
                     "Extension Counter (To)" := '';
+                    Clear("Province Code (To)");
+                    Clear("Province Name To");
+                    Clear("Department Name To");
                     ValidateDeputationOnTo();
                 end;
 
@@ -460,6 +476,7 @@ table 50140 "Employee/HR Transfer"
         }
         field(60; "Approver Role To"; Code[20])
         {
+            TableRelation = "Approval Role";
             DataClassification = ToBeClassified;
         }
         // field(58; "Reporting Line 1 (To)"; Code[20])
@@ -492,8 +509,9 @@ table 50140 "Employee/HR Transfer"
                 OrganizationStructureList: Record "Organization Structure List";
             begin
                 if "Extension Counter (To)" <> xRec."Extension Counter (To)" then begin
+                    Clear("Extension Name To");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter (To)") then begin
-                        "Province Code (To)" := OrganizationStructureList."Province Code";
+                        // "Province Code (To)" := OrganizationStructureList."Province Code";
                         "Extension Name To" := OrganizationStructureList.Name;
                         "Department Code (To)" := '';
                         "Unit (To)" := '';
@@ -538,10 +556,17 @@ table 50140 "Employee/HR Transfer"
                 if "Deputation On (To)" <> xRec."Deputation On (To)" then begin
                     Clear("Shortcut Dimension 1 Code (To)");
                     Clear("Department Code (To)");
+                    Clear("Department Name To");
                     Clear("Unit (To)");
+                    Clear("Unit Name To");
                     Clear("Functional Title (To)");
                     Clear("Province Code (To)");
                     Clear("Extension Counter (To)");
+                    Clear("Extension Name To");
+                    Clear("Province Name To");
+                    Clear("Functional Desc To");
+                    Clear("Branch Name To");
+                    Clear("To Branch");
                 end;
             end;
         }
@@ -644,6 +669,8 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
+                if "Outgoing Branch Rep. Person" = "Employee No." then
+                    Error('Cannot Select Yourself as Outgoing Reporting person');
                 // if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
                 //     EmployeeRec.Get("Outgoing Branch Rep. Person");
                 //     if SalaryLevel.Get("Salary Level Code") then;
@@ -834,6 +861,11 @@ table 50140 "Employee/HR Transfer"
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
+                Clear("Extension Counter (To)");
+                Clear("Extension Name To");
+                Clear("Branch Name To");
+                Clear("Province Code (To)");
+                Clear("Province Name To");
                 ValidateDeputationOnTo();
             end;
         }
@@ -850,6 +882,10 @@ table 50140 "Employee/HR Transfer"
     }
     trigger OnInsert()
     begin
+        if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
+            Validate("Employee No.", HRMgt.GetEmployeeNo());
+            "Approval Status" := "Approval Status"::Pending;
+        end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         HRSetup.Get;
@@ -870,6 +906,11 @@ table 50140 "Employee/HR Transfer"
                             //"Temporary District" := HRMgt.GetEmpName; //Min 7.14.2022
                         end;
                 end;
+            end;
+        if (not GuiAllowed) and (type = Type::"Transfer Claim") then
+            if EmployeeTransfer.Get("Transfer Request No") then begin
+                EmployeeTransfer."Transfer Claim" := true;
+                EmployeeTransfer.Modify();
             end;
         InsertAttachmentLines;
     end;
@@ -931,30 +972,32 @@ table 50140 "Employee/HR Transfer"
                 end;
             Type::"Transfer Claim":
                 begin
-                    IncomingDocument.Reset;
-                    IncomingDocument.SetRange("No.", "No.");
-                    IncomingDocument.DeleteAll(true);
-                    AttachmentMandatory.Reset;
-                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Travel Claim");
-                    if AttachmentMandatory.FindFirst then
-                        repeat
-                            Clear(IncomingDocument);
-                            IncomingDocument.Reset;
-                            IncomingDocument.SetRange("No.", "No.");
-                            IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-                            if not IncomingDocument.FindFirst then begin
+                    if GuiAllowed then begin
+                        IncomingDocument.Reset;
+                        IncomingDocument.SetRange("No.", "No.");
+                        IncomingDocument.DeleteAll(true);
+                        AttachmentMandatory.Reset;
+                        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Travel Claim");
+                        if AttachmentMandatory.FindFirst then
+                            repeat
+                                Clear(IncomingDocument);
                                 IncomingDocument.Reset;
-                                IncomingDocument.Init;
-                                IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-                                IncomingDocument.Description := Rec.TableName;
-                                IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-                                IncomingDocument."No." := "No.";
-                                IncomingDocument."Employee Code" := "Employee No.";
-                                IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
-                                IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Transfer Claim";
-                                IncomingDocument.Insert(true);
-                            end;
-                        until AttachmentMandatory.Next = 0;
+                                IncomingDocument.SetRange("No.", "No.");
+                                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                                if not IncomingDocument.FindFirst then begin
+                                    IncomingDocument.Reset;
+                                    IncomingDocument.Init;
+                                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                                    IncomingDocument.Description := Rec.TableName;
+                                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                                    IncomingDocument."No." := "No.";
+                                    IncomingDocument."Employee Code" := "Employee No.";
+                                    IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                    IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Transfer Claim";
+                                    IncomingDocument.Insert(true);
+                                end;
+                            until AttachmentMandatory.Next = 0;
+                    end;
                 end;
         end;
     end;
@@ -1090,14 +1133,22 @@ table 50140 "Employee/HR Transfer"
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "TO Branch") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
                     Validate("Branch Name To", OrganizationStructureList.Name);
-                    Validate("Province Code (To)", OrganizationStructureList."Province Code");
+                    OrganizationStructureLine.Reset();
+                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+                    OrganizationStructureLine.SetRange("Reporting Code", "TO Branch");
+                    if OrganizationStructureLine.FindFirst() then
+                        Validate("Province Code (To)", OrganizationStructureLine.Code);
+
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code (To)") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
                     Validate("Department Name To", OrganizationStructureList.Name);
-                    Validate("Province Code (To)", OrganizationStructureList."Province Code");
-
+                    OrganizationStructureLine.Reset();
+                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
+                    OrganizationStructureLine.SetRange("Reporting Code", "Department Code (To)");
+                    if OrganizationStructureLine.FindFirst() then
+                        Validate("Province Code (To)", OrganizationStructureLine.Code);
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
@@ -1113,7 +1164,8 @@ table 50140 "Employee/HR Transfer"
         EngNepDate: Record "English-Nepali Date";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
-        // HRMgt: Codeunit "HR Mgt.";
+        HRMgt: Codeunit "HR Mgt.";
+        EmployeeTransfer: Record "Employee/HR Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         // LeaveTypeVar: Record "Leave Type Setup";
