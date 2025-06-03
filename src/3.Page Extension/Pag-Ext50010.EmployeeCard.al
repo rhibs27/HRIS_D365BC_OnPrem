@@ -1683,17 +1683,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         PageTransferHistory: Page "Employee Transfer Requests";
+                        EmployeeTransfer: Record "Employee/HR Transfer";
                     begin
-                        EmployeeAct.RESET;
-                        Rec.FILTERGROUP(2);
-                        EmployeeAct.SETFILTER(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
-                        EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-                        EmployeeAct.SETFILTER("Approval Status", '%1|%2', EmployeeAct."Approval Status"::Acknowledged, EmployeeAct."Approval Status"::Approved); //Min -- Approved filter added.
-                        Rec.FILTERGROUP(0);
+                        EmployeeTransfer.RESET;
+                        Rec.FilterGroup(2);
+                        EmployeeTransfer.SETRANGE("Employee No.", Rec."No.");
+                        EmployeeTransfer.SETFILTER(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
+                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved); //Min -- Approved filter added.
+                        Rec.FilterGroup(0);
                         CLEAR(PageTransferHistory);
                         PageTransferHistory.ForHistoryPage;
-                        PageTransferHistory.SETTABLEVIEW(EmployeeAct);
-                        PageTransferHistory.SETRECORD(EmployeeAct);
+                        PageTransferHistory.SETTABLEVIEW(EmployeeTransfer);
+                        PageTransferHistory.SETRECORD(EmployeeTransfer);
                         PageTransferHistory.RUN;
                     end;
                 }

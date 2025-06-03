@@ -833,31 +833,36 @@ codeunit 50005 "Transfer Mgt."
         DimensionValue: Record "Dimension Value";
         SalaryLevel: Record "Salary Level";
         SalaryGrade: Record "Salary Grade";
+        IsHandled: Boolean;
     begin
-        EmpTransfer.TestField("Transfer Effective Date");
+        OnBeforeCalculateAllowance(EmpTransfer, IsHandled);
+        if not IsHandled then begin
+            EmpTransfer.TestField("Transfer Effective Date");
 
-        TotalDays := CalcDate('CM', EmpTransfer."Transfer Effective Date") - EmpTransfer."Transfer Effective Date";
+            TotalDays := CalcDate('CM', EmpTransfer."Transfer Effective Date") - EmpTransfer."Transfer Effective Date";
 
-        EmpTransfer."Relocation Allow." := 0;
-        EmpTransfer."Outstation/Discomfort Allow." := 0;
-        EmpTransfer."BM Accomodation Allow." := 0;
-        EmpTransfer."Remote Area Allow." := 0;
-        EmpTransfer."Officiating Allow." := 0;
-        //"transfer claim approver" := '';
+            EmpTransfer."Relocation Allow." := 0;
+            EmpTransfer."Outstation/Discomfort Allow." := 0;
+            EmpTransfer."BM Accomodation Allow." := 0;
+            EmpTransfer."Remote Area Allow." := 0;
+            EmpTransfer."Officiating Allow." := 0;
+            //"transfer claim approver" := '';
 
-        // GetTransferClaimApprover(EmpAct);
+            // GetTransferClaimApprover(EmpAct);
 
-        EmpTransfer."Relocation Allow." := CalculateRelocationAllowance(EmpTransfer, EmpTransfer."Relocation Distance");
+            EmpTransfer."Relocation Allow." := CalculateRelocationAllowance(EmpTransfer, EmpTransfer."Relocation Distance");
 
-        EmpTransfer."Outstation/Discomfort Allow." := CalculateOutstationAllowance(EmpTransfer, EmpTransfer."Outstation Distance");
+            EmpTransfer."Outstation/Discomfort Allow." := CalculateOutstationAllowance(EmpTransfer, EmpTransfer."Outstation Distance");
 
-        EmpTransfer."BM Accomodation Allow." := CalculateBMAccomodationAllowance(EmpTransfer, EmpTransfer."BMAF Distance");
+            EmpTransfer."BM Accomodation Allow." := CalculateBMAccomodationAllowance(EmpTransfer, EmpTransfer."BMAF Distance");
 
-        EmpTransfer."Officiating Allow." := CalculateOfficiatingAllowance(EmpTransfer);
+            EmpTransfer."Officiating Allow." := CalculateOfficiatingAllowance(EmpTransfer);
 
-        EmpTransfer."Remote Area Allow." := CalculateRemoteAreaAllowance(EmpTransfer);
+            EmpTransfer."Remote Area Allow." := CalculateRemoteAreaAllowance(EmpTransfer);
+            if GuiAllowed then
+                EmpTransfer.Modify;
+        end;
 
-        EmpTransfer.Modify;
     end;
 
     procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
@@ -1201,6 +1206,11 @@ codeunit 50005 "Transfer Mgt."
             if GuiAllowed then
                 Message('Takeover Successfull');
         end
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCalculateAllowance(Var TransferClaim: Record "Employee/HR Transfer"; var IsHandled: Boolean)
+    begin
     end;
 
     var

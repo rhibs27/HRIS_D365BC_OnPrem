@@ -30,6 +30,9 @@ page 50341 "Employee Transfer Entity"
                 field(departmenName; Rec."Department Name") { }
                 field(branchCode; Rec."Shortcut Dimension 1 Code") { }
                 field(branchName; Rec."Branch Name") { }
+                field(approverRoleFrom;Rec."Approver Role From")
+                {
+                }
                 field(functionalTitle; Rec."Functional Title") { }
                 field(functionalTitleDesc; Rec."Functional Title Desc") { }
                 field(startDate; Rec."Start Date") { }
@@ -54,6 +57,7 @@ page 50341 "Employee Transfer Entity"
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Transfer") { }
                 field(provinceCode;Rec."Province Code") { }
+                field(provinceName;Rec."Province Name") { }
                 field(unitCode;Rec."Unit Code") { }
                 field(unitName;Rec."Unit Name") { }
                 field(departmentName;Rec."Department Name") { }
@@ -108,6 +112,9 @@ page 50341 "Employee Transfer Entity"
                 field(outgoingReportingPersonName; Rec."Outgoing Reporting Person Name") { }
                 field(dateofJoiningOfTransfer; Rec."Date of Joining Of Transfer") { }
                 field(description; rec.Description)
+                {
+                }
+                field(approverRoleTo;Rec."Approver Role To")
                 {
                 }
                 field(transferClaim;Rec."Transfer Claim")

@@ -138,8 +138,9 @@ page 50109 "Employee Transfer Requests"
         if not IsHistory then begin
             Rec.FilterGroup(2);
             Rec.SetRange(Type, Rec.Type::"Employee Transfer");
-            Rec.FilterGroup(0);
-        end;
+            Rec.FilterGroup(0)
+        end else
+            CurrPage.Caption('Employee Transfer History');
     end;
 
     var

@@ -33,12 +33,16 @@ query 50022 "Outgoing Transfer Query"
             column(reasonDescription; "Reason Description") { }
             column(reasonForTransfer; "Reason for Transfer") { }
             column(provinceCode; "Province Code") { }
+            column(provinceName; "Province Name") { }
             column(unitCode; "Unit Code") { }
             column(remarks; Remarks) { }
             column(screenerRemarks; "Screener Remarks") { }
             column(rejectionRemarks; "Rejection Remarks") { }
             column(transferType; "Transfer Type") { }
             //current
+            column(approverRoleFrom; "Approver Role From")
+            {
+            }
             column(department; Department) { }
             column(departmentName; "Department Name") { }
             column(branchCode; "Shortcut Dimension 1 Code") { }
@@ -51,10 +55,14 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterName; "Extension Counter Name") { }
             // propose
             // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
-            column(toBranch; "To Branch") { }
+            column(approverRoleTo; "Approver Role To")
+            {
+            }
+            column(branchCodeTo; "To Branch") { }
             column(functionalTitleTo; "Functional Title (To)") { }
             column(functionalDescTo; "Functional Desc To") { }
             column(provinceCodeTo; "Province Code (To)") { }
+            column(provinceNameTo; "Province Name To") { }
             column(unitTo; "Unit (To)") { }
             column(unitNameTo; "Unit Name To") { }
             column(departmentCodeTo; "Department Code (To)") { }
