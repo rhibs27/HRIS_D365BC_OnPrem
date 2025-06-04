@@ -915,6 +915,11 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
+        field(96; "Currency Type"; code[20])
+        {
+            Editable = true;
+            TableRelation = Currency;
+        }
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;

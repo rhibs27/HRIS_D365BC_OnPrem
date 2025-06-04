@@ -193,6 +193,13 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Other Estimated Cost field.';
                     ApplicationArea = All;
                 }
+                field("Currency Type"; Rec."Currency Type")
+                {
+                    ToolTip = 'Specifies the currency Type';
+                    ApplicationArea = All;
+                    Editable = rec."Approval Status" = rec."Approval Status"::Open;
+                }
+
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
