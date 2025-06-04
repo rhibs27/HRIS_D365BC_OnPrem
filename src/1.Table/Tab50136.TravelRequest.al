@@ -429,7 +429,6 @@ table 50136 "Travel Request"
 
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -700,11 +699,20 @@ table 50136 "Travel Request"
                 end;
                 if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
+                //anupam
+                if "Travel Countries" = "Travel Countries"::Nepal then begin
+                    GLSetup.get();
+                    if GLSetup."LCY Code" = '' then
+                        Error('Local currency in GL setup is empty');
+                    "Currency Code" := GLSetup."LCY Code";
+                end;
             end;
         }
         field(68; "Currency Code"; Code[10])
         {
             TableRelation = Currency;
+
+
         }
         field(69; "Exchange Rate"; Decimal)
         {
@@ -914,6 +922,11 @@ table 50136 "Travel Request"
         field(95; "Lodging Per Day Limit"; Decimal)
         {
             Editable = false;
+        }
+        field(96; "Currency Type"; code[20])
+        {
+            Editable = true;
+            TableRelation = Currency;
         }
         field(100; Status; Text[20])
         {
