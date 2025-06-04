@@ -22,7 +22,7 @@ page 50150 "Allowance Assignment Subform"
                 }
                 field("Line No."; Rec."Line No.")
                 {
-                    Visible = false;
+                    Visible = true; //anuapam visible=false
                     ToolTip = 'Specifies the value of the Line No. field.';
                     ApplicationArea = All;
                 }
