@@ -677,6 +677,9 @@ table 50141 OverTime
                         end;
                 end;
             end;
+        if not GuiAllowed then
+            if Type = Type::"Overtime Bulk" then
+                CheckForExistingDate();
 
         //InsertAttachmentLines;
     end;
@@ -757,7 +760,8 @@ table 50141 OverTime
         overtime1: Record OverTime;
     begin
         OverTime1.Reset;
-        OverTime1.SetFilter("No.", '<>%1', "No.");
+        if GuiAllowed then
+            OverTime1.SetFilter("No.", '<>%1', "No.");
         overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
         OverTime1.SetRange("Fiscal Year", "Fiscal Year");
         OverTime1.SetRange("Deputation Type", "Deputation Type");
