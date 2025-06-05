@@ -164,7 +164,8 @@ table 50141 OverTime
                     Error('Invalid date.');
                 if "End date" > "Start Date" + 32 then // 32 days is the maximum range for Nepali date conversion
                     Error('Date range exceed');
-                OverTimeMgt.CheckForExistingDate(Rec);
+                if Type = Type::"Overtime Bulk" then
+                    CheckForExistingDate();
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
                 if EngNepDate.FindFirst then
@@ -751,4 +752,22 @@ table 50141 OverTime
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
 
+    procedure CheckForExistingDate()
+    var
+        overtime1: Record OverTime;
+    begin
+        OverTime1.Reset;
+        OverTime1.SetFilter("No.", '<>%1', "No.");
+        overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
+        OverTime1.SetRange("Fiscal Year", "Fiscal Year");
+        OverTime1.SetRange("Deputation Type", "Deputation Type");
+        if "Deputation Type" = "Deputation Type"::Branch then
+            OverTime1.SetRange("Deputation Code", "Deputation Code");
+        OverTime1.SetFilter("Approval Status", '<>%1&<>%2', OverTime1."Approval Status"::Rejected, overtime1."Approval Status"::Canceled);
+        if OverTime1.Findset then
+            repeat
+                if ("Start Date" <= OverTime1."End date") and ("End date" >= OverTime1."Start Date") then
+                    Error('Overtime for this period %1 and %2 is already been assigned in %3.', OverTime1."Start Date", OverTime1."End Date", OverTime1."No.");
+            until OverTime1.Next() = 0;
+    end;
 }
