@@ -2613,6 +2613,7 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure submitTransferRequest(
+    "provinceCode": Code[20];
     "proposedTransferDate": Date;
     "reasonForTransfer": text;
     "description": text): Integer
@@ -2629,6 +2630,7 @@ page 50108 "Portal Functions"
         TransferRequest.Validate(Type, TransferRequest.Type::"Employee Transfer");
         TransferRequest.Validate("Employee No.", HrMgt.GetEmployeeNo());
         TransferRequest.Validate("Transfer Propose Date", ProposedTransferDate);
+        TransferRequest.Validate("Requested Province", provinceCode);
         TransferRequest.Validate(Description, description);
         TransferRequest.Validate("Reason for Transfer", reasonForTransfer);
         TransferRequest.Insert;
