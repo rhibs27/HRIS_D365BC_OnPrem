@@ -171,6 +171,24 @@ page 50246 "Overtime Bulk Card"
                     end;
                 end;
             }
+            action("Cancel Request")
+            {
+                Image = Cancel;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Cancel Request action.';
+                ApplicationArea = All;
+                Visible = IsOpen;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want cancel the request?', false) then begin
+                        ApproverMgt.CancelRequest(RecRef);
+                        Message('Overtime has been Cancelled.');
+                    end;
+                end;
+            }
         }
     }
     trigger OnOpenPage()

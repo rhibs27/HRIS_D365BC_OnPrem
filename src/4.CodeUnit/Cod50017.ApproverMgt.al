@@ -508,7 +508,62 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
+    // >>  Cancel Document Dynamically using RecRef>> Santosh 2025-04-21 >>
+    procedure CancelRequest(var RecRef: RecordRef)
+    var
+        Approver: Record "Approval HRMS";
+        ApprovalStatusField: text;
+        ApprovalStatusEnum: Enum "Approval Status";
+        EmpActType: Enum "Employee Activity Type";
+        StatusMaster: Record "Status Master";
+        OvertimeLine: Record "Overtime Line";
+    begin
+        // Get the fields dynamically using FieldRef
+        ApprovalStatusField := Format((RecRef.Field(16)));
+        EmpActType := RecRef.Field(2).Value;
+        if ApprovalStatusField = Format(ApprovalStatusEnum::Open) then begin
+            CheckRequester(RecRef.Field(1).Value);
+            Approver.Reset();
+            Approver.SetRange("Document No.", RecRef.Field(1).Value);
+            Approver.SetRange("Approval Status", Approver."Approval Status"::Created);
+            Approver.SetRange("Approval Sequence", 1);
+            if Approver.Findfirst() then begin
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Canceled); // Modify the record dynamically
+                RecRef.Modify();
+                Approver.Validate("Approval Status", Approver."Approval Status"::Canceled);
+                Approver.Modify();
+                case EmpActType of
+                    //for leave
+                    EmpActType::"Overtime Bulk":
+                        begin
+                            OvertimeLine.Reset();
+                            OvertimeLine.SetRange("No.", RecRef.Field(1).Value);
+                            OvertimeLine.ModifyAll("Approval Status", ApprovalStatusEnum::Canceled);
+                        end;
+                end;
+            end;
+        end else
+            Error('Document Status Must be in Open');
+    end;
 
+    procedure CancelRequestAPI(documentNo: Code[20]; EmpActType: Text)
+    var
+        EmpActTypeEnum: Enum "Employee Activity Type";
+        OvertimeLine: Record "Overtime Line";
+        RecRef: RecordRef;
+    begin
+        EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
+        case EmpActTypeEnum of
+            //for Overtime Bulk
+            EmpActTypeEnum::"Overtime Bulk":
+                begin
+                    if OvertimeLine.Get(documentNo) then begin
+                        RecRef.GetTable(OvertimeLine);
+                        WithDrawRequest(RecRef);
+                    end;
+                end;
+        end;
+    end;
 
     var
         HRMgt: Codeunit "HR Mgt.";

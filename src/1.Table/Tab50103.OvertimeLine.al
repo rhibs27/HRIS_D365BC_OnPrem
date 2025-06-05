@@ -24,8 +24,8 @@ table 50103 "Overtime Line"
         {
             Caption = 'Employee Code';
             Editable = false;
-            TableRelation = if ("Branch Type" = filter("Branchwise/Extension Type"::Branch)) Employee."No." where("Branch Code" = field(Code))
-            else if ("Branch Type" = filter("Branchwise/Extension Type"::Branch)) Employee."No." where("Extension Counter Code" = field(Code));
+            TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) Employee."No." where("Branch Code" = field(Code))
+            else if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) Employee."No." where("Extension Counter Code" = field(Code));
             trigger OnValidate()
             begin
 
@@ -33,7 +33,8 @@ table 50103 "Overtime Line"
                     "Employee Name" := Employee."Full Name";
                     Validate("Staff Type", Employee."Staff Type");
                     Validate("Employee Work Shift", Employee."Employee Work Shift");
-
+                    Validate("Deputation Type", Employee."Deputation on");
+                    Validate(Code, Employee."Deputation On Code");
                 end else
                     "Employee Name" := '';
             end;
@@ -135,15 +136,15 @@ table 50103 "Overtime Line"
         {
             Editable = false;
             Caption = 'Code';
-            TableRelation = if ("Branch Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if ("Branch Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if ("Deputation Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
             trigger OnValidate()
             begin
                 Clear(Name);
-                if "Branch Type" = "Branch Type"::Branch then begin
+                if "Deputation Type" = "Deputation Type"::Branch then begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
                         Name := OrganizationStructureList.Name;
-                end else if "Branch Type" = "Branch Type"::"Extension Counter" then begin
+                end else if "Deputation Type" = "Deputation Type"::"Extension Counter" then begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
                         Name := OrganizationStructureList.Name;
                 end;
@@ -153,7 +154,7 @@ table 50103 "Overtime Line"
         {
             Editable = false;
         }
-        field(26; "Branch Type"; Enum "Branchwise/Extension Type")
+        field(26; "Deputation Type"; Enum "Deputation Type")
         {
             Editable = false;
         }

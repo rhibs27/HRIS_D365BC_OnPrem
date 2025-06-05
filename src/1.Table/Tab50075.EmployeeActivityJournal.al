@@ -620,49 +620,12 @@ table 50075 "Employee Activity Journal"
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
-            trigger OnValidate()
-            begin
-                TestField("Start Date");
-                if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
-                    Clear("Compensatory Days");
-                    Clear("OT Amount");
-                end;
-                AttendanceSetup.Get();
-                AttendanceSetup.TestField("Full Substitute Leave Hrs");
-                AttendanceSetup.TestField("Half Substitute Leave Hrs");
-                if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
-                    OverTimeMgt.GetOvertimeDetails(Rec);
-                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
-                        "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
-                        "Compensatory Days" := 1
-                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
-                        "Compensatory Days" := 0;
-                    Clear("OT Amount");
-                end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
-                    // OnBeforeOTAmountCalculate(Rec, IsHandled);
-                    // if not IsHandled then
-                    //     if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
-                    //         if "Start Date" >= Today then
-                    //             Error('You cannot apply OverTime in current and future date.');
-                    //         Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
-                    //     end;
-                    // Clear("Compensatory Days");
-                end;
-            end;
         }
         field(91; "Estimated Hours"; Decimal)
         {
         }
         field(92; "Actual OT Hours"; Decimal)
         {
-            trigger OnValidate()
-            begin
-                HRSetup.Get;
-                if "Estimated Hours" <> 0 then
-                    if "Estimated Hours" < HRSetup."OT eligible hour" then
-                        Error('You cannot submit overtime less than %1 hour(s).', HRSetup."OT eligible hour");
-            end;
         }
         field(93; "OT Amount"; Decimal)
         {

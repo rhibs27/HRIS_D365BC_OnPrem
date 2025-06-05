@@ -55,7 +55,7 @@ query 50010 "OverTime Query"
                     column(startDateBS; "Start Date (BS)") { }
                     column(checkInTime; "Check In Time") { }
                     column(checkOutTime; "Check Out Time") { }
-                    column(overtimeClaimType; "Overtime Claim Type") { }
+                    column(overTimeClaimType; "Overtime Claim Type") { }
                     // column(endDate; "End Date") { }
                     // column(endDateBS; "End Date (BS)") { }
                     // column(noOfDays; "No. of Days") { }
@@ -73,6 +73,8 @@ query 50010 "OverTime Query"
                     column(eveningOThrs; "Evening OT Hours")
                     {
                     }
+                    column(compensatoryDays; "Compensatory Days") { }
+                    column(employeeWorkShift; "Employee Work Shift") { }
                     column(totalOTHours; "Total OT Hours") { }
                     column(oTAmount; "OT Amount") { }
                     column(oTDisbursed; "OT Disbursed") { }

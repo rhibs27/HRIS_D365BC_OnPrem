@@ -422,7 +422,9 @@ codeunit 50015 "OverTime Mgt"
             EmployeeAttendanceActivity."OT Hrs" := overTime."Actual OT Hours";
             EmployeeAttendanceActivity.Modify(true);
         end;
-        leaveEarnOverTime(overTimeNo);
+        EmployeeActMgt.UpdateOvertimeInEmployeeAct(OverTime);
+        if OverTime."Overtime Claim Type" = OverTime."Overtime Claim Type"::"Substitute Leave" then
+            leaveEarnOverTime(overTimeNo);
     end;
 
     procedure leaveEarnOverTime(overTimeNo: Code[20])
@@ -705,6 +707,7 @@ codeunit 50015 "OverTime Mgt"
                                 OvertimeLine.Validate("Employee Code", Employee."No.");
                                 OvertimeLine.Validate("Employee Name", Employee.FullName);
                                 OvertimeLine.Validate("Employee Work Shift", Employee."Employee Work Shift");
+                                OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
                                 OvertimeLine.Validate(Code, OverTime."Deputation Code");
                                 OvertimeLine.Validate(Name, OverTime."Deputation Name");
                                 OvertimeLine.Validate(Type, OverTime.Type);
@@ -775,6 +778,7 @@ codeunit 50015 "OverTime Mgt"
             repeat
                 if Approved then begin
                     InsertOvertimeLineInAttendance(OvertimeLine);
+                    EmployeeActMgt.UpdateOvertimeLineInEmployeeAct(OvertimeLine);
                     OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Approved);
                     OvertimeLine.Validate("Approved Date", Today);
                     OvertimeLine.Modify();
@@ -823,4 +827,5 @@ codeunit 50015 "OverTime Mgt"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveEarn: Record "Leave Earn";
+        EmployeeActMgt: Codeunit EmployeeActivityMgt;
 }
