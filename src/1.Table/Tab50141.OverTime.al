@@ -55,7 +55,7 @@ table 50141 OverTime
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Branch Code", EmpVar."Branch Code");
                     Validate(Department, EmpVar."Department Code");
-                    validate("Deputation Code", EmpVar."Deputation on code");
+                    // validate("Deputation Code", EmpVar."Deputation on code");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
@@ -136,7 +136,7 @@ table 50141 OverTime
                         end;
                     end else
                         Error('No Attendance Found on %1', rec."Start Date");
-                    OverTimeMgt.CheckOvertime(Rec);
+                    // OverTimeMgt.CheckOvertime(Rec);
                     if "Start Date" <> xRec."Start Date" then begin
                         Clear("Overtime Claim Type");
                         Clear("End Date");
@@ -350,18 +350,18 @@ table 50141 OverTime
                 AttendanceSetup.Get();
                 AttendanceSetup.TestField("Full Substitute Leave Hrs");
                 AttendanceSetup.TestField("Half Substitute Leave Hrs");
-                if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                OnBeforeOTAmountCalculate(Rec, IsHandled);
+                if not IsHandled then begin
                     OverTimeMgt.CheckOvertime(Rec);
-                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
-                        "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
-                        "Compensatory Days" := 1
-                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
-                        "Compensatory Days" := 0;
-                    Clear("OT Amount");
-                end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
-                    OnBeforeOTAmountCalculate(Rec, IsHandled);
-                    if not IsHandled then
+                    if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                        if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
+                            "Compensatory Days" := 0.5
+                        else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
+                            "Compensatory Days" := 1
+                        else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
+                            "Compensatory Days" := 0;
+                        Clear("OT Amount");
+                    end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
                         if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
                             if "Start Date" >= Today then
                                 Error('You cannot apply OverTime in current and future date.');
@@ -370,7 +370,8 @@ table 50141 OverTime
                             // OverTimeMgt.CheckOvertime(Rec);
                             Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
                         end;
-                    Clear("Compensatory Days");
+                        Clear("Compensatory Days");
+                    end;
                 end;
             end;
         }
@@ -614,7 +615,10 @@ table 50141 OverTime
         field(66; "Calculate Overtime"; Boolean)
         {
             DataClassification = ToBeClassified;
-
+        }
+        field(67; Return; Boolean)
+        {
+            DataClassification = ToBeClassified;
         }
 
         field(100; Status; text[20])
@@ -640,6 +644,7 @@ table 50141 OverTime
         if (not GuiAllowed) and (type = Type::"Overtime Bulk") then begin
             Validate("Employee No.", HrMgt.GetEmployeeNo());
             Validate("Approval Status", "Approval Status"::Open);
+            Validate("Overtime Claim Type", "Overtime Claim Type"::Encashment);
         end;
         if "No." = '' then
             if Cancelled then begin

@@ -111,10 +111,10 @@ table 50095 "Posted Employee Journal"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(25; "Employee Act Type"; Enum "Employee Activity Type")
-        {
-            Editable = false;
-        }
+        // field(25; "Employee Act Type"; Enum "Employee Activity Type")
+        // {
+        //     Editable = false;
+        // }
         field(26; "Posting Date"; Date)
         {
             Editable = false;
@@ -387,8 +387,8 @@ table 50095 "Posted Employee Journal"
     trigger OnInsert()
     begin
         GetEntryNo;
-        if "Requested Date" = 0D then
-            "Requested Date" := Today;
+        if "Posting Date" = 0D then
+            "Posting Date" := Today;
     end;
 
     local procedure GetEntryNo()

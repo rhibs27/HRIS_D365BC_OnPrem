@@ -2346,7 +2346,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getEmployeeOverTimeLine(OverTimeNo: Code[20])
+    procedure employeeOverTimeLine(OverTimeNo: Code[20])
     var
         OverTime: Record OverTime;
     begin
@@ -2356,7 +2356,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getEmployeeOverTimeAmount(OverTimeNo: Code[20])
+    procedure employeeOverTimeAmount(OverTimeNo: Code[20])
     begin
         OverTimeMgt.GetOvertimeLineDetails(OverTimeNo);
     end;
@@ -2387,6 +2387,8 @@ page 50108 "Portal Functions"
             if rejectionRemarks = '' then
                 Error('Rejection Remarks is empty');
             OverTime.Validate("Rejection Remarks", rejectionRemarks);
+            if OverTime.Type = OverTime.Type::"Overtime Bulk" then
+                OverTime.Return := true;
             OverTime.Modify;
         end;
         RecRef.GetTable(OverTime);
@@ -2524,9 +2526,6 @@ page 50108 "Portal Functions"
     begin
         HrMgt.GenerateInterviewerEntriesAPI(vacancyCode, candidateCode, employeeCode);
     end;
-
-
-
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3953,6 +3952,7 @@ page 50108 "Portal Functions"
         LateAttendanceForApprove: Integer;
         InsuranceForApprove: Integer;
         MedicalInsuranceClaimForApprove: Integer;
+        OvertimeBulkForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -3966,6 +3966,7 @@ page 50108 "Portal Functions"
         Clear(ResignClearanceForApprove);
         Clear(EmployeeEditForApprove);
         Clear(LeaveCancelledForApprove);
+        Clear(OvertimeBulkForApprove);
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -4124,8 +4125,15 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         MedicalInsuranceClaimForApprove := Approval.Count();
 
+        Approval.SetRange("Document Type", Approval."Document Type"::"Overtime Bulk");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        OvertimeBulkForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
+         + OvertimeBulkForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4149,8 +4157,8 @@ page 50108 "Portal Functions"
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
         ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
         ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
+        ',"OvertimeBulkForApprove": "' + format(OvertimeBulkForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
-
     end;
 
     [ServiceEnabled]
@@ -4396,5 +4404,12 @@ page 50108 "Portal Functions"
                     ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
                 end;
         end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure cancelRequest(documentNo: Code[20]; documentType: text)
+    begin
+        ApprovalMgt.CancelRequestAPI(documentNo, documentType);
     end;
 }

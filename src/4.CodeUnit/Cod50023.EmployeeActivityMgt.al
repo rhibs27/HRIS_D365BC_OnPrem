@@ -159,6 +159,51 @@ codeunit 50023 EmployeeActivityMgt
         end;
     end;
 
+    procedure UpdateOvertimeLineInEmployeeAct(OvertimeLine: Record "Overtime Line")
+    var
+        PostEmployeeActJournal: Record "Posted Employee Journal";
+    begin
+        PostEmployeeActJournal.Init();
+        PostEmployeeActJournal."Emp Act. No" := OvertimeLine."No.";
+        PostEmployeeActJournal.Type := OvertimeLine.Type;
+        PostEmployeeActJournal."Employee No." := OvertimeLine."Employee Code";
+        PostEmployeeActJournal."Employee Name" := OvertimeLine."Employee Name";
+        PostEmployeeActJournal."Start Date" := OvertimeLine."Overtime Date";
+        PostEmployeeActJournal."End Date" := OvertimeLine."Overtime Date";
+        PostEmployeeActJournal."Fiscal Year" := Hrmgt.ReturnFiscalYear(OvertimeLine."Overtime Date");
+        PostEmployeeActJournal."Approval Status" := OvertimeLine."Approval Status"::Approved;
+        PostEmployeeActJournal."Approved Date" := OvertimeLine."Approved Date";
+        PostEmployeeActJournal."Overtime Claim Type" := OvertimeLine."Overtime Claim Type";
+        PostEmployeeActJournal."Actual OT Hours" := OvertimeLine."Actual OT Hours";
+        PostEmployeeActJournal."OT Amount" := OvertimeLine."OT Amount";
+        PostEmployeeActJournal."Morning OT Hours" := OvertimeLine."Morning OT Hours";
+        PostEmployeeActJournal."Evening OT Hours" := OvertimeLine."Evening OT Hours";
+        PostEmployeeActJournal."Total OT Hours" := OvertimeLine."Total OT Hours";
+        PostEmployeeActJournal.Insert(true);
+    end;
+
+    procedure UpdateOvertimeInEmployeeAct(Overtime: Record "Overtime")
+    var
+        PostEmployeeActJournal: Record "Posted Employee Journal";
+    begin
+        PostEmployeeActJournal.Init();
+        PostEmployeeActJournal."Emp Act. No" := Overtime."No.";
+        PostEmployeeActJournal.Type := Overtime.Type;
+        PostEmployeeActJournal."Employee No." := Overtime."Employee No.";
+        PostEmployeeActJournal."Employee Name" := Overtime."Employee Name";
+        PostEmployeeActJournal."Start Date" := Overtime."Start Date";
+        PostEmployeeActJournal."End Date" := Overtime."End Date";
+        PostEmployeeActJournal."Fiscal Year" := Hrmgt.ReturnFiscalYear(Overtime."Start Date");
+        PostEmployeeActJournal."Approval Status" := Overtime."Approval Status";
+        PostEmployeeActJournal."Approved Date" := Overtime."Approved Date";
+        PostEmployeeActJournal."Overtime Claim Type" := Overtime."Overtime Claim Type";
+        PostEmployeeActJournal."Actual OT Hours" := Overtime."Actual OT Hours";
+        PostEmployeeActJournal."OT Amount" := Overtime."OT Amount";
+        PostEmployeeActJournal."Morning OT Hours" := Overtime."Morning OT Hours";
+        PostEmployeeActJournal."Evening OT Hours" := Overtime."Evening OT Hours";
+        PostEmployeeActJournal."Total OT Hours" := Overtime."Total OT Hours";
+        PostEmployeeActJournal.Insert(true);
+    end;
 
     var
         ApproverMgt: Codeunit "Approver Mgt";
