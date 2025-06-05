@@ -48,7 +48,7 @@ page 50245 "Overtime Subform"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Total OT Hours field.', Comment = '%';
                 }
-                field(actualOThours; Rec."Actual OT hours")
+                field(actualOTHours; Rec."Actual OT hours")
                 {
                     ToolTip = 'Specifies the value of the Actual OT hours field.', Comment = '%';
                     Caption = 'Actual OT Hours';

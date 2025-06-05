@@ -32,14 +32,14 @@ query 50023 "OverTimeLine Self Query"
                 column(checkOutTime; "Check Out Time") { }
                 column(overtimeClaimType; "Overtime Claim Type") { }
                 column(totalOTHours; "Total OT Hours") { }
-                column(actualHours; "Actual OT Hours") { }
+                column(actualOTHours; "Actual OT Hours") { }
                 column(oTAmount; "OT Amount") { }
                 column(deputationType; "Deputation Type") { }
                 column(employeeWorkShift; "Employee Work Shift") { }
                 column(type; Type) { }
                 column(deputationName; Name) { }
                 column(approvalStatus; "Approval Status") { }
-                column(remarksLine; Remarks) { }
+                column(remarks; Remarks) { }
             }
         }
     }

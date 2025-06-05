@@ -35838,15 +35838,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2397156723 - Control 719709218 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2397156723 - Control 3879274242 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Actual OT hours field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control actualOThours - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control actualOTHours - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2397156723 - Control 719709218 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 2397156723 - Control 3879274242 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual OT Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control actualOThours - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Overtime Subform - Control actualOTHours - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2397156723 - Control 509812749 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
