@@ -2311,7 +2311,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]; totalOTHrs: Decimal): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
@@ -2330,7 +2330,7 @@ page 50108 "Portal Functions"
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
         Overtime.Validate("Overtime Claim Type", OverTimeType);
-        Overtime.Validate("Total OT Hours", actualOTHrs);
+        Overtime.Validate("Total OT Hours", totalOTHrs);
         Overtime.Validate("Actual OT Hours", actualOTHrs);
         Overtime.Validate("Morning OT Hours", morningOThrs);
         Overtime.Validate("Evening OT Hours", eveningOTHrs);

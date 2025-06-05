@@ -549,19 +549,20 @@ codeunit 50017 "Approver Mgt"
     procedure CancelRequestAPI(documentNo: Code[20]; EmpActType: Text)
     var
         EmpActTypeEnum: Enum "Employee Activity Type";
-        OvertimeLine: Record "Overtime Line";
+        Overtime: Record OverTime;
         RecRef: RecordRef;
     begin
-        EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
-        case EmpActTypeEnum of
+        case EmpActType of
             //for Overtime Bulk
-            EmpActTypeEnum::"Overtime Bulk":
+            format(EmpActTypeEnum::"Overtime Bulk"):
                 begin
-                    if OvertimeLine.Get(documentNo) then begin
-                        RecRef.GetTable(OvertimeLine);
-                        WithDrawRequest(RecRef);
+                    if Overtime.Get(documentNo) then begin
+                        RecRef.GetTable(Overtime);
+                        CancelRequest(RecRef);
                     end;
                 end;
+            else
+                Error('Employee Activity Type not Found');
         end;
     end;
 
