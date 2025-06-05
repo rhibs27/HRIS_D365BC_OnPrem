@@ -2619,7 +2619,9 @@ page 50108 "Portal Functions"
     procedure submitTransferRequest(
     "proposedTransferDate": Date;
     "reasonForTransfer": text;
-    "description": text): Integer
+    "description": text;
+    "requestedProvince": text): Integer;
+
     var
         // TravelRequest: Record "Travel Request" temporary;
         TransferRequest: Record "Employee/HR Transfer" temporary;
@@ -2635,6 +2637,7 @@ page 50108 "Portal Functions"
         TransferRequest.Validate("Transfer Propose Date", ProposedTransferDate);
         TransferRequest.Validate(Description, description);
         TransferRequest.Validate("Reason for Transfer", reasonForTransfer);
+        TransferRequest.Validate("Requested Province", requestedProvince);
         TransferRequest.Insert;
         if TransferMgt.SendTransferApproval(TransferRequest) then
             exit(200);

@@ -101,6 +101,8 @@ query 50008 "Transfer Query"
                     column(dateofJoiningOfTransfer; "Date of Joining Of Transfer") { }
                     column(description; Description) { }
 
+                    column(requestedProvince; "Requested Province") { }
+                    column(requestedProvinceName; "Requested Province Name") { }
                     column(transferRemarks; "Transfer Remarks") { }
                     column(relocationAllow; "Relocation Allow.") { }
                     column(outstationDiscomfortAllow; "Outstation/Discomfort Allow.") { }

@@ -89,6 +89,8 @@ query 50009 "Incoming Transfer Query"
             column(description; Description) { }
 
             column(transferRemarks; "Transfer Remarks") { }
+            column(requestedProvince; "Requested Province") { }
+            column(requestedProvinceName; "Requested Province Name") { }
             // column(transferClaimReviewer; "Transfer Claim Reviewer") { }
             // column(transferClaimRecommender; "Transfer Claim Recommender") { }
             // column(transferClaimReviewerName; "Transfer Claim Reviewer Name") { }

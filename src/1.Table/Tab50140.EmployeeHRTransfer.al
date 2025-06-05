@@ -838,6 +838,26 @@ table 50140 "Employee/HR Transfer"
                 ValidateDeputationOnTo();
             end;
         }
+        field(200; "Requested Province"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                if "Requested Province" <> xRec."Requested Province" then begin
+                    Clear("Requested Province Name");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Requested Province") then
+                        Validate("Requested Province Name", OrganizationStructureList.Name)
+                    else
+                        Clear("Requested Province Name");
+                end;
+            end;
+        }
+        field(201; "Requested Province Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
     }
     keys
     {

@@ -7968,6 +7968,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Requested Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 613435904 - Field 2467821014 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Requested Province - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 613435904 - Field 429476743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee/HR Transfer - Field Requested Province Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 613435904 - Field 1141149497 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Salary Level Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27293,6 +27303,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Policy Number - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2990168411 - Control 4148494904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Premium Paid By field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Lists - Control Premium Paid By - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2990168411 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Status field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45842,6 +45857,16 @@
           <source>Reason For Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Reason For Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 2467821014 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer To Province field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 429476743 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer To Province Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Requested Province Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1090393226 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Send Approval Request action.</source>
