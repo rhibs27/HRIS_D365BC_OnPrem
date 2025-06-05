@@ -56,7 +56,7 @@ page 50341 "Employee Transfer Entity"
                 field(cancelled; Rec.Cancelled) { }
                 field(reasonCode; Rec."Reason Code") { }
 
-                field(requesatedProvince; Rec."Requested Province") { }
+                field(requestedProvince; Rec."Requested Province") { }
                 field(requestedProvinceName; Rec."Requested Province Name") { }
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Transfer") { }
