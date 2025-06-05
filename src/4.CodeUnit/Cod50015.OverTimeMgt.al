@@ -581,8 +581,10 @@ codeunit 50015 "OverTime Mgt"
         Employee.Reset();
         if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
             Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
-        else
+        else begin
+            Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
             Employee.SetRange("Deputation On code", OverTime."Deputation Code");
+        end;
         Employee.SetRange("Staff Type", Employee."Staff Type"::"Non Clerical Staff");
         if Employee.FindSet() then
             repeat
@@ -593,7 +595,7 @@ codeunit 50015 "OverTime Mgt"
                     OvertimeLineCheck.Reset;
                     OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
                     OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
-
+                    OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
                     // Only create overtime line if it doesn't exist for this specific date
                     if not OvertimeLineCheck.FindFirst() then begin
                         // Check if employee attendance exists for this date
