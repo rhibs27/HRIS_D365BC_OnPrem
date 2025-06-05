@@ -53,6 +53,9 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterCode; "Extension Counter Code") { }
             column(unitName; "Unit Name") { }
             column(extensionCounterName; "Extension Counter Name") { }
+
+            column(requestedPRovince; "Requested Province") { }
+            column(requestedProvinceName; "Requested Province Name") { }
             // propose
             // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
             column(approverRoleTo; "Approver Role To")
