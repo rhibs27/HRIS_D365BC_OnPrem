@@ -106,4 +106,8 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Medical Insurance Claim';
     }
+    value(26; "Transfer Claim")
+    {
+        Caption = 'Transfer Claim';
+    }
 }

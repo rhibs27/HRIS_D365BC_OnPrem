@@ -998,7 +998,7 @@ table 50140 "Employee/HR Transfer"
                         IncomingDocument.SetRange("No.", "No.");
                         IncomingDocument.DeleteAll(true);
                         AttachmentMandatory.Reset;
-                        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Travel Claim");
+                        AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Transfer Claim");
                         if AttachmentMandatory.FindFirst then
                             repeat
                                 Clear(IncomingDocument);
