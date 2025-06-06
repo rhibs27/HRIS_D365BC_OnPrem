@@ -3241,9 +3241,9 @@ page 50108 "Portal Functions"
                 begin
                     PaySlip.PassParPortal(Employee."No.", year, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawn);
+                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
@@ -3434,8 +3434,8 @@ page 50108 "Portal Functions"
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Jestha);
             Format(MonthOption::Asar):
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Asar);
-            Format(MonthOption::Shrawn):
-                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+            Format(MonthOption::Shrawan):
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Shrawan);
             Format(MonthOption::Bhadra):
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Bhadra);
             Format(MonthOption::Ashoj):
@@ -3649,9 +3649,9 @@ page 50108 "Portal Functions"
                 begin
                     PaySlip.PassParPortal(Employee."No.", year, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawn);
+                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
@@ -3727,8 +3727,8 @@ page 50108 "Portal Functions"
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Jestha);
                 Format(MonthOption::Asar):
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Asar);
-                Format(MonthOption::Shrawn):
-                    TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+                Format(MonthOption::Shrawan):
+                    TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawan);
                 Format(MonthOption::Bhadra):
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Bhadra);
                 Format(MonthOption::Ashoj):
@@ -3855,9 +3855,9 @@ page 50108 "Portal Functions"
                 begin
                     SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Shrawn);
+                    SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
