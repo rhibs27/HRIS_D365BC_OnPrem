@@ -557,8 +557,12 @@ table 50026 "Payroll Header"
                 Employee.SetFilter("Resignation Date", '<>%1', 0D)
             else
                 Employee.SetFilter("Contract Expiry Date", '>%1', PGSetup."Payroll Fiscal Year Start Date");
-        end else
+        end else begin
             Employee.SetRange(Status, Employee.Status::Active);
+            Employee.SetRange("Resignation Date", 0D);
+        end;
+        if Type = Type::Resignation then
+            Employee.SetRange("Resignation Date", "From Date", "To Date");
         Employee.SetRange(Settled, false);
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
             Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date"); //Min
@@ -576,6 +580,7 @@ table 50026 "Payroll Header"
                     PayrollLine.Validate("Functional Title", Employee."Functional Title");
                     PayrollLine.Validate("Employee Type", Employee."Employment Type");
                     PayrollLine.Validate("Bank Account No.", Employee."Bank Account No.");
+                    PayrollLine.Validate("Resignation Date", Employee."Resignation Date");
                     if AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::Attendance then begin
                         PayrollEngine.GetAttendanceForPayroll(PayrollLine, Rec);
                     end

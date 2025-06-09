@@ -884,6 +884,9 @@ table 50027 "Payroll Line"
         field(172; "39% Slab"; Decimal)
         {
         }
+        field(173; "Post Resignation Days"; Decimal)
+        {
+        }
     }
 
     keys
@@ -928,7 +931,11 @@ table 50027 "Payroll Line"
         CheckDuplicateEmployee;
         PGSetup.Get;
         AttendanceSetup.Get;
-
+        Employee.Get("Employee No.");
+        if Type = Type::Resignation then begin
+            Employee.TestField("Resignation Date");
+            Validate("Resignation Date", Employee."Resignation Date");
+        end;
         if AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::Attendance then begin
             PayrollEngine.GetAttendanceForPayroll(Rec, PayrollHeader);
         end
@@ -987,7 +994,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Resignation Days";
         //"OT Hrs (30MIN)" := "OT Days" * 30/60;
     end;
 
@@ -1558,7 +1565,7 @@ table 50027 "Payroll Line"
             TotalDaysInMonth := PGSetup."Total Days" / 12
         else
             TotalDaysInMonth := "Total Days";
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+        if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
             if not PayrollHeader.Irregular then begin
                 // if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +

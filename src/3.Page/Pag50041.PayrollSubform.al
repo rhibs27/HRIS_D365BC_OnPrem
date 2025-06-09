@@ -53,6 +53,12 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Salary Grade field.';
                     ApplicationArea = All;
                 }
+                field("Resignation Date"; Rec."Resignation Date")
+                {
+                    ToolTip = 'Specifies the value of the Resignation Date field.';
+                    ApplicationArea = All;
+                    Visible = IsResignation;
+                }
                 field("Present Days"; Rec."Present Days")
                 {
                     ToolTip = 'Specifies the value of the Present Days field.';
@@ -72,6 +78,12 @@ page 50041 "Payroll Subform"
                 {
                     ToolTip = 'Specifies the value of the Absent Days field.';
                     ApplicationArea = All;
+                }
+                field("Post Resignation Days"; Rec."Post Resignation Days")
+                {
+                    ToolTip = 'Specifies the value of Post Resignation Days field.';
+                    ApplicationArea = All;
+                    Visible = IsResignation;
                 }
                 field("Prior Present Days"; Rec."Prior Present Days")
                 {
@@ -967,6 +979,9 @@ page 50041 "Payroll Subform"
         PayrollHeader.Get(Rec."Document No.");
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             SettlementVisible := true;
+        IsResignation := false;
+        if PayrollHeader."Type" = PayrollHeader."Type"::Resignation then
+            IsResignation := true;
     end;
 
     trigger OnOpenPage()
@@ -1038,6 +1053,8 @@ page 50041 "Payroll Subform"
         [InDataSet]
         SettlementVisible: Boolean;
         PayrollHeader: Record "Payroll Header";
+        IsResignation: Boolean;
+
 
     local procedure InitColumnVisibility()
     begin
@@ -1099,3 +1116,4 @@ page 50041 "Payroll Subform"
         TimeSheetVisible := PayrollEngine.IsTimeSheetEnabled;
     end;
 }
+
