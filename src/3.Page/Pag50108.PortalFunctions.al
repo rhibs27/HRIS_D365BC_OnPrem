@@ -2152,7 +2152,8 @@ page 50108 "Portal Functions"
                 if rejectionRemarks = '' then
                     Error('Rejection Remarks is empty');
                 AllowanceAssignment.Validate("Rejection Remarks", rejectionRemarks);
-                AllowanceAssignment.Return := true;
+                if AllowanceAssignment."Activity Type" = AllowanceAssignment."Activity Type"::"Allowance Assignment" then
+                    AllowanceAssignment.Return := true;
                 AllowanceAssignment.Modify;
             end;
         RecRef.GetTable(AllowanceAssignment);
