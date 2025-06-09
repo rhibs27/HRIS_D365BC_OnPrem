@@ -127,6 +127,19 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Requested Province"; Rec."Requested Province")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Province field.';
+                    ApplicationArea = All;
+                }
+                field("Requested Province Name"; Rec."Requested Province Name")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Branch field.';
+                    ApplicationArea = All;
+                }
+
                 field("Notify to"; Rec."Notify to")
                 {
                     Visible = false;
