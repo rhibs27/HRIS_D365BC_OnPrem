@@ -104,6 +104,9 @@ page 50179 "Allowance Assign Subform API"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field(activityType; Rec."Emp Act Type")
+                {
+                }
             }
         }
     }

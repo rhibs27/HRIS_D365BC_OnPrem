@@ -92,5 +92,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Overtime Bulk';
     }
-
+    value(23; "Allowance Assignment Claim")
+    {
+        Caption = 'Allowance Assignment Claim';
+    }
 }

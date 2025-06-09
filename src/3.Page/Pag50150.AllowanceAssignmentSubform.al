@@ -89,6 +89,13 @@ page 50150 "Allowance Assignment Subform"
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    Visible = AllowanceClaim;
+                    Editable = AllowanceClaim and DocumentPending;
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
@@ -105,7 +112,7 @@ page 50150 "Allowance Assignment Subform"
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentApproved;
+                Visible = DocumentApproved and not AllowanceClaim;
 
                 trigger OnAction()
                 var
@@ -147,7 +154,7 @@ page 50150 "Allowance Assignment Subform"
                 Image = Insert;
                 ToolTip = 'Executes the Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentOpen;
+                Visible = DocumentOpen and not AllowanceClaim;
 
                 trigger OnAction()
                 var
@@ -184,7 +191,7 @@ page 50150 "Allowance Assignment Subform"
                 Image = Approve;
                 ToolTip = 'Executes the Approve Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentApproved;
+                Visible = DocumentApproved and not AllowanceClaim;
                 trigger OnAction()
                 var
                     AllowanceLine1: Record "Allowance Assignment Line";
@@ -203,7 +210,7 @@ page 50150 "Allowance Assignment Subform"
                 Image = Approve;
                 ToolTip = 'Executes the Reject Substitute action.';
                 ApplicationArea = All;
-                Visible = DocumentApproved;
+                Visible = DocumentApproved and not AllowanceClaim;
                 trigger OnAction()
                 var
                     AllowanceLine1: Record "Allowance Assignment Line";
@@ -218,6 +225,29 @@ page 50150 "Allowance Assignment Subform"
                     end;
                     rec.Modify();
                     Message('Substitute Allowance is Rejected');
+                end;
+            }
+            action("Reject ALlowance Claim")
+            {
+                Image = Reject;
+                ToolTip = 'Executes the Reject Allowance Claim action.';
+                ApplicationArea = All;
+                Visible = DocumentPending and AllowanceClaim;
+                trigger OnAction()
+                var
+                    ApproverHrms: Record "Approval HRMS";
+                begin
+                    // ApproverHrms.Reset();
+                    // ApproverHrms.SetRange("Document No.",ApproverHrms."Document No.");
+                    // ApproverHrms.SetRange("Approval Status",ApproverHrms."Approval Status"::Open);
+                    // ApproverHrms.FindFirst()
+                    // if 
+                    if Confirm('Do you want reject the request?', false) then begin
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+                        rec.Modify();
+                        Message('Allowance Claim is Rejected');
+                    end;
                 end;
             }
         }
@@ -256,15 +286,23 @@ page 50150 "Allowance Assignment Subform"
         ToDateEditable: Boolean;
         DocumentOpen: Boolean;
         DocumentApproved: Boolean;
+        DocumentPending: Boolean;
         FormEditable: Boolean;
         Typefilter: Text;
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
+        AllowanceClaim: Boolean;
+
 
     procedure _SetFilter(_AllowanceTypeFilter: Code[20])
     begin
         AllowanceTypeFilter := _AllowanceTypeFilter;
         Rec.SetFilter("Allowance Type", AllowanceTypeFilter);
         CurrPage.Update;
+    end;
+
+    trigger OnOpenPage()
+    begin
+        SetLayout;
     end;
 
     local procedure SetLayout()
@@ -274,10 +312,15 @@ page 50150 "Allowance Assignment Subform"
         ToDateEditable := true;
         if AllowanceHeader.Get(rec."No.") then begin
             DocumentOpen := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Open;
+            DocumentPending := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Pending;
             DocumentApproved := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved;
         end;
         if Rec."Allowance Type" = 'FRIDAY COUNTER' then
             ToDateEditable := false;
+        AllowanceClaim := Rec."Emp Act Type" = rec."Emp Act Type"::"Allowance Assignment Claim";
+        CurrPage.Editable(AllowanceClaim);
+        if AllowanceClaim then
+            CurrPage.Caption('Allowance Assignment Claim Subform');
 
         FormEditable := Rec."Approval Status" <> Rec."Approval Status"::Approved;
         /*

@@ -1273,6 +1273,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceRequest(Rec."No.");
                     end;
                 }
+                action("Allowance Assignment Claim")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment Claim action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
+                    end;
+                }
                 action("Request Attendance Missed")
                 {
                     ApplicationArea = All;

@@ -64,6 +64,7 @@ query 50019 "Allowance Assign Line Query"
                 column(approvalStatus; "Approval Status")
                 {
                 }
+                column(activityType; "Emp Act Type") { }
             }
         }
     }

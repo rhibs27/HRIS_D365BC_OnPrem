@@ -1,6 +1,5 @@
 page 50149 "Allowance Assignment Card"
 {
-    // DelayedInsert = true;
     PageType = Card;
     SourceTable = "Allowance Assignment Header";
     ApplicationArea = All;
@@ -15,13 +14,13 @@ page 50149 "Allowance Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and not AllowanceClaim;
                 }
                 field("Code"; Rec.Code)
                 {
                     ToolTip = 'Specifies the value of the Code field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and not AllowanceClaim;
                 }
                 field(Name; Rec.Name)
                 {
@@ -50,14 +49,14 @@ page 50149 "Allowance Assignment Card"
                     // Editable = false;
                     ToolTip = 'Specifies the value of the From Date field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and not AllowanceClaim;
                 }
                 field("To date"; Rec."To date")
                 {
                     // Editable = false;
                     ToolTip = 'Specifies the value of the To date field.';
                     ApplicationArea = All;
-                    Editable = IsOpen;
+                    Editable = IsOpen and not AllowanceClaim;
                     trigger OnValidate()
                     begin
                         CurrPage.Update;
@@ -213,6 +212,26 @@ page 50149 "Allowance Assignment Card"
                     // AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
                 end;
             }
+            // action("Get Allowance")
+            // {
+            //     Image = GetLines;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Get allowance Request action.';
+            //     ApplicationArea = All;
+            //     Visible = IsOpen;
+            //     trigger OnAction()
+            //     begin
+            //         //CurrPage.AllowanceSubform.PAGE.GetSelectedLines(AllowanceLine);
+            //         //AllowanceLine.RESET;
+            //         //AllowanceLine.SETRANGE("Entry No.", "Entry No.");
+            //         if Confirm('Do you want to Get the document?', false) then
+            //             AllowanceMgt.GetAllowanceClaimLine(Rec."No.")
+            //         // AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
+            //     end;
+            // }
             // action("Return Request")
             // {
             //     ToolTip = 'Executes the Return Request action.';
@@ -264,6 +283,7 @@ page 50149 "Allowance Assignment Card"
         IsOpen: Boolean;
         IsApprove: Boolean;
         RecRef: RecordRef;
+        AllowanceClaim: Boolean;
 
     local procedure SetLayout()
     begin
@@ -273,6 +293,9 @@ page 50149 "Allowance Assignment Card"
         IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
         IsApprove := Rec."Approval Status" = rec."Approval Status"::Approved;
         RecRef.GetTable(Rec);
+        AllowanceClaim := Rec."Activity Type" = Rec."Activity Type"::"Allowance Assignment Claim";
+        if AllowanceClaim then
+            CurrPage.Caption('Allowance Assignment claim Card');
         // Employee.Reset;
         // Employee.SetRange("NAV Login ID", UserId);
         // if Employee.FindFirst then
