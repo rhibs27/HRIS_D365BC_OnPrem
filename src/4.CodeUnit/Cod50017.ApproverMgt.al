@@ -250,7 +250,7 @@ codeunit 50017 "Approver Mgt"
                                     TransferMgt.RejectTransferClaim(RecRef.Field(1).Value);
                                 end;
                             //for Allowance claim return
-                            EmpActType::"Allowance Assignment", EmpActType::"Allowance Assignment Claim":
+                            EmpActType::"Allowance Assignment":
                                 begin
                                     RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
                                     RecRef.Field(100).Validate('');
@@ -264,6 +264,13 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Field(100).Validate('');
                                     RecRef.Modify();
                                     OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
+                        end;
+                            //for Allowance claim Reject
+                            EmpActType::"Allowance Assignment Claim":
+                                begin
+                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
                         end;

@@ -18543,11 +18543,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Currency Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 621202891 - Field 3702780841 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Currency Type</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Travel Request - Field Currency Type - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 621202891 - Field 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46528,6 +46523,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Auth. Account No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1635708066 - Control 4198939294 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the Currency Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Form - Control Currency Code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1635708066 - Control 3104533966 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Departure From field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46798,10 +46798,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Request Form - Control Auth. Account No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 4088765785 - Control 3702780841 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the currency Type</source>
+        <trans-unit id="Page 4088765785 - Control 4198939294 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the currency Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Request Form - Control Currency Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Request Form - Control Currency Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4088765785 - Control 3104533966 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Departure From field.</source>
