@@ -210,38 +210,8 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
                     ApplicationArea = All;
                 }
-                field("Fooding Per Day Limit"; Rec."Fooding Per Day Limit")
-                {
-                    ToolTip = 'Specifies the value of the Fooding Per Day Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Fooding Allowance Limit"; Rec."Fooding Allowance Limit")
-                {
-                    ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Actual Fooding Allowance"; Rec."Fooding Allowance")
-                {
-                    Editable = true;
-                    ToolTip = 'Specifies the value of the Fooding Allowance field.';
-                    ApplicationArea = All;
-                }
-                field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
-                {
-                    ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
-                {
-                    ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Actual Lodging Allowance"; Rec."Lodging Allowance")
-                {
-                    Editable = true;
-                    ToolTip = 'Specifies the value of the Lodging Allowance field.';
-                    ApplicationArea = All;
-                }
+
+
                 field("Conveyance Expense"; Rec."Conveyance Expense")
                 {
                     ToolTip = 'Specifies the value of the Conveyance Expense field.';
@@ -267,6 +237,48 @@ page 50351 "Travel Claim"
                 {
                     ToolTip = 'Specifies the value of the Net Receivable/Payable field.';
                     ApplicationArea = All;
+                }
+                Group("Allowance Limit")
+                {
+
+                    field("Fooding Per Day Limit"; Rec."Fooding Per Day Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Fooding Per Day Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Fooding Allowance Limit"; Rec."Fooding Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
+                        ApplicationArea = All;
+                    }
+
+                }
+                Group(Allowance)
+                {
+                    field("Actual Fooding Allowance"; Rec."Fooding Allowance")
+                    {
+                        Editable = true;
+                        ToolTip = 'Specifies the value of the Fooding Allowance field.';
+                        ApplicationArea = All;
+                    }
+
+                    field("Actual Lodging Allowance"; Rec."Lodging Allowance")
+                    {
+                        Editable = true;
+                        ToolTip = 'Specifies the value of the Lodging Allowance field.';
+                        ApplicationArea = All;
+                    }
+
                 }
             }
             part(Attachment; "Attachment Subform")

@@ -46018,16 +46018,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Travel With - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 504576312 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Fooding Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Actual Fooding Allowance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 2505851394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Lodging Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Actual Lodging Allowance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1674581342 - Control 2173143191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Actual Travel End Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46053,15 +46043,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Advance Cash - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 2171820062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Claim Type field.</source>
+        <trans-unit id="Page 1674581342 - Control 504576312 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fooding Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Claim Type - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Actual Fooding Allowance - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 3020718523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Conveyance Expense field.</source>
+        <trans-unit id="Page 1674581342 - Control 2505851394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Lodging Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Conveyance Expense - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Actual Lodging Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1674581342 - Control 2071802513 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fooding Allowance Limit field.</source>
@@ -46082,6 +46072,16 @@
           <source>Specifies the value of the Lodging Per Day Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Lodging Per Day Limit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1674581342 - Control 2171820062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claim Type field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Claim Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1674581342 - Control 3020718523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Conveyance Expense field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Conveyance Expense - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1674581342 - Control 3198880606 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Mode Of Travel field.</source>
