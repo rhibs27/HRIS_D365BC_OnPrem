@@ -266,7 +266,6 @@ codeunit 50017 "Approver Mgt"
                                     OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
-                        end;
                             //for Allowance claim Reject
                             EmpActType::"Allowance Assignment Claim":
                                 begin
