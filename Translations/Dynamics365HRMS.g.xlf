@@ -42978,6 +42978,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Conveyance Expense - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3980991557 - Control 4198939294 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Currency Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Currency Code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3980991557 - Control 2071802513 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fooding Allowance Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45597,6 +45602,16 @@
           <source>Reason For Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Reason For Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 2467821014 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Province field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 429476743 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Branch field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Requested Province Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1733013553 - Control 1780950718 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Transfer Effective Date field.</source>
@@ -55893,6 +55908,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Transfer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Transfer Claim - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1674581342 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Travel Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58428,10 +58448,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Poush - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2906764345 - EnumValue 532958363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Shrawn</source>
+        <trans-unit id="Enum 2906764345 - EnumValue 1588774540 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shrawan</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Shrawn - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Nepali Month - EnumValue Shrawan - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3854578461 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>
