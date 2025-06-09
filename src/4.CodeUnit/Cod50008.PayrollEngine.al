@@ -1799,6 +1799,7 @@ codeunit 50008 "Payroll Engine"
         ProrataSick: Decimal;
         ProrataAnnual: Decimal;
         ResignAbsentDays: Decimal;
+        DaysAfterResignationDate: Decimal;
     begin
         Clear(AbsentDays);
         Clear(LeaveDays);
@@ -1809,6 +1810,7 @@ codeunit 50008 "Payroll Engine"
         Clear(SettlementStartDate);
         Clear(SickLeave);
         Clear(AnnualLeave);
+        Clear(DaysAfterResignationDate);
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
             GetSettlementAttendance(PayrollLine, PayrollHeader);
             exit;
@@ -1823,7 +1825,7 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.Reset;
         AttendanceSummary.SetCurrentKey("Employee No.", "From Date", "To Date");
         AttendanceSummary.SetRange("Employee No.", PayrollLine."Employee No.");
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+        if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
             if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
                 AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date" - 1)
             else
@@ -1857,7 +1859,9 @@ codeunit 50008 "Payroll Engine"
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollHeader."To Date");
 
-        end else
+        end else if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollLine."Resignation Date")
+        else
             EmployeeAttendActivity.SetRange("Attendance Date", SettlementStartDate, PayrollLine."Resignation Date");
 
         EmployeeAttendActivity.CalcSums("Absent Day");
@@ -1870,7 +1874,7 @@ codeunit 50008 "Payroll Engine"
         if PreviousPayCyclePeriod."Pay Date" <> 0D then begin
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", PayrollHeader."From Date" - 1)
             else if EmployeeLedgerEntry."Pay Period End Date" <> 0D then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", EmployeeLedgerEntry."Pay Period End Date")
@@ -1880,7 +1884,7 @@ codeunit 50008 "Payroll Engine"
             EmployeeAttendActivity.CalcSums("Absent Day");
             PriorLWPDays := EmployeeAttendActivity."Absent Day";
 
-            if (PayrollHeader.Type = PayrollHeader.Type::Payroll) and (PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular) then begin
+            if (PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation]) and (PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular) then begin
                 if (Employee."Employment Date" >= PreviousPayCyclePeriod."Pay Date") and (Employee."Employment Date" <= PayrollHeader."From Date" - 1) then begin
                     EmployeeAttendActivity.Reset;
                     EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
@@ -1900,7 +1904,7 @@ codeunit 50008 "Payroll Engine"
 
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", PayrollHeader."From Date" - 1)
             else if EmployeeLedgerEntry."Pay Period End Date" <> 0D then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", EmployeeLedgerEntry."Pay Period End Date")
@@ -1960,7 +1964,9 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Half Days", AttendanceSummary."Half Day");
             PayrollLine.Validate("OT Hrs", AttendanceSummary."OT Hrs");
             PayrollLine.Validate("OT Days", AttendanceSummary."OT Days");
-            PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
+            if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                PayrollLine.Validate("Post Resignation Days", PayrollHeader."To Date" - PayrollLine."Resignation Date");
+            PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays + PayrollLine."Post Resignation Days");
             if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                 EmployeeAttendActivity.Reset();
                 EmployeeAttendActivity.SetRange("Attendance Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");

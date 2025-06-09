@@ -14273,6 +14273,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field PF No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1385247298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post Resignation Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Post Resignation Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 4287538008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Present Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38928,6 +38933,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Payable Tax Liability - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 1385247298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of Post Resignation Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Post Resignation Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Control 4287538008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Present Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38987,6 +38997,11 @@
           <source>Specifies the value of the Remote Area Deduction field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Remote Area Deduction - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 3801720079 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Resignation Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Resignation Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 3370741491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Salary Grade field.</source>
