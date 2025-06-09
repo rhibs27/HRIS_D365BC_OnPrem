@@ -135,6 +135,13 @@ page 50351 "Travel Claim"
                     ApplicationArea = All;
                     Editable = false;
                 }
+                Field("Auth. Account No."; rec."Auth. Account No.")
+                {
+                    Caption = 'Bank Account No';
+                    ToolTip = 'Specifies the Bank Account No.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -210,39 +217,7 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Reimbursable field.';
                     ApplicationArea = All;
                 }
-                field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
-                {
-                    ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
-                    ApplicationArea = All;
-                }
 
-
-                field("Conveyance Expense"; Rec."Conveyance Expense")
-                {
-                    ToolTip = 'Specifies the value of the Conveyance Expense field.';
-                    ApplicationArea = All;
-                }
-                field("Other Expense"; Rec."Other Expense")
-                {
-                    ToolTip = 'Specifies the value of the Other Expense field.';
-                    ApplicationArea = All;
-                }
-                field("Total Claimed Amount"; Rec."Total Claimed Amount")
-                {
-                    ToolTip = 'Specifies the value of the Total Claimed Amount field.';
-                    ApplicationArea = All;
-                }
-                field("Advance Cash"; Rec."Advance Cash")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Advance Cash field.';
-                    ApplicationArea = All;
-                }
-                field("Net Receivable/Payable"; Rec."Net Receivable/Payable")
-                {
-                    ToolTip = 'Specifies the value of the Net Receivable/Payable field.';
-                    ApplicationArea = All;
-                }
                 Group("Allowance Limit")
                 {
 
@@ -281,6 +256,41 @@ page 50351 "Travel Claim"
                     {
                         Editable = true;
                         ToolTip = 'Specifies the value of the Lodging Allowance field.';
+                        ApplicationArea = All;
+                    }
+                    field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
+                    {
+                        ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
+                        ApplicationArea = All;
+                    }
+
+
+                    field("Conveyance Expense"; Rec."Conveyance Expense")
+                    {
+                        ToolTip = 'Specifies the value of the Conveyance Expense field.';
+                        ApplicationArea = All;
+                    }
+                    field("Other Expense"; Rec."Other Expense")
+                    {
+                        ToolTip = 'Specifies the value of the Other Expense field.';
+                        ApplicationArea = All;
+                    }
+
+
+                    field("Total Claimed Amount"; Rec."Total Claimed Amount")
+                    {
+                        ToolTip = 'Specifies the value of the Total Claimed Amount field.';
+                        ApplicationArea = All;
+                    }
+                    field("Advance Cash"; Rec."Advance Cash")
+                    {
+                        Editable = false;
+                        ToolTip = 'Specifies the value of the Advance Cash field.';
+                        ApplicationArea = All;
+                    }
+                    field("Net Receivable/Payable"; Rec."Net Receivable/Payable")
+                    {
+                        ToolTip = 'Specifies the value of the Net Receivable/Payable field.';
                         ApplicationArea = All;
                     }
 
