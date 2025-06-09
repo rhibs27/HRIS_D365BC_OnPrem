@@ -198,6 +198,12 @@ table 50093 "Allowance Assignment Line"
         field(26; Week; Enum WeekNumber)
         {
         }
+        field(27; "Emp Act Type"; Enum "Employee Activity Type")
+        {
+        }
+        field(28; "Allowance Claim From"; Code[20])
+        {
+        }
     }
 
     keys

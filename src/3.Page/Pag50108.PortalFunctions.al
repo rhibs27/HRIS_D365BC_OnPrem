@@ -2088,6 +2088,35 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure createAllowanceClaim()
+    var
+    begin
+        AllowanceMgt.OpenAllowanceClaimRequest(HrMgt.GetEmployeeNo());
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure rejectAllowanceClaim(allowanceAssignNo: Code[20]; lineNo: Integer)
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        ApproverHrms: Record "Approval HRMS";
+    begin
+        AllowanceAssignmentLine.Get(allowanceAssignNo, LineNo);
+        ApproverHrms.Reset();
+        ApproverHrms.SetRange("Document No.", allowanceAssignNo);
+        ApproverHrms.SetRange("Approval Status", ApproverHrms."Approval Status"::Open);
+        ApproverHrms.FindFirst();
+        if ApproverHrms."Approver No" = HrMgt.GetEmployeeNo() then begin
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
+            AllowanceAssignmentLine.Modify();
+        end
+        else
+            Error('You are not allowed To reject.');
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure sendAllowanceForApproval(no: Code[20])
     var
         AllowanceLine: Record "Allowance Assignment Line";
@@ -3937,6 +3966,7 @@ page 50108 "Portal Functions"
         LeaveCancelledForApprove: Integer;
         LateAttendanceForApprove: Integer;
         InsuranceForApprove: Integer;
+        AllowanceAssignmentClaimForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -4089,13 +4119,20 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove := Approval.Count();
 
         Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Allowance Assignment Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        AllowanceAssignmentClaimForApprove := Approval.Count();
+
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Late Attendance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         LateAttendanceForApprove := Approval.Count();
-        Approval.Reset();
 
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Insurance);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
@@ -4103,7 +4140,7 @@ page 50108 "Portal Functions"
         InsuranceForApprove := Approval.Count();
 
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
+         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + AllowanceAssignmentClaimForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4124,6 +4161,7 @@ page 50108 "Portal Functions"
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
+        ',"AllowanceAssignmentClaimForApprove": "' + format(AllowanceAssignmentClaimForApprove) + '"' +
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
         ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');

@@ -7,6 +7,7 @@ page 50148 "Allowance Assignments"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = "Allowance Assignment Header";
+    SourceTableView = where("Activity Type" = filter("Employee Activity Type"::"Allowance Assignment"));
     UsageCategory = Lists;
     ApplicationArea = All;
 
