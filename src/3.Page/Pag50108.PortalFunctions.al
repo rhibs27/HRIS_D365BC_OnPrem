@@ -4172,9 +4172,9 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         OvertimeBulkForApprove := Approval.Count();
 
-        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
+        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
           + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
-          + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove;
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
