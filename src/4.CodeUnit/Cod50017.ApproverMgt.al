@@ -266,6 +266,12 @@ codeunit 50017 "Approver Mgt"
                                     OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
+                            //for Allowance claim Reject
+                            EmpActType::"Allowance Assignment Claim":
+                                begin
+                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
                         end;
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
@@ -333,7 +339,7 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Allowance Assignment":
+                        EmpActType::"Allowance Assignment", EmpActType::"Allowance Assignment Claim":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
                             end;
