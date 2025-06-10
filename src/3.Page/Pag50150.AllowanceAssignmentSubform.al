@@ -169,6 +169,8 @@ page 50150 "Allowance Assignment Subform"
                 begin
                     IF AllowanceAssignmentHeader.Get(Rec."No.") THEN
                         if AllowanceAssignmentHeader."Approval Status" = AllowanceAssignmentHeader."Approval Status"::Open then begin
+                            AllowanceLine.SetRange(Type, AllowanceAssignmentHeader.Type);
+                            AllowanceLine.SetRange(Code, AllowanceAssignmentHeader.Code);
                             FilterPage.AddRecord('Select Employee Details', AllowanceLine);
                             FilterPage.AddField('Select Employee Details', AllowanceLine."From Date");
                             FilterPage.AddField('Select Employee Details', AllowanceLine."To Date");
@@ -253,10 +255,6 @@ page 50150 "Allowance Assignment Subform"
         }
     }
 
-    trigger OnAfterGetCurrRecord()
-    begin
-        SetLayout();
-    end;
 
     trigger OnAfterGetRecord()
     begin
@@ -317,8 +315,8 @@ page 50150 "Allowance Assignment Subform"
         end;
         if Rec."Allowance Type" = 'FRIDAY COUNTER' then
             ToDateEditable := false;
-        AllowanceClaim := Rec."Emp Act Type" = rec."Emp Act Type"::"Allowance Assignment Claim";
-        CurrPage.Editable(AllowanceClaim);
+        AllowanceClaim := AllowanceHeader."Activity Type" = AllowanceHeader."Activity Type"::"Allowance Assignment claim";
+        // CurrPage.Editable(AllowanceClaim);
         if AllowanceClaim then
             CurrPage.Caption('Allowance Assignment Claim Subform');
 
