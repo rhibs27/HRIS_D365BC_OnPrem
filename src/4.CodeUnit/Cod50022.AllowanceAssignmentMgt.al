@@ -801,6 +801,14 @@ codeunit 50022 "Allowance Assignment Mgt"
         Approval.setRange("Document Type", Approval."Document Type"::"Allowance Assignment claim");
         Approval.SetRange("Employee No", EmpCode);
         Approval.DeleteAll();
+        //for get Nepali month start and end date
+        PayCyclePeriod.SetFilter("Allowance Start Date", '<=%1', Today);
+        PayCyclePeriod.SetFilter("Allowance End Date", '>=%1', Today);
+        if PayCyclePeriod.FindFirst() then begin
+        end else
+            Error('Payroll PayCyclePeriod Not found');
+        if (PayCyclePeriod."Allowance End Date" <= Today) or (Today > PayCyclePeriod."Pay Date" - 1) then
+            Error('You can Create Allowance claim before and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
         Employee.Get(EmpCode);
         AllowanceAssignment.Reset();
         AllowanceAssignment.SetRange("Employee No.", EmpCode);
@@ -813,12 +821,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             end else
                 Error('%1 has already open Allowance Assignment Claim %2.', Employee."Full Name", AllowanceAssignment."No.");
         end else begin
-            //for get Nepali month start nad end date
-            PayCyclePeriod.SetFilter("Allowance Start Date", '<=%1', Today);
-            PayCyclePeriod.SetFilter("Allowance End Date", '>=%1', Today);
-            if PayCyclePeriod.FindFirst() then begin
-            end else
-                Error('Payroll PayCyclePeriod Not found');
             AllowanceAssignment2.Init;
             AllowanceAssignment2.Validate("Employee No.", EmpCode);
             AllowanceAssignment2.Validate("Activity Type", AllowanceAssignment2."Activity Type"::"Allowance Assignment Claim");
