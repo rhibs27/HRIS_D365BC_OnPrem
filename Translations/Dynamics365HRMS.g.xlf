@@ -2118,6 +2118,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Calculation Method - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 1408641378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Out From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Check Out From - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 2027115325 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Daily Food Allowance on Holiday if full day present</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -22687,6 +22692,11 @@
           <source>Specifies the value of the Calculation Method field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Calculation Method - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 1408641378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check Out From field(Hrs).</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Check Out From - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 3389255048 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deactivate Punch in Count field.</source>

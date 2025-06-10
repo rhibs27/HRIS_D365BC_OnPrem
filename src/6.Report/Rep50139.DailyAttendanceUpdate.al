@@ -282,6 +282,8 @@ report 50139 "Daily Attendance Update"
         if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
             if not EmployeeAttendanceActivity."Attendance Update" then begin
                 AttendanceLog.Reset;
+                AttendanceLog.SetCurrentKey("Check In Time");
+                AttendanceLog.SetAscending("Check In Time", true);
                 AttendanceLog.SetRange(Date, InitialDate);
                 AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
                 if AttendanceLog.FindFirst then begin
@@ -301,10 +303,13 @@ report 50139 "Daily Attendance Update"
         if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
             if not EmployeeAttendanceActivity."Attendance Update" then begin
                 AttendanceLog.Reset;
+                AttendanceLog.SetCurrentKey("Check In Time");
+                AttendanceLog.SetAscending("Check In Time", true);
                 AttendanceLog.SetRange(Date, InitialDate);
                 AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
                 if AttendanceLog.Findlast then begin
-                    AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
+                    if AttendanceLog."Check In Time" >= (AttendanceSetUp."Check Out From") then
+                        AttendanceLine.Validate("Check Out Time", AttendanceLog."Check In Time");
                 end;
             end;
         EngNep.Reset; //Min 1.25.2023
