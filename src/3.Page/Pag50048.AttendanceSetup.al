@@ -73,6 +73,11 @@ page 50048 "Attendance Setup"
                     ToolTip = 'Specifies the value of the Max Overtime In Week field.';
                     ApplicationArea = All;
                 }
+                field("Check Out From"; Rec."Check Out From")
+                {
+                    ToolTip = 'Specifies the value of the Check Out From field(Hrs).';
+                    ApplicationArea = All;
+                }
 
             }
         }
