@@ -108,8 +108,8 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField("End Date");
         //TempEmpAct.TESTFIELD("Travel Countries");
         TravelReq.TestField("Type Of Visit");
-        TravelReq.TestField("Departure Time");
-        TravelReq.TestField("Arrival Time");
+        // TravelReq.TestField("Departure Time");
+        // TravelReq.TestField("Arrival Time");
         TravelReq.TestField("Departure From");
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
