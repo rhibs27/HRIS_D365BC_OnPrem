@@ -192,13 +192,21 @@ table 50092 "Allowance Assignment Header"
             var
                 Employee: Record Employee;
             begin
-                Employee.Get("Employee No.");
-                "Branch Code" := Employee."Branch Code";
+                if Employee.Get("Employee No.") then begin
+                    "Branch Code" := Employee."Branch Code";
+                    "Employee Name" := Employee."Full Name";
+                end;
+
+
             end;
         }
         field(22; "Branch Code"; Code[20])
         {
             Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        field(24; "Employee Name"; Text[100])
+        {
             DataClassification = ToBeClassified;
         }
         field(37; "Approved Date"; Date)

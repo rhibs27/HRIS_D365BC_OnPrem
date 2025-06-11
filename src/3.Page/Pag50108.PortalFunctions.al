@@ -150,39 +150,9 @@ page 50108 "Portal Functions"
         Clear(ApprovalRole);
         EmpRequest.Reset();
         EmpRequest.Get(HrMgt.GetEmployeeNo());
-        ApprovalSetupLine.Reset();
-        // Get the Approval according to Activity type  << Santosh << 11-3-25
-        CASE EmpActType OF
-            FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
-            FORMAT(ApprovalSetupLine."Request Type"::Loan):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
-            FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
-            FORMAT(ApprovalSetupLine."Request Type"::"Late Attendance"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Late Attendance");
-            FORMAT(ApprovalSetupLine."Request Type"::"Employee Transfer"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Transfer");
-            FORMAT(ApprovalSetupLine."Request Type"::OverTime):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::OverTime);
-            FORMAT(ApprovalSetupLine."Request Type"::"Transfer Claim"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Transfer Claim");
-            FORMAT(ApprovalSetupLine."Request Type"::Resignation):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Resignation);
-            FORMAT(ApprovalSetupLine."Request Type"::"Employee Edit"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
-            FORMAT(ApprovalSetupLine."Request Type"::"Allowance Assignment"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Allowance Assignment");
-            FORMAT(ApprovalSetupLine."Request Type"::Insurance):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Insurance);
-            else
-                Error('Approval Setup Not found');
-        END;
         // Get approval from employee table based on deputation type and approval role << santosh>> 11-3-25
+        ApprovalSetupLine.Reset();
+        ApprovalSetupLine.Setfilter("Request Type", EmpActType);
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         if ApprovalSetupLine.Findset() then
@@ -203,7 +173,9 @@ page 50108 "Portal Functions"
                     ApproverName += Employee."Full Name" + '/';
                     ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
                 end;
-            until ApprovalSetupLine.Next() = 0;
+            until ApprovalSetupLine.Next() = 0
+        else
+            Error('Approval Setup Not found');
         exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
                 '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
                 '"approverName" : "' + (Format(ApproverName)) + '"}');

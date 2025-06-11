@@ -52,6 +52,7 @@ query 50018 "Allowance Assignment Query"
                     column(employeeNo; "Employee No.")
                     {
                     }
+                    column(employeeName; "Employee Name") { }
                     column("code"; Code) { }
                     column(name; Name)
                     {
