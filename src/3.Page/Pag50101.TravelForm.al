@@ -246,6 +246,7 @@ page 50101 "Travel Form"
                 }
                 field("Auth. Account No."; Rec."Auth. Account No.")
                 {
+                    Caption = 'Bank Account No';
                     ToolTip = 'Specifies the value of the Auth. Account No. field.';
                     ApplicationArea = All;
                     Editable = false;
