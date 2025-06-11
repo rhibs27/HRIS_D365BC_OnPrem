@@ -619,7 +619,8 @@ table 50124 Leave
             "Employee No." := HRMgt.GetEmployeeNo();
             Type := type::"Leave Request";
             "User ID" := userID;
-            "Approval Status" := "Approval Status"::Pending;
+            if "Approval Status" <> "Approval Status"::Approved then
+                "Approval Status" := "Approval Status"::Pending;
         end;
         HRSetup.Get;
         if "No." = '' then
@@ -633,7 +634,8 @@ table 50124 Leave
                         begin
                             HRSetup.TestField("Leave No. Series");
                             NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
+                            if "Approval Status" <> "Approval Status"::Approved then
+                                ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
                 end;
             end;
