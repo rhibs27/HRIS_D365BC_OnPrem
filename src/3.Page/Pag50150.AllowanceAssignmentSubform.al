@@ -320,7 +320,7 @@ page 50150 "Allowance Assignment Subform"
         if AllowanceClaim then
             CurrPage.Caption('Allowance Assignment Claim Subform');
 
-        FormEditable := (Rec."Approval Status" = Rec."Approval Status"::open) and (rec."Emp Act Type" = rec."Emp Act Type"::"Allowance Assignment");
+        FormEditable := (Rec."Approval Status" = Rec."Approval Status"::open) and (rec."Emp Act Type" <> rec."Emp Act Type"::"Allowance Assignment claim");
         /*
 
         BaseCalendarChange.RESET;
