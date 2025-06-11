@@ -815,7 +815,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         end else
             Error('Payroll PayCyclePeriod Not found');
         if not ((PayCyclePeriod."Allowance End Date" <= Today) and (Today > PayCyclePeriod."Pay Date" - 1)) then
-            Error('You can Create Allowance claim before %1 and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
+            Error('You can not Create Allowance claim before %1 and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
         Employee.Get(EmpCode);
         AllowanceAssignment.Reset();
         AllowanceAssignment.SetRange("Employee No.", EmpCode);
