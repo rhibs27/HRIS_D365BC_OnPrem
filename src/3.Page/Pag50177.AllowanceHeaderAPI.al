@@ -19,14 +19,19 @@ page 50177 "Allowance Header API"
             repeater(General)
             {
                 field(no; Rec."No.") { }
-                field(type; Rec.Type)
-                { }
+                field(type; Rec.Type) { }
             }
             field(activityType; Rec."Activity Type") { }
             field(employeeNo; Rec."Employee No.")
             {
                 ApplicationArea = All;
             }
+            field(employeeName; Rec."Employee Name")
+            {
+                ApplicationArea = All;
+            }
+
+
             field(code; Rec.Code) { }
             field(name; Rec.Name)
             {
