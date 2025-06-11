@@ -37,6 +37,12 @@ page 50148 "Allowance Assignments"
                     ToolTip = 'Specifies the value of the Name field.';
                     ApplicationArea = All;
                 }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name field.';
+                    ApplicationArea = All;
+                }
+
                 // field("English Month"; Rec."English Month")
                 // {
                 //     ToolTip = 'Specifies the value of the English Month field.';
