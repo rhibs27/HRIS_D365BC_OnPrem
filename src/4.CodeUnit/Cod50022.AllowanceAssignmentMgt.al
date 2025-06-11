@@ -36,12 +36,16 @@ codeunit 50022 "Allowance Assignment Mgt"
         // Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
         ApproverMgt: Codeunit "Approver Mgt";
+        PayrollGenSetup: Record "Payroll General Setup";
     begin
         // if GuiAllowed then
         //     if not Confirm(Confirmation, false) then
         //         exit;
         // if AllowanceAssignment."Approver ID" = '' then
         //     Error('Please select an approver.');
+        PayrollGenSetup.get();
+        PayrollGenSetup.TestField("Vault Key");
+        PayrollGenSetup.TestField("ATM Custodian");
         ApproverMgt.UpdateFirstApproverStatus(AllowanceAssignment."No.");
         AllowanceLineCheck.Copy(AllowanceLine);
         if AllowanceLineCheck.FindFirst then
@@ -50,6 +54,10 @@ codeunit 50022 "Allowance Assignment Mgt"
                 AllowanceLineCheck.TestField("From Date");
                 // AllowanceLineCheck.TestField("To Date");
                 AllowanceLineCheck.TestField("Allowance Type");
+                if AllowanceLineCheck."Allowance Type" in [PayrollGenSetup."Vault Key", PayrollGenSetup."ATM Custodian"] then begin
+                    if AllowanceLineCheck.Panel = AllowanceLineCheck.Panel::" " then
+                        Error('Must select panel for allowance type Atm custodian allowance and Key custodian allowance of line no. %1', AllowanceLineCheck."Line No.");
+                end;
             until AllowanceLineCheck.Next = 0;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         AllowanceAssignment.Modify(true);
@@ -803,12 +811,12 @@ codeunit 50022 "Allowance Assignment Mgt"
         Approval.DeleteAll();
         //for get Nepali month start and end date
         PayCyclePeriod.SetFilter("Allowance Start Date", '<=%1', Today);
-        PayCyclePeriod.SetFilter("Allowance End Date", '>=%1', Today);
+        PayCyclePeriod.SetFilter("Pay Date", '>=%1', Today);
         if PayCyclePeriod.FindFirst() then begin
         end else
             Error('Payroll PayCyclePeriod Not found');
-        if (PayCyclePeriod."Allowance End Date" <= Today) or (Today > PayCyclePeriod."Pay Date" - 1) then
-            Error('You can Create Allowance claim before and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
+        if not ((PayCyclePeriod."Allowance End Date" <= Today) and (Today > PayCyclePeriod."Pay Date" - 1)) then
+            Error('You can Create Allowance claim before %1 and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
         Employee.Get(EmpCode);
         AllowanceAssignment.Reset();
         AllowanceAssignment.SetRange("Employee No.", EmpCode);
@@ -855,8 +863,8 @@ codeunit 50022 "Allowance Assignment Mgt"
         ALlowanceAssignmentLineApproved.SetRange("Employee Code", AllowanceAssignmentHeader."Employee No.");
         ALlowanceAssignmentLineApproved.SetRange("From Date", AllowanceAssignmentHeader."From Date", AllowanceAssignmentHeader."To date");
         ALlowanceAssignmentLineApproved.SetRange("Approval Status", ALlowanceAssignmentLineApproved."Approval Status"::Approved);
-        ALlowanceAssignmentLineApproved.SetFilter("Emp Act Type", '%1|%2', ALlowanceAssignmentLineApproved."Emp Act Type"::" ", ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
-        ALlowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1', ALlowanceAssignmentLineApproved."Substitute Type"::" ");
+        ALlowanceAssignmentLineApproved.SetRange("Emp Act Type", ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
+        ALlowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', ALlowanceAssignmentLineApproved."Substitute Type"::" ", ALlowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
         if ALlowanceAssignmentLineApproved.FindSet() then
             repeat
                 AllowanceAssignmentLineClaim.Init();
@@ -873,7 +881,7 @@ codeunit 50022 "Allowance Assignment Mgt"
                 AllowanceAssignmentLineClaim.Panel := ALlowanceAssignmentLineApproved.Panel;
                 AllowanceAssignmentLineClaim."From Date" := ALlowanceAssignmentLineApproved."From Date";
                 AllowanceAssignmentLineClaim."Approval Status" := ALlowanceAssignmentLineApproved."Approval Status"::Open;
-                AllowanceAssignmentLineClaim."Substitute Type" := ALlowanceAssignmentLineApproved."Substitute Type"::" ";
+                AllowanceAssignmentLineClaim."Substitute Type" := ALlowanceAssignmentLineApproved."Substitute Type";
                 AllowanceAssignmentLineClaim."Allowance Amount" := ALlowanceAssignmentLineApproved."Allowance Amount";
                 AllowanceAssignmentLineClaim.Insert(true);
             until ALlowanceAssignmentLineApproved.Next() = 0;
