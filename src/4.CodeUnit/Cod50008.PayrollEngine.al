@@ -1831,12 +1831,12 @@ codeunit 50008 "Payroll Engine"
             else
                 AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayrollHeader."To Date");
 
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then begin
-                if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
-                    LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
-                else
-                    LatterPresentDays := PayrollHeader."To Date" - PayCyclePeriod."Pay Date" + 1;
-            end;
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::" " then begin
+            if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
+                LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
+            else
+                LatterPresentDays := PayrollHeader."To Date" - PayCyclePeriod."Pay Date";
+            //end;
         end else begin
             EmployeeLedgerEntry.Reset;
             EmployeeLedgerEntry.SetRange("Employee No.", PayrollLine."Employee No.");
@@ -1937,7 +1937,8 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day",
             "Total Days", "Tour Day", "OT Hrs", "OT Days");
         if AttendanceSummary.FindLast then begin
-            PayrollLine.Validate("Present Days", AttendanceSummary."Present Day" + LatterPresentDays);
+            PayrollLine.Validate("Present Days", AttendanceSummary."Present Day");
+            PayrollLine.Validate("Post Payroll Days", LatterPresentDays);
             if LeaveDays > AttendanceSummary."Absent Day" then begin
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + AttendanceSummary."Absent Day");
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;

@@ -887,6 +887,15 @@ table 50027 "Payroll Line"
         field(173; "Post Resignation Days"; Decimal)
         {
         }
+        field(174; "Post Payroll Days"; Decimal)
+        {
+            Description = 'Post Payroll Days';
+            Editable = false;
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+            end;
+        }
     }
 
     keys
@@ -994,7 +1003,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Resignation Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
         //"OT Hrs (30MIN)" := "OT Days" * 30/60;
     end;
 
