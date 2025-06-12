@@ -79,6 +79,11 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Absent Days field.';
                     ApplicationArea = All;
                 }
+                field("Post Payroll Days"; Rec."Post Payroll Days")
+                {
+                    ToolTip = 'Specifies the value of the Post Payroll Days field.';
+                    ApplicationArea = All;
+                }
                 field("Post Resignation Days"; Rec."Post Resignation Days")
                 {
                     ToolTip = 'Specifies the value of Post Resignation Days field.';

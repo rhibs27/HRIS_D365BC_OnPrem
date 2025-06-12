@@ -14153,6 +14153,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field PF No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1351167662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post Payroll Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Post Payroll Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 1385247298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Post Resignation Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -38603,6 +38608,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Payable Tax Liability - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 1351167662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Post Payroll Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Post Payroll Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Control 1385247298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of Post Resignation Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58248,6 +58258,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Gratuity - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 2448833245 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Fare Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Leave Fare Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 519394539 - EnumValue 2179104272 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58262,6 +58277,21 @@
           <source>Medical</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Medical - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 4158938100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Oustation Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Oustation Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 1631060925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Overtime - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 519394539 - EnumValue 2302572933 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remote Area Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Payroll SubType - EnumValue Remote Area Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 519394539 - EnumValue 4277479248 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>RF</source>
