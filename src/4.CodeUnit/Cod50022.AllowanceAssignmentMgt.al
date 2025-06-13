@@ -829,6 +829,8 @@ codeunit 50022 "Allowance Assignment Mgt"
             end else
                 Error('%1 has already open Allowance Assignment Claim %2.', Employee."Full Name", AllowanceAssignment."No.");
         end else begin
+            //Check if allowance claim exist or not 
+            CheckAllowanceApproved(EmpCode);
             AllowanceAssignment2.Init;
             AllowanceAssignment2.Validate("Employee No.", EmpCode);
             AllowanceAssignment2.Validate("Activity Type", AllowanceAssignment2."Activity Type"::"Allowance Assignment Claim");
@@ -843,6 +845,20 @@ codeunit 50022 "Allowance Assignment Mgt"
             if GuiAllowed then
                 PAGE.Run(PAGE::"Allowance Assignment Card", AllowanceAssignment2);
         end;
+    end;
+
+    procedure CheckAllowanceApproved(EmpCode: Code[20])
+    var
+        ALlowanceAssignmentLineApproved: Record "Allowance Assignment Line";
+    begin
+        ALlowanceAssignmentLineApproved.Reset();
+        ALlowanceAssignmentLineApproved.SetRange("Employee Code", EmpCode);
+        ALlowanceAssignmentLineApproved.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
+        ALlowanceAssignmentLineApproved.SetRange("Approval Status", ALlowanceAssignmentLineApproved."Approval Status"::Approved);
+        ALlowanceAssignmentLineApproved.SetRange("Emp Act Type", ALlowanceAssignmentLineApproved."Emp Act Type"::"Allowance Assignment");
+        ALlowanceAssignmentLineApproved.SetFilter("Substitute Type", '%1|%2', ALlowanceAssignmentLineApproved."Substitute Type"::" ", ALlowanceAssignmentLineApproved."Substitute Type"::"Added as Substitute");
+        if ALlowanceAssignmentLineApproved.Count() < 1 then
+            Error('Approved Allowance not found from %1 to %2 Period', PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
     end;
 
     procedure GetAllowanceClaimLine(AllowanceAssignmentCode: Code[20])
