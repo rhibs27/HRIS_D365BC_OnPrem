@@ -212,6 +212,7 @@ codeunit 50004 "Travel Mgt."
         end;
         HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, '', TravelReq."Employee No.", TravelReq."No.", 0);   //For email
         Message('Travel Request has been sent for apporval.');
+        OnAfterApplyTravelRequest(TravelReq."No.");
         exit(true);
     end;
 
@@ -1529,4 +1530,10 @@ codeunit 50004 "Travel Mgt."
     procedure OnBeforeGetLodgingLimit(Var TravelRequest: Record "Travel Request"; SalaryLevel1: Record "Salary Level"; SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterApplyTravelRequest(TravelRequestNo: Code[20])
+    begin
+    end;
+
 }
