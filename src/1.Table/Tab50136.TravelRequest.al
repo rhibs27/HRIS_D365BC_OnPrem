@@ -699,9 +699,9 @@ table 50136 "Travel Request"
                 end;
                 if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
-                clear("Currency Code");
                 //anupam
                 if "Travel Countries" = "Travel Countries"::Nepal then begin
+                    clear("Currency Code");
                     GLSetup.get();
                     if GLSetup."LCY Code" = '' then
                         Error('Local currency in GL setup is empty');
