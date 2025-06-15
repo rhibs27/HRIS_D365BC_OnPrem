@@ -442,6 +442,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
             TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
             TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
+            TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
             OnBeforeGetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled);
             if not IsHandled then
                 GetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
