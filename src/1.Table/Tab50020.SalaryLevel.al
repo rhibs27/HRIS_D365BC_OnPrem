@@ -95,6 +95,9 @@ table 50020 "Salary Level"
         field(40; "Out of Pocket Expense(Other)"; Decimal)
         {
         }
+        field(41; "Leave Fare Allowance"; Decimal)
+        {
+        }
     }
 
     keys

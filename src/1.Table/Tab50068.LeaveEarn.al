@@ -72,6 +72,16 @@ table 50068 "Leave Earn"
             Caption = 'Overtime Date';
             DataClassification = ToBeClassified;
         }
+        field(16; "Payroll Posted"; Boolean)
+        {
+            Caption = 'Payroll Posted';
+            DataClassification = ToBeClassified;
+        }
+        field(17; "Payroll Document No"; Code[20])
+        {
+            Caption = 'Payroll Document No';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

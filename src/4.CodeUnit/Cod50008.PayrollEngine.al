@@ -1935,10 +1935,11 @@ codeunit 50008 "Payroll Engine"
 
         AttendanceSummary.SetRange(Status, AttendanceSummary.Status::Released);
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day",
-            "Total Days", "Tour Day", "OT Hrs", "OT Days");
+            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day");
         if AttendanceSummary.FindLast then begin
             PayrollLine.Validate("Present Days", AttendanceSummary."Present Day");
             PayrollLine.Validate("Post Payroll Days", LatterPresentDays);
+            PayrollLine.Validate("Late Days", AttendanceSummary."Late Check In Day");
             if LeaveDays > AttendanceSummary."Absent Day" then begin
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + AttendanceSummary."Absent Day");
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
@@ -4007,6 +4008,81 @@ codeunit 50008 "Payroll Engine"
             exit((DashainDays + 1) / 183 * TotalGrossSalary);
     end;
 
+
+
+    procedure LoadLeaveFareAllowance(EmpType: Enum "Employee Type"; PayrollDocumentNo: Code[20])
+    var
+        Employee: Record Employee;
+        LeaveEarn: Record "Leave Earn";
+        TotalAnnualLeaveByEmployee: Dictionary of [Code[20], Decimal];
+        TempLeaveCode: Code[20];
+        EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+        EmployeeNo: Code[20];
+        LeaveDays: Decimal;
+    begin
+        LeaveTypeSetup.Reset();
+        LeaveTypeSetup.SetRange("AML Eligible", true);
+        LeaveTypeSetup.SetRange("Leave For Employee Type", EmpType);
+        if not LeaveTypeSetup.FindFirst() then
+            exit;
+        TempLeaveCode := LeaveTypeSetup.Code;
+        PGSetup.Get();
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
+        LeaveEarn.SetRange("Payroll Posted", false);
+        LeaveEarn.SetRange("Leave Code", TempLeaveCode);
+        if LeaveEarn.FindSet() then
+            repeat
+                EmployeeNo := LeaveEarn.EmpNo;
+                LeaveDays := LeaveEarn."Balancing Days";
+                if TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays) then
+                    TotalAnnualLeaveByEmployee.Set(EmployeeNo, LeaveDays + LeaveEarn."Balancing Days")
+                else
+                    TotalAnnualLeaveByEmployee.Add(EmployeeNo, LeaveDays);
+            until LeaveEarn.Next() = 0;
+        foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
+            LeaveTypeSetup.get(TempLeaveCode);
+            if LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
+                EmployeePayrollAdjustment.Init();
+                EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
+                EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
+                EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Leave Fare Allowance");
+                EmployeePayrollAdjustment.Validate(Amount, GetLFAAmount(EmployeeNo, PayrollDocumentNo));
+                OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
+                if EmployeePayrollAdjustment.Amount <> 0 then
+                    EmployeePayrollAdjustment.Insert(true);
+
+            end
+        end;
+    end;
+
+    local procedure GetLFAAmount(EmpNo: Code[20]; PayrollDocNo: Code[20]): Decimal
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        SalaryLevel: Record "Salary Level";
+    begin
+        PGSetup.Get();
+        if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
+            PayrollAttributesUsage.Reset();
+            PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
+            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+            if PayrollAttributesUsage.FindFirst() then
+                exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
+        end
+        else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
+            PayrollLine.Reset();
+            PayrollLine.SetRange("Document No.", PayrollDocNo);
+            PayrollLine.SetRange("Employee No.", EmpNo);
+            if PayrollLine.FindFirst() then begin
+                SalaryLevel.Get(PayrollLine."Salary Level");
+                exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
+            end;
+
+        end;
+
+    end;
+
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
     var
         AttendanceSummary: Record "Attendance Summary";
@@ -4559,5 +4635,13 @@ codeunit 50008 "Payroll Engine"
                     until EmpVar.Next() = 0;
             until PayrollAttr.Next = 0;
     end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")
+    begin
+        // This event can be used to modify EmployeePayrollAdjustment before it is inserted.
+        // You can add custom logic here if needed.
+    end;
+
 
 }

@@ -90,6 +90,16 @@ page 50041 "Payroll Subform"
                     ApplicationArea = All;
                     Visible = IsResignation;
                 }
+                field("Total Days"; Rec."Total Days")
+                {
+                    ToolTip = 'Specifies the value of the Total Days field.';
+                    ApplicationArea = All;
+                }
+                field("Late Days"; Rec."Late Days")
+                {
+                    ToolTip = 'Specifies the value of the Late Days field.';
+                    ApplicationArea = All;
+                }
                 field("Prior Present Days"; Rec."Prior Present Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Present Days field.';
@@ -107,11 +117,7 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Prior Leave Days field.';
                     ApplicationArea = All;
                 }
-                field("Total Days"; Rec."Total Days")
-                {
-                    ToolTip = 'Specifies the value of the Total Days field.';
-                    ApplicationArea = All;
-                }
+
                 field("Prior Absent Days"; Rec."Prior Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Absent Days field.';

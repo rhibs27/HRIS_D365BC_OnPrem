@@ -138,7 +138,8 @@ table 50047 "Attendance Summary"
             CalcFormula = sum("Employee Attendance & Activity"."Late Check In Day" where("Employee No." = field("Employee No."),
                                                                                           "Day Type" = const("Working Day"),
                                                                                           "Attendance Date" = field("Date Filter"),
-                                                                                          "Late Check In Day" = filter(<> 0)));
+                                                                                          "Late Check In Day" = filter(<> 0),
+                                                                                          "Late Deduction" = const(true)));
             Editable = false;
             FieldClass = FlowField;
         }

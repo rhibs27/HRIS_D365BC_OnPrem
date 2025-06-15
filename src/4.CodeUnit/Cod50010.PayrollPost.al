@@ -226,6 +226,7 @@ codeunit 50010 "Payroll-Post"
         PriorTrfAttributeAmount: Decimal;
         UsePayrollAttributeUsageAllocation: Boolean;
         EmployeeActivity: Record "Employee Activity";
+        LeaveEarn: Record "Leave Earn";
     begin
         RecRef.Open(Database::"Payroll Line");
         FieldRef := RecRef.Field(1);
@@ -260,20 +261,19 @@ codeunit 50010 "Payroll-Post"
                     if FieldValue <> 0 then begin
                         PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID);
                         PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
-                        if PayrollAttributes.Code = PGSetup."LFA Alowance" then begin
+                        if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
                             LeaveType.Reset;
                             LeaveType.SetRange("AML Eligible", true);
+                            LeaveType.SetRange("Leave For Employee Type", PayrollLine."Employee Type");
                             LeaveType.FindFirst;
 
-                            EmployeeActivity.Reset;
-                            EmployeeActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-                            EmployeeActivity.SetRange("Leave Code", LeaveType.Code);
-                            EmployeeActivity.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-                            EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-                            EmployeeActivity.SetRange(Cancelled, false);
-                            if EmployeeActivity.FindFirst then begin
-                                EmployeeActivity."LFA Paid" := true;
-                                EmployeeActivity.Modify;
+                            LeaveEarn.Reset;
+                            LeaveEarn.SetRange(EmpNo, PayrollLine."Employee No.");
+                            LeaveEarn.SetRange("Leave Code", LeaveType.Code);
+                            LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                            if LeaveEarn.FindSet() then begin
+                                LeaveEarn.ModifyAll("Payroll Posted", true);
+                                LeaveEarn.ModifyAll("Payroll Document No", PayrollLine."Document No.");
                             end;
                         end;
                         if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::Deduction] then begin
