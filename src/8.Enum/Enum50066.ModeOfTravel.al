@@ -2,9 +2,9 @@ enum 50066 "Mode Of Travel"
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; "By Air")
     {

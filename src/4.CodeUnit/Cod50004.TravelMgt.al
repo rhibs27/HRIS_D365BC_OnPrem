@@ -85,8 +85,9 @@ codeunit 50004 "Travel Mgt."
     var
         TravelRequest: Record "Travel Request";
     begin
-        if TravelRequest.Get(TravelOrderNo) then
-            exit(TravelRequest."Total No. of Days");
+        if TravelOrderNo <> '' then
+            if TravelRequest.Get(TravelOrderNo) then
+                exit(TravelRequest."Total No. of Days");
     end;
 
     procedure ApplyForTravel(var TravelReq: Record "Travel Request"): Boolean
