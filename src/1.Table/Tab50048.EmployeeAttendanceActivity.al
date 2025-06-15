@@ -207,6 +207,10 @@ table 50048 "Employee Attendance & Activity"
             Description = 'allowance assignment';
         }
         field(74; "Attendance Update"; Boolean) { }
+        field(75; "Late Deduction"; Boolean)
+        {
+            Description = 'Late Deduction';
+        }
 
     }
 

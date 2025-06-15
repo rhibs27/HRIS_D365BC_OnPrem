@@ -103,6 +103,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Total Days From field.';
                     ApplicationArea = All;
                 }
+                field("LFA Source"; Rec."LFA Source")
+                {
+                    ToolTip = 'Specifies the value of the LFA Source field.';
+                    ApplicationArea = All;
+                }
                 field("Parking Account No."; Rec."Parking Account No.")
                 {
                     ToolTip = 'Specifies the value of the Parking Account No. field.';
@@ -328,9 +333,9 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Relocation Allowance field.';
                     ApplicationArea = All;
                 }
-                field("LFA Alowance"; Rec."LFA Alowance")
+                field("Leave Fare Allowance"; Rec."Leave Fare Allowance")
                 {
-                    ToolTip = 'Specifies the value of the LFA Alowance field.';
+                    ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
                     ApplicationArea = All;
                 }
                 field("BM Functional Title"; Rec."BM Functional Title")

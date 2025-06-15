@@ -39,7 +39,6 @@ table 50024 "Payroll General Setup"
         }
         field(12; "Tax Calculation Type"; Enum "Tax Calculation Type Time")
         {
-
         }
         field(13; "Late Deduction Component"; Code[20])
         {
@@ -259,7 +258,7 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Functional Title";
         }
-        field(68; "LFA Alowance"; Code[20])
+        field(68; "Leave Fare Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
@@ -452,6 +451,12 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "No. Series";
         }
+        field(139; "LFA Source"; Enum "LFA Source")
+        {
+            Caption = 'LFA Source';
+            Description = 'Source of LFA calculation';
+        }
+
     }
 
     keys

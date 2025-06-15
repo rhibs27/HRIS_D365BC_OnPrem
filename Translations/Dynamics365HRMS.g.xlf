@@ -5583,6 +5583,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Late Day - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 125613877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Late Deduction - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 2452775991 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Late Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10738,6 +10743,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Overtime Request No - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 3716847805 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Document No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Payroll Document No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2977078565 - Field 1551607304 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Payroll Posted - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2977078565 - Field 322225615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posted Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -12863,15 +12878,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Leave Encashment - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3915598104 - Field 3396431889 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>LFA Alowance</source>
+        <trans-unit id="Table 3915598104 - Field 2448833245 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Fare Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field LFA Alowance - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Leave Fare Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 4008226571 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LFA Recover</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field LFA Recover - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 596585762 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>LFA Source</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field LFA Source - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3455824060 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Loan Attribute</source>
@@ -15843,6 +15863,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field PF Posted 2 - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1351167662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post Payroll Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Post Payroll Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1385247298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post Resignation Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Post Resignation Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17507,6 +17537,11 @@
           <source>Leave Balance (Contract Staff)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Leave Balance (Contract Staff) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 2448833245 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Fare Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Leave Fare Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1640361694 - Field 2114300413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Maximum Age</source>
@@ -22788,6 +22823,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Holiday Counter Days - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 644771389 - Control 2166719020 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Day field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Late Day - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 644771389 - Control 1025539169 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25017,6 +25057,11 @@
           <source>Specifies the value of the Late Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Late Day - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 125613877 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Deduction field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Late Deduction - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 2452775991 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
@@ -27767,6 +27812,11 @@
           <source>Executes the Load Dashain Bonus action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Adjustment - Action Load Dashain Bonus - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3935423716 - Action 1697062023 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Load Leave Fare Allowance action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Payroll Adjustment - Action Load Leave Fare Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3104243789 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee Name field.</source>
@@ -36808,6 +36858,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control HRMS Month - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3915598104 - Control 596585762 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the LFA Source field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control LFA Source - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3915598104 - Control 2755427781 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Make Payroll Slip Confidential field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -37083,10 +37138,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Holiday Counter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 3915598104 - Control 3396431889 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the LFA Alowance field.</source>
+        <trans-unit id="Page 3915598104 - Control 2448833245 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Fare Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control LFA Alowance - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll General Setup - Control Leave Fare Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3915598104 - Control 3455824060 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Loan Attribute field.</source>
@@ -38972,6 +39027,11 @@
           <source>Specifies the value of the Health Insurance Premium field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Health Insurance Premium - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 3510584461 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Late Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 194313464 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave Days field.</source>
@@ -43902,6 +43962,11 @@
           <source>Specifies the value of the Leave Balance (Contract Staff) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Leave Balance (Contract Staff) - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 3112895857 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Fare Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control LFA Amount - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 2114300413 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Maximum Age field.</source>
@@ -58082,6 +58147,21 @@
           <source>Second Half</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Type - EnumValue Second Half - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 596585762 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 596585762 - EnumValue 3388074941 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>as per Basic Salary</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue as per Basic Salary - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 596585762 - EnumValue 2807918689 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>as per Salary Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum LFA Source - EnumValue as per Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3673444989 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

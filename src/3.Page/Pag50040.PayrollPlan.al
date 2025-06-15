@@ -377,7 +377,10 @@ page 50040 "Payroll Plan"
                         PayrollAdj.FilterGroup(2);
                         PayrollAdj.SetRange("Payroll Document No.", Rec."No.");
                         PayrollAdj.FilterGroup(0);
-                        Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj);
+                        if Status = Rec.Status::Open then
+                            Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj)
+                        else
+                            Error('Re-Open the document to make adjustments.');
                     end;
                 }
                 action("Export Employee Payroll")

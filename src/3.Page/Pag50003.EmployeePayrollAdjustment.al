@@ -73,6 +73,32 @@ page 50003 "Employee Payroll Adjustment"
                     Message('Dashain bonus calculated successfully.');
                 end;
             }
+            action("Load Leave Fare Allowance")
+            {
+                Image = Holiday;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Load Leave Fare Allowance action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    EmpType: Enum "Employee Type";
+                begin
+                    if not Confirm('Do you want to generate leave fare allowance ?', false) then
+                        exit;
+
+                    EmployeePayrollAdjustment.Reset;
+                    EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
+                    EmployeePayrollAdjustment.DeleteAll;
+
+                    PayrollEngine.LoadLeaveFareAllowance(EmpType::Permanent, PayrollDocNo);
+                    CurrPage.Update(true);
+
+                    Message('Leave fare allowances loaded successfully.');
+                end;
+            }
         }
     }
 
@@ -148,6 +174,7 @@ page 50003 "Employee Payroll Adjustment"
         PayrollEngine: Codeunit "Payroll Engine";
         EmployeeType: Enum "Employee";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+
 
     local procedure ValidatePayrollLineAmt()
     begin

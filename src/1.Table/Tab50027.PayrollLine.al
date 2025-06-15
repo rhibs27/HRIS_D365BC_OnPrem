@@ -1141,7 +1141,10 @@ table 50027 "Payroll Line"
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
         AbsentDeductionAmount := 0;
         BasicSalaryAfterDeduction := GetBasicSalaryAfterDeduction;
-        "Late Rate" := Round("Basic Salary" / 30 / 3, 1, '=');
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            "Late Rate" := Round("Basic Salary" / PGSetup."Total Days" * 12, 1, '=') //For NIMB
+        else
+            "Late Rate" := Round("Basic Salary" / "Total Days", 1, '='); // For base
         Clear(SettlementRecovery);
         Clear(PromotionFound);
         EmpSalAdv.Reset;
