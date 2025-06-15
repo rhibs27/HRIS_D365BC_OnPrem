@@ -292,7 +292,7 @@ page 50108 "Portal Functions"
     procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; type: Text)
     var
         //CancelDocument: Record "Cancel Document";
-        AttendanceMissed: Record "Attendance Missed";
+        AttendanceMissed, AttendanceMissed2 : Record "Attendance Missed";
         Employee: Record Employee;
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         PayrollSetup: Record "Payroll General Setup";
@@ -301,15 +301,24 @@ page 50108 "Portal Functions"
     begin
         EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
-        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
+        // Attendance Missed check 
+        AttendanceMissed2.Reset();
+        AttendanceMissed2.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        AttendanceMissed2.SetRange("Start Date", startDate);
+        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
+        if AttendanceMissed2.FindFirst then
+            Error('%1 already applied on %2', AttendanceMissed2.Type, AttendanceMissed2."Start Date");
+        // Check Already Present
+        if EmployeeAct = AttendanceMissed.Type::"Attendance Missed" then
+            AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
         if EmployeeAct = EmployeeAct::"Attendance Missed" then begin
-            AttendanceMissed.Validate("Check In Time", checkInTime);
-            AttendanceMissed.Validate("Check Out Time", checkOutTime);
             AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed")
         end else if EmployeeAct = EmployeeAct::"Late Attendance" then
                 AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
+        AttendanceMissed.Validate("Check In Time", checkInTime);
+        AttendanceMissed.Validate("Check Out Time", checkOutTime);
         AttendanceMissed.Validate("Requested Date", Today);
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
