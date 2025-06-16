@@ -18328,6 +18328,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Training Master - Field No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4120834124 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim Detail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 1128203313 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Approved Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 2783327635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attribute code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Attribute code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Employee No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line no</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 1364135723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Maximum Eligible Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Maximum Eligible Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 670912456 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Requested Amount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 1522380758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Transfer No - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 621202891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Travel Request</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45293,6 +45333,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Action Update Missed Transfer - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4188855235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim Details Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Claim Details Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4188855235 - Control 1128203313 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approved Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Claim Details Subform - Control Approved Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4188855235 - Control 2783327635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Attribute code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Claim Details Subform - Control Attribute code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4188855235 - Control 1364135723 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Maximum Eligible Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Claim Details Subform - Control Maximum Eligible Amount - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4188855235 - Control 670912456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Requested Amount field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Claim Details Subform - Control Requested Amount - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2598972473 - Control 2999336007 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the BM Accomodation Allow. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55432,6 +55497,11 @@
           <source>Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Transfer Claim - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 1674581342 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Travel Claim</source>

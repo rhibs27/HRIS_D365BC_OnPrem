@@ -95,6 +95,13 @@ page 50136 "Transfer Claim Form"
                     ApplicationArea = All;
                 }
             }
+            //anupam
+            part("transfer claim details attachment"; "Transfer Claim Details Subform")
+            {
+                SubPageLink = "Transfer No" = field("No.");
+                ApplicationArea = All;
+                Editable = IsOpen;
+            }
             part(Attachment; "Attachment Subform")
             {
                 SubPageLink = "No." = field("No.");
