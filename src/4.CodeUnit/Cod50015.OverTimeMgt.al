@@ -585,7 +585,7 @@ codeunit 50015 "OverTime Mgt"
             Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
             Employee.SetRange("Deputation On code", OverTime."Deputation Code");
         end;
-        Employee.SetRange("Staff Type", Employee."Staff Type"::"Non Clerical Staff");
+        Employee.SetRange("Staff level", Employee."Staff level"::"Non Clerical Staff");
         if Employee.FindSet() then
             repeat
                 // Loop through each date in the range

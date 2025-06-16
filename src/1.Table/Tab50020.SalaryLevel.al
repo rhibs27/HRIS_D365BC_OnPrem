@@ -98,6 +98,10 @@ table 50020 "Salary Level"
         field(41; "Leave Fare Allowance"; Decimal)
         {
         }
+        field(42; "Staff Level"; Enum "Staff Type")
+        {
+        }
+
     }
 
     keys
