@@ -459,10 +459,14 @@ tableextension 50013 "Employee Ext" extends Employee
             var
                 SalaryLevel: Record "Salary Level";
             begin
-                if SalaryLevel.Get("Salary Level") then
-                    "Salary Level Description" := SalaryLevel.Description
-                else
-                    "Salary Level Description" := '';
+                if SalaryLevel.Get("Salary Level") then begin
+                    "Salary Level Description" := SalaryLevel.Description;
+                    "Staff Level" := SalaryLevel."Staff Level"
+                end
+                else begin
+                    Clear("Salary Level Description");
+                    Clear("Staff level");
+                end;
             end;
         }
         field(50015; "Salary Grade"; Code[20])
@@ -874,7 +878,7 @@ tableextension 50013 "Employee Ext" extends Employee
         // { DataClassification = CustomerContent; }
         // field(50074; "Approver Name"; Text[50])
         // { DataClassification = CustomerContent; }
-        field(50074; "Staff Type"; Enum "Staff Type")
+        field(50074; "Staff level"; Enum "Staff Type")
         { DataClassification = CustomerContent; }
         field(50075; "Service Period"; Integer)
         { DataClassification = CustomerContent; }

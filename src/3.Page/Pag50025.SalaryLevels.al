@@ -6,6 +6,7 @@ page 50025 "Salary Levels"
     SourceTable = "Salary Level";
     UsageCategory = Lists;
     ApplicationArea = All;
+    Caption = 'Designations';
 
     layout
     {
@@ -35,6 +36,11 @@ page 50025 "Salary Levels"
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';
+                    ApplicationArea = All;
+                }
+                field("Staff Level"; Rec."Staff Level")
+                {
+                    ToolTip = 'Specifies the value of the Staff Level field.';
                     ApplicationArea = All;
                 }
                 field(Rank; Rec.Rank)

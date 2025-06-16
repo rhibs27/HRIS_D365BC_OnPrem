@@ -412,7 +412,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     Caption = 'Job Position';
-                    Editable = false;
+                    Editable = true;
                     ToolTip = 'Specifies the value of the Job Position field.';
 
                 }
@@ -438,7 +438,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Employment Type field.';
 
                 }
-                field("Staff Type"; Rec."Staff Type")
+                field("Staff Type"; Rec."Staff level")
                 {
                     ApplicationArea = All;
                     Editable = true;
