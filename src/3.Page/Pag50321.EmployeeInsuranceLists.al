@@ -59,6 +59,11 @@ page 50321 "Employee Insurance Lists"
                     ToolTip = 'Specifies the value of the Policy Number field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Premium Paid By"; Rec."Premium Paid By")
+                {
+                    ToolTip = 'Specifies the value of the Premium Paid By field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field("Insurance Start Date (AD)"; Rec."Insurance Start Date (AD)")
                 {
                     ToolTip = 'Specifies the value of the Insurance Start Date (AD) field.', Comment = '%';

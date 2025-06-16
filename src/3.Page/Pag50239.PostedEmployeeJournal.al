@@ -40,11 +40,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Fiscal Year field.', Comment = '%';
                 }
-
-                field("Acknowledged Date"; Rec."Acknowledged Date")
-                {
-                    ToolTip = 'Specifies the value of the Acknowledged Date field.', Comment = '%';
-                }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
@@ -53,15 +48,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Approved Date field.', Comment = '%';
                 }
-                field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the BM Accomodation Allow. field.', Comment = '%';
-                }
-                field("BMAF Distance"; Rec."BMAF Distance")
-                {
-                    ToolTip = 'Specifies the value of the BMAF Distance field.', Comment = '%';
-                }
-
                 field(Cancelled; Rec.Cancelled)
                 {
                     ToolTip = 'Specifies the value of the Cancelled field.', Comment = '%';
@@ -156,17 +142,13 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
                 }
-                field("Incoming Supervisior"; Rec."Incoming Supervisior")
+                field("Incoming Supervisor"; Rec."Incoming Supervisor")
                 {
-                    ToolTip = 'Specifies the value of the Incoming Supervisior field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Incoming Supervisor field.', Comment = '%';
                 }
-                field("Incoming Supervisior Name"; Rec."Incoming Supervisior Name")
+                field("Incoming Supervisor Name"; Rec."Incoming Supervisor Name")
                 {
-                    ToolTip = 'Specifies the value of the Incoming Supervisior Name field.', Comment = '%';
-                }
-                field("Is Transfer Details Added"; Rec."Is Transfer Details Added")
-                {
-                    ToolTip = 'Specifies the value of the Is Transfer Details Added field.', Comment = '%';
+                    ToolTip = 'Specifies the value of the Incoming Supervisor Name field.', Comment = '%';
                 }
                 field("Leave Code"; Rec."Leave Code")
                 {
@@ -192,14 +174,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Notify to field.', Comment = '%';
                 }
-                field("Officiating Allow."; Rec."Officiating Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Officiating Allow. field.', Comment = '%';
-                }
-                field("On Hold Date"; Rec."On Hold Date")
-                {
-                    ToolTip = 'Specifies the value of the On Hold Date field.', Comment = '%';
-                }
                 field("Outgoing Branch Rep. Person"; Rec."Outgoing Branch Rep. Person")
                 {
                     ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.', Comment = '%';
@@ -207,14 +181,6 @@ page 50239 "Posted Employee Journal"
                 field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
                 {
                     ToolTip = 'Specifies the value of the Outgoing Reporting Person Name field.', Comment = '%';
-                }
-                field("Outstation Distance"; Rec."Outstation Distance")
-                {
-                    ToolTip = 'Specifies the value of the Outstation Distance field.', Comment = '%';
-                }
-                field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.', Comment = '%';
                 }
                 field("Pay Type"; Rec."Pay Type")
                 {
@@ -240,10 +206,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Reason For Cancel field.', Comment = '%';
                 }
-                field("Reason For Hold"; Rec."Reason For Hold")
-                {
-                    ToolTip = 'Specifies the value of the Reason For Hold field.', Comment = '%';
-                }
                 field("Reason for Transfer"; Rec."Reason for Transfer")
                 {
                     ToolTip = 'Specifies the value of the Reason for Transfer field.', Comment = '%';
@@ -252,21 +214,9 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.', Comment = '%';
                 }
-                field("Relocation Allow."; Rec."Relocation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Relocation Allow. field.', Comment = '%';
-                }
-                field("Relocation Distance"; Rec."Relocation Distance")
-                {
-                    ToolTip = 'Specifies the value of the Relocation Distance field.', Comment = '%';
-                }
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
-                }
-                field("Remote Area Allow."; Rec."Remote Area Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Remote Area Allow. field.', Comment = '%';
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
@@ -304,18 +254,6 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
                 }
-                field("Temporary Address"; Rec."Temporary Address")
-                {
-                    ToolTip = 'Specifies the value of the Temporary Address field.', Comment = '%';
-                }
-                field("Temporary District"; Rec."Temporary District")
-                {
-                    ToolTip = 'Specifies the value of the Temporary District field.', Comment = '%';
-                }
-                field("Temporary Province"; Rec."Temporary Province")
-                {
-                    ToolTip = 'Specifies the value of the Temporary Province field.', Comment = '%';
-                }
                 field("To Branch"; Rec."To Branch")
                 {
                     ToolTip = 'Specifies the value of the To Branch field.', Comment = '%';
@@ -323,10 +261,6 @@ page 50239 "Posted Employee Journal"
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
-                }
-                field("Transfer Claim"; Rec."Transfer Claim")
-                {
-                    ToolTip = 'Specifies the value of the Transfer Claim field.', Comment = '%';
                 }
                 field("Transfer Effective Date"; Rec."Transfer Effective Date")
                 {

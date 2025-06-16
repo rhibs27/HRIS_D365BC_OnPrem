@@ -127,10 +127,10 @@ table 50025 "Payroll Attributes"
         field(29; "Mutually Exclusive"; Boolean)
         {
         }
-        field(30; "GL Code For Branch"; Code[20])
+        field(30; "CBS GL Code"; Code[20])
         {
         }
-        field(31; "GL Code for Region"; Code[20])
+        field(31; "CBS Expense Code"; Code[20])
         {
         }
         field(32; "Tax at once"; Boolean)
@@ -164,6 +164,7 @@ table 50025 "Payroll Attributes"
             end;
         }
         field(38; "Static GL Ledger Account"; Code[10]) { }
+        field(39; "Activity Type"; enum "Employee Activity Type") { }
     }
 
     keys

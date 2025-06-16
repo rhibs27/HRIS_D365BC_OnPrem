@@ -310,7 +310,8 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Transfer Effective Date");
         EmpHrTransfer.TestField("Functional Title (To)");
         EmpHrTransfer.TestField("Deputation On (To)");
-        EmpHrTransfer.TestField(Description);
+        if EmpHrTransfer.Type = EmpHrTransfer.Type::"Employee Transfer" then
+            EmpHrTransfer.TestField(Description);
         EmpHrTransfer.TestField("Transfer Type");
         EmpHrTransfer.TestField("Reason for Transfer");
         EmpHrTransfer.TestField("Incoming Supervisior");

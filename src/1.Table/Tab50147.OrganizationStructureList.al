@@ -95,6 +95,11 @@ table 50147 "Organization Structure List"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(16; "Sol ID"; Code[20])
+        {
+            Caption = 'Sol ID';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {

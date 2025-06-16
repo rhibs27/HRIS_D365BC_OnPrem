@@ -55,6 +55,9 @@ page 50341 "Employee Transfer Entity"
                 field(transferEffectiveDate; Rec."Transfer Effective Date") { }
                 field(cancelled; Rec.Cancelled) { }
                 field(reasonCode; Rec."Reason Code") { }
+
+                field(requestedProvince; Rec."Requested Province") { }
+                field(requestedProvinceName; Rec."Requested Province Name") { }
                 field(reasonDescription; Rec."Reason Description") { }
                 field(reasonForTransfer; Rec."Reason for Transfer") { }
                 field(provinceCode;Rec."Province Code") { }
@@ -71,6 +74,7 @@ page 50341 "Employee Transfer Entity"
             group(Transfer)
             {
                 field(transferType; Rec."Transfer Type") { }
+                // field(transferEffectiveDate;Rec."Transfer Effective Date") { }
                 field(deputationOn; Rec."Deputation On") { }
                 field(extensionCounterCode; Rec."Extension Counter Code") { }
                 field(functionalTitleTo; Rec."Functional Title (To)") { }

@@ -424,6 +424,14 @@ page 50045 "Posted Payroll Plan"
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        if Rec.Type = Rec.Type::Adjustment then begin
+            CurrPage.Caption := 'Posted Adjustment Plan';
+        end;
+        if Rec.Type = Rec.Type::Resignation then
+            CurrPage.Caption := 'Posted Resignation Payroll Plan';
+    end;
 
     var
         PostedPayrollHeaderRec: Record "Posted Payroll Header";

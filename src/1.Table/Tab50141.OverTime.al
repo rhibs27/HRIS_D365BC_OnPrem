@@ -17,7 +17,7 @@ table 50141 OverTime
                         case Type of
 
                             //for OT
-                            Type::Overtime:
+                            Type::Overtime, type::"Overtime Bulk":
                                 begin
                                     NoSeriesMgt.TestManual(HRSetup."OT No.");
                                     "No. Series" := '';
@@ -55,7 +55,7 @@ table 50141 OverTime
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate("Branch Code", EmpVar."Branch Code");
                     Validate(Department, EmpVar."Department Code");
-                    // Validate("Deputation On", EmpVar."Deputation on");
+                    // validate("Deputation Code", EmpVar."Deputation on code");
                     // Validate("Auth. Account No.", EmpVar."Bank Account No.");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
@@ -104,6 +104,7 @@ table 50141 OverTime
             trigger OnValidate()
             var
                 EmployeeAttendance: Record "Employee Attendance & Activity";
+
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
@@ -112,7 +113,7 @@ table 50141 OverTime
                 else
                     Clear("Fiscal Year");
                 if Type <> Type::Overtime then
-                    EmployeeRec.Get("Employee No.");
+                    EmployeeRec.Get(HrMgt.GetEmployeeNo());
                 if "Start Date" <> 0D then begin
                     if "Start Date" < EmployeeRec."Employment Date" then
                         Error('Cannot apply before your employment date');
@@ -123,20 +124,24 @@ table 50141 OverTime
                     Validate("Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Start Date (BS)");
-                EmployeeAttendance.Reset;
-                if EmployeeAttendance.get("Employee No.", "Start Date") then begin
-                    if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
-                        Error('No punch in or punch out found.');
-                    end
-                    else begin
-                        Validate("Check In Time", EmployeeAttendance."Check In Time");
-                        Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                if type = type::Overtime then begin
+                    EmployeeAttendance.Reset;
+                    if EmployeeAttendance.get("Employee No.", "Start Date") then begin
+                        if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
+                            Error('No punch in or punch out found.');
+                        end
+                        else begin
+                            Validate("Check In Time", EmployeeAttendance."Check In Time");
+                            Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                        end;
+                    end else
+                        Error('No Attendance Found on %1', rec."Start Date");
+                    // OverTimeMgt.CheckOvertime(Rec);
+                    if "Start Date" <> xRec."Start Date" then begin
+                        Clear("Overtime Claim Type");
+                        Clear("End Date");
                     end;
-                end else
-                    Error('No Attendance Found on %1', rec."Start Date");
-                OverTimeMgt.CheckOvertime(Rec);
-                if "Start Date" <> xRec."Start Date" then
-                    Clear("Overtime Claim Type");
+                end;
             end;
         }
         field(8; "Check In Time"; Time)
@@ -149,19 +154,26 @@ table 50141 OverTime
             // DataClassification = ToBeClassified;
             Editable = false;
         }
-        // field(8; "End Date"; Date)
-        // {
+        field(22; "End Date"; Date)
+        {
 
-        //     trigger OnValidate()
-        //     begin
-        //         EngNepDate.Reset;
-        //         EngNepDate.SetRange("English Date", "End Date");
-        //         if EngNepDate.FindFirst then
-        //             Validate("End Date (BS)", EngNepDate."Nepali Date")
-        //         else
-        //             Clear("End Date (BS)");
-        //     end;
-        // }
+            trigger OnValidate()
+            begin
+                TestField("Start Date");
+                if "Start Date" > "End date" then
+                    Error('Invalid date.');
+                if "End date" > "Start Date" + 32 then // 32 days is the maximum range for Nepali date conversion
+                    Error('Date range exceed');
+                if Type = Type::"Overtime Bulk" then
+                    CheckForExistingDate();
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "End Date");
+                if EngNepDate.FindFirst then
+                    Validate("End Date (BS)", EngNepDate."Nepali Date")
+                else
+                    Clear("End Date (BS)");
+            end;
+        }
         // field(9; "No. of Days"; Decimal)
         // {
         //     Editable = false;
@@ -182,10 +194,10 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        // field(13; "End Date (BS)"; Text[20])
-        // {
-        //     Editable = false;
-        // }
+        field(26; "End Date (BS)"; Text[20])
+        {
+            Editable = false;
+        }
         field(13; "Branch Code"; Text[20])
         {
             Editable = false;
@@ -204,18 +216,7 @@ table 50141 OverTime
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-
-            trigger OnValidate()
-            begin
-                // if "Approval Status" = "Approval Status"::Screened then begin
-                //     Validate("Screener Date", Today);
-                //     Validate("Screener ID", HRMgt.GetEmployeeNo);
-                // end;
-                // if "Approval Status" = "Approval Status"::"Final Approved & Forwarded to Finance Department" then begin
-                //     Validate("Final Approver Date", Today);
-                //     Validate("Final Approver", HRMgt.GetEmployeeNo);
-                // end;
-            end;
+            Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -350,18 +351,18 @@ table 50141 OverTime
                 AttendanceSetup.Get();
                 AttendanceSetup.TestField("Full Substitute Leave Hrs");
                 AttendanceSetup.TestField("Half Substitute Leave Hrs");
-                if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                OnBeforeOTAmountCalculate(Rec, IsHandled);
+                if not IsHandled then begin
                     OverTimeMgt.CheckOvertime(Rec);
-                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
-                        "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
-                        "Compensatory Days" := 1
-                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
-                        "Compensatory Days" := 0;
-                    Clear("OT Amount");
-                end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
-                    OnBeforeOTAmountCalculate(Rec, IsHandled);
-                    if not IsHandled then
+                    if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
+                        if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
+                            "Compensatory Days" := 0.5
+                        else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
+                            "Compensatory Days" := 1
+                        else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
+                            "Compensatory Days" := 0;
+                        Clear("OT Amount");
+                    end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
                         if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
                             if "Start Date" >= Today then
                                 Error('You cannot apply OverTime in current and future date.');
@@ -370,7 +371,8 @@ table 50141 OverTime
                             // OverTimeMgt.CheckOvertime(Rec);
                             Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
                         end;
-                    Clear("Compensatory Days");
+                        Clear("Compensatory Days");
+                    end;
                 end;
             end;
         }
@@ -403,7 +405,6 @@ table 50141 OverTime
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
             Editable = false;
         }
         field(31; "Unit Code"; Code[20])
@@ -419,12 +420,12 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(34; Ecosystem; Code[20])
-        {
-        }
-        field(35; "Office Code"; Code[20])
-        {
-        }
+        // field(34; Ecosystem; Code[20])
+        // {
+        // }
+        // field(35; "Office Code"; Code[20])
+        // {
+        // }
         field(36; "Rejection Remarks"; Text[100])
         {
         }
@@ -563,6 +564,63 @@ table 50141 OverTime
         {
             Editable = false;
         }
+        field(62; "Deputation Code"; Code[20])
+        {
+            NotBlank = true;
+            TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if ("Deputation Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+
+            trigger OnValidate()
+            begin
+                // CheckLineExist();
+                // GLsetup.Get;
+                Clear("Deputation Name");
+                if not GuiAllowed then begin
+                    Employee.Get(HrMgt.GetEmployeeNo());
+                    "Deputation Code" := Employee."Deputation On Code";
+                end else
+                    Employee.Get("Employee No.");
+                if "Deputation Type" = "Deputation Type"::Branch then begin
+                    if "Deputation Code" <> '' then
+                        TestField("Deputation Code", Employee."Branch Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Deputation Code") then
+                        "Deputation Name" := OrganizationStructureList.Name;
+                end else if "Deputation Type" = "Deputation Type"::"Extension Counter" then begin
+                    if "Deputation Code" <> '' then
+                        // TestField(Code, Employee."Extension Counter Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Deputation Code") then
+                            "Deputation Name" := OrganizationStructureList.Name;
+                end;
+                //GetApprover();
+                // CheckForSameWeek;
+            end;
+        }
+        field(63; "Deputation Name"; Text[100])
+        {
+            Editable = false;
+        }
+        field(64; "Deputation Type"; Enum "Deputation Type")
+        {
+            ValuesAllowed = Branch, Department;
+            trigger OnValidate()
+            begin
+                if "Deputation Type" = "Deputation Type"::Branch then
+                    Validate("Deputation Code", "Branch Code")
+            end;
+        }
+        field(65; "Get Employee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(66; "Calculate Overtime"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(67; Return; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
 
         field(100; Status; text[20])
         {
@@ -584,6 +642,11 @@ table 50141 OverTime
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         HRSetup.Get;
+        if (not GuiAllowed) and (type = Type::"Overtime Bulk") then begin
+            Validate("Employee No.", HrMgt.GetEmployeeNo());
+            Validate("Approval Status", "Approval Status"::Open);
+            Validate("Overtime Claim Type", "Overtime Claim Type"::Encashment);
+        end;
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
@@ -592,7 +655,7 @@ table 50141 OverTime
                 case Type of
 
                     //for overtime
-                    Type::Overtime:
+                    Type::Overtime, type::"Overtime Bulk":
                         begin
                             HRSetup.TestField("OT No.");
                             NoSeriesMgt.InitSeries(HRSetup."OT No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
@@ -614,6 +677,9 @@ table 50141 OverTime
                         end;
                 end;
             end;
+        if not GuiAllowed then
+            if Type = Type::"Overtime Bulk" then
+                CheckForExistingDate();
 
         //InsertAttachmentLines;
     end;
@@ -622,6 +688,7 @@ table 50141 OverTime
     var
         ApprovalEntry: Record "Approval HRMS";
         CannotDelete: Label 'Cannot delete document.';
+        OverTimeLine: Record "Overtime Line";
     begin
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
@@ -630,6 +697,8 @@ table 50141 OverTime
             ApprovalEntry.SetRange("Document No.", "No.");
             ApprovalEntry.SetRange("Employee No", "Employee No.");
             ApprovalEntry.DeleteAll();
+            OverTimeLine.SetRange("No.", "No.");
+            OverTimeLine.DeleteAll();
         end;
     end;
     // local procedure InsertAttendanceMissedAttachment()
@@ -671,44 +740,9 @@ table 50141 OverTime
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
         OverTimeMgt: Codeunit "OverTime Mgt";
-        // HRMgt: Codeunit "HR Mgt.";
-        // LeaveTypeVar: Record "Leave Type Setup";
-        // WorkShift: Record "Employee Work Shift";
-        // SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee/HR Transfer";
-        // SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
-        // INVALID: Label 'Invalid %1';
-        // EmpRelative: Record "Employee Relative";
-        // SystemAccessControl: Record "System Access Control";
-        // AccessControlLine: Record "Access Control Request Line";
-        // ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // DepartVar: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
-        Standardtext: Record "Standard Text";
-        // BranchNameTo: Text;
-        // DepartmentNameTo: Text;
-        // ProvinceNameTo: Text;
-        // SubProvinceNameTo: Text;
-        // ExtensionNameTo: Text;
-        // UnitNameTo: Text;
-        // BranchName: Text;
-        // DepartmentName: Text;
-        // ProvinceName: Text;
-        // SubProvinceName: Text;
-        // ExtensionName: Text;
-        // UnitName: Text;
-        // Overtime: Record OverTime;
-        // FunctionalTitle: Record "Functional Title";
-        // FunctionalDescFrom: Text;
-        // FunctionalDescTo: Text;
-        // EmpAttendanceActivity: Record "Employee Attendance & Activity";
-        // LeaveError: Label 'You cannot apply leave in Present day %1.';
-        // EmpActivityRec: Record "Employee Activity";
-        // Text001: Label 'You cannot apply Transfer of Effective Date less than %1.';
         Text002: Label 'Compensatory leave has been restricted in HRMS.';
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         PayrollGenSetup: Record "Payroll General Setup";
@@ -717,41 +751,27 @@ table 50141 OverTime
         ApproverMgt: Codeunit "Approver Mgt";
         IsHandled: Boolean;
         AttendanceSetup: Record "Attendance Setup";
-    //EncashmentPeriodSetup: Record "OT Encashment Setup";
-    //Error1: Label 'Cannot apply before your employment date.';
+        HrMgt: Codeunit "HR Mgt.";
+        OrganizationStructureList: Record "Organization Structure List";
+        Employee: Record Employee;
 
-    // procedure ReopenDocument()
-    // var
-    //     EmpActFilterPageBuilder: FilterPageBuilder;
-    //     RecommenderCode: Code[20];
-    //     ApproverCode: Code[20];
-    // begin
-    //     if "Approval Status" in ["Approval Status"::Approved, "Approval Status"::Open] then
-    //         Error('You cannot change Recommender and Approver of already open or approved request.');
-
-    //     if not Confirm('Do you want to change Recommender and Approver of this request ?', false) then
-    //         exit;
-
-    //     EmpActFilterPageBuilder.AddRecord('Employee Activity', Rec);
-    //     EmpActFilterPageBuilder.ADdField('Employee Activity', "Recommender Code");
-    //     EmpActFilterPageBuilder.ADdField('Employee Activity', "Approver Code");
-    //     EmpActFilterPageBuilder.RunModal;
-    //     Overtime.SetView(EmpActFilterPageBuilder.GetView('Employee Activity'));
-    //     RecommenderCode := Overtime.GetFilter("Recommender Code");
-    //     ApproverCode := Overtime.GetFilter("Approver Code");
-
-    //     if (RecommenderCode = '') and (ApproverCode = '') then
-    //         Error('Please select either recommender or approver of the request.');
-
-    //     if RecommenderCode <> '' then begin
-    //         TestField("Approver Type", "Approver Type"::"With Recommendation");
-    //         Validate("Recommender Code", RecommenderCode);
-    //     end;
-    //     if ApproverCode <> '' then
-    //         Validate("Approver Code", ApproverCode);
-    //     Modify;
-
-    //     Message('The request has been update sucessfully.');
-    // end;
-
+    procedure CheckForExistingDate()
+    var
+        overtime1: Record OverTime;
+    begin
+        OverTime1.Reset;
+        if GuiAllowed then
+            OverTime1.SetFilter("No.", '<>%1', "No.");
+        overtime1.SetRange(Type, overtime1.Type::"Overtime Bulk");
+        OverTime1.SetRange("Fiscal Year", "Fiscal Year");
+        OverTime1.SetRange("Deputation Type", "Deputation Type");
+        if "Deputation Type" = "Deputation Type"::Branch then
+            OverTime1.SetRange("Deputation Code", "Deputation Code");
+        OverTime1.SetFilter("Approval Status", '<>%1&<>%2', OverTime1."Approval Status"::Rejected, overtime1."Approval Status"::Canceled);
+        if OverTime1.Findset then
+            repeat
+                if ("Start Date" <= OverTime1."End date") and ("End date" >= OverTime1."Start Date") then
+                    Error('Overtime for this period %1 and %2 is already been assigned in %3.', OverTime1."Start Date", OverTime1."End Date", OverTime1."No.");
+            until OverTime1.Next() = 0;
+    end;
 }

@@ -96,11 +96,11 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                PayrollGeneralSetup.Get;
-                PayrollGeneralSetup.TestField("Vault Key");
-                if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
-                    if Panel = Panel::" " then
-                        Error('Please select panel.');
+                // PayrollGeneralSetup.Get;
+                // PayrollGeneralSetup.TestField("Vault Key");
+                // if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
+                //     if Panel = Panel::" " then
+                //         Error('Please select panel.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
@@ -196,6 +196,12 @@ table 50093 "Allowance Assignment Line"
         }
         field(25; "Rejection Remarks"; Text[100]) { }
         field(26; Week; Enum WeekNumber)
+        {
+        }
+        field(27; "Emp Act Type"; Enum "Employee Activity Type")
+        {
+        }
+        field(28; "Allowance Claim From"; Code[20])
         {
         }
     }

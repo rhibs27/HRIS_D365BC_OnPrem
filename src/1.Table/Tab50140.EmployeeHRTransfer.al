@@ -669,15 +669,16 @@ table 50140 "Employee/HR Transfer"
 
             trigger OnValidate()
             begin
+                if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
+                    EmployeeRec.Get("Outgoing Branch Rep. Person");
+                    "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
+                    // if SalaryLevel.Get("Salary Level Code") then;
+                    // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+                    // if SalaryLevel.Rank >= SalaryLevel1.Rank then
+                    //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
+                end;
                 if "Outgoing Branch Rep. Person" = "Employee No." then
                     Error('Cannot Select Yourself as Outgoing Reporting person');
-                // if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
-                //     EmployeeRec.Get("Outgoing Branch Rep. Person");
-                //     if SalaryLevel.Get("Salary Level Code") then;
-                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //         Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                // end;
             end;
         }
         // field(78; "Transfer Claim Reviewer"; Code[20])
@@ -699,10 +700,10 @@ table 50140 "Employee/HR Transfer"
         // }
         field(81; "Outgoing Reporting Person Name"; Text[100])
         {
-            CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
+            // CalcFormula = Lookup(Employee."Full Name" WHERE("No." = FIELD("Outgoing Branch Rep. Person")));
             Description = 'Transfer';
             Editable = false;
-            FieldClass = FlowField;
+            // FieldClass = FlowField;
         }
         // field(82; Reviewer; Code[20])
         // {
@@ -868,6 +869,26 @@ table 50140 "Employee/HR Transfer"
                 Clear("Province Name To");
                 ValidateDeputationOnTo();
             end;
+        }
+        field(200; "Requested Province"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            trigger OnValidate()
+            begin
+                if "Requested Province" <> xRec."Requested Province" then begin
+                    Clear("Requested Province Name");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Requested Province") then
+                        Validate("Requested Province Name", OrganizationStructureList.Name)
+                    else
+                        Clear("Requested Province Name");
+                end;
+            end;
+        }
+        field(201; "Requested Province Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
         }
     }
     keys

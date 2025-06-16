@@ -53,6 +53,12 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Salary Grade field.';
                     ApplicationArea = All;
                 }
+                field("Resignation Date"; Rec."Resignation Date")
+                {
+                    ToolTip = 'Specifies the value of the Resignation Date field.';
+                    ApplicationArea = All;
+                    Visible = IsResignation;
+                }
                 field("Present Days"; Rec."Present Days")
                 {
                     ToolTip = 'Specifies the value of the Present Days field.';
@@ -73,6 +79,27 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Absent Days field.';
                     ApplicationArea = All;
                 }
+                field("Post Payroll Days"; Rec."Post Payroll Days")
+                {
+                    ToolTip = 'Specifies the value of the Post Payroll Days field.';
+                    ApplicationArea = All;
+                }
+                field("Post Resignation Days"; Rec."Post Resignation Days")
+                {
+                    ToolTip = 'Specifies the value of Post Resignation Days field.';
+                    ApplicationArea = All;
+                    Visible = IsResignation;
+                }
+                field("Total Days"; Rec."Total Days")
+                {
+                    ToolTip = 'Specifies the value of the Total Days field.';
+                    ApplicationArea = All;
+                }
+                field("Late Days"; Rec."Late Days")
+                {
+                    ToolTip = 'Specifies the value of the Late Days field.';
+                    ApplicationArea = All;
+                }
                 field("Prior Present Days"; Rec."Prior Present Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Present Days field.';
@@ -90,11 +117,7 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Prior Leave Days field.';
                     ApplicationArea = All;
                 }
-                field("Total Days"; Rec."Total Days")
-                {
-                    ToolTip = 'Specifies the value of the Total Days field.';
-                    ApplicationArea = All;
-                }
+
                 field("Prior Absent Days"; Rec."Prior Absent Days")
                 {
                     ToolTip = 'Specifies the value of the Prior Absent Days field.';
@@ -872,6 +895,11 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the 36% Slab field.';
                     ApplicationArea = All;
                 }
+                field("39% Slab"; Rec."39% Slab")
+                {
+                    ToolTip = 'Specifies the value of the 40% Slab field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
@@ -960,8 +988,11 @@ page 50041 "Payroll Subform"
     trigger OnAfterGetRecord()
     begin
         PayrollHeader.Get(Rec."Document No.");
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
             SettlementVisible := true;
+        IsResignation := false;
+        if PayrollHeader."Type" = PayrollHeader."Type"::Resignation then
+            IsResignation := true;
     end;
 
     trigger OnOpenPage()
@@ -1033,6 +1064,8 @@ page 50041 "Payroll Subform"
         [InDataSet]
         SettlementVisible: Boolean;
         PayrollHeader: Record "Payroll Header";
+        IsResignation: Boolean;
+
 
     local procedure InitColumnVisibility()
     begin
@@ -1094,3 +1127,4 @@ page 50041 "Payroll Subform"
         TimeSheetVisible := PayrollEngine.IsTimeSheetEnabled;
     end;
 }
+

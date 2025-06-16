@@ -53,6 +53,9 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterCode; "Extension Counter Code") { }
             column(unitName; "Unit Name") { }
             column(extensionCounterName; "Extension Counter Name") { }
+
+            column(requestedPRovince; "Requested Province") { }
+            column(requestedProvinceName; "Requested Province Name") { }
             // propose
             // column(shortcutDimension1CodeTo; "Shortcut Dimension 1 Code (To)") { }
             column(approverRoleTo; "Approver Role To")
@@ -71,7 +74,7 @@ query 50022 "Outgoing Transfer Query"
             column(extensionCounterTo; "Extension Counter (To)") { }
             column(extensionNameTo; "Extension Name To") { }
             column(deputationOnTo; "Deputation On (To)") { }
-            column(proposedTransferDate; "Transfer Effective Date") { }
+            column(transferEffectiveDate; "Transfer Effective Date") { }
             column(incomingSupervisior; "Incoming Supervisior") { }
             column(incomingSupervisiorName; "Incoming Supervisior Name") { }
             column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person") { }

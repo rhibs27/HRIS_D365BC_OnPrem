@@ -95,6 +95,16 @@ page 50110 "Transfer Request Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Requested Province"; Rec."Requested Province")
+                {
+                    ToolTip = 'Specifies the value of the Transfer To Province field.';
+                    ApplicationArea = All;
+                }
+                field("Requested Province Name"; Rec."Requested Province Name")
+                {
+                    ToolTip = 'Specifies the value of the Transfer To Province Name field.';
+                    ApplicationArea = All;
+                }
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

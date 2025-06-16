@@ -191,6 +191,9 @@ table 50048 "Employee Attendance & Activity"
         field(53; "Training Day"; Decimal) { }
 
         field(54; "Training Check Out Time"; Time) { }
+
+        //transfer field in attendance line upto feild 54
+
         field(71; "Head Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
@@ -202,6 +205,11 @@ table 50048 "Employee Attendance & Activity"
         field(73; "ATM Custodian Allowance days"; Decimal)
         {
             Description = 'allowance assignment';
+        }
+        field(74; "Attendance Update"; Boolean) { }
+        field(75; "Late Deduction"; Boolean)
+        {
+            Description = 'Late Deduction';
         }
 
     }

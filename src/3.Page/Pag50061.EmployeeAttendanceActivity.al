@@ -63,6 +63,12 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Employee Working Shift field.';
                     ApplicationArea = All;
                 }
+                field("Late Deduction"; Rec."Late Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Late Deduction field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Shift Start Time"; Rec."Shift Start Time")
                 {
                     ToolTip = 'Specifies the value of the Shift Start Time field.';

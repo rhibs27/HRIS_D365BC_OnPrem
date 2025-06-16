@@ -269,6 +269,7 @@ page 50164 "Attachment Subform"
         // Open the file and read it into an InStream
         File.OPEN(FilePath);
         File.CREATEINSTREAM(InStream);
+        AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
         exit(Base64.ToBase64(instream, false));
     end;
 

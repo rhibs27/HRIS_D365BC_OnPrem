@@ -438,6 +438,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Employment Type field.';
 
                 }
+                field("Staff Type"; Rec."Staff Type")
+                {
+                    ApplicationArea = All;
+                    Editable = true;
+                    ToolTip = 'Specifies the value of the Staff Type field.';
+                }
                 field("Probation Period"; Rec."Probation Period")
                 {
                     ApplicationArea = All;
@@ -1267,6 +1273,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceRequest(Rec."No.");
                     end;
                 }
+                action("Allowance Assignment Claim")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Allowance Assignment Claim action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
+                    end;
+                }
                 action("Request Attendance Missed")
                 {
                     ApplicationArea = All;
@@ -1309,7 +1329,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE
                     end;
                 }
-                action("Medical insurance")
+                action("Medical insurance Claim")
                 {
                     ApplicationArea = All;
                     Promoted = true;
@@ -1320,7 +1340,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Medical insurance action.';
                     trigger OnAction()
                     begin
-                        MedicalInsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
+                        InsuranceMgt.OpenMedicalInsurancePage(Rec."No.");
                     end;
                 }
                 action("Employee Insurance")
@@ -1331,10 +1351,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = List;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Medical insurance action.';
+                    ToolTip = 'Executes the insurance action.';
                     trigger OnAction()
                     begin
-                        //                        MedicalInsuranceMgt.OpenEmployeeInsurance(Rec."No.");
+                        InsuranceMgt.OpenEmployeeInsurance(Rec."No.");
                     end;
                 }
                 action("Bulk Cash")
@@ -1364,6 +1384,23 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         Rec.OTRequest;
+                        CurrPage.CLOSE;
+                    end;
+                }
+                action("OT Bulk")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = PhysicalInventory;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the OT Form action.';
+                    trigger OnAction()
+                    var
+                        OvertimeMgt: Codeunit "OverTime Mgt";
+                    begin
+                        OvertimeMgt.OpenOTBulk(Rec."No.");
                         CurrPage.CLOSE;
                     end;
                 }
@@ -2044,7 +2081,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
-        MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        InsuranceMgt: Codeunit "Insurance Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;

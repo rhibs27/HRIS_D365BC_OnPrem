@@ -192,13 +192,21 @@ table 50092 "Allowance Assignment Header"
             var
                 Employee: Record Employee;
             begin
-                Employee.Get("Employee No.");
-                "Branch Code" := Employee."Branch Code";
+                if Employee.Get("Employee No.") then begin
+                    "Branch Code" := Employee."Branch Code";
+                    "Employee Name" := Employee."Full Name";
+                end;
+
+
             end;
         }
         field(22; "Branch Code"; Code[20])
         {
             Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        field(24; "Employee Name"; Text[100])
+        {
             DataClassification = ToBeClassified;
         }
         field(37; "Approved Date"; Date)
@@ -253,7 +261,7 @@ table 50092 "Allowance Assignment Header"
         if "No." = '' then
             case "Activity Type" of
                 //for AllowanceAssignment
-                "Activity Type"::"Allowance Assignment":
+                "Activity Type"::"Allowance Assignment", "Activity Type"::"Allowance Assignment Claim":
                     begin
                         HRSetup.TestField("Allowance Assignment Series");
                         NoSeriesMgt.InitSeries(HRSetup."Allowance Assignment Series", xRec."No. Series", "Created Date", "No.", "No. Series");
@@ -402,7 +410,13 @@ table 50092 "Allowance Assignment Header"
         AllowanceHeader.Reset;
         AllowanceHeader.SetFilter("No.", '<>%1', "No.");
         AllowanceHeader.SetRange("Fiscal Year", "Fiscal Year");
-        AllowanceHeader.SetRange(Code, Code);
+        if "Activity Type" = "Activity Type"::"Allowance Assignment" then begin
+            AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment");
+            AllowanceHeader.SetRange(Code, Code);
+        end else if "Activity Type" = "Activity Type"::"Allowance Assignment Claim" then begin
+            AllowanceHeader.SetRange("Activity Type", AllowanceHeader."Activity Type"::"Allowance Assignment Claim");
+            AllowanceHeader.SetRange("Employee No.", "Employee No.")
+        end;
         AllowanceHeader.SetFilter("Approval Status", '<>%1', AllowanceHeader."Approval Status"::Rejected);
         if AllowanceHeader.Findset then
             repeat

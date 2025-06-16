@@ -58,11 +58,11 @@ page 50226 "Posted Transfer Order"
                 {
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
                 }
-                field("Incoming Supervisior"; Rec."Incoming Supervisior")
+                field("Incoming Supervisior"; Rec."Incoming Supervisor")
                 {
                     ToolTip = 'Specifies the value of the Incoming Supervisior field.', Comment = '%';
                 }
-                field("Incoming Supervisior Name"; Rec."Incoming Supervisior Name")
+                field("Incoming Supervisior Name"; Rec."Incoming Supervisor Name")
                 {
                     ToolTip = 'Specifies the value of the Incoming Supervisior Name field.', Comment = '%';
                 }

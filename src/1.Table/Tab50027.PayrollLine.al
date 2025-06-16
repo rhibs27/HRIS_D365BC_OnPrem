@@ -25,7 +25,7 @@ table 50027 "Payroll Line"
                 Employee.TestField("Salary Level");
                 Employee.TestField("Employment Date");
                 Employee.TestField(Settled, false);
-                if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+                if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
                     Employee.TestField(Status, Employee.Status::Active);
                 Employee.TestField("Tax Code");
                 //Employee.TESTFIELD("Employee Designation"); UTS commented
@@ -69,7 +69,7 @@ table 50027 "Payroll Line"
                 "Bank Name" := Employee."Bank Name";
                 //ValidateShortcutDimCode(GetDimensionNo(HRSetup."Employee Dimension"),DefaultDimension."Dimension Value Code");
 
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                     ValidateSettlementFields;
                 PayrollLine.Reset;
                 PayrollLine.SetRange("Document No.", "Document No.");
@@ -881,6 +881,21 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
+        field(172; "39% Slab"; Decimal)
+        {
+        }
+        field(173; "Post Resignation Days"; Decimal)
+        {
+        }
+        field(174; "Post Payroll Days"; Decimal)
+        {
+            Description = 'Post Payroll Days';
+            Editable = false;
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+            end;
+        }
     }
 
     keys
@@ -925,7 +940,11 @@ table 50027 "Payroll Line"
         CheckDuplicateEmployee;
         PGSetup.Get;
         AttendanceSetup.Get;
-
+        Employee.Get("Employee No.");
+        if Type = Type::Resignation then begin
+            Employee.TestField("Resignation Date");
+            Validate("Resignation Date", Employee."Resignation Date");
+        end;
         if AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::Attendance then begin
             PayrollEngine.GetAttendanceForPayroll(Rec, PayrollHeader);
         end
@@ -984,7 +1003,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
         //"OT Hrs (30MIN)" := "OT Days" * 30/60;
     end;
 
@@ -1019,7 +1038,7 @@ table 50027 "Payroll Line"
         PayPeriodDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
         PayPeriodHours := PayPeriodDays * AttendanceSetup."Working Hour per day";
 
-        if not (PayrollHeader.Irregular or (PayrollHeader.Type = PayrollHeader.Type::Resignation)) then begin
+        if not (PayrollHeader.Irregular or (PayrollHeader.Type = PayrollHeader.Type::Settlement)) then begin
             if PayPeriodDays <> "Total Days" then
                 Error(Text000, PayPeriodDays, "Employee No.");
         end;
@@ -1036,9 +1055,10 @@ table 50027 "Payroll Line"
         Employee.TestField("Salary Grade");
         Employee.TestField("Salary Level");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
+        Employee.TestField("Bank Account No.");
         HRSetup.Get;
         //HRSetup.TESTFIELD("Employee Dimension");
         HRSetup.TestField("Base Interest Rate");
@@ -1121,7 +1141,10 @@ table 50027 "Payroll Line"
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
         AbsentDeductionAmount := 0;
         BasicSalaryAfterDeduction := GetBasicSalaryAfterDeduction;
-        "Late Rate" := Round("Basic Salary" / 30 / 3, 1, '=');
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            "Late Rate" := Round("Basic Salary" / PGSetup."Total Days" * 12, 1, '=') //For NIMB
+        else
+            "Late Rate" := Round("Basic Salary" / "Total Days", 1, '='); // For base
         Clear(SettlementRecovery);
         Clear(PromotionFound);
         EmpSalAdv.Reset;
@@ -1272,7 +1295,7 @@ table 50027 "Payroll Line"
             end;
         end;
         //AT <<
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
             if PGSetup."Settlement Recovery" <> '' then begin
                 if PayrollAttributes.Get(PGSetup."Settlement Recovery") then begin
                     RoundAmount(SettlementRecovery);
@@ -1554,7 +1577,7 @@ table 50027 "Payroll Line"
             TotalDaysInMonth := PGSetup."Total Days" / 12
         else
             TotalDaysInMonth := "Total Days";
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+        if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
             if not PayrollHeader.Irregular then begin
                 // if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
@@ -1764,7 +1787,7 @@ table 50027 "Payroll Line"
                         AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
                     END;*/
                     RoundAmount(AttributeAmount);
-                    if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                         DeductForRecovery(AttributeAmount);
                     if (not PayrollHeader.Irregular) then
                         SaveValues(AttributeAmount, PayrollAttributes.Code);
@@ -1834,7 +1857,7 @@ table 50027 "Payroll Line"
             Error('Resignation not approved yet.');
 
         PostedPayrollHeader.Reset;
-        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Resignation);
+        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Settlement);
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollline.Reset;

@@ -134,7 +134,7 @@ page 50108 "Portal Functions"
     // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure getEmployeeApproval(empActType: Code[20]): text
+    procedure getEmployeeApproval(empActType: Code[30]): text
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -150,39 +150,9 @@ page 50108 "Portal Functions"
         Clear(ApprovalRole);
         EmpRequest.Reset();
         EmpRequest.Get(HrMgt.GetEmployeeNo());
-        ApprovalSetupLine.Reset();
-        // Get the Approval according to Activity type  << Santosh << 11-3-25
-        CASE EmpActType OF
-            FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
-            FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
-            FORMAT(ApprovalSetupLine."Request Type"::Loan):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Loan);
-            FORMAT(ApprovalSetupLine."Request Type"::"Attendance Missed"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Attendance Missed");
-            FORMAT(ApprovalSetupLine."Request Type"::"Late Attendance"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Late Attendance");
-            FORMAT(ApprovalSetupLine."Request Type"::"Employee Transfer"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Transfer");
-            FORMAT(ApprovalSetupLine."Request Type"::OverTime):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::OverTime);
-            FORMAT(ApprovalSetupLine."Request Type"::"Transfer Claim"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Transfer Claim");
-            FORMAT(ApprovalSetupLine."Request Type"::Resignation):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Resignation);
-            FORMAT(ApprovalSetupLine."Request Type"::"Employee Edit"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Employee Edit");
-            FORMAT(ApprovalSetupLine."Request Type"::"Allowance Assignment"):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Allowance Assignment");
-            FORMAT(ApprovalSetupLine."Request Type"::Insurance):
-                ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::Insurance);
-            else
-                Error('Approval Setup Not found');
-        END;
         // Get approval from employee table based on deputation type and approval role << santosh>> 11-3-25
+        ApprovalSetupLine.Reset();
+        ApprovalSetupLine.Setfilter("Request Type", EmpActType);
         ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         if ApprovalSetupLine.Findset() then
@@ -203,7 +173,9 @@ page 50108 "Portal Functions"
                     ApproverName += Employee."Full Name" + '/';
                     ApprovalRole += ApprovalSetupLine."Approval Role" + '/';
                 end;
-            until ApprovalSetupLine.Next() = 0;
+            until ApprovalSetupLine.Next() = 0
+        else
+            Error('Approval Setup Not found');
         exit('{' + '"approvalCode" : "' + (Format(ApprovalCode)) + '",' +
                 '"approvalRole" : "' + (Format(ApprovalRole)) + '",' +
                 '"approverName" : "' + (Format(ApproverName)) + '"}');
@@ -320,7 +292,7 @@ page 50108 "Portal Functions"
     procedure submitAttendanceMissed(startDate: Date; checkInTime: Time; checkOutTime: time; remarks: Text; reasonCode: Code[20]; type: Text)
     var
         //CancelDocument: Record "Cancel Document";
-        AttendanceMissed: Record "Attendance Missed";
+        AttendanceMissed, AttendanceMissed2 : Record "Attendance Missed";
         Employee: Record Employee;
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         PayrollSetup: Record "Payroll General Setup";
@@ -329,15 +301,24 @@ page 50108 "Portal Functions"
     begin
         EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
-        AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
+        // Attendance Missed check 
+        AttendanceMissed2.Reset();
+        AttendanceMissed2.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        AttendanceMissed2.SetRange("Start Date", startDate);
+        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
+        if AttendanceMissed2.FindFirst then
+            Error('%1 already applied on %2', AttendanceMissed2.Type, AttendanceMissed2."Start Date");
+        // Check Already Present
+        if EmployeeAct = AttendanceMissed.Type::"Attendance Missed" then
+            AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
         AttendanceMissed.Init;
         AttendanceMissed.Validate("Employee No.", HrMgt.GetEmployeeNo());
         if EmployeeAct = EmployeeAct::"Attendance Missed" then begin
-            AttendanceMissed.Validate("Check In Time", checkInTime);
-            AttendanceMissed.Validate("Check Out Time", checkOutTime);
             AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed")
         end else if EmployeeAct = EmployeeAct::"Late Attendance" then
                 AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
+        AttendanceMissed.Validate("Check In Time", checkInTime);
+        AttendanceMissed.Validate("Check Out Time", checkOutTime);
         AttendanceMissed.Validate("Requested Date", Today);
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
@@ -763,17 +744,6 @@ page 50108 "Portal Functions"
             Error('Attachment not available for this Document');
         JsonArray.WriteTo(JsonText);
         exit(JsonText);
-        // exit('{' +
-        // '"attachmentCode" : "' + DelChr(Format(TempIncomingDoc."Attachment Code"), '=', ',') + '",' +
-        //   '"ShowDelete" :"' + DelChr(Format('false'), '=', ',') + '",' +
-        //   '"ShowDownload" : "' + DelChr(Format('true'), '=', ',') + '",' +
-        //   '"ShowUpload" : "' + DelChr(Format('false'), '=', ',') + '",' +
-        // '"empActivityType" : "' + DelChr(Format(TempIncomingDoc."Employee Activity Type"), '=', ',') + '",' +
-        // '"empCode" : "' + DelChr(Format(TempIncomingDoc."Employee Code"), '=', ',') + '",' +
-        // '"entryNo" : "' + DelChr(Format(TempIncomingDoc."Entry No."), '=', ',') + '",' +
-        // '"fileName" : "' + DelChr(Format(Filename), '=', ',') + '",' +
-        // '"leaveCode" : "' + DelChr(Format(TempIncomingDoc."Leave Type Code"), '=', ',') + '",' +
-        // '"number" : "' + DelChr(Format(TempIncomingDoc."No."), '=', '{}') + '"}');
     end;
 
     [ServiceEnabled]
@@ -2099,6 +2069,35 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
+    procedure createAllowanceClaim()
+    var
+    begin
+        AllowanceMgt.OpenAllowanceClaimRequest(HrMgt.GetEmployeeNo());
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure rejectAllowanceClaim(allowanceAssignNo: Code[20]; lineNo: Integer)
+    var
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        ApproverHrms: Record "Approval HRMS";
+    begin
+        AllowanceAssignmentLine.Get(allowanceAssignNo, LineNo);
+        ApproverHrms.Reset();
+        ApproverHrms.SetRange("Document No.", allowanceAssignNo);
+        ApproverHrms.SetRange("Approval Status", ApproverHrms."Approval Status"::Open);
+        ApproverHrms.FindFirst();
+        if ApproverHrms."Approver No" = HrMgt.GetEmployeeNo() then begin
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
+            AllowanceAssignmentLine.Modify();
+        end
+        else
+            Error('You are not allowed To reject.');
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
     procedure sendAllowanceForApproval(no: Code[20])
     var
         AllowanceLine: Record "Allowance Assignment Line";
@@ -2134,7 +2133,8 @@ page 50108 "Portal Functions"
                 if rejectionRemarks = '' then
                     Error('Rejection Remarks is empty');
                 AllowanceAssignment.Validate("Rejection Remarks", rejectionRemarks);
-                AllowanceAssignment.Return := true;
+                if AllowanceAssignment."Activity Type" = AllowanceAssignment."Activity Type"::"Allowance Assignment" then
+                    AllowanceAssignment.Return := true;
                 AllowanceAssignment.Modify;
             end;
         RecRef.GetTable(AllowanceAssignment);
@@ -2318,7 +2318,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]): Integer
+    procedure submitOvertime(OTDate: Date; reasonforOT: Text; actualOTHrs: Decimal; morningOTHrs: Decimal; eveningOTHrs: Decimal; OTAmount: Decimal; overTimeClaimType: text; encashmentCode: Code[20]; totalOTHrs: Decimal): Integer
     var
         // TempEmpAct: Record "Employee Activity" temporary;
         Overtime: Record OverTime temporary;
@@ -2337,7 +2337,7 @@ page 50108 "Portal Functions"
         Overtime.Validate("Start Date", OTDate);
         Overtime.Validate("Encashment Code", encashmentCode); //Min 11.29.2022
         Overtime.Validate("Overtime Claim Type", OverTimeType);
-        Overtime.Validate("Total OT Hours", actualOTHrs);
+        Overtime.Validate("Total OT Hours", totalOTHrs);
         Overtime.Validate("Actual OT Hours", actualOTHrs);
         Overtime.Validate("Morning OT Hours", morningOThrs);
         Overtime.Validate("Evening OT Hours", eveningOTHrs);
@@ -2351,24 +2351,35 @@ page 50108 "Portal Functions"
             exit(200);
     end;
 
-    // [ServiceEnabled]
-    // [Scope('Personalization')]
-    // procedure approveEmployeeOverTimeActivity(empOverTimeNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
-    // var
-    //     //EmpActivity: Record "Employee Activity";
-    //     OverTime: Record OverTime;
-    // begin
-    //     OverTime.Get(empOverTimeNo);
-    //     if isApproved and (OverTime."Approval Status" = OverTime."Approval Status"::"Pending") then
-    //         OverTimeMgt.RecommendEmployeeOverTimeAPI(empOverTimeNo, approvalCode)
-    //     else begin
-    //         if not isApproved then begin
-    //             OverTime.Validate("Rejection Remarks", rejectionRemarks);
-    //             OverTime.Modify;
-    //         end;
-    //         OverTimeMgt.ApprovedRejectOverTimeApprovalAPI(isApproved, empOverTimeNo, approvalCode);
-    //     end;
-    // end;
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure employeeOverTimeLine(OverTimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+    begin
+        OverTime.Get(OverTimeNo);
+        OverTimeMgt.GetEmployee(OverTime);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure employeeOverTimeAmount(OverTimeNo: Code[20])
+    begin
+        OverTimeMgt.GetOvertimeLineDetails(OverTimeNo);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure sendOvertimeLineApproval(OvertimeNo: Code[20])
+    var
+        OverTime: Record OverTime;
+        OverTimeLine: Record "Overtime Line";
+    begin
+        OverTime.Get(OvertimeNo);
+        OverTimeLine.Reset;
+        OverTimeLine.SetRange("No.", OvertimeNo);
+        OverTimeMgt.SendApprovalOvertimeBulk(OverTime, OverTimeLine);
+    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -2383,6 +2394,8 @@ page 50108 "Portal Functions"
             if rejectionRemarks = '' then
                 Error('Rejection Remarks is empty');
             OverTime.Validate("Rejection Remarks", rejectionRemarks);
+            if OverTime.Type = OverTime.Type::"Overtime Bulk" then
+                OverTime.Return := true;
             OverTime.Modify;
         end;
         RecRef.GetTable(OverTime);
@@ -2521,9 +2534,6 @@ page 50108 "Portal Functions"
         HrMgt.GenerateInterviewerEntriesAPI(vacancyCode, candidateCode, employeeCode);
     end;
 
-
-
-
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure uploadFeedbackAttachment(basestring: Text; fname: Text; ext: Text): Text
@@ -2613,10 +2623,11 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     [Scope('Personalization')]
     procedure submitTransferRequest(
-    "provinceCode": Code[20];
     "proposedTransferDate": Date;
     "reasonForTransfer": text;
-    "description": text): Integer
+    "description": text;
+    "requestedProvince": text): Integer;
+
     var
         // TravelRequest: Record "Travel Request" temporary;
         TransferRequest: Record "Employee/HR Transfer" temporary;
@@ -2630,9 +2641,9 @@ page 50108 "Portal Functions"
         TransferRequest.Validate(Type, TransferRequest.Type::"Employee Transfer");
         TransferRequest.Validate("Employee No.", HrMgt.GetEmployeeNo());
         TransferRequest.Validate("Transfer Propose Date", ProposedTransferDate);
-        TransferRequest.Validate("Requested Province", provinceCode);
         TransferRequest.Validate(Description, description);
         TransferRequest.Validate("Reason for Transfer", reasonForTransfer);
+        TransferRequest.Validate("Requested Province", requestedProvince);
         TransferRequest.Insert;
         if TransferMgt.SendTransferApproval(TransferRequest) then
             exit(200);
@@ -3237,9 +3248,9 @@ page 50108 "Portal Functions"
                 begin
                     PaySlip.PassParPortal(Employee."No.", year, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawn);
+                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
@@ -3430,8 +3441,8 @@ page 50108 "Portal Functions"
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Jestha);
             Format(MonthOption::Asar):
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Asar);
-            Format(MonthOption::Shrawn):
-                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+            Format(MonthOption::Shrawan):
+                TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Shrawan);
             Format(MonthOption::Bhadra):
                 TaxDeductionInfo.PassParPortal(employeeNo, PostedPayrollHeader."No.", year, MonthOption::Bhadra);
             Format(MonthOption::Ashoj):
@@ -3645,9 +3656,9 @@ page 50108 "Portal Functions"
                 begin
                     PaySlip.PassParPortal(Employee."No.", year, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawn);
+                    PaySlip.PassParPortal(Employee."No.", year, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
@@ -3723,8 +3734,8 @@ page 50108 "Portal Functions"
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Jestha);
                 Format(MonthOption::Asar):
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Asar);
-                Format(MonthOption::Shrawn):
-                    TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawn);
+                Format(MonthOption::Shrawan):
+                    TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Shrawan);
                 Format(MonthOption::Bhadra):
                     TaxDeductionInfo.PassParPortal(PostedPayrollHeader."No.", year, MonthOption::Bhadra);
                 Format(MonthOption::Ashoj):
@@ -3851,9 +3862,9 @@ page 50108 "Portal Functions"
                 begin
                     SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Asar);
                 end;
-            Format(MonthOption::Shrawn):
+            Format(MonthOption::Shrawan):
                 begin
-                    SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Shrawn);
+                    SalarysheetDocMonthWise.PassParHrmsPortal(Employee."No.", PayCycleTerm, MonthOption::Shrawan);
                 end;
             Format(MonthOption::Bhadra):
                 begin
@@ -3950,6 +3961,9 @@ page 50108 "Portal Functions"
         LeaveCancelledForApprove: Integer;
         LateAttendanceForApprove: Integer;
         InsuranceForApprove: Integer;
+        MedicalInsuranceClaimForApprove: Integer;
+        OvertimeBulkForApprove: Integer;
+        AllowanceAssignmentClaimForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -3963,6 +3977,7 @@ page 50108 "Portal Functions"
         Clear(ResignClearanceForApprove);
         Clear(EmployeeEditForApprove);
         Clear(LeaveCancelledForApprove);
+        Clear(OvertimeBulkForApprove);
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -4102,21 +4117,41 @@ page 50108 "Portal Functions"
         AllowanceAssignmentForApprove := Approval.Count();
 
         Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Allowance Assignment Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        AllowanceAssignmentClaimForApprove := Approval.Count();
+
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Late Attendance");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         LateAttendanceForApprove := Approval.Count();
-        Approval.Reset();
 
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::Insurance);
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         InsuranceForApprove := Approval.Count();
 
-        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove
-         + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove;
+        Approval.SetRange("Document Type", Approval."Document Type"::"Medical Insurance Claim");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        MedicalInsuranceClaimForApprove := Approval.Count();
+
+        Approval.SetRange("Document Type", Approval."Document Type"::"Overtime Bulk");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        OvertimeBulkForApprove := Approval.Count();
+
+        TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
+          + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4137,10 +4172,12 @@ page 50108 "Portal Functions"
         ',"EmployeeEditForApprove": "' + format(EmployeeEditForApprove) + '"' +
         ',"LeaveCancelledForApprove": "' + format(LeaveCancelledForApprove) + '"' +
         ',"AllowanceAssignmentForApprove": "' + format(AllowanceAssignmentForApprove) + '"' +
+        ',"AllowanceAssignmentClaimForApprove": "' + format(AllowanceAssignmentClaimForApprove) + '"' +
         ',"LateAttendanceForApprove": "' + format(LateAttendanceForApprove) + '"' +
         ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
+        ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
+        ',"OvertimeBulkForApprove": "' + format(OvertimeBulkForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
-
     end;
 
     [ServiceEnabled]
@@ -4350,22 +4387,48 @@ page 50108 "Portal Functions"
             end;
         end;
     end;
+    //API for Insurance and Medical Insurance Claim Approval --santosh 5/27/2025--
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; empActType: text)
+    var
+        EmployeeInsurance: Record "Employee Insurance Information";
+        EmployeeMedicalInsurance: Record "Medical Insurance Claim";
+        EmployeeActType: Enum "Employee Activity Type";
+        RecRef: RecordRef;
+    begin
+        case empActType of
+            Format(EmployeeActType::"Medical Insurance Claim"):
+                begin
+                    EmployeeMedicalInsurance.Get(empInsuranceNo);
+                    if not isApproved then begin
+                        if rejectionRemarks = '' then
+                            Error('Rejection Remarks is empty');
+                        EmployeeMedicalInsurance.Validate("Rejection Remarks", rejectionRemarks);
+                        EmployeeMedicalInsurance.Modify;
+                    end;
+                    RecRef.GetTable(EmployeeMedicalInsurance);
+                    ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+                end;
+            Format(EmployeeActType::Insurance):
+                begin
+                    EmployeeInsurance.Get(empInsuranceNo);
+                    if not isApproved then begin
+                        if rejectionRemarks = '' then
+                            Error('Rejection Remarks is empty');
+                        EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
+                        EmployeeInsurance.Modify;
+                    end;
+                    RecRef.GetTable(EmployeeInsurance);
+                    ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+                end;
+        end;
+    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure approveInsurance(empInsuranceNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
-    var
-        EmployeeInsurance: Record "Employee Insurance Information";
-        RecRef: RecordRef;
+    procedure cancelRequest(documentNo: Code[20]; documentType: text)
     begin
-        EmployeeInsurance.Get(empInsuranceNo);
-        if not isApproved then begin
-            if rejectionRemarks = '' then
-                Error('Rejection Remarks is empty');
-            EmployeeInsurance.Validate("Rejection Remarks", rejectionRemarks);
-            EmployeeInsurance.Modify;
-        end;
-        RecRef.GetTable(EmployeeInsurance);
-        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+        ApprovalMgt.CancelRequestAPI(documentNo, documentType);
     end;
 }

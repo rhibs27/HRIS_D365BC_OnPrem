@@ -6,7 +6,7 @@ page 50208 "Payroll Settlement Plan List"
     Editable = false;
     PageType = List;
     SourceTable = "Payroll Header";
-    SourceTableView = where(Type = const(Resignation));
+    SourceTableView = where(Type = const(Settlement));
     UsageCategory = Lists;
     ApplicationArea = All;
 

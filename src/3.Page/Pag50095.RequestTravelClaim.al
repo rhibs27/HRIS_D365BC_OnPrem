@@ -146,6 +146,11 @@ page 50095 "Request Travel Claim"
                     ToolTip = 'Specifies the value of the Claimed Country field.';
                     ApplicationArea = All;
                 }
+                field("Currency Code"; Rec."Currency Code")
+                {
+                    ToolTip = 'Specifies the value of the Currency Code field.';
+                    ApplicationArea = All;
+                }
                 field("Road/Air Fare"; Rec."Road/Air Fare")
                 {
                     ToolTip = 'Specifies the value of the Road/Air Fare field.';

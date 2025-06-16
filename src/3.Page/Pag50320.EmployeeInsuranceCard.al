@@ -153,6 +153,11 @@ page 50320 "Employee Insurance Card"
                     end;
                 }
             }
+            part(Attachments; "Attachment Subform")
+            {
+                ApplicationArea = All;
+                SubPageLink = "No." = field("Insurance No.");
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
@@ -160,11 +165,6 @@ page 50320 "Employee Insurance Card"
                                 "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
-            }
-            part(Attachments; "Attachment Subform")
-            {
-                ApplicationArea = All;
-                SubPageLink = "No." = field("Insurance No.");
             }
         }
 

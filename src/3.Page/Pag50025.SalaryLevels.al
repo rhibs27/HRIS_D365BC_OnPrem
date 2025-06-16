@@ -54,6 +54,11 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Allowance field.';
                     ApplicationArea = All;
                 }
+                field("LFA Amount"; Rec."Leave Fare Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
+                    ApplicationArea = All;
+                }
                 field("Nepal Fooding Allowance"; Rec."Nepal Fooding Allowance")
                 {
                     ToolTip = 'Specifies the value of the Nepal Fooding Allowance field.';

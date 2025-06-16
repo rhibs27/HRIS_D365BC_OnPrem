@@ -40,8 +40,8 @@ codeunit 50010 "Payroll-Post"
         PayrollHeader.TestField("Pay Cycle Period");
         PayrollHeader.TestField("Pay Cycle Term");
         PayrollHeader.TestField(Status, PayrollHeader.Status::Released);
-        if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
-            PayrollHeader.TestField("Employee Type"); //ratan 1.21.2021
+        // if PayrollHeader.Type <> PayrollHeader.Type::Adjustment then
+        //     PayrollHeader.TestField("Employee Type"); //ratan 1.21.2021
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
         if DateNotAllowed(PayrollHeader."Posting Date") then
             PayrollHeader.FieldError("Posting Date", Text003);
@@ -223,8 +223,10 @@ codeunit 50010 "Payroll-Post"
         FieldRef: FieldRef;
         FieldValue: Decimal;
         LineBalance: Decimal;
+        PriorTrfAttributeAmount: Decimal;
         UsePayrollAttributeUsageAllocation: Boolean;
         EmployeeActivity: Record "Employee Activity";
+        LeaveEarn: Record "Leave Earn";
     begin
         RecRef.Open(Database::"Payroll Line");
         FieldRef := RecRef.Field(1);
@@ -259,20 +261,19 @@ codeunit 50010 "Payroll-Post"
                     if FieldValue <> 0 then begin
                         PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID);
                         PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
-                        if PayrollAttributes.Code = PGSetup."LFA Alowance" then begin
+                        if PayrollAttributes.Code = PGSetup."Leave Fare Allowance" then begin
                             LeaveType.Reset;
                             LeaveType.SetRange("AML Eligible", true);
+                            LeaveType.SetRange("Leave For Employee Type", PayrollLine."Employee Type");
                             LeaveType.FindFirst;
 
-                            EmployeeActivity.Reset;
-                            EmployeeActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-                            EmployeeActivity.SetRange("Leave Code", LeaveType.Code);
-                            EmployeeActivity.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-                            EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-                            EmployeeActivity.SetRange(Cancelled, false);
-                            if EmployeeActivity.FindFirst then begin
-                                EmployeeActivity."LFA Paid" := true;
-                                EmployeeActivity.Modify;
+                            LeaveEarn.Reset;
+                            LeaveEarn.SetRange(EmpNo, PayrollLine."Employee No.");
+                            LeaveEarn.SetRange("Leave Code", LeaveType.Code);
+                            LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+                            if LeaveEarn.FindSet() then begin
+                                LeaveEarn.ModifyAll("Payroll Posted", true);
+                                LeaveEarn.ModifyAll("Payroll Document No", PayrollLine."Document No.");
                             end;
                         end;
                         if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::Deduction] then begin
@@ -356,11 +357,35 @@ codeunit 50010 "Payroll-Post"
                                         PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
                                     if PGSetup."Salary Advance" = PayrollAttributes.Code then
                                         PayrollJournalLine."External Document No." := PayrollLine."Salary Advance No.";
-                                    PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=');
-                                    LineBalance += PayrollJournalLine.Amount;
-                                    PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
-                                    UpdatePayrollJnl(PayrollJournalLine);
-                                    PostEmployee(PayrollJournalLine);
+                                    if CheckTransferInServiceHistory(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date") then begin
+                                        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then begin
+                                            PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * GetServiceDaysBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date"), 0.01, '=');
+                                            PayrollJournalLine.Amount := PriorTrfAttributeAmount;
+                                            LineBalance += PriorTrfAttributeAmount;
+                                            PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
+                                            PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                            UpdatePayrollJnl(PayrollJournalLine);
+                                            PostEmployee(PayrollJournalLine);
+                                        end;
+                                        InitPayrollJnlLine(PayrollJournalLine, LastLineNo);
+                                        PayrollJournalLine.Description := PayrollAttributes.Description;
+                                        PayrollJournalLine."Account Type" := PayrollJournalLine."Account Type"::"G/L Account";
+                                        PayrollJournalLine."Account No." := GetEmpDesignationAccount(FieldID);
+                                        if PayrollJournalLine."Account No." = '' then
+                                            PayrollJournalLine."Account No." := PayrollAttributes."G/L Account No.";
+                                        PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=') - PriorTrfAttributeAmount;
+                                        LineBalance += PayrollJournalLine.Amount;
+                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                        UpdatePayrollJnl(PayrollJournalLine);
+                                        PostEmployee(PayrollJournalLine);
+                                    end
+                                    else begin
+                                        PayrollJournalLine.Amount := Round(FieldValue, 0.01, '=');
+                                        LineBalance += PayrollJournalLine.Amount;
+                                        PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
+                                        UpdatePayrollJnl(PayrollJournalLine);
+                                        PostEmployee(PayrollJournalLine);
+                                    end;
                                 end;
                             end;
                         end;
@@ -444,7 +469,7 @@ codeunit 50010 "Payroll-Post"
                             end;
                         until PayrollAttributes.Next = 0;
                 end;
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                     Employee.Get(PayrollLine."Employee No.");
                     Employee.Settled := true;
                     Employee.Modify;
@@ -473,5 +498,51 @@ codeunit 50010 "Payroll-Post"
         FieldRef := RecRef.FIELD(FieldID);
         EVALUATE(FieldValue,FORMAT(FieldRef.VALUE));*/
         exit(FieldValue);
+    end;
+
+    local procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
+    var
+        EmployeeServiceHistory: Record "Employee Service History";
+    begin
+        EmployeeServiceHistory.Reset;
+        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        if EmployeeServiceHistory.FindFirst() then
+            exit(true)
+    end;
+
+    local procedure GetServiceDaysBeforeTransfer(EmpNo: Code[20]; FromDate: Date): Decimal
+    var
+        EmployeeServiceHistory: Record "Employee Service History";
+    begin
+        EmployeeServiceHistory.Reset;
+        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+        if EmployeeServiceHistory.FindFirst() then
+            exit(EmployeeServiceHistory."Effective Date" - FromDate + 1)
+    end;
+
+    local procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
+    var
+        EmployeeServiceHistory: Record "Employee Service History";
+        DimensionValue: Record "Dimension Value";
+        GLSetup: Record "General Ledger Setup";
+    begin
+        EmployeeServiceHistory.Reset;
+        EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
+        EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
+        EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
+        if EmployeeServiceHistory.FindFirst() then
+            if EmployeeServiceHistory."Deputation On(From)" = EmployeeServiceHistory."Deputation On(From)"::Branch then
+                exit(EmployeeServiceHistory."Deputation Code (From)")
+            else begin
+                GLSetup.Get();
+                DimensionValue.Reset();
+                DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+                DimensionValue.SetRange("Head Office", true);
+                if DimensionValue.FindFirst() then
+                    exit(DimensionValue.Code)
+            end;
     end;
 }

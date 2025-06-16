@@ -12,9 +12,9 @@ page 50207 "Medical Insurance Claim Lists"
         {
             repeater(Group)
             {
-                field("Employee No."; Rec."Employee No.")
+                field("No."; Rec."No.")
                 {
-                    ToolTip = 'Specifies the value of the Employee No. field.';
+                    ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
                 }
                 field("Employee Name"; Rec."Employee Name")

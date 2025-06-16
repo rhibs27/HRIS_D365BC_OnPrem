@@ -73,6 +73,10 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(19; "Check Out From"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

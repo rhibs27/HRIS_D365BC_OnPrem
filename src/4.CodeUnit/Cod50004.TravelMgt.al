@@ -85,8 +85,9 @@ codeunit 50004 "Travel Mgt."
     var
         TravelRequest: Record "Travel Request";
     begin
-        if TravelRequest.Get(TravelOrderNo) then
-            exit(TravelRequest."Total No. of Days");
+        if TravelOrderNo <> '' then
+            if TravelRequest.Get(TravelOrderNo) then
+                exit(TravelRequest."Total No. of Days");
     end;
 
     procedure ApplyForTravel(var TravelReq: Record "Travel Request"): Boolean
@@ -108,8 +109,8 @@ codeunit 50004 "Travel Mgt."
         TravelReq.TestField("End Date");
         //TempEmpAct.TESTFIELD("Travel Countries");
         TravelReq.TestField("Type Of Visit");
-        TravelReq.TestField("Departure Time");
-        TravelReq.TestField("Arrival Time");
+        // TravelReq.TestField("Departure Time");
+        // TravelReq.TestField("Arrival Time");
         TravelReq.TestField("Departure From");
         TravelReq.TestField(Destination);
         TravelReq.TestField("Purpose of Travel");
@@ -212,6 +213,7 @@ codeunit 50004 "Travel Mgt."
         end;
         HRmgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelReq.Type::"Travel Request", TravelReq."Approval Status"::Open, '', TravelReq."Employee No.", TravelReq."No.", 0);   //For email
         Message('Travel Request has been sent for apporval.');
+        OnAfterApplyTravelRequest(TravelReq."No.");
         exit(true);
     end;
 
@@ -441,6 +443,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest."Actual Travel End Date" := GetTravelEndDate(TravelOrderNo);
             TravelRequest."Actual Travel Start Time" := GetDepatureTime(TravelOrderNo);
             TravelRequest."Actual Travel End Time" := GetArrivalTime(TravelOrderNo);
+            TravelRequest.Validate("Type Of Visit", TravelRequest2."Type Of Visit");
             OnBeforeGetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel, IsHandled);
             if not IsHandled then
                 GetFoodingLimit(TravelRequest, SalaryLevel1, SalaryLevel);
@@ -1529,4 +1532,10 @@ codeunit 50004 "Travel Mgt."
     procedure OnBeforeGetLodgingLimit(Var TravelRequest: Record "Travel Request"; SalaryLevel1: Record "Salary Level"; SalaryLevel: Record "Salary Level"; var IsHandled: Boolean)
     begin
     end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterApplyTravelRequest(TravelRequestNo: Code[20])
+    begin
+    end;
+
 }

@@ -502,14 +502,29 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Current Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Current Non-Payment"; Rec."Current Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Current Non-Payments field.';
+                    ApplicationArea = All;
+                }
                 field("Projected Benefit"; Rec."Projected Benefit")
                 {
                     ToolTip = 'Specifies the value of the Projected Benefit field.';
                     ApplicationArea = All;
                 }
+                field("Projected Non-Payment"; Rec."Projected Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Projected Non-Payments field.';
+                    ApplicationArea = All;
+                }
                 field("Past Benefit"; Rec."Past Benefit")
                 {
                     ToolTip = 'Specifies the value of the Past Benefit field.';
+                    ApplicationArea = All;
+                }
+                field("Past Non-Payment"; Rec."Past Non-Payments")
+                {
+                    ToolTip = 'Specifies the value of the Past Non-Payments field.';
                     ApplicationArea = All;
                 }
                 field("Assessable Income"; Rec."Assessable Income")
@@ -682,6 +697,11 @@ page 50046 "Posted Payroll Subform"
                 field("36% Slab"; Rec."36% Slab")
                 {
                     ToolTip = 'Specifies the value of the 36% Slab field.';
+                    ApplicationArea = All;
+                }
+                field("39% Slab"; Rec."39% Slab")
+                {
+                    ToolTip = 'Specifies the value of the 39% Slab field.';
                     ApplicationArea = All;
                 }
                 field("Property Insurance Premium"; Rec."Property Insurance Premium")

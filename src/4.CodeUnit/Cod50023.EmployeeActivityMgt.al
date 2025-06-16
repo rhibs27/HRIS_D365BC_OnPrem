@@ -60,6 +60,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
+                TransferRequest.Validate("Deputation On (To)", TransferEmployeeJournal."Deputation On (To)");
                 TransferRequest.Validate("Department Code (To)", TransferEmployeeJournal."Department Code (To)");
                 TransferRequest.Validate("Province Code (To)", TransferEmployeeJournal."Province Code (To)");
                 TransferRequest.Validate("To Branch", TransferEmployeeJournal."To Branch");
@@ -69,11 +70,12 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Functional Title (To)", TransferEmployeeJournal."Functional Title (To)");
                 TransferRequest.Validate("Transfer Category", TransferEmployeeJournal."Transfer Category");
                 TransferRequest.Validate("Transfer Effective Date", TransferEmployeeJournal."Transfer Effective Date");
-                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisior");
+                TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
+                TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
-                TransferRequest.Validate("Is Transfer Details Added", false);
+                TransferRequest.Validate("Is Transfer Details Added", true);
                 TransferRequest.Validate("Approved Date", Today);
                 TransferRequest.Validate(Type, TransferRequest.Type::"HR Transfer");
                 TransferRequest.Insert(true);
@@ -83,8 +85,11 @@ codeunit 50023 EmployeeActivityMgt
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
-            until TransferEmployeeJournal.next() = 0;
-        Message('Transfer is posted');
+            until TransferEmployeeJournal.next() = 0
+        else
+            Error('There is no Document to post');
+        Message('Transfer is posted')
+
     end;
 
     procedure PostLeaveJournal(EmpActNo: Code[20])
@@ -137,21 +142,68 @@ codeunit 50023 EmployeeActivityMgt
         if Reject then begin
             EmployeeActJournal.TestField("Approval Status", EmployeeActJournal."Approval Status"::Pending);
             ApproverMgt.CheckApprover(EmployeeActJournal."Emp Act. No");
-            Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-            Approver.Validate("Rejected By", HRMgt.GetEmpName());
-            EmployeeActJournal.ModifyAll("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
-            Approver.Modify();
+            // Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
+            // Approver.Validate("Rejected By", HRMgt.GetEmpName());
+            EmployeeActJournal.Validate("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
+            EmployeeActJournal.Modify();
+            // EmployeeActJournal.Modify("Approval Status", EmployeeActJournal."Approval Status"::Rejected);
+            // Approver.Modify();
             // Get the Rejected Status from Status Master
             StatusMaster.Reset();
             StatusMaster.SetRange(Rejected, true);
             if StatusMaster.FindFirst() then begin
-                EmployeeActJournal.ModifyAll(Status, StatusMaster.Status);
+                EmployeeActJournal.Validate(Status, StatusMaster.Status);
             end
             else
                 Error('Rejected Status not Found On Status Master Setup');
         end;
     end;
 
+    procedure UpdateOvertimeLineInEmployeeAct(OvertimeLine: Record "Overtime Line")
+    var
+        PostEmployeeActJournal: Record "Posted Employee Journal";
+    begin
+        PostEmployeeActJournal.Init();
+        PostEmployeeActJournal."Emp Act. No" := OvertimeLine."No.";
+        PostEmployeeActJournal.Type := OvertimeLine.Type;
+        PostEmployeeActJournal."Employee No." := OvertimeLine."Employee Code";
+        PostEmployeeActJournal."Employee Name" := OvertimeLine."Employee Name";
+        PostEmployeeActJournal."Start Date" := OvertimeLine."Overtime Date";
+        PostEmployeeActJournal."End Date" := OvertimeLine."Overtime Date";
+        PostEmployeeActJournal."Fiscal Year" := Hrmgt.ReturnFiscalYear(OvertimeLine."Overtime Date");
+        PostEmployeeActJournal."Approval Status" := OvertimeLine."Approval Status"::Approved;
+        PostEmployeeActJournal."Approved Date" := OvertimeLine."Approved Date";
+        PostEmployeeActJournal."Overtime Claim Type" := OvertimeLine."Overtime Claim Type";
+        PostEmployeeActJournal."Actual OT Hours" := OvertimeLine."Actual OT Hours";
+        PostEmployeeActJournal."OT Amount" := OvertimeLine."OT Amount";
+        PostEmployeeActJournal."Morning OT Hours" := OvertimeLine."Morning OT Hours";
+        PostEmployeeActJournal."Evening OT Hours" := OvertimeLine."Evening OT Hours";
+        PostEmployeeActJournal."Total OT Hours" := OvertimeLine."Total OT Hours";
+        PostEmployeeActJournal.Insert(true);
+    end;
+
+    procedure UpdateOvertimeInEmployeeAct(Overtime: Record "Overtime")
+    var
+        PostEmployeeActJournal: Record "Posted Employee Journal";
+    begin
+        PostEmployeeActJournal.Init();
+        PostEmployeeActJournal."Emp Act. No" := Overtime."No.";
+        PostEmployeeActJournal.Type := Overtime.Type;
+        PostEmployeeActJournal."Employee No." := Overtime."Employee No.";
+        PostEmployeeActJournal."Employee Name" := Overtime."Employee Name";
+        PostEmployeeActJournal."Start Date" := Overtime."Start Date";
+        PostEmployeeActJournal."End Date" := Overtime."End Date";
+        PostEmployeeActJournal."Fiscal Year" := Hrmgt.ReturnFiscalYear(Overtime."Start Date");
+        PostEmployeeActJournal."Approval Status" := Overtime."Approval Status";
+        PostEmployeeActJournal."Approved Date" := Overtime."Approved Date";
+        PostEmployeeActJournal."Overtime Claim Type" := Overtime."Overtime Claim Type";
+        PostEmployeeActJournal."Actual OT Hours" := Overtime."Actual OT Hours";
+        PostEmployeeActJournal."OT Amount" := Overtime."OT Amount";
+        PostEmployeeActJournal."Morning OT Hours" := Overtime."Morning OT Hours";
+        PostEmployeeActJournal."Evening OT Hours" := Overtime."Evening OT Hours";
+        PostEmployeeActJournal."Total OT Hours" := Overtime."Total OT Hours";
+        PostEmployeeActJournal.Insert(true);
+    end;
 
     var
         ApproverMgt: Codeunit "Approver Mgt";

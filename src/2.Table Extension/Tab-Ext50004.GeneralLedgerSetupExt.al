@@ -2,6 +2,10 @@ tableextension 50004 "General Ledger Setup Ext" extends "General Ledger Setup"
 {
     fields
     {
+        modify("LCY Code")
+        {
+            TableRelation = Currency;
+        }
         field(50000; "Approval Dimension"; Code[20])
         {
             TableRelation = Dimension;

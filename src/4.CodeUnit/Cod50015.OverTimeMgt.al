@@ -76,38 +76,31 @@ codeunit 50015 "OverTime Mgt"
             // exit(false);
         end;
         exit(true);
-
-        // if TotalOTHrs <> 0 then
-        //     exit(true)
-        // else begin
-        //     RejectionRemarks := 'System rejected. OT hours does not meet OT eligible hour.';
-        //     exit(false);
-        // end;
     end;
 
-    procedure AddOvertimeAttachment(EmpActNo: Code[20]; EmpNo: Code[20])
-    var
-        TempIncomingDoc: Record "Incoming Document";
-        Employee: Record Employee;
-        SalaryLevel: Record "Salary Level";
-    begin
-        Employee.Get(EmpNo);
-        SalaryLevel.Get(Employee."Salary Level");
-        if not SalaryLevel."OT Attachment Mandatory" then
-            exit;
+    // procedure AddOvertimeAttachment(EmpActNo: Code[20]; EmpNo: Code[20])
+    // var
+    //     TempIncomingDoc: Record "Incoming Document";
+    //     Employee: Record Employee;
+    //     SalaryLevel: Record "Salary Level";
+    // begin
+    //     Employee.Get(EmpNo);
+    //     SalaryLevel.Get(Employee."Salary Level");
+    //     if not SalaryLevel."OT Attachment Mandatory" then
+    //         exit;
 
-        TempIncomingDoc.Reset;
-        TempIncomingDoc.SetRange("Employee Code", EmpNo);
-        TempIncomingDoc.SetRange("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::Overtime);
-        TempIncomingDoc.SetRange("No.", '');
-        if TempIncomingDoc.Find('-') then
-            repeat
-                if TempIncomingDoc."File Name" = '' then      //attachment mandatory for leave
-                    Error('Attachment must be uploaded');
-                TempIncomingDoc.Validate("No.", EmpActNo);
-                TempIncomingDoc.Modify;
-            until TempIncomingDoc.Next = 0;
-    end;
+    //     TempIncomingDoc.Reset;
+    //     TempIncomingDoc.SetRange("Employee Code", EmpNo);
+    //     TempIncomingDoc.SetRange("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::Overtime);
+    //     TempIncomingDoc.SetRange("No.", '');
+    //     if TempIncomingDoc.Find('-') then
+    //         repeat
+    //             if TempIncomingDoc."File Name" = '' then      //attachment mandatory for leave
+    //                 Error('Attachment must be uploaded');
+    //             TempIncomingDoc.Validate("No.", EmpActNo);
+    //             TempIncomingDoc.Modify;
+    //         until TempIncomingDoc.Next = 0;
+    // end;
 
     procedure OpenOTForms(EmpCode: Code[20])
     var
@@ -139,71 +132,71 @@ codeunit 50015 "OverTime Mgt"
         PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
-    procedure RecommendEmployeeOverTimeAPI(EmpOverTimeCode: Code[20]; employeeNo: Code[20])
-    var
-        // EmpAct: Record "Employee Activity";
-        OverTime: Record OverTime;
-    begin
-        OverTime.Get(EmpOverTimeCode);
-        OverTime.TestField("Approval Status", OverTime."Approval Status"::"Pending");
-        CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-        // OverTime.Validate("Approval Status", OverTime."Approval Status"::Recommended);
-        OverTime.Modify;
-        Message('The document has been recommended.');
-    end;
+    // procedure RecommendEmployeeOverTimeAPI(EmpOverTimeCode: Code[20]; employeeNo: Code[20])
+    // var
+    //     // EmpAct: Record "Employee Activity";
+    //     OverTime: Record OverTime;
+    // begin
+    //     OverTime.Get(EmpOverTimeCode);
+    //     OverTime.TestField("Approval Status", OverTime."Approval Status"::"Pending");
+    //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
+    //     // OverTime.Validate("Approval Status", OverTime."Approval Status"::Recommended);
+    //     OverTime.Modify;
+    //     Message('The document has been recommended.');
+    // end;
 
-    procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: code[20])
-    var
+    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: code[20])
+    // var
 
-        OverTime: Record OverTime;
+    //     OverTime: Record OverTime;
 
-        ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-        ErrorReject: Label 'Approval Status must be in %1 or %2.';
+    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
+    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
 
-    begin
-        OverTime.Get(EmpOverTimeCode);
-        // if Approved then begin
-        //     OverTime.TestField("Approval Status", OverTime."Approval Status"::Recommended);
-        //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-        //     OverTime.Validate("Approval Status", OverTime."Approval Status"::Approved);
-        //     HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-        //     Message('The document has been approved.');
-        // end else
-        //     if (OverTime."Approval Status" in [OverTime."Approval Status"::"Pending Approval", OverTime."Approval Status"::Recommended]) then begin
-        //         OverTime.TestField("Rejection Remarks");
-        //         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-        //         if OverTime."Approval Status" = OverTime."Approval Status"::"Pending" then
-        //             HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Recommender Code", OverTime."No.", 0); //For email
-        //         // else
-        //         //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-        //         OverTime.Validate("Approval Status", OverTime."Approval Status"::Rejected);
-        //         Message('The document has been rejected.');
-        //     end else
-        //         Error('Cannot reject the document.');
-        OverTime.Posted := true;
-        OverTime."Approved Date" := Today;
-        OverTime.Modify;
-    end;
+    // begin
+    //     OverTime.Get(EmpOverTimeCode);
+    // if Approved then begin
+    //     OverTime.TestField("Approval Status", OverTime."Approval Status"::Recommended);
+    //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
+    //     OverTime.Validate("Approval Status", OverTime."Approval Status"::Approved);
+    //     HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
+    //     Message('The document has been approved.');
+    // end else
+    //     if (OverTime."Approval Status" in [OverTime."Approval Status"::"Pending Approval", OverTime."Approval Status"::Recommended]) then begin
+    //         OverTime.TestField("Rejection Remarks");
+    //         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
+    //         if OverTime."Approval Status" = OverTime."Approval Status"::"Pending" then
+    //             HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Recommender Code", OverTime."No.", 0); //For email
+    //         // else
+    //         //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
+    //         OverTime.Validate("Approval Status", OverTime."Approval Status"::Rejected);
+    //         Message('The document has been rejected.');
+    //     end else
+    //         Error('Cannot reject the document.');
+    //     OverTime.Posted := true;
+    //     OverTime."Approved Date" := Today;
+    //     OverTime.Modify;
+    // end;
 
-    procedure CheckEmployeeOverTimeApprovalAPI(OverTime: Record OverTime; employeeNo: Code[20])
-    var
-        ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    begin
-        // Employee.Reset;
-        // Employee.SetRange("No.", employeeNo);
-        // Employee.FindFirst;
-        // if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
-        //     if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
-        //         Error(RecommendNotEligibleError);
-        // if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then
-        //     if StrPos(OverTime."Approver Code", Employee."No.") = 0 then
-        //         Error(ApproveNotEligibleError);
+    // procedure CheckEmployeeOverTimeApprovalAPI(OverTime: Record OverTime; employeeNo: Code[20])
+    // var
+    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
+    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
+    // begin
+    // Employee.Reset;
+    // Employee.SetRange("No.", employeeNo);
+    // Employee.FindFirst;
+    // if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
+    //     if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
+    //         Error(RecommendNotEligibleError);
+    // if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then
+    //     if StrPos(OverTime."Approver Code", Employee."No.") = 0 then
+    //         Error(ApproveNotEligibleError);
 
-        //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-        //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-        //ERROR(AcknowledgeError);
-    end;
+    //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
+    //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
+    //ERROR(AcknowledgeError);
+    // end;
 
     procedure ApplyForOverTimeApprovalForms(TempOvertime: Record "OverTime" temporary): Boolean
     var
@@ -429,7 +422,9 @@ codeunit 50015 "OverTime Mgt"
             EmployeeAttendanceActivity."OT Hrs" := overTime."Actual OT Hours";
             EmployeeAttendanceActivity.Modify(true);
         end;
-        leaveEarnOverTime(overTimeNo);
+        EmployeeActMgt.UpdateOvertimeInEmployeeAct(OverTime);
+        if OverTime."Overtime Claim Type" = OverTime."Overtime Claim Type"::"Substitute Leave" then
+            leaveEarnOverTime(overTimeNo);
     end;
 
     procedure leaveEarnOverTime(overTimeNo: Code[20])
@@ -453,8 +448,274 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Insert(true);
     end;
 
+    procedure OpenOTBulk(EmpCode: Code[20])
+    var
+        OverTime, OverTime1 : Record OverTime;
+        OTEligibleError: Label 'Employee %1 is not eligible for OT.';
+        Approval: Record "Approval HRMS";
+    begin
+        Clear(Employee);
+        Approval.Reset();
+        Approval.SetRange("Document No.", '');
+        Approval.setRange("Document Type", Approval."Document Type"::"Overtime Bulk");
+        Approval.SetRange("Employee No", EmpCode);
+        Approval.DeleteAll();
+        OverTime1.Reset();
+        OverTime1.SetRange("Employee No.", EmpCode);
+        OverTime1.SetRange("Approval Status", OverTime1."Approval Status"::open);
+        if OverTime1.Findfirst() then begin
+            Message('This Employee Already has open Bulk Overtime Request.Click Ok to Open');
+            PAGE.Run(PAGE::"Overtime Bulk Card", OverTime1)
+        end else begin
+            OverTime.Init;
+            OverTime.Validate("Employee No.", EmpCode);
+            OverTime.Validate(Type, OverTime.Type::"Overtime Bulk");
+            OverTime.Validate("Approval Status", OverTime."Approval Status"::Open);
+            OverTime.Validate("Requested Date", Today);
+            OverTime.Insert(true);
+            PAGE.Run(PAGE::"Overtime Bulk Card", OverTime);
+        end;
+    end;
+
+    procedure GetOvertimeLineDetails(OvertimeNo: Code[20])
+    var
+        WorkShift: Record "Employee Work Shift";
+        StartTime: Time;
+        EndTime: Time;
+        StandardWorkingHrs: Decimal;
+        ActualOTHrs: Decimal;
+        MorningOTHrs: Decimal;
+        EveningOTHrs: Decimal;
+        CheckInDifference: Decimal;
+        TotalOTHrs: Decimal;
+        OvertimeLine: Record "Overtime Line";
+        IsHandled: Boolean;
+        Overtime: Record OverTime;
+    begin
+        Overtime.Reset;
+        Overtime.Get(OvertimeNo);
+        Overtime.TestField("Get Employee", true);
+        OvertimeLine.Reset;
+        OvertimeLine.SetRange("No.", OvertimeNo);
+        if OvertimeLine.FindSet() then
+            repeat
+                Employee.Get(OvertimeLine."Employee Code");
+                if WorkShift.get(Employee."Employee Work Shift") then begin
+                    Workshift.TestField("Start Time");
+                    Workshift.TestField("End Time");
+                    Workshift.TestField("Friday End Time");
+                    Workshift.TestField("Winter Start Date");
+                    Workshift.TestField("Winter End Date");
+                    Workshift.TestField("Winter End Time");
+                    StartTime := 0T;
+                    EndTime := 0T;
+                    StandardWorkingHrs := 0;
+                    StartTime := WorkShift."Start Time";
+                end;
+                if HRMgt.IsWinter(OvertimeLine."Overtime Date", Workshift) then begin
+                    if HRMgt.IsFriday(OvertimeLine."Overtime Date") then
+                        EndTime := WorkShift."Friday End Time"
+                    else
+                        EndTime := WorkShift."Winter End Time";
+                end else begin
+                    if HRMgt.IsFriday(OvertimeLine."Overtime Date") then
+                        EndTime := WorkShift."Friday End Time"
+                    else
+                        EndTime := WorkShift."End Time";
+                end;
+                StandardWorkingHrs := (EndTime - StartTime) / 3600000;
+
+                HRSetup.Get;
+                HRSetup.TestField("OT eligible hour");
+                MorningOTHrs := 0;
+                EveningOTHrs := 0;
+                TotalOTHrs := 0;
+                CheckInDifference := 0;
+                OnBeforeCheckOTHrs(OvertimeLine, StartTime, EndTime, IsHandled);
+                if not IsHandled then
+                    if LeaveMgt.GetNonWokingDays(OvertimeLine."Overtime Date", OvertimeLine."Overtime Date", OvertimeLine."Employee Code") = 0 then begin
+                        if (OvertimeLine."Check In Time" <= StartTime) then
+                            MorningOTHrs := Round((StartTime - OvertimeLine."Check In Time") / 3600000, 0.01, '<');
+
+                        if MorningOTHrs < HRSetup."OT eligible hour" then
+                            MorningOTHrs := 0;
+
+                        if (OvertimeLine."Check Out Time" <> 0T) and (OvertimeLine."Check Out Time" > EndTime) then
+                            EveningOTHrs := Round((OvertimeLine."Check Out Time" - EndTime) / 3600000, 0.01, '<');
+
+                        if OvertimeLine."Check In Time" > StartTime then begin
+                            CheckInDifference := Round((OvertimeLine."Check In Time" - StartTime) / 3600000, 0.01, '<');
+                            EveningOTHrs -= CheckInDifference;
+                        end;
+                        if EveningOTHrs < HRSetup."OT eligible hour" then
+                            EveningOTHrs := 0;
+                        OvertimeLine."Morning OT Hours" := MorningOTHrs;
+                        OvertimeLine."Evening OT Hours" := EveningOTHrs;
+                        OvertimeLine."Total OT Hours" := MorningOTHrs + EveningOTHrs;
+                        OvertimeLine."Actual OT hours" := OvertimeLine."Total OT Hours";
+                        OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
+                    end else begin
+                        OvertimeLine."Total OT Hours" := Round((OvertimeLine."Check Out Time" - OvertimeLine."Check In Time") / 3600000, 0.01, '<');
+                        OvertimeLine."Actual OT hours" := OvertimeLine."Total OT Hours";
+                        OverTimeMgt.OTAmountCalculate(OvertimeLine."Employee Code", OvertimeLine."Overtime Date", '', OvertimeLine."Actual OT hours");
+                    end;
+                OvertimeLine.Modify();
+                if OvertimeLine."Total OT Hours" <= 0 then begin
+                    OvertimeLine.Delete(true);
+                end;
+            until OvertimeLine.Next() = 0;
+        Overtime."Calculate Overtime" := true;
+        Overtime.Modify();
+    end;
+
+    procedure GetEmployee(var OverTime: Record OverTime)
+    var
+        OvertimeLine, OvertimeLineCheck : Record "Overtime Line";
+        EmployeeAttendance: Record "Employee Attendance & Activity";
+        CurrentDate: Date;
+    begin
+        OvertimeLineCheck.Reset;
+        OvertimeLineCheck.SetRange("No.", OverTime."No.");
+        OvertimeLineCheck.SetRange("Approval Status", OvertimeLineCheck."Approval Status"::Open);
+        OvertimeLineCheck.DeleteAll(); // Delete existing lines for the Overtime record      
+        Employee.Reset();
+        if OverTime."Deputation Type" = OverTime."Deputation Type"::Department then
+            Employee.SetRange("Deputation on", Employee."Deputation on"::Department)
+        else begin
+            Employee.SetRange("Deputation on", Employee."Deputation on"::Branch);
+            Employee.SetRange("Deputation On code", OverTime."Deputation Code");
+        end;
+        Employee.SetRange("Staff Type", Employee."Staff Type"::"Non Clerical Staff");
+        if Employee.FindSet() then
+            repeat
+                // Loop through each date in the range
+                CurrentDate := OverTime."Start Date";
+                while CurrentDate <= OverTime."End Date" do begin
+                    // Check if overtime line already exists for this specific employee and date
+                    OvertimeLineCheck.Reset;
+                    OvertimeLineCheck.SetRange("Employee Code", Employee."No.");
+                    OvertimeLineCheck.SetRange("Overtime Date", CurrentDate);
+                    OvertimeLineCheck.SetFilter("Approval Status", '<>%1', OvertimeLine."Approval Status"::Canceled);
+                    // Only create overtime line if it doesn't exist for this specific date
+                    if not OvertimeLineCheck.FindFirst() then begin
+                        // Check if employee attendance exists for this date
+                        EmployeeAttendance.Reset;
+                        if EmployeeAttendance.Get(Employee."No.", CurrentDate) then begin
+                            // Only create overtime line if both check-in and check-out times exist
+                            if (EmployeeAttendance."Check In Time" <> 0T) and (EmployeeAttendance."Check Out Time" <> 0T) then begin
+                                OvertimeLine.Init();
+                                OverTimeLine.Validate("No.", OverTime."No.");
+                                OvertimeLine.Validate("Employee Code", Employee."No.");
+                                OvertimeLine.Validate("Employee Name", Employee.FullName);
+                                OvertimeLine.Validate("Employee Work Shift", Employee."Employee Work Shift");
+                                OvertimeLine.Validate("Deputation Type", OverTime."Deputation Type");
+                                OvertimeLine.Validate(Code, OverTime."Deputation Code");
+                                OvertimeLine.Validate(Name, OverTime."Deputation Name");
+                                OvertimeLine.Validate(Type, OverTime.Type);
+                                OvertimeLine.Validate("Overtime Date", CurrentDate);
+                                OvertimeLine.Validate("Check In Time", EmployeeAttendance."Check In Time");
+                                OvertimeLine.Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                                OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Open);
+                                GetLineNo(OvertimeLine);
+                                OvertimeLine.Insert();
+                            end;
+                        end;
+                    end;
+                    CurrentDate := CurrentDate + 1;
+                end;
+            until Employee.Next() = 0;
+        OverTime."Get Employee" := true;
+        OverTime."Calculate Overtime" := false; // Reset Calculate Overtime flag
+        OverTime.Modify();
+
+    end;
+
+    procedure GetLineNo(var OvertimeLine: Record "Overtime Line")
+    var
+        OvertimeLine1: Record "Overtime Line";
+    begin
+        OvertimeLine1.Reset;
+        OvertimeLine1.SetCurrentKey("No.", "Line No.");
+        OvertimeLine1.SetRange("No.", OvertimeLine."No.");
+        if OvertimeLine1.FindLast then
+            OvertimeLine."Line No." := OvertimeLine1."Line No." + 10000
+        else
+            OvertimeLine."Line No." := 10000;
+    end;
+
+    procedure SendApprovalOvertimeBulk(var Overtime: Record OverTime; var OvertimeLine: Record "Overtime Line")
+    var
+        OverLineCheck: Record "Overtime Line";
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        Overtime.TestField("Get Employee", true);
+        Overtime.TestField("Calculate Overtime", true);
+        ApproverMgt.UpdateFirstApproverStatus(Overtime."No.");
+        OverLineCheck.Copy(OvertimeLine);
+        if OverLineCheck.FindFirst then
+            repeat
+                OverLineCheck.TestField("Employee Code");
+                OverLineCheck.TestField("Overtime Date");
+                OverLineCheck.TestField("Total OT Hours");
+                OverLineCheck.TestField("OT Amount");
+            until OverLineCheck.Next = 0;
+        Overtime.Validate("Approval Status", Overtime."Approval Status"::"Pending");
+        Overtime.Modify(true);
+        OvertimeLine.ModifyAll("Approval Status", OvertimeLine."Approval Status"::"Pending");
+    end;
+
+    procedure ApproveRejectOvertimeLine(Approved: Boolean; DocumentNo: Code[20])
+    var
+        overtime: Record OverTime;
+        OvertimeLine: Record "Overtime Line";
+        ApprovalLine: Record "Approval HRMS";
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        overtime.Get(DocumentNo);
+        OvertimeLine.Reset;
+        OvertimeLine.SetRange("No.", DocumentNo);
+        OvertimeLine.SetRange("Approval Status", OvertimeLine."Approval Status"::"Pending");
+        if OvertimeLine.Findset() then
+            repeat
+                if Approved then begin
+                    InsertOvertimeLineInAttendance(OvertimeLine);
+                    EmployeeActMgt.UpdateOvertimeLineInEmployeeAct(OvertimeLine);
+                    OvertimeLine.Validate("Approval Status", OvertimeLine."Approval Status"::Approved);
+                    OvertimeLine.Validate("Approved Date", Today);
+                    OvertimeLine.Modify();
+                end;
+            until OvertimeLine.Next() = 0;
+        if not Approved then begin
+            OvertimeLine.ModifyAll("Approval Status", OvertimeLine."Approval Status"::open);
+            ApprovalLine.Reset();
+            ApprovalLine.SetRange("Document No.", DocumentNo);
+            ApprovalLine.DeleteAll(true);
+            ApproverMgt.InsertApproval(overtime."Employee No.", DocumentNo, overtime."Type"::"Overtime Bulk", overtime."Approval Status"::open);
+        end;
+
+    end;
+
+    procedure InsertOvertimeLineInAttendance(OvertimeLine: Record "Overtime Line")
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Attendance Date", OvertimeLine."Overtime Date");
+        EmployeeAttendanceActivity.SetRange("Employee No.", OvertimeLine."Employee Code");
+        if EmployeeAttendanceActivity.FindFirst then begin
+            EmployeeAttendanceActivity."OT Day" := 1;
+            EmployeeAttendanceActivity."OT Hrs" := OvertimeLine."Actual OT Hours";
+        end;
+        EmployeeAttendanceActivity.Modify;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeApplyOvertime(Overtime: Record OverTime)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeCheckOTHrs(var OvertimeLine: Record "Overtime Line"; StartTime: Time; EndTime: Time; var IsHandled: Boolean)
     begin
     end;
 
@@ -467,4 +728,5 @@ codeunit 50015 "OverTime Mgt"
         OverTimeMgt: Codeunit "OverTime Mgt";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         LeaveEarn: Record "Leave Earn";
+        EmployeeActMgt: Codeunit EmployeeActivityMgt;
 }

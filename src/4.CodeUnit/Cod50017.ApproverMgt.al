@@ -258,6 +258,20 @@ codeunit 50017 "Approver Mgt"
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
+                            EmpActType::"Overtime Bulk":
+                                begin
+                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(100).Validate('');
+                                    RecRef.Modify();
+                                    OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
+                            //for Allowance claim Reject
+                            EmpActType::"Allowance Assignment Claim":
+                                begin
+                                    AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
                         end;
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
@@ -325,9 +339,13 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Allowance Assignment":
+                        EmpActType::"Allowance Assignment", EmpActType::"Allowance Assignment Claim":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
+                            end;
+                        EmpActType::"Overtime Bulk":
+                            begin
+                                OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
                             end;
                     end;
                 end;
@@ -496,7 +514,63 @@ codeunit 50017 "Approver Mgt"
         end else
             Error('Document Status Must be in Pending');
     end;
+    // >>  Cancel Document Dynamically using RecRef>> Santosh 2025-04-21 >>
+    procedure CancelRequest(var RecRef: RecordRef)
+    var
+        Approver: Record "Approval HRMS";
+        ApprovalStatusField: text;
+        ApprovalStatusEnum: Enum "Approval Status";
+        EmpActType: Enum "Employee Activity Type";
+        StatusMaster: Record "Status Master";
+        OvertimeLine: Record "Overtime Line";
+    begin
+        // Get the fields dynamically using FieldRef
+        ApprovalStatusField := Format((RecRef.Field(16)));
+        EmpActType := RecRef.Field(2).Value;
+        if ApprovalStatusField = Format(ApprovalStatusEnum::Open) then begin
+            CheckRequester(RecRef.Field(1).Value);
+            Approver.Reset();
+            Approver.SetRange("Document No.", RecRef.Field(1).Value);
+            Approver.SetRange("Approval Status", Approver."Approval Status"::Created);
+            Approver.SetRange("Approval Sequence", 1);
+            if Approver.Findfirst() then begin
+                RecRef.Field(16).Validate(ApprovalStatusEnum::Canceled); // Modify the record dynamically
+                RecRef.Modify();
+                Approver.Validate("Approval Status", Approver."Approval Status"::Canceled);
+                Approver.Modify();
+                case EmpActType of
+                    //for leave
+                    EmpActType::"Overtime Bulk":
+                        begin
+                            OvertimeLine.Reset();
+                            OvertimeLine.SetRange("No.", RecRef.Field(1).Value);
+                            OvertimeLine.ModifyAll("Approval Status", ApprovalStatusEnum::Canceled);
+                        end;
+                end;
+            end;
+        end else
+            Error('Document Status Must be in Open');
+    end;
 
+    procedure CancelRequestAPI(documentNo: Code[20]; EmpActType: Text)
+    var
+        EmpActTypeEnum: Enum "Employee Activity Type";
+        Overtime: Record OverTime;
+        RecRef: RecordRef;
+    begin
+        case EmpActType of
+            //for Overtime Bulk
+            format(EmpActTypeEnum::"Overtime Bulk"):
+                begin
+                    if Overtime.Get(documentNo) then begin
+                        RecRef.GetTable(Overtime);
+                        CancelRequest(RecRef);
+                    end;
+                end;
+            else
+                Error('Employee Activity Type not Found');
+        end;
+    end;
 
     var
         HRMgt: Codeunit "HR Mgt.";

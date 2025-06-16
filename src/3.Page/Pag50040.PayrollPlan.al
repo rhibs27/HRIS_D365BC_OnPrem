@@ -7,7 +7,7 @@ page 50040 "Payroll Plan"
     PageType = Card;
     SourceTable = "Payroll Header";
     ApplicationArea = All;
-
+    Caption = 'Payroll Plan';
     layout
     {
         area(Content)
@@ -33,13 +33,13 @@ page 50040 "Payroll Plan"
                 }
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
-                    Visible = false;
+                    //Visible = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.';
                     ApplicationArea = All;
                 }
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
-                    Editable = false;
+                    //Editable = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.';
                     ApplicationArea = All;
                 }
@@ -377,7 +377,10 @@ page 50040 "Payroll Plan"
                         PayrollAdj.FilterGroup(2);
                         PayrollAdj.SetRange("Payroll Document No.", Rec."No.");
                         PayrollAdj.FilterGroup(0);
-                        Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj);
+                        if Status = Rec.Status::Open then
+                            Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj)
+                        else
+                            Error('Re-Open the document to make adjustments.');
                     end;
                 }
                 action("Export Employee Payroll")
@@ -471,6 +474,8 @@ page 50040 "Payroll Plan"
             Rec.Validate(Type, Rec.Type::Payroll)
         else if TypeFilter = Format(Rec.Type::Resignation) then
             Rec.Validate(Type, Rec.Type::Resignation)
+        else if TypeFilter = Format(Rec.Type::Settlement) then
+            Rec.Validate(Type, Rec.Type::Settlement)
         else begin
             Rec.Validate(Type, Rec.Type::Adjustment);
             Rec.Validate(Irregular, true);
@@ -480,8 +485,12 @@ page 50040 "Payroll Plan"
 
     trigger OnOpenPage()
     begin
-        if Rec.Type = Rec.Type::Adjustment then
+        if Rec.Type = Rec.Type::Adjustment then begin
             AjustmentVisible := true;
+            CurrPage.Caption := 'Adjustment Plan';
+        end;
+        if Rec.Type = Rec.Type::Resignation then
+            CurrPage.Caption := 'Resignation Payroll Plan';
         if Rec.Type in [Rec.Type::Adjustment, Rec.Type::Resignation] then
             VisiblePrevYearPayroll := true
         else
@@ -501,4 +510,5 @@ page 50040 "Payroll Plan"
         VisiblePrevYearPayroll: Boolean;
         Text001: Label 'Do you want to import employees in Employee Payroll Adjustment? Existing lines will be deleted.';
         Text002: Label 'Either Encashment Code or Encashment Period must have a value.';
+        PageName: Text[50];
 }

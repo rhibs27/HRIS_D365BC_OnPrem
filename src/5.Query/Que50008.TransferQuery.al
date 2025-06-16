@@ -91,7 +91,7 @@ query 50008 "Transfer Query"
                     column(departmentCodeTo; "Department Code (To)") { }
                     column(extensionCounterTo; "Extension Counter (To)") { }
                     column(deputationOnTo; "Deputation On (To)") { }
-                    column(proposedTransferDate; "Transfer Effective Date") { }
+                    column(transferEffectiveDate; "Transfer Effective Date") { }
                     column(incomingSupervisior; "Incoming Supervisior") { }
                     column(incomingSupervisiorName; "Incoming Supervisior Name") { }
                     column(outgoingBranchRepPerson; "Outgoing Branch Rep. Person")
@@ -101,6 +101,8 @@ query 50008 "Transfer Query"
                     column(dateofJoiningOfTransfer; "Date of Joining Of Transfer") { }
                     column(description; Description) { }
 
+                    column(requestedProvince; "Requested Province") { }
+                    column(requestedProvinceName; "Requested Province Name") { }
                     column(transferRemarks; "Transfer Remarks") { }
                     column(relocationAllow; "Relocation Allow.") { }
                     column(outstationDiscomfortAllow; "Outstation/Discomfort Allow.") { }

@@ -127,6 +127,19 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Requested Province"; Rec."Requested Province")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Province field.';
+                    ApplicationArea = All;
+                }
+                field("Requested Province Name"; Rec."Requested Province Name")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Branch field.';
+                    ApplicationArea = All;
+                }
+
                 field("Notify to"; Rec."Notify to")
                 {
                     Visible = false;
@@ -405,10 +418,10 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.';
                         ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            Rec.CalcFields("Outgoing Reporting Person Name");
-                        end;
+                        // trigger OnValidate()
+                        // begin
+                        //     Rec.CalcFields("Outgoing Reporting Person Name");
+                        // end;
                     }
                     field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
                     {
@@ -538,7 +551,7 @@ page 50066 "Transfer Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
+                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
@@ -930,7 +943,7 @@ page 50066 "Transfer Card"
         // end;
         SetLayout;
         // GetTransferName;
-        Rec.CalcFields("Outgoing Reporting Person Name");
+        // Rec.CalcFields("Outgoing Reporting Person Name");
         RecRef.GetTable(Rec);
     end;
 

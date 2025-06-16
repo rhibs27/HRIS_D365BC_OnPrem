@@ -33,6 +33,12 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Subtype field.';
                     ApplicationArea = All;
                 }
+                field("Activity Type"; rec."Activity Type")
+                {
+                    ToolTip = 'Specifies the value of the Activity Type  field.';
+                    ApplicationArea = All;
+
+                }
                 field("Non-Taxable"; Rec."Non-Taxable")
                 {
                     ToolTip = 'Specifies the value of the Non-Taxable field.';
@@ -139,12 +145,12 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Static GL Ledger Account field.';
                     ApplicationArea = All;
                 }
-                field("GL Code For Branch"; Rec."GL Code For Branch")
+                field("GL Code For Branch"; Rec."CBS GL Code")
                 {
                     ToolTip = 'Specifies the value of the GL Code For Branch field.';
                     ApplicationArea = All;
                 }
-                field("GL Code for Region"; Rec."GL Code for Region")
+                field("GL Code for Region"; Rec."CBS Expense Code")
                 {
                     ToolTip = 'Specifies the value of the GL Code for Region field.';
                     ApplicationArea = All;

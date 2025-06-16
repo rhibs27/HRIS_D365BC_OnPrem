@@ -226,6 +226,12 @@ page 50101 "Travel Form"
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
+                field("Currency Code"; rec."Currency Code")
+                {
+                    Editable = IsOpen and (rec."Travel Countries" <> rec."Travel Countries"::Nepal);
+                    ToolTip = 'Specifies the Currency Code';
+                    ApplicationArea = All;
+                }
                 field("Total Estimated Cost"; Rec."Total Estimated Cost")
                 {
                     ToolTip = 'Specifies the value of the Total Estimated Cost field.';
@@ -240,6 +246,7 @@ page 50101 "Travel Form"
                 }
                 field("Auth. Account No."; Rec."Auth. Account No.")
                 {
+                    Caption = 'Bank Account No';
                     ToolTip = 'Specifies the value of the Auth. Account No. field.';
                     ApplicationArea = All;
                     Editable = false;

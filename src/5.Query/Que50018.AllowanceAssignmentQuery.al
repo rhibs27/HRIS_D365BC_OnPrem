@@ -52,6 +52,7 @@ query 50018 "Allowance Assignment Query"
                     column(employeeNo; "Employee No.")
                     {
                     }
+                    column(employeeName; "Employee Name") { }
                     column("code"; Code) { }
                     column(name; Name)
                     {
@@ -76,6 +77,6 @@ query 50018 "Allowance Assignment Query"
         Hrmgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(empNo, Hrmgt.GetEmployeeNo());
-        CurrQuery.SetRange(activityType, activityType::"Allowance Assignment");
+        // CurrQuery.SetRange(activityType, activityType::"Allowance Assignment");
     end;
 }

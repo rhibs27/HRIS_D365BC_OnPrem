@@ -682,8 +682,10 @@ table 50035 "Posted Payroll Line"
         field(163; "LWP Days"; Decimal) { }
         field(164; "Prior Leave Days"; Decimal) { }
         field(165; "Property Insurance Premium"; Decimal) { }
+        field(167; "Current Non-Payments"; Decimal) { }
+        field(170; "Projected Non-Payments"; Decimal) { }
+        field(171; "Past Non-Payments"; Decimal) { }
         field(181; "Posting Date"; Date) { }
-        field(174; Reversed; Boolean) { }
         field(175; "CIT Posted 1"; Boolean) { }
         field(176; "PF Posted 1"; Boolean) { }
         field(177; "IC Posted 1"; Boolean)
@@ -700,6 +702,18 @@ table 50035 "Posted Payroll Line"
         field(180; "PF Posted 2"; Boolean)
         {
         }
+        field(172; "39% Slab"; Decimal)
+        {
+        }
+        field(173; "Post Resignation Days"; Decimal)
+        {
+        }
+        field(174; "Post Payroll Days"; Decimal)
+        {
+            Description = 'Post Payroll Days';
+            Editable = false;
+        }
+        field(182; Reversed; Boolean) { }
     }
 
     keys

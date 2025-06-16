@@ -5,6 +5,7 @@ page 50106 "Overtime Card"
     SourceTable = "OverTime";
     ApplicationArea = All;
     InsertAllowed = false;
+
     layout
     {
         area(Content)
