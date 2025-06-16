@@ -33,6 +33,12 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Subtype field.';
                     ApplicationArea = All;
                 }
+                field("Activity Type"; rec."Activity Type")
+                {
+                    ToolTip = 'Specifies the value of the Activity Type  field.';
+                    ApplicationArea = All;
+
+                }
                 field("Non-Taxable"; Rec."Non-Taxable")
                 {
                     ToolTip = 'Specifies the value of the Non-Taxable field.';

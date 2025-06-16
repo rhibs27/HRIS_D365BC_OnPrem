@@ -164,6 +164,7 @@ table 50025 "Payroll Attributes"
             end;
         }
         field(38; "Static GL Ledger Account"; Code[10]) { }
+        field(39; "Activity Type"; enum "Employee Activity Type") { }
     }
 
     keys
