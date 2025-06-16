@@ -4115,11 +4115,10 @@ codeunit 50008 "Payroll Engine"
                 exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
         end
         else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
-            PayrollLine.Reset();
-            PayrollLine.SetRange("Document No.", PayrollDocNo);
-            PayrollLine.SetRange("Employee No.", EmpNo);
-            if PayrollLine.FindFirst() then begin
-                SalaryLevel.Get(PayrollLine."Salary Level");
+            Employee.Reset();
+            Employee.SetRange("No.", EmpNo);
+            if Employee.FindFirst() then begin
+                SalaryLevel.Get(Employee."Salary Level");
                 exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
             end;
 
