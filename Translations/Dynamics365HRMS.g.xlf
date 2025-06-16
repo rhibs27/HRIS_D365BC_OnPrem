@@ -20638,11 +20638,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Panel - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3852589595 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rejection Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Rejection Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3852589595 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitue of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20662,11 +20657,6 @@
           <source>Executes the Approve Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Approve Substitute - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3852589595 - Action 3620725999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reject Allowance Claim action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Reject ALlowance Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3852589595 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Substitute action.</source>
@@ -58478,10 +58468,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Memo Type - EnumValue test - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3198880606 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 3198880606 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Mode Of Travel - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Mode Of Travel - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3198880606 - EnumValue 3050091475 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>By Air</source>
