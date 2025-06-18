@@ -1,4 +1,4 @@
-page 50230 "Transfer Claim Details Subform"
+page 50363 "Transfer Claim Details Subform"
 {
     ApplicationArea = All;
     Caption = 'Transfer Claim Details Subform';
@@ -29,5 +29,7 @@ page 50230 "Transfer Claim Details Subform"
                 }
             }
         }
+
     }
+
 }

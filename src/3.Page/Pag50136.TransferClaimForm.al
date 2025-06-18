@@ -66,35 +66,35 @@ page 50136 "Transfer Claim Form"
                     ApplicationArea = All;
                 }
             }
-            group(Allowance)
-            {
-                Editable = false;
-                field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the BM Accomodation Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Remote Area Allow."; Rec."Remote Area Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Remote Area Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Relocation Allow."; Rec."Relocation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Relocation Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Officiating Allow."; Rec."Officiating Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Officiating Allow. field.';
-                    ApplicationArea = All;
-                }
-            }
+            // group(Allowance)
+            // {
+            //     Editable = false;
+            //     field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the BM Accomodation Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Remote Area Allow."; Rec."Remote Area Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Remote Area Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Relocation Allow."; Rec."Relocation Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Relocation Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Officiating Allow."; Rec."Officiating Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Officiating Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
             //anupam
             part("transfer claim details attachment"; "Transfer Claim Details Subform")
             {

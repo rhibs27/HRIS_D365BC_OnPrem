@@ -1,4 +1,4 @@
-table 50103 "Transfer Claim Detail"
+table 50155 "Transfer Claim Detail"
 {
     Caption = 'Transfer Claim Detail';
     DataClassification = ToBeClassified;
@@ -9,11 +9,13 @@ table 50103 "Transfer Claim Detail"
         {
             Caption = 'Transfer No';
         }
-        field(2; "Attribute code"; Code[20])
+        //anupam
+        field(2; "Attribute code"; code[20])
         {
             Caption = 'Attribute code';
-            TableRelation = "Payroll Attributes";
+            TableRelation = "Payroll Attributes".Code WHERE("Activity Type" = CONST("Employee Activity Type"::"Transfer Claim"));
         }
+
         field(3; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
