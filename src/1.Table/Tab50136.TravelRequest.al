@@ -221,7 +221,7 @@ table 50136 "Travel Request"
                         end;
                     end;
                 end;
-                if (Type = Type::"Travel Claim") and GuiAllowed then begin
+                if Type in [Type::"Travel Claim", Type::"Travel Request"] then begin
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
                 end;
 
