@@ -96,4 +96,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Allowance Assignment Claim';
     }
+    value(24; "Roster")
+    {
+        Caption = 'Roster';
+    }
 }
