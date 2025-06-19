@@ -1,9 +1,9 @@
-page 50248 "Roster Header"
+page 50248 "Shift Management"
 {
     ApplicationArea = All;
-    Caption = 'Roster Header';
+    Caption = 'Shift Management';
     PageType = List;
-    SourceTable = Roster;
+    SourceTable = "Shift Management";
     UsageCategory = Lists;
 
     layout

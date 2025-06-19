@@ -1,6 +1,6 @@
-table 50113 Roster
+table 50113 "Shift Management"
 {
-    Caption = 'Roster';
+    Caption = 'Shift Management';
     DataClassification = CustomerContent;
 
     fields
@@ -16,14 +16,24 @@ table 50113 Roster
         field(3; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
+            Editable = false;
         }
         field(4; "Deputation Code"; Code[20])
         {
             Caption = 'Deputation Code';
+            Editable = false;
+            trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
+            begin
+                if OrganizationStructureList.Get("Deputation Type", "Deputation Code") then
+                    Validate("Deputation Name", OrganizationStructureList.Name);
+            end;
         }
         field(5; "Deputation Name"; Text[100])
         {
             Caption = 'Deputation Name';
+            Editable = false;
         }
         field(6; "From Date"; Date)
         {
@@ -48,10 +58,21 @@ table 50113 Roster
         field(11; "Employee No."; Code[20])
         {
             Caption = 'Employee No.';
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                If Employee.Get("Employee No.") then begin
+                    Validate("Employee Name", Employee."Full Name");
+                    Validate("Deputation Type", Employee."Deputation on");
+                    Validate("Deputation Code", Employee."Deputation On Code");
+                end;
+            end;
         }
         field(12; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
+            Editable = false;
         }
         field(13; "Rejection Remarks"; Text[100])
         {
@@ -82,16 +103,16 @@ table 50113 Roster
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-        //     Error(CannotDelete)
-        // else begin
-        // AllowanceLine.Reset;
-        // AllowanceLine.SetRange("No.", "No.");
-        // AllowanceLine.DeleteAll(true);
-        // ApprovalHrms.Reset;
-        // ApprovalHrms.SetRange("Document No.", "No.");
-        // ApprovalHrms.DeleteAll(true);
-        // end;
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            ShiftLine.Reset;
+            ShiftLine.SetRange("No.", "No.");
+            ShiftLine.DeleteAll(true);
+            ApprovalHrms.Reset;
+            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.DeleteAll(true);
+        end;
     end;
 
     trigger OnInsert()
@@ -120,5 +141,7 @@ table 50113 Roster
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
         ApproverMgt: Codeunit "Approver Mgt";
+        ApprovalHRMS: Record "Approval HRMS";
+        ShiftLine: Record "Shift Line";
 
 }

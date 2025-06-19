@@ -1,6 +1,6 @@
-table 50118 "Roster Line"
+table 50118 "Shift Line"
 {
-    Caption = 'Roster Line';
+    Caption = 'Shift Line';
     DataClassification = CustomerContent;
     DataPerCompany = false;
 
