@@ -221,7 +221,7 @@ table 50136 "Travel Request"
                         end;
                     end;
                 end;
-                if (Type = Type::"Travel Claim") and GuiAllowed then begin
+                if Type in [Type::"Travel Claim", Type::"Travel Request"] then begin
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
                 end;
 
@@ -699,9 +699,9 @@ table 50136 "Travel Request"
                 end;
                 if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
-                clear("Currency Code");
                 //anupam
                 if "Travel Countries" = "Travel Countries"::Nepal then begin
+                    clear("Currency Code");
                     GLSetup.get();
                     if GLSetup."LCY Code" = '' then
                         Error('Local currency in GL setup is empty');

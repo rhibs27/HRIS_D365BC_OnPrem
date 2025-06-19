@@ -17628,6 +17628,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Senior Officer Level - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 2652296700 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Staff Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Staff Level - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 118136460 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>TA OT Basic Salary</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43863,6 +43868,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Grades - Control Standard Step - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3544505483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Designations</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3544505483 - Control 2359252340 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44042,6 +44052,11 @@
           <source>Specifies the value of the Senior Officer Level field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Senior Officer Level - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 2652296700 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Staff Level field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Staff Level - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 118136460 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the TA OT Basic Salary field.</source>
@@ -54123,10 +54138,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Sol Id - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 3275815306 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Staff Type</source>
+        <trans-unit id="TableExtension 1028528413 - Field 4178237404 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Staff level</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Staff Type - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Staff level - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2264532377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Sub Unit Code</source>
@@ -59468,15 +59483,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue   - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3275815306 - EnumValue 3992303763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Clerical staff</source>
+        <trans-unit id="Enum 3275815306 - EnumValue 2440292440 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assistant</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Clerical staff - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Assistant - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 1077592717 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manager</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Manager - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3275815306 - EnumValue 2831894130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Non Clerical Staff</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Non Clerical Staff - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 1045141230 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Officer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Officer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 1937548417 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Senior Management</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Senior Management - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 1626074402 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

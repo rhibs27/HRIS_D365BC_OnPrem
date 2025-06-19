@@ -1471,9 +1471,14 @@ codeunit 50008 "Payroll Engine"
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        EmployeeActivity: Record "Employee Activity";
+        // EmployeeActivity: Record "Employee Activity";
+        Leave: Record Leave;
+        Travel: Record "Travel Request";
+        OverTime: Record OverTime;
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
         AttendanceLine: Record "Attendance Line";
         TrainingAttend: Record "Training Attendance";
+        AllowanceAssignMgt: Codeunit "Allowance Assignment Mgt";
     begin
         EmployeeAttendanceActivity.Reset;
         EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
@@ -1496,20 +1501,75 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity.Insert;
             until AttendanceLine.Next = 0;
 
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetCurrentKey("Employee No.", "Start Date", "End Date");
-        EmployeeActivity.SetFilter(Type, '%1|%2|%3', EmployeeActivity.Type::"Leave Request", EmployeeActivity.Type::"Travel Request",
-                                                    EmployeeActivity.Type::"Attendance Missed"); //Min 8.21.2022
-        EmployeeActivity.SetRange("Employee No.", EmployeeCode);
-        EmployeeActivity.SetFilter("Start Date", '<=%1', StartDate);
-        EmployeeActivity.SetFilter("End Date", '>=%1', StartDate);
-        EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-        EmployeeActivity.SetFilter("Cancelled No.", '%1', '');
-        EmployeeActivity.SetRange(Cancelled, false);
-        if EmployeeActivity.FindSet then
+        // EmployeeActivity.Reset;
+        // EmployeeActivity.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        // EmployeeActivity.SetFilter(Type, '%1|%2|%3', EmployeeActivity.Type::"Leave Request", EmployeeActivity.Type::"Travel Request",
+        //                                             EmployeeActivity.Type::"Attendance Missed"); //Min 8.21.2022
+        // EmployeeActivity.SetRange("Employee No.", EmployeeCode);
+        // EmployeeActivity.SetFilter("Start Date", '<=%1', StartDate);
+        // EmployeeActivity.SetFilter("End Date", '>=%1', StartDate);
+        // EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
+        // EmployeeActivity.SetFilter("Cancelled No.", '%1', '');
+        // EmployeeActivity.SetRange(Cancelled, false);
+        // if EmployeeActivity.FindSet then
+        //     repeat
+        //         CorrectAttendanceActivity(EmployeeActivity, StartDate);
+        //     until EmployeeActivity.Next = 0;
+
+        // for Approved leave Request
+        Leave.Reset;
+        Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Leave.SetRange(Type, Leave.Type::"Leave Request"); //Min 8.21.2022
+        Leave.SetRange("Employee No.", EmployeeCode);
+        Leave.SetFilter("Start Date", '<=%1', StartDate);
+        Leave.SetFilter("End Date", '>=%1', StartDate);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Leave.SetFilter("Cancelled No.", '%1', '');
+        Leave.SetRange(Cancelled, false);
+        if Leave.FindSet then
             repeat
-                CorrectAttendanceActivity(EmployeeActivity, StartDate);
-            until EmployeeActivity.Next = 0;
+                CorrectAttendanceActivity(Leave.Type, Leave."No.", StartDate, EmployeeCode);
+            until Leave.Next = 0;
+
+        // for Approved Travel Request
+        Travel.Reset;
+        Travel.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Travel.SetRange(Type, Leave.Type::"Travel Request"); //Min 8.21.2022
+        Travel.SetRange("Employee No.", EmployeeCode);
+        Travel.SetFilter("Start Date", '<=%1', StartDate);
+        Travel.SetFilter("End Date", '>=%1', StartDate);
+        Travel.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Travel.SetFilter("Cancelled No.", '%1', '');
+        Travel.SetRange(Cancelled, false);
+        if Travel.FindSet then
+            repeat
+                CorrectAttendanceActivity(Travel.Type, Travel."No.", StartDate, EmployeeCode);
+            until Travel.Next = 0;
+
+        // for Approved OverTime Request
+        OverTime.Reset;
+        OverTime.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        OverTime.SetRange(Type, OverTime.Type::Overtime); //Min 8.21.2022
+        OverTime.SetRange("Employee No.", EmployeeCode);
+        OverTime.SetFilter("Start Date", '<=%1', StartDate);
+        OverTime.SetFilter("End Date", '>=%1', StartDate);
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+        OverTime.SetRange(Cancelled, false);
+        if OverTime.FindSet then
+            repeat
+                CorrectAttendanceActivity(OverTime.Type, OverTime."No.", StartDate, EmployeeCode);
+            until OverTime.Next = 0;
+        // for Approved AllowanceAssignmentLine Request
+        AllowanceAssignmentLine.Reset;
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment"); //Min 8.21.2022
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetFilter("From Date", '<=%1', StartDate);
+        AllowanceAssignmentLine.SetFilter("To Date", '>=%1', StartDate);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        if AllowanceAssignmentLine.Findset then
+            repeat
+                AllowanceAssignMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine);
+            until AllowanceAssignmentLine.Next = 0;
 
         TrainingAttend.Reset;
         TrainingAttend.SetRange("Employee No.", EmployeeCode);
@@ -1538,20 +1598,23 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure CorrectAttendanceActivity(EmployeeActivity: Record "Employee Activity"; AttendanceDate: Date)
+    local procedure CorrectAttendanceActivity(EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20]; AttendanceDate: Date; EmpNo: Code[20])
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        Leave: Record Leave;
+        PRSetup: Record "Payroll General Setup";
     begin
         EmployeeAttendanceActivity.Reset;
-        EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeActivity."Employee No.");
+        EmployeeAttendanceActivity.SetRange("Employee No.", EmpNo);
         EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceDate);
         if EmployeeAttendanceActivity.FindFirst then begin
-            case EmployeeActivity.Type of
-                EmployeeActivity.Type::"Leave Request":
+            case EmployeeActType of
+                EmployeeActType::"Leave Request":
                     begin
                         //EmployeeAttendanceActivity."Check In Time" := 0T;
                         //EmployeeAttendanceActivity."Check Out Time" := 0T;
-                        LeaveTypeSetup.Get(EmployeeActivity."Leave Code");
+                        Leave.Get(EmpActNo);
+                        LeaveTypeSetup.Get(Leave."Leave Code");
                         if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
                             if not LeaveTypeSetup."Exclude Non Working Days" then begin
                                 EmployeeAttendanceActivity."Day Type" := EmployeeAttendanceActivity."Day Type"::"Working Day";
@@ -1572,9 +1635,10 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Late Day" := 0;
                         EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
                         EmployeeAttendanceActivity."Training Day" := 0;
+                        EmployeeAttendanceActivity.Validate("Leave Description", Leave."Leave Description");
                     end;
 
-                EmployeeActivity.Type::"Travel Request":
+                EmployeeActType::"Travel Request":
                     begin
                         EmployeeAttendanceActivity."Leave Day" := 0;
                         //EmployeeAttendanceActivity."Check In Time" := 0T; //Min 10.17.2022
@@ -1589,39 +1653,19 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
                         EmployeeAttendanceActivity."Training Day" := 0;
                     end;
-                EmployeeActivity.Type::"Attendance Missed":
-                    begin
-                        EmployeeAttendanceActivity."Leave Day" := 0;
-                        //EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";//Min 1.5.2023 Comment as per Santosh Paudel Req.
-                        //EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
-                        EmployeeAttendanceActivity.Validate("Present Day", 1);
-                        EmployeeAttendanceActivity."Absent Day" := 0;
-                        if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
-                            EmployeeAttendanceActivity."Week Off Day" := 1
-                        else
-                            EmployeeAttendanceActivity."Week Off Day" := 0;
-                        EmployeeAttendanceActivity."Tour Day" := 0;
-                        EmployeeAttendanceActivity."Half Day" := 0;
-                        EmployeeAttendanceActivity."OT Hrs" := 0;
-                        EmployeeAttendanceActivity."OT Day" := 0;
-                        EmployeeAttendanceActivity."Late Day" := 0;
-                        EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
-                        EmployeeAttendanceActivity."Training Day" := 0;
-                    end;
+            end;
+
             /*EmployeeActivity.Type::Overtime : BEGIN //Min 8.21.2022
               EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";
               EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
               //EmployeeAttendanceActivity."OT Day" := 1;
             END;*/
-            end;
-            EmployeeAttendanceActivity."Employee Activity Found" := true;
-            EmployeeAttendanceActivity."Source No." := EmployeeActivity."No.";
-            if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then
-                EmployeeAttendanceActivity.Validate("Leave Description", EmployeeActivity."Leave Description");
-            EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
-            CalcAttendance(EmployeeAttendanceActivity);
-            EmployeeAttendanceActivity.Modify;
         end;
+        EmployeeAttendanceActivity."Employee Activity Found" := true;
+        EmployeeAttendanceActivity."Source No." := EmpActNo;
+        EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+        CalcAttendance(EmployeeAttendanceActivity);
+        EmployeeAttendanceActivity.Modify;
     end;
 
     local procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")

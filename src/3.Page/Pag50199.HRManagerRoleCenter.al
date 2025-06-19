@@ -53,6 +53,671 @@ page 50199 "HR Manager Role Center"
 
     actions
     {
+        area(Sections)
+        {
+            group(General)
+            {
+                Caption = 'General';
+                group("Employees")
+                {
+                    Caption = 'Employees';
+                    action("All Employees")
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee List";
+                        ToolTip = 'Executes the Employee List action.';
+                    }
+                    group("As Per Status")
+                    {
+                        Caption = 'As Per Status';
+                        action("Active")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where(Status = const(Active));
+                            ToolTip = 'Executes the Employee List action.';
+                        }
+                        action("Inactive")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where(Status = const(Inactive));
+                            ToolTip = 'Executes the Inactive Employee List action.';
+                        }
+                        action("Terminated")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where(Status = const(Terminated));
+                            ToolTip = 'Executes the Terminated Employee List action.';
+                        }
+                    }
+                    group("As Per Employment")
+                    {
+                        Caption = 'As Per Employment';
+                        action("Permanent")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where("Employment Type" = filter(Permanent));
+                            ToolTip = 'Executes the Regular Employee List action.';
+                        }
+                        action("Contract")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where("Employment Type" = filter(Contract));
+                            ToolTip = 'Executes the Contract Employee List action.';
+                        }
+                        action("Probation")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where("Employment Type" = filter(Probation));
+                            ToolTip = 'Executes the Probation Employee List action.';
+                        }
+                        action("Temporary")
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee List";
+                            RunPageView = where("Employment Type" = filter("Temporary"));
+                            ToolTip = 'Executes the Probation Employee List action.';
+                        }
+                    }
+                }
+
+            }
+            group("Employee Activities")
+            {
+                Caption = 'Employee Activities';
+                group("Leave Request")
+                {
+                    Caption = 'Leaves';
+                    action("Open Leaves")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Leave Requests";
+                        RunPageView = where("Approval Status" = filter("Open"));
+                        ToolTip = 'Executes the Open Leave Requests action.';
+                    }
+                    action("Pending Leaves")
+                    {
+                        Caption = 'Pending';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Leave Requests";
+                        RunPageView = where("Approval Status" = filter("Pending"));
+                        ToolTip = 'Executes the Pending Approval Leave Requests action.';
+                    }
+                    action("Approved Leaves")
+                    {
+                        Caption = 'Approved';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Leave Requests";
+                        RunPageView = where("Approval Status" = filter("Approved"));
+                        ToolTip = 'Executes the Approved Leave Requests action.';
+                    }
+                    action("Rejected Leaves")
+                    {
+                        Caption = 'Rejected';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Leave Requests";
+                        RunPageView = where("Approval Status" = filter("Rejected"));
+                        ToolTip = 'Executes the Rejected Leave Requests action.';
+                    }
+                    action("All Leaves")
+                    {
+                        Caption = 'All';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Leave Requests";
+                        ToolTip = 'Executes the All Leave Requests action.';
+                    }
+
+                }
+                group("Travel Request")
+                {
+                    Caption = 'Travels';
+                    action("Open Travels")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Requests";
+                        RunPageView = where(Type = filter("Travel Request"), "Approval Status" = filter("Open"));
+                        ToolTip = 'Executes the Open Travel Requests action.';
+                    }
+                    action("Pending Travels")
+                    {
+                        Caption = 'Pending';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Requests";
+                        RunPageView = where(Type = filter("Travel Request"), "Approval Status" = filter("Pending"));
+                        ToolTip = 'Executes the Pending Approval Travel Requests action.';
+                    }
+                    action("Approved Travels")
+                    {
+                        Caption = 'Approved';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Requests";
+                        RunPageView = where(Type = filter("Travel Request"), "Approval Status" = filter("Approved"));
+                        ToolTip = 'Executes the Approved Travel Requests action.';
+                    }
+                    action("Rejected Travels")
+                    {
+                        Caption = 'Rejected';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Requests";
+                        RunPageView = where(Type = filter("Travel Request"), "Approval Status" = filter("Rejected"));
+                        ToolTip = 'Executes the Rejected Travel Requests action.';
+                    }
+                    action("All Travels")
+                    {
+                        Caption = 'All';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Requests";
+                        RunPageView = where(Type = filter("Travel Request"));
+                        ToolTip = 'Executes the All Travel Requests action.';
+                    }
+                }
+                group("Travel Claim Request")
+                {
+                    Caption = 'Travel Claims';
+                    action("Open Travel Claims")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Claim Lists";
+                        RunPageView = where(Type = filter("Travel Claim"), "Approval Status" = filter("Open"));
+                        ToolTip = 'Executes the Open Travel Claim Requests action.';
+                    }
+                    action("Pending Travel Claims")
+                    {
+                        Caption = 'Pending';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Claim Lists";
+                        RunPageView = where(Type = filter("Travel Claim"), "Approval Status" = filter("Pending"));
+                        ToolTip = 'Executes the Pending Approval Claim Travel Requests action.';
+                    }
+                    action("Approved Travel Claims")
+                    {
+                        Caption = 'Approved';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Claim Lists";
+                        RunPageView = where(Type = filter("Travel Claim"), "Approval Status" = filter("Approved"));
+                        ToolTip = 'Executes the Approved Travel Claim Requests action.';
+                    }
+                    action("Rejected Travel Claims")
+                    {
+                        Caption = 'Rejected';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Claim Lists";
+                        RunPageView = where(Type = filter("Travel Claim"), "Approval Status" = filter("Rejected"));
+                        ToolTip = 'Executes the Rejected Travel Claim Requests action.';
+                    }
+                    action("All Travel Claims")
+                    {
+                        Caption = 'All';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Travel Claim Lists";
+                        RunPageView = where(Type = filter("Travel Claim"));
+                        ToolTip = 'Executes the All Travel Claim Requests action.';
+                    }
+                }
+                group("Overtime Request")
+                {
+                    Caption = 'Overtimes';
+                    group("Individual Overtime Request")
+                    {
+                        Caption = 'Individual';
+                        action("Open Overtime Request")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtimes";
+                            RunPageView = where(Type = filter("Overtime"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open Overtime Requests action.';
+                        }
+                        action("Pending Overtime Request")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtimes";
+                            RunPageView = where(Type = filter("Overtime"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending Overtime Requests action.';
+                        }
+                        action("Approved Overtime Request")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtimes";
+                            RunPageView = where(Type = filter("Overtime"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved Overtime Requests action.';
+                        }
+                        action("Rejected Overtime Request")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtimes";
+                            RunPageView = where(Type = filter("Overtime"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected Overtime Requests action.';
+                        }
+                        action("All Overtime Request")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtimes";
+                            RunPageView = where(Type = filter("Overtime"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the All Overtime Requests action.';
+                        }
+                    }
+                    group("Bulk Overtime Request")
+                    {
+                        Caption = 'Bulk';
+                        action("Open Bulk Overtime Request")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtime Bulk List";
+                            RunPageView = where(Type = filter("Overtime Bulk"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open Bulk Overtime Claim Requests action.';
+                        }
+                        action("Pending Bulk Overtime Request")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtime Bulk List";
+                            RunPageView = where(Type = filter("Overtime Bulk"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending Bulk Overtime Requests action.';
+                        }
+                        action("Approved Bulk Overtime Request")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtime Bulk List";
+                            RunPageView = where(Type = filter("Overtime Bulk"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved Bulk Overtime Requests action.';
+                        }
+                        action("Rejected Bulk Overtime Request")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtime Bulk List";
+                            RunPageView = where(Type = filter("Overtime Bulk"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected Bulk Overtime Requests action.';
+                        }
+                        action("All Bulk Overtime Request")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Overtime Bulk List";
+                            RunPageView = where(Type = filter("Overtime Bulk"));
+                            ToolTip = 'Executes the All Bulk Overtime Requests action.';
+                        }
+                    }
+                }
+                group("Allowance Assignement")
+                {
+                    Caption = 'Allowance Assignment';
+                    group("Assignment")
+                    {
+                        Caption = 'Assignment';
+                        action("Open Assignment")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open Allowance Assignment Requests action.';
+                        }
+                        action("Pending Assignments")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending Allowance Assignment Requests action.';
+                        }
+                        action("Approved Assignments")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved Allowance Assignment Requests action.';
+                        }
+                        action("Rejected Assignments")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected Allowance Assignment Requests action.';
+                        }
+                        action("All Assignments")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment"));
+                            ToolTip = 'Executes the All Allowance Assignment Requests action.';
+                        }
+                    }
+                    group("Claim")
+                    {
+                        Caption = 'Claim';
+                        action("Open Claim")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments Claim";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment Claim"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open Allowance Assignments Claim Requests action.';
+                        }
+                        action("Pending Claim")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments Claim";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment Claim"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending Allowance Assignments Claim Requests action.';
+                        }
+                        action("Approved Claim")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments Claim";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment Claim"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved Allowance Assignments Claim Requests action.';
+                        }
+                        action("Rejected Claim")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments Claim";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment Claim"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected Allowance Assignments Claim Requests action.';
+                        }
+                        action("All Claim")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Allowance Assignments Claim";
+                            RunPageView = where("Activity Type" = filter("Allowance Assignment Claim"));
+                            ToolTip = 'Executes the All Allowance Assignments Claim Requests action.';
+                        }
+                    }
+                }
+                group("EmployeeTransfers")
+                {
+                    Caption = 'Transfers';
+                    group("HR Transfers")
+                    {
+                        Caption = 'HR  Transfers';
+                        action("Open HR Transfers")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "HR Transfer Requests";
+                            RunPageView = where("Type" = filter("HR Transfer"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open HR Transfer Requests action.';
+                        }
+                        action("Pending HR Transfers")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "HR Transfer Requests";
+                            RunPageView = where("Type" = filter("HR Transfer"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending HR Transfer Requests action.';
+                        }
+                        action("Approved HR Transfers")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "HR Transfer Requests";
+                            RunPageView = where("Type" = filter("HR Transfer"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved HR Transfer Requests action.';
+                        }
+                        action("Rejected HR Transfers")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "HR Transfer Requests";
+                            RunPageView = where("Type" = filter("HR Transfer"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected HR Transfer Requests action.';
+                        }
+                        action("All HR Transfers")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "HR Transfer Requests";
+                            RunPageView = where("Type" = filter("HR Transfer"));
+                            ToolTip = 'Executes the All HR Transfer Requests action.';
+                        }
+                    }
+                    group("Employee Transfers")
+                    {
+                        Caption = 'Employee Transfers';
+                        action("Open Employee Transfer")
+                        {
+                            Caption = 'Open';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee Transfer Requests";
+                            RunPageView = where("Type" = filter("Employee Transfer"), "Approval Status" = filter("Open"));
+                            ToolTip = 'Executes the Open Employee Transfer Requests action.';
+                        }
+                        action("Pending Employee Transfer")
+                        {
+                            Caption = 'Pending';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee Transfer Requests";
+                            RunPageView = where("Type" = filter("Employee Transfer"), "Approval Status" = filter("Pending"));
+                            ToolTip = 'Executes the Pending Employee Transfer Requests action.';
+                        }
+                        action("Approved Employee Transfer")
+                        {
+                            Caption = 'Approved';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee Transfer Requests";
+                            RunPageView = where("Type" = filter("Employee Transfer"), "Approval Status" = filter("Approved"));
+                            ToolTip = 'Executes the Approved Employee Transfer Requests action.';
+                        }
+                        action("Rejected Employee Transfer")
+                        {
+                            Caption = 'Rejected';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee Transfer Requests";
+                            RunPageView = where("Type" = filter("Employee Transfer"), "Approval Status" = filter("Rejected"));
+                            ToolTip = 'Executes the Rejected Employee Transfer Requests action.';
+                        }
+                        action("All Employee Transfer")
+                        {
+                            Caption = 'All';
+                            ApplicationArea = Basic, Suite;
+                            Image = ListPage;
+                            RunObject = page "Employee Transfer Requests";
+                            RunPageView = where("Type" = filter("Employee Transfer"));
+                            ToolTip = 'Executes the All Employee Transfer Requests action.';
+                        }
+                    }
+                }
+                group("Transfer Claim")
+                {
+                    Caption = 'Transfer Claims';
+                    action("Open Transfer Claims")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Transfer Claim";
+                        RunPageView = where("Type" = filter("Transfer Claim"), "Approval Status" = filter("Open"));
+                        ToolTip = 'Executes the Open Transfer Claim Requests action.';
+                    }
+                    action("Pending Transfer Claims")
+                    {
+                        Caption = 'Pending';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Transfer Claim";
+                        RunPageView = where("Type" = filter("Transfer Claim"), "Approval Status" = filter("Pending"));
+                        ToolTip = 'Executes the Pending Transfer Claim Requests action.';
+                    }
+                    action("Approved Transfer Claims")
+                    {
+                        Caption = 'Approved';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Transfer Claim";
+                        RunPageView = where("Type" = filter("Transfer Claim"), "Approval Status" = filter("Approved"));
+                        ToolTip = 'Executes the Approved Transfer Claim Requests action.';
+                    }
+                    action("Rejected Transfer Claims")
+                    {
+                        Caption = 'Rejected';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Transfer Claim";
+                        RunPageView = where("Type" = filter("Transfer Claim"), "Approval Status" = filter("Rejected"));
+                        ToolTip = 'Executes the Rejected Transfer Claim Requests action.';
+                    }
+                    action("All Transfer Claims")
+                    {
+                        Caption = 'All';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Transfer Claim";
+                        RunPageView = where("Type" = filter("Transfer Claim"));
+                        ToolTip = 'Executes the All Transfer Claim Requests action.';
+                    }
+                }
+            }
+            group("Payroll")
+            {
+                Caption = 'Payroll';
+                group("Monthly Payroll Plan")
+                {
+                    Caption = 'Monthly Payroll';
+                    action("Open Payroll")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Payroll Plan List";
+                        RunPageView = where("Type" = filter("Payroll"));
+                        ToolTip = 'Executes the Payroll Plan action.';
+                    }
+                    action("Posted Payroll")
+                    {
+                        Caption = 'Posted';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Posted Payroll Plan List";
+                        RunPageView = where("Type" = filter("Payroll"));
+                        ToolTip = 'Executes the Posted Payroll Plan action.';
+                    }
+                }
+                group("Adjustment Payroll Plan")
+                {
+                    Caption = 'Adjustment Plan';
+                    action("Open Adjustment Plan")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Payroll Plan List";
+                        RunPageView = where("Type" = filter("Adjustment"));
+                        ToolTip = 'Executes the Adjustment Payroll Plan action.';
+                    }
+                    action("Posted Adjustment Payroll")
+                    {
+                        Caption = 'Posted';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Posted Payroll Plan List";
+                        RunPageView = where("Type" = filter("Adjustment"));
+                        ToolTip = 'Executes the Posted Adjustment Payroll Plan action.';
+                    }
+
+
+                }
+                group("Resignation Payroll Plan")
+                {
+                    Caption = 'Resignation Plan';
+                    action("Open Resignation Plan")
+                    {
+                        Caption = 'Open';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Payroll Plan List";
+                        RunPageView = where("Type" = filter("Resignation"));
+                        ToolTip = 'Executes the Resignation Payroll Plan action.';
+                    }
+                    action("Posted Resignation Payroll")
+                    {
+                        Caption = 'Posted';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Posted Payroll Plan List";
+                        RunPageView = where("Type" = filter("Resignation"));
+                        ToolTip = 'Executes the Posted Resignation Payroll Plan action.';
+                    }
+                }
+                group("HR Journals")
+                {
+
+                }
+            }
+        }
         area(embedding)
         {
             // action("Employee Lite")
@@ -61,14 +726,6 @@ page 50199 "HR Manager Role Center"
             //     Image = List;
             //     ToolTip = 'Executes the Employee Lite action.';
             // }
-            action(Employees)
-            {
-                ApplicationArea = Basic, Suite;
-                Caption = 'Employees';
-                Image = List;
-                RunObject = page "Employee List";
-                ToolTip = 'Executes the Employees action.';
-            }
             action("Employee Attendance Activity")
             {
                 ApplicationArea = Basic, Suite;

@@ -31,7 +31,7 @@ table 50103 "Overtime Line"
 
                 if Employee.Get("Employee Code") then begin
                     "Employee Name" := Employee."Full Name";
-                    Validate("Staff Type", Employee."Staff Type");
+                    Validate("Staff Type", Employee."Staff level");
                     Validate("Employee Work Shift", Employee."Employee Work Shift");
                     Validate("Deputation Type", Employee."Deputation on");
                     Validate(Code, Employee."Deputation On Code");
