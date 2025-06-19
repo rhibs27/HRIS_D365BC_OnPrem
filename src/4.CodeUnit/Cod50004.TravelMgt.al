@@ -201,6 +201,8 @@ codeunit 50004 "Travel Mgt."
         //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::"Pending Approval");
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
         TravelReq.Validate("User ID", UserId);
+        if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
+            Error('Advance cash amount cannot be greater than Total Estimated Cost');
         TravelReq.Modify();
         if not (TravelReq."Travel Order No." = '') then begin
             TravelRequest2.Get(TravelReq."Travel Order No.");
