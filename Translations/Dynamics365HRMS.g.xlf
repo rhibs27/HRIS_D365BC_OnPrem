@@ -48398,6 +48398,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Interview Evaluation Form - NamedType ReportName</note>
         </trans-unit>
+        <trans-unit id="Report 1303573701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Employees Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2904538926 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ReferenceNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
