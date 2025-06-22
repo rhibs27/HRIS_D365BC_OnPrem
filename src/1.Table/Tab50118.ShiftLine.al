@@ -21,10 +21,19 @@ table 50118 "Shift Line"
         field(4; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
+            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation Code"));
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                if Employee.get("Employee No") then
+                    Validate("Employee Name", Employee."Full Name");
+            end;
         }
         field(5; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
+            Editable = false;
         }
         field(6; "Roster Date"; Date)
         {
@@ -41,30 +50,24 @@ table 50118 "Shift Line"
         field(9; "Employee Work Shift"; Code[10])
         {
             Caption = 'Employee Work Shift';
+            TableRelation = "Employee Work Shift".Code;
         }
         field(10; Remarks; Text[100])
         {
             Caption = 'Remarks';
         }
-        field(11; "Code"; Code[20])
+        field(11; "Deputation Code"; Code[20])
         {
             Editable = false;
             Caption = 'Code';
-            TableRelation = if ("Deputation Type" = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if ("Deputation Type" = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
             trigger OnValidate()
             begin
-                Clear(Name);
-                if "Deputation Type" = "Deputation Type"::Branch then begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Code) then
-                        Name := OrganizationStructureList.Name;
-                end else if "Deputation Type" = "Deputation Type"::"Extension Counter" then begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
-                        Name := OrganizationStructureList.Name;
-                end;
+                Clear("Deputation Name");
+                if OrganizationStructureList.Get("Deputation Type", "Deputation Code") then
+                    "Deputation Name" := OrganizationStructureList.Name
             end;
         }
-        field(12; Name; Text[100])
+        field(12; "Deputation Name"; Text[100])
         {
             Editable = false;
         }

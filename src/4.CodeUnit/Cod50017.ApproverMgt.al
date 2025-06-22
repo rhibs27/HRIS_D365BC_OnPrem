@@ -347,6 +347,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
                             end;
+                        EmpActType::"Shift Assignment":
+                            begin
+                                ShiftAssignmentMgt.ApproveRejectShiftLine(true, RecRef.Field(1).Value);
+                            end;
                     end;
                 end;
             end;
@@ -582,5 +586,6 @@ codeunit 50017 "Approver Mgt"
         ResignationMgt: Codeunit "Resignation Mgt";
         ChangesInEmployeeMgt: Codeunit "Employee Edit Mgt.";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
 }

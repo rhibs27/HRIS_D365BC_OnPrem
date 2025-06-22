@@ -690,7 +690,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50147; "Roster Series"; Code[20])
+        field(50147; "Shift Assignment Series"; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;

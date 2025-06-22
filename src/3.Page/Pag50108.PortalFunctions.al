@@ -37,6 +37,7 @@ page 50108 "Portal Functions"
         FileManagement: Codeunit "File Management";
         AttachmentMgt: Codeunit "Attachment Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         HRSetup: Record "Human Resources Setup";
         TotalServicePeriod: Decimal;
@@ -3964,6 +3965,7 @@ page 50108 "Portal Functions"
         MedicalInsuranceClaimForApprove: Integer;
         OvertimeBulkForApprove: Integer;
         AllowanceAssignmentClaimForApprove: Integer;
+        ShiftAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
     begin
         Clear(leaveForApprove);
@@ -3978,6 +3980,7 @@ page 50108 "Portal Functions"
         Clear(EmployeeEditForApprove);
         Clear(LeaveCancelledForApprove);
         Clear(OvertimeBulkForApprove);
+        Clear(ShiftAssignmentForApprove);
 
         Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -4137,21 +4140,30 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         InsuranceForApprove := Approval.Count();
 
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Medical Insurance Claim");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         MedicalInsuranceClaimForApprove := Approval.Count();
 
+        Approval.Reset();
         Approval.SetRange("Document Type", Approval."Document Type"::"Overtime Bulk");
         Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
         Approval.SetFilter("Document No.", '<>%1', '');
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         OvertimeBulkForApprove := Approval.Count();
 
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::"Shift Assignment");
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        ShiftAssignmentForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
           + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
-          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove;
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -4177,6 +4189,7 @@ page 50108 "Portal Functions"
         ',"InsuranceForApprove": "' + format(InsuranceForApprove) + '"' +
         ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
         ',"OvertimeBulkForApprove": "' + format(OvertimeBulkForApprove) + '"' +
+        ',"ShiftAssignmentForApprove": "' + format(ShiftAssignmentForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
     end;
 
@@ -4241,63 +4254,6 @@ page 50108 "Portal Functions"
        ',"LeaveDayCount" :"' + DelChr(Format(LeaveDayCount), '=', '{}') + '"}');
 
     end;
-
-    // [ServiceEnabled]
-    // [Scope('Personalization')]
-    // procedure totalLeaveCount() leavecount: Record Leave
-    // var
-    //     leave: Record Leave;
-    // begin
-    //     leave.Reset();
-    //     leave.SetFilter("Start Date", '>=%1', Today);
-    //     leave.Setfilter("End Date", '<=%1', Today);
-    //     leave.FindSet();
-    //     exit(leave);
-    // end;
-
-    // procedure GetFilteredSalesOrders(Filter: Text): List of [Record Leave]
-    // var
-    //     SalesHeaderRec: Record "Sales Header";
-    //     FilteredSalesOrders: List of [Record "Sales Header"];
-    // begin
-    //     // Apply the filter criteria to the SalesHeaderRec
-    //     if Filter <> '' then
-    //         SalesHeaderRec.SetRange("Status", Filter);
-
-    //     // Loop through and collect filtered records
-    //     if SalesHeaderRec.FindSet() then
-    //         repeat
-    //             FilteredSalesOrders.Add(SalesHeaderRec);
-    //         until SalesHeaderRec.Next() = 0;
-
-    //     exit(FilteredSalesOrders);
-    // end;
-
-    // [ServiceEnabled]
-    // [Scope('Personalization')]
-    // procedure getChanges(since: DateTime): JsonArray
-    // var
-    //     Leave: Record Leave; // Replace with your table name
-    //     ResponseArray: JsonArray;
-    //     RecordObject: JsonObject;
-    // begin
-    //     // Filter records modified after the given timestamp
-    //     Leave.SetRange("SystemModifiedAt", Since, CurrentDateTime);
-    //     if Leave.FindSet() then begin
-    //         repeat
-    //             // Prepare each record as a JSON object
-    //             RecordObject.Add('Name', Leave.Type);
-    //             RecordObject.Add('LastModifiedDateTime', Leave.SystemModifiedAt);
-
-    //             // Add the JSON object to the array
-    //             ResponseArray.Add(RecordObject);
-
-    //         // Clear the object for the next record
-    //         // RecordObject.Clear();
-    //         until Leave.Next() = 0;
-    //     end;
-    //     exit(ResponseArray);
-    // end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -4423,6 +4379,26 @@ page 50108 "Portal Functions"
                     ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
                 end;
         end;
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure sendShiftLineApproval(ShiftNo: Code[20])
+    var
+        ShiftHeader: Record "Shift Assignment Header";
+        ShiftLine: Record "Shift Line";
+    begin
+        ShiftHeader.Get(ShiftNo);
+        ShiftLine.Reset;
+        ShiftLine.SetRange("No.", ShiftNo);
+        ShiftAssignmentMgt.SendApprovalShiftAssignment(ShiftHeader, ShiftLine);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure insertShiftInRange(documentNo: Code[20]; employeeNo: code[20]; employeeWorkShift: Code[20]; fromDate: date; toDate: date)
+    begin
+        ShiftAssignmentMgt.InsertShiftLine(DocumentNo, EmployeeNo, EmployeeWorkShift, FromDate, ToDate);
     end;
 
     [ServiceEnabled]

@@ -1,10 +1,11 @@
-page 50248 "Shift Management"
+page 50248 "Shift Assignment"
 {
     ApplicationArea = All;
-    Caption = 'Shift Management';
+    Caption = 'Shift Assignment';
     PageType = List;
-    SourceTable = "Shift Management";
+    SourceTable = "Shift Assignment Header";
     UsageCategory = Lists;
+    CardPageId = "Shift Assignment Card";
 
     layout
     {

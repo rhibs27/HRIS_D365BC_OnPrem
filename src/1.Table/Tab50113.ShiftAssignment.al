@@ -1,6 +1,6 @@
-table 50113 "Shift Management"
+table 50113 "Shift Assignment Header"
 {
-    Caption = 'Shift Management';
+    Caption = 'Shift Assignment';
     DataClassification = CustomerContent;
 
     fields
@@ -8,6 +8,7 @@ table 50113 "Shift Management"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
+            Editable = false;
         }
         field(2; "Type"; Enum "Employee Activity Type")
         {
@@ -81,10 +82,12 @@ table 50113 "Shift Management"
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
+            Editable = false;
         }
         field(37; "Approved Date"; Date)
         {
             Caption = 'Approved Date';
+            Editable = false;
         }
         field(100; Status; Text[20])
         {
@@ -117,7 +120,7 @@ table 50113 "Shift Management"
 
     trigger OnInsert()
     begin
-        "Type" := "Type"::"Allowance Assignment";
+        "Type" := "Type"::"Shift Assignment";
         if not GuiAllowed then
             Validate("Employee No.", HrMgt.GetEmployeeNo());
         // TestField(Code);
@@ -127,10 +130,10 @@ table 50113 "Shift Management"
         if "No." = '' then
             case "Type" of
                 //for Roster
-                "Type"::Roster:
+                "Type"::"Shift Assignment":
                     begin
-                        HRSetup.TestField("Roster Series");
-                        NoSeriesMgt.InitSeries(HRSetup."Roster Series", xRec."No. Series", Today, "No.", "No. Series");
+                        HRSetup.TestField("Shift Assignment Series");
+                        NoSeriesMgt.InitSeries(HRSetup."Shift Assignment Series", xRec."No. Series", Today, "No.", "No. Series");
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;

@@ -69,10 +69,10 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Allowance Assignment field.';
             }
-            field("Roster Series"; Rec."Roster Series")
+            field("Shift Assignment Series"; Rec."Shift Assignment Series")
             {
                 ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Roster Series field.';
+                ToolTip = 'Specifies the value of the Shift Assignment Series field.';
             }
             field("Employee Act. Journal Series"; Rec."Employee Act. Journal Series")
             {
