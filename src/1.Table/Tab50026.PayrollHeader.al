@@ -319,6 +319,17 @@ table 50026 "Payroll Header"
         Error(Text005, TableCaption);
     end;
 
+    trigger OnDelete()
+    begin
+        if Status <> Status::Open then begin
+            Error(Text009);
+        end;
+        PayLine.Reset;
+        PayLine.SetRange("Document No.", "No.");
+        if PayLine.FindSet() then;
+        PayLine.DeleteAll;
+    end;
+
     var
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
@@ -337,6 +348,7 @@ table 50026 "Payroll Header"
         Text006: Label 'Posting Date must be within the range %1 and %2.';
         Text007: Label 'is not within your range of allowed posting dates';
         Text008: Label 'Do you want to import employees? Existing lines will be deleted.';
+        Text009: Label 'Cannot modify the document as it is not in Open status.';
         PayLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
         EncashmentSetup: Record "OT Encashment Setup";

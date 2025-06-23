@@ -13328,6 +13328,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - NamedType Text008</note>
         </trans-unit>
+        <trans-unit id="Table 3621654542 - NamedType 3921243024" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot modify the document as it is not in Open status.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Header - NamedType Text009</note>
+        </trans-unit>
         <trans-unit id="Table 3621654542 - Field 3294270728 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Assigned User ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31353,16 +31358,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Attendance Activity - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 900836314 - Action 347328507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Employees action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employees - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 900836314 - Action 347328507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employees</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employees - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 900836314 - Action 2114864324 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Home Loans action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31782,6 +31777,716 @@
           <source>Executes the TDS Withholding Certificate action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action TDS Withholding Certificate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2701905267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Activities</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Activities - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2214816506 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Allowance Assignement - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 629510381 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 346273659 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Allowance Assignment Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Assignments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 346273659 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Assignments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2954165333 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Allowance Assignment Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Assignments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2954165333 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Assignments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 4139940977 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Allowance Assignment Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Assignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 4139940977 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2112142249 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Allowance Assignment Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Assignments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2112142249 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Assignments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3448194882 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Allowance Assignment Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Assignments - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3448194882 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Assignments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1760574766 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2994330805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Allowance Assignments Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2994330805 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3731383323 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Allowance Assignments Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3731383323 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1537604226 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Allowance Assignments Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1537604226 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3859666719 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Allowance Assignments Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3859666719 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3146375176 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Allowance Assignments Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3146375176 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2654779086 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfers</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action EmployeeTransfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2222988406 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Transfers</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1975852484 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Employee Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Employee Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1975852484 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Employee Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1982302318 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Employee Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Employee Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1982302318 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Employee Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 537118751 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Employee Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Employee Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 537118751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Employee Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2651759570 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Employee Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Employee Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2651759570 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Employee Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3782143849 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Employee Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Employee Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3782143849 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Employee Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1338170822 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>HR  Transfers</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 548130885 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All HR Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All HR Transfers - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 548130885 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2249018603 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved HR Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved HR Transfers - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2249018603 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 459737418 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open HR Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open HR Transfers - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 459737418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3721684351 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending HR Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending HR Transfers - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3721684351 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1549954288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected HR Transfer Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected HR Transfers - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1549954288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected HR Transfers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3584713366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leaves</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Leave Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 647092507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Leave Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Leaves - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 647092507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Leaves - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1559153813 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Leave Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Leaves - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1559153813 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Leaves - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1429905696 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Leave Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Leaves - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1429905696 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Leaves - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 950613977 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval Leave Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Leaves - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 950613977 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Leaves - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 817069434 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Leave Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Leaves - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 817069434 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Leaves - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 393143614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtimes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1480041414 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bulk</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1065592301 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Bulk Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Bulk Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1065592301 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1541711443 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Bulk Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Bulk Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1541711443 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2468027290 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Bulk Overtime Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Bulk Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2468027290 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2178367607 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Bulk Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Bulk Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2178367607 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3693578400 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Bulk Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Bulk Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3693578400 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Bulk Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2782925357 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Individual</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Individual Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2939087053 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2939087053 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1570218115 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1570218115 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2371234418 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2371234418 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 317065895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 317065895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2287832712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Overtime Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Overtime Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2287832712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Overtime Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claims</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Transfer Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1845341613 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Transfer Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Transfer Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1845341613 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Transfer Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2642995683 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Transfer Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Transfer Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2642995683 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Transfer Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1324537050 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Transfer Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Transfer Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1324537050 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Transfer Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1385375255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Transfer Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Transfer Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1385375255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Transfer Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2595926960 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Transfer Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Transfer Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2595926960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Transfer Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2310106301 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel Claims</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Travel Claim Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3432610436 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Travel Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Travel Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3432610436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Travel Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2231785918 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Travel Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Travel Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2231785918 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Travel Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2980043055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Travel Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Travel Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2980043055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Travel Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 631687026 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval Claim Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Travel Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 631687026 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Travel Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1519497193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Travel Claim Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Travel Claims - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1519497193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Travel Claims - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 621202891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travels</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Travel Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3119136886 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the All Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Travels - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3119136886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Travels - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3848267420 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approved Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Travels - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3848267420 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Approved Travels - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2723613057 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Open Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Travels - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2723613057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Travels - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3597465536 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Travels - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3597465536 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Pending Travels - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3548617447 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Rejected Travel Requests action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Travels - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3548617447 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Rejected Travels - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action General - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 347328507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employees - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2244803140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action All Employees - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3477773967 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>As Per Employment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action As Per Employment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 389783846 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Contract Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Contract - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1566445174 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Regular Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Permanent - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2801623926 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Probation Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Probation - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3488712613 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Probation Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Temporary - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 4099962083 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>As Per Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action As Per Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1090351696 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Active - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 525852245 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Inactive Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Inactive - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1800735895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Terminated Employee List action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Terminated - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3324647799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Payroll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 4108081683 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Adjustment Plan</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Adjustment Payroll Plan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3497715828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Adjustment Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Adjustment Plan - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3497715828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Adjustment Plan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1620982509 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Posted Adjustment Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Adjustment Payroll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1620982509 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Adjustment Payroll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 3050061221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Payroll</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Monthly Payroll Plan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 693442819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Payroll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 693442819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Payroll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2486372832 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Posted Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Payroll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2486372832 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Payroll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2555127625 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Resignation Plan</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Resignation Payroll Plan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2137157002 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Resignation Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Resignation Plan - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2137157002 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Open Resignation Plan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 866231927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Posted Resignation Payroll Plan action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Resignation Payroll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 866231927 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Resignation Payroll - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1780339891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Overview</source>
