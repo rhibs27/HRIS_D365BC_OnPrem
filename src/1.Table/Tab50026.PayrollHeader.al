@@ -325,7 +325,8 @@ table 50026 "Payroll Header"
             Error(Text009);
         end;
         PayLine.Reset;
-        PayLine.Get("No.");
+        PayLine.SetRange("Document No.", "No.");
+        if PayLine.FindSet() then;
         PayLine.DeleteAll;
     end;
 
