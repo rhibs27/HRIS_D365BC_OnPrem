@@ -4407,4 +4407,24 @@ page 50108 "Portal Functions"
     begin
         ApprovalMgt.CancelRequestAPI(documentNo, documentType);
     end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure approveShiftAssignment(shiftAssignNo: Code[20]; rejectionRemarks: text; isApproved: Boolean)
+    var
+        ShiftAssignment: Record "Shift Assignment Header";
+        RecRef: RecordRef;
+    begin
+        if ShiftAssignment.Get(shiftAssignNo) then
+            if not isApproved then begin
+                if rejectionRemarks = '' then
+                    Error('Rejection Remarks is empty');
+                ShiftAssignment.Validate("Rejection Remarks", rejectionRemarks);
+                if ShiftAssignment."Type" = ShiftAssignment."Type"::"Shift Assignment" then
+                    ShiftAssignment.Return := true;
+                ShiftAssignment.Modify;
+            end;
+        RecRef.GetTable(ShiftAssignment);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
 }

@@ -121,8 +121,10 @@ table 50113 "Shift Assignment Header"
     trigger OnInsert()
     begin
         "Type" := "Type"::"Shift Assignment";
-        if not GuiAllowed then
+        if not GuiAllowed then begin
             Validate("Employee No.", HrMgt.GetEmployeeNo());
+            Validate("Approval Status", "Approval Status"::Open);
+        end;
         // TestField(Code);
         // if not GuiAllowed then
         //     CheckForSameWeek;

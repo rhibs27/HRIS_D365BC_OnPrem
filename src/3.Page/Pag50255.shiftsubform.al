@@ -1,7 +1,7 @@
-page 50255 "shift subform"
+page 50255 "Shift subform"
 {
     ApplicationArea = All;
-    Caption = 'shift subform';
+    Caption = 'Shift subform';
     PageType = ListPart;
     SourceTable = "Shift Line";
     AutoSplitKey = true;
@@ -33,13 +33,13 @@ page 50255 "shift subform"
                 field(rosterDate; Rec."Roster Date")
                 {
                     ToolTip = 'Specifies the value of the Roster Date field.', Comment = '%';
-                    Caption = 'rosterDate';
+                    Caption = 'Roster Date';
                     ApplicationArea = all;
                 }
                 field(remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
-                    Caption = 'remarks';
+                    Caption = 'Remarks';
                     ApplicationArea = all;
                 }
                 field(approvalStatus; Rec."Approval Status")

@@ -38,6 +38,6 @@ query 50032 "Shift Line Approval Query"
         HRMgt: Codeunit "HR Mgt.";
     begin
         CurrQuery.SetRange(approverCode, HRMgt.GetEmployeeNo());
-        CurrQuery.SetRange(type, type::"Overtime Bulk");
+        CurrQuery.SetRange(type, type::"Shift Assignment");
     end;
 }

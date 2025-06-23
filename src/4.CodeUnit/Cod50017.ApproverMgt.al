@@ -272,6 +272,14 @@ codeunit 50017 "Approver Mgt"
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
+                            EmpActType::"Shift Assignment":
+                                begin
+                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(100).Validate('');
+                                    RecRef.Modify();
+                                    ShiftAssignmentMgt.ApproveRejectShiftLine(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
                         end;
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
