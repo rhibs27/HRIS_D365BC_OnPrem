@@ -17703,6 +17703,166 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Selection Commitee - Field Vacancy Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2889195544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2660490446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Deputation Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Deputation Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Employee No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1987624935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fiscal Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Fiscal Year - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field From Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No. Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field No. Series - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Rejection Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 3223440110 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Return</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Return - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2889195544 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Assignment Header - Field Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Line</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Approval Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 3027137289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 2660490446 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Deputation Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Deputation Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Employee No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Employee Work Shift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 3123372377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Line No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 3292297203 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Roster Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Roster Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3833062980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status Master</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44388,6 +44548,256 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Service History Lists - Control Service History Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 2660490446 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deputation Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control Deputation Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 2327667423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deputation Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control Deputation Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2780494557 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment Card</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 2660490446 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deputation Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Deputation Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 2327667423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Deputation Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Deputation Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 4200184881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Action Approve Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1622105057 - Action 2493986398 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Send Approval Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Card - Action Send Approval Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>shiftAssignmentEntity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control approvalStatus - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 3117935225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approved Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control approvedDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 2084770388 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 707992206 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1117499807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 2599324126 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control fromDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 3179096107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control no - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 3267555162 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control rejectionRemarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 998393528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1382082177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control toDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 3175374588 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 2798100626 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Lines</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control ShiftLine - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 509812749 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control approvalStatus - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control approvalStatus - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1020011527 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeName - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeName - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 514871541 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 514871541 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 2188911869 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Work Shift field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeWorkShift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 2188911869 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeWorkShift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 596559819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1461162035 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Roster Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control rosterDate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1461162035 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Roster Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control rosterDate - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 1172531677 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Shift Assignment action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Shift Assignment In Range - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3833062980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status Master</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51458,6 +51868,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Request Travel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 2780494557 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Executes the Shift Assignment action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Shift Assignment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 988138206 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Request Home Loan action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52662,6 +53077,11 @@
           <source>Specifies the value of the Service History No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Service History No. Series - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2965883116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Shift Assignment Series field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Shift Assignment Series - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 2056284759 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Training Calendar No. field.</source>
@@ -55388,6 +55808,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Service History No. Series - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 2965883116 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Shift Assignment Series</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Shift Assignment Series - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 201297846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Spouse Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57227,6 +57652,11 @@
           <source>Resignation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Resignation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Shift Assignment - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Claim</source>

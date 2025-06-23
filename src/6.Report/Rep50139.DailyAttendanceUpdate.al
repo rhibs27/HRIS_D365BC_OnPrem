@@ -23,7 +23,7 @@ report 50139 "Daily Attendance Update"
                     if UpdateDailyAttendance then begin
                         if "Employment Date" = 0D then    // skip blank employment date employee oman
                             CurrReport.Skip;
-                        InsertAttendanceLine;
+                        AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
                         if Employee."Employment Type" = Employee."Employment Type"::Contract then
                             StatusInactiveForExpiredContractEmployee;
                     end;
@@ -220,6 +220,7 @@ report 50139 "Daily Attendance Update"
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        AttendanceMgt: Codeunit "Attendance Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         CalendarDescription: Text;
         UpdateOvertime: Boolean;
@@ -252,89 +253,89 @@ report 50139 "Daily Attendance Update"
         Err003: Label 'Please Select Employement Type for update attendance.';
         EngNep: Record "English-Nepali Date";
 
-    local procedure InsertAttendanceLine()
-    var
-        PayrollEngine: Codeunit "Payroll Engine";
-    begin
-        Clear(AttendanceLine);
-        AttendanceLine.Reset;
-        AttendanceLine.SetRange("Employee No.", Employee."No.");
-        AttendanceLine.SetRange("Attendance Date", InitialDate);
-        if not AttendanceLine.FindFirst then begin
-            AttendanceLine.Init;
-            AttendanceLine."Document No." := DocNo;
-            AttendanceLine."Employee No." := Employee."No.";
-            AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
-            AttendanceLine."Attendance Date" := InitialDate;
-            //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
-            AttendanceLine.Insert(false);
-        end;
+    // local procedure InsertAttendanceLine()
+    // var
+    //     PayrollEngine: Codeunit "Payroll Engine";
+    // begin
+    //     Clear(AttendanceLine);
+    //     AttendanceLine.Reset;
+    //     AttendanceLine.SetRange("Employee No.", Employee."No.");
+    //     AttendanceLine.SetRange("Attendance Date", InitialDate);
+    //     if not AttendanceLine.FindFirst then begin
+    //         AttendanceLine.Init;
+    //         AttendanceLine."Document No." := DocNo;
+    //         AttendanceLine."Employee No." := Employee."No.";
+    //         AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
+    //         AttendanceLine."Attendance Date" := InitialDate;
+    //         //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
+    //         AttendanceLine.Insert(false);
+    //     end;
 
-        if IsHoliday(InitialDate, AttendanceLine.Remarks) then begin
-            AttendanceLine."Day Type" := AttendanceLine."Day Type"::Holiday;
-            AttendanceLine."Week Off Day" := 1;
-            AttendanceLine."Holiday Remarks" := CalendarDescription;
-        end else begin
-            AttendanceLine."Day Type" := AttendanceLine."Day Type"::"Working Day";
-            AttendanceLine."Holiday Remarks" := '';
-            AttendanceLine."Week Off Day" := 0;
-        end;
-        if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
-            if not EmployeeAttendanceActivity."Attendance Update" then begin
-                AttendanceLog.Reset;
-                AttendanceLog.SetCurrentKey("Check In Time");
-                AttendanceLog.SetAscending("Check In Time", true);
-                AttendanceLog.SetRange(Date, InitialDate);
-                AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-                if AttendanceLog.FindFirst then begin
-                    AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
-                    // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-                    // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
-                    // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
-                    // AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
-                    // AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
-                    if (AttendanceLine."Check In Time" <> 0T) then begin
-                        AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-                        AttendanceLine.Validate("Present Day", 1);
-                    end;
-                end;
-            end;
-        // to get Checkout time
-        if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
-            if not EmployeeAttendanceActivity."Attendance Update" then begin
-                AttendanceLog.Reset;
-                AttendanceLog.SetCurrentKey("Check In Time");
-                AttendanceLog.SetAscending("Check In Time", true);
-                AttendanceLog.SetRange(Date, InitialDate);
-                AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-                if AttendanceLog.Findlast then begin
-                    if AttendanceLog."Check In Time" >= (AttendanceSetUp."Check Out From") then
-                        AttendanceLine.Validate("Check Out Time", AttendanceLog."Check In Time");
-                end;
-            end;
-        EngNep.Reset; //Min 1.25.2023
-        EngNep.SetRange("English Date", InitialDate);
-        if EngNep.FindFirst then
-            AttendanceLine.Week := EngNep.Week;
-        AttendanceLine.Modify(false);
+    //     if IsHoliday(InitialDate, AttendanceLine.Remarks) then begin
+    //         AttendanceLine."Day Type" := AttendanceLine."Day Type"::Holiday;
+    //         AttendanceLine."Week Off Day" := 1;
+    //         AttendanceLine."Holiday Remarks" := CalendarDescription;
+    //     end else begin
+    //         AttendanceLine."Day Type" := AttendanceLine."Day Type"::"Working Day";
+    //         AttendanceLine."Holiday Remarks" := '';
+    //         AttendanceLine."Week Off Day" := 0;
+    //     end;
+    //     if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
+    //         if not EmployeeAttendanceActivity."Attendance Update" then begin
+    //             AttendanceLog.Reset;
+    //             AttendanceLog.SetCurrentKey("Check In Time");
+    //             AttendanceLog.SetAscending("Check In Time", true);
+    //             AttendanceLog.SetRange(Date, InitialDate);
+    //             AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+    //             if AttendanceLog.FindFirst then begin
+    //                 AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
+    //                 // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
+    //                 // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
+    //                 // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
+    //                 // AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
+    //                 // AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
+    //                 if (AttendanceLine."Check In Time" <> 0T) then begin
+    //                     AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
+    //                     AttendanceLine.Validate("Present Day", 1);
+    //                 end;
+    //             end;
+    //         end;
+    //     // to get Checkout time
+    //     if EmployeeAttendanceActivity.Get(Employee."No.", InitialDate) then
+    //         if not EmployeeAttendanceActivity."Attendance Update" then begin
+    //             AttendanceLog.Reset;
+    //             AttendanceLog.SetCurrentKey("Check In Time");
+    //             AttendanceLog.SetAscending("Check In Time", true);
+    //             AttendanceLog.SetRange(Date, InitialDate);
+    //             AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+    //             if AttendanceLog.Findlast then begin
+    //                 if AttendanceLog."Check In Time" >= (AttendanceSetUp."Check Out From") then
+    //                     AttendanceLine.Validate("Check Out Time", AttendanceLog."Check In Time");
+    //             end;
+    //         end;
+    //     EngNep.Reset; //Min 1.25.2023
+    //     EngNep.SetRange("English Date", InitialDate);
+    //     if EngNep.FindFirst then
+    //         AttendanceLine.Week := EngNep.Week;
+    //     AttendanceLine.Modify(false);
 
-        PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
+    //     PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
 
-        ChangeStatusToApproveFromHold;
-    end;
+    //     ChangeStatusToApproveFromHold;
+    // end;
 
-    local procedure IsHoliday(Date: Date; Remarks: Text[100]): Boolean
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        RetrunBool: Boolean;
-    begin
-        RetrunBool := false;
-        Clear(CalendarDescription);
-        RetrunBool := LeaveMgt.GetNonWokingDays(InitialDate, InitialDate, Employee."No.") <> 0;
-        CalendarDescription := HRMgt.ReturnCalendarDescription;
-        exit(RetrunBool);
-    end;
+    // local procedure IsHoliday(Date: Date; Remarks: Text[100]): Boolean
+    // var
+    //     HRMgt: Codeunit "HR Mgt.";
+    //     LeaveMgt: Codeunit "Leave Mgt.";
+    //     RetrunBool: Boolean;
+    // begin
+    //     RetrunBool := false;
+    //     Clear(CalendarDescription);
+    //     RetrunBool := LeaveMgt.GetNonWokingDays(InitialDate, InitialDate, Employee."No.") <> 0;
+    //     CalendarDescription := HRMgt.ReturnCalendarDescription;
+    //     exit(RetrunBool);
+    // end;
 
     local procedure ScreenOvertime()
     var

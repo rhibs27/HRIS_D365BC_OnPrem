@@ -1287,6 +1287,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
                     end;
                 }
+                action("Shift Assignment")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Shift Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        ShiftAssignmentMgt.OpenShiftRequest(Rec."No.");
+                    end;
+                }
                 action("Request Attendance Missed")
                 {
                     ApplicationArea = All;
@@ -2099,6 +2113,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         TransferMgt: Codeunit "Transfer Mgt.";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
 
     trigger OnOpenPage()

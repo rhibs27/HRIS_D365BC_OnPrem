@@ -23,6 +23,7 @@ query 50014 Employee
             column(deputationOn; "Deputation on")
             {
             }
+            column(deputationOnCode; "Deputation On Code") { }
             column(branchCode; "Branch Code")
             {
             }

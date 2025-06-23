@@ -272,6 +272,14 @@ codeunit 50017 "Approver Mgt"
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
+                            EmpActType::"Shift Assignment":
+                                begin
+                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(100).Validate('');
+                                    RecRef.Modify();
+                                    ShiftAssignmentMgt.ApproveRejectShiftLine(false, RecRef.Field(1).Value);
+                                    exit;
+                                end;
                         end;
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
@@ -346,6 +354,10 @@ codeunit 50017 "Approver Mgt"
                         EmpActType::"Overtime Bulk":
                             begin
                                 OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
+                            end;
+                        EmpActType::"Shift Assignment":
+                            begin
+                                ShiftAssignmentMgt.ApproveRejectShiftLine(true, RecRef.Field(1).Value);
                             end;
                     end;
                 end;
@@ -582,5 +594,6 @@ codeunit 50017 "Approver Mgt"
         ResignationMgt: Codeunit "Resignation Mgt";
         ChangesInEmployeeMgt: Codeunit "Employee Edit Mgt.";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
 }
