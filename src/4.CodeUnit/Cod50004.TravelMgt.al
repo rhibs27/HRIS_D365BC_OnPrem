@@ -52,6 +52,7 @@ codeunit 50004 "Travel Mgt."
                 Clear(TravelRequest2);
                 TravelRequest2.Get(TravelNo);
                 TravelRequest.Validate("Travel Order No.", TravelNo);
+                TravelRequest.Validate("Total No. of Days", TravelRequest."No. of Days" + CalcExtendDays(TravelRequest2."No. of Days", TravelRequest2."Travel Order No."));
                 TravelRequest.Validate("Travel With", TravelRequest2."Travel With");
                 TravelRequest.Validate("Start Date", TravelRequest2."End Date" + 1);
                 TravelRequest."Travel Countries" := TravelRequest2."Travel Countries";
@@ -85,6 +86,8 @@ codeunit 50004 "Travel Mgt."
     var
         TravelRequest: Record "Travel Request";
     begin
+        if TravelOrderNo <> ' ' then
+            TravelRequest.FindFirst();
         if TravelRequest.Get(TravelOrderNo) then
             exit(TravelRequest."Total No. of Days");
     end;
@@ -418,6 +421,7 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("Employee No.", EmpCode);
             TravelRequest.Validate("Functional Title", Employee."Functional Title");
             TravelRequest.Validate(Type, TravelRequest.Type::"Travel Claim");
+            TravelRequest.Validate("No. of Days", CalculateTotalNoDays(TravelOrderNo));
             TravelRequest.Validate("Travel Countries", TravelCountry);
             TravelRequest.Validate("Claimed Country", Format(TravelCountry));
             TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Open);
@@ -426,7 +430,6 @@ codeunit 50004 "Travel Mgt."
             TravelRequest.Validate("End Date", GetTravelEndDate(TravelOrderNo));
             TravelRequest.Validate("Requested Date", Today);
             TravelRequest.Validate("Travel Order No.", TravelOrderNo);
-            TravelRequest.Validate("No. of Days", CalculateTotalNoDays(TravelOrderNo));
             TravelRequest."Travel With" := TravelWith;
             //EmpAct.VALIDATE("Claimed Country", );
             TravelRequest.Validate("Estimated Conveyance Expense", CalculateTotalEstimatedConv(TravelOrderNo));
@@ -774,7 +777,6 @@ codeunit 50004 "Travel Mgt."
         TravelRequest2."Travel Claimed" := true;
         TravelRequest2.Modify;
         OnAfterApplyTravelClaim(TravelRequest."No.");
-        exit(true);
     end;
 
     // procedure FinalApproveForTravel(var Travel: Record "Travel Request")
