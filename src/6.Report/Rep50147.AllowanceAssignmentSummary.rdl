@@ -11,40 +11,6 @@
       <rd:DataSourceID>966a4b0d-e7ae-4867-a40a-4e9c4a13632c</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="No">
-          <DataField>No</DataField>
-        </Field>
-        <Field Name="FromDate">
-          <DataField>FromDate</DataField>
-        </Field>
-        <Field Name="ToDate">
-          <DataField>ToDate</DataField>
-        </Field>
-        <Field Name="Date">
-          <DataField>Date</DataField>
-        </Field>
-        <Field Name="AtmAllowance">
-          <DataField>AtmAllowance</DataField>
-        </Field>
-        <Field Name="KeyCustodian">
-          <DataField>KeyCustodian</DataField>
-        </Field>
-        <Field Name="Teller">
-          <DataField>Teller</DataField>
-        </Field>
-        <Field Name="HeadTeller">
-          <DataField>HeadTeller</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -652,12 +618,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -697,4 +657,38 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+        </Field>
+        <Field Name="AtmAllowance">
+          <DataField>AtmAllowance</DataField>
+        </Field>
+        <Field Name="KeyCustodian">
+          <DataField>KeyCustodian</DataField>
+        </Field>
+        <Field Name="Teller">
+          <DataField>Teller</DataField>
+        </Field>
+        <Field Name="HeadTeller">
+          <DataField>HeadTeller</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

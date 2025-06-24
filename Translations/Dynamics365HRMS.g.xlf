@@ -48403,6 +48403,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 1303573701 - Control 27734073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Date Range Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control FilterGroup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1303573701 - Control 1546479591 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select the start date for the attendance report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control AttendanceDateFrom - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1303573701 - Control 1546479591 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control AttendanceDateFrom - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 1303573701 - Control 3013943140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select the end date for the attendance report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control AttendanceDateTo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 1303573701 - Control 3013943140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Late Employees Report - Control AttendanceDateTo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2904538926 - Control 3083556976 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ReferenceNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
