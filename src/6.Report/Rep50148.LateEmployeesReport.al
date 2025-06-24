@@ -28,6 +28,7 @@ report 50148 "Late Employees Report"
             column(AttendanceDate; "Attendance Date") { }
             column(Month; Month) { }
             column(LateApprovalDocNo; LateDocNo) { }
+            column(Remarks; attendancemissed.Remarks) { }
 
             trigger OnPreDataItem()
             begin
@@ -131,6 +132,7 @@ report 50148 "Late Employees Report"
                 AttendanceMissed.Reset();
                 AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Late Attendance");
                 AttendanceMissed.SetRange("Start Date", "Attendance Date");
+                AttendanceMissed.SetRange("Employee No.", EmployeeAttendanceActivity."Employee No.");
                 if AttendanceMissed.FindFirst() then
                     LateDocNo := AttendanceMissed."No."
                 else

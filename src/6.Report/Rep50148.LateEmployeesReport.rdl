@@ -11,64 +11,6 @@
       <rd:DataSourceID>78736ed9-0501-48b5-a71d-d0123bd5bf6a</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="Employee_Name">
-          <DataField>Employee_Name</DataField>
-        </Field>
-        <Field Name="CheckInTime">
-          <DataField>CheckInTime</DataField>
-        </Field>
-        <Field Name="CheckOutTime">
-          <DataField>CheckOutTime</DataField>
-        </Field>
-        <Field Name="ShiftStartTime">
-          <DataField>ShiftStartTime</DataField>
-        </Field>
-        <Field Name="ShiftEndTime">
-          <DataField>ShiftEndTime</DataField>
-        </Field>
-        <Field Name="ActualHoursWorked">
-          <DataField>ActualHoursWorked</DataField>
-        </Field>
-        <Field Name="LateByMinutes">
-          <DataField>LateByMinutes</DataField>
-        </Field>
-        <Field Name="EarlyOutByMinutes">
-          <DataField>EarlyOutByMinutes</DataField>
-        </Field>
-        <Field Name="BranchCode">
-          <DataField>BranchCode</DataField>
-        </Field>
-        <Field Name="ProvinceCode">
-          <DataField>ProvinceCode</DataField>
-        </Field>
-        <Field Name="DepartmentCode">
-          <DataField>DepartmentCode</DataField>
-        </Field>
-        <Field Name="Designation">
-          <DataField>Designation</DataField>
-        </Field>
-        <Field Name="AttendanceDate">
-          <DataField>AttendanceDate</DataField>
-        </Field>
-        <Field Name="Month">
-          <DataField>Month</DataField>
-        </Field>
-        <Field Name="LateApprovalDocNo">
-          <DataField>LateApprovalDocNo</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -92,13 +34,13 @@
                   <Width>0.93675in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.74925in</Width>
+                  <Width>0.88467in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.93675in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93675in</Width>
+                  <Width>1.07217in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.08401in</Width>
@@ -116,7 +58,7 @@
                   <Width>1.12424in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.91376in</Width>
+                  <Width>3.41376in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -951,21 +893,21 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox10">
+                        <Textbox Name="Remarks">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Remarks.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <rd:DefaultName>Remarks</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -1015,7 +957,7 @@
             <Top>0.01389in</Top>
             <Left>0.125in</Left>
             <Height>0.45834in</Height>
-            <Width>15.47913in</Width>
+            <Width>15.24996in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1111,16 +1053,11 @@
         </PageHeader>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>16.54in</PageWidth>
+        <LeftMargin>0.25in</LeftMargin>
         <Style />
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -1160,4 +1097,65 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="Employee_Name">
+          <DataField>Employee_Name</DataField>
+        </Field>
+        <Field Name="CheckInTime">
+          <DataField>CheckInTime</DataField>
+        </Field>
+        <Field Name="CheckOutTime">
+          <DataField>CheckOutTime</DataField>
+        </Field>
+        <Field Name="ShiftStartTime">
+          <DataField>ShiftStartTime</DataField>
+        </Field>
+        <Field Name="ShiftEndTime">
+          <DataField>ShiftEndTime</DataField>
+        </Field>
+        <Field Name="ActualHoursWorked">
+          <DataField>ActualHoursWorked</DataField>
+        </Field>
+        <Field Name="LateByMinutes">
+          <DataField>LateByMinutes</DataField>
+        </Field>
+        <Field Name="EarlyOutByMinutes">
+          <DataField>EarlyOutByMinutes</DataField>
+        </Field>
+        <Field Name="BranchCode">
+          <DataField>BranchCode</DataField>
+        </Field>
+        <Field Name="ProvinceCode">
+          <DataField>ProvinceCode</DataField>
+        </Field>
+        <Field Name="DepartmentCode">
+          <DataField>DepartmentCode</DataField>
+        </Field>
+        <Field Name="Designation">
+          <DataField>Designation</DataField>
+        </Field>
+        <Field Name="AttendanceDate">
+          <DataField>AttendanceDate</DataField>
+        </Field>
+        <Field Name="Month">
+          <DataField>Month</DataField>
+        </Field>
+        <Field Name="LateApprovalDocNo">
+          <DataField>LateApprovalDocNo</DataField>
+        </Field>
+        <Field Name="Remarks">
+          <DataField>Remarks</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
