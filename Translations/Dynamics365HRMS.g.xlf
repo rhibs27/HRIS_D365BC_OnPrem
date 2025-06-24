@@ -43933,16 +43933,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Travel With - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3980991557 - Control 504576312 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Fooding Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Actual Fooding Allowance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3980991557 - Control 2505851394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Lodging Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Actual Lodging Allowance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3980991557 - Control 2173143191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Actual Travel End Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43978,15 +43968,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Claimed Country - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3980991557 - Control 3020718523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Conveyance Expense field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Conveyance Expense - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3980991557 - Control 4198939294 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Currency Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Currency Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3980991557 - Control 504576312 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Fooding Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Actual Fooding Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3980991557 - Control 2071802513 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Fooding Allowance Limit field.</source>
@@ -43997,6 +43987,11 @@
           <source>Specifies the value of the Fooding Per Day Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Fooding Per Day Limit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3980991557 - Control 2505851394 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Lodging Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Actual Lodging Allowance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3980991557 - Control 3272819479 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Lodging Allowance Limit field.</source>
@@ -44018,6 +44013,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Net Receivable/Payable - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3980991557 - Control 3020718523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Conveyance Expense field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Conveyance Expense - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3980991557 - Control 2536699552 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Other Expense field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -44028,15 +44028,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Out of Pocket Expense - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3980991557 - Control 939341361 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Reimbursable field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Reimbursable - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3980991557 - Control 3303942631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Road/Air Fare field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Road/Air Fare - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3980991557 - Control 939341361 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reimbursable field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request Travel Claim - Control Reimbursable - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3980991557 - Control 3933242367 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Claimed Amount field.</source>
