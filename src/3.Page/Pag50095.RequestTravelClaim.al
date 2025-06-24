@@ -151,62 +151,72 @@ page 50095 "Request Travel Claim"
                     ToolTip = 'Specifies the value of the Currency Code field.';
                     ApplicationArea = All;
                 }
-                field("Road/Air Fare"; Rec."Road/Air Fare")
-                {
-                    ToolTip = 'Specifies the value of the Road/Air Fare field.';
-                    ApplicationArea = All;
-                }
                 field(Reimbursable; Rec.Reimbursable)
                 {
                     ToolTip = 'Specifies the value of the Reimbursable field.';
                     ApplicationArea = All;
                 }
-                field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
+                group("Fooding Allowance Details")
                 {
-                    ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
-                    ApplicationArea = All;
+                    field("Fooding Per Day Limit"; Rec."Fooding Per Day Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Fooding Per Day Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Fooding Allowance Limit"; Rec."Fooding Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Actual Fooding Allowance"; Rec."Fooding Allowance")
+                    {
+                        Editable = true;
+                        ToolTip = 'Specifies the value of the Fooding Allowance field.';
+                        ApplicationArea = All;
+                    }
                 }
-                field("Fooding Per Day Limit"; Rec."Fooding Per Day Limit")
+                group("Lodging Allowance Details")
                 {
-                    ToolTip = 'Specifies the value of the Fooding Per Day Limit field.';
-                    ApplicationArea = All;
+                    field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
+                    {
+                        ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
+                        ApplicationArea = All;
+                    }
+                    field("Actual Lodging Allowance"; Rec."Lodging Allowance")
+                    {
+                        Editable = true;
+                        ToolTip = 'Specifies the value of the Lodging Allowance field.';
+                        ApplicationArea = All;
+                    }
                 }
-                field("Fooding Allowance Limit"; Rec."Fooding Allowance Limit")
+                group("Other Expense Details")
                 {
-                    ToolTip = 'Specifies the value of the Fooding Allowance Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Actual Fooding Allowance"; Rec."Fooding Allowance")
-                {
-                    Editable = true;
-                    ToolTip = 'Specifies the value of the Fooding Allowance field.';
-                    ApplicationArea = All;
-                }
-                field("Lodging Allowance Limit"; Rec."Lodging Allowance Limit")
-                {
-                    ToolTip = 'Specifies the value of the Lodging Allowance Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Lodging Per Day Limit"; Rec."Lodging Per Day Limit")
-                {
-                    ToolTip = 'Specifies the value of the Lodging Per Day Limit field.';
-                    ApplicationArea = All;
-                }
-                field("Actual Lodging Allowance"; Rec."Lodging Allowance")
-                {
-                    Editable = true;
-                    ToolTip = 'Specifies the value of the Lodging Allowance field.';
-                    ApplicationArea = All;
-                }
-                field("Conveyance Expense"; Rec."Conveyance Expense")
-                {
-                    ToolTip = 'Specifies the value of the Conveyance Expense field.';
-                    ApplicationArea = All;
-                }
-                field("Other Expense"; Rec."Other Expense")
-                {
-                    ToolTip = 'Specifies the value of the Other Expense field.';
-                    ApplicationArea = All;
+                    field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
+                    {
+                        ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
+                        ApplicationArea = All;
+                    }
+                    field("Road/Air Fare"; Rec."Road/Air Fare")
+                    {
+                        ToolTip = 'Specifies the value of the Road/Air Fare field.';
+                        ApplicationArea = All;
+                    }
+                    field("Conveyance Expense"; Rec."Conveyance Expense")
+                    {
+                        Visible = false;
+                        ToolTip = 'Specifies the value of the Conveyance Expense field.';
+                        ApplicationArea = All;
+                    }
+                    field("Other Expense"; Rec."Other Expense")
+                    {
+                        ToolTip = 'Specifies the value of the Other Expense field.';
+                        ApplicationArea = All;
+                    }
                 }
                 field("Total Claimed Amount"; Rec."Total Claimed Amount")
                 {
