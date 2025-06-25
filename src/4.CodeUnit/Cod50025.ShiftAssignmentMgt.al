@@ -57,6 +57,29 @@ codeunit 50025 "Shift Assignment Mgt"
         end;
     end;
 
+    procedure SubstituteShiftLine(Var ShiftAssignmentLine: Record "Shift Line"; EmployeeNo: Code[20]; Remarks: Text)
+    var
+        ShiftAssignLine: Record "Shift Line";
+    begin
+        ShiftAssignLine.Init();
+        ShiftAssignLine.Validate("No.", ShiftAssignmentLine."No.");
+        ShiftAssignLine.Validate("Type", ShiftAssignLine."Type"::"Shift Assignment");
+        ShiftAssignLine.Validate("Approval Status", ShiftAssignLine."Approval Status"::"Pending");
+        ShiftAssignLine.Validate("Employee Work Shift", ShiftAssignmentLine."Employee Work Shift");
+        ShiftAssignLine.Validate("Deputation Type", ShiftAssignmentLine."Deputation Type");
+        ShiftAssignLine.Validate("Deputation Code", ShiftAssignmentLine."Deputation Code");
+        ShiftAssignLine.Validate("Employee No", EmployeeNo);
+        ShiftAssignLine.Validate("Roster Date", ShiftAssignmentLine."Roster Date");
+        ShiftAssignLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::"Added as Substitute");
+        ShiftAssignLine.Validate("Substitute of Line No.", ShiftAssignmentLine."Line No");
+        ShiftAssignLine.Validate(Remarks, Remarks);
+        GetLineNo(ShiftAssignLine);
+        ShiftAssignLine.Insert();
+        ShiftAssignmentLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::Substituted);
+        ShiftAssignmentLine.Modify();
+        Message('%1 is Successfully Substituted by %2', ShiftAssignmentLine."Employee Name", ShiftAssignLine."Employee Name");
+    end;
+
     procedure GetLineNo(var ShiftAssignLine: Record "shift Line")
     var
         ShiftLine: Record "Shift Line";
@@ -115,6 +138,25 @@ codeunit 50025 "Shift Assignment Mgt"
             ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
         end;
 
+    end;
+
+    procedure CheckForExistingDate(No: Code[20])
+    var
+        ShiftAssignment, ShiftAssignment1 : Record "Shift Assignment Header";
+    begin
+        ShiftAssignment1.Get(NO);
+        ShiftAssignment.Reset;
+        if GuiAllowed then
+            ShiftAssignment.SetFilter("No.", '<>%1', No);
+        ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Overtime Bulk");
+        ShiftAssignment.SetRange("Fiscal Year", ShiftAssignment1."Fiscal Year");
+        ShiftAssignment.SetRange("Deputation Code", ShiftAssignment1."Deputation Code");
+        ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
+        if ShiftAssignment.Findset then
+            repeat
+                if (ShiftAssignment1."From Date" <= ShiftAssignment."TO date") and (ShiftAssignment1."To date" >= ShiftAssignment."From Date") then
+                    Error('Overtime for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
+            until ShiftAssignment.Next() = 0;
     end;
 
     var

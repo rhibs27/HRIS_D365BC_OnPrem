@@ -4,6 +4,7 @@ page 50254 "Shift Assignment Card"
     Caption = 'Shift Assignment Card';
     PageType = Card;
     SourceTable = "Shift Assignment Header";
+    InsertAllowed = false;
     layout
     {
         area(Content)

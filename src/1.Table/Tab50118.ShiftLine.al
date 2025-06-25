@@ -26,8 +26,12 @@ table 50118 "Shift Line"
             var
                 Employee: Record Employee;
             begin
-                if Employee.get("Employee No") then
+                if Employee.get("Employee No") then begin
                     Validate("Employee Name", Employee."Full Name");
+                    Validate("Deputation Type", Employee."Deputation On");
+                    Validate("Deputation Code", Employee."Deputation On Code");
+                end;
+                TestField("Employee No");
             end;
         }
         field(5; "Employee Name"; Text[100])
@@ -51,6 +55,11 @@ table 50118 "Shift Line"
         {
             Caption = 'Employee Work Shift';
             TableRelation = "Employee Work Shift".Code;
+            trigger OnValidate()
+            var
+            begin
+                TestField("Employee Work Shift");
+            end;
         }
         field(10; Remarks; Text[100])
         {
@@ -72,6 +81,15 @@ table 50118 "Shift Line"
             Editable = false;
         }
         field(13; "Deputation Type"; Enum "Deputation Type")
+        {
+            Editable = false;
+        }
+        field(14; "Substitute Type"; Enum "Allowance Substitute")
+        {
+            InitValue = '';
+            Editable = false;
+        }
+        field(15; "Substitute of Line No."; Integer)
         {
             Editable = false;
         }
