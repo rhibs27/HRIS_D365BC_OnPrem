@@ -39,10 +39,27 @@ table 50113 "Shift Assignment Header"
         field(6; "From Date"; Date)
         {
             Caption = 'From Date';
+            trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
+            begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
+                else
+                    Clear("Fiscal Year");
+            end;
         }
         field(7; "To Date"; Date)
         {
             Caption = 'To Date';
+            trigger OnValidate()
+            begin
+                if "From date" > "To Date" then
+                    Error('Invalid date.');
+                ShiftAssignmentMgt.CheckForExistingDate("No.");
+            end;
         }
         field(8; "No. Series"; Code[20])
         {
@@ -139,6 +156,9 @@ table 50113 "Shift Assignment Header"
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
+        if not GuiAllowed then
+            if Type = Type::"Shift Assignment" then
+                ShiftAssignmentMgt.CheckForExistingDate("No.");
     end;
 
     var
@@ -148,5 +168,6 @@ table 50113 "Shift Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
 }

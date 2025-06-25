@@ -2024,19 +2024,6 @@ page 50108 "Portal Functions"
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
     begin
         AllowanceLine.Get(entryNo, lineNo);
-        // TempAllowanceLine.Copy(AllowanceLine);
-        // TempAllowanceLine.Validate("From Date", fromDate);
-        // // TempAllowanceLine.Validate("To Date", toDate);
-        // TempAllowanceLine.Validate("Employee Code", empCode);
-        // TempAllowanceLine."Line No." := 0;
-        // TempAllowanceLine."Substitute of Line No." := AllowanceLine."Line No.";
-        // TempAllowanceLine."Is Substitute" := true;
-        // TempAllowanceLine.TestField("From Date");
-        // TempAllowanceLine.TestField("To Date");
-        // TempAllowanceLine.TestField("Employee Code");
-        // // TempAllowanceLine."Approval Status" := TempAllowanceLine."Approval Status"::Screened;
-        // TempAllowanceLine.Insert(true);
-        // TempAllowanceLine.UpdateSubstitue;
         If AllowanceLine."Substitute Type" <> AllowanceLine."Substitute Type"::" " then
             Error('This Document is already Substituted');
         AllowanceLine.TestField("Approval Status", AllowanceLine."Approval Status"::Approved);
@@ -4426,5 +4413,25 @@ page 50108 "Portal Functions"
             end;
         RecRef.GetTable(ShiftAssignment);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure substituteShiftAssignment(entryNo: Code[20]; lineNo: Integer; remarks: Text; empCode: Code[20]): Text
+    var
+        ShiftLine, NewShiftLine : Record "Shift Line";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+    begin
+        ShiftAssignmentHeader.Get(EntryNo);
+        if ShiftAssignmentHeader."Employee No." <> HrMgt.GetEmployeeNo() then
+            Error('You are not authorized to substitute this Shift Line');
+        ShiftLine.Get(entryNo, lineNo);
+        If ShiftLine."Substitute Type" <> ShiftLine."Substitute Type"::" " then
+            Error('This Document is already Substituted');
+        ShiftLine.TestField("Approval Status", ShiftLine."Approval Status"::Approved);
+        if ShiftLine."Employee No" = empCode then
+            Error('You cannot substitute Same Employee');
+        ShiftAssignmentMgt.SubstituteShiftLine(ShiftLine, empCode, Remarks);
     end;
 }

@@ -17863,6 +17863,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Roster Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 1713785062 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute of Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Substitute of Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1143437386 - Field 1272631030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Shift Line - Field Substitute Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1143437386 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -45478,6 +45488,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control employeeWorkShift - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1294919425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Line No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control lineNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1294919425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control lineNo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1561849558 - Control 596559819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -45498,10 +45518,45 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control rosterDate - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 3191954200 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Substitute of Line No. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control substituteOfLineNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 3191954200 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute of Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control substituteOfLineNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1462321262 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Substitute field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control substituteType - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Control 1462321262 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Control substituteType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 2619566919 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Substitute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Approve Substitute - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Substitute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Reject Substitute - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1561849558 - Action 1172531677 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Shift Assignment action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Shift Assignment In Range - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1561849558 - Action 1502113334 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Substitute action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift subform - Action Substitute - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3833062980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Status Master</source>
