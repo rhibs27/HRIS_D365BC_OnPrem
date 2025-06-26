@@ -104,6 +104,10 @@ page 50319 "Employee Insurance Entity"
                 {
                     Caption = 'Annual Premium Amount';
                 }
+                field(premiumPaidBy; Rec."Premium Paid By")
+                {
+                    Caption = 'Premium Paid By';
+                }
                 part(Attachments; "Attachment Subform")
                 {
                     ApplicationArea = All;
