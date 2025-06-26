@@ -24,7 +24,7 @@ table 50155 "Transfer Claim Detail"
         {
             Caption = 'Requested Amount';
         }
-        field(5; "Maximum Eligible Amount"; Decimal)
+        field(5; "Eligible Amount"; Decimal)
         {
             Caption = 'Maximum Eligible Amount';
         }
