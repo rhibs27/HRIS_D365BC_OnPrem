@@ -3204,6 +3204,28 @@ page 50108 "Portal Functions"
         end else
             Error('not found');
     end;
+    //     //Allowance Asssignment summary Report API
+    //     [ServiceEnabled]
+    //     [Scope('Personalization')]
+    //     procedure downloadAllowanceAssignmentSummary(DocumentNo: code[20]): Text
+    //     var
+    //         AllowanceAssignmentReport: Report "Allowance Assignment Summary";
+    //         AllowanceAssignmentHeader: Record "Allowance Assignment Header";
+    //         exitText: text;
+    //           RecRef: RecordRef;
+    //                      OutStr: OutStream;
+
+    //     Begin
+    //         AllowanceAssignmentReport.PassParPortal(AllowanceAssignmentHeader."No.");
+
+
+
+    // exit('{' + '"extension": "' + 'Pdf' + '",' + '"attachBase64":"' + exitText + '"}');
+
+    //     End;
+
+
+
 
     [ServiceEnabled]
     [Scope('Personalization')]
@@ -3620,6 +3642,7 @@ page 50108 "Portal Functions"
         else
             exit(false);
     end;
+
 
     [ServiceEnabled]
     [Scope('Personalization')]

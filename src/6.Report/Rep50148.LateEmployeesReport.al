@@ -11,7 +11,8 @@ report 50148 "Late Employees Report"
         dataitem(EmployeeAttendanceActivity; "Employee Attendance & Activity")
         {
             RequestFilterFields = "Employee No.", "Attendance Date";
-
+            column(CompanyName; CompanyInfo.Name) { }
+            column(CompanyPicture; CompanyInfo.Picture) { }
             column(EmployeeNo; "Employee No.") { }
             column(Employee_Name; "Employee Name") { }
             column(CheckInTime; format("Check In Time")) { }
@@ -200,6 +201,12 @@ report 50148 "Late Employees Report"
             exit(true);
         end;
     }
+    trigger OnPreReport()
+    begin
+        CompanyInfo.Get();
+        CompanyInfo.CalcFields(Picture);
+
+    end;
 
     var
         ActualHoursWorked: Text[20];
@@ -214,5 +221,8 @@ report 50148 "Late Employees Report"
         Designation: Text[50];
         AttendanceMissed: Record "Attendance Missed";
         LateDocNo: Code[20];
+        CompanyInfo: Record "Company Information";
+
+
 
 }

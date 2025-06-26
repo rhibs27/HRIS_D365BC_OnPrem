@@ -20563,6 +20563,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Control Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3157096233 - Action 956577129 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows Allowance Assignment Summary Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Card - Action Allowance Assignment Summary - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3157096233 - Action 1505103626 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Approve Request action.</source>
           <note from="Developer" annotates="general" priority="2"></note>

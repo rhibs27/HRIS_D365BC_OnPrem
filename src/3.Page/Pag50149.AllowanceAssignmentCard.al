@@ -212,6 +212,27 @@ page 50149 "Allowance Assignment Card"
                     // AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
                 end;
             }
+            action("Allowance Assignment Summary")
+            {
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Shows Allowance Assignment Summary Report';
+                ApplicationArea = All;
+                Visible = Rec."Approval Status" <> Rec."Approval Status"::Open;
+
+                //Visible = IsPending;
+                trigger OnAction()
+
+                begin
+
+                    Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
+
+                end;
+
+            }
             // action("Get Allowance")
             // {
             //     Image = GetLines;

@@ -10,20 +10,34 @@ report 50147 "Allowance Assignment Summary"
     {
         dataitem("Allowance Assignment Header"; "Allowance Assignment Header")
         {
-            RequestFilterFields = "No.";
+            //RequestFilterFields = "No.";
             column(No; "No.") { }
             column(FromDate; "From Date") { }
             column(ToDate; "To Date") { }
+            column(CompanyName; CompanyInfo.Name) { }
+            column(CompanyPicture; CompanyInfo.Picture) { }
+            column(BranchName; BranchName) { }
+
+
+
 
 
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
                 DataItemLink = "No." = field("No.");
+
                 column(Date; "From Date") { }
                 column(AtmAllowance; AtmAllowance) { }
                 column(KeyCustodian; KeyCustodian) { }
                 column(Teller; Teller) { }
                 column(HeadTeller; HeadTeller) { }
+                trigger OnPreDataItem()
+                begin
+                    SetRange("No.", No);
+                end;
+
+
+
 
                 trigger OnAfterGetRecord()
                 begin
@@ -45,6 +59,8 @@ report 50147 "Allowance Assignment Summary"
 
                         if "Allowance Type" = PayrollGeneralSetup."Head Teller Allowance" then
                             HeadTeller := Employee."Full Name" + ' (' + "Employee Code" + ')';
+                        BranchName := Employee."Branch Name";
+
                     end;
                 end;
 
@@ -62,6 +78,11 @@ report 50147 "Allowance Assignment Summary"
             {
                 group(GroupName)
                 {
+                    field(No; No)
+                    {
+                        ApplicationArea = All;
+                        TableRelation = "Allowance Assignment Header"."No.";
+                    }
                 }
             }
         }
@@ -74,7 +95,12 @@ report 50147 "Allowance Assignment Summary"
         }
     }
 
-    var
+    trigger OnPreReport()
+    begin
+        CompanyInfo.Get();
+        CompanyInfo.CalcFields(Picture);
+
+    end;
 
     var
         Employee: Record Employee;
@@ -83,8 +109,17 @@ report 50147 "Allowance Assignment Summary"
         KeyCustodian: Text;
         Teller: Text;
         HeadTeller: Text;
+        CompanyInfo: Record "Company Information";
+        BranchName: Text;
+        No: code[20];
 
 
+    procedure PassParPortal(DocumentNo: code[20])
+    var
+        AllowanceAssignmentHeader: Record "Allowance Assignment Header";
+    begin
+        NO := DocumentNo;
 
+    end;
 
 }
