@@ -74,6 +74,11 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Plan Flexible field.';
                     ApplicationArea = All;
                 }
+                field("Claim Flexible"; Rec."Transfer Claim Flexible")
+                {
+                    ToolTip = 'Specifies the value of the Claim Flexible field.';
+                    ApplicationArea = All;
+                }
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.';

@@ -82,6 +82,12 @@ page 50320 "Employee Insurance Card"
                     ApplicationArea = All;
                     Editable = InsEndDateEdit;
                 }
+                field("Premium Paid By"; Rec."Premium Paid By")
+                {
+                    ToolTip = 'Specifies the value of the Premium Paid By field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = InsEndDateEdit;
+                }
                 field("Insurance Amount"; Rec."Insurance Amount")
                 {
                     ToolTip = 'Specifies the value of the Insurance Amount field.', Comment = '%';

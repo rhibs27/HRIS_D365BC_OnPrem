@@ -19,7 +19,7 @@ page 50363 "Transfer Claim Details Subform"
                 {
                     ToolTip = 'Specifies the value of the Requested Amount field.', Comment = '%';
                 }
-                field("Maximum Eligible Amount"; Rec."Maximum Eligible Amount")
+                field("Maximum Eligible Amount"; Rec."Eligible Amount")
                 {
                     ToolTip = 'Specifies the value of the Maximum Eligible Amount field.', Comment = '%';
                 }

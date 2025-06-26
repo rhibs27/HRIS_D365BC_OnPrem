@@ -12428,6 +12428,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Tax Info Report Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 2652641840 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim Flexible</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Transfer Claim Flexible - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18673,6 +18678,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Attribute code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4120834124 - Field 1428936891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Maximum Eligible Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Eligible Amount - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4120834124 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18682,11 +18692,6 @@
           <source>Line no</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Line No - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4120834124 - Field 1364135723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Maximum Eligible Amount</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Transfer Claim Detail - Field Maximum Eligible Amount - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4120834124 - Field 670912456 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Requested Amount</source>
@@ -27452,6 +27457,11 @@
           <source>Specifies the value of the Policy Number field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Policy Number - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1469501960 - Control 4148494904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Premium Paid By field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Card - Control Premium Paid By - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1469501960 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Rejection Remarks field.</source>
@@ -37367,6 +37377,11 @@
           <source>Specifies the value of the Apply Every Month field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Apply Every Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 3415543417 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Claim Flexible field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Claim Flexible - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
