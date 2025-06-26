@@ -27578,6 +27578,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control policyNumber - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 683181821 - Control 2456474872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Premium Paid By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Insurance Entity - Control premiumPaidBy - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 683181821 - Control 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52193,11 +52198,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Query Cancel Document Query - QueryColumn type - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Query 288090030 - QueryColumn 2036335498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Annual Premium Amount</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn annualPremiumAmount - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Query 288090030 - QueryColumn 1020011527 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52267,6 +52267,11 @@
           <source>Policy Number</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn policyNumber - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Query 288090030 - QueryColumn 2456474872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Premium Paid By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Query Employee Insurance Query - QueryColumn premiumPaidBy - Property Caption</note>
         </trans-unit>
         <trans-unit id="Query 288090030 - QueryColumn 596559819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
