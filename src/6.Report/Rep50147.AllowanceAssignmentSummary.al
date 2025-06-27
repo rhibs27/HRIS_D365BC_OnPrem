@@ -10,15 +10,12 @@ report 50147 "Allowance Assignment Summary"
     {
         dataitem("Allowance Assignment Header"; "Allowance Assignment Header")
         {
-            //RequestFilterFields = "No.";
             column(No; "No.") { }
             column(FromDate; "From Date") { }
             column(ToDate; "To Date") { }
             column(CompanyName; CompanyInfo.Name) { }
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(BranchName; BranchName) { }
-
-
 
 
 
@@ -31,17 +28,9 @@ report 50147 "Allowance Assignment Summary"
                 column(KeyCustodian; KeyCustodian) { }
                 column(Teller; Teller) { }
                 column(HeadTeller; HeadTeller) { }
-                trigger OnPreDataItem()
-                begin
-                    SetRange("No.", No);
-                end;
-
-
-
 
                 trigger OnAfterGetRecord()
                 begin
-
                     Clear(AtmAllowance);
                     Clear(KeyCustodian);
                     Clear(Teller);
@@ -59,14 +48,15 @@ report 50147 "Allowance Assignment Summary"
 
                         if "Allowance Type" = PayrollGeneralSetup."Head Teller Allowance" then
                             HeadTeller := Employee."Full Name" + ' (' + "Employee Code" + ')';
-                        BranchName := Employee."Branch Name";
 
+                        BranchName := Employee."Branch Name";
                     end;
                 end;
-
-
-
             }
+            trigger OnPreDataItem()
+            begin
+                SetRange("No.", Docno);
+            end;
         }
     }
 
@@ -76,9 +66,9 @@ report 50147 "Allowance Assignment Summary"
         {
             area(Content)
             {
-                group(GroupName)
+                group("Filter using Document No")
                 {
-                    field(No; No)
+                    field(No; Docno)
                     {
                         ApplicationArea = All;
                         TableRelation = "Allowance Assignment Header"."No.";
@@ -89,9 +79,7 @@ report 50147 "Allowance Assignment Summary"
 
         actions
         {
-            area(Processing)
-            {
-            }
+            area(Processing) { }
         }
     }
 
@@ -99,7 +87,11 @@ report 50147 "Allowance Assignment Summary"
     begin
         CompanyInfo.Get();
         CompanyInfo.CalcFields(Picture);
+    end;
 
+    procedure PassParPortal(DocumentNo: Code[20])
+    begin
+        Docno := DocumentNo;
     end;
 
     var
@@ -111,15 +103,6 @@ report 50147 "Allowance Assignment Summary"
         HeadTeller: Text;
         CompanyInfo: Record "Company Information";
         BranchName: Text;
-        No: code[20];
-
-
-    procedure PassParPortal(DocumentNo: code[20])
-    var
-        AllowanceAssignmentHeader: Record "Allowance Assignment Header";
-    begin
-        NO := DocumentNo;
-
-    end;
-
+        Docno: Code[20];
 }
+

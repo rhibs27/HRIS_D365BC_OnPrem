@@ -3204,28 +3204,29 @@ page 50108 "Portal Functions"
         end else
             Error('not found');
     end;
-    //     //Allowance Asssignment summary Report API
-    //     [ServiceEnabled]
-    //     [Scope('Personalization')]
-    //     procedure downloadAllowanceAssignmentSummary(DocumentNo: code[20]): Text
-    //     var
-    //         AllowanceAssignmentReport: Report "Allowance Assignment Summary";
-    //         AllowanceAssignmentHeader: Record "Allowance Assignment Header";
-    //         exitText: text;
-    //           RecRef: RecordRef;
-    //                      OutStr: OutStream;
-
-    //     Begin
-    //         AllowanceAssignmentReport.PassParPortal(AllowanceAssignmentHeader."No.");
-
-
-
-    // exit('{' + '"extension": "' + 'Pdf' + '",' + '"attachBase64":"' + exitText + '"}');
-
-    //     End;
-
-
-
+    //Allowance Asssignment summary Report API
+    [ServiceEnabled]
+    [Scope('Personalization')]
+    procedure downloadAllowanceAssignmentSummary(DocumentNo: Code[20]): Text
+    var
+        AllowanceAssignmentReport: Report "Allowance Assignment Summary";
+        TempBlob: Codeunit "Temp Blob";
+        OutStr: OutStream;
+        InStr: InStream;
+        Base64: Codeunit "Base64 Convert";
+        exitText: Text;
+        ext: Text;
+        format: ReportFormat;
+    begin
+        ext := 'pdf';
+        format := ReportFormat::Pdf;
+        AllowanceAssignmentReport.PassParPortal(DocumentNo);
+        TempBlob.CreateOutStream(OutStr);
+        AllowanceAssignmentReport.SaveAs('', format, OutStr);
+        TempBlob.CreateInStream(InStr);
+        exitText := Base64.ToBase64(InStr);
+        exit('{"extension":"' + ext + '","attachBase64":"' + exitText + '"}');
+    end;
 
     [ServiceEnabled]
     [Scope('Personalization')]
