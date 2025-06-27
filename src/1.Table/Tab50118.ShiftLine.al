@@ -42,6 +42,10 @@ table 50118 "Shift Line"
         field(6; "Roster Date"; Date)
         {
             Caption = 'Roster Date';
+            trigger OnValidate()
+            begin
+                ShiftMgn.ValidateEmployeeOnDate(Rec);
+            end;
         }
         field(7; "Approved Date"; Date)
         {
@@ -104,4 +108,6 @@ table 50118 "Shift Line"
     var
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
+
+        ShiftMgn: Codeunit "Shift Assignment Mgt";
 }

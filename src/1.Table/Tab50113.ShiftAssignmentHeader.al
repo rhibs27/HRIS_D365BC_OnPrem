@@ -58,7 +58,8 @@ table 50113 "Shift Assignment Header"
             begin
                 if "From date" > "To Date" then
                     Error('Invalid date.');
-                ShiftAssignmentMgt.CheckForExistingDate("No.");
+                if GuiAllowed then
+                    CheckForExistingDate("No.");
             end;
         }
         field(8; "No. Series"; Code[20])
@@ -158,7 +159,7 @@ table 50113 "Shift Assignment Header"
             end;
         if not GuiAllowed then
             if Type = Type::"Shift Assignment" then
-                ShiftAssignmentMgt.CheckForExistingDate("No.");
+                CheckForExistingDate("No.");
     end;
 
     var
@@ -169,5 +170,24 @@ table 50113 "Shift Assignment Header"
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+
+
+    procedure CheckForExistingDate(No: Code[20])
+    var
+        ShiftAssignment: Record "Shift Assignment Header";
+    begin
+        ShiftAssignment.Reset;
+        if GuiAllowed then
+            ShiftAssignment.SetFilter("No.", '<>%1', No);
+        ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Shift Assignment");
+        ShiftAssignment.SetRange("Fiscal Year", "Fiscal Year");
+        ShiftAssignment.SetRange("Deputation Code", "Deputation Code");
+        ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
+        if ShiftAssignment.Findset then
+            repeat
+                if ("From Date" <= ShiftAssignment."TO date") and ("To date" >= ShiftAssignment."From Date") then
+                    Error('Shift Assignment for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
+            until ShiftAssignment.Next() = 0;
+    end;
 
 }

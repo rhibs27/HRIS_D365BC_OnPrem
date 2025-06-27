@@ -140,23 +140,19 @@ codeunit 50025 "Shift Assignment Mgt"
 
     end;
 
-    procedure CheckForExistingDate(No: Code[20])
+    procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
     var
-        ShiftAssignment, ShiftAssignment1 : Record "Shift Assignment Header";
+        Shiftline: Record "Shift Line";
+
     begin
-        ShiftAssignment1.Get(NO);
-        ShiftAssignment.Reset;
-        if GuiAllowed then
-            ShiftAssignment.SetFilter("No.", '<>%1', No);
-        ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Overtime Bulk");
-        ShiftAssignment.SetRange("Fiscal Year", ShiftAssignment1."Fiscal Year");
-        ShiftAssignment.SetRange("Deputation Code", ShiftAssignment1."Deputation Code");
-        ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
-        if ShiftAssignment.Findset then
-            repeat
-                if (ShiftAssignment1."From Date" <= ShiftAssignment."TO date") and (ShiftAssignment1."To date" >= ShiftAssignment."From Date") then
-                    Error('Overtime for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
-            until ShiftAssignment.Next() = 0;
+        Shiftline.SetRange(Type, LineRec.Type::"Shift Assignment");
+        Shiftline.SetRange("No.", LineRec."No.");
+        Shiftline.SetRange("Employee No", LineRec."Employee No");
+        Shiftline.SetRange("Roster Date", LineRec."Roster Date");
+        Shiftline.SetFilter("Line No", '<>%1', LineRec."Line No");
+
+        if Shiftline.FindFirst() then
+            Error('Employee %1 is already scheduled on %1 at Line No. %2',LineRec."Employee Name", LineRec."Roster Date", Shiftline."Line No");
     end;
 
     var
