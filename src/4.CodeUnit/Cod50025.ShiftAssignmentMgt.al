@@ -143,8 +143,8 @@ codeunit 50025 "Shift Assignment Mgt"
     procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
     var
         Shiftline: Record "Shift Line";
-
     begin
+
         Shiftline.SetRange(Type, LineRec.Type::"Shift Assignment");
         Shiftline.SetRange("No.", LineRec."No.");
         Shiftline.SetRange("Employee No", LineRec."Employee No");
@@ -152,7 +152,7 @@ codeunit 50025 "Shift Assignment Mgt"
         Shiftline.SetFilter("Line No", '<>%1', LineRec."Line No");
 
         if Shiftline.FindFirst() then
-            Error('Employee %1 is already scheduled on %1 at Line No. %2',LineRec."Employee Name", LineRec."Roster Date", Shiftline."Line No");
+            Error('Employee %1 is already scheduled on %1 at Line No. %2', LineRec."Employee Name", LineRec."Roster Date", Shiftline."Line No");
     end;
 
     var
