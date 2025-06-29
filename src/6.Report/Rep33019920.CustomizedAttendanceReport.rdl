@@ -949,12 +949,6 @@ End Function
         <Field Name="Day">
           <DataField>Day</DataField>
         </Field>
-        <Field Name="PunchOutRemarks">
-          <DataField>PunchOutRemarks</DataField>
-        </Field>
-        <Field Name="LateRemarks">
-          <DataField>LateRemarks</DataField>
-        </Field>
         <Field Name="AttendanceRemarks">
           <DataField>AttendanceRemarks</DataField>
         </Field>
