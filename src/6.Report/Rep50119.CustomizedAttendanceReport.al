@@ -26,8 +26,8 @@ report 50119 "Customized Attendance Report"
                     column(HolidayRemarks; "Holiday Remarks") { }
                     column(AttendanceText; AttendanceText) { }
                     column(Day; EnglishNepDate.Week) { }
-                    column(PunchOutRemarks; AttendanceLog."Punch out Remarks") { }
-                    column(LateRemarks; AttendanceLog."Late Remarks") { }
+                    // column(PunchOutRemarks; AttendanceLog."Punch out Remarks") { }
+                    // column(LateRemarks; AttendanceLog."Late Remarks") { }
                     column(AttendanceRemarks; AttendanceRemarks) { }
 
                     trigger OnAfterGetRecord()

@@ -39,12 +39,12 @@ codeunit 50026 "Attendance Mgt"
         end;
         //For Check IN Time Get
         AttendanceLog.Reset;
-        AttendanceLog.SetCurrentKey("Check In Time");
-        AttendanceLog.SetAscending("Check In Time", true);
+        AttendanceLog.SetCurrentKey("Log Time");
+        AttendanceLog.SetAscending("Log Time", true);
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.FindFirst then begin
-            AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
+            AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
             // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
             // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
             // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
@@ -57,13 +57,13 @@ codeunit 50026 "Attendance Mgt"
         end;
         //For check Out Get 
         AttendanceLog.Reset;
-        AttendanceLog.SetCurrentKey("Check In Time");
-        AttendanceLog.SetAscending("Check In Time", true);
+        AttendanceLog.SetCurrentKey("Log Time");
+        AttendanceLog.SetAscending("Log Time", true);
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
-            if AttendanceLog."Check In Time" >= (AttendanceSetUp."Check Out From") then
-                AttendanceLine.Validate("Check Out Time", AttendanceLog."Check In Time");
+            if AttendanceLog."Log Time" >= (AttendanceSetUp."Check Out From") then
+                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
         end;
 
         EngNep.Reset; //Min 1.25.2023

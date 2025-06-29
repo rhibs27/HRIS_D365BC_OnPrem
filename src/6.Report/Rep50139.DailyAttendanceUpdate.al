@@ -47,31 +47,31 @@ report 50139 "Daily Attendance Update"
                             Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount("No.", "Attendance Missed On"));
                         Modify;
                     end;
-                    if NightShiftAttendanceUpdate then begin
-                        AttendanceLogRec.Reset;
-                        AttendanceLogRec.SetRange(Date, InitialDate);
-                        AttendanceLogRec.SetFilter("Night Shift Check Out Time", '<>%1', 0T);
-                        AttendanceLogRec.SetRange("Employee ID", Employee."No.");
-                        if AttendanceLogRec.FindFirst then begin
-                            AttendLine.Reset;
-                            AttendLine.SetRange("Employee No.", AttendanceLogRec."Employee ID");
-                            AttendLine.SetRange("Attendance Date", AttendanceLogRec.Date);
-                            if AttendLine.FindFirst then begin
-                                AttendLine."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
-                                AttendLine."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
-                                AttendLine."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
-                                AttendLine."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
-                                AttendLine.Modify;
-                            end;
-                            if EmpAttenActRec.Get(AttendanceLogRec."Employee ID", AttendanceLogRec.Date) then begin
-                                EmpAttenActRec."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
-                                EmpAttenActRec."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
-                                EmpAttenActRec."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
-                                EmpAttenActRec."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
-                                EmpAttenActRec.Modify;
-                            end;
-                        end;
-                    end;
+                    // if NightShiftAttendanceUpdate then begin
+                    //     AttendanceLogRec.Reset;
+                    //     AttendanceLogRec.SetRange(Date, InitialDate);
+                    //     AttendanceLogRec.SetFilter("Night Shift Check Out Time", '<>%1', 0T);
+                    //     AttendanceLogRec.SetRange("Employee ID", Employee."No.");
+                    //     if AttendanceLogRec.FindFirst then begin
+                    //         AttendLine.Reset;
+                    //         AttendLine.SetRange("Employee No.", AttendanceLogRec."Employee ID");
+                    //         AttendLine.SetRange("Attendance Date", AttendanceLogRec.Date);
+                    //         if AttendLine.FindFirst then begin
+                    //             AttendLine."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
+                    //             AttendLine."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
+                    //             AttendLine."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
+                    //             AttendLine."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
+                    //             AttendLine.Modify;
+                    //         end;
+                    //         if EmpAttenActRec.Get(AttendanceLogRec."Employee ID", AttendanceLogRec.Date) then begin
+                    //             EmpAttenActRec."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
+                    //             EmpAttenActRec."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
+                    //             EmpAttenActRec."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
+                    //             EmpAttenActRec."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
+                    //             EmpAttenActRec.Modify;
+                    //         end;
+                    // end;
+                    // end;
                 end;
 
                 trigger OnPreDataItem()

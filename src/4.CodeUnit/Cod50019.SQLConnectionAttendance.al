@@ -229,7 +229,7 @@ codeunit 50019 "SQL Connection Attendance"
                 AttendanceLog.Validate("Machine Code", MachineId);
                 AttendanceLog.Validate("Date", DT2DATE(SQLDataReader.GetValue(3)));
                 AttendanceLog.Validate("Date Time Log", DateTimeLog);
-                AttendanceLog.Validate("Check In Time", CheckInOutTime);
+                AttendanceLog.Validate("Log Time", CheckInOutTime);
                 // case mode of
                 //     0: // Check-In
                 //         begin
@@ -250,7 +250,7 @@ codeunit 50019 "SQL Connection Attendance"
                 // end;
 
                 AttendanceLog.Validate("Machine Emp. Code", SQLDataReader.GetValue(2));
-                AttendanceLog."Biometrics Attendance" := true;
+                AttendanceLog."Biometric Attendance" := true;
                 if AttendanceLog.Insert(true) then;
                 // end else begin
                 //     // If a record exists, modify it based on mode
@@ -377,7 +377,7 @@ codeunit 50019 "SQL Connection Attendance"
                     AttendanceLog.Validate("Machine Emp. Code", format(MachineId));
                     AttendanceLog.Validate(Date, DT2DATE(SQLDataReader.GetValue(3)));
                     AttendanceLog.Validate("Employee ID", (SQLDataReader.GetValue(2)));
-                    AttendanceLog.Validate("Check In Time", DT2TIME(SQLDataReader.GetValue(3)));
+                    AttendanceLog.Validate("Log Time", DT2TIME(SQLDataReader.GetValue(3)));
                     // AttendanceLog.Validate("Check In Time", DT2TIME(SQLDataReader.GetValue(3)));
                     // AttendanceLog.Validate("Device ID", SQLDataReader.GetValue(1));
                     // AttendanceLog."Biometrics Attendance" := true;

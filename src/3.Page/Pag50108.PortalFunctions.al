@@ -193,30 +193,32 @@ page 50108 "Portal Functions"
     //     exit(200);
     // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text; approverCode: Code[20]): Text
-    var
-        AttendanceLog: Record "Attendance Log";
-    begin
-        AttendanceLog.Reset;
-        AttendanceLog.SetRange("Employee ID", empNo);
-        AttendanceLog.SetRange(Date, lateAttendanceDate);
-        if AttendanceLog.FindFirst then begin
-            Employee.Reset;
-            Employee.SetRange("No.", approverCode);
-            if Employee.FindFirst then
-                if Employee."No." <> AttendanceLog."Approver Code" then
-                    Error('You are not eligible to approve or reject this document');
-            if isApproved then
-                AttendanceLog.Validate(Status, AttendanceLog.Status::Approved)
-            else
-                AttendanceLog.Validate(Status, AttendanceLog.Status::Rejected);
-            AttendanceLog.Validate("Approver Remarks", remarks);
-            AttendanceLog.Modify;
-            exit('Approved');
-        end;
-    end;
+    // Commented for Stored Procedure for Attendance Sync.
+
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text; approverCode: Code[20]): Text
+    // var
+    //     AttendanceLog: Record "Attendance Log";
+    // begin
+    //     AttendanceLog.Reset;
+    //     AttendanceLog.SetRange("Employee ID", empNo);
+    //     AttendanceLog.SetRange(Date, lateAttendanceDate);
+    //     if AttendanceLog.FindFirst then begin
+    //         Employee.Reset;
+    //         Employee.SetRange("No.", approverCode);
+    //         if Employee.FindFirst then
+    //             if Employee."No." <> AttendanceLog."Approver Code" then
+    //                 Error('You are not eligible to approve or reject this document');
+    //         if isApproved then
+    //             AttendanceLog.Validate(Status, AttendanceLog.Status::Approved)
+    //         else
+    //             AttendanceLog.Validate(Status, AttendanceLog.Status::Rejected);
+    //         AttendanceLog.Validate("Approver Remarks", remarks);
+    //         AttendanceLog.Modify;
+    //         exit('Approved');
+    //     end;
+    // end;
 
     // [ServiceEnabled]
     // [Scope('Personalization')]
@@ -255,26 +257,29 @@ page 50108 "Portal Functions"
     //     end;
     // end;
 
-    [ServiceEnabled]
-    [Scope('Personalization')]
-    procedure employeeCheckoutTimeUpdate(empNo: Code[20]; checkoutDate: Date; checkoutTime: Time; puchoutRemarks: Text; punchoutReviewer: Code[20]; punchoutCheckReviewer: Code[20]; NightShiftCheckOutTime: Time): Text
-    var
-        AttendanceLog: Record "Attendance Log";
-    begin
-        Attendancelog.Reset;
-        Attendancelog.SetRange("Employee ID", empNo);
-        Attendancelog.SetRange(Date, checkoutDate);
-        if Attendancelog.FindFirst then begin
-            Attendancelog."Check Out Time" := checkoutTime;
-            Attendancelog."Punch out Remarks" := puchoutRemarks;
-            Attendancelog."Punch Out Reviewer" := punchoutReviewer; //Min 8.18.2022
-            Attendancelog."Punch Out Check Reviewer" := punchoutCheckReviewer;
-            Attendancelog."Night Shift Check Out Time" := NightShiftCheckOutTime; //Min 11.27.2022
-            Attendancelog.Modify;
-            exit('Checkout Completed');
-        end else
-            Error('Record not found');
-    end;
+
+    // Commented for Stored Procedure for Attendance Sync.
+
+    // [ServiceEnabled]
+    // [Scope('Personalization')]
+    // procedure employeeCheckoutTimeUpdate(empNo: Code[20]; checkoutDate: Date; checkoutTime: Time; puchoutRemarks: Text; punchoutReviewer: Code[20]; punchoutCheckReviewer: Code[20]; NightShiftCheckOutTime: Time): Text
+    // var
+    //     AttendanceLog: Record "Attendance Log";
+    // begin
+    //     Attendancelog.Reset;
+    //     Attendancelog.SetRange("Employee ID", empNo);
+    //     Attendancelog.SetRange(Date, checkoutDate);
+    //     if Attendancelog.FindFirst then begin
+    //         Attendancelog."Check Out Time" := checkoutTime;
+    //         Attendancelog."Punch out Remarks" := puchoutRemarks;
+    //         Attendancelog."Punch Out Reviewer" := punchoutReviewer; //Min 8.18.2022
+    //         Attendancelog."Punch Out Check Reviewer" := punchoutCheckReviewer;
+    //         Attendancelog."Night Shift Check Out Time" := NightShiftCheckOutTime; //Min 11.27.2022
+    //         Attendancelog.Modify;
+    //         exit('Checkout Completed');
+    //     end else
+    //         Error('Record not found');
+    // end;
 
     // [ServiceEnabled]
     // [Scope('Personalization')]
