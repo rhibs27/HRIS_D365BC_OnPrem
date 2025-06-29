@@ -102,6 +102,7 @@ page 50255 "Shift subform"
                                 ShiftLine.SetView(FilterPage.GetView('Select Employee Details'));
                                 Evaluate(EmployeeCode, ShiftLine.GetFilter("Employee No"));
                             end;
+                            ShiftAssignmentMgt.ValidateEmployeeOnDate(ShiftLine);
                             ShiftAssignmentMgt.InsertShiftLine(rec."No.", EmployeeCode, ShiftLine.GetFilter("Employee Work Shift"), ShiftAssignmentHeader."From Date", ShiftAssignmentHeader."To Date");
                             CurrPage.Update();
                         end;
@@ -157,29 +158,30 @@ page 50255 "Shift subform"
             }
             action("Reject Substitute")
             {
-                Image = Approve;
+                Image = Reject;
                 ToolTip = 'Executes the Reject Substitute action.';
                 ApplicationArea = All;
                 Visible = DocumentApproved;
                 trigger OnAction()
                 var
-                    AllowanceLine1: Record "Allowance Assignment Line";
+                    Shiftline1: Record "Shift Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
-                    if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
-                        AllowanceLine1."Substitute Type" := Rec."Substitute Type"::" ";
-                        AllowanceLine1."Approved Date" := Today;
-                        AllowanceLine1.Modify();
+                    if Shiftline1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                        Shiftline1."Substitute Type" := Rec."Substitute Type"::" ";
+                        Shiftline1."Approved Date" := Today;
+                        Shiftline1.Modify();
                     end;
                     rec.Modify();
-                    Message('Substitute Allowance is Rejected');
+                    Message('Substituted shift is Rejected');
                 end;
             }
         }
 
     }
+
     trigger OnOpenPage()
     begin
         SetLayout

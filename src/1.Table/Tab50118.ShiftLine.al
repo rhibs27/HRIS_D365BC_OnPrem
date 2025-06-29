@@ -44,7 +44,7 @@ table 50118 "Shift Line"
             Caption = 'Roster Date';
             trigger OnValidate()
             begin
-                ShiftMgn.ValidateEmployeeOnDate(Rec);
+                ValidateShiftDate(Rec);
             end;
         }
         field(7; "Approved Date"; Date)
@@ -105,9 +105,52 @@ table 50118 "Shift Line"
             Clustered = true;
         }
     }
+
+    trigger OnInsert()
+    begin
+        Validate("Approval Status", "Approval Status"::Open);
+
+    end;
+
     var
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
 
         ShiftMgn: Codeunit "Shift Assignment Mgt";
+
+
+    local procedure ValidateShiftDate(var LineRec: Record "Shift Line")
+    var
+        ShiftLine: Record "Shift Line";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
+    begin
+        if (LineRec."Employee No" = '') or (LineRec."Roster Date" = 0D) then
+            exit;
+
+        if not ShiftAssignmentHeader.Get(LineRec."No.") then
+            Error('Shift Assignment Header %1 does not exist', LineRec."No.");
+
+        ShiftAssignmentHeader.TestField("From Date");
+        ShiftAssignmentHeader.TestField("To Date");
+
+        if (LineRec."Roster Date" < ShiftAssignmentHeader."From Date") or
+           (LineRec."Roster Date" > ShiftAssignmentHeader."To Date") then
+            Error('Roster Date %1 is not within the allowed period %2 to %3',
+                  LineRec."Roster Date",
+                  ShiftAssignmentHeader."From Date",
+                  ShiftAssignmentHeader."To Date");
+
+        ShiftLine.Reset();
+        ShiftLine.SetRange(Type, ShiftLine.Type::"Shift Assignment");
+        ShiftLine.SetRange("No.", LineRec."No.");
+        ShiftLine.SetRange("Employee No", LineRec."Employee No");
+        ShiftLine.SetRange("Roster Date", LineRec."Roster Date");
+        ShiftLine.SetFilter("Line No", '<>%1', LineRec."Line No");
+
+        if ShiftLine.FindFirst() then
+            Error('Employee %1 is already scheduled on %2 at Line No. %3',
+                  LineRec."Employee No",
+                  LineRec."Roster Date",
+                  ShiftLine."Line No");
+    end;
 }
