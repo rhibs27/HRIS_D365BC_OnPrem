@@ -741,7 +741,7 @@ permissionset 50000 D365HRMSPermission
         // codeunit "MedicalInsurance Mgt" = X,
         codeunit "OverTime Mgt" = X,
         codeunit "Resignation Mgt" = X,
-        codeunit "SQL Connection Attendance" = X,
+        // codeunit "SQL Connection Attendance" = X,
         codeunit "SQL Connection Mgt" = X,
         codeunit "Transfer Mgt." = X,
         codeunit "Travel Mgt." = X,
