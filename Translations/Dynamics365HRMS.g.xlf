@@ -48863,65 +48863,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - NamedType Err003</note>
         </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 3654999908 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the AttendanceMissedCountUpdate field.</source>
+        <trans-unit id="Report 2182607353 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EmployeeNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Attendance Missed Count Update - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Employee No - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2182607353 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the FromDate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control From Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 3654965184 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the GeneralTransferUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control General Transfer Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 21500662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the NightShiftAttendanceUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Night Shift Attendance Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 511664528 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the ReinstateTransfer field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Reinstate Transfer - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 1431499250 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the SalaryLevelGradeUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Salary Level Grade Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 760065682 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Sync Employees field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Sync Employees - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 760065682 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sync Employees</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Sync Employees - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Report 2182607353 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ToDate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control To Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 2138556230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateAllowanceAssignment field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Update Allowance Assignment - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Report 2182607353 - Control 1736849778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the UpdateDailyAttendance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Update Attendance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 2453812782 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateOvertime field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Update Overtime - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 1722841060 - Control 4182339846 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the _SendEmailForTransferAcknowledgement field.</source>
