@@ -733,7 +733,7 @@ permissionset 50000 D365HRMSPermission
         table "Status Master" = X,
         table "Travel Request" = X,
         report EmployeeJobQue = X,
-        report "Sql Connection Attendance" = X,
+        // report "Sql Connection Attendance" = X,
         codeunit "AppraisalMgt." = X,
         codeunit "Approver Mgt" = X,
         codeunit "AttendanceMiss Mgt" = X,
