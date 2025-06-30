@@ -1471,7 +1471,6 @@ codeunit 50008 "Payroll Engine"
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        // EmployeeActivity: Record "Employee Activity";
         Leave: Record Leave;
         Travel: Record "Travel Request";
         OverTime: Record OverTime;
