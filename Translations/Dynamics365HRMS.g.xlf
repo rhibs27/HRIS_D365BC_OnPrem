@@ -20168,16 +20168,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Service History Mgt - Method UpdateMissedTransfer - NamedType ConfirmReject</note>
         </trans-unit>
-        <trans-unit id="Codeunit 731959137 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Either server or database information not found.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit SQL Connection Attendance - NamedType NoServerInfoError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 731959137 - NamedType 261601535" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Select * from </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit SQL Connection Attendance - NamedType ReadCommandTxt</note>
-        </trans-unit>
         <trans-unit id="Codeunit 1166164602 - NamedType 2464296654" size-unit="char" translate="yes" xml:space="preserve">
           <source>Either server or database information not found.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20753,6 +20743,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Panel - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3852589595 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3852589595 - Control 1713785062 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Substitue of Line No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20772,6 +20767,11 @@
           <source>Executes the Approve Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Approve Substitute - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3852589595 - Action 3620725999 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Allowance Claim action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignment Subform - Action Reject ALlowance Claim - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3852589595 - Action 3920215559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reject Substitute action.</source>
@@ -50957,31 +50957,6 @@
           <source>Specifies the value of the PayCycleTerm field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 835573025 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sql Connection Attendance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 835573025 - Control 1019546919 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device Id</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control deviceId - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 835573025 - Control 837247550 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>From Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control FromDate - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 835573025 - Control 4137594593 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>To Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control ToDate - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 835573025 - Control 335124840 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Update Device ID in old log</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Sql Connection Attendance - Control UpdateDeviceID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3428219872 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Staff Allowance Details</source>

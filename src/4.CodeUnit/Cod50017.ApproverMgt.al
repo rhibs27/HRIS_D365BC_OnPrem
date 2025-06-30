@@ -270,7 +270,6 @@ codeunit 50017 "Approver Mgt"
                             EmpActType::"Allowance Assignment Claim":
                                 begin
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
-                                    exit;
                                 end;
                             EmpActType::"Shift Assignment":
                                 begin
