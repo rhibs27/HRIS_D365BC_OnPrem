@@ -107,10 +107,10 @@ codeunit 50001 "HR Mgt."
         TempInt: Integer;
         Employee1: Record Employee;
         SQLConnectionMgt: Codeunit "SQL Connection Mgt";
-        SQLConnection: DotNet SqlConnection;
-        SQLCommand: DotNet SqlCommand;
-        SQLParameter: DotNet SqlParameter;
-        SQLDataReader: DotNet SqlDataReader;
+        // SQLConnection: DotNet SqlConnection;
+        // SQLCommand: DotNet SqlCommand;
+        // SQLParameter: DotNet SqlParameter;
+        // SQLDataReader: DotNet SqlDataReader;
         SQLCommandType: Option StoredProcedure,TableDirect,Text;
         commandtext: Text;
         reader: Text;
@@ -8770,7 +8770,7 @@ codeunit 50001 "HR Mgt."
     var
         DailyAttendanceQuestion: Record "Daily Attendance Question";
     begin
-        ConnectSQL();
+        // ConnectSQL();
         DailyAttendanceQuestion.Reset;
         //DailyAttendanceQuestion.SetRange("Sync to Portal", true);
         if DailyAttendanceQuestion.FindFirst then
@@ -8796,14 +8796,14 @@ codeunit 50001 "HR Mgt."
                 DailyAttendanceQuestion.Modify;
             until DailyAttendanceQuestion.Next = 0;
 
-        DisconnectSQL;
+        // DisconnectSQL;
     end;
 
     local procedure UpdateAttendanceQuestion(var DailyAttendanceQuestion: Record "Daily Attendance Question")
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
         if DailyAttendanceQuestion."Is Punch In Question" then
             IsPunchQuestion := '1'
         else
@@ -8821,24 +8821,24 @@ codeunit 50001 "HR Mgt."
                        SpaceTxt + 'IsPunchInQuestion' + '=''' + IsPunchQuestion + ''''
                        ;
 
-        SetupSQLCommand;
+        // SetupSQLCommand;
 
-        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        SQLCommand.ExecuteNonQuery;
+        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        // SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure InsertAttendanceQuestion(var DailyAttendanceQuestion: Record "Daily Attendance Question")
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext :=
           InsertTxt + 'AttendanceQuestions' + SpaceTxt + '(Question,Option1,Option2, ' +
@@ -8847,42 +8847,42 @@ codeunit 50001 "HR Mgt."
             '(@Question,@Option1,@Option2, ' +
             '@Option3,@Option4,@Correct_Answer,@Date,@IsPunchInQuestion)';
 
-        SetupSQLCommand;
-        SQLCommand.Parameters.AddWithValue('@Entry_No', FORMAT(DailyAttendanceQuestion."Entry No."));
-        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        SQLCommand.ExecuteNonQuery;
+        // SetupSQLCommand;
+        // SQLCommand.Parameters.AddWithValue('@Entry_No', FORMAT(DailyAttendanceQuestion."Entry No."));
+        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        // SQLCommand.ExecuteNonQuery;
     end;
 
-    local procedure ConnectSQL()
-    begin
-        SQLConnectionMgt.SetupSQLConnection(SQLConnection);
-    end;
+    // local procedure ConnectSQL()
+    // begin
+    //     SQLConnectionMgt.SetupSQLConnection(SQLConnection);
+    // end;
 
-    local procedure DisconnectSQL()
-    begin
-        SQLConnectionMgt.CloseSQLConnection(SQLConnection);
-    end;
+    // local procedure DisconnectSQL()
+    // begin
+    //     SQLConnectionMgt.CloseSQLConnection(SQLConnection);
+    // end;
 
-    local procedure ClearSQLCommand()
-    begin
-        Clear(commandtext);
-    end;
+    // local procedure ClearSQLCommand()
+    // begin
+    //     Clear(commandtext);
+    // end;
 
-    local procedure SetupSQLCommand()
-    begin
-        SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
-    end;
+    // local procedure SetupSQLCommand()
+    // begin
+    //     SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
+    // end;
 
     local procedure ReadAttendanceQuestionFromHRportal(QuestionDate: Date; IsPuchInQuest: Boolean)
     begin
-        ClearSQLCommand;
+        // ClearSQLCommand;
         if IsPuchInQuest then
             IsPunchQuestion := '1'
         else
@@ -8890,9 +8890,9 @@ codeunit 50001 "HR Mgt."
         commandtext := ReadCommandTxt + 'AttendanceQuestions' + SpaceTxt + WhereTxt + 'Date' + ' = ''' + Format(QuestionDate) + '''' +
                         SpaceTxt + AndText + SpaceTxt + 'IsPunchInQuestion' + '=''' + IsPunchQuestion + '''';
 
-        SetupSQLCommand;
-        SQLDataReader := SQLCommand.ExecuteReader;
-        SQLDataReader.Read;
+        // SetupSQLCommand;
+        // SQLDataReader := SQLCommand.ExecuteReader;
+        // SQLDataReader.Read;
     end;
 
     procedure SyncEmployee()
@@ -8902,7 +8902,7 @@ codeunit 50001 "HR Mgt."
         Employee.SetRange(Status, Employee.Status::Active);
         if Employee.Find('-') then
             repeat
-                DisconnectSQL();
+                // DisconnectSQL();
                 InsertPortalEmployee();
             until Employee.Next = 0;
     end;
@@ -8911,27 +8911,27 @@ codeunit 50001 "HR Mgt."
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext :=
           InsertTxt + 'Employees' + SpaceTxt + '(EmployeeID,EmployeeName,EmployeeBOD) ' +
             ValuesTxt +
             '(@EmployeeID,@EmployeeName,@EmployeeBOD)';
 
-        SetupSQLCommand;
-        SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
-        SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
-        SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
-        SQLCommand.ExecuteNonQuery;
+        // SetupSQLCommand;
+        // SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
+        // SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
+        // SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
+        // SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure DeletePortalEmployee()
     begin
         Clear(commandtext);
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext := DeleteCommandTxt + 'Employees';
-        SetupSQLCommand;
+        // SetupSQLCommand;
         // SQLCommand.ExecuteNonQuery;
     end;
 
@@ -10606,15 +10606,15 @@ codeunit 50001 "HR Mgt."
     local procedure UpdatePortalTransferEffDate(TransferEffectiveDate: Date; EmployeeID: Code[20])
     begin
         Clear(commandtext);
-        ConnectSQL();
+        // ConnectSQL();
         //commandtext := 'UPDATE Employees SET TransferEffectiveDate = NULL WHERE EmployeeID = @EmployeeID';
         commandtext := 'UPDATE Employees SET TransferEffectiveDate = @TransferEffectiveDate WHERE EmployeeID = @EmployeeID';
-        SetupSQLCommand;
+        // SetupSQLCommand;
         // SQLCommand.Parameters.AddWithValue('@TransferEffectiveDate', TransferEffectiveDate);
         //SQLCommand.Parameters.AddWithValue('@TransferEffectiveDate', 'NULL');
         // SQLCommand.Parameters.AddWithValue('@EmployeeID', EmployeeID);
         // SQLCommand.ExecuteNonQuery;
-        DisconnectSQL();
+        // DisconnectSQL();
     end;
 
     procedure GetEmpName(): Text

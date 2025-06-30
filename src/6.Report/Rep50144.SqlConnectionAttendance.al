@@ -46,12 +46,12 @@ report 50144 "Sql Connection Attendance"
     // SqlConAtt: Codeunit SQLConnectionAttendance2;
     begin
 
-        Clear(SqlConAtt);
-        SqlConAtt.SetFilterParameter(FromDate, ToDate, deviceId);
-        if UpdateDeviceID then
-            SqlConAtt.SyncUpdateEmployeeAttendance()
-        else
-            SqlConAtt.Run();
+        // Clear(SqlConAtt);
+        // SqlConAtt.SetFilterParameter(FromDate, ToDate, deviceId);
+        // if UpdateDeviceID then
+        //     SqlConAtt.SyncUpdateEmployeeAttendance()
+        // else
+        //     SqlConAtt.Run();
     end;
 
     var

@@ -89,7 +89,7 @@ page 50108 "Portal Functions"
         user.Reset();
         user.SetRange("User Name", UserId);
         user.FindFirst();
-        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
+        // WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         //check for transfer
         /*TransferVar.RESET; //Min -- commented since it was manage through approved, ack action and job queue.
         TransferVar.SETRANGE("Employee No.",Employee."No.");
@@ -1734,50 +1734,52 @@ page 50108 "Portal Functions"
         Extension: text;
         LargeText: text;
     begin
-        // IncomingDoc.Reset;
-        // if docNo <> '' then
-        //     IncomingDoc.SetRange("No.", docNo);
-        // IncomingDoc.SetRange("Entry No.", entryNo);
-        // if IncomingDoc.FindFirst then begin
-        // IncomingDocAttachment.Reset();
-        // IncomingDocAttachment.SetRange("Incoming Document Entry No.", entryNo);
-        // if IncomingDocAttachment.FindFirst() then begin
-        //     Extension := IncomingDocAttachment."File Extension";
-        //     IncomingDocAttachment.CalcFields(Content);
-        //     IncomingDocAttachment.Content.CreateInStream(instr, TextEncoding::UTF8);
-        //     LargeText := Base64.ToBase64(instr, false);
-        //     // FileName := IncomingDoc."File Name";
-        //     // FileManagement.BLOBImport(TempBlob, FileName);
-        //     // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
-        //     exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
-        //     // exit(
-        //     // '{' +
-        //     // '"extension" : "' + ext + '",' +
-        //     // '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
-        // end else
-        //     exit('not found');
-        IncomingDoc.Reset();
+        IncomingDoc.Reset;
         if docNo <> '' then
             IncomingDoc.SetRange("No.", docNo);
         IncomingDoc.SetRange("Entry No.", entryNo);
-        IncomingDoc.FindFirst();
-        FilePath := IncomingDoc."File Name"; // Ensure this stores the server file path
-        if FilePath = '' then
-            Error('File path not specified for this document.');
+        if IncomingDoc.FindFirst then begin
+            IncomingDocAttachment.Reset();
+            IncomingDocAttachment.SetRange("Incoming Document Entry No.", entryNo);
+            if IncomingDocAttachment.FindFirst() then begin
+                Extension := IncomingDocAttachment."File Extension";
+                IncomingDocAttachment.CalcFields(Content);
+                IncomingDocAttachment.Content.CreateInStream(instream, TextEncoding::UTF8);
+                LargeText := Base64.ToBase64(instream, false);
+                // FileName := IncomingDoc."File Name";
+                // FileManagement.BLOBImport(TempBlob, FileName);
+                // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
+                exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
+            end;
+        end;
+        // exit(
+        // '{' +
+        // '"extension" : "' + ext + '",' +
+        // '"attachBase64" : "' + Base64.ToBase64(TempBlob.CreateInStream()) + '"}');
+        // end else
+        //     exit('not found');
+        // IncomingDoc.Reset();
+        // if docNo <> '' then
+        //     IncomingDoc.SetRange("No.", docNo);
+        // IncomingDoc.SetRange("Entry No.", entryNo);
+        // IncomingDoc.FindFirst();
+        // FilePath := IncomingDoc."File Name"; // Ensure this stores the server file path
+        // if FilePath = '' then
+        //     Error('File path not specified for this document.');
 
-        // Validate that the file exists
-        // if not File.Exists(FilePath) then
-        //     Error('The file does not exist on the server: %1', FilePath);
+        // // Validate that the file exists
+        // // if not File.Exists(FilePath) then
+        // //     Error('The file does not exist on the server: %1', FilePath);
 
-        // Open the file and read it into an InStream
-        File.OPEN(FilePath);
-        File.CREATEINSTREAM(InStream);
+        // // Open the file and read it into an InStream
+        // // File.OPEN(FilePath);
+        // // File.CREATEINSTREAM(InStream);
 
-        // Extract the file name (e.g., "51.jpg" from "D:\HRFiles\51.jpg")
-        FileName := FileMgt.GetFileName(FilePath);
-        Extension := FileMgt.GetExtension(FileName);
-        LargeText := Base64.ToBase64(instream, false);
-        exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
+        // // Extract the file name (e.g., "51.jpg" from "D:\HRFiles\51.jpg")
+        // FileName := FileMgt.GetFileName(FilePath);
+        // Extension := FileMgt.GetExtension(FileName);
+        // LargeText := Base64.ToBase64(instream, false);
+        // exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
 
 
         // Prompt the user to save the file on their client computer
@@ -1854,32 +1856,23 @@ page 50108 "Portal Functions"
     var
         IncomingDoc: Record "Incoming Document";
         TempBlob: Codeunit "Temp Blob";
-        DocFoundEmpActivity: Boolean;
-        DocFoundEmpLoan: Boolean;
+        DocFoundEmpActivity, DocFoundEmpLoan, DocFoundEmpLeave, DocFoundInsurance : Boolean;
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         Leave: record leave;
-        DocFoundEmpLeave: Boolean;
-        //EmployeeActivity: Record "Employee Activity";
-        //LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
         LoanType: Enum "Loan Type";
-        //ActivityType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Medical Insurance Claim",Promotion,"Attendance Missed","Access Control","Changes in employee";
         ActivityType: Enum "Employee Activity Type";
-        DocFoundInsurance: Boolean;
         EmpInsurance: Record "Employee Insurance Information";
         AppraisalDocFound: Boolean;
         AppraisalEmp: Record Appraisal;
         base64: Codeunit "Base64 Convert";
         Outstream: OutStream;
         instream: InStream;
-        TargetDirectory: Text;
-        ServerFilePath: text;
-        ServerFolderPath: text;
-        File: File;
         CleanedFileName: text;
         AttachmentMgt: Codeunit "Attachment Mgt.";
     begin
         IncomingDoc.Get(entryNo);
-        HRSetup.Get;
+        if IncomingDoc."File Name" <> '' then
+            Error('File already exist. Please remove the file first.');
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
         AppraisalDocFound := false;
@@ -1929,47 +1922,34 @@ page 50108 "Portal Functions"
                 end;
             end;
         end;
-
-
-        if IncomingDoc."File Name" <> '' then
-            Error('File already exist. Please remove the file first.');
-
-        // CreateNewDir(HRSetup."Attachment Storage Location", IncomingDoc."Employee Code", DirectoryName);
-        // DirectoryName += '\';
-        // if DocFoundEmpLoan then
-        //     CreateNewDir(DirectoryName, Format(LoanType), DirectoryName)
-        // else if DocFoundEmpActivity then
-        //     CreateNewDir(DirectoryName, Format(ActivityType), DirectoryName)
-        // else if DocFoundInsurance then
-        //     CreateNewDir(DirectoryName, 'Insurance', DirectoryName)
-        // else if AppraisalDocFound then //Min
-        //     CreateNewDir(DirectoryName, 'Appraisal', DirectoryName);
-
-        // DirectoryName += '\';
-        // // TempBlob.Reset;
-
-        TargetDirectory := HRSetup."Attachment Storage Location";
-
-        if TargetDirectory = '' then
-            Error('Attachment Storage Location is not configured.');
-
-        if not TargetDirectory.EndsWith('\') then
-            TargetDirectory := TargetDirectory + '\';
-
-        CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
-
-        // Construct server file path with unique name
-        ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
+        CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext);
+        // ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
         // Construct server file path with unique name
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        File.CREATE(ServerFilePath);       // Create the file on the server
-        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
-        CopyStream(OutStream, InStream);  // Write the data
-        File.CLOSE;
-        IncomingDoc."File Name" := ServerFilePath;
+        // AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
+        // AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
+        IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
+        // File.CREATE(ServerFilePath);       // Create the file on the server
+        // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        // CopyStream(OutStream, InStream);  // Write the data
+        // File.CLOSE;
+        IncomingDoc."File Name" := CleanedFileName;
         IncomingDoc.MODIFY;
+        // IncomingDoc.ImportAttachment(IncomingDoc);
+        // // Construct server file path with unique name
+        // // ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
+        // // Construct server file path with unique name
+        // tempblob.CreateOutStream(outStream);
+        // base64.FromBase64(fname, Outstream);
+        // TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        // // File.CREATE(ServerFilePath);       // Create the file on the server
+        // // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        // CopyStream(OutStream, InStream);  // Write the data
+        // // File.CLOSE;
+        // IncomingDoc."File Name" := ServerFilePath;
+        // IncomingDoc.MODIFY;
     end;
 
     [ServiceEnabled]

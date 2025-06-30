@@ -204,6 +204,8 @@ page 50164 "Attachment Subform"
                     EmpAct: Record "Employee Activity";
 
                 begin
+                    if not Confirm('Do You Want to Delete Attachment?', false) then
+                        exit;
                     Leave.Reset();
                     if (Rec."Leave Type Code" <> '') then begin
                         if Leave.Get(Rec."No.") then begin
@@ -258,19 +260,27 @@ page 50164 "Attachment Subform"
         IncomingDocAttachment: Record "Incoming Document Attachment";
         instream: InStream;
     begin
-        IncomingDoc.Reset();
-        if docNo <> '' then
-            IncomingDoc.SetRange("No.", docNo);
-        IncomingDoc.SetRange("Entry No.", entryNo);
-        IncomingDoc.FindFirst();
-        FilePath := IncomingDoc."File Name"; // Ensure this stores the server file path
-        if FilePath = '' then
-            Error('File path not specified for this document.');
-        // Open the file and read it into an InStream
-        File.OPEN(FilePath);
-        File.CREATEINSTREAM(InStream);
-        AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
-        exit(Base64.ToBase64(instream, false));
+        exit(LoadIncomingDocumentAttachmentToStream(entryNo, instream));
+    end;
+
+    procedure LoadIncomingDocumentAttachmentToStream(DocumentEntryNo: Integer; var InStr: InStream): text
+    var
+        IncomingDocAttachment: Record "Incoming Document Attachment";
+        TempBlob: Codeunit "Temp Blob";
+        Base64: Codeunit "Base64 Convert";
+    begin
+        // Filter by document entry number (linked to Incoming Document)
+        IncomingDocAttachment.SetRange("Incoming Document Entry No.", DocumentEntryNo);
+
+        // Optional: Filter by file name (e.g., only load PDF, XML etc.)
+        if IncomingDocAttachment.FindFirst() then begin
+            // Load the BLOB into an InStream
+            IncomingDocAttachment.CalcFields("Content");
+            TempBlob.FromRecord(IncomingDocAttachment, IncomingDocAttachment.FieldNo("Content"));
+            TempBlob.CreateInStream(InStr);
+            exit(Base64.ToBase64(instr, false));
+        end else
+            Error('No attachment found for the specified Incoming Document.');
     end;
 
     var
