@@ -160,10 +160,8 @@ page 50150 "Allowance Assignment Subform"
                 var
                     FilterPage: FilterPageBuilder;
                     AllowanceLine: Record "Allowance Assignment Line";
-                    FromDate: Date;
-                    ToDate: Date;
-                    AllowanceType: Code[20];
-                    EmployeeCode: Code[20];
+                    FromDate, ToDate : Date;
+                    AllowanceType, EmployeeCode : Code[20];
                     panel: Enum panel;
                     AllowanceAssignmentHeader: Record "Allowance Assignment Header";
                 begin
