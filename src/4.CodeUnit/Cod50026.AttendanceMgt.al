@@ -45,11 +45,6 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.FindFirst then begin
             AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
-            // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-            // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
-            // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
-            // AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
-            // AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
             if (AttendanceLine."Check In Time" <> 0T) then begin
                 AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
                 AttendanceLine.Validate("Present Day", 1);
@@ -73,8 +68,6 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLine.Modify(false);
 
         PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
-
-        // ChangeStatusToApproveFromHold;
     end;
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
