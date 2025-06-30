@@ -11,17 +11,17 @@ codeunit 50018 "SQL Connection Mgt"
         SQLPassword: Text;
         CompInfo: Record "Company Information";
 
-    procedure SetupSQLConnection(var SQLConnection: DotNet SqlConnection)
-    begin
-        SQLConnection := SQLConnection.SqlConnection(GetConnectionString());
-        SQLConnection.Open;
-    end;
+    // procedure SetupSQLConnection(var SQLConnection: DotNet SqlConnection)
+    // begin
+    //     SQLConnection := SQLConnection.SqlConnection(GetConnectionString());
+    //     SQLConnection.Open;
+    // end;
 
-    procedure CloseSQLConnection(var SQLConnection: DotNet SqlConnection)
-    begin
-        SQLConnection.Close;
-        // SQLConnection.Dispose;
-    end;
+    // procedure CloseSQLConnection(var SQLConnection: DotNet SqlConnection)
+    // begin
+    //     SQLConnection.Close;
+    //     // SQLConnection.Dispose;
+    // end;
 
     procedure GetConnectionString() ConnStr: Text[250]
     var
@@ -76,11 +76,11 @@ codeunit 50018 "SQL Connection Mgt"
         SQLPassword := HRSetup."Portal SQL Password";
     end;
 
-    procedure SetupSQLCommand(SQLConnection: DotNet SqlConnection; SQLCommand: DotNet SqlCommand; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text)
-    begin
-        SQLCommand := SQLConnection.CreateCommand();
-        SQLCommand.CommandText := commandtext;
-        SQLCommand.CommandTimeout := 15;
-        // SQLCommand.CommandType := SQLCommandType;
-    end;
+    // procedure SetupSQLCommand(SQLConnection: DotNet SqlConnection; SQLCommand: DotNet SqlCommand; commandtext: Text; SQLCommandType: Option StoredProcedure,TableDirect,Text)
+    // begin
+    //     SQLCommand := SQLConnection.CreateCommand();
+    //     SQLCommand.CommandText := commandtext;
+    //     SQLCommand.CommandTimeout := 15;
+    //     // SQLCommand.CommandType := SQLCommandType;
+    // end;
 }

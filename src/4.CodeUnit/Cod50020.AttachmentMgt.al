@@ -136,12 +136,12 @@ codeunit 50020 "Attachment Mgt."
     var
         TempBlob: Codeunit "Temp Blob";
         InStream: InStream;
-        OutStream: OutStream;
-        FileName: Text;
+        // OutStream: OutStream;
+        // FileName: Text;
         Extension: Text;
-        ServerFilePath: Text;
-        TargetDirectory: Text;
-        File: file;
+        // ServerFilePath: Text;
+        // TargetDirectory: Text;
+        // File: file;
         DocFoundEmpActivity: Boolean;
         DocFoundEmpLoan: Boolean;
         AppraisalDocFound: Boolean;
@@ -149,45 +149,23 @@ codeunit 50020 "Attachment Mgt."
         AppraisalEmp: Record Appraisal;
         EmployeeActivityFolder: Text;
         CleanedFileName: text;
-        ServerFolderPath: text;
+        // ServerFolderPath: text;
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
 
     begin
         // Validate Incoming Document
         IncomingDocument.TestField("Entry No.");
-        HRSetup.Get;
-        HRSetup.TestField("Attachment Storage Location");
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
         AppraisalDocFound := false;
-        //Employee.Get(HRMgt.GetEmployeeNo);
-        // if not Employee.Screener then begin
+        if IncomingDocument."File Name" <> '' then
+            Error('File already exist. Please remove the file first.');
         if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
             DocFoundEmpLoan := true;
-            //LoanType := EmployeeLoanAdvance."Loan Type";
             if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
                and (IncomingDocument."File Name" <> '') then
                 Error('Attachment already exist.');
         end;
-
-        // if not DocFoundEmpLoan then begin
-        //     if EmployeeActivity.Get(IncomingDocument."No.") then begin
-        //         DocFoundEmpActivity := true;
-        //         ActivityType := EmployeeActivity.Type;
-        //         if (EmployeeActivity."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Screened, EmployeeActivity."Approval Status"::Approved])
-        //          and (IncomingDocument."File Name" <> '') then
-        //             Error('Attachment already exist.');
-        //     end;
-        // end;
-
-        // if not (DocFoundEmpActivity or DocFoundEmpLoan) then begin
-        //     if EmpInsurance.Get(IncomingDocument."No.") then begin
-        //         DocFoundInsurance := true;
-        //         if EmpInsurance.Status = EmpInsurance.Status::Screened then
-        //             Error('Cannot upload in screened insurance.');
-        //         if IncomingDocument."File Name" <> '' then
-        //             Error('Attachment already exist.');
-        //     end;
-        // end;
         if not AppraisalDocFound then begin //Min
             if AppraisalEmp.Get(IncomingDocument."No.") then begin
                 AppraisalDocFound := true;
@@ -196,54 +174,43 @@ codeunit 50020 "Attachment Mgt."
                     Error('Attachment already exist.');
             end;
         end;
-        // case IncomingDocument."Employee Activity Type" of
-        //     IncomingDocument."Employee Activity Type"::"Employee Transfer", IncomingDocument."Employee Activity Type"::"HR Transfer":
-        //         EmployeeActivityFolder := 'Transfer';
-        //     else
-        // // Error('Invalid activity type: %1', EmployeeActivityFolder);
-        // end;
-
-
+        IncomingDocument.ImportAttachment(IncomingDocument);
         // Prompt the user to select a file and upload into TempBlob
-        if UploadIntoStream('Select a file to upload', '', '', FileName, InStream) then begin
-            CheckAttachmentSizeLimit(InStream, format(IncomingDocument."Employee Activity Type")); //Check file size limit
-            // Check File Extension
-            Extension := FileMgt.GetExtension(FileName);
-            if Extension = '' then
-                Error('Invalid file. Please upload jpg, png or pdf files.');
-            checkAttachmentExtension(Extension);
-            // Define the server directory (ensure it is configured in your setup)
-            TargetDirectory := HRSetup."Attachment Storage Location";
-            ServerFolderPath := TargetDirectory + EmployeeActivityFolder;
-            if TargetDirectory = '' then
-                Error('Attachment Storage Location is not configured.');
+        // if UploadIntoStream('Select a file to upload', '', '', FileName, InStream) then begin
+        //     
+        //     // Check File Extension
+        //     Extension := FileMgt.GetExtension(FileName);
+        //     if Extension = '' then
+        //         Error('Invalid file. Please upload jpg, png or pdf files.');
+        //     checkAttachmentExtension(Extension);
+        //     // Define the server directory (ensure it is configured in your setup)
+        //     TargetDirectory := HRSetup."Attachment Storage Location";
+        //     ServerFolderPath := TargetDirectory + EmployeeActivityFolder;
+        //     if TargetDirectory = '' then
+        //         Error('Attachment Storage Location is not configured.');
 
-            if not TargetDirectory.EndsWith('\') then
-                TargetDirectory := TargetDirectory + '\';
+        //     if not TargetDirectory.EndsWith('\') then
+        //         TargetDirectory := TargetDirectory + '\';
 
-            CleanedFileName := SanitizeFileName(FORMAT(IncomingDocument."Entry No.") + '_' + IncomingDocument."No.");
+        // CleanedFileName := SanitizeFileName(FORMAT(IncomingDocument."Entry No.") + '_' + IncomingDocument."No.");
 
-            // Construct server file path with unique name
-            ServerFilePath := TargetDirectory + CleanedFileName + '.' + Extension;
+        //     // Construct server file path with unique name
+        // ServerFilePath := TargetDirectory + CleanedFileName + '.' + Extension;
 
-            // Save the uploaded content to the server file path
-            // TempBlob.CreateOutStream(OutStream);
+        //     // Save the uploaded content to the server file path
+        //     // TempBlob.CreateOutStream(OutStream);
 
-            // CopyStream(OutStream, InStream);
-            // TempBlob.ToFile(ServerFilePath); // Write the content directly to the server location
-            // Write TempBlob content to server file location
-            // TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
+        //     // CopyStream(OutStream, InStream);
+        //     // TempBlob.ToFile(ServerFilePath); // Write the content directly to the server location
+        //     // Write TempBlob content to server file location
+        //     // TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
 
-            File.CREATE(ServerFilePath);       // Create the file on the server
-            File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
-            CopyStream(OutStream, InStream);  // Write the data
-            File.CLOSE;                       // Close the file
-            // Update the Incoming Document record with the file path
-            IncomingDocument."File Name" := ServerFilePath;
-            IncomingDocument.MODIFY(TRUE);
-            Message('File uploaded successfully to server location: %1', ServerFilePath);
-        end else
-            Error('File upload canceled.');
+        //     // File.CREATE(ServerFilePath);       // Create the file on the server
+        //     // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        //     // CopyStream(OutStream, InStream);  // Write the data
+        //     // File.CLOSE;                       // Close the file
+        //     // Update the Incoming Document record with the file path
+        Message('File uploaded successfully');
     end;
 
     procedure CheckAttachmentSizeLimit(InStream: InStream; EmpActType: text);
@@ -254,9 +221,6 @@ codeunit 50020 "Attachment Mgt."
     begin
         // Define maximum allowed file size 
         AttachmentSetup.Reset();
-        // if TableID = 0 then
-        //     AttachmentSetup.SetRange(Type, AttachmentSetupType)
-        // else
         AttachmentSetup.SetFilter(Type, EmpActType);
         if AttachmentSetup.FindFirst() then
             MaxFileSize := AttachmentSetup."Max File Size" * 1024 * 1024;
@@ -271,34 +235,37 @@ codeunit 50020 "Attachment Mgt."
 
     procedure checkAttachmentExtension(Ext: text)
     begin
-        case LowerCase(ext) of
-            'jpg', 'jpeg', 'png', 'pdf':
-                begin
-                end;
-            else
-                Error('Invalid file extension. Please upload a jpg, jpeg, png or pdf file.');
-        end;
+        if Ext in ['jpg', 'jpeg', 'png', 'pdf'] then
+            exit // Valid file extension, do nothing
+        else
+            Error('Invalid file extension. Please upload a jpg, jpeg, png or pdf file.');
     end;
 
     procedure DownloadAttachment(IncomingDocument: Record "Incoming Document")
     var
-        File: File;
+        // File: File;
         InStream: InStream;
         FilePath: Text;
         FileName: Text;
+        IncomingDocumentAttachment: Record "Incoming Document Attachment";
     begin
         // Construct the file path on the server
         FilePath := IncomingDocument."File Name"; // Ensure this stores the server file path
         if FilePath = '' then
             Error('File path not specified for this document.');
-
+        IncomingDocumentAttachment.Reset();
+        IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+        if IncomingDocumentAttachment.FindFirst() then begin
+            IncomingDocumentAttachment.CalcFields(Content);
+            IncomingDocumentAttachment.Content.CreateInStream(InStream, TextEncoding::UTF8);
+        end;
         // Validate that the file exists
         // if not File.Exists(FilePath) then
         //     Error('The file does not exist on the server: %1', FilePath);
 
         // Open the file and read it into an InStream
-        File.OPEN(FilePath);
-        File.CREATEINSTREAM(InStream);
+        // File.OPEN(FilePath);
+        // File.CREATEINSTREAM(InStream);
 
         // Extract the file name (e.g., "51.jpg" from "D:\HRFiles\51.jpg")
         FileName := FileMgt.GetFileName(FilePath);
@@ -307,7 +274,7 @@ codeunit 50020 "Attachment Mgt."
         DownloadFromStream(InStream, '', '', '', FileName);
 
         // Close the file
-        File.CLOSE;
+        // File.CLOSE;
 
         Message('File downloaded successfully: %1', FileName);
     end;
@@ -387,13 +354,12 @@ codeunit 50020 "Attachment Mgt."
         //     Error('File path not specified for this document.');
 
         // Delete the file from the server
-        fileMgt.DeleteServerFile(FilePath);
+        // fileMgt.DeleteServerFile(FilePath);
 
         // Clear the file name in the Incoming Document record
         IncomingDocument."File Name" := '';
         IncomingDocument.MODIFY;
 
-        Message('File successfully deleted from the server: %1', FilePath);
 
         // if Employee.Get(IncomingDocument."Order No.") then;
 
@@ -404,10 +370,12 @@ codeunit 50020 "Attachment Mgt."
         //     if GuiAllowed then
         //         Message('Attachment Removed.');
         //     // end;
-        //     IncomingDocumentAttachment.Reset();
-        //     IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
-        //     IncomingDocumentAttachment.Findset();
-        //     IncomingDocumentAttachment.DeleteAll();
+        IncomingDocumentAttachment.Reset();
+        IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
+        IncomingDocumentAttachment.Findset();
+        IncomingDocumentAttachment.DeleteAll();
+
+        Message('File successfully deleted.');
         // end;
     end;
 
@@ -536,7 +504,7 @@ codeunit 50020 "Attachment Mgt."
         base64.FromBase64(base64text, Outstream);
         // instream.Read(base64);
         //FileMgt.BLOBExport(TempBlob, ClientFileName, false);
-        FileMgt.BLOBExportToServerFile(TempBlob, ClientFileName);
+        // FileMgt.BLOBExportToServerFile(TempBlob, ClientFileName);
         // FileName := ClientFileName;
         exit(FileName);
 
@@ -576,7 +544,7 @@ codeunit 50020 "Attachment Mgt."
     begin
         // IncomingDoc.Get(entryNo);
         IncomingDoc."No." := IncomingDoc.GetFilter("No.");
-        HRSetup.Get;
+        // HRSetup.Get;
         DocFoundEmpActivity := false;
         DocFoundEmpLoan := false;
         AppraisalDocFound := false;
@@ -585,13 +553,13 @@ codeunit 50020 "Attachment Mgt."
             Error('File already exist. Please remove the file first.');
 
 
-        TargetDirectory := HRSetup."Attachment Storage Location";
+        // TargetDirectory := HRSetup."Attachment Storage Location";
 
-        if TargetDirectory = '' then
-            Error('Attachment Storage Location is not configured.');
+        // if TargetDirectory = '' then
+        //     Error('Attachment Storage Location is not configured.');
 
-        if not TargetDirectory.EndsWith('\') then
-            TargetDirectory := TargetDirectory + '\';
+        // if not TargetDirectory.EndsWith('\') then
+        //     TargetDirectory := TargetDirectory + '\';
 
         CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No.");
 
@@ -601,13 +569,14 @@ codeunit 50020 "Attachment Mgt."
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
-        AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
-        File.CREATE(ServerFilePath);       // Create the file on the server
-        File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
-        CopyStream(OutStream, InStream);  // Write the data
-        File.CLOSE;
-        IncomingDoc."File Name" := ServerFilePath;
+        // AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
+        // AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
+        IncomingDoc.CreateIncomingDocument(instream, ServerFilePath);
+        // File.CREATE(ServerFilePath);       // Create the file on the server
+        // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
+        // CopyStream(OutStream, InStream);  // Write the data
+        // File.CLOSE;
+        // IncomingDoc."File Name" := ServerFilePath;
         IncomingDoc.MODIFY;
     end;
 

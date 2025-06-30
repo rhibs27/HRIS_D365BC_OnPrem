@@ -78,7 +78,7 @@ report 50145 "Generate Login Credentials"
                 // AccessControl.Validate("Role ID", 'SUPER');
                 // AccessControl.Insert(true);
 
-                SetUserPassword(UserRec."User Security ID", 'Hrms@2025'); //need randomize password
+                // SetUserPassword(UserRec."User Security ID", 'Hrms@2025'); //need randomize password
 
                 Clear(UserSetup);
                 UserSetup.Init();
