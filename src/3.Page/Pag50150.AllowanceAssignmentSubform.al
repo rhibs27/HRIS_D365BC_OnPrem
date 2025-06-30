@@ -221,6 +221,7 @@ page 50150 "Allowance Assignment Subform"
                     Message('Substitute Allowance is Rejected');
                 end;
             }
+
         }
     }
 
