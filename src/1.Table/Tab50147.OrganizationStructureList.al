@@ -5,7 +5,7 @@ table 50147 "Organization Structure List"
 
     fields
     {
-        field(1; "Type"; Enum "Organization Structure list")
+        field(1; "Type"; Enum "Deputation Type")
         {
             Caption = 'Type';
         }

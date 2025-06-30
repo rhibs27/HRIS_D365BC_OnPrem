@@ -78,7 +78,7 @@ table 50061 Appraisal
         field(15; Department; Code[20])
         {
             Editable = false;
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
         field(16; "Functional Title"; Code[20])
         {

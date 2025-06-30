@@ -28,10 +28,10 @@ table 50010 "Functional Title"
         field(20; "Is Specific Functional"; Boolean) { }
         field(21; "Department Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
+        field(22; "BM Allowance"; Decimal) { }
     }
-
     keys
     {
         key(Key1; "Code") { }

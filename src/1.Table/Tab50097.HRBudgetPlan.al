@@ -7,9 +7,9 @@ table 50097 "HR Budget Plan"
         field(1; "Fiscal Year"; Code[10]) { }
         field(2; "Code"; Code[20])
         {
-            TableRelation = if ("Deputation On" = Filter("Deputation On"::Department)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Department), Blocked = filter(false))
-            else if ("Deputation On" = Filter("Deputation On"::Branch)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Branch))
-            else if ("Deputation On" = filter("Deputation On"::Province)) "Organization Structure List".Code where(type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = if ("Deputation On" = Filter("Deputation On"::Department)) "Organization Structure List".Code where(type = filter("Deputation Type"::Department), Blocked = filter(false))
+            else if ("Deputation On" = Filter("Deputation On"::Branch)) "Organization Structure List".Code where(type = filter("Deputation Type"::Branch))
+            else if ("Deputation On" = filter("Deputation On"::Province)) "Organization Structure List".Code where(type = filter("Deputation Type"::Province), Blocked = filter(false));
 
             trigger OnValidate()
             begin

@@ -195,12 +195,12 @@ table 50095 "Posted Employee Journal"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(54; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
             end;
@@ -208,12 +208,12 @@ table 50095 "Posted Employee Journal"
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Unit), Blocked = filter(false));
         }
         field(56; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
         field(57; "Travel Order No"; Code[20])
         {
@@ -221,7 +221,7 @@ table 50095 "Posted Employee Journal"
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::"Extension Counter"), Blocked = filter(false));
         }
         field(59; "Transfer Effective Date"; Date)
         {
@@ -320,12 +320,12 @@ table 50095 "Posted Employee Journal"
         field(77; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(78; "To Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(79; "Deputation On Code"; Code[20])
         {

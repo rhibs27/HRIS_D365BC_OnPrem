@@ -140,7 +140,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         }
         field(50028; "HR Department Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
             DataClassification = CustomerContent;
         }
         field(50029; "Resignation No."; Code[20])
