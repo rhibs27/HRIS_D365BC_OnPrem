@@ -175,7 +175,7 @@ report 50116 "Payroll Details"
                 }
                 field(Department; DepartmentFilter)
                 {
-                    TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+                    TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
                     ToolTip = 'Specifies the value of the DepartmentFilter field.';
                     ApplicationArea = All;
                 }

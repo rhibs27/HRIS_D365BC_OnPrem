@@ -436,7 +436,7 @@ table 50067 "Employee Activity"
         field(18; Department; Code[20])
         {
             Editable = false;
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department));
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department));
 
             // trigger OnValidate()
             // var

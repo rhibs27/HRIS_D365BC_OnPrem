@@ -49,6 +49,12 @@ page 50007 "Functional Title List"
                     Caption = 'PH/ DPH Allowance';
                     ApplicationArea = All;
                 }
+                field("BM Alllowance"; Rec."BM Allowance")
+                {
+                    ToolTip = 'Specifies the value of the BM Allowance field';
+                    Caption = 'BM Allowance';
+                    ApplicationArea = All;
+                }
                 field(Locationwise; Rec.Locationwise)
                 {
                     ToolTip = 'Specifies the value of the Locationwise field.';

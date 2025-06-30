@@ -106,7 +106,7 @@ table 50127 "KPI Daily Score"
         }
         field(14; Department; Code[20])
         {
-            TableRelation = "Organization Structure List".code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if DepartmentRec.Get(Department) then //kpi1.00

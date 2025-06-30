@@ -24,8 +24,14 @@ page 50223 "Functional Title Card"
                 }
                 field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
                 {
-                    ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
+                    ToolTip = 'Specifies the value of the PH/ DPH Allowance field.';
                     Caption = 'PH/ DPH Allowance';
+                    ApplicationArea = All;
+                }
+                field("BM Allowance"; Rec."BM Allowance")
+                {
+                    ToolTip = 'Specifies the value of the BM Allowance field.';
+                    Caption = 'BM Allowance';
                     ApplicationArea = All;
                 }
                 field(Locationwise; Rec.Locationwise)

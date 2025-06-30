@@ -5,7 +5,7 @@ table 50146 "Organization structure"
 
     fields
     {
-        field(1; "Type"; Enum "Organization Structure list")
+        field(1; "Type"; Enum "Deputation Type")
         {
             Caption = 'Type';
             trigger OnValidate()

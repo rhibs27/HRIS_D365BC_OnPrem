@@ -5,7 +5,7 @@ table 50148 "Organization Structure line"
 
     fields
     {
-        field(1; "Type"; Enum "Organization Structure list")
+        field(1; "Type"; Enum "Deputation Type")
         {
             Caption = 'Type';
         }
@@ -13,7 +13,7 @@ table 50148 "Organization Structure line"
         {
             Caption = 'Code';
         }
-        field(3; "Reporting Type"; Enum "Organization Structure list")
+        field(3; "Reporting Type"; Enum "Deputation Type")
         {
             Caption = 'Reporting Type';
         }
