@@ -1590,7 +1590,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
         EmployeeAttendanceActivity.SetRange("Attendance Date", StartDate);
         if EmployeeAttendanceActivity.FindFirst then begin
-            if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Absent Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
+            if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
                 EmployeeAttendanceActivity.Validate("Absent Day", 1);
                 EmployeeAttendanceActivity.Modify;
             end;
@@ -1621,10 +1621,8 @@ codeunit 50008 "Payroll Engine"
                             end;
                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
                             EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Paid;
-                            EmployeeAttendanceActivity.Validate("Present Day", 1);
                         end else begin
                             EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
-                            EmployeeAttendanceActivity.Validate("Absent Day", 1);
                         end;
                         EmployeeAttendanceActivity."Leave Day" := 1;
                         EmployeeAttendanceActivity."Tour Day" := 0;
