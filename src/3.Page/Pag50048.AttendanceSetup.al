@@ -77,6 +77,7 @@ page 50048 "Attendance Setup"
                 {
                     ToolTip = 'Specifies the value of the Check Out From field(Hrs).';
                     ApplicationArea = All;
+                    Caption = 'Check Out From(Hrs)';
                 }
 
             }

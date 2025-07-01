@@ -28,7 +28,8 @@ report 50139 "Daily Attendance Update"
 
                 trigger OnPreDataItem()
                 begin
-                    SetRange("No.", EmployeeNo);
+                    if EmployeeNo <> '' then
+                        SetRange("No.", EmployeeNo);
                     SetFilter("Employment Date", '<=%1', InitialDate);
                     SetRange(Status, Employee.Status::Active); //Min 8.26.2022
                 end;
