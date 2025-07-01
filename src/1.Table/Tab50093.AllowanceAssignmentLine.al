@@ -225,7 +225,7 @@ table 50093 "Allowance Assignment Line"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        "Approval Status" := "Approval Status"::Open;
+        Validate("Approval Status", "Approval Status"::Open);
 
         if "Line No." = 0 then
             GetLineNo();
