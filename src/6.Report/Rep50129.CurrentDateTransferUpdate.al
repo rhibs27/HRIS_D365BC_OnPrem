@@ -127,7 +127,7 @@ report 50129 "Current Date Transfer Update"
         ToDate: Date;
         GeneralTransferUpdate: Boolean;
         //EmployeeActivityRec: Record "Employee Activity";
-        Transfer: Record "Employee/HR Transfer";
+        Transfer: Record "Employee Transfer";
         EmployeeServiceHistory: Record "Employee Service History";
         //EmpActivity: Record "Employee Activity";
         CompLeaveOverTime: Record OverTime;

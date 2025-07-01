@@ -1625,7 +1625,7 @@ page 50340 "Portal Function"
     //     procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; remark: Text; employeeNo: Code[20])
     //     var
     //         EmpActivity: Record "Employee Activity";
-    //         EmpHrTransfer: Record "Employee/HR Transfer";
+    //         EmpHrTransfer: Record "Employee Transfer";
     //     begin
     //         EmpHrTransfer.Get(empActivityNo);
     //         if isApproved then begin
@@ -1664,7 +1664,7 @@ page 50340 "Portal Function"
     //     procedure ackonwledgeTransfer(empActivityNo: Code[20]; dateOfJoining: Date; transferRemarks: Text)
     //     var
     //         //EmpActivity: Record "Employee Activity";
-    //         EmployeeTransfer: Record "Employee/HR Transfer";
+    //         EmployeeTransfer: Record "Employee Transfer";
     //         TransferMgt: Codeunit "Transfer Mgt.";
 
     //     begin
@@ -1679,7 +1679,7 @@ page 50340 "Portal Function"
     //     procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text)
     //     var
     //         //EmpActivity: Record "Employee Activity";
-    //         EmployeeTransfer: Record "Employee/HR Transfer";
+    //         EmployeeTransfer: Record "Employee Transfer";
     //         TransferMgt: Codeunit "Transfer Mgt.";
     //     begin
     //         EmployeeTransfer.Get(empActivityNo);

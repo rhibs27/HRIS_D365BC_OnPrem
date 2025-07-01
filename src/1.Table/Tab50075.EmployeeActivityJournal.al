@@ -747,7 +747,7 @@ table 50075 "Employee Activity Journal"
         AttendanceSetup: Record "Attendance Setup";
         // GLSetup: Record "General Ledger Setup";
         // DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee/HR Transfer";
+        // "Employee Tranfer": Record "Employee Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";

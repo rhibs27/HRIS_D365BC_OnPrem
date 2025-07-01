@@ -6188,9 +6188,9 @@ codeunit 50001 "HR Mgt."
         exit(true);
     end;
 
-    // procedure SendTransferApproval(TempEmphrtransfer: Record "Employee/HR Transfer" temporary): Boolean
+    // procedure SendTransferApproval(TempEmphrtransfer: Record "Employee Transfer" temporary): Boolean
     // var
-    //     EmphrTransfer: Record "Employee/HR Transfer";
+    //     EmphrTransfer: Record "Employee Transfer";
     //     ConfirmTransfer: Label 'Do you want to send transfer request ?';
     //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
     //     TransferSent: Label 'Transfer request approval has been sent.';
@@ -6248,7 +6248,7 @@ codeunit 50001 "HR Mgt."
     //     exit(true);
     // end;
 
-    // procedure RecommendTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RecommendTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6260,7 +6260,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     //     Message('Document has been recommended');
     // end;
-    // procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee Transfer"; employeeNo: Code[20])
     // begin
     //     // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
     //     //     Error('You are not eligible to recommend this document');
@@ -6270,7 +6270,7 @@ codeunit 50001 "HR Mgt."
     //     // Message('Document has been recommended');
     // end;
 
-    // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6282,7 +6282,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     //     Message('Document has been reviewed.');
     // end;
-    // procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee Transfer"; employeeNo: Code[20])
     // begin
     // if EmpHrTransfer.Reviewer <> employeeNo then
     //     Error('You are not elibile to review this document');
@@ -6292,7 +6292,7 @@ codeunit 50001 "HR Mgt."
     // Message('Document has been reviewed.');
     // end;
 
-    // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6351,12 +6351,12 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    // procedure HoldTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure HoldTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     //     TransferPageBuilder: FilterPageBuilder;
-    //     EmpHrTrsfer: Record "Employee/HR Transfer";
+    //     EmpHrTrsfer: Record "Employee Transfer";
     //     GetDate: Date;
     //     EmpServiceActivityRec: Record "Employee Service History";
     // begin
@@ -6395,12 +6395,12 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure CancelTransfer(var EmphrTransfer: Record "Employee/HR Transfer")
+    // procedure CancelTransfer(var EmphrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     //     TransferPageBuilder: FilterPageBuilder;
-    //     EmpHrTrnsferVar: Record "Employee/HR Transfer";
+    //     EmpHrTrnsferVar: Record "Employee Transfer";
     //     GetDate: Date;
     //     EmpServiceActivity: Record "Employee Service History";
     // begin
@@ -6447,7 +6447,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6481,7 +6481,7 @@ codeunit 50001 "HR Mgt."
     //     end; // 
     // end;
 
-    // procedure ApproveTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ApproveTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6529,7 +6529,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
     //     UnauthorizedApprover: Label 'You are not authorized to approve.';
@@ -6548,7 +6548,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify(true);
     // end;
 
-    // local procedure CheckTransferClaimApproval(EmpHrTransfer: Record "Employee/HR Transfer")
+    // local procedure CheckTransferClaimApproval(EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
@@ -6568,7 +6568,7 @@ codeunit 50001 "HR Mgt."
     //             Error(ApproveNotEligibleError);
     // end;
 
-    // procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text)
+    // procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee Transfer"; remarksText: Text)
     // var
     //     ServiceHistory: Record "Employee Service History";
     //     ReasonCode: Record "Reason Code";
@@ -6631,7 +6631,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     // end;
 
-    // procedure ReturnTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ReturnTransfer(EmpHrTransfer: Record "Employee Transfer")
     // begin
 
     //     if EmpHrTransfer.Type in [EmpHrTransfer.Type::"HR Transfer", EmpHrTransfer.Type::"Employee Transfer"] then
@@ -6688,7 +6688,7 @@ codeunit 50001 "HR Mgt."
         //ERROR(AcknowledgeError);
     end;
 
-    // procedure CalculateAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // procedure CalculateAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     Employee: Record Employee;
     //     TotalDays: Integer;
@@ -6725,7 +6725,7 @@ codeunit 50001 "HR Mgt."
     //     EmpTransfer.Modify;
     // end;
 
-    // local procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     LevelWiseAttribute: Record "Level Wise Attributes";
@@ -6752,7 +6752,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     LevelWiseAttribute: Record "Level Wise Attributes";
@@ -6781,7 +6781,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     RemoteArea: Record "Remote Area Category";
@@ -6819,7 +6819,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel1: Record "Salary Level";
@@ -6846,7 +6846,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel1: Record "Salary Level";
@@ -6936,7 +6936,7 @@ codeunit 50001 "HR Mgt."
             exit(Employee."No.");
     end;
 
-    // procedure AcknowledgeTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure AcknowledgeTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmAcknowledge: Label 'Do you want to acknowledge this transfer?';
     //     Acknowledged: Label 'Acknowledged.';
@@ -7024,7 +7024,7 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")
+    // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee Transfer")
     // var
     //     EmpActPageBuilder: FilterPageBuilder;
     //     EmpAct: Record "Employee Activity";
@@ -9999,7 +9999,7 @@ codeunit 50001 "HR Mgt."
     //         until LeaveTypeSetup.Next = 0;
     // end;
 
-    // local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee/HR Transfer")
+    // local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee Transfer")
     // var
     //     FunctionalTitle: Record "Functional Title";
     // begin
@@ -10404,7 +10404,7 @@ codeunit 50001 "HR Mgt."
     //         end;
     //     end;
 
-    //     procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
+    //     procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee Transfer")
     //     var
     //         EmpVar: Record Employee;
     //         ServiceCode: Code[20];
@@ -10440,7 +10440,7 @@ codeunit 50001 "HR Mgt."
 
     //     end;
 
-    //     procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    //     procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee Transfer")
     //     var
     //         ConfirmApprove: Label 'Confirm Approve?';
     //         ConfirmReject: Label 'Confirm Reject?';
@@ -10484,7 +10484,7 @@ codeunit 50001 "HR Mgt."
 
     //     end;
 
-    //     procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    //     procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee Transfer")
     //     var
     //         ConfirmApprove: Label 'Confirm Approve?';
     //         ConfirmReject: Label 'Confirm Reject?';

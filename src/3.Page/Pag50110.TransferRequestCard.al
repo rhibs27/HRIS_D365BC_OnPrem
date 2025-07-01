@@ -2,7 +2,7 @@ page 50110 "Transfer Request Card"
 {
     DeleteAllowed = false;
     PageType = Card;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout

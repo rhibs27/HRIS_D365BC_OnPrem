@@ -3,7 +3,7 @@ page 50215 "Employee Transfer Claim"
     ApplicationArea = All;
     Caption = 'Employee Transfer Claim';
     PageType = List;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     UsageCategory = Lists;
     CardPageId = "Transfer Claim Form";
 

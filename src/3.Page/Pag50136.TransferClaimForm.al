@@ -1,7 +1,7 @@
 page 50136 "Transfer Claim Form"
 {
     PageType = Card;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout
