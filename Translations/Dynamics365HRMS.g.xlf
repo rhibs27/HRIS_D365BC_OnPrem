@@ -48873,11 +48873,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control To Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2182607353 - Control 1736849778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateDailyAttendance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Daily Attendance Update - Control Update Attendance - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Report 1722841060 - Control 4182339846 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the _SendEmailForTransferAcknowledgement field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57792,6 +57787,11 @@
           <source>Attendance Missed</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Email Document Type - EnumValue Attendance Missed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 725837605 - EnumValue 1106257764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Sync</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Email Document Type - EnumValue Attendance Sync - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 725837605 - EnumValue 1242348827 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bulk Cash</source>

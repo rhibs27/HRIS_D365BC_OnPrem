@@ -17,13 +17,11 @@ report 50139 "Daily Attendance Update"
             {
                 trigger OnAfterGetRecord()
                 begin
-                    if UpdateDailyAttendance then begin
-                        if "Employment Date" = 0D then    // skip blank employment date employee oman
-                            CurrReport.Skip;
-                        AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
-                        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                            StatusInactiveForExpiredContractEmployee;
-                    end;
+                    if "Employment Date" = 0D then    // skip blank employment date employee oman
+                        CurrReport.Skip;
+                    AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
+                    if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                        StatusInactiveForExpiredContractEmployee;
                 end;
 
                 trigger OnPreDataItem()
@@ -34,7 +32,7 @@ report 50139 "Daily Attendance Update"
                     SetRange(Status, Employee.Status::Active); //Min 8.26.2022
                 end;
             }
-
+            //Date 
             trigger OnAfterGetRecord()
             begin
                 Clear(InitialDate);
@@ -65,11 +63,6 @@ report 50139 "Daily Attendance Update"
                     ToolTip = 'Specifies the value of the ToDate field.';
                     ApplicationArea = All;
                 }
-                field("Update Attendance"; UpdateDailyAttendance)
-                {
-                    ToolTip = 'Specifies the value of the UpdateDailyAttendance field.';
-                    ApplicationArea = All;
-                }
                 field("Employee No"; EmployeeNo)
                 {
                     TableRelation = Employee."No." where(Status = const("Employee Status"::Active));
@@ -86,7 +79,8 @@ report 50139 "Daily Attendance Update"
 
     trigger OnPostReport()
     begin
-        Message('Success');
+        if GuiAllowed then
+            Message('Success');
     end;
 
     trigger OnPreReport()
@@ -118,13 +112,8 @@ report 50139 "Daily Attendance Update"
         InitialDate: Date;
         AttendanceLine: Record "Attendance Line";
         AttendanceLog: Record "Attendance Log";
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        OverTimeMgt: Codeunit "OverTime Mgt";
         AttendanceMgt: Codeunit "Attendance Mgt";
-        ServiceHistoryMgt: Codeunit "Service History Mgt";
         CalendarDescription: Text;
-        UpdateDailyAttendance: Boolean;
         FromDate, ToDate : Date;
         UserSetup: Record "User Setup";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
@@ -139,11 +128,10 @@ report 50139 "Daily Attendance Update"
                 Employee.Validate(Status, Employee.Status::Inactive);
     end;
 
-    procedure SetRequestFilterValue(FromDate1: Date; ToDate1: Date; EmpNo1: Code[20]; UpdateAttendance: Boolean)
+    procedure SetRequestFilterValue(FromDate1: Date; ToDate1: Date; EmpNo1: Code[20])
     begin
         FromDate := FromDate1;
         ToDate := ToDate1;
         EmployeeNo := EmpNo1;
-        UpdateDailyAttendance := UpdateAttendance;
     end;
 }

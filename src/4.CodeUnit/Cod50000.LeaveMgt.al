@@ -1984,12 +1984,14 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
         end;
+        Commit();
         if leave."Start Date" <= Today then begin
             if leave."End Date" > Today then
-                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", Today, leave."Employee No.", true)//For Ongoing Leave
+                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", Today, leave."Employee No.")//For Ongoing Leave
             else
-                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", leave."End Date", leave."Employee No.", true);// For COmpleted Leave
-            DailyAttendanceUpdate.Run;
+                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", leave."End Date", leave."Employee No.");// For COmpleted Leave
+            DailyAttendanceUpdate.UseRequestPage(false);
+            DailyAttendanceUpdate.Run();
         end; // Update Daily Attendance
         //changes in employee attendance and activity
         // EmpAttendActivity.Reset;

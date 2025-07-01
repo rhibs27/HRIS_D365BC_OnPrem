@@ -74,4 +74,8 @@ enum 50017 "Email Document Type"
     {
         Caption = 'Vacancy';
     }
+    value(18; "Attendance Sync")
+    {
+        Caption = 'Attendance Sync';
+    }
 }
