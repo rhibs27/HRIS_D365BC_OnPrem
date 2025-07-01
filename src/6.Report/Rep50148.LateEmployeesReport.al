@@ -33,10 +33,7 @@ report 50148 "Late Employees Report"
 
             trigger OnPreDataItem()
             begin
-
                 SetRange("Attendance Date", AttendanceDateFrom, AttendanceDateTo);
-
-
                 SetFilter("Check In Time", '<>%1', 0T);
                 SetFilter("Shift Start Time", '<>%1', 0T);
             end;
@@ -51,7 +48,6 @@ report 50148 "Late Employees Report"
                 CheckOutDateTime: DateTime;
                 Employee: Record Employee;
             begin
-
                 if not (("Check In Time" <> 0T) and ("Shift Start Time" <> 0T) and ("Check In Time" > "Shift Start Time")) then
                     CurrReport.Skip();
 
@@ -62,7 +58,6 @@ report 50148 "Late Employees Report"
                 ProvinceCode := '';
                 DepartmentCode := '';
                 Designation := '';
-
 
                 if Employee.Get("Employee No.") then begin
                     BranchCode := Employee."Branch Code";
@@ -138,9 +133,82 @@ report 50148 "Late Employees Report"
                     LateDocNo := AttendanceMissed."No."
                 else
                     LateDocNo := '';
-
-
             end;
+        }
+
+
+        dataitem(EmployeeSummary; Employee)
+        {
+
+            column(Summary_EmployeeNo; "No.") { }
+            column(Summary_EmployeeName; "First Name" + ' ' + "Last Name") { }
+            column(Summary_BranchCode; "Branch Code") { }
+            column(Summary_DepartmentCode; "Department Code") { }
+            column(Summary_Designation; "Job Title") { }
+            column(Summary_LateCount; SummaryLateCount) { }
+            column(Summary_EligibleRequestCount; SummaryEligibleRequestCount) { }
+            column(Summary_FinalLateCount; SummaryFinalLateCount) { }
+            column(Summary_LateLetterCount; SummaryLateLetterCount) { }
+
+            trigger OnPreDataItem()
+            begin
+
+                SetFilter("No.", GetEmployeeFilter());
+            end;
+
+            trigger OnAfterGetRecord()
+            var
+                AttendanceRec: Record "Employee Attendance & Activity";
+                AttendanceMissedRec: Record "Attendance Missed";
+            begin
+                SummaryLateCount := 0;
+                SummaryEligibleRequestCount := 0;
+                SummaryFinalLateCount := 0;
+                SummaryLateLetterCount := 0;
+                AttendanceRec.SetRange("Employee No.", "No.");
+                AttendanceRec.SetRange("Attendance Date", AttendanceDateFrom, AttendanceDateTo);
+                AttendanceRec.SetFilter("Check In Time", '<>%1', 0T);
+                AttendanceRec.SetFilter("Shift Start Time", '<>%1', 0T);
+
+                if AttendanceRec.FindSet() then
+                    repeat
+                        if (AttendanceRec."Late Check In Day" > 0) or (AttendanceRec."Early Check Out Day" > 0) then
+                            SummaryLateCount += 1;
+                    until AttendanceRec.Next() = 0;
+
+                AttendanceMissedRec.SetRange("Employee No.", "No.");
+                AttendanceMissedRec.SetRange(Type, AttendanceMissedRec.Type::"Late Attendance");
+                AttendanceMissedRec.SetRange("Start Date", AttendanceDateFrom, AttendanceDateTo);
+                AttendanceMissedRec.SetRange("Approval Status", AttendanceMissedRec."Approval Status"::Approved);
+
+                if AttendanceMissedRec.FindSet() then
+                    repeat
+                        AttendanceRec.SetRange("Employee No.", "No.");
+                        AttendanceRec.SetRange("Attendance Date", AttendanceMissedRec."Start Date");
+                        AttendanceRec.SetFilter("Check In Time", '<>%1', 0T);
+                        AttendanceRec.SetFilter("Shift Start Time", '<>%1', 0T);
+
+                        if AttendanceRec.FindFirst() then
+                            if (AttendanceRec."Late Check In Day" > 0) or (AttendanceRec."Early Check Out Day" > 0) then
+                                SummaryEligibleRequestCount += 1;
+                    until AttendanceMissedRec.Next() = 0;
+
+                SummaryFinalLateCount := SummaryLateCount - SummaryEligibleRequestCount;
+                if SummaryFinalLateCount < 0 then
+                    SummaryFinalLateCount := 0;
+
+                if SummaryFinalLateCount >= 3 then
+                    SummaryLateLetterCount := 1
+                else
+                    SummaryLateLetterCount := 0;
+
+                if SummaryLateCount = 0 then
+                    CurrReport.Skip();
+            end;
+
+
+
+
         }
     }
 
@@ -179,19 +247,16 @@ report 50148 "Late Employees Report"
 
         trigger OnOpenPage()
         begin
-
             AttendanceDateFrom := CalcDate('<-CM>', Today);
             AttendanceDateTo := CalcDate('<CM>', Today);
         end;
 
         trigger OnQueryClosePage(CloseAction: Action): Boolean
         begin
-
             if (AttendanceDateFrom = 0D) or (AttendanceDateTo = 0D) then begin
                 Message('Please select both Attendance Date From and Attendance Date To.');
                 exit(false);
             end;
-
 
             if AttendanceDateFrom > AttendanceDateTo then begin
                 Message('Attendance Date From cannot be greater than Attendance Date To.');
@@ -201,11 +266,35 @@ report 50148 "Late Employees Report"
             exit(true);
         end;
     }
+
     trigger OnPreReport()
     begin
         CompanyInfo.Get();
         CompanyInfo.CalcFields(Picture);
+    end;
 
+    local procedure GetEmployeeFilter(): Text
+    var
+        AttendanceRec: Record "Employee Attendance & Activity";
+        EmployeeFilter: Text;
+        TempEmployee: Record Employee temporary;
+    begin
+
+        AttendanceRec.Reset();
+        AttendanceRec.SetRange("Attendance Date", AttendanceDateFrom, AttendanceDateTo);
+        AttendanceRec.SetFilter("Check In Time", '<>%1', 0T);
+        if AttendanceRec.FindSet() then
+            repeat
+                if not TempEmployee.Get(AttendanceRec."Employee No.") then begin
+                    TempEmployee."No." := AttendanceRec."Employee No.";
+                    TempEmployee.Insert();
+                    if EmployeeFilter <> '' then
+                        EmployeeFilter += '|';
+                    EmployeeFilter += AttendanceRec."Employee No.";
+                end;
+            until AttendanceRec.Next() = 0;
+
+        exit(EmployeeFilter);
     end;
 
     var
@@ -224,5 +313,8 @@ report 50148 "Late Employees Report"
         CompanyInfo: Record "Company Information";
 
 
-
+        SummaryLateCount: Integer;
+        SummaryEligibleRequestCount: Integer;
+        SummaryFinalLateCount: Integer;
+        SummaryLateLetterCount: Integer;
 }
