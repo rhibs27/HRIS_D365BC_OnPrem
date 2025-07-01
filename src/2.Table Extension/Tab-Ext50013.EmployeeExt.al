@@ -19,8 +19,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Pattern: Label '^[A-Za-z]+$';
 
             begin
-                if not Regex.IsMatch("First Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("First Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -31,8 +32,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Middle Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Middle Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -43,8 +45,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Last Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Last Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
