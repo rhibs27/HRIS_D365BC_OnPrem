@@ -107,7 +107,7 @@ table 50154 "Attendance Missed"
                     EmpAttendanceActivity.SetRange("Attendance Date", "Start Date");
                     if EmpAttendanceActivity.FindFirst then begin
                         "Check In Time" := EmpAttendanceActivity."Check In Time";
-                        "Check Out Time" := EmployeeAttendanceActivity."Check Out Time";
+                        "Check Out Time" := EmpAttendanceActivity."Check Out Time";
                     end;
                 end;
 
