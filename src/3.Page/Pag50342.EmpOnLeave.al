@@ -44,6 +44,10 @@ page 50342 EmpOnLeave
     begin
         Rec.SetFilter("Start Date", '<=%1', Today);
         Rec.Setfilter("End Date", '>=%1', Today);
+        rec.SetRange("Deputation On Code", HrMgt.getDeputation(HrMgt.GetEmployeeNo()));
         Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
     end;
+
+    var
+    HrMgt : Codeunit "HR Mgt.";
 }

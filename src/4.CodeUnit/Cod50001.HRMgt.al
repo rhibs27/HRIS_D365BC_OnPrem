@@ -8119,47 +8119,9 @@ codeunit 50001 "HR Mgt."
     procedure getDeputation(empCode: Code[20]): Text
     var
         employee: Record Employee;
-        deputation: Text;
-        DimValue: Record "Dimension Value";
     begin
-        employee.Reset;
-        employee.SetRange("No.", empCode);
-        if employee.FindFirst then begin
-            case employee."Deputation on" of
-                employee."Deputation on"::Branch:
-                    begin
-                        DimValue.Reset;
-                        DimValue.SetRange(Code, employee."Global Dimension 1 Code");
-                        if DimValue.FindFirst then
-                            exit(DimValue.Name);
-                    end;
-
-                employee."Deputation on"::Department:
-                    begin
-                        exit(employee."Department Name");
-                    end;
-
-                employee."Deputation on"::"Extension Counter":
-                    begin
-                        exit(employee."Extension Counter Name");
-                    end;
-                employee."Deputation on"::Province:
-                    begin
-                        exit(employee."Province Name");
-                    end;
-
-                // employee."Deputation on"::"Sub Province":
-                //     begin
-                //         exit(employee."Sub Province Name");
-                //     end;
-
-                employee."Deputation on"::Unit:
-                    begin
-                        exit(employee."Unit Name");
-                    end;
-
-            end;
-        end;
+        if employee.Get(empCode) then
+            exit(employee."Deputation On Code");
     end;
 
     // local procedure "------Appraisal---------"()
