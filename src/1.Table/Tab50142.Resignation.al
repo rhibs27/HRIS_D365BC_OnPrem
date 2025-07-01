@@ -551,7 +551,7 @@ table 50142 Resignation
         //SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        //"Employee Tranfer": Record "Employee/HR Transfer";
+        //"Employee Tranfer": Record "Employee Transfer";
         //SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         INVALID: Label 'Invalid %1';

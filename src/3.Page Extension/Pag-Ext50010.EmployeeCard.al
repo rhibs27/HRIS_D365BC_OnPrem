@@ -1711,7 +1711,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         PageTransferHistory: Page "Employee Transfer Requests";
-                        EmployeeTransfer: Record "Employee/HR Transfer";
+                        EmployeeTransfer: Record "Employee Transfer";
                     begin
                         EmployeeTransfer.RESET;
                         Rec.FilterGroup(2);

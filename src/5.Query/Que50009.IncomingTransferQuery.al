@@ -10,7 +10,7 @@ query 50009 "Incoming Transfer Query"
 
     elements
     {
-        dataitem(EmployeeTransfer; "Employee/HR Transfer")
+        dataitem(EmployeeTransfer; "Employee Transfer")
         {
             //general
             column(no; "No.") { }

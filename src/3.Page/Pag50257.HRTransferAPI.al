@@ -8,7 +8,7 @@ page 50257 "HR Transfer API"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
 
     layout
     {

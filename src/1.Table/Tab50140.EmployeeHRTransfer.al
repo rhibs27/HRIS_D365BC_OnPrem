@@ -1,6 +1,6 @@
-table 50140 "Employee/HR Transfer"
+table 50140 "Employee Transfer"
 {
-    Caption = 'Employee/Hr Transfer';
+    Caption = 'Employee Transfer';
     DataClassification = ToBeClassified;
     fields
     {
@@ -961,7 +961,7 @@ table 50140 "Employee/HR Transfer"
             Type::"Employee Transfer", Type::"HR Transfer":
                 begin
                     IncomingDocument.Reset;
-                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
+                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee Transfer");
                     IncomingDocument.SetRange("No.", "No.");
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
@@ -971,7 +971,7 @@ table 50140 "Employee/HR Transfer"
                         repeat
                             Clear(IncomingDocument);
                             IncomingDocument.Reset;
-                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
+                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee Transfer");
                             IncomingDocument.SetRange("No.", "No.");
                             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
                             if not IncomingDocument.FindFirst then begin
@@ -982,7 +982,7 @@ table 50140 "Employee/HR Transfer"
                                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                                 IncomingDocument."No." := "No.";
                                 IncomingDocument."Employee Code" := "Employee No.";
-                                IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                IncomingDocument."Table ID" := DATABASE::"Employee Transfer";
                                 if Type = Type::"Employee Transfer" then
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
                                 else if Type = Type::"HR Transfer" then
@@ -1013,7 +1013,7 @@ table 50140 "Employee/HR Transfer"
                                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                                     IncomingDocument."No." := "No.";
                                     IncomingDocument."Employee Code" := "Employee No.";
-                                    IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                    IncomingDocument."Table ID" := DATABASE::"Employee Transfer";
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Transfer Claim";
                                     IncomingDocument.Insert(true);
                                 end;
@@ -1186,7 +1186,7 @@ table 50140 "Employee/HR Transfer"
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         // LeaveTypeVar: Record "Leave Type Setup";
@@ -1194,7 +1194,7 @@ table 50140 "Employee/HR Transfer"
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        "Employee Tranfer": Record "Employee/HR Transfer";
+        "Employee Tranfer": Record "Employee Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         OrganizationStructureList: Record "Organization Structure List";

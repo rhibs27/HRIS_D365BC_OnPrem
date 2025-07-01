@@ -9,7 +9,7 @@ page 50341 "Employee Transfer Entity"
     EntityName = 'employeeTransfer';
     EntitySetName = 'employeeTransferEntity';
     PageType = API;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     layout
     {
         area(Content)

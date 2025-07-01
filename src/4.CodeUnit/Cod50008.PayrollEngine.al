@@ -3208,8 +3208,7 @@ codeunit 50008 "Payroll Engine"
         PriorAmount: Decimal;
         PriorRemoteAll: Decimal;
         RemoteAll: Decimal;
-        // TransferEmpActivity: Record "Employee Activity";
-        EmployeeTranfer: Record "Employee/HR Transfer";
+        EmployeeTranfer: Record "Employee Transfer";
         PromotionHistory: Record "Promotion History";
         ServiceHistory: Record "Employee Service History";
         InitialDate: Date;

@@ -2603,7 +2603,7 @@ page 50108 "Portal Functions"
 
     var
         // TravelRequest: Record "Travel Request" temporary;
-        TransferRequest: Record "Employee/HR Transfer" temporary;
+        TransferRequest: Record "Employee Transfer" temporary;
     begin
         //Employee.Get(employeeNo);
         /*SalaryLevel.GET(Employee."Salary Level");
@@ -2628,7 +2628,7 @@ page 50108 "Portal Functions"
     procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
-        EmpHrTransfer: Record "Employee/HR Transfer";
+        EmpHrTransfer: Record "Employee Transfer";
         RecRef: RecordRef;
     begin
         EmpHrTransfer.Get(empActivityNo);
@@ -2670,7 +2670,7 @@ page 50108 "Portal Functions"
     procedure ackonwledgeTransfer(empActivityNo: Code[20]; dateOfJoining: Date; transferRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
 
     begin
@@ -2684,7 +2684,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure handoverTransfer(empActivityNo: Code[20])
     var
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
         EmployeeTransfer.Get(empActivityNo);
@@ -2695,7 +2695,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure takeoverTransfer(empActivityNo: Code[20])
     var
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
         EmployeeTransfer.Get(empActivityNo);
@@ -2707,7 +2707,7 @@ page 50108 "Portal Functions"
     // procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text; employeeNo: Code[20])
     // var
     //     //EmpActivity: Record "Employee Activity";
-    //     EmployeeTransfer: Record "Employee/HR Transfer";
+    //     EmployeeTransfer: Record "Employee Transfer";
     //     TransferMgt: Codeunit "Transfer Mgt.";
     // begin
     //     EmployeeTransfer.Get(empActivityNo);
@@ -2721,8 +2721,8 @@ page 50108 "Portal Functions"
         //EmpActivity: Record "Employee Activity";
         BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
         UnauthorizedApprover: Label 'You are not authorized to approve.';
-        EmployeeTransfer1: Record "Employee/HR Transfer";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer1: Record "Employee Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
         EmployeeTransfer1.Get(empActivityNo);
@@ -2754,7 +2754,7 @@ page 50108 "Portal Functions"
     procedure returnTrasferClaim(empTransferNo: Code[20]; relocationDis: Decimal; outstationDis: Decimal; bMAFDis: Decimal): Text
     var
         // EmpActivity: Record "Employee Activity";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
     begin
         HRSetup.Get;
@@ -2769,7 +2769,7 @@ page 50108 "Portal Functions"
         '}');
     end;
 
-    // local procedure CalculateRelocationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; relocationDistance: Decimal): Decimal
+    // local procedure CalculateRelocationAllowance(EmployeeTransfer: Record "Employee Transfer"; relocationDistance: Decimal): Decimal
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel: Record "Salary Level";
@@ -2807,7 +2807,7 @@ page 50108 "Portal Functions"
     //     exit(RelocationAllowance);
     // end;
 
-    // local procedure CalculateOutstationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; outstationDistance: Decimal): Decimal
+    // local procedure CalculateOutstationAllowance(EmployeeTransfer: Record "Employee Transfer"; outstationDistance: Decimal): Decimal
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel: Record "Salary Level";
@@ -2843,7 +2843,7 @@ page 50108 "Portal Functions"
     //     exit(outstationAllow)
     // end;
 
-    // local procedure CalculateBMAccomodationAllowance(EmployeeTransfer: Record "Employee/HR Transfer"; BMAFDistance: Decimal): Decimal
+    // local procedure CalculateBMAccomodationAllowance(EmployeeTransfer: Record "Employee Transfer"; BMAFDistance: Decimal): Decimal
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     RemoteArea: Record "Remote Area Category";
@@ -2883,7 +2883,7 @@ page 50108 "Portal Functions"
     //     exit(BMAccomodationAllow);
     // end;
 
-    // local procedure CalculateOfficiatingAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
+    // local procedure CalculateOfficiatingAllowance(EmployeeTransfer: Record "Employee Transfer"): Decimal
     // var
     //     SalaryLevel1: Record "Salary Level";
     //     GrossSalary: Decimal;
@@ -2911,7 +2911,7 @@ page 50108 "Portal Functions"
     //     exit(OfficiatingAllow);
     // end;
 
-    // local procedure CalculateRemoteAreaAllowance(EmployeeTransfer: Record "Employee/HR Transfer"): Decimal
+    // local procedure CalculateRemoteAreaAllowance(EmployeeTransfer: Record "Employee Transfer"): Decimal
     // var
     //     GrossSalary: Decimal;
     //     SalaryLevel: Record "Salary Level";
@@ -3949,7 +3949,7 @@ page 50108 "Portal Functions"
         TransferAcknowledgeForApprove: Integer;
         TransferHandoverForApprove: Integer;
         TransferClaimForApprove: Integer;
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         DocumentApprover: Record "Document Approver";
         ResignClearanceForApprove: Integer;
         EmployeeEditForApprove: Integer;
