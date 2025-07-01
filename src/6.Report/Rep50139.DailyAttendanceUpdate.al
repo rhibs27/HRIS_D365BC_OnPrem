@@ -28,6 +28,7 @@ report 50139 "Daily Attendance Update"
 
                 trigger OnPreDataItem()
                 begin
+                    SetRange("No.", EmployeeNo);
                     SetFilter("Employment Date", '<=%1', InitialDate);
                     SetRange(Status, Employee.Status::Active); //Min 8.26.2022
                 end;
@@ -97,10 +98,6 @@ report 50139 "Daily Attendance Update"
             ToDate := TODAY;
         if (FromDate = 0D) or (ToDate = 0D) then //Min1.9.23
             Error(Err001);
-        if UpdateDailyAttendance then begin
-            if Employee.GetFilter("Employment Type") = '' then
-                Error(Err003);
-        end;
         if FromDate > ToDate then
             Error('From Date %1 must be to date %2.', FromDate, ToDate);
 
@@ -111,7 +108,6 @@ report 50139 "Daily Attendance Update"
 
         if (FromDate > Today) or (ToDate > Today) then //Min
             Error('Cannot run attendance of future date. Please check the date.');
-        Employee.SetRange("No.", EmployeeNo);
     end;
 
     var
