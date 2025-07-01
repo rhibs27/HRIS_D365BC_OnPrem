@@ -50,7 +50,7 @@ table 50059 "KRA Master"
         field(6; "Code"; Code[20])
         {
             TableRelation = if (Type = const("Functional Title")) "Functional Title".Code
-            else if (Type = const(Department)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+            else if (Type = const(Department)) "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
         field(7; "Weightage (%)"; Integer)
         {

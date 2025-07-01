@@ -379,7 +379,7 @@ table 50075 "Employee Activity Journal"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -398,7 +398,7 @@ table 50075 "Employee Activity Journal"
         field(54; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
                 ValidateDeputationOnTo
@@ -407,7 +407,7 @@ table 50075 "Employee Activity Journal"
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Organization Structure list"::unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Deputation Type"::unit));
             trigger OnValidate()
             begin
                 if "Unit (To)" <> xRec."Unit (To)" then begin
@@ -417,7 +417,7 @@ table 50075 "Employee Activity Journal"
         field(56; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
 
             trigger OnValidate()
             var
@@ -440,7 +440,7 @@ table 50075 "Employee Activity Journal"
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
 
             trigger OnValidate()
             var
@@ -596,12 +596,12 @@ table 50075 "Employee Activity Journal"
         field(77; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(78; "To Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
                 ValidateDeputationOnTo

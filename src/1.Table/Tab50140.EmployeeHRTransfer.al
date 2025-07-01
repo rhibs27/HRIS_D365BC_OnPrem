@@ -370,7 +370,7 @@ table 50140 "Employee/HR Transfer"
             CaptionClass = '1,2,1';
             Description = 'Transfer';
             // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -390,7 +390,7 @@ table 50140 "Employee/HR Transfer"
         {
             Description = 'Transfer';
             // TableRelation = Province;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             // Editable = false;
             trigger OnValidate()
             var
@@ -423,7 +423,7 @@ table 50140 "Employee/HR Transfer"
         field(56; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Organization Structure list"::unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Deputation Type"::Unit));
             trigger OnValidate()
             begin
 
@@ -441,7 +441,7 @@ table 50140 "Employee/HR Transfer"
         field(57; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
 
             trigger OnValidate()
             var
@@ -502,7 +502,7 @@ table 50140 "Employee/HR Transfer"
         field(62; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
 
             trigger OnValidate()
             var
@@ -854,12 +854,12 @@ table 50140 "Employee/HR Transfer"
         field(198; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(199; "To Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
                 Clear("Extension Counter (To)");
@@ -873,7 +873,7 @@ table 50140 "Employee/HR Transfer"
         field(200; "Requested Province"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if "Requested Province" <> xRec."Requested Province" then begin

@@ -244,7 +244,7 @@ table 50069 "Training Header"
         // }
         field(26; "Branch Code"; Code[100])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::branch), Blocked = filter(false));
             // trigger OnLookup()
             // begin
             //     Validate("Branch Code", HRMgt.LookupBranch("Branch Code", Province, "Sub-Province"));
@@ -252,7 +252,7 @@ table 50069 "Training Header"
         }
         field(27; Department; Code[100])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
             // trigger OnLookup()
             // begin
             //     Validate(Department, HRMgt.LookupDepartment(Department));

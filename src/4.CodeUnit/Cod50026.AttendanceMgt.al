@@ -15,18 +15,17 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine.Init;
             AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
-
-            ShiftLine.Reset(); //Check for Approved WorkShift
-            ShiftLine.SetRange("Roster Date", InitialDate);
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            if ShiftLine.FindFirst() then
-                AttendanceLine.Validate("Employee Working Shift", ShiftLine."Employee Work Shift")
-            else
-                AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
             AttendanceLine."Attendance Date" := InitialDate;
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert(false);
         end;
+        ShiftLine.Reset(); //Check for Approved WorkShift
+        ShiftLine.SetRange("Roster Date", InitialDate);
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            AttendanceLine.Validate("Employee Working Shift", ShiftLine."Employee Work Shift")
+        else
+            AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
 
         if IsHoliday(InitialDate, EmpNo) then begin
             AttendanceLine."Day Type" := AttendanceLine."Day Type"::Holiday;
@@ -45,11 +44,6 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.FindFirst then begin
             AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
-            // AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-            // AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
-            // AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
-            // AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
-            // AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
             if (AttendanceLine."Check In Time" <> 0T) then begin
                 AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
                 AttendanceLine.Validate("Present Day", 1);
@@ -62,8 +56,10 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
-            if AttendanceLog."Log Time" >= (AttendanceSetUp."Check Out From") then
-                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
+            if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
+                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
+            else
+                Clear(AttendanceLine."Check Out Time");
         end;
 
         EngNep.Reset; //Min 1.25.2023
@@ -73,8 +69,6 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLine.Modify(false);
 
         PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
-
-        // ChangeStatusToApproveFromHold;
     end;
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
@@ -88,6 +82,16 @@ codeunit 50026 "Attendance Mgt"
         RetrunBool := LeaveMgt.GetNonWokingDays(Date, Date, EmpNo) <> 0;
         CalendarDescription := HRMgt.ReturnCalendarDescription;
         exit(RetrunBool);
+    end;
+
+    procedure TextToDuration(InputText: Text): Duration
+    var
+        Millisec: BigInteger;
+    begin
+        if not Evaluate(Millisec, InputText) then
+            exit;
+
+        exit(Millisec * 3600000); // Convert milliseconds to duration
     end;
 
     var

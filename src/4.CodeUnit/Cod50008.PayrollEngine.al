@@ -1471,7 +1471,6 @@ codeunit 50008 "Payroll Engine"
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        // EmployeeActivity: Record "Employee Activity";
         Leave: Record Leave;
         Travel: Record "Travel Request";
         OverTime: Record OverTime;
@@ -1489,10 +1488,10 @@ codeunit 50008 "Payroll Engine"
         AttendanceLine.SetCurrentKey("Employee No.", "Attendance Date");
         AttendanceLine.SetRange("Employee No.", EmployeeCode);
         AttendanceLine.SetRange("Attendance Date", StartDate, EndDate);
-        //IF PreparationBeforePosting THEN
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Open)
-        //ELSE
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Released);
+        // IF PreparationBeforePosting THEN
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Open)
+        // ELSE
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Released);
         if AttendanceLine.FindSet then
             repeat
                 Clear(EmployeeAttendanceActivity);

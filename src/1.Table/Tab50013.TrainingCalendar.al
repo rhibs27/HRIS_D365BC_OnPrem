@@ -35,7 +35,7 @@ table 50013 "Training Calendar"
         }
         field(4; "Coverage Branch"; Code[100])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             // trigger OnLookup()
             // begin
             //     Validate("Coverage Branch", HRMgt.LookupBranch("Coverage Branch", Province, "Sub-Province"));
@@ -43,7 +43,7 @@ table 50013 "Training Calendar"
         }
         field(5; "Coverage Department"; Code[100])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
             // trigger OnLookup()
             // begin
             //     Validate("Coverage Department", HRMgt.LookupDepartment("Coverage Department"));
@@ -113,7 +113,7 @@ table 50013 "Training Calendar"
         }
         field(21; Province; Code[100])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             // trigger OnLookup()
             // begin
             //     Validate(Province, HRMgt.SetCalendarHolidayProvience(Province));
