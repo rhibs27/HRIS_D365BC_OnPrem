@@ -57,7 +57,9 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
             if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
-                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
+                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
+            else
+                Clear(AttendanceLine."Check Out Time");
         end;
 
         EngNep.Reset; //Min 1.25.2023
@@ -89,7 +91,7 @@ codeunit 50026 "Attendance Mgt"
         if not Evaluate(Millisec, InputText) then
             exit;
 
-        exit(Millisec * 60000);
+        exit(Millisec * 3600000); // Convert milliseconds to duration
     end;
 
     var

@@ -22763,6 +22763,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Check Out From - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 1408641378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Out From(Hrs)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Check Out From - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2922227932 - Control 3389255048 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deactivate Punch in Count field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
