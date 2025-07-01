@@ -1,7 +1,6 @@
 page 50088 "Leave Request"
 {
     SourceTable = "Leave";
-    // SourceTableTemporary = true;
     ApplicationArea = All;
 
     layout
@@ -64,14 +63,6 @@ page 50088 "Leave Request"
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
-
-                    // trigger OnValidate()
-                    // begin
-                    //     LeaveType.Get(Rec."Leave Code");
-                    //     if Rec."No. of Days" <> xRec."No. of Days" then
-                    //         if LeaveType."Sick Leave" then
-                    //             GenerateAttachment
-                    // end;
                 }
                 field("Start Date (BS)"; Rec."Start Date (BS)")
                 {
@@ -182,35 +173,6 @@ page 50088 "Leave Request"
                 Editable = false;
                 //Editable = SubFormEdit;
             }
-            // group(Approval)
-            // {
-            //     Caption = 'Approval';
-            //     field("Recommender Code"; Rec."Recommender Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Recommender Name"; Rec."Recommender Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Recommender Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Code"; Rec."Approver Code")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Code field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Name"; Rec."Approver Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Name field.';
-            //         ApplicationArea = All;
-            //     }
-            //     field("Approver Type"; Rec."Approver Type")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Type field.';
-            //         ApplicationArea = All;
-            //     }
-            //}
         }
     }
 
@@ -258,48 +220,16 @@ page 50088 "Leave Request"
         //     SubFormEdit := true;
     end;
 
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        // if not IsApplied then begin
-        //     if not Confirm('The data will be erased. Do you want to continue?', true) then
-        //         Error('')
-        //     else begin
-        //         TempIncomingDoc.Reset;
-        //         TempIncomingDoc.SetRange("Employee Code", Rec."Employee No.");
-        //         TempIncomingDoc.SetRange("Leave Type Code", LeaveType.Code);
-        //         TempIncomingDoc.SetRange("No.", '');
-        //         if TempIncomingDoc.Find('-') then
-        //             repeat
-        //                 LoanMgt.DeleteAttachment(TempIncomingDoc);
-        //                 if TempIncomingDoc."File Name" <> '' then
-        //                     Clear(TempIncomingDoc."File Name");
-
-        //             until TempIncomingDoc.Next = 0;
-        //         TempIncomingDoc.DeleteAll;
-        //         Approval.Reset();
-        //         Approval.SetRange("Document No.", '');
-        //         if Approval.FindSet() then
-        //             Approval.DeleteAll();
-
-        //     end;
-        // end;
-    end;
-
     var
-        HRMgt: Codeunit "HR Mgt.";
-        LoanMgt: Codeunit "Loan Mgt.";
+        // HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         RemainingDays: Decimal;
-        [InDataSet]
-        IsCompensatory: Boolean;
+
+        IsCompensatory, IsBereavement, IsPaternity : Boolean;
         LeaveType: Record "Leave Type Setup";
         IsApplied: Boolean;
-        [InDataSet]
-        IsBereavement: Boolean;
         TempIncomingDoc: Record "Incoming Document";
         AttachmentSetup: Record "Attachment Setup";
-        [InDataSet]
-        IsPaternity: Boolean;
         Approval: Record "Approval HRMS";
         //SubFormEdit: Boolean;
         HRSetup: Record "Human Resources Setup";
