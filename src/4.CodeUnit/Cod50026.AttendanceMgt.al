@@ -15,18 +15,17 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine.Init;
             AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
-
-            ShiftLine.Reset(); //Check for Approved WorkShift
-            ShiftLine.SetRange("Roster Date", InitialDate);
-            ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
-            if ShiftLine.FindFirst() then
-                AttendanceLine.Validate("Employee Working Shift", ShiftLine."Employee Work Shift")
-            else
-                AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
             AttendanceLine."Attendance Date" := InitialDate;
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert(false);
         end;
+        ShiftLine.Reset(); //Check for Approved WorkShift
+        ShiftLine.SetRange("Roster Date", InitialDate);
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            AttendanceLine.Validate("Employee Working Shift", ShiftLine."Employee Work Shift")
+        else
+            AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
 
         if IsHoliday(InitialDate, EmpNo) then begin
             AttendanceLine."Day Type" := AttendanceLine."Day Type"::Holiday;
@@ -57,7 +56,7 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
-            if AttendanceLog."Log Time" >= (AttendanceSetUp."Check Out From") then
+            if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
                 AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
         end;
 
@@ -81,6 +80,16 @@ codeunit 50026 "Attendance Mgt"
         RetrunBool := LeaveMgt.GetNonWokingDays(Date, Date, EmpNo) <> 0;
         CalendarDescription := HRMgt.ReturnCalendarDescription;
         exit(RetrunBool);
+    end;
+
+    procedure TextToDuration(InputText: Text): Duration
+    var
+        Millisec: BigInteger;
+    begin
+        if not Evaluate(Millisec, InputText) then
+            exit;
+
+        exit(Millisec * 60000);
     end;
 
     var

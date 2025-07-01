@@ -73,7 +73,7 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
-        field(19; "Check Out From"; Time)
+        field(19; "Check Out From"; Decimal)
         {
             DataClassification = ToBeClassified;
         }
