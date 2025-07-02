@@ -229,7 +229,8 @@ page 50164 "Attachment Subform"
                         end else if EmpAct."Approval Status" = EmpAct."Approval Status"::Approved then
                                 Error('Cannot delete attachment of approved doucment.');
                         AttachmentMgt.DeleteAttachment(Rec);
-                    end;
+                    end else
+                        AttachmentMgt.DeleteAttachment(Rec);
                 end;
             }
         }

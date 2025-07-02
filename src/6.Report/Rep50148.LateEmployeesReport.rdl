@@ -11,100 +11,6 @@
       <rd:DataSourceID>78736ed9-0501-48b5-a71d-d0123bd5bf6a</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-        </Field>
-        <Field Name="CompanyPicture">
-          <DataField>CompanyPicture</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="Employee_Name">
-          <DataField>Employee_Name</DataField>
-        </Field>
-        <Field Name="CheckInTime">
-          <DataField>CheckInTime</DataField>
-        </Field>
-        <Field Name="CheckOutTime">
-          <DataField>CheckOutTime</DataField>
-        </Field>
-        <Field Name="ShiftStartTime">
-          <DataField>ShiftStartTime</DataField>
-        </Field>
-        <Field Name="ShiftEndTime">
-          <DataField>ShiftEndTime</DataField>
-        </Field>
-        <Field Name="ActualHoursWorked">
-          <DataField>ActualHoursWorked</DataField>
-        </Field>
-        <Field Name="LateByMinutes">
-          <DataField>LateByMinutes</DataField>
-        </Field>
-        <Field Name="EarlyOutByMinutes">
-          <DataField>EarlyOutByMinutes</DataField>
-        </Field>
-        <Field Name="BranchCode">
-          <DataField>BranchCode</DataField>
-        </Field>
-        <Field Name="ProvinceCode">
-          <DataField>ProvinceCode</DataField>
-        </Field>
-        <Field Name="DepartmentCode">
-          <DataField>DepartmentCode</DataField>
-        </Field>
-        <Field Name="Designation">
-          <DataField>Designation</DataField>
-        </Field>
-        <Field Name="AttendanceDate">
-          <DataField>AttendanceDate</DataField>
-        </Field>
-        <Field Name="Month">
-          <DataField>Month</DataField>
-        </Field>
-        <Field Name="LateApprovalDocNo">
-          <DataField>LateApprovalDocNo</DataField>
-        </Field>
-        <Field Name="Remarks">
-          <DataField>Remarks</DataField>
-        </Field>
-        <Field Name="Summary_EmployeeNo">
-          <DataField>Summary_EmployeeNo</DataField>
-        </Field>
-        <Field Name="Summary_EmployeeName">
-          <DataField>Summary_EmployeeName</DataField>
-        </Field>
-        <Field Name="Summary_BranchCode">
-          <DataField>Summary_BranchCode</DataField>
-        </Field>
-        <Field Name="Summary_DepartmentCode">
-          <DataField>Summary_DepartmentCode</DataField>
-        </Field>
-        <Field Name="Summary_Designation">
-          <DataField>Summary_Designation</DataField>
-        </Field>
-        <Field Name="Summary_LateCount">
-          <DataField>Summary_LateCount</DataField>
-        </Field>
-        <Field Name="Summary_EligibleRequestCount">
-          <DataField>Summary_EligibleRequestCount</DataField>
-        </Field>
-        <Field Name="Summary_FinalLateCount">
-          <DataField>Summary_FinalLateCount</DataField>
-        </Field>
-        <Field Name="Summary_LateLetterCount">
-          <DataField>Summary_LateLetterCount</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -2997,12 +2903,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -3042,4 +2942,98 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="Employee_Name">
+          <DataField>Employee_Name</DataField>
+        </Field>
+        <Field Name="CheckInTime">
+          <DataField>CheckInTime</DataField>
+        </Field>
+        <Field Name="CheckOutTime">
+          <DataField>CheckOutTime</DataField>
+        </Field>
+        <Field Name="ShiftStartTime">
+          <DataField>ShiftStartTime</DataField>
+        </Field>
+        <Field Name="ShiftEndTime">
+          <DataField>ShiftEndTime</DataField>
+        </Field>
+        <Field Name="ActualHoursWorked">
+          <DataField>ActualHoursWorked</DataField>
+        </Field>
+        <Field Name="LateByMinutes">
+          <DataField>LateByMinutes</DataField>
+        </Field>
+        <Field Name="EarlyOutByMinutes">
+          <DataField>EarlyOutByMinutes</DataField>
+        </Field>
+        <Field Name="BranchCode">
+          <DataField>BranchCode</DataField>
+        </Field>
+        <Field Name="ProvinceCode">
+          <DataField>ProvinceCode</DataField>
+        </Field>
+        <Field Name="DepartmentCode">
+          <DataField>DepartmentCode</DataField>
+        </Field>
+        <Field Name="Designation">
+          <DataField>Designation</DataField>
+        </Field>
+        <Field Name="AttendanceDate">
+          <DataField>AttendanceDate</DataField>
+        </Field>
+        <Field Name="Month">
+          <DataField>Month</DataField>
+        </Field>
+        <Field Name="LateApprovalDocNo">
+          <DataField>LateApprovalDocNo</DataField>
+        </Field>
+        <Field Name="Remarks">
+          <DataField>Remarks</DataField>
+        </Field>
+        <Field Name="Summary_EmployeeNo">
+          <DataField>Summary_EmployeeNo</DataField>
+        </Field>
+        <Field Name="Summary_EmployeeName">
+          <DataField>Summary_EmployeeName</DataField>
+        </Field>
+        <Field Name="Summary_BranchCode">
+          <DataField>Summary_BranchCode</DataField>
+        </Field>
+        <Field Name="Summary_DepartmentCode">
+          <DataField>Summary_DepartmentCode</DataField>
+        </Field>
+        <Field Name="Summary_Designation">
+          <DataField>Summary_Designation</DataField>
+        </Field>
+        <Field Name="Summary_LateCount">
+          <DataField>Summary_LateCount</DataField>
+        </Field>
+        <Field Name="Summary_EligibleRequestCount">
+          <DataField>Summary_EligibleRequestCount</DataField>
+        </Field>
+        <Field Name="Summary_FinalLateCount">
+          <DataField>Summary_FinalLateCount</DataField>
+        </Field>
+        <Field Name="Summary_LateLetterCount">
+          <DataField>Summary_LateLetterCount</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
