@@ -119,9 +119,9 @@ query 50020 "Employee Insurance Query"
                         Caption = 'Remarks';
                     }
                     column(rejectionRemarks; "Rejection Remarks") { }
-                    column(annualPremiumAmount; "Annual Premium Amount")
+                    column(premiumPaidBy; "Premium Paid By")
                     {
-                        Caption = 'Annual Premium Amount';
+                        Caption = 'Premium Paid By';
                     }
                 }
             }

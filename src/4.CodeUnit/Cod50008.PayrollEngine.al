@@ -1471,7 +1471,6 @@ codeunit 50008 "Payroll Engine"
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        // EmployeeActivity: Record "Employee Activity";
         Leave: Record Leave;
         Travel: Record "Travel Request";
         OverTime: Record OverTime;
@@ -1489,10 +1488,10 @@ codeunit 50008 "Payroll Engine"
         AttendanceLine.SetCurrentKey("Employee No.", "Attendance Date");
         AttendanceLine.SetRange("Employee No.", EmployeeCode);
         AttendanceLine.SetRange("Attendance Date", StartDate, EndDate);
-        //IF PreparationBeforePosting THEN
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Open)
-        //ELSE
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Released);
+        // IF PreparationBeforePosting THEN
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Open)
+        // ELSE
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Released);
         if AttendanceLine.FindSet then
             repeat
                 Clear(EmployeeAttendanceActivity);
@@ -3224,6 +3223,7 @@ codeunit 50008 "Payroll Engine"
         SalaryAdvance: Record "Employee Loan/Advance";
         // OtEmployeeActivity: Record "Employee Activity";
         OverTime: Record OverTime;
+        IsHandled: Boolean;
     begin
         GLSetup.Get;
         GrossSalary := 0;
@@ -3244,6 +3244,9 @@ codeunit 50008 "Payroll Engine"
                 end;
             PGSetup."Outstn/Discomfort Allowance":
                 begin
+                    OnBeforeInsertOutstationAllowance(Employee."No.", PayCyclePeriod, IsHandled, Amount);
+                    if IsHandled then
+                        exit(Amount);
                     /*TransferEmpActivity.RESET;
                     TransferEmpActivity.SETRANGE("Employee No.",Employee."No.");
                     TransferEmpActivity.SETFILTER("Date of Joining Of Transfer",'<%1',PayCyclePeriod."Start Date");
@@ -3302,6 +3305,8 @@ codeunit 50008 "Payroll Engine"
                             if OutstationEligible then
                                 Amount += GrossSalary;
                         end;
+
+
                     end;
                     if OutstationEligible and (Amount = 0) then
                         Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;
@@ -4684,6 +4689,13 @@ codeunit 50008 "Payroll Engine"
     begin
         // This event can be used to modify EmployeePayrollAdjustment before it is inserted.
         // You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertOutstationAllowance(EmployeeNo: Code[20]; PayCyclePeriod: Record "Pay Cycle Period"; var IsHandled: Boolean; var Amount: Decimal)
+    begin
+        //This event can be used to perform get the outstation allowance for the employee before exiting the process.
+        //You can add custom logic here if needed.
     end;
 
 

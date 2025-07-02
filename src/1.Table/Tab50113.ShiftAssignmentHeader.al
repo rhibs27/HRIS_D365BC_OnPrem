@@ -39,10 +39,28 @@ table 50113 "Shift Assignment Header"
         field(6; "From Date"; Date)
         {
             Caption = 'From Date';
+            trigger OnValidate()
+            var
+                EngNepDate: Record "English-Nepali Date";
+            begin
+                EngNepDate.Reset;
+                EngNepDate.SetRange("English Date", "From Date");
+                if EngNepDate.FindFirst then
+                    Validate("Fiscal Year", EngNepDate."Fiscal Year")
+                else
+                    Clear("Fiscal Year");
+            end;
         }
         field(7; "To Date"; Date)
         {
             Caption = 'To Date';
+            trigger OnValidate()
+            begin
+                if "From date" > "To Date" then
+                    Error('Invalid date.');
+                if GuiAllowed then
+                    CheckForExistingDate("No.");
+            end;
         }
         field(8; "No. Series"; Code[20])
         {
@@ -139,6 +157,9 @@ table 50113 "Shift Assignment Header"
                         ApproverMgt.InsertApproval("Employee No.", "No.", "Type", "Approval Status");
                     end;
             end;
+        if not GuiAllowed then
+            if Type = Type::"Shift Assignment" then
+                CheckForExistingDate("No.");
     end;
 
     var
@@ -148,5 +169,25 @@ table 50113 "Shift Assignment Header"
         ApproverMgt: Codeunit "Approver Mgt";
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+
+
+    procedure CheckForExistingDate(No: Code[20])
+    var
+        ShiftAssignment: Record "Shift Assignment Header";
+    begin
+        ShiftAssignment.Reset;
+        if GuiAllowed then
+            ShiftAssignment.SetFilter("No.", '<>%1', No);
+        ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Shift Assignment");
+        ShiftAssignment.SetRange("Fiscal Year", "Fiscal Year");
+        ShiftAssignment.SetRange("Deputation Code", "Deputation Code");
+        ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
+        if ShiftAssignment.Findset then
+            repeat
+                if ("From Date" <= ShiftAssignment."TO date") and ("To date" >= ShiftAssignment."From Date") then
+                    Error('Shift Assignment for this period %1 and %2 is already been assigned in %3.', ShiftAssignment."From Date", ShiftAssignment."To Date", ShiftAssignment."No.");
+            until ShiftAssignment.Next() = 0;
+    end;
 
 }

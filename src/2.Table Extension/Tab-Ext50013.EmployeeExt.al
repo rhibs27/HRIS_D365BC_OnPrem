@@ -19,8 +19,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Pattern: Label '^[A-Za-z]+$';
 
             begin
-                if not Regex.IsMatch("First Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("First Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -31,8 +32,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Middle Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Middle Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -43,8 +45,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Last Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Last Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -153,7 +156,7 @@ tableextension 50013 "Employee Ext" extends Employee
         // }
         field(50001; "Branch Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if "Branch Code" <> xRec."Branch Code" then begin
@@ -216,7 +219,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50092; "Province Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
@@ -232,7 +235,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50002; "Department Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
                 if "Department Code" <> xRec."Department Code" then begin
@@ -303,7 +306,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50058; "Unit Code"; Code[20])
         {
             DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Department), Code = field("Department Code"), "Reporting Type" = filter("Organization Structure list"::unit));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
             trigger OnValidate()
             begin
                 if "Deputation on" = "Deputation on"::Unit then
@@ -331,7 +334,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50072; "Sub Unit Code"; Code[20])
         {
             DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::unit), Code = field("Unit Code"), "Reporting Type" = filter("Organization Structure list"::"Sub-Unit"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::unit), Code = field("Unit Code"), "Reporting Type" = filter("Deputation Type"::"Sub-Unit"));
             trigger OnValidate()
             begin
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
@@ -348,7 +351,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50097; "Extension Counter Code"; Code[20])
         {
             DataClassification = CustomerContent;
-            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure List"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure list";
@@ -855,7 +858,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50071; "KPI Deputation Value"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
             DataClassification = CustomerContent;
             Description = 'KPI 1.00';
             trigger OnValidate()

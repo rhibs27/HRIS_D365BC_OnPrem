@@ -267,6 +267,7 @@ page 50351 "Travel Claim"
 
                     field("Conveyance Expense"; Rec."Conveyance Expense")
                     {
+                        Visible = false;
                         ToolTip = 'Specifies the value of the Conveyance Expense field.';
                         ApplicationArea = All;
                     }
@@ -275,8 +276,6 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Other Expense field.';
                         ApplicationArea = All;
                     }
-
-
                     field("Total Claimed Amount"; Rec."Total Claimed Amount")
                     {
                         ToolTip = 'Specifies the value of the Total Claimed Amount field.';

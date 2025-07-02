@@ -1969,6 +1969,7 @@ codeunit 50000 "Leave Mgt."
         EmpAttendActivity: Record "Employee Attendance & Activity";
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
+        DailyAttendanceUpdate: Report "Daily Attendance Update";
     begin
         leave.Get(leavecode);
         OnBeforeLeaveApproved(leave, IsHandled);
@@ -1983,57 +1984,64 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
         end;
-        //changes in employee attendance and activity
-        EmpAttendActivity.Reset;
-        EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-        EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-        if EmpAttendActivity.Find('-') then
-            repeat
-                LeaveTypeSetup.Get(leave."Leave Code");
-                EmpAttendActivity."Absent Day" := 0;
-                EmpAttendActivity."Present Day" := 0;
-                if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-                    if not LeaveTypeSetup."Exclude Non Working Days" then begin
-                        EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-                        EmpAttendActivity."Week Off Day" := 0;
-                        if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-                            EmpAttendActivity."Present Day" := 1;
-                            EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-                        end else begin
-                            EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-                            EmpAttendActivity."Absent Day" := 1;
-                        end;
-                        EmpAttendActivity."Leave Day" := 1;
-                    end;
-                end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-                    if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-                        EmpAttendActivity."Present Day" := 1;
-                        EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-                    end else begin
-                        EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-                        EmpAttendActivity."Absent Day" := 1;
-                    end;
-                    EmpAttendActivity."Leave Day" := 1;
-                end;
-                EmpAttendActivity."Tour Day" := 0;
-                EmpAttendActivity."Employee Activity Found" := true;
-                EmpAttendActivity."Source No." := leave."No.";
-                EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
-                EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                EmpAttendActivity.Modify;
-            until EmpAttendActivity.Next = 0;
-        AttendanceSetup.Get;
-        Employee.Get(leave."Employee No.");
-        Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-        if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-            if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+        if leave."Start Date" <= Today then begin
+            if leave."End Date" > Today then
+                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", Today, leave."Employee No.", true)//For Ongoing Leave
             else
-                Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-        end else
-            Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-        Employee.Modify;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', hrmgt.GetEmpName(), leave."No.", 0);   //For email
+                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", leave."End Date", leave."Employee No.", true);// For COmpleted Leave
+            DailyAttendanceUpdate.Run;
+        end; // Update Daily Attendance
+        //changes in employee attendance and activity
+        // EmpAttendActivity.Reset;
+        // EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
+        // EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
+        // if EmpAttendActivity.Find('-') then
+        //     repeat
+        //         LeaveTypeSetup.Get(leave."Leave Code");
+        //         EmpAttendActivity."Absent Day" := 0;
+        //         EmpAttendActivity."Present Day" := 0;
+        //         if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
+        //             if not LeaveTypeSetup."Exclude Non Working Days" then begin
+        //                 EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
+        //                 EmpAttendActivity."Week Off Day" := 0;
+        //                 if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
+        //                     EmpAttendActivity."Present Day" := 1;
+        //                     EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
+        //                 end else begin
+        //                     EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
+        //                     EmpAttendActivity."Absent Day" := 1;
+        //                 end;
+        //                 EmpAttendActivity."Leave Day" := 1;
+        //             end;
+        //         end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
+        //             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
+        //                 EmpAttendActivity."Present Day" := 1;
+        //                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
+        //             end else begin
+        //                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
+        //                 EmpAttendActivity."Absent Day" := 1;
+        //             end;
+        //             EmpAttendActivity."Leave Day" := 1;
+        //         end;
+        //         EmpAttendActivity."Tour Day" := 0;
+        //         EmpAttendActivity."Employee Activity Found" := true;
+        //         EmpAttendActivity."Source No." := leave."No.";
+        //         EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
+        //         EmpAttendActivity."Created Datetime" := CurrentDateTime;
+        //         EmpAttendActivity.Modify;
+        //     until EmpAttendActivity.Next = 0;
+        // AttendanceSetup.Get;
+        // Employee.Get(leave."Employee No.");
+        // Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
+        // if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+        //     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+        //         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+        //     else
+        //         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+        // end else
+        //     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+        // Employee.Modify;
+        // HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', hrmgt.GetEmpName(), leave."No.", 0);   //For email
     end;
 
     procedure ApproveCancelledLeave(CancelLeaveCode: Code[20])

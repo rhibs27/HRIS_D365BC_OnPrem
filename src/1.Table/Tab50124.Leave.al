@@ -48,6 +48,7 @@ table 50124 Leave
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On", EmpVar."Deputation on");
+                    Validate("Deputation On Code", EmpVar."Deputation On Code");
                     Validate("Contact No.", EmpVar."Mobile Phone No.");
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Branch Name", EmpVar."Branch Name");
@@ -576,6 +577,10 @@ table 50124 Leave
         field(62; "Form Journal"; Boolean)
         {
 
+        }
+        field(63; "Deputation On Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
         }
         field(100; "Status"; Text[20])
         {

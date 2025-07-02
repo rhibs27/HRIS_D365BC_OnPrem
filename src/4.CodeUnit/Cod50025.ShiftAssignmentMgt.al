@@ -57,6 +57,29 @@ codeunit 50025 "Shift Assignment Mgt"
         end;
     end;
 
+    procedure SubstituteShiftLine(Var ShiftAssignmentLine: Record "Shift Line"; EmployeeNo: Code[20]; Remarks: Text)
+    var
+        ShiftAssignLine: Record "Shift Line";
+    begin
+        ShiftAssignLine.Init();
+        ShiftAssignLine.Validate("No.", ShiftAssignmentLine."No.");
+        ShiftAssignLine.Validate("Type", ShiftAssignLine."Type"::"Shift Assignment");
+        ShiftAssignLine.Validate("Approval Status", ShiftAssignLine."Approval Status"::"Pending");
+        ShiftAssignLine.Validate("Employee Work Shift", ShiftAssignmentLine."Employee Work Shift");
+        ShiftAssignLine.Validate("Deputation Type", ShiftAssignmentLine."Deputation Type");
+        ShiftAssignLine.Validate("Deputation Code", ShiftAssignmentLine."Deputation Code");
+        ShiftAssignLine.Validate("Employee No", EmployeeNo);
+        ShiftAssignLine.Validate("Roster Date", ShiftAssignmentLine."Roster Date");
+        ShiftAssignLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::"Added as Substitute");
+        ShiftAssignLine.Validate("Substitute of Line No.", ShiftAssignmentLine."Line No");
+        ShiftAssignLine.Validate(Remarks, Remarks);
+        GetLineNo(ShiftAssignLine);
+        ShiftAssignLine.Insert();
+        ShiftAssignmentLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::Substituted);
+        ShiftAssignmentLine.Modify();
+        Message('%1 is Successfully Substituted by %2', ShiftAssignmentLine."Employee Name", ShiftAssignLine."Employee Name");
+    end;
+
     procedure GetLineNo(var ShiftAssignLine: Record "shift Line")
     var
         ShiftLine: Record "Shift Line";
@@ -115,6 +138,21 @@ codeunit 50025 "Shift Assignment Mgt"
             ApproverMgt.InsertApproval(ShiftAssignmentHeader."Employee No.", DocumentNo, ShiftAssignmentHeader."Type"::"Shift Assignment", ShiftAssignmentHeader."Approval Status"::open);
         end;
 
+    end;
+
+    procedure ValidateEmployeeOnDate(var LineRec: Record "Shift Line")
+    var
+        Shiftline: Record "Shift Line";
+    begin
+
+        Shiftline.SetRange(Type, LineRec.Type::"Shift Assignment");
+        Shiftline.SetRange("No.", LineRec."No.");
+        Shiftline.SetRange("Employee No", LineRec."Employee No");
+        Shiftline.SetRange("Roster Date", LineRec."Roster Date");
+        Shiftline.SetFilter("Line No", '<>%1', LineRec."Line No");
+
+        if Shiftline.FindFirst() then
+            Error('Employee %1 is already scheduled on %1 at Line No. %2', LineRec."Employee Name", LineRec."Roster Date", Shiftline."Line No");
     end;
 
     var

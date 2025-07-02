@@ -26,8 +26,12 @@ table 50118 "Shift Line"
             var
                 Employee: Record Employee;
             begin
-                if Employee.get("Employee No") then
+                if Employee.get("Employee No") then begin
                     Validate("Employee Name", Employee."Full Name");
+                    Validate("Deputation Type", Employee."Deputation On");
+                    Validate("Deputation Code", Employee."Deputation On Code");
+                end;
+                TestField("Employee No");
             end;
         }
         field(5; "Employee Name"; Text[100])
@@ -38,6 +42,10 @@ table 50118 "Shift Line"
         field(6; "Roster Date"; Date)
         {
             Caption = 'Roster Date';
+            trigger OnValidate()
+            begin
+                ValidateShiftDate(Rec);
+            end;
         }
         field(7; "Approved Date"; Date)
         {
@@ -51,6 +59,11 @@ table 50118 "Shift Line"
         {
             Caption = 'Employee Work Shift';
             TableRelation = "Employee Work Shift".Code;
+            trigger OnValidate()
+            var
+            begin
+                TestField("Employee Work Shift");
+            end;
         }
         field(10; Remarks; Text[100])
         {
@@ -75,6 +88,15 @@ table 50118 "Shift Line"
         {
             Editable = false;
         }
+        field(14; "Substitute Type"; Enum "Allowance Substitute")
+        {
+            InitValue = '';
+            Editable = false;
+        }
+        field(15; "Substitute of Line No."; Integer)
+        {
+            Editable = false;
+        }
     }
     keys
     {
@@ -83,7 +105,52 @@ table 50118 "Shift Line"
             Clustered = true;
         }
     }
+
+    trigger OnInsert()
+    begin
+        Validate("Approval Status", "Approval Status"::Open);
+
+    end;
+
     var
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
+
+        ShiftMgn: Codeunit "Shift Assignment Mgt";
+
+
+    local procedure ValidateShiftDate(var LineRec: Record "Shift Line")
+    var
+        ShiftLine: Record "Shift Line";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
+    begin
+        if (LineRec."Employee No" = '') or (LineRec."Roster Date" = 0D) then
+            exit;
+
+        if not ShiftAssignmentHeader.Get(LineRec."No.") then
+            Error('Shift Assignment Header %1 does not exist', LineRec."No.");
+
+        ShiftAssignmentHeader.TestField("From Date");
+        ShiftAssignmentHeader.TestField("To Date");
+
+        if (LineRec."Roster Date" < ShiftAssignmentHeader."From Date") or
+           (LineRec."Roster Date" > ShiftAssignmentHeader."To Date") then
+            Error('Roster Date %1 is not within the allowed period %2 to %3',
+                  LineRec."Roster Date",
+                  ShiftAssignmentHeader."From Date",
+                  ShiftAssignmentHeader."To Date");
+
+        ShiftLine.Reset();
+        ShiftLine.SetRange(Type, ShiftLine.Type::"Shift Assignment");
+        ShiftLine.SetRange("No.", LineRec."No.");
+        ShiftLine.SetRange("Employee No", LineRec."Employee No");
+        ShiftLine.SetRange("Roster Date", LineRec."Roster Date");
+        ShiftLine.SetFilter("Line No", '<>%1', LineRec."Line No");
+
+        if ShiftLine.FindFirst() then
+            Error('Employee %1 is already scheduled on %2 at Line No. %3',
+                  LineRec."Employee No",
+                  LineRec."Roster Date",
+                  ShiftLine."Line No");
+    end;
 }

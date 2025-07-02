@@ -145,7 +145,7 @@ page 50065 "HR Budgeting"
         FieldNo: Integer;
         DescFieldNo: Integer;
         HrMgt: Codeunit "HR Mgt.";
-        OrganizationStructure: Enum "Organization Structure list";
+        OrganizationStructure: Enum "Deputation Type";
         OrganizationStructureList: Record "Organization Structure List";
     begin
         if DeputationOn = DeputationOn::" " then

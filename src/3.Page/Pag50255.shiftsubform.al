@@ -12,6 +12,12 @@ page 50255 "Shift subform"
         {
             repeater(General)
             {
+                field(lineNo; Rec."Line No")
+                {
+                    ToolTip = 'Specifies the value of the Line No field.', Comment = '%';
+                    Caption = 'Line No';
+                    ApplicationArea = All;
+                }
                 field(employeeNo; Rec."Employee No")
                 {
                     ToolTip = 'Specifies the value of the Employee No field.', Comment = '%';
@@ -42,6 +48,18 @@ page 50255 "Shift subform"
                     Caption = 'Remarks';
                     ApplicationArea = all;
                 }
+                field(substituteType; Rec."Substitute Type")
+                {
+                    ToolTip = 'Specifies the value of the Is Substitute field.';
+                    ApplicationArea = All;
+                    Caption = 'Substitute Type';
+                }
+                field(substituteOfLineNo; Rec."Substitute of Line No.")
+                {
+                    ToolTip = 'Specifies the value of the Substitute of Line No. field.';
+                    ApplicationArea = All;
+                    Caption = 'Substitute of Line No.';
+                }
                 field(approvalStatus; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
@@ -60,6 +78,7 @@ page 50255 "Shift subform"
                 Image = Insert;
                 ToolTip = 'Executes the Shift Assignment action.';
                 ApplicationArea = All;
+                Visible = DocumentOpen;
                 trigger OnAction()
                 var
                     FilterPage: FilterPageBuilder;
@@ -83,14 +102,86 @@ page 50255 "Shift subform"
                                 ShiftLine.SetView(FilterPage.GetView('Select Employee Details'));
                                 Evaluate(EmployeeCode, ShiftLine.GetFilter("Employee No"));
                             end;
+                            ShiftAssignmentMgt.ValidateEmployeeOnDate(ShiftLine);
                             ShiftAssignmentMgt.InsertShiftLine(rec."No.", EmployeeCode, ShiftLine.GetFilter("Employee Work Shift"), ShiftAssignmentHeader."From Date", ShiftAssignmentHeader."To Date");
                             CurrPage.Update();
                         end;
                 end;
             }
+            action(Substitute)
+            {
+                Image = Refresh;
+                ToolTip = 'Executes the Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentApproved;
+                trigger OnAction()
+                var
+                    ShiftLine: Record "Shift Line";
+                    FilterPage: FilterPageBuilder;
+                    EmployeeCode: Code[20];
+                    Remarks: Text;
+                begin
+                    Rec.TestField("Substitute type", rec."Substitute Type"::" ");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    ShiftLine.Reset();
+                    ShiftLine.SetRange("Deputation Code", rec."Deputation Code");
+                    ShiftLine.SetRange("Deputation Type", rec."Deputation Type");
+                    FilterPage.AddRecord('Select Employee Details', ShiftLine);
+                    FilterPage.AddField('Select Employee Details', ShiftLine."Employee No");
+                    FilterPage.AddField('Select Employee Details', ShiftLine.Remarks);
+                    if FilterPage.RunModal() then begin
+                        ShiftLine.SetView(FilterPage.GetView('Select Employee Details'));
+                        Evaluate(EmployeeCode, ShiftLine.GetFilter("Employee No"));
+                        Evaluate(Remarks, ShiftLine.GetFilter(Remarks));
+                    end;
+                    if Rec."Employee No" = EmployeeCode then
+                        Error('You cannot substitute Same Employee');
+                    ShiftAssignmentMgt.SubstituteShiftLine(rec, EmployeeCode, Remarks);
+                end;
+            }
+            action("Approve Substitute")
+            {
+                Image = Approve;
+                ToolTip = 'Executes the Approve Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentApproved;
+                trigger OnAction()
+                var
+                    AllowanceLine1: Record "Allowance Assignment Line";
+                begin
+                    Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
+                    Rec.Modify();
+                    Message('Substitute Allowance is Approved');
+                end;
+            }
+            action("Reject Substitute")
+            {
+                Image = Reject;
+                ToolTip = 'Executes the Reject Substitute action.';
+                ApplicationArea = All;
+                Visible = DocumentApproved;
+                trigger OnAction()
+                var
+                    Shiftline1: Record "Shift Line";
+                begin
+                    Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
+                    Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
+                    if Shiftline1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
+                        Shiftline1."Substitute Type" := Rec."Substitute Type"::" ";
+                        Shiftline1."Approved Date" := Today;
+                        Shiftline1.Modify();
+                    end;
+                    rec.Modify();
+                    Message('Substituted shift is Rejected');
+                end;
+            }
         }
 
     }
+
     trigger OnOpenPage()
     begin
         SetLayout
@@ -98,7 +189,7 @@ page 50255 "Shift subform"
 
     trigger OnAfterGetRecord()
     begin
-
+        SetLayout();
         if not GuiAllowed then
             if ShiftAssignmentHeader.Get(rec."No.") then
                 if not (ShiftAssignmentHeader."Employee No." = HRMgt.GetEmployeeNo()) then
@@ -124,11 +215,11 @@ page 50255 "Shift subform"
 
     local procedure SetLayout()
     var
-        AllowanceHeader: Record "Allowance Assignment Header";
+        ShiftAssignmentHeader: Record "Shift Assignment Header";
     begin
-        if AllowanceHeader.Get(rec."No.") then begin
-            DocumentOpen := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Open;
-            DocumentApproved := AllowanceHeader."Approval Status" = AllowanceHeader."Approval Status"::Approved;
+        if ShiftAssignmentHeader.Get(rec."No.") then begin
+            DocumentOpen := ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Open;
+            DocumentApproved := ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Approved;
         end;
     end;
 

@@ -22,6 +22,7 @@ query 50032 "Shift Line Approval Query"
                 column(no; "No.") { }
                 column(lineNo; "Line No") { }
                 column(employeeName; "Employee Name") { }
+                column(employeeNo; "Employee No") { }
                 column(rosterDate; "Roster Date") { }
                 column(deputationType; "Deputation Type") { }
                 column(employeeWorkShift; "Employee Work Shift") { }

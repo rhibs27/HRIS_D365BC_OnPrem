@@ -299,16 +299,26 @@ codeunit 50015 "OverTime Mgt"
         EndTime: Time;
         StandardWorkingHrs: Decimal;
         ActualOTHrs: Decimal;
-        RejectionRemarks: Text;
+        EmployeeWorkShift, RejectionRemarks : Text;
+        ShiftLine: Record "Shift Line";
     // SalaryLevel: Record "Salary Level";
     // SalaryLevelTxt: Text;
     begin
         // if not UpdateOvertime then
         //     exit;
-        Employee.Get(OverTime."Employee No.");
-        // Workshift.Reset;
-        WorkShift.get(Employee."Employee Work Shift");
-        // Workshift.FindFirst;
+        ShiftLine.Reset();
+        ShiftLine.SetRange("Employee No", OverTime."Employee No.");
+        ShiftLine.SetRange("Roster Date", OverTime."Start Date");
+        ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+        if ShiftLine.FindFirst() then
+            EmployeeWorkShift := ShiftLine."Employee Work Shift"
+        else begin
+            Employee.Get(OverTime."Employee No.");
+            EmployeeWorkShift := Employee."Employee Work Shift"
+        end;
+        Workshift.Reset;
+        if not WorkShift.get(EmployeeWorkShift) then
+            Error('Work shift not Found in Employee WorkShift');
         Workshift.TestField("Start Time");
         Workshift.TestField("End Time");
         Workshift.TestField("Friday End Time");
@@ -480,17 +490,14 @@ codeunit 50015 "OverTime Mgt"
     procedure GetOvertimeLineDetails(OvertimeNo: Code[20])
     var
         WorkShift: Record "Employee Work Shift";
-        StartTime: Time;
-        EndTime: Time;
-        StandardWorkingHrs: Decimal;
-        ActualOTHrs: Decimal;
-        MorningOTHrs: Decimal;
-        EveningOTHrs: Decimal;
-        CheckInDifference: Decimal;
-        TotalOTHrs: Decimal;
+        StartTime, EndTime : Time;
+        ActualOTHrs, MorningOTHrs, EveningOTHrs, StandardWorkingHrs : Decimal;
+        CheckInDifference, TotalOTHrs : Decimal;
         OvertimeLine: Record "Overtime Line";
         IsHandled: Boolean;
         Overtime: Record OverTime;
+        ShiftLine: Record "Shift Line";
+        EmployeeWorkShift: Text;
     begin
         Overtime.Reset;
         Overtime.Get(OvertimeNo);
@@ -499,19 +506,29 @@ codeunit 50015 "OverTime Mgt"
         OvertimeLine.SetRange("No.", OvertimeNo);
         if OvertimeLine.FindSet() then
             repeat
-                Employee.Get(OvertimeLine."Employee Code");
-                if WorkShift.get(Employee."Employee Work Shift") then begin
-                    Workshift.TestField("Start Time");
-                    Workshift.TestField("End Time");
-                    Workshift.TestField("Friday End Time");
-                    Workshift.TestField("Winter Start Date");
-                    Workshift.TestField("Winter End Date");
-                    Workshift.TestField("Winter End Time");
-                    StartTime := 0T;
-                    EndTime := 0T;
-                    StandardWorkingHrs := 0;
-                    StartTime := WorkShift."Start Time";
+                ShiftLine.Reset();
+                ShiftLine.SetRange("Employee No", OverTime."Employee No.");
+                ShiftLine.SetRange("Roster Date", OverTime."Start Date");
+                ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
+                if ShiftLine.FindFirst() then
+                    EmployeeWorkShift := ShiftLine."Employee Work Shift"
+                else begin
+                    Employee.Get(OverTime."Employee No.");
+                    EmployeeWorkShift := Employee."Employee Work Shift"
                 end;
+                Workshift.Reset;
+                if not WorkShift.get(EmployeeWorkShift) then
+                    Error('Work shift not Found in Employee WorkShift');
+                Workshift.TestField("Start Time");
+                Workshift.TestField("End Time");
+                Workshift.TestField("Friday End Time");
+                Workshift.TestField("Winter Start Date");
+                Workshift.TestField("Winter End Date");
+                Workshift.TestField("Winter End Time");
+                StartTime := 0T;
+                EndTime := 0T;
+                StandardWorkingHrs := 0;
+                StartTime := WorkShift."Start Time";
                 if HRMgt.IsWinter(OvertimeLine."Overtime Date", Workshift) then begin
                     if HRMgt.IsFriday(OvertimeLine."Overtime Date") then
                         EndTime := WorkShift."Friday End Time"

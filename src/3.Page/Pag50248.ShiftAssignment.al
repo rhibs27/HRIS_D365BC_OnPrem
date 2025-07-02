@@ -21,7 +21,7 @@ page 50248 "Shift Assignment"
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                 }
-                field("Deputation Name"; Rec."Deputation Name")
+                field("Deputation Name"; Rec."Deputation code")
                 {
                     ToolTip = 'Specifies the value of the Deputation Name field.', Comment = '%';
                 }
