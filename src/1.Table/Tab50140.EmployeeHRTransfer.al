@@ -49,6 +49,7 @@ table 50140 "Employee Transfer"
                     Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Deputation on Code", EmpVar."Deputation On Code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
+                    Validate("Salary Level Name", EmpVar."Salary Level Description");
                     Validate("Functional Title", EmpVar."Functional Title");
                     Validate("Functional Title Desc", EmpVar."Functional Title Desc");
                     Validate("Unit Code", EmpVar."Unit Code");
@@ -888,6 +889,10 @@ table 50140 "Employee Transfer"
         field(201; "Requested Province Name"; Text[100])
         {
             DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(202; "Salary Level Name"; Text[100])
+        {
             Editable = false;
         }
     }
