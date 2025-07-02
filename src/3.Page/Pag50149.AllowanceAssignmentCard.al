@@ -221,7 +221,7 @@ page 50149 "Allowance Assignment Card"
                 PromotedOnly = true;
                 ToolTip = 'Shows Allowance Assignment Summary Report';
                 ApplicationArea = All;
-                Visible = Rec."Approval Status" <> Rec."Approval Status"::Open;
+                // Visible = IsOpen;
 
                 //Visible = IsPending;
                 trigger OnAction()
