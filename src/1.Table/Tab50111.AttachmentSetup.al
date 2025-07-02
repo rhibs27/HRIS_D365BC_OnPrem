@@ -58,8 +58,12 @@ table 50111 "Attachment Setup"
         }
         field(12; "Max File Size"; Integer)
         {
-
         }
+        field(13; "Transfer Claim Attributes"; Code[20])
+        {
+            TableRelation = "Payroll Attributes".Code where("Activity Type" = const("Attachment Setup Type"::"Transfer Claim"));
+        }
+
     }
 
     keys
