@@ -13,6 +13,7 @@ table 50118 "Shift Line"
         field(2; "Line No"; Integer)
         {
             Caption = 'Line No';
+            Editable = false;
         }
         field(3; "Type"; Enum "Employee Activity Type")
         {
@@ -21,17 +22,17 @@ table 50118 "Shift Line"
         field(4; "Employee No"; Code[20])
         {
             Caption = 'Employee No';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation Code"));
+            TableRelation = if ("Deputation Type" = filter("Deputation Type"::Branch)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::Department)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::Unit)) Employee."No." where("Unit Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) Employee."No." where("Extension Counter Code" = field("Deputation Code"));
             trigger OnValidate()
             var
                 Employee: Record Employee;
             begin
                 if Employee.get("Employee No") then begin
                     Validate("Employee Name", Employee."Full Name");
-                    Validate("Deputation Type", Employee."Deputation On");
-                    Validate("Deputation Code", Employee."Deputation On Code");
                 end;
-                TestField("Employee No");
             end;
         }
         field(5; "Employee Name"; Text[100])
@@ -44,16 +45,18 @@ table 50118 "Shift Line"
             Caption = 'Roster Date';
             trigger OnValidate()
             begin
-                ValidateShiftDate(Rec);
+                ValidateShiftDate();
             end;
         }
         field(7; "Approved Date"; Date)
         {
             Caption = 'Approved Date';
+            Editable = false;
         }
         field(8; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
+            Editable = false;
         }
         field(9; "Employee Work Shift"; Code[10])
         {
@@ -119,38 +122,26 @@ table 50118 "Shift Line"
         ShiftMgn: Codeunit "Shift Assignment Mgt";
 
 
-    local procedure ValidateShiftDate(var LineRec: Record "Shift Line")
+    local procedure ValidateShiftDate()
     var
         ShiftLine: Record "Shift Line";
         ShiftAssignmentHeader: Record "Shift Assignment Header";
     begin
-        if (LineRec."Employee No" = '') or (LineRec."Roster Date" = 0D) then
+        if ("Employee No" = '') or ("Roster Date" = 0D) then
             exit;
-
-        if not ShiftAssignmentHeader.Get(LineRec."No.") then
-            Error('Shift Assignment Header %1 does not exist', LineRec."No.");
-
+        if not ShiftAssignmentHeader.Get("No.") then
+            Error('Shift Assignment Header %1 does not exist', "No.");
         ShiftAssignmentHeader.TestField("From Date");
         ShiftAssignmentHeader.TestField("To Date");
-
-        if (LineRec."Roster Date" < ShiftAssignmentHeader."From Date") or
-           (LineRec."Roster Date" > ShiftAssignmentHeader."To Date") then
-            Error('Roster Date %1 is not within the allowed period %2 to %3',
-                  LineRec."Roster Date",
-                  ShiftAssignmentHeader."From Date",
-                  ShiftAssignmentHeader."To Date");
-
+        if ("Roster Date" < ShiftAssignmentHeader."From Date") or ("Roster Date" > ShiftAssignmentHeader."To Date") then
+            Error('Roster Date %1 is not within the allowed period %2 to %3', "Roster Date", ShiftAssignmentHeader."From Date", ShiftAssignmentHeader."To Date");
         ShiftLine.Reset();
         ShiftLine.SetRange(Type, ShiftLine.Type::"Shift Assignment");
-        ShiftLine.SetRange("No.", LineRec."No.");
-        ShiftLine.SetRange("Employee No", LineRec."Employee No");
-        ShiftLine.SetRange("Roster Date", LineRec."Roster Date");
-        ShiftLine.SetFilter("Line No", '<>%1', LineRec."Line No");
-
+        ShiftLine.SetRange("No.", "No.");
+        ShiftLine.SetRange("Employee No", "Employee No");
+        ShiftLine.SetRange("Roster Date", "Roster Date");
+        ShiftLine.SetFilter("Line No", '<>%1', "Line No");
         if ShiftLine.FindFirst() then
-            Error('Employee %1 is already scheduled on %2 at Line No. %3',
-                  LineRec."Employee No",
-                  LineRec."Roster Date",
-                  ShiftLine."Line No");
+            Error('Employee %1 is already scheduled on %2 at Line No. %3', "Employee No", "Roster Date", ShiftLine."Line No");
     end;
 }

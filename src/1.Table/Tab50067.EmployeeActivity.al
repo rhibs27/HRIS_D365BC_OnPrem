@@ -2246,7 +2246,7 @@ table 50067 "Employee Activity"
                     IncomingDocument.SetRange("No.", "No.");
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
-                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
+                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Employee Transfer");
                     AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
                     if AttachmentMandatory.FindFirst then
                         repeat

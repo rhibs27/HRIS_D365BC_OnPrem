@@ -1047,7 +1047,7 @@ codeunit 50005 "Transfer Mgt."
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Transfer);
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Travel Request");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then
