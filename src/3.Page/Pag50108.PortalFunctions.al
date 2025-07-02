@@ -1854,7 +1854,8 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure uploadAttachment(docNo: Code[20]; entryNo: Integer; fname: Text; ext: Text): Text
     var
-        IncomingDoc: Record "Incoming Document";
+        IncomingDoc, IncomingDoc1 : Record "Incoming Document";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
         DocFoundEmpActivity, DocFoundEmpLoan, DocFoundEmpLeave, DocFoundInsurance : Boolean;
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
@@ -1930,11 +1931,14 @@ page 50108 "Portal Functions"
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
         // AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
         // AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
-        IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
+        // IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
+        IncomingDoc1.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
         // File.CREATE(ServerFilePath);       // Create the file on the server
         // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
         // CopyStream(OutStream, InStream);  // Write the data
         // File.CLOSE;
+        Commit();
+        IncomingDoc1.get(entryNo);
         IncomingDoc."File Name" := CleanedFileName;
         IncomingDoc.MODIFY;
         // IncomingDoc.ImportAttachment(IncomingDoc);
