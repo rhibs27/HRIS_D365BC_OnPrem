@@ -93,8 +93,13 @@ page 50255 "Shift subform"
                 begin
                     IF ShiftAssignmentHeader.Get(Rec."No.") THEN
                         if ShiftAssignmentHeader."Approval Status" = ShiftAssignmentHeader."Approval Status"::Open then begin
-                            ShiftLine.SetRange("Deputation Code", ShiftAssignmentHeader."Deputation Code");
-                            ShiftLine.SetRange("Deputation Type", ShiftAssignmentHeader."Deputation Type");
+                            if ShiftAssignmentHeader."Deputation Sub Type" = ShiftAssignmentHeader."Deputation Sub Type"::" " then begin
+                                ShiftLine.SetRange("Deputation Code", ShiftAssignmentHeader."Deputation Code");
+                                ShiftLine.SetRange("Deputation Type", ShiftAssignmentHeader."Deputation Type");
+                            end else begin
+                                ShiftLine.SetRange("Deputation Code", ShiftAssignmentHeader."Deputation Sub Type Code");
+                                ShiftLine.SetRange("Deputation Type", ShiftAssignmentHeader."Deputation Sub Type");
+                            end;
                             FilterPage.AddRecord('Select Employee Details', ShiftLine);
                             FilterPage.AddField('Select Employee Details', ShiftLine."Employee No");
                             FilterPage.AddField('Select Employee Details', ShiftLine."Employee Work Shift");
@@ -201,8 +206,13 @@ page 50255 "Shift subform"
         ShiftAssignmentHeader: Record "Shift Assignment Header";
     begin
         if ShiftAssignmentHeader.Get(Rec."No.") then begin
-            Rec.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Type");
-            rec.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Code");
+            if ShiftAssignmentHeader."Deputation Sub Type" = ShiftAssignmentHeader."Deputation Sub Type"::" " then begin
+                Rec.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Type");
+                Rec.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Code");
+            end else begin
+                Rec.Validate("Deputation Type", ShiftAssignmentHeader."Deputation Sub Type");
+                Rec.Validate("Deputation Code", ShiftAssignmentHeader."Deputation Sub Type Code");
+            end;
         end;
     end;
 

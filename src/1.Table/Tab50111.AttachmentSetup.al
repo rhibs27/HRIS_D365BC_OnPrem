@@ -53,7 +53,7 @@ table 50111 "Attachment Setup"
             trigger OnValidate()
             begin
                 if "Transfer Category" <> xRec."Transfer Category" then
-                    TestField(Type, Type::Transfer);
+                    TestField(Type, Type::"Employee Transfer");
             end;
         }
         field(12; "Max File Size"; Integer)
