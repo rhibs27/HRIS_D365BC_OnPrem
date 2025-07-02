@@ -2,7 +2,7 @@ page 50066 "Transfer Card"
 {
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
     // //Min 12.11.2022 -- for uneditable transfer effective date
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout
@@ -845,7 +845,7 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 var
-                    EmployeeTransfer: Record "Employee/HR Transfer";
+                    EmployeeTransfer: Record "Employee Transfer";
                     PageTransferHistory: Page "Employee Transfer Requests";
                 begin
                     EmployeeTransfer.Reset;

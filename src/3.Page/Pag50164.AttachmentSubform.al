@@ -118,7 +118,7 @@ page 50164 "Attachment Subform"
                 trigger OnAction()
                 var
                     Employee: Record Employee;
-                    EmployeeTransfer: Record "Employee/HR Transfer";
+                    EmployeeTransfer: Record "Employee Transfer";
                 //EmpAct: Record "Employee Activity";
                 begin
                     if EmpLoan.Get(Rec."No.") then begin //loan controls 

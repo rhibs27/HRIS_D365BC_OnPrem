@@ -8,7 +8,7 @@ page 50094 "HR Transfer Requests"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     SourceTableView = WHERE(Type = CONST("HR Transfer"));
     UsageCategory = Lists;
     ApplicationArea = All;

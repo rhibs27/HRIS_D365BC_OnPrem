@@ -6,7 +6,7 @@ page 50109 "Employee Transfer Requests"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     UsageCategory = Lists;
     ApplicationArea = All;
 

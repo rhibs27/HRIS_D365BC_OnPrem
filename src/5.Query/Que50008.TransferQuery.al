@@ -44,7 +44,7 @@ query 50008 "Transfer Query"
                 {
 
                 }
-                dataitem(EmployeeTransfer; "Employee/HR Transfer")
+                dataitem(EmployeeTransfer; "Employee Transfer")
                 {
                     DataItemLink = "No." = ApprovalHRMS."Document No.";
                     // column(number; "No.") { }

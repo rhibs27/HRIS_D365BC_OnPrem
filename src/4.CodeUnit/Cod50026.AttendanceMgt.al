@@ -56,10 +56,11 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
-            if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
-                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
-            else
-                Clear(AttendanceLine."Check Out Time");
+            if AttendanceLine."Check In Time" <> AttendanceLog."Log Time" then
+                if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
+                    AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
+                else
+                    Clear(AttendanceLine."Check Out Time");
         end;
 
         EngNep.Reset; //Min 1.25.2023

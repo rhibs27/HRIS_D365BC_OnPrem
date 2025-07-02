@@ -225,7 +225,7 @@ report 50048 "Attendance Update Job Queue"
         HRSetup: Record "Human Resources Setup";
         PRSetup: Record "Payroll General Setup";
         //EmployeeActivity: Record "Employee Activity";
-        Transfer: Record "Employee/HR Transfer";
+        Transfer: Record "Employee Transfer";
         RejectionRemarks: Text;
         [InDataSet]
         ReinstateTransfer: Boolean;
@@ -233,7 +233,7 @@ report 50048 "Attendance Update Job Queue"
         SyncEmployees: Boolean;
         GeneralTransferUpdate: Boolean;
         //EmployeeActivityRec: Record "Employee Activity";
-        TransferRec: Record "Employee/HR Transfer";
+        TransferRec: Record "Employee Transfer";
         EmployeeServiceHistory: Record "Employee Service History";
         SalaryLevelGradeUpdate: Boolean;
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
@@ -461,7 +461,7 @@ report 50048 "Attendance Update Job Queue"
         ServiceHistory: Record "Employee Service History";
         ServiceCode: Code[20];
         //EmpActivity: Record "Employee Activity";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         PreviousServiceHistory: Record "Employee Service History";
     begin
         Transfer.Reset;

@@ -42,7 +42,7 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure PostTransferInBulk(EmpActNo: Code[20])
     var
-        TransferRequest, EmphrTransfer : Record "Employee/HR Transfer";
+        TransferRequest, EmphrTransfer : Record "Employee Transfer";
         PostedEmployeeTransfer: Record "Posted Employee Journal";
         TransferEmployeeJournal: Record "Employee Activity Journal";
     begin
