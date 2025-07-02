@@ -63,6 +63,7 @@ table 50111 "Attachment Setup"
         {
             TableRelation = "Payroll Attributes".Code where("Activity Type" = const("Attachment Setup Type"::"Transfer Claim"));
         }
+
     }
 
     keys
