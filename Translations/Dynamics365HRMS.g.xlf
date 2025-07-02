@@ -993,6 +993,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Transfer Category - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1955267922 - Field 3133331050 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim Attributes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attachment Setup - Field Transfer Claim Attributes - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1955267922 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21917,6 +21922,11 @@
           <source>Specifies the value of the Transfer Category field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Setup - Control Transfer Category - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1955267922 - Control 3133331050 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Speficies the value of the Payroll Attributes for attachment of Transfer Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attachment Setup - Control Transfer Claim Attributes - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1955267922 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Type field.</source>

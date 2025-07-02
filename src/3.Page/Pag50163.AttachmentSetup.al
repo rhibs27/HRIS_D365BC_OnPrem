@@ -32,6 +32,11 @@ page 50163 "Attachment Setup"
                     ToolTip = 'Specifies the value of the Leave Type Code field.';
                     ApplicationArea = All;
                 }
+                field("Transfer Claim Attributes"; Rec."Transfer Claim Attributes")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Speficies the value of the Payroll Attributes for attachment of Transfer Claim';
+                }
                 field("Purpose of Housing Loan"; Rec."Purpose of Housing Loan")
                 {
                     ToolTip = 'Specifies the value of the Purpose of Housing Loan field.';
