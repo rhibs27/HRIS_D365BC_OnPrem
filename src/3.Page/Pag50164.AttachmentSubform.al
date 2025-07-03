@@ -21,7 +21,6 @@ page 50164 "Attachment Subform"
                 field(number; Rec."No.")
                 {
                     Editable = not isGUIAllowed;
-                    // Enabled = true;
                     Visible = false;
                     ToolTip = 'Specifies the value of the No. field.';
                     ApplicationArea = All;
@@ -33,16 +32,8 @@ page 50164 "Attachment Subform"
                     ToolTip = 'Specifies the value of the File Name field.';
                     ApplicationArea = All;
                     Caption = 'File Name';
-                    // trigger OnAssistEdit()
-                    // begin
-                    //     if Confirm('Do You Want to Download Attachment?', false) then
-                    //         LoanMgt.DownloadAttachment(Rec);
-                    // end;
-
                     trigger OnDrillDown()
                     begin
-                        // if Confirm('Do You Want to Download Attachment?', false) then
-                        //     LoanMgt.DownloadAttachment(Rec);
                         PreviewAttachment.PreviewAttachment(returnAttachmentBase64(Rec."No.", Rec."Entry No."));
                         PreviewAttachment.Run();
                     end;
@@ -52,11 +43,6 @@ page 50164 "Attachment Subform"
                         PreviewAttachment.PreviewAttachment(returnAttachmentBase64(Rec."No.", Rec."Entry No."));
                         PreviewAttachment.Run();
                     end;
-
-                    // trigger OnValidate() nilesh
-                    // begin
-                    //     Error('Cannot modify.'); nilesh
-                    // end; nilesh
                 }
                 field(type; Rec.Type)
                 {
@@ -119,7 +105,6 @@ page 50164 "Attachment Subform"
                 var
                     Employee: Record Employee;
                     EmployeeTransfer: Record "Employee Transfer";
-                //EmpAct: Record "Employee Activity";
                 begin
                     if EmpLoan.Get(Rec."No.") then begin //loan controls 
                         IF NOT (EmpLoan."Approval Status" IN [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) THEN
@@ -148,15 +133,6 @@ page 50164 "Attachment Subform"
                         AttachmentMgt.UploadAttachment(Rec);
                     end else
                         AttachmentMgt.UploadAttachment(Rec);
-
-                    // if Employee.Get(Rec."Order No.") then //employee controls
-                    //     LoanMgt.UploadAttachment(Rec)
-
-                    // else if EmpAct.Get(Rec."No.") then begin//resignation controls
-                    //                                         //EmpAct.TESTFIELD();
-                    //     LoanMgt.UploadAttachment(Rec)
-                    // end else if EmpAct.Get(Rec."Order No.") then begin
-                    //     LoanMgt.UploadAttachment(Rec); end else
                 end;
             }
             action(Download)
