@@ -23,25 +23,9 @@ codeunit 50020 "Attachment Mgt."
     begin
         // Validate Incoming Document
         IncomingDocument.TestField("Entry No.");
-        DocFoundEmpActivity := false;
-        DocFoundEmpLoan := false;
-        AppraisalDocFound := false;
         if IncomingDocument."File Name" <> '' then
             Error('File already exist. Please remove the file first.');
-        if EmployeeLoanAdvance.Get(IncomingDocument."No.") then begin
-            DocFoundEmpLoan := true;
-            if (EmployeeLoanAdvance."Approval Status" in [EmployeeLoanAdvance."Approval Status"::Pending, EmployeeLoanAdvance."Approval Status"::Approved])
-               and (IncomingDocument."File Name" <> '') then
-                Error('Attachment already exist.');
-        end;
-        if not AppraisalDocFound then begin //Min
-            if AppraisalEmp.Get(IncomingDocument."No.") then begin
-                AppraisalDocFound := true;
-                if (AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed")
-                 and (IncomingDocument."File Name" <> '') then
-                    Error('Attachment already exist.');
-            end;
-        end;
+        CheckDocumentToUploadAttachment(IncomingDocument);
         IncomingDocument.ImportAttachment(IncomingDocument);
         Message('File uploaded successfully');
     end;
@@ -100,31 +84,10 @@ codeunit 50020 "Attachment Mgt."
 
     procedure DeleteAttachment(var IncomingDocument: Record "Incoming Document")
     var
-        EmpLoan: Record "Employee Loan/Advance";
-        EmpInsurance: Record "Employee Insurance Information";
-        AppraisalEmp: Record Appraisal;
-        fileMgt: Codeunit "File Management";
         IncomingDocumentAttachment: Record "Incoming Document Attachment";
         FilePath: text;
-        leave: Record leave;
     begin
-        Employee.Get(IncomingDocument."Employee Code");
-        if EmpLoan.Get(IncomingDocument."No.") then begin
-            EmpLoan.TestField("Approval Status", EmpLoan."Approval Status"::Open);
-            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
-               and (IncomingDocument."File Name" <> '') then
-                Error('Cannot delete attachment.');
-        end else if EmpInsurance.Get(IncomingDocument."No.") then begin
-            if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
-                Error('Cannot delete attachment.');
-        end else if AppraisalEmp.Get(IncomingDocument."No.") then begin //Min
-            if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
-                Error('Cannot delete attachment.');
-        end else if leave.Get(IncomingDocument."No.") then begin //Min
-            if leave."Approval Status" = leave."Approval Status"::Approved then
-                Error('Cannot delete attachment.');
-        end;
-
+        CheckDocumentToDeleteAttachment(IncomingDocument);
         FilePath := IncomingDocument."File Name"; // Ensure this field stores the full file path
         IncomingDocument."File Name" := '';
         IncomingDocument.MODIFY;
@@ -132,9 +95,7 @@ codeunit 50020 "Attachment Mgt."
         IncomingDocumentAttachment.SetRange("Incoming Document Entry No.", IncomingDocument."Entry No.");
         IncomingDocumentAttachment.Findset();
         IncomingDocumentAttachment.DeleteAll();
-
         Message('File successfully deleted.');
-        // end;
     end;
 
     procedure SanitizeFileName(FileName: Text): Text
@@ -195,6 +156,7 @@ codeunit 50020 "Attachment Mgt."
         IncomingDoc."No." := IncomingDoc.GetFilter("No.");
         if IncomingDoc."File Name" <> '' then
             Error('File already exist. Please remove the file first.');
+        CheckDocumentToUploadAttachment(IncomingDoc);
         CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext);
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
@@ -206,4 +168,73 @@ codeunit 50020 "Attachment Mgt."
         IncomingDoc1.MODIFY;
     end;
 
+    procedure ValidateApprovalStatus(RecRef: RecordRef)
+    var
+        EmployeeActivityType: Enum "Employee Activity Type";
+        ApprovalStatusEnum: Enum "Approval Status";
+    begin
+        if RecRef.Field(2).Value in [EmployeeActivityType::"Leave Request", EmployeeActivityType::"Travel Request", EmployeeActivityType::Loan] then
+            if Format(RecRef.Field(16).Value) <> Format(ApprovalStatusEnum::Open) then begin
+                Error('Approval status must be Open.');
+            end;
+    end;
+
+    procedure CheckDocumentToDeleteAttachment(incomingDocument: Record "Incoming Document")
+    var
+        EmpLoan: Record "Employee Loan/Advance";
+        EmployeeTransfer: Record "Employee Transfer";
+        EmpInsurance: Record "Employee Insurance Information";
+        AppraisalEmp: Record Appraisal;
+        leave: Record leave;
+    begin
+        if EmpLoan.Get(IncomingDocument."No.") then begin
+            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Approved])
+               and (IncomingDocument."File Name" <> '') then
+                Error('Cannot delete attachment.');
+        end else if EmpInsurance.Get(IncomingDocument."No.") then begin
+            if EmpInsurance."Approval Status" = EmpInsurance."Approval Status"::Approved then
+                Error('Cannot delete attachment.');
+        end else if AppraisalEmp.Get(IncomingDocument."No.") then begin //Min
+            if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
+                Error('Cannot delete attachment.');
+        end else if leave.Get(IncomingDocument."No.") then begin //Min
+            if leave."Approval Status" = leave."Approval Status"::Approved then
+                Error('Cannot delete attachment.');
+        end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
+            if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
+                if EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Acknowledged then
+                    Error('Acknowledge transfer attachment cannot be deleted.')
+            end else if (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved) then
+                    Error('You are not allowed to Delete attachment');
+        end;
+    end;
+
+    procedure CheckDocumentToUploadAttachment(incomingDocument: Record "Incoming Document")
+    var
+        EmpLoan: Record "Employee Loan/Advance";
+        EmployeeTransfer: Record "Employee Transfer";
+        EmpInsurance: Record "Employee Insurance Information";
+        AppraisalEmp: Record Appraisal;
+        leave: Record leave;
+    begin
+        if EmpLoan.Get(IncomingDocument."No.") then begin
+            if (EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Open, EmpLoan."Approval Status"::" "]) then
+                ERROR('Approval status must be Open.');
+        end else if EmpInsurance.Get(IncomingDocument."No.") then begin
+            if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Approved then
+                ERROR('Approval status must be Open.');
+        end else if AppraisalEmp.Get(IncomingDocument."No.") then begin //Min
+            if AppraisalEmp.Status = AppraisalEmp.Status::"Check Reviewed" then
+                Error('Attachment already exist.');
+        end else if leave.Get(IncomingDocument."No.") then begin //Min
+            if leave."Approval Status" <> leave."Approval Status"::Open then
+                ERROR('Approval status must be Open.')
+        end else if EmployeeTransfer.get(IncomingDocument."No.") then begin
+            if EmployeeTransfer.Type in [EmployeeTransfer.Type::"Employee Transfer", EmployeeTransfer.Type::"HR Transfer"] then begin
+                if not ((EmployeeTransfer."Is Transfer Details Added") and (EmployeeTransfer."Approval Status" = EmployeeTransfer."Approval Status"::Approved)) then
+                    Error('You are not allowed to Upload attachment');
+            end else if EmployeeTransfer."Approval Status" <> EmployeeTransfer."Approval Status"::Open then
+                    ERROR('Approval status must be Open.')
+        end;
+    end;
 }
