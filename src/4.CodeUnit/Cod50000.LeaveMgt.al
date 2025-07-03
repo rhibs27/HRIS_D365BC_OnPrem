@@ -48,15 +48,16 @@ codeunit 50000 "Leave Mgt."
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
         if Type = Type::"Leave Request" then begin
-            LeaveTypeSetup.Get(LeaveCode);
-            if LeaveType = LeaveType::"Full Day" then
-                Difference := 1
-            else
-                Difference := 0.5;
-            if LeaveTypeSetup."Exclude Non Working Days" then
-                exit(EndDate - StartDate + Difference - GetNonWokingDays(StartDate, EndDate, Empcode))
-            else
-                exit(EndDate - StartDate + Difference);
+            if LeaveTypeSetup.Get(LeaveCode) then begin
+                if LeaveType = LeaveType::"Full Day" then
+                    Difference := 1
+                else
+                    Difference := 0.5;
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    exit(EndDate - StartDate + Difference - GetNonWokingDays(StartDate, EndDate, Empcode))
+                else
+                    exit(EndDate - StartDate + Difference);
+            end;
         end else
             exit(EndDate - StartDate + 1);
     end;
@@ -173,11 +174,10 @@ codeunit 50000 "Leave Mgt."
         leave.Reset;
         leave.SetRange("Employee No.", EmpCode);
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
-        leave.SetRange("Fiscal Year", EngNep."Fiscal Year");
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
         leave.SetFilter("Approval Status", '%1|%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
-        if leave.Find('-') then
+        if leave.FindSet() then
             repeat
                 if ((StartDate > leave."Start Date") and (StartDate < leave."End Date")) or
                     ((EndDate > leave."Start Date") and (EndDate < leave."End Date")) then
@@ -817,7 +817,6 @@ codeunit 50000 "Leave Mgt."
         LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
         LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
-        LeaveTable.SetRange("Leave Code", LeaveCode);
         LeaveTable.SetRange("Approval Status", LeaveTable."Approval Status"::Pending);
         if LeaveTable.FindFirst then
             Error(LeaveRequestError, LeaveTable."No.", LeaveTable."Leave Code");

@@ -123,13 +123,15 @@ table 50124 Leave
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
-                if Type = Type::"Leave Request" then
-                    TestField("Leave Code");
-                if "End Date" <> 0D then
-                    Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No."))
-                else begin
-                    Clear("End Date (BS)");
-                    Clear("No. of Days");
+                if GuiAllowed then begin
+                    if Type = Type::"Leave Request" then
+                        TestField("Leave Code");
+                    if "End Date" <> 0D then
+                        Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No."))
+                    else begin
+                        Clear("End Date (BS)");
+                        Clear("No. of Days");
+                    end;
                 end;
             end;
         }
