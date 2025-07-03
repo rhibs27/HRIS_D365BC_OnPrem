@@ -212,6 +212,10 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Deputation on';
                 }
+                field(deputationOnCode; Rec."Deputation on Code")
+                {
+                    Caption = 'Deputation on Code';
+                }
                 field(departmentCode; Rec."Department Code")
                 {
                     Caption = 'Department Code';

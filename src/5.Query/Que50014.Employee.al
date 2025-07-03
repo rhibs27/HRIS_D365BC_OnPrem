@@ -48,6 +48,9 @@ query 50014 Employee
             column(extensionCounterCode; "Extension Counter Code")
             {
             }
+            column(unitCode; "Unit Code")
+            {
+            }
         }
     }
 

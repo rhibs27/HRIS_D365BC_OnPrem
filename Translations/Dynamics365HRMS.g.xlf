@@ -7828,6 +7828,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Salary Level Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3659416491 - Field 622104751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Transfer - Field Salary Level Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3659416491 - Field 3905449566 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Screener Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26392,6 +26397,11 @@
           <source>Deputation on</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control deputationOn - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2894000923 - Control 1899681811 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation on Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Entity - Control deputationOnCode - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2894000923 - Control 663339078 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Disabled</source>
@@ -45233,6 +45243,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationName - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1833431099 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Sub Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationSubType - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1018680064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Sub Type Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationSubTypeCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1156427412 - Control 1999373818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Sub Type Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Shift Assignment Entity - Control deputationSubTypeName - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1156427412 - Control 1117499807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Deputation Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46678,6 +46703,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Salary Level Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1733013553 - Control 622104751 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Salary Level Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Card - Control Salary Level Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1733013553 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47092,6 +47122,11 @@
           <source>Specifies the value of the Salary Level Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Salary Level Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1090393226 - Control 622104751 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Salary Level Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Request Card - Control Salary Level Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1090393226 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Start Date field.</source>
@@ -57008,6 +57043,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Employee Profile - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 905637490 - EnumValue 3659416491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Transfer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Employee Transfer - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3802764173 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Home Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -57072,11 +57112,6 @@
           <source>Salary Advance</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Salary Advance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 905637490 - EnumValue 4224198349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Transfer</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attachment Setup Type - EnumValue Transfer - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 905637490 - EnumValue 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Transfer Claim</source>

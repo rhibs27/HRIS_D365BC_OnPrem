@@ -89,7 +89,7 @@ page 50108 "Portal Functions"
         user.Reset();
         user.SetRange("User Name", UserId);
         user.FindFirst();
-        // WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
+        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         //check for transfer
         /*TransferVar.RESET; //Min -- commented since it was manage through approved, ack action and job queue.
         TransferVar.SETRANGE("Employee No.",Employee."No.");
