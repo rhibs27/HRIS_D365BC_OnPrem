@@ -141,10 +141,9 @@ codeunit 50020 "Attachment Mgt."
         end;
         exit(CleanedFileName);
     end;
-
+    // For Upload from Portal API
     procedure uploadAttachment(Var IncomingDoc: Record "Incoming Document"; fname: Text; ext: Text): Text
     var
-        IncomingDoc1: Record "Incoming Document";
         IncomingDocAttachment: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
         base64: Codeunit "Base64 Convert";
@@ -156,27 +155,13 @@ codeunit 50020 "Attachment Mgt."
         IncomingDoc."No." := IncomingDoc.GetFilter("No.");
         if IncomingDoc."File Name" <> '' then
             Error('File already exist. Please remove the file first.');
-        CheckDocumentToUploadAttachment(IncomingDoc);
         CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext);
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
         IncomingDoc.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
-        Commit();
-        IncomingDoc1.Get(IncomingDoc."Entry No.");
-        IncomingDoc1."File Name" := CleanedFileName;
-        IncomingDoc1.MODIFY;
-    end;
-
-    procedure ValidateApprovalStatus(RecRef: RecordRef)
-    var
-        EmployeeActivityType: Enum "Employee Activity Type";
-        ApprovalStatusEnum: Enum "Approval Status";
-    begin
-        if RecRef.Field(2).Value in [EmployeeActivityType::"Leave Request", EmployeeActivityType::"Travel Request", EmployeeActivityType::Loan] then
-            if Format(RecRef.Field(16).Value) <> Format(ApprovalStatusEnum::Open) then begin
-                Error('Approval status must be Open.');
-            end;
+        IncomingDoc."File Name" := CleanedFileName;
+        IncomingDoc.MODIFY;
     end;
 
     procedure CheckDocumentToDeleteAttachment(incomingDocument: Record "Incoming Document")

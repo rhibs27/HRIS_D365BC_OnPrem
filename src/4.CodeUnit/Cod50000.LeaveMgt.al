@@ -155,7 +155,7 @@ codeunit 50000 "Leave Mgt."
         leave.Reset;
         leave.SetRange("Employee No.", EmpCode);
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
-        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Pending, leave."Approval Status"::Approved);
+        leave.SetFilter("Approval Status", '%1|%2', leave."Approval Status"::Pending, leave."Approval Status"::Approved);
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
         leave.FilterGroup(-1);
@@ -176,7 +176,7 @@ codeunit 50000 "Leave Mgt."
         leave.SetRange("Fiscal Year", EngNep."Fiscal Year");
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
-        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
+        leave.SetFilter("Approval Status", '%1|%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
         if leave.Find('-') then
             repeat
                 if ((StartDate > leave."Start Date") and (StartDate < leave."End Date")) or
@@ -1099,6 +1099,22 @@ codeunit 50000 "Leave Mgt."
             leave.Modify(true);
         end else
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
+    end;
+
+    procedure CheckEmployeeAttendance(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; LeaveType: Enum "Leave Type")
+    var
+        EmpAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        if LeaveType <> LeaveType::"Full Day" then
+            exit; //No need to check attendance for Half Day or Compensatory Leave
+        EmpAttendanceActivity.Reset;
+        EmpAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+        EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', StartDate, EndDate);
+        if EmpAttendanceActivity.FindFirst then
+            repeat
+                if EmpAttendanceActivity."Present Day" = 1 then
+                    Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+            until EmpAttendanceActivity.Next = 0;
     end;
 
     [IntegrationEvent(false, false)]

@@ -22,18 +22,22 @@ page 50254 "Shift Assignment Card"
                 field("Deputation Type"; Rec."Deputation Type")
                 {
                     ToolTip = 'Specifies the value of the Deputation Type field.', Comment = '%';
+                    Editable = false;
                 }
-                field("Deputation Name"; Rec."Deputation Code")
+                field("Deputation Name"; Rec."Deputation Name")
                 {
                     ToolTip = 'Specifies the value of the Deputation Name field.', Comment = '%';
+                    Editable = false;
                 }
                 field("Deputation Sub Type"; Rec."Deputation Sub Type")
                 {
                     ToolTip = 'Specifies the value of the Deputation Sub Type field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Deputation Sub Type Code"; Rec."Deputation Sub Type Code")
                 {
                     ToolTip = 'Specifies the value of the Deputation Sub Type Code field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Deputation Sub Type Name"; Rec."Deputation Sub Type Name")
                 {

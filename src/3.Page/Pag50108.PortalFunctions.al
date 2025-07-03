@@ -1746,9 +1746,6 @@ page 50108 "Portal Functions"
                 IncomingDocAttachment.CalcFields(Content);
                 IncomingDocAttachment.Content.CreateInStream(instream, TextEncoding::UTF8);
                 LargeText := Base64.ToBase64(instream, false);
-                // FileName := IncomingDoc."File Name";
-                // FileManagement.BLOBImport(TempBlob, FileName);
-                // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
                 exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
             end;
         end;
@@ -2034,7 +2031,7 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Validate("Employee Code", empCode);
             NewAllowanceLine.Validate("To Date", fromDate);
             NewAllowanceLine.Validate("From Date", fromDate);
-            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending Approval";
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending";
             AllowanceAssignmentMgt.GetLineNo(NewAllowanceLine);
             NewAllowanceLine.Insert();
         end;
@@ -2065,7 +2062,7 @@ page 50108 "Portal Functions"
         ApproverHrms.SetRange("Approval Status", ApproverHrms."Approval Status"::Open);
         ApproverHrms.FindFirst();
         if ApproverHrms."Approver No" = HrMgt.GetEmployeeNo() then begin
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending");
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify();
         end

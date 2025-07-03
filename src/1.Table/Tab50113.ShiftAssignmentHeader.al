@@ -17,12 +17,10 @@ table 50113 "Shift Assignment Header"
         field(3; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
-            Editable = false;
         }
         field(4; "Deputation Code"; Code[20])
         {
             Caption = 'Deputation Code';
-            Editable = false;
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";

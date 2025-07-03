@@ -61,7 +61,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceLineCheck.Next = 0;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         AllowanceAssignment.Modify(true);
-        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending");
         // if ApproveBool then begin
         //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         //     AllowanceAssignment.Modify(true);
@@ -112,13 +112,13 @@ codeunit 50022 "Allowance Assignment Mgt"
 
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
-        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
         if AllowanceLine.Findset() then
             repeat
                 if Approved then begin
                     if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
                         InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-                    if AllowanceLine."Approval Status" = AllowanceLine."Approval Status"::"Pending Approval" then begin
+                    if AllowanceLine."Approval Status" = AllowanceLine."Approval Status"::"Pending" then begin
                         AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
                         AllowanceLine.Validate("Approved Date", Today);
                     end;
@@ -744,7 +744,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine2.SetView(AllowanceAssignmentPageBuilder.GetView('Reject Allowance Assignment'));
             if AllowanceAssignmentLine2.GetFilter("Rejection Remarks") = '' then
                 Error('Rejection remarks must have value');
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending");
             AllowanceAssignmentLine.Validate("Rejection Remarks", AllowanceAssignmentLine2.GetFilter("Rejection Remarks"));
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify;
