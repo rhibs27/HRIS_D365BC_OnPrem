@@ -59,7 +59,7 @@ page 50163 "Attachment Setup"
                 }
                 field("Transfer Category"; Rec."Transfer Category")
                 {
-                    Editable = Rec.Type = Rec.Type::Transfer;
+                    Editable = Rec.Type = Rec.Type::"Employee Transfer";
                     ToolTip = 'Specifies the value of the Transfer Category field.';
                     ApplicationArea = All;
                 }
