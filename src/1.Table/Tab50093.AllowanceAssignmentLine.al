@@ -158,7 +158,7 @@ table 50093 "Allowance Assignment Line"
         // {
         //     TableRelation = Employee;
         //}
-        field(19; "Approval Status"; Enum "Attendance Status")
+        field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
         }

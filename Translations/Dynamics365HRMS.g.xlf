@@ -10468,6 +10468,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Leave Type - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3212359541 - Field 456123437 - Method 2126772001 - NamedType 1960708476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Half Leaves cannot be applied in multiple days.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field Leave Type - Method OnValidate - NamedType HalfLeaveError</note>
+        </trans-unit>
         <trans-unit id="Table 3212359541 - Field 3465265737 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LFA Paid</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10482,11 +10487,6 @@
           <source>No. of Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field No. of Days - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3212359541 - Field 2701430011 - Method 2126772001 - NamedType 1960708476" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Half Leaves cannot be applied in multiple days.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave - Field No. of Days - Method OnValidate - NamedType HalfLeaveError</note>
         </trans-unit>
         <trans-unit id="Table 3212359541 - Field 1351594800 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>No. Series</source>

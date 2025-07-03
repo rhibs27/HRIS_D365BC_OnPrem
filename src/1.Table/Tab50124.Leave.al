@@ -94,14 +94,7 @@ table 50124 Leave
                     if EmployeeRec."Contract Expiry Date" <> 0D then
                         if "Start Date" > EmployeeRec."Contract Expiry Date" then
                             Error('Cannot apply leave after contract expiry date');
-                    EmpAttendanceActivity.Reset; //Min 4.11.2022
-                    EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
-                    EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', "Start Date", "End Date");
-                    if EmpAttendanceActivity.FindFirst then
-                        repeat
-                            if EmpAttendanceActivity."Present Day" = 1 then
-                                Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-                        until EmpAttendanceActivity.Next = 0;
+
                 end;
                 //<<check for leave
 
@@ -144,8 +137,6 @@ table 50124 Leave
         {
             Editable = false;
             trigger OnValidate()
-            var
-                HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
             begin
                 if GuiAllowed then
                     leaveMgt.GenerateLeaveAttachment(rec);
@@ -157,21 +148,7 @@ table 50124 Leave
                         if LeaveTypeVar.Get("Leave Code") then;
                         if not LeaveTypeVar.Compensatory then
                             leaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
-                        leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
-                        leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                     end;
-                case "Leave Type" of
-                    "Leave Type"::"First Half":
-                        begin
-                            if "Start Date" <> "End Date" then
-                                Error(HalfLeaveError)
-                        end;
-                    "Leave Type"::"Second Half":
-                        begin
-                            if "Start Date" <> "End Date" then
-                                Error(HalfLeaveError)
-                        end;
-                end;
             end;
         }
         field(10; "Requested Date"; Date)
@@ -347,6 +324,9 @@ table 50124 Leave
         field(53; "Leave Type"; Enum "Leave Type")
         {
             trigger OnValidate()
+            var
+                LeaveTypeSetup: Record "Leave Type Setup";
+                HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
             begin
                 WorkShift.Get("Employee Work Shift");
                 case "Leave Type" of
@@ -373,9 +353,32 @@ table 50124 Leave
                     Clear("End Date");
                     Clear("No. of Days");
                 end;
-
-                if "End Date" <> 0D then
+                case "Leave Type" of
+                    "Leave Type"::"First Half":
+                        begin
+                            if "Start Date" <> "End Date" then
+                                Error(HalfLeaveError)
+                        end;
+                    "Leave Type"::"Second Half":
+                        begin
+                            if "Start Date" <> "End Date" then
+                                Error(HalfLeaveError)
+                        end;
+                end;
+                if LeaveTypeSetup.Get("Leave Code") then begin
+                    If "Leave Type" <> "Leave Type"::"Full Day" then
+                        if LeaveTypeSetup."Half Leave Allowed" then begin
+                            If HrMgt.IsFriday("Start Date") then
+                                Error('Half Leave is not allowed on Fridays')
+                        end else
+                            Error('Half Leave is not allowed in %1', LeaveTypeSetup.Description);
+                end;
+                if "End Date" <> 0D then begin
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
+                    leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                    leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
+                end;
+                leaveMgt.CheckEmployeeAttendance("Employee No.", "Start Date", "End Date", "Leave Type");
             end;
         }
         field(54; "Pay Type"; Enum "Leave Pay Type")

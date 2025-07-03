@@ -220,7 +220,7 @@ page 50164 "Attachment Subform"
     }
     trigger OnModifyRecord(): Boolean
     begin
-        if not GuiAllowed then
+        if not GuiAllowed then // Attachment Upload from API
             if ImportAttachmentDocument <> '' then
                 AttachmentMgt.uploadAttachment(Rec, ImportAttachmentDocument, Extension);//Import Attachment for insurance
     end;
