@@ -183,42 +183,27 @@ codeunit 50020 "Attachment Mgt."
 
     procedure uploadAttachment(Var IncomingDoc: Record "Incoming Document"; fname: Text; ext: Text): Text
     var
-        // IncomingDoc: Record "Incoming Document";
+        IncomingDoc1: Record "Incoming Document";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
-        DocFoundEmpActivity: Boolean;
-        DocFoundEmpLoan: Boolean;
-        EmployeeLoanAdvance: Record "Employee Loan/Advance";
-        Leave: record leave;
-        DocFoundEmpLeave: Boolean;
-        LoanType: Enum "Loan Type";
-        ActivityType: Enum "Employee Activity Type";
-        DocFoundInsurance: Boolean;
-        EmpInsurance: Record "Employee Insurance Information";
-        AppraisalDocFound: Boolean;
-        AppraisalEmp: Record Appraisal;
         base64: Codeunit "Base64 Convert";
         Outstream: OutStream;
         instream: InStream;
-        ServerFilePath: text;
-        ServerFolderPath: text;
-        File: File;
         CleanedFileName: text;
         AttachmentMgt: Codeunit "Attachment Mgt.";
     begin
         IncomingDoc."No." := IncomingDoc.GetFilter("No.");
-        DocFoundEmpActivity := false;
-        DocFoundEmpLoan := false;
-        AppraisalDocFound := false;
-        DocFoundEmpLeave := false; //Min
         if IncomingDoc."File Name" <> '' then
             Error('File already exist. Please remove the file first.');
         CleanedFileName := AttachmentMgt.SanitizeFileName(FORMAT(IncomingDoc."Entry No.") + '_' + IncomingDoc."No." + '.' + ext);
         tempblob.CreateOutStream(outStream);
         base64.FromBase64(fname, Outstream);
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
-        IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
-        IncomingDoc."File Name" := CleanedFileName;
-        IncomingDoc.MODIFY;
+        IncomingDoc.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
+        Commit();
+        IncomingDoc1.Get(IncomingDoc."Entry No.");
+        IncomingDoc1."File Name" := CleanedFileName;
+        IncomingDoc1.MODIFY;
     end;
 
 }

@@ -1932,15 +1932,15 @@ page 50108 "Portal Functions"
         // AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
         // AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
         // IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
-        IncomingDoc1.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
+        IncomingDoc.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
         // File.CREATE(ServerFilePath);       // Create the file on the server
         // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
         // CopyStream(OutStream, InStream);  // Write the data
         // File.CLOSE;
         Commit();
         IncomingDoc1.get(entryNo);
-        IncomingDoc."File Name" := CleanedFileName;
-        IncomingDoc.MODIFY;
+        IncomingDoc1."File Name" := CleanedFileName;
+        IncomingDoc1.MODIFY;
         // IncomingDoc.ImportAttachment(IncomingDoc);
         // // Construct server file path with unique name
         // // ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;

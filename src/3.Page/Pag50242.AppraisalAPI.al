@@ -87,7 +87,7 @@ page 50242 "Appraisal API"
                         AppraisalText := DelChr(AppraisalText, '=', '{}-01');
                         AppraisalText := CopyStr(AppraisalText, 5, 4);
                         if AppraisalAttachment <> '' then begin
-                            Rec.Validate("Appraisal Attachment", AttachmentMgt.UploadAppraisal(AppraisalText, AppraisalAttachment, AppraisalAttachmentExt));
+                            // Rec.Validate("Appraisal Attachment", AttachmentMgt.UploadAppraisal(AppraisalText, AppraisalAttachment, AppraisalAttachmentExt));
                         end;
                     end;
                 }
