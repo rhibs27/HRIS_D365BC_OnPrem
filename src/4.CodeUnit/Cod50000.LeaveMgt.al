@@ -493,6 +493,8 @@ codeunit 50000 "Leave Mgt."
         if LeaveTypeSetup."Limit Max. Leave at Once" then
             if NoOfDays > LeaveTypeSetup."Maximum Leave at once" then
                 Error('Applied Leave Days for %1 cannot exceed %2.', LeaveTypeSetup.Description, LeaveTypeSetup."Maximum Leave at once");
+        if (NoOfDays < LeaveTypeSetup."Minimum Leave at once") or (NoOfDays > LeaveTypeSetup."Maximum Leave at once") then
+            Error('Applied Leave Days for %1 must be between %2 and %3.', LeaveTypeSetup.Description, LeaveTypeSetup."Minimum Leave at once", LeaveTypeSetup."Maximum Leave at once");
     end;
 
     procedure LookupDependability(LeaveCode: Code[20]): Text[100]

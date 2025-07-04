@@ -10808,6 +10808,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maximum Leave at once - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3770206729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Minimum Leave at once</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Minimum Leave at once - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 2338389078 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Needed HR Permission</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35352,6 +35357,11 @@
           <source>Specifies the value of the Maximum Leave at once field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Maximum Leave at once - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3770206729 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Minimum Leave at once field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Minimum Leave at once - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 2338389078 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Needed HR Permission field.</source>

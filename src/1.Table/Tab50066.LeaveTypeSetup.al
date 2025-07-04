@@ -139,6 +139,9 @@ table 50066 "Leave Type Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(40; "Minimum Leave at once"; Decimal)
+        {
+        }
     }
 
     keys
