@@ -3,7 +3,7 @@ page 50091 "Employee Leave Days"
     PageType = ListPart;
     SourceTable = "Leave Type Setup";
     ApplicationArea = All;
-
+    DeleteAllowed = false;
     layout
     {
         area(Content)

@@ -8,7 +8,7 @@ page 50103 "Allowance Assignments (Screen)"
     SaveValues = true;
     SourceTable = "Allowance Assignment Line";
     UsageCategory = Lists;
-    SourceTableView = where("Approval Status" = const("Pending Approval"), "Substitute Type" = const("Added as Substitute"));
+    SourceTableView = where("Approval Status" = const("Pending"), "Substitute Type" = const("Added as Substitute"));
     ApplicationArea = All;
 
     layout
@@ -245,14 +245,14 @@ page 50103 "Allowance Assignments (Screen)"
                 Image = Approve;
                 ToolTip = 'Executes the Reject Substitute action.';
                 ApplicationArea = All;
-                Visible = rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+                Visible = rec."Approval Status" = Rec."Approval Status"::"Pending";
                 trigger OnAction()
                 var
                     AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     if Confirm('Do you want to Reject this document?', false) then begin
                         Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                         Rec.Modify();
                         if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
@@ -276,7 +276,7 @@ page 50103 "Allowance Assignments (Screen)"
                 begin
                     if Confirm('Do you want to approve this document?', false) then begin
                         Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                         AllowanceMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
                         AllowanceMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");

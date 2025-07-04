@@ -1827,7 +1827,7 @@ codeunit 50002 "Loan Mgt."
                 ReportSelections.CalcFields("Report Caption");
                 ClientFileName := HRSetup."Attachment Storage Location" + 'temp\';
 
-                AttachmentMgt.CreateNewDir(HRSetup."Attachment Storage Location", EmployeeLoanAdvance."Employee Code", DirectoryName);
+                // AttachmentMgt.CreateNewDir(HRSetup."Attachment Storage Location", EmployeeLoanAdvance."Employee Code", DirectoryName);
                 FileName := EmployeeLoanAdvance."Employee Code" + '_' + ReportSelections."Report Caption" + '_' + Format(EmployeeLoanAdvance."No.") + '.docx';
                 ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + EmployeeLoanAdvance."Employee Code" + '\' + FileName;
                 recRef.GetTable(EmployeeLoanAdvance);

@@ -59,7 +59,7 @@ page 50151 "Allowance Assign. Substitute"
                     AllowanceLine.Validate("Allowance Type", Rec."Allowance Type");
                     AllowanceLine.Validate("Employee Code", Rec."Employee Code");
                     AllowanceLine.Validate("From Date", Rec."From Date");
-                    AllowanceLine."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                    AllowanceLine."Approval Status" := Rec."Approval Status"::"Pending";
                     AllowanceAssignmentMgt.GetLineNo(AllowanceLine);
                     AllowanceLine.Insert();
                     if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then

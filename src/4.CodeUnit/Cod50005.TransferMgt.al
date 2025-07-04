@@ -585,7 +585,6 @@ codeunit 50005 "Transfer Mgt."
         UnauthorizedApprover: Label 'You are not authorized to approve.';
         EmployeeTransfer: Record "Employee Transfer";
         EmployeeTransfer1: Record "Employee Transfer";
-        ApprovalMgt: Codeunit "Approver Mgt";
     begin
         if (EmpHrTransfer."Outstation/Discomfort Allow." <> 0) and (EmpHrTransfer."BM Accomodation Allow." <> 0) then
             Error(BMandOutStationError);
@@ -1049,7 +1048,7 @@ codeunit 50005 "Transfer Mgt."
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::Transfer);
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Travel Request");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then

@@ -199,7 +199,7 @@ page 50150 "Allowance Assignment Subform"
                     AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                     AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
                     AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
@@ -218,7 +218,7 @@ page 50150 "Allowance Assignment Subform"
                     AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                     if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
                         AllowanceLine1."Substitute Type" := Rec."Substitute Type"::" ";
@@ -245,7 +245,7 @@ page 50150 "Allowance Assignment Subform"
                     // ApproverHrms.FindFirst()
                     // if 
                     if Confirm('Do you want reject the request?', false) then begin
-                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                         rec.Modify();
                         Message('Allowance Claim is Rejected');

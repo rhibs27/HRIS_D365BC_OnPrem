@@ -34,6 +34,12 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Salary Level Code field.';
                     ApplicationArea = All;
                 }
+                field("Salary Level Name"; Rec."Salary Level Name")
+                {
+                    ToolTip = 'Specifies the value of the Salary Level Name field.';
+                    ApplicationArea = All;
+                }
+
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.';

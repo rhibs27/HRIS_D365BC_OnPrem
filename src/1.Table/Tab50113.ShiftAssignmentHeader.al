@@ -17,12 +17,10 @@ table 50113 "Shift Assignment Header"
         field(3; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';
-            Editable = false;
         }
         field(4; "Deputation Code"; Code[20])
         {
             Caption = 'Deputation Code';
-            Editable = false;
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -78,13 +76,12 @@ table 50113 "Shift Assignment Header"
         {
             Caption = 'Employee No.';
             trigger OnValidate()
-            var
-                Employee: Record Employee;
             begin
+                Employee.Reset();
                 If Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
                     Validate("Deputation Type", Employee."Deputation on");
-                    Validate("Deputation Code", Employee."Deputation On Code");
+                    Validate("Deputation Code", Employee."Deputation on Code");
                 end;
             end;
         }
@@ -97,9 +94,46 @@ table 50113 "Shift Assignment Header"
         {
             Caption = 'Rejection Remarks';
         }
+        field(14; "Deputation Sub Type"; Enum "Deputation Type")
+        {
+            ValuesAllowed = " ", Unit, "Extension Counter";
+            trigger OnValidate()
+            begin
+                TestField("Deputation Type");
+                if ("Deputation Type" = "Deputation Type"::Branch) and ("Deputation Sub Type" = "Deputation Sub Type"::Unit) then
+                    Error('Deputation Sub Type cannot be Unit for Branch.');
+                if ("Deputation Type" = "Deputation Type"::Department) and ("Deputation Sub Type" = "Deputation Sub Type"::"Extension Counter") then
+                    Error('Deputation Sub Type cannot be Extension Counter for Department.');
+                if "Deputation Sub Type" <> xRec."Deputation Sub Type" then begin
+                    "Deputation Sub Type Code" := '';
+                    "Deputation Sub Type Name" := '';
+                    ShiftLine.Reset;
+                    ShiftLine.SetRange("No.", "No.");
+                    ShiftLine.DeleteAll(true);
+                end;
+            end;
+        }
+        field(15; "Deputation Sub Type Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = if ("Deputation Sub Type" = filter("Deputation Type"::unit)) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::Department), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::unit))
+            else if ("Deputation Sub Type" = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
+            trigger OnValidate()
+            var
+                OrganizationStructureList: Record "Organization Structure List";
+            begin
+                if OrganizationStructureList.Get("Deputation Sub Type", "Deputation Sub Type Code") then
+                    Validate("Deputation Sub Type Name", OrganizationStructureList.Name);
+            end;
+        }
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
+            Editable = false;
+        }
+        field(17; "Deputation Sub Type Name"; Text[100])
+        {
+            Caption = 'Deputation Sub Type Name';
             Editable = false;
         }
         field(37; "Approved Date"; Date)
@@ -170,6 +204,7 @@ table 50113 "Shift Assignment Header"
         ApprovalHRMS: Record "Approval HRMS";
         ShiftLine: Record "Shift Line";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
+        Employee: Record Employee;
 
 
     procedure CheckForExistingDate(No: Code[20])

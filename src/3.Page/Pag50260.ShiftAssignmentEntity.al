@@ -61,6 +61,18 @@ page 50260 "Shift Assignment Entity"
                 {
                     Caption = 'Deputation Type';
                 }
+                field(deputationSubType; Rec."Deputation Sub Type")
+                {
+                    Caption = 'Deputation Sub Type';
+                }
+                field(deputationSubTypeCode; Rec."Deputation Sub Type Code")
+                {
+                    Caption = 'Deputation Sub Type Code';
+                }
+                field(deputationSubTypeName; Rec."Deputation Sub Type Name")
+                {
+                    Caption = 'Deputation Sub Type Name';
+                }
                 field(rejectionRemarks; Rec."Rejection Remarks")
                 {
                     Caption = 'Rejection Remarks';

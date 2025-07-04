@@ -81,6 +81,7 @@ page 50338 "Employee Leave Entity"
     trigger OnNewRecord(BelowxRec: Boolean);
     begin
         Rec.Validate("Employee No.", HrMgt.GetEmployeeNo());
+        Rec.Validate(Type, Rec.Type::"Leave Request");
     end;
 
     var

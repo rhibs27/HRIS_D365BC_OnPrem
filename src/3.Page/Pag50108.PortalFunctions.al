@@ -89,7 +89,7 @@ page 50108 "Portal Functions"
         user.Reset();
         user.SetRange("User Name", UserId);
         user.FindFirst();
-        // WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
+        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         //check for transfer
         /*TransferVar.RESET; //Min -- commented since it was manage through approved, ack action and job queue.
         TransferVar.SETRANGE("Employee No.",Employee."No.");
@@ -1746,9 +1746,6 @@ page 50108 "Portal Functions"
                 IncomingDocAttachment.CalcFields(Content);
                 IncomingDocAttachment.Content.CreateInStream(instream, TextEncoding::UTF8);
                 LargeText := Base64.ToBase64(instream, false);
-                // FileName := IncomingDoc."File Name";
-                // FileManagement.BLOBImport(TempBlob, FileName);
-                // ext := CopyStr(FileName, StrPos(FileName, '.') + 1, StrLen(FileName));
                 exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + LargeText + '"}');
             end;
         end;
@@ -1854,7 +1851,8 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure uploadAttachment(docNo: Code[20]; entryNo: Integer; fname: Text; ext: Text): Text
     var
-        IncomingDoc: Record "Incoming Document";
+        IncomingDoc, IncomingDoc1 : Record "Incoming Document";
+        IncomingDocAttachment: Record "Incoming Document Attachment";
         TempBlob: Codeunit "Temp Blob";
         DocFoundEmpActivity, DocFoundEmpLoan, DocFoundEmpLeave, DocFoundInsurance : Boolean;
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
@@ -1930,13 +1928,16 @@ page 50108 "Portal Functions"
         TempBlob.CreateInStream(InStream); // Get the data back from TempBlob
         // AttachmentMgt.checkAttachmentExtension(ext); // Check file extension
         // AttachmentMgt.CheckAttachmentSizeLimit(InStream, format(IncomingDoc."Employee Activity Type"));
-        IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
+        // IncomingDoc.CreateIncomingDocument(instream, CleanedFileName);
+        IncomingDoc.AddAttachmentFromStream(IncomingDocAttachment, CleanedFileName, ext, instream);
         // File.CREATE(ServerFilePath);       // Create the file on the server
         // File.CREATEOUTSTREAM(OutStream);  // Prepare to write to the file
         // CopyStream(OutStream, InStream);  // Write the data
         // File.CLOSE;
-        IncomingDoc."File Name" := CleanedFileName;
-        IncomingDoc.MODIFY;
+        Commit();
+        IncomingDoc1.get(entryNo);
+        IncomingDoc1."File Name" := CleanedFileName;
+        IncomingDoc1.MODIFY;
         // IncomingDoc.ImportAttachment(IncomingDoc);
         // // Construct server file path with unique name
         // // ServerFilePath := TargetDirectory + CleanedFileName + '.' + ext;
@@ -2030,7 +2031,7 @@ page 50108 "Portal Functions"
             NewAllowanceLine.Validate("Employee Code", empCode);
             NewAllowanceLine.Validate("To Date", fromDate);
             NewAllowanceLine.Validate("From Date", fromDate);
-            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending Approval";
+            NewAllowanceLine."Approval Status" := NewAllowanceLine."Approval Status"::"Pending";
             AllowanceAssignmentMgt.GetLineNo(NewAllowanceLine);
             NewAllowanceLine.Insert();
         end;
@@ -2061,7 +2062,7 @@ page 50108 "Portal Functions"
         ApproverHrms.SetRange("Approval Status", ApproverHrms."Approval Status"::Open);
         ApproverHrms.FindFirst();
         if ApproverHrms."Approver No" = HrMgt.GetEmployeeNo() then begin
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending");
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify();
         end

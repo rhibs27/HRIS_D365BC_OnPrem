@@ -49,6 +49,7 @@ table 50140 "Employee Transfer"
                     Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Deputation on Code", EmpVar."Deputation On Code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
+                    Validate("Salary Level Name", EmpVar."Salary Level Description");
                     Validate("Functional Title", EmpVar."Functional Title");
                     Validate("Functional Title Desc", EmpVar."Functional Title Desc");
                     Validate("Unit Code", EmpVar."Unit Code");
@@ -890,6 +891,10 @@ table 50140 "Employee Transfer"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(202; "Salary Level Name"; Text[100])
+        {
+            Editable = false;
+        }
     }
     keys
     {
@@ -905,7 +910,7 @@ table 50140 "Employee Transfer"
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
             Validate("Employee No.", HRMgt.GetEmployeeNo());
-            "Approval Status" := "Approval Status"::Pending;
+            //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -965,7 +970,7 @@ table 50140 "Employee Transfer"
                     IncomingDocument.SetRange("No.", "No.");
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
-                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
+                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Employee Transfer");
                     // AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
                     if AttachmentMandatory.FindFirst then
                         repeat

@@ -28,6 +28,7 @@ query 50009 "Incoming Transfer Query"
             column(endDateBS; "End Date (BS)") { }
             column(noOfdays; "No. of Days") { }
             column(requestedDate; "Requested Date") { }
+            column(transferEffectiveDate; "Transfer Effective Date") { }
             column(fiscalYear; "Fiscal Year") { }
             column(approvalStatus; "Approval Status") { }
             column(status; Status)

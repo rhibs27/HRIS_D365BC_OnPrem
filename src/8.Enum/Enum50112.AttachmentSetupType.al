@@ -50,9 +50,9 @@ enum 50112 "Attachment Setup Type"
     {
         Caption = 'Travel Claim';
     }
-    value(12; Transfer)
+    value(12; "Employee Transfer")
     {
-        Caption = 'Transfer';
+        Caption = 'Employee Transfer';
     }
     value(13; Overtime)
     {
