@@ -1158,7 +1158,7 @@
 //     begin
 //         EmpLoan.Reset();
 //         EmpLoan.SetRange("Employee Code", 'st4310');
-//         EmpLoan.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending Approval", EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Screened);
+//         EmpLoan.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Screened);
 //         if EmpLoan.FindFirst then
 //             repeat
 //                 EmpLoan.Validate("Applied Loan/Advance");
@@ -1397,7 +1397,7 @@
 //         AllowAssignLine.SetRange("Approval Status", AllowAssignLine."Approval Status"::Screened);
 //         if AllowAssignLine.FindFirst then
 //             repeat
-//                 AllowAssignLine."Approval Status" := AllowAssignLine."Approval Status"::"Pending Approval";
+//                 AllowAssignLine."Approval Status" := AllowAssignLine."Approval Status"::Pending;
 //                 AllowAssignLine.Modify;
 //             until AllowAssignLine.Next = 0;
 //     end;

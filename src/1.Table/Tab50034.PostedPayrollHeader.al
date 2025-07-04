@@ -48,7 +48,7 @@ table 50034 "Posted Payroll Header"
         field(11; "Posting Date"; Date)
         {
         }
-        field(12; Status; Enum "Attendance Status")
+        field(12; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -106,7 +106,7 @@ table 50034 "Posted Payroll Header"
 
 
 
-        field(30; "Employee Type"; Enum "Employee")
+        field(30; "Employee Type"; enum "Employee Type")
         {
 
         }
@@ -141,11 +141,11 @@ table 50034 "Posted Payroll Header"
         {
             Description = 'NIC';
         }
-        field(43; "Approval Status"; Enum "Approve Status")
-        {
-            Description = 'NIC';
+        // field(43; "Approval Status"; Enum "Approve Status")
+        // {
+        //     Description = 'NIC';
 
-        }
+        // }
         field(44; "Posting User ID"; Code[50])
         {
             TableRelation = User."User Name";

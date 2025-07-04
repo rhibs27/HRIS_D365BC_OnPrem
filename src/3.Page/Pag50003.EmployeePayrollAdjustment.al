@@ -66,7 +66,7 @@ page 50003 "Employee Payroll Adjustment"
                     EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
                     EmployeePayrollAdjustment.DeleteAll;
 
-                    PayrollEngine.LoadDashainBonus(EmployeeType::Regular, PayrollDocNo);
+                    PayrollEngine.LoadDashainBonus(EmployeeType::Permanent, PayrollDocNo);
                     PayrollEngine.LoadDashainBonus(EmployeeType::Contract, PayrollDocNo);
                     CurrPage.Update(true);
 
@@ -152,7 +152,7 @@ page 50003 "Employee Payroll Adjustment"
             until PayrollAdj.Next = 0;
         CalculateFormulaeAttributes;
         PayrollHeader.Get(PayrollDocNo);
-        PayrollHeader.Validate(Status, PayrollHeader.Status::"Pending Approval");
+        PayrollHeader.Validate(Status, PayrollHeader.Status::Pending);
         PayrollHeader.Modify;
     end;
 
@@ -172,7 +172,7 @@ page 50003 "Employee Payroll Adjustment"
         PGSetup: Record "Payroll General Setup";
         PayrollHeader: Record "Payroll Header";
         PayrollEngine: Codeunit "Payroll Engine";
-        EmployeeType: Enum "Employee";
+        EmployeeType: enum "Employee Type";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
 
 

@@ -22,7 +22,7 @@ table 50048 "Employee Attendance & Activity"
         field(4; "Check Out Time"; Time)
         {
         }
-        field(5; Status; Enum "Attendance Status")
+        field(5; Status; enum "Approval Status")
         {
             Editable = false;
 

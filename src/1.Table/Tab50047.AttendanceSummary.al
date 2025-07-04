@@ -23,7 +23,7 @@ table 50047 "Attendance Summary"
                 GetAttedanceDate;
             end;
         }
-        field(3; Status; Enum "Attendance Status")
+        field(3; Status; enum "Approval Status")
         {
             Editable = false;
         }

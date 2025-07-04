@@ -33,7 +33,7 @@ table 50043 "Attendance Line"
                 CalcAcutalWorkTime("Check In Time", "Check Out Time");
             end;
         }
-        field(5; Status; Enum "Attendance Status")
+        field(5; Status; enum "Approval Status")
         {
             Editable = false;
 

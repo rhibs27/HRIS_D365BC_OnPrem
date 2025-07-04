@@ -100,4 +100,20 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Shift Assignment';
     }
+    value(25; Vacancy)
+    {
+        Caption = 'Vacancy';
+    }
+    value(26; Training)
+    {
+        Caption = 'Training';
+    }
+    value(27; "Loan Attachment")
+    {
+        Caption = 'Loan Attachment';
+    }
+    value(28; "Candiadte offer letter")
+    {
+        Caption = 'Candiadte offer letter';
+    }
 }

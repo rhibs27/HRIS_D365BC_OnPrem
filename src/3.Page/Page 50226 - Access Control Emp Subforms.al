@@ -75,7 +75,7 @@
 //                 PromotedCategory = Process;
 //                 PromotedIsBig = true;
 //                 PromotedOnly = true;
-//                 Visible = Rec.Status = Rec.Status::"pending approval";
+//                 Visible = Rec.Status = Rec.Status::Pending;
 //                 ToolTip = 'Executes the Approve action.';
 //                 ApplicationArea = All;
 
@@ -92,7 +92,7 @@
 //                 PromotedCategory = Process;
 //                 PromotedIsBig = true;
 //                 PromotedOnly = true;
-//                 Visible = Rec.Status = Rec.Status::"pending approval";
+//                 Visible = Rec.Status = Rec.Status::Pending;
 //                 ToolTip = 'Executes the Reject action.';
 //                 ApplicationArea = All;
 

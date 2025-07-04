@@ -184,7 +184,7 @@ page 50198 "HR Cue"
                     begin
                         EmpActivity.Reset;
                         EmpActivity.SetFilter(Type, '%1|%2', EmpActivity.Type::"HR Transfer", EmpActivity.Type::"Employee Transfer");
-                        EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
+                        EmpActivity.SetRange("Approval Status", EmpActivity."Approval Status"::Pending);
                         EmpActivity.SetRange("Recommender Code", HRMgt.GetEmployeeNo);
                         Clear(PageTransferList);
                         PageTransferList.ForHistoryPage;
@@ -534,12 +534,12 @@ page 50198 "HR Cue"
             // }
             cuegroup("Residential Address")
             {
-                field("To Screen Residential Address"; Rec."To Screen Residential Address")
-                {
-                    // DrillDownPageID = 60274;
-                    ToolTip = 'Specifies the value of the To Screen Residential Address field.';
-                    ApplicationArea = All;
-                }
+                // field("To Screen Residential Address"; Rec."To Screen Residential Address")
+                // {
+                //     // DrillDownPageID = 60274;
+                //     ToolTip = 'Specifies the value of the To Screen Residential Address field.';
+                //     ApplicationArea = All;
+                // }
             }
         }
     }

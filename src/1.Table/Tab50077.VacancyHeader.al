@@ -161,7 +161,7 @@ table 50077 "Vacancy Header"
         field(29; "Last Modified Date"; Date)
         {
         }
-        field(30; "Approval Status"; Enum "Attendance Status")
+        field(30; "Approval Status"; enum "Approval Status")
         {
         }
         field(31; Posted; Boolean)

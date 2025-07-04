@@ -439,7 +439,7 @@ codeunit 50024 "Service History Mgt"
             EmpActivity.SetRange("Employee No.", EmpVar."No.");
             EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
             EmpActivity.SetFilter("Approval Status", '%1|%2|%3', EmpActivity."Approval Status"::Open,
-                                  EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::"Pending Approval");
+                                  EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::Pending);
             if EmpActivity.FindFirst then
                 Error('Leave request of employee %1 is still pending', EmpVar."Full Name");
 

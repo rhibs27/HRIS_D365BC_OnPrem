@@ -240,7 +240,7 @@ page 50108 "Portal Functions"
     //         exit;
     //     end;
     //     if not EmpActivity.Cancelled then begin
-    //         if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //         if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //             HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
     //         else begin
     //             if not isApproved then begin
@@ -523,7 +523,7 @@ page 50108 "Portal Functions"
         //         Approval.insert(true);
         //     end else if (approverCode <> '') and (recommenderCode <> '') then begin
         //         tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
-        //         tempLeave."Approval Status" := tempLeave."Approval Status"::"Pending Approval";
+        //         tempLeave."Approval Status" := tempLeave."Approval Status"::Pending;
         //         //for Recommendation
         //         Approval.Init();
         //         Approval.validate("Document No.", Templeave."No.");
@@ -531,7 +531,7 @@ page 50108 "Portal Functions"
         //         Approval.Validate("Document Type", tempLeave.type);
         //         Approval.validate("Employee No", tempLeave."Employee No.");
         //         Approval.validate("Approval Sequence", 1);
-        //         Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+        //         Approval.validate("approval Status", tempLeave."Approval Status"::Pending);
         //         Approval.insert(true);
         //         // For Approval
         //         Approval.Init();
@@ -540,7 +540,7 @@ page 50108 "Portal Functions"
         //         Approval.Validate("Document Type", tempLeave.type);
         //         Approval.validate("Employee No", tempLeave."Employee No.");
         //         Approval.validate("Approval Sequence", 2);
-        //         Approval.validate("approval Status", tempLeave."Approval Status"::"Pending Approval");
+        //         Approval.validate("approval Status", tempLeave."Approval Status"::Pending);
         //         Approval.insert(true);
         //     end else if approverCode = '' then
         //             Error('Approver Code must have value');
@@ -1072,7 +1072,7 @@ page 50108 "Portal Functions"
         // if EmpTravel."Advance Cash Required" then
         //     EmpTravel.Validate("Advance Cash", advanceCash);
         // EmpTravel.Modify;
-        // if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::"Pending Approval") then
+        // if isApprove and (EmpTravel."Approval Status" = EmpTravel."Approval Status"::Pending) then
         //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
         // else begin
         // if not isApprove then begin
@@ -1101,7 +1101,7 @@ page 50108 "Portal Functions"
         RecRef.GetTable(TravelClaim);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
         // Travel.Get(empTravelNo);
-        // // if isApproved and (Travel."Approval Status" = Travel."Approval Status"::"Pending Approval") then
+        // // if isApproved and (Travel."Approval Status" = Travel."Approval Status"::Pending) then
         // //     TravelMgt.RecommendEmployeeTravelAPI(empTravelNo, approverCode)
         // // else begin
         // if not isApproved then begin
@@ -2566,7 +2566,7 @@ page 50108 "Portal Functions"
     // begin
     //     EmpActivity.Get(empActivityNo);
     //     if isApproved then begin
-    //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
+    //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending then begin
     //             EmpActivity.Remarks := remark;
     //             HrMgt.RecommendAccessControl(EmpActivity);
     //         end else
@@ -3230,7 +3230,7 @@ page 50108 "Portal Functions"
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
         else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3429,7 +3429,7 @@ page 50108 "Portal Functions"
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
         else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3639,7 +3639,7 @@ page 50108 "Portal Functions"
         if Employee."Employment Type" = Employee."Employment Type"::Contract then
             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
         else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3723,7 +3723,7 @@ page 50108 "Portal Functions"
             if Employee."Employment Type" = Employee."Employment Type"::Contract then
                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
             else
-                PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+                PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
             PostedPayrollHeader.FindFirst;
             case month of
                 Format(MonthOption::Baisakh):

@@ -82,7 +82,7 @@ table 50093 "Allowance Assignment Line"
                 //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::"Pending Approval";
+                //     "Approval Status" := "Approval Status"::Pending;
 
                 // ValidateAllowanceType();
 

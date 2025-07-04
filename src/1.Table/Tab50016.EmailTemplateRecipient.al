@@ -1,4 +1,4 @@
-table 50016 "Agile Email Recipient"
+table 50016 "Email Template Recipient"
 {
     DataClassification = CustomerContent;
     fields

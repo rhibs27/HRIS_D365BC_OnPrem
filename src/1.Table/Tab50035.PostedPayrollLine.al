@@ -539,10 +539,10 @@ table 50035 "Posted Payroll Line"
         field(110; "Gratuity Years"; Decimal)
         {
         }
-        field(111; "Document Type"; Enum "Payroll Document Type")
-        {
+        // field(111; "Document Type"; Enum "Payroll Document Type") 
+        // {
 
-        }
+        // }
         field(112; "Resignation Date"; Date) { }
         field(113; "Annual Leave Days"; Decimal) { }
         field(114; "Sick Leave Days"; Decimal) { }

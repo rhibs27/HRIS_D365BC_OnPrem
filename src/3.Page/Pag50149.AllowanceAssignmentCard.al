@@ -321,7 +321,7 @@ page 50149 "Allowance Assignment Card"
         // Employee.SetRange("NAV Login ID", UserId);
         // if Employee.FindFirst then
         //     if Employee.Screener then
-        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
+        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
         //     else
         //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::Rejected];
     end;

@@ -38,7 +38,7 @@ table 50027 "Payroll Line"
                             if Employee."Employment Type" <> Employee."Employment Type"::Contract then
                                 Error('Employment type of employee %1 must be contract', Employee."Full Name");
 
-                        PayrollHeader."Employee Type"::Regular:
+                        PayrollHeader."Employee Type"::Permanent:
                             if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
                                 Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
                     end;
@@ -694,10 +694,10 @@ table 50027 "Payroll Line"
         field(110; "Gratuity Years"; Decimal)
         {
         }
-        field(111; "Document Type"; Enum "Payroll Document Type")
-        {
+        // field(111; "Document Type"; Enum "Payroll Document Type")
+        // {
 
-        }
+        // }
         field(112; "Resignation Date"; Date) { }
         field(113; "Annual Leave Days"; Decimal) { }
         field(114; "Sick Leave Days"; Decimal) { }
@@ -1176,7 +1176,7 @@ table 50027 "Payroll Line"
             // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
             // EmployeeAttendActivity.SetRange("Present Day", 0);
             //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
             EmployeeAttendActivity.SetRange("Attendance Date");
             EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
             EmployeeAttendActivity.CalcSums("Absent Day");
