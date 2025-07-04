@@ -585,6 +585,7 @@ codeunit 50005 "Transfer Mgt."
         UnauthorizedApprover: Label 'You are not authorized to approve.';
         EmployeeTransfer: Record "Employee Transfer";
         EmployeeTransfer1: Record "Employee Transfer";
+        ApprovalMgt: Codeunit "Approver Mgt";
     begin
         if (EmpHrTransfer."Outstation/Discomfort Allow." <> 0) and (EmpHrTransfer."BM Accomodation Allow." <> 0) then
             Error(BMandOutStationError);
