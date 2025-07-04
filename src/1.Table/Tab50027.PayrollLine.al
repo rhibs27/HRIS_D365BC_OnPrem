@@ -319,7 +319,7 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
-        field(44; "Currency Code"; Code[10])
+        field(44; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;
@@ -331,7 +331,7 @@ table 50027 "Payroll Line"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
-        field(46; "Source Code"; Code[10])
+        field(46; "Source Code"; Code[20])
         {
             Description = 'Pranisha';
         }
@@ -1356,7 +1356,7 @@ table 50027 "Payroll Line"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -1364,7 +1364,7 @@ table 50027 "Payroll Line"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -1821,7 +1821,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -1835,7 +1835,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);

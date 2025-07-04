@@ -6,7 +6,7 @@ table 50039 "Payroll Journal Line"
 
     fields
     {
-        field(1; "Journal Template Name"; Code[10])
+        field(1; "Journal Template Name"; Code[20])
         {
             Caption = 'Journal Template Name';
         }
@@ -89,7 +89,7 @@ table 50039 "Payroll Journal Line"
                 end;
             end;
         }
-        field(10; "Currency Code"; Code[10])
+        field(10; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             TableRelation = Currency;
@@ -163,13 +163,13 @@ table 50039 "Payroll Journal Line"
                 ValidateShortcutDimCode(2, "Shortcut Dimension 2 Code");
             end;
         }
-        field(17; "Source Code"; Code[10])
+        field(17; "Source Code"; Code[20])
         {
             Caption = 'Source Code';
             Editable = false;
             TableRelation = "Source Code";
         }
-        field(18; "Journal Batch Name"; Code[10])
+        field(18; "Journal Batch Name"; Code[20])
         {
             Caption = 'Journal Batch Name';
             TableRelation = "Payroll Journal Batch";
@@ -231,11 +231,11 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(26; "From Date (B.S)"; Code[10])
+        field(26; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(27; "To Date (B.S)"; Code[10])
+        field(27; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -247,7 +247,7 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(30; "Pay Cycle Code"; Code[10])
+        field(30; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -259,7 +259,7 @@ table 50039 "Payroll Journal Line"
                 "Nepali Year" := 0;
             end;
         }
-        field(31; "Pay Cycle Term"; Code[10])
+        field(31; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term WHERE("Pay Cycle Code" = FIELD("Pay Cycle Code"));
 
@@ -529,7 +529,7 @@ table 50039 "Payroll Journal Line"
         field(72; "Sol ID"; Code[20])
         {
         }
-        field(73; "Fiscal Year"; Code[10])
+        field(73; "Fiscal Year"; Code[20])
         {
         }
         field(74; Type; Enum "Payroll Header Type")

@@ -34,8 +34,8 @@
 //         AttJnlLedger: Record "Attendance Ledger Entry";
 //         AttRegister: Record "Attendance Register";
 //         AttJnlBatch: Record "HR Budget Plan";
-//         CurrentTemplate: Code[10];
-//         CurrentBatch: Code[10];
+//         CurrentTemplate: Code[20];
+//         CurrentBatch: Code[20];
 //         Text000: Label 'There is nothing to post.';
 //         GenJnlCheckLine: Codeunit "Gen. Jnl.-Check Line";
 //         Text001: Label 'is not within your range of allowed posting dates.';

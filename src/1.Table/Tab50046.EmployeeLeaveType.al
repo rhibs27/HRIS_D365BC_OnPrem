@@ -10,7 +10,7 @@ table 50046 "Employee Leave Type"
     {
         field(1; "Code"; Code[20]) { }
         field(2; Description; Text[100]) { }
-        field(3; "Standard Level Code"; Code[10])
+        field(3; "Standard Level Code"; Code[20])
         {
             trigger OnLookup()
             begin

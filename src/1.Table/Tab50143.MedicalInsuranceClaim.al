@@ -187,7 +187,7 @@ table 50143 "Medical Insurance Claim"
             Editable = false;
             TableRelation = "Functional Title";
         }
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";

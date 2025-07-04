@@ -491,7 +491,7 @@ page 50064 "HR Budget Matrix Subform"
         MatrixCaption: array[32] of Text;
         Counter: Integer;
         ActualMatrixCaption: array[32] of Text;
-        GblDeputationOn: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department;
+        GblDeputationOn: Enum "Deputation Type";
         GblShowCaption: Boolean;
 
     procedure SetMatrixData(ColumnCaption: array[32] of Text; var RecRef: RecordRef; ColumnLength: Integer; View: Option Actual,Setup; ActualColumnCaption: array[32] of Text)
@@ -624,7 +624,7 @@ page 50064 "HR Budget Matrix Subform"
         end;
     end;
 
-    procedure SetDeputationOn(DeputationOn: Option)
+    procedure SetDeputationOn(DeputationOn: Enum "Deputation Type")
     begin
         GblDeputationOn := DeputationOn;
     end;

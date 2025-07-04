@@ -7,7 +7,7 @@ table 50116 "HR Cue"
 
     fields
     {
-        field(1; "Primary Key"; Code[10]) { }
+        field(1; "Primary Key"; Code[20]) { }
         field(2; "User Filter"; Text[250])
         {
             FieldClass = FlowFilter;

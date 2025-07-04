@@ -7,7 +7,7 @@ table 50028 "Pay Cycle"
 
     fields
     {
-        field(1; "Code"; Code[10])
+        field(1; "Code"; Code[20])
         {
             NotBlank = true;
         }

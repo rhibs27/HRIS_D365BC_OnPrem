@@ -374,7 +374,7 @@ page 50042 "Payroll Journal"
 
     var
         GenJnlManagement: Codeunit "Payroll Engine";
-        CurrentJnlBatchName: Code[10];
+        CurrentJnlBatchName: Code[20];
         AccName: Text[50];
         BalAccName: Text[50];
         Balance: Decimal;

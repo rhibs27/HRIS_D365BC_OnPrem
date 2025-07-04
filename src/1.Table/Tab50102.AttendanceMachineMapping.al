@@ -5,7 +5,7 @@ table 50102 "Attendance Machine Mapping"
 
     fields
     {
-        field(1; "Machine Code"; Code[10]) { }
+        field(1; "Machine Code"; Code[20]) { }
         field(2; "Machine Name"; Text[30]) { }
         field(3; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -19,7 +19,7 @@ table 50102 "Attendance Machine Mapping"
             Caption = 'Shortcut Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(5; "Responsibility Center"; Code[10])
+        field(5; "Responsibility Center"; Code[20])
         {
             Caption = 'Responsibility Center';
             TableRelation = "Responsibility Center";

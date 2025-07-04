@@ -112,7 +112,7 @@ table 50111 "Attachment Setup"
         end;
     end;
 
-    local procedure InsertNewAttachments(LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan")
+    local procedure InsertNewAttachments(LoanType: Enum "Loan Type")
     var
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         IncomingDocument: Record "Incoming Document";

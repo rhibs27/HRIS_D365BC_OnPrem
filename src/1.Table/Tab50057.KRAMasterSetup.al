@@ -45,7 +45,7 @@ table 50057 "KRA Master Setup"
         field(9; "Target Assigned"; Decimal) { }
         field(10; "Actual Achievement"; Decimal) { }
         field(11; "Sol Id"; Code[20]) { }
-        field(12; "Province Code"; Code[10])
+        field(12; "Province Code"; Code[20])
         {
             TableRelation = Province;
 
@@ -65,7 +65,7 @@ table 50057 "KRA Master Setup"
         {
 
         }
-        field(17; "Transfer Province Code"; Code[10])
+        field(17; "Transfer Province Code"; Code[20])
         {
             TableRelation = Province;
 

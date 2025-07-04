@@ -91,7 +91,7 @@ table 50106 "Employee Loan/Advance"
         {
         }
         field(10; "Gross Salary"; Decimal) { }
-        field(11; FY; Code[10]) { }
+        field(11; FY; Code[20]) { }
         field(12; Department; Code[20])
         {
             Editable = false;

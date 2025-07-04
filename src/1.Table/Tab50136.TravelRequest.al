@@ -404,7 +404,7 @@ table 50136 "Travel Request"
         //         end;
         //     end;
         // }
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -709,7 +709,7 @@ table 50136 "Travel Request"
                 end;
             end;
         }
-        field(68; "Currency Code"; Code[10])
+        field(68; "Currency Code"; Code[20])
         {
             TableRelation = Currency;
 

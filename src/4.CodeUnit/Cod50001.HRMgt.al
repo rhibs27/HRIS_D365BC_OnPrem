@@ -2737,7 +2737,7 @@ codeunit 50001 "HR Mgt."
         exit(HoursText + ':' + MinutesText + ':' + SecondsText);
     end;
 
-    procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[10])
+    procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[20])
     var
         ErrorCitizenError: Label 'Citizenship No %1 of issed place %2 already exist.';
     begin
@@ -3507,7 +3507,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure ApprovedRejectApprovalAPI(Approved: Boolean; EmpActCode: Code[20]; employeeNo: code[20])
+    procedure ApprovedRejectApprovalAPI(Approved: Boolean; EmpActCode: Code[20]; employeeNo: Code[20])
     var
 
         EmpAct: Record "Employee Activity";
@@ -6036,7 +6036,7 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    // procedure OpenTransferRequest(EmpCode3: Code[10])
+    // procedure OpenTransferRequest(EmpCode3: Code[20])
     // var
     //     EmpAct4: Record "Employee Activity" temporary;
     //     RequestError: Label 'You are not eligible to request for a transfer.';
@@ -7175,7 +7175,7 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    // procedure OpenResignationRequest(EmpCode3: Code[10])
+    // procedure OpenResignationRequest(EmpCode3: Code[20])
     // var
     //     EmpAct4: Record "Employee Activity" temporary;
     //     RequestError: Label 'You are not eligible to request for a transfer.';
@@ -11218,7 +11218,7 @@ codeunit 50001 "HR Mgt."
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     END;
 
-    procedure CheckDateStatus(CalendarCode: Code[10]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Option; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
+    procedure CheckDateStatus(CalendarCode: Code[20]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Option; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
     var
         BaseCalChange: Record "Base Calendar Change";
     begin
@@ -11412,6 +11412,17 @@ codeunit 50001 "HR Mgt."
             ELSE
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
         END;
+    end;
+ 
+    procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])
+    var
+        NoSeries: Codeunit "No. Series";
+    begin
+        If NoSeries.AreRelated(SetupNoSeries, xRecNoSeries) then
+            RecNoSeries := xRecNoSeries
+        else
+            RecNoSeries := SetupNoSeries;
+        DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
     end;
 }
 

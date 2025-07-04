@@ -244,7 +244,7 @@ page 50003 "Employee Payroll Adjustment"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -252,7 +252,7 @@ page 50003 "Employee Payroll Adjustment"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -391,7 +391,7 @@ page 50003 "Employee Payroll Adjustment"
         until StrLength = 0;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -400,7 +400,7 @@ page 50003 "Employee Payroll Adjustment"
         exit(0);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':

@@ -55,7 +55,7 @@ table 50055 "KPI Employee"
                 AppraisalMgt.CalculateKPIMarks(AppraisalRec);
             end;
         }
-        field(12; "Fiscal Year"; Code[10])
+        field(12; "Fiscal Year"; Code[20])
         {
         }
         field(13; "Appraisal Type"; Enum "Appraisal Type")
