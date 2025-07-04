@@ -33,7 +33,7 @@ page 50165 "Employee Activity Entity"
                         if Rec.Type = Rec.Type::"Employee Edit" then begin
                             HRSetup.Get;
                             HRSetup.TestField("Employee Change No. Series");
-                            Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                            Rec."Approval Status" := Rec."Approval Status"::Pending;
                             Rec."No. Series" := HRSetup."Employee Change No. Series";
                             // Rec.Rename(NoSeriesMgt.GetNextNo(HRSetup."Employee Change No. Series", Today, true));
                             // Rec."No. Series" := HRSetup."Employee Change No. Series";
@@ -325,7 +325,7 @@ page 50165 "Employee Activity Entity"
                     //         if Employee.FindFirst then;
                     //         Rec.Validate("Approver Code", Employee."No.");
                     //         HRMgt.SendAccessControlApproval(Rec);
-                    //         Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+                    //         Rec."Approval Status" := Rec."Approval Status"::Pending;
                     //     end;
                     // end;
                 }

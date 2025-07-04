@@ -87,7 +87,7 @@ table 50042 "Attendance Header"
                     Error(Text006, "From Date", "To Date");
             end;
         }
-        field(12; Status; Enum "Attendance Status")
+        field(12; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -168,7 +168,7 @@ table 50042 "Attendance Header"
         field(23; "Posted By"; Code[50])
         {
         }
-        field(24; Type; Enum Employee)
+        field(24; Type; Enum "Employee Type")
         {
 
         }
@@ -335,7 +335,7 @@ table 50042 "Attendance Header"
         end;
     end;
 
-    local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: Enum "Attendance Status")
+    local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
     var
         AttendanceSummary: Record "Attendance Summary";
         AttendanceLine: Record "Attendance Line";

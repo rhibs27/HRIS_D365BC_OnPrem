@@ -99,7 +99,7 @@ report 50043 "Import Attendance"
         Clear(PayrollEngine);
         if PayrollEngine.IsValidEmployee(FilteredEmployee, AttendanceHeader."From Date", AttendanceHeader."To Date") then begin
             EndDate := AttendanceHeader."To Date";
-            if AttendanceHeader.Type = AttendanceHeader.Type::Regular then begin
+            if AttendanceHeader.Type = AttendanceHeader.Type::Permanent then begin
                 PayCyclPeriod.Reset;
                 PayCyclPeriod.SetRange("Pay Cycle Code", AttendanceHeader."Pay Cycle Code");
                 PayCyclPeriod.SetRange("Pay Cycle Term", AttendanceHeader."Pay Cycle Term");

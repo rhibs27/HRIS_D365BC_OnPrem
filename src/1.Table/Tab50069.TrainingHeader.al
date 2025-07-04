@@ -186,7 +186,7 @@ table 50069 "Training Header"
         {
             Editable = false;
         }
-        field(21; "Approval Status"; Enum "Attendance Status")
+        field(21; "Approval Status"; enum "Approval Status")
         {
             Editable = false;
         }
@@ -359,7 +359,7 @@ table 50069 "Training Header"
             trigger OnValidate()
             begin
                 TestField("Fiscal Year");
-                if not ("Approval Status" in ["Approval Status"::Open, "Approval Status"::"Pending approval"]) then
+                if not ("Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending]) then
                     Error(MonthError, "No.");
                 TrainBudgHead.Reset;
                 TrainBudgHead.SetRange("Fiscal Year", "Fiscal Year");
@@ -565,7 +565,7 @@ table 50069 "Training Header"
     begin
     end;
 
-    procedure UpdateApprovalStatus(var TrainHead: Record "Training Header"; ApprovalStatus: Enum "Attendance Status")
+    procedure UpdateApprovalStatus(var TrainHead: Record "Training Header"; ApprovalStatus: enum "Approval Status")
     begin
         TrainHead.Validate("Approval Status", ApprovalStatus);
         TrainHead.Modify;

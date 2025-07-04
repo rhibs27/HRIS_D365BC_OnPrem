@@ -1,7 +1,5 @@
 page 50138 "Email Template Card"
 {
-    // version NP16.04
-
     PageType = Card;
     SourceTable = "Email Template";
     ApplicationArea = All;
@@ -50,7 +48,7 @@ page 50138 "Email Template Card"
                     ToolTip = 'Specifies the value of the Sub Type field.';
                     ApplicationArea = All;
                 }
-                field(Type; Rec.Type)
+                field(Type; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
@@ -98,4 +96,8 @@ page 50138 "Email Template Card"
     }
 
     actions { }
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        "Approval Status" := "Approval Status"::" ";
+    end;
 }

@@ -396,7 +396,7 @@ table 50067 "Employee Activity"
             Editable = false;
             TableRelation = "User Setup"."User ID";
         }
-        field(16; "Approval Status"; enum "Employee Act. Approval Status")
+        field(16; "Approval Status"; Enum "Approval Status")
         {
 
             trigger OnValidate()
@@ -1342,7 +1342,7 @@ table 50067 "Employee Activity"
             //     TransferMgt.CalculateAllowance(Rec);
             // end;
         }
-        field(132; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
+        field(132; "Transfer Allowance Approval"; enum "Approval Status")
         {
             Description = 'Transfer';
         }
@@ -2311,7 +2311,7 @@ table 50067 "Employee Activity"
         EmpAct.SetRange("Employee No.", "Employee No.");
         EmpAct.SetRange(Type, EmpAct.Type::"HR Transfer");
         EmpAct.SetFilter("No.", '<>%1', "No.");
-        EmpAct.SetFilter("Approval Status", '<>%1&<>%2&<>%3', "Approval Status"::Acknowledged, "Approval Status"::Cancelled, "Approval Status"::Rejected);
+        EmpAct.SetFilter("Approval Status", '<>%1&<>%2&<>%3', "Approval Status"::Acknowledged, "Approval Status"::Canceled, "Approval Status"::Rejected);
         if EmpAct.FindFirst then
             Error('Transfer for employee %1 (%2) is still pending. Please check the transfer no. %3', EmpAct."Employee Name", EmpAct."Employee No.", EmpAct."No.");
     end;

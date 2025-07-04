@@ -157,7 +157,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             AttendanceMissed1.Init;
             AttendanceMissed1.TransferFields(AttendanceMissed);
             // if CancelDocument."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
+            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
             // else
             //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
 
@@ -166,7 +166,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         end else begin
             // CancelDocument1.Get(CancelDocument."No.");
             // if CancelDocument1."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
+            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
             // else
             //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
             // CancelDocument1.Modify(true);
@@ -223,7 +223,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             CancelDocument1.TransferFields(CancelDocument);
             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending);
             // if CancelDocument."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
+            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
             // else
             //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
 
@@ -240,7 +240,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             // end else begin
             //     CancelDocument1.Get(CancelDocument."No.");
             //     if CancelDocument1."Recommender Code" <> '' then
-            //         CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
+            //         CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
             //     else
             //         CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
             //     CancelDocument1.Modify(true);

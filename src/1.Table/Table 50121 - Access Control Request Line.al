@@ -51,7 +51,7 @@
 //         field(7; "Line No."; Integer)
 //         {
 //         }
-//         field(8; Status; Enum "Attendance Status")
+//         field(8; Status; enum "Approval Status")
 //         {
 
 //         }

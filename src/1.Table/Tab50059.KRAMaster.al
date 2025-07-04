@@ -104,7 +104,7 @@ table 50059 "KRA Master"
     var
         HRSetup: Record "Human Resources Setup";
         NoMgmt: Codeunit NoSeriesManagement;
-        EmployeewiseVar: Record "Employee Activity Second";
+        EmployeewiseVar: Record "Employee Activity";
         SubjQuestion: Record "Employee Question Setup";
         AppraisalSetup: Record "KRA Master Setup";
         Weightage: Integer;

@@ -144,7 +144,7 @@ table 50044 "Employee Activity Details"
         field(22; "Document Date"; Date)
         {
         }
-        field(23; Status; Enum "Attendance Status")
+        field(23; Status; enum "Approval Status")
         {
             Editable = false;
         }
@@ -310,7 +310,7 @@ table 50044 "Employee Activity Details"
                 exit;
         TestDocument;
         "Sent Date" := Today;
-        Status := Status::"Pending Approval";
+        Status := Status::Pending;
         Modify;
         exit(true);
     end;

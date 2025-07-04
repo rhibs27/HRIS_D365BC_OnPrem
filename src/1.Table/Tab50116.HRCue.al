@@ -23,7 +23,7 @@ table 50116 "HR Cue"
         field(4; "To Recommend Travel Req"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Travel Request"),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Editable = false;
             FieldClass = FlowField;
@@ -53,7 +53,7 @@ table 50116 "HR Cue"
         field(8; "To Recommend Travel Claim"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Travel Claim"),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Editable = false;
             FieldClass = FlowField;
@@ -83,7 +83,7 @@ table 50116 "HR Cue"
         field(12; "To Recommend  Transfer"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Employee Transfer" | "HR Transfer"),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Editable = false;
             FieldClass = FlowField;
@@ -165,13 +165,13 @@ table 50116 "HR Cue"
         field(23; "To Recommend Overtime"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = const(Overtime),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             FieldClass = FlowField;
         }
         // field(24; "To Recommend Allowance Assig."; Integer)
         // {
-        //     CalcFormula = count("Allowance Assignment Header" where("Approval Status" = const("Pending Approval"),
+        //     CalcFormula = count("Allowance Assignment Header" where("Approval Status" = const(Pending),
         //                                                              "Approver ID" = field("Employee Filter")));
         //     FieldClass = FlowField;
         // }
@@ -228,7 +228,7 @@ table 50116 "HR Cue"
         field(31; "To Recommend Leave Req"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Leave Request"),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Description = 'Leave request';
             Editable = false;
@@ -395,7 +395,7 @@ table 50116 "HR Cue"
         field(52; "To Recommend Attendance Missed"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter("Attendance Missed"),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Description = 'attendance missed';
             Editable = false;
@@ -413,28 +413,28 @@ table 50116 "HR Cue"
         }
         // field(55; "To Recommend Salary Advance"; Integer)
         // {
-        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const(Pending),
         //                                                        "Loan Type" = const("Salary Advance"),
         //                                                        Recommender = field("Employee Filter")));
         //     FieldClass = FlowField;
         // }
         // field(56; "To Recommend Home Loan"; Integer)
         // {
-        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const(Pending),
         //                                                        "Loan Type" = const("Home Loan"),
         //                                                        Recommender = field("Employee Filter")));
         //     FieldClass = FlowField;
         // }
         // field(57; "To Recommend Personal Loan"; Integer)
         // {
-        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const(Pending),
         //                                                        "Loan Type" = const("Personal Loan"),
         //                                                        Recommender = field("Employee Filter")));
         //     FieldClass = FlowField;
         // }
         // field(58; "To Recommend Vehicle Loan"; Integer)
         // {
-        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const("Pending Approval"),
+        //     CalcFormula = count("Employee Loan/Advance" where("Approval Status" = const(Pending),
         //                                                        "Loan Type" = const("Vehicle Loan"),
         //                                                        Recommender = field("Employee Filter")));
         //     FieldClass = FlowField;
@@ -478,7 +478,7 @@ table 50116 "HR Cue"
         field(65; "To Recommend Resignation"; Integer)
         {
             CalcFormula = count("Employee Activity" where(Type = filter(Resignation),
-                                                           "Approval Status" = const("Pending Approval"),
+                                                           "Approval Status" = const(Pending),
                                                            "Recommender Code" = field("Employee Filter")));
             Editable = false;
             FieldClass = FlowField;
@@ -513,7 +513,7 @@ table 50116 "HR Cue"
         {
             CalcFormula = count("Employee Activity" where(Type = filter("HR Transfer" | "Employee Transfer"),
                                                            "Approval Status" = const(Acknowledged),
-                                                           "Transfer Allowance Approval" = const("Pending Approval"),
+                                                           "Transfer Allowance Approval" = const(Pending),
                                                            "Transfer Claim Recommender" = field("Employee Filter")));
             FieldClass = FlowField;
         }
@@ -560,13 +560,13 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(78; "To Screen Residential Address"; Integer)
-        {
-            CalcFormula = count("Employee Activity Second" where(Type = const("Residential Address"),
-                                                                  Status = const(Approved)));
-            Editable = false;
-            FieldClass = FlowField;
-        }
+        // field(78; "To Screen Residential Address"; Integer)
+        // {
+        //     CalcFormula = count("Employee Activity Second" where(Type = const("Residential Address"),
+        //                                                           Status = const(Approved)));
+        //     Editable = false;
+        //     FieldClass = FlowField;
+        // }
         field(79; "To Check Reviews KPI"; Integer)
         {
             CalcFormula = count("KPI Appraisal Header Bank" where(Status = const("Check Reviewed")));

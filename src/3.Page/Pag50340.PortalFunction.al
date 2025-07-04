@@ -166,7 +166,7 @@ page 50340 "Portal Function"
     //             exit;
     //         end;
     //         if not EmpActivity.Cancelled then begin
-    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //                 HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
     //             else begin
     //                 if not isApproved then begin
@@ -345,7 +345,7 @@ page 50340 "Portal Function"
     //         if EmpActivity."Advance Cash Required" then
     //             EmpActivity.Validate("Advance Cash", advanceCash);
     //         EmpActivity.Modify;
-    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //             HrMgt.RecommendEmployeeActivityAPI(empActNo, empNo)
     //         else begin
     //             HrMgt.ApprovedRejectApprovalAPI(true, empActNo, empNo);
@@ -1597,7 +1597,7 @@ page 50340 "Portal Function"
     //     // begin
     //     //     EmpActivity.Get(empActivityNo);
     //     //     if isApproved then begin
-    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
+    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending then begin
     //     //             EmpActivity.Remarks := remark;
     //     //             HrMgt.RecommendAccessControl(EmpActivity);
     //     //         end else
@@ -2009,7 +2009,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2216,7 +2216,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         // case month of
     //         //     Format(MonthOption::Baisakh):
@@ -2424,7 +2424,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2508,7 +2508,7 @@ page 50340 "Portal Function"
     //             if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //             else
-    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //             PostedPayrollHeader.FindFirst;
     //             case month of
     //                 Format(MonthOption::Baisakh):

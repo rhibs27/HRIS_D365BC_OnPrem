@@ -276,7 +276,7 @@ page 50171 "Temp Employee Activity Entity"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+        Rec."Approval Status" := Rec."Approval Status"::Pending;
     end;
 
     trigger OnOpenPage()

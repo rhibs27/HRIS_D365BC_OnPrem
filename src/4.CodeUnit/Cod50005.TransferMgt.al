@@ -118,7 +118,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         // if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
         //     Error('You are not eligible to recommend this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
         // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
         // EmpHrTransfer.Modify;
         // Message('Document has been recommended');
@@ -128,7 +128,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
         //     Error('You are not eligible to recommend this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
         // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
         // EmpHrTransfer.Modify;
         // Message('Document has been recommended');
@@ -504,7 +504,7 @@ codeunit 50005 "Transfer Mgt."
     // begin
     //     EmpHrTransfer.TestField("Rejection Remarks");
     //     case EmpHrTransfer."Approval Status" of
-    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //         EmpHrTransfer."Approval Status"::Pending:
     //             begin
     //                 if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
     //                     Error('You are not eligible to reject this document');
@@ -545,7 +545,7 @@ codeunit 50005 "Transfer Mgt."
     // begin
     //     EmpHrTransfer.TestField("Rejection Remarks");
     //     case EmpHrTransfer."Approval Status" of
-    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //         EmpHrTransfer."Approval Status"::Pending:
     //             begin
     //                 if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
     //                     Error('You are not eligible to reject this document');

@@ -4,7 +4,7 @@ page 50139 "Email Template Messages"
 
     AutoSplitKey = true;
     PageType = ListPart;
-    SourceTable = "Agile Email Message";
+    SourceTable = "Email Template Message";
     ApplicationArea = All;
 
     layout

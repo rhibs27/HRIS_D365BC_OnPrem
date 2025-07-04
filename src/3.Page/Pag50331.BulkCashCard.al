@@ -201,7 +201,7 @@ page 50331 "Bulk Cash Card"
 
     local procedure SetLayout()
     begin
-        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Cancelled,
+        FormEditable := Rec."Approval Status" in [Rec."Approval Status"::" ", Rec."Approval Status"::Canceled,
                         Rec."Approval Status"::Open];
 
         case Rec."Approval Status" of
@@ -212,7 +212,7 @@ page 50331 "Bulk Cash Card"
                     ForApprove := false;
                     ForScreen := false;
                 end;
-            Rec."Approval Status"::"Pending Approval":
+            Rec."Approval Status"::Pending:
                 begin
                     ForRecommend := true;
                     ForReject := true;

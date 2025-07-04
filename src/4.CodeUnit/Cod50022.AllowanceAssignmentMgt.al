@@ -65,7 +65,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         // if ApproveBool then begin
         //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         //     AllowanceAssignment.Modify(true);
-        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Pending);
         //     // AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Approved);
         //     // AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Screened);
         // end else begin
@@ -175,7 +175,7 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     //     AllowanceLine.Reset;
     //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
     //     if Approved then
     //         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
     //     else
@@ -206,7 +206,7 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     //     AllowanceLine.Reset;
     //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
     //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
     //     // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
     //     AllowanceLine.ModifyAll("Approved Date", Today);
