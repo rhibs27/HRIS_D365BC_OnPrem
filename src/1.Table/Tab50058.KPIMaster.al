@@ -59,7 +59,7 @@ table 50058 "KPI Master"
                 end;
             end;
         }
-        field(8; "Fiscal Year"; Code[10])
+        field(8; "Fiscal Year"; Code[20])
         {
             Editable = false;
         }

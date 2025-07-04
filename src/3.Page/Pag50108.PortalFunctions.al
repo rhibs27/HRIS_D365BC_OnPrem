@@ -367,7 +367,7 @@ page 50108 "Portal Functions"
 
     // [ServiceEnabled]
     // [Scope('Personalization')]
-    // procedure getEmployeeApprovals(requestType: code[20]): text
+    // procedure getEmployeeApprovals(requestType: Code[20]): text
     // var
     //     Hrsetup: Record "Human Resources Setup";
     //     RecommenderCode: Code[250];
@@ -579,7 +579,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure submitLeaveCancelRequest(leaveNo: code[20]; remarks: Text): text
+    procedure submitLeaveCancelRequest(leaveNo: Code[20]; remarks: Text): text
     var
         TempCancelDocument: Record "Cancel Document" temporary;
         docNo: text;
@@ -848,7 +848,7 @@ page 50108 "Portal Functions"
     "typeOfVisit": text;
     "modeOfTravel": text;
     "travelType": text;
-    "travelWith": code[20];
+    "travelWith": Code[20];
     "departureFrom": text;
     "destination": text;
     "description": text;
@@ -917,7 +917,7 @@ page 50108 "Portal Functions"
    "purposeOfTravel": text;
    "modeOfTravel": text;
    "travelType": text;
-   "travelWith": code[20];
+   "travelWith": Code[20];
    "description": text;
     claimType: text;
    "estimatedConveyanceExpense": Decimal;
@@ -999,7 +999,7 @@ page 50108 "Portal Functions"
         EstFoodCost: Decimal;
         //EmpAct: Record "Employee Activity";
         EmpTravel: Record "Travel Request";
-        approverCode: Code[10];
+        approverCode: Code[20];
     begin
         EmpVar.Get(empNo);
         SalLevel.Get(EmpVar."Salary Level");
@@ -1119,7 +1119,7 @@ page 50108 "Portal Functions"
     [Scope('Personalization')]
     procedure getOutofPocket(empNo: Code[20]; depatureTime: Time; arrivalTime: Time; startDate: Date; endDate: Date; empTravelNo: Code[20]): Text
     var
-        allType: Option " ",Fooding,Lodging,OutofExpense;
+        allType: Enum "Allowance Type";
         travelRequest: Record "Travel Request";
         StartDates: date;
         AdvanceCash: Decimal;
@@ -1148,7 +1148,7 @@ page 50108 "Portal Functions"
     var
         //EmpActivity: Record "Employee Activity";
         EmpTravel: Record "Travel Request";
-        allType: Option " ",Fooding,Lodging,OutofExpense;
+        allType: Enum "Allowance Type";
     begin
         EmpTravel.Get(empTravelNo);
         exit(
@@ -2085,7 +2085,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure insertAllowanceInRange(documentNo: Code[20]; allowanceType: code[20]; panel: Text; employeeNo: Code[20]; fromDate: date; toDate: date)
+    procedure insertAllowanceInRange(documentNo: Code[20]; allowanceType: Code[20]; panel: Text; employeeNo: Code[20]; fromDate: date; toDate: date)
     var
         PanelENum: Enum Panel;
     begin
@@ -3828,7 +3828,7 @@ page 50108 "Portal Functions"
         MonthOption: Enum "Nepali Month";
         FileName: Text;
         PostedPayrollHeader: Record "Posted Payroll Header";
-        PayCycleTerm: Code[10];
+        PayCycleTerm: Code[20];
         PayCyclePeriod: Record "Pay Cycle Period";
         recRef: RecordRef;
         tmpBlob: Codeunit "Temp Blob";
@@ -4393,7 +4393,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     [Scope('Personalization')]
-    procedure insertShiftInRange(documentNo: Code[20]; employeeNo: code[20]; employeeWorkShift: Code[20]; fromDate: date; toDate: date)
+    procedure insertShiftInRange(documentNo: Code[20]; employeeNo: Code[20]; employeeWorkShift: Code[20]; fromDate: date; toDate: date)
     begin
         ShiftAssignmentMgt.InsertShiftLine(DocumentNo, EmployeeNo, EmployeeWorkShift, FromDate, ToDate);
     end;

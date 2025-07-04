@@ -30,8 +30,8 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         EmpLedgCreated: Boolean;
         GLEntryNo: Integer;
         Text001: Label 'Do you want to post the Journal %1?';
-        TemplateCode: Code[10];
-        BatchCode: Code[10];
+        TemplateCode: Code[20];
+        BatchCode: Code[20];
         Text002: Label 'Payroll Journal Posted Successfully.';
         Window: Dialog;
         TotalCount: Integer;

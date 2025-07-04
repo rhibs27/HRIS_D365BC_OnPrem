@@ -5,7 +5,7 @@ table 50144 "Recruitment Cue"
 
     fields
     {
-        field(1; "Primary Key"; code[20])
+        field(1; "Primary Key"; Code[20])
         {
             DataClassification = ToBeClassified;
         }

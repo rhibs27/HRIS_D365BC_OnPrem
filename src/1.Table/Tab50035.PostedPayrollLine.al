@@ -170,7 +170,7 @@ table 50035 "Posted Payroll Line"
         {
             Editable = false;
         }
-        field(44; "Currency Code"; Code[10])
+        field(44; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;

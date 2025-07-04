@@ -635,7 +635,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -643,7 +643,7 @@ codeunit 50008 "Payroll Engine"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -732,7 +732,7 @@ codeunit 50008 "Payroll Engine"
         exit(NumberStack[NsNo]);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -746,7 +746,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -915,7 +915,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure PayrollCaptionClassTranslate(Language: Integer; CaptionRef: Text[80]): Text[30]
     var
-        LanguageCode: Code[10];
+        LanguageCode: Code[20];
         LanguageRec: Record Language;
         TableID: Integer;
         FieldNo: Integer;
@@ -937,7 +937,7 @@ codeunit 50008 "Payroll Engine"
         exit(GetPayrollCaption(TableID, FieldNo, LanguageCode));
     end;
 
-    procedure GetPayrollCaption(TableNo: Integer; FieldNo: Integer; LanguageCode: Code[10]): Text[30]
+    procedure GetPayrollCaption(TableNo: Integer; FieldNo: Integer; LanguageCode: Code[20]): Text[30]
     var
         PayColumnConfig: Record "Payroll Column Configuration";
         PayAttribute: Record "Payroll Attributes";
@@ -1259,7 +1259,7 @@ codeunit 50008 "Payroll Engine"
     begin
     end;
 
-    procedure SetName(CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure SetName(CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     begin
         PayrollJournalLine.FilterGroup := 2;
         PayrollJournalLine.SetRange("Journal Batch Name", CurrentJnlBatchName);
@@ -1297,7 +1297,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure OpenJnl(var CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure OpenJnl(var CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     begin
         CheckTemplateName(CurrentJnlBatchName);
         PayrollJournalLine.FilterGroup := 2;
@@ -1305,7 +1305,7 @@ codeunit 50008 "Payroll Engine"
         PayrollJournalLine.FilterGroup := 0;
     end;
 
-    local procedure CheckTemplateName(var CurrentJnlBatchName: Code[10])
+    local procedure CheckTemplateName(var CurrentJnlBatchName: Code[20])
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
@@ -1321,14 +1321,14 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure CheckName(CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure CheckName(CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
         PayrollJournalBatch.Get(CurrentJnlBatchName);
     end;
 
-    procedure LookupName(var CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure LookupName(var CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
@@ -1725,7 +1725,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure IsHoliday(BaseCalendar: Code[10]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley"; PostingRegion: Option; Branch: Text): Boolean
+    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley"; PostingRegion: Option; Branch: Text): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
@@ -4599,7 +4599,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
     var
-        LanguageCode: Code[10];
+        LanguageCode: Code[20];
         LanguageRec: Record Language;
         TableID: Integer;
         FieldNo: Integer;

@@ -10,7 +10,7 @@ table 50155 "Transfer Claim Detail"
             Caption = 'Transfer No';
         }
         //anupam
-        field(2; "Attribute code"; code[20])
+        field(2; "Attribute code"; Code[20])
         {
             Caption = 'Attribute code';
             TableRelation = "Payroll Attributes".Code WHERE("Activity Type" = CONST("Employee Activity Type"::"Transfer Claim"));

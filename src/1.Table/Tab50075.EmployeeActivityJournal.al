@@ -195,7 +195,7 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(23; "Employee Work Shift"; Code[10])
+        field(23; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";

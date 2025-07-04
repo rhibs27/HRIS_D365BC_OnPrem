@@ -9,7 +9,7 @@ codeunit 50017 "Approver Mgt"
     // >>RecRef.Field(100) = Status 
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
-    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status")
+    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status")
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -71,7 +71,7 @@ codeunit 50017 "Approver Mgt"
 
     // >> Insert Approval for Loan >> Santosh 2025-03-04 >>
     procedure InsertApprovalLoan(EmployeeNo: Code[20];
-        EmpActNo: code[20];
+        EmpActNo: Code[20];
         EmpActType: enum "Employee Activity Type";
         LoanType: Enum "Loan Type")
     var
@@ -132,7 +132,7 @@ codeunit 50017 "Approver Mgt"
     end;
 
     // << Insert Approval in temporary table <<
-    procedure InsertApprovalCancelled(EmployeeNo: Code[20]; EmpActNo: code[20]; EmpActType: enum "Employee Activity Type"; Cancelled: Boolean)
+    procedure InsertApprovalCancelled(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; Cancelled: Boolean)
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";

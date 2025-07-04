@@ -8,12 +8,12 @@ table 50084 "Rolewise Job Description"
 
     fields
     {
-        field(1; "Role Code"; Code[10])
+        field(1; "Role Code"; Code[20])
         {
             Editable = false;
             TableRelation = "Job Title";
         }
-        field(2; "Job Description Code"; Code[10]) { }
+        field(2; "Job Description Code"; Code[20]) { }
         field(3; "Job Description"; Text[100]) { }
     }
 

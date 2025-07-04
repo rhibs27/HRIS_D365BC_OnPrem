@@ -51,7 +51,7 @@ tableextension 50026 "Dimension Value Ext" extends "Dimension Value"
         //     TableRelation = "Reporting Category";
         //     DataClassification = CustomerContent;
         // }
-        // field(50010; "Sol ID"; Code[10])
+        // field(50010; "Sol ID"; Code[20])
         // {
         //     DataClassification = CustomerContent;
         // }
@@ -60,7 +60,7 @@ tableextension 50026 "Dimension Value Ext" extends "Dimension Value"
         //     TableRelation = "Remote Area Category";
         //     DataClassification = CustomerContent;
         // }
-        // field(50012; "Remote Area Reduction"; Code[10])
+        // field(50012; "Remote Area Reduction"; Code[20])
         // {
         //     TableRelation = "Remote Area Category";
         //     DataClassification = CustomerContent;

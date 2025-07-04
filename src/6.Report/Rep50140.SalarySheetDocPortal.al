@@ -162,8 +162,8 @@ report 50140 "Salary Sheet Doc Portal"
     var
         Amount: Decimal;
         DetaliedEmpLedgerPRM: Record "Detailed Employee Ledger Entry";
-        PayCycleTerms: Code[10];
-        EmployeeFilter: Code[10];
+        PayCycleTerms: Code[20];
+        EmployeeFilter: Code[20];
         EmpVar: Record Employee;
         CompanyInfo: Record "Company Information";
         TypeHelper: Codeunit "Type Helper";
@@ -180,20 +180,20 @@ report 50140 "Salary Sheet Doc Portal"
         PostedPayHeader: Record "Posted Payroll Header";
         NepaliMonth: Enum "Nepali Month";
         MultipleEmloyee: Boolean;
-        FilterText: Code[10];
+        FilterText: Code[20];
         PostedPayrollLine: Record "Posted Payroll Line";
         Months: Enum "Nepali Month";
         NepaliYear: Integer;
         FilterMonth: Text;
         ReportHeading: Label 'Payroll Report';
 
-    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[10])
+    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
     begin
         EmployeeFilter := empCode;
         //NepaliYear := FiscalYear;
     end;
 
-    procedure PassParHrmsPortal(empCode: Code[20]; payCycleTerm: Code[10]; month: Enum "Nepali Month")
+    procedure PassParHrmsPortal(empCode: Code[20]; payCycleTerm: Code[20]; month: Enum "Nepali Month")
     var
         PostedPayroll: Record "Posted Payroll Header";
         PayCyclePeriod: Record "Pay Cycle Period";

@@ -1,6 +1,6 @@
 codeunit 50005 "Transfer Mgt."
 {
-    procedure OpenTransferRequest(EmpCode: Code[10])
+    procedure OpenTransferRequest(EmpCode: Code[20])
     var
         //EmpAct4: Record "Employee Activity" temporary;
         EmpTransfer: Record "Employee Transfer" temporary;
@@ -702,7 +702,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.Modify;
     end;
 
-    procedure ApproveTransferClaim(transferClaimNo: code[20])
+    procedure ApproveTransferClaim(transferClaimNo: Code[20])
     var
         TransferClaim: Record "Employee Transfer";
         ServiceHistory: Record "Employee Service History";
@@ -718,7 +718,7 @@ codeunit 50005 "Transfer Mgt."
         end;
     end;
 
-    procedure RejectTransferClaim(transferClaimNo: code[20])
+    procedure RejectTransferClaim(transferClaimNo: Code[20])
     var
         TransferClaim: Record "Employee Transfer";
         TransferClaim2: Record "Employee Transfer";
@@ -812,7 +812,7 @@ codeunit 50005 "Transfer Mgt."
         // Message('Document Returned.');
     end;
 
-    procedure ReturnTransferAPI(EmpHrTransfer: Record "Employee Transfer"; employeeCode: code[20])
+    procedure ReturnTransferAPI(EmpHrTransfer: Record "Employee Transfer"; employeeCode: Code[20])
     begin
         // if EmpHrTransfer.Type in [EmpHrTransfer.Type::"HR Transfer", EmpHrTransfer.Type::"Employee Transfer"] then
         //     Error('It is not transfer document.');

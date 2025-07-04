@@ -58,7 +58,7 @@ table 50118 "Shift Line"
             Caption = 'Approval Status';
             Editable = false;
         }
-        field(9; "Employee Work Shift"; Code[10])
+        field(9; "Employee Work Shift"; Code[20])
         {
             Caption = 'Employee Work Shift';
             TableRelation = "Employee Work Shift".Code;

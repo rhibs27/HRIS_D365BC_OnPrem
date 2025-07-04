@@ -11,7 +11,7 @@ table 50023 "Tax Setup Line"
         field(3; "Start Amount"; Decimal) { }
         field(4; "End Amount"; Decimal) { }
         field(5; "Tax Rate"; Decimal) { }
-        field(6; "Tax Group Code"; Code[10]) { }
+        field(6; "Tax Group Code"; Code[20]) { }
     }
 
     keys

@@ -6,12 +6,12 @@ table 50029 "Pay Cycle Term"
 
     fields
     {
-        field(1; "Pay Cycle Code"; Code[10])
+        field(1; "Pay Cycle Code"; Code[20])
         {
             NotBlank = true;
             TableRelation = "Pay Cycle".Code;
         }
-        field(2; Term; Code[10])
+        field(2; Term; Code[20])
         {
             NotBlank = true;
 
@@ -67,7 +67,7 @@ table 50029 "Pay Cycle Term"
         PayrollLedgerEntry: Record "Employee Ledger Entry PRM";
         Text001: Label 'You cannot delete the Pay Cycle Term.  There are records already posted to the %1 table.';
 
-    procedure GetDefaultPayPeriods(PayCycleCode: Code[10]): Integer
+    procedure GetDefaultPayPeriods(PayCycleCode: Code[20]): Integer
     var
         Periods: Integer;
     begin

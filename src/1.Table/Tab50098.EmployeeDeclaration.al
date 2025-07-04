@@ -41,7 +41,7 @@ table 50098 "Employee Declaration"
             end;
         }
         field(3; "Employee Name"; Text[100]) { }
-        field(4; "Fiscal Year"; Code[10]) { }
+        field(4; "Fiscal Year"; Code[20]) { }
         field(5; "Salary Level"; Code[20])
         {
             trigger OnValidate()

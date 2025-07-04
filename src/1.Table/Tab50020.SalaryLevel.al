@@ -6,7 +6,7 @@ table 50020 "Salary Level"
 
     fields
     {
-        field(1; "Code"; Code[10]) { }
+        field(1; "Code"; Code[20]) { }
         field(2; Description; Text[50]) { }
         field(3; Rank; Integer) { }
         field(4; "Basic Salary"; Decimal)

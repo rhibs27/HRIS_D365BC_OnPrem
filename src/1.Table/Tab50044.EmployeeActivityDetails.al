@@ -133,11 +133,11 @@ table 50044 "Employee Activity Details"
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
         field(19; Opening; Boolean) { }
-        field(20; "Standard Level Code"; Code[10])
+        field(20; "Standard Level Code"; Code[20])
         {
             Editable = false;
         }
-        field(21; "No. Series"; Code[10])
+        field(21; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }

@@ -799,7 +799,7 @@ codeunit 50004 "Travel Mgt."
     //     end;
     // end;
 
-    procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: code[20])
+    procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: Code[20])
     var
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
         FunctionalTitle: Record "Functional Title";
@@ -1228,7 +1228,7 @@ codeunit 50004 "Travel Mgt."
             until IncomingDocument.Next = 0;
     end;
 
-    procedure GetAllowanceFoodingLodging(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
+    procedure GetAllowanceFoodingLodging(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; NoofDays: Decimal): Decimal
     var
         SalaryLevel1: Record "Salary Level";
         EmpVar: Record Employee;
@@ -1294,7 +1294,7 @@ codeunit 50004 "Travel Mgt."
         OnAfterGetTravelAllowance(EmpTravel, allType, NoofDays, SalaryLevel, SalaryLevel1)
     end;
 
-    procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
+    procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; perDay: Boolean; NoOfDays: Decimal): Decimal
     var
         SalaryLevel1: Record "Salary Level";
         EmpVar: Record Employee;
@@ -1516,7 +1516,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal; SalaryLevel: Record "Salary Level"; SalaryLevel1: Record "Salary Level")
+    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; NoofDays: Decimal; SalaryLevel: Record "Salary Level"; SalaryLevel1: Record "Salary Level")
     begin
     end;
 

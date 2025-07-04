@@ -755,7 +755,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
+    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: Code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
     var
         AllowanceAssignLine: Record "Allowance Assignment Line";
         AllowanceAssignHeader: Record "Allowance Assignment Header";

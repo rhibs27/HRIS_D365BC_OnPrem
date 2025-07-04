@@ -1099,7 +1099,7 @@ page 50066 "Transfer Card"
 
     procedure GetTransferEditibility()
     begin
-        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General]; //Min 12.09.2022 -- General Option added;
+        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General];
     end;
 
     // local procedure OnNewTransferRecord()

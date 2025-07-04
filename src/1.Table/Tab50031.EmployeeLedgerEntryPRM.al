@@ -27,15 +27,15 @@ table 50031 "Employee Ledger Entry PRM"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(8; "Source Code"; Code[10])
+        field(8; "Source Code"; Code[20])
         {
             TableRelation = "Source Code";
         }
-        field(9; "Pay Cycle Code"; Code[10])
+        field(9; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(10; "Pay Cycle Term"; Code[10])
+        field(10; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
