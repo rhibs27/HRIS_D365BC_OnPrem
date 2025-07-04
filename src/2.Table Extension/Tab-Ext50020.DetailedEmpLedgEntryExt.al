@@ -29,12 +29,12 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
             TableRelation = "Payroll Attributes";
             DataClassification = ToBeClassified;
         }
-        field(50005; "Pay Cycle Code"; Code[10])
+        field(50005; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
             DataClassification = ToBeClassified;
         }
-        field(50006; "Pay Cycle Term"; Code[10])
+        field(50006; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
             DataClassification = ToBeClassified;
@@ -157,7 +157,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50030; "Fiscal Year"; Code[10])
+        field(50030; "Fiscal Year"; Code[20])
         {
             DataClassification = ToBeClassified;
             Editable = false;

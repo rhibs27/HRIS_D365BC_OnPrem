@@ -96,7 +96,7 @@ table 50026 "Payroll Header"
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Responsibility Center"; Code[10])
+        field(8; "Responsibility Center"; Code[20])
         {
             TableRelation = "Responsibility Center";
         }
@@ -130,11 +130,11 @@ table 50026 "Payroll Header"
             Editable = false;
             TableRelation = "User Setup";
         }
-        field(17; "From Date (B.S)"; Code[10])
+        field(17; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(18; "To Date (B.S)"; Code[10])
+        field(18; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -146,7 +146,7 @@ table 50026 "Payroll Header"
         {
             Editable = false;
         }
-        field(21; "Pay Cycle Code"; Code[10])
+        field(21; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -159,7 +159,7 @@ table 50026 "Payroll Header"
                 "Nepali Year" := 0;
             end;
         }
-        field(22; "Pay Cycle Term"; Code[10])
+        field(22; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
 
@@ -195,7 +195,7 @@ table 50026 "Payroll Header"
                 end;
             end;
         }
-        field(24; "Currency Code"; Code[10])
+        field(24; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;

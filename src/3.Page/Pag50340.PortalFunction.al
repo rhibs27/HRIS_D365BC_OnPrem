@@ -283,7 +283,7 @@ page 50340 "Portal Function"
     //         EstLodgCost: Decimal;
     //         EstFoodCost: Decimal;
     //         EmpAct: Record "Employee Activity";
-    //         approverCode: Code[10];
+    //         approverCode: Code[20];
     //     begin
     //         EmpVar.Get(empNo);
     //         SalLevel.Get(EmpVar."Salary Level");
@@ -356,7 +356,7 @@ page 50340 "Portal Function"
     //     [Scope('Personalization')]
     //     procedure getOutofPocket(empNo: Code[20]; depatureTime: Time; arrivalTime: Time; startDate: Date; endDate: Date; empActNo: Code[20]): Text
     //     var
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         Employee.Get(empNo);
     //         SalaryLevel.Get(Employee."Salary Level");
@@ -392,7 +392,7 @@ page 50340 "Portal Function"
     //     procedure exitForTravelClaims(empAcitivityNo: Code[20]): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         EmpActivity.Get(empAcitivityNo);
 
@@ -417,7 +417,7 @@ page 50340 "Portal Function"
     //         )
     //     end;
 
-    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" NoofDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -471,7 +471,7 @@ page 50340 "Portal Function"
     //         end;
     //     end;
 
-    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" perDay: Boolean; NoOfDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -2593,7 +2593,7 @@ page 50340 "Portal Function"
     //         MonthOption: Enum "Nepali Month";
     //         FileName: Text;
     //         PostedPayrollHeader: Record "Posted Payroll Header";
-    //         PayCycleTerm: Code[10];
+    //         PayCycleTerm: Code[20];
     //         PayCyclePeriod: Record "Pay Cycle Period";
     //         recRef: RecordRef;
     //         tmpBlob: Codeunit "Temp Blob";

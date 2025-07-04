@@ -2,12 +2,12 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
 {
     fields
     {
-        field(50000; "Pay Cycle Code"; Code[10])
+        field(50000; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
             DataClassification = ToBeClassified;
         }
-        field(50001; "Pay Cycle Term"; Code[10])
+        field(50001; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
             DataClassification = ToBeClassified;
@@ -50,7 +50,7 @@ tableextension 50019 "Employee Led. Entry Ext " extends "Employee Ledger Entry"
             DataClassification = ToBeClassified;
         }
         field(50022; "Payroll Attribute Code"; Code[20]) { DataClassification = ToBeClassified; }
-        field(50023; "Fiscal Year"; Code[10])
+        field(50023; "Fiscal Year"; Code[20])
         {
             DataClassification = ToBeClassified;
             Editable = false;

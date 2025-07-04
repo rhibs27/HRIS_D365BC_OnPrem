@@ -43,7 +43,7 @@ table 50043 "Attendance Line"
 
         }
 
-        field(7; "Employee Working Shift"; Code[10])
+        field(7; "Employee Working Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
 
@@ -156,13 +156,13 @@ table 50043 "Attendance Line"
             CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
             FieldClass = FlowField;
         }
-        field(50; "Salary Level Code"; Code[10])
+        field(50; "Salary Level Code"; Code[20])
         {
             Editable = false;
 
             TableRelation = "Salary Level";
         }
-        field(51; "Salary Grade"; Code[10])
+        field(51; "Salary Grade"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Grade";
@@ -174,18 +174,18 @@ table 50043 "Attendance Line"
         field(54; "Training Check Out Time"; Time) { }
 
 
-        field(55; "Pay Cycle Term"; Code[10])
+        field(55; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-        field(56; "Pay Cycle Code"; Code[10])
+        field(56; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
 
 
 
-        field(57; "From Date (B.S)"; Code[10])
+        field(57; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -218,7 +218,7 @@ table 50043 "Attendance Line"
         {
             Editable = false;
         }
-        field(66; "To Date (B.S)"; Code[10])
+        field(66; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }

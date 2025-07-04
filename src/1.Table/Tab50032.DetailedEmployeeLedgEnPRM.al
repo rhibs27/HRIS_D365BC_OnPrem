@@ -39,7 +39,7 @@ table 50032 "Detailed Employee Ledg. En PRM"
             Caption = 'Shortcut Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(11; "Source Code"; Code[10])
+        field(11; "Source Code"; Code[20])
         {
             TableRelation = "Source Code";
         }
@@ -47,11 +47,11 @@ table 50032 "Detailed Employee Ledg. En PRM"
         {
             TableRelation = "Payroll Attributes";
         }
-        field(13; "Pay Cycle Code"; Code[10])
+        field(13; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(14; "Pay Cycle Term"; Code[10])
+        field(14; "Pay Cycle Term"; Code[20])
         {
             Description = '*';
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));

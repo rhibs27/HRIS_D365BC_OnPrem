@@ -4,7 +4,7 @@ table 50097 "HR Budget Plan"
 
     fields
     {
-        field(1; "Fiscal Year"; Code[10]) { }
+        field(1; "Fiscal Year"; Code[20]) { }
         field(2; "Code"; Code[20])
         {
             TableRelation = if ("Deputation On" = Filter("Deputation On"::Department)) "Organization Structure List".Code where(type = filter("Deputation Type"::Department), Blocked = filter(false))
@@ -54,7 +54,7 @@ table 50097 "HR Budget Plan"
         {
             Editable = false;
         }
-        field(5; "Salary Level Code"; Code[10])
+        field(5; "Salary Level Code"; Code[20])
         {
             TableRelation = "Salary Level";
 

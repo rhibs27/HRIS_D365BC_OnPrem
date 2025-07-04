@@ -376,7 +376,7 @@ table 50141 OverTime
                 end;
             end;
         }
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";

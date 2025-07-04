@@ -538,7 +538,7 @@ table 50067 "Employee Activity"
                 end;
             end;
         }
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -878,7 +878,7 @@ table 50067 "Employee Activity"
                 Validate("No. of Days");
             end;
         }
-        field(78; "Currency Code"; Code[10])
+        field(78; "Currency Code"; Code[20])
         {
             TableRelation = Currency;
         }
@@ -1574,7 +1574,7 @@ table 50067 "Employee Activity"
         field(168; "Other If Any"; Enum YesNo)
         {
         }
-        field(169; Whatsapp; Code[10])
+        field(169; Whatsapp; Code[20])
         {
         }
         // field(170; "Request Case"; Enum "Request Case")

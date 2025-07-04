@@ -145,7 +145,7 @@ codeunit 50015 "OverTime Mgt"
     //     Message('The document has been recommended.');
     // end;
 
-    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: code[20])
+    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: Code[20])
     // var
 
     //     OverTime: Record OverTime;

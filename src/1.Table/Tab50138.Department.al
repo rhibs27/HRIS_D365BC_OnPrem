@@ -90,7 +90,7 @@
 //             ExtendedDatatype = URL;
 //             Caption = 'Home Page';
 //         }
-//         field(14; "Country/Region Code"; Code[10])
+//         field(14; "Country/Region Code"; Code[20])
 //         {
 //             TableRelation = "Country/Region";
 //             Caption = 'Country/Region Code';

@@ -2088,7 +2088,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         EmployeeAct: Record "Employee Activity";
         TransferCard: Page "Transfer Card";
         LoanMgt: Codeunit "Loan Mgt.";
-        Type: Option ,"Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
+        Type: Enum "Loan Type";
         AppraisalRec: Record Appraisal;
         FieldVisible: Boolean;
         FieldVisible1: Boolean;

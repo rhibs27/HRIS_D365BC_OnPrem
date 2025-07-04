@@ -320,7 +320,7 @@
 //         CODEUNIT.Run(CODEUNIT::"TransferOrder-Post Receipt", TransferHeader);
 //     end;
 
-//     procedure GetTransferShipment(No: Code[10]): Text
+//     procedure GetTransferShipment(No: Code[20]): Text
 //     var
 //         TransferShptHeader: Record "Transfer Shipment Header";
 //         filename: Text;

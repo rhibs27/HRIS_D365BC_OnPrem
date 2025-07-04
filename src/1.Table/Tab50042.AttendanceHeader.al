@@ -70,11 +70,11 @@ table 50042 "Attendance Header"
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Responsibility Center"; Code[10])
+        field(8; "Responsibility Center"; Code[20])
         {
             TableRelation = "Responsibility Center";
         }
-        field(9; "No. Series"; Code[10])
+        field(9; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
@@ -98,11 +98,11 @@ table 50042 "Attendance Header"
             Editable = false;
             TableRelation = "User Setup";
         }
-        field(15; "From Date (B.S)"; Code[10])
+        field(15; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(16; "To Date (B.S)"; Code[10])
+        field(16; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -114,7 +114,7 @@ table 50042 "Attendance Header"
         {
             Editable = false;
         }
-        field(19; "Pay Cycle Code"; Code[10])
+        field(19; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -128,7 +128,7 @@ table 50042 "Attendance Header"
                 DeleteSummary;
             end;
         }
-        field(20; "Pay Cycle Term"; Code[10])
+        field(20; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
 

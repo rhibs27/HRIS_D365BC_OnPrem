@@ -213,7 +213,7 @@ table 50140 "Employee Transfer"
             Editable = false;
         }
 
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -910,7 +910,7 @@ table 50140 "Employee Transfer"
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
             Validate("Employee No.", HRMgt.GetEmployeeNo());
-            "Approval Status" := "Approval Status"::Pending;
+            //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;

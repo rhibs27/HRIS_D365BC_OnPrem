@@ -3,7 +3,7 @@ table 50024 "Payroll General Setup"
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "Primary Key"; Code[10]) { }
+        field(1; "Primary Key"; Code[20]) { }
         field(2; "Tax Ex. Amt. (%) on Retirement"; Decimal) { }
         field(3; "Tax Ex. Amt. not Exceeding"; Decimal) { }
         field(4; "Tax Ex. Life Insurance Amt."; Decimal) { }
@@ -61,7 +61,7 @@ table 50024 "Payroll General Setup"
         {
             Caption = 'Tax Ex. Amt. not Exeed on Medical Reimbursment';
         }
-        field(19; "Payment Method Code"; Code[10])
+        field(19; "Payment Method Code"; Code[20])
         {
             Caption = 'Payment Method Code';
             TableRelation = "Payment Method";
@@ -142,11 +142,11 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Payroll Attributes" where(Type = const(Deduction));
         }
-        field(31; "Payroll Journal Template"; Code[10])
+        field(31; "Payroll Journal Template"; Code[20])
         {
             TableRelation = "Gen. Journal Template";
         }
-        field(32; "Payroll Journal Batch"; Code[10])
+        field(32; "Payroll Journal Batch"; Code[20])
         {
             TableRelation = "Gen. Journal Batch".Name where("Journal Template Name" = field("Payroll Journal Template"));
         }
@@ -262,7 +262,7 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Payroll Attributes";
         }
-        field(69; "Base Calendar"; Code[10])
+        field(69; "Base Calendar"; Code[20])
         {
             TableRelation = "Base Calendar";
         }
@@ -350,7 +350,7 @@ table 50024 "Payroll General Setup"
             TableRelation = "Payroll Attributes".Code;
         }
         field(97; "Allowance Email Days"; Integer) { }
-        field(98; "Default Work Shift"; Code[10])
+        field(98; "Default Work Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
         }
@@ -421,7 +421,7 @@ table 50024 "Payroll General Setup"
         }
         field(125; "Next Fiscal Year Start Date"; Date) { }
         field(126; "Next Fiscal Year End Date"; Date) { }
-        field(127; "Head Teller Allowance"; code[20])
+        field(127; "Head Teller Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }

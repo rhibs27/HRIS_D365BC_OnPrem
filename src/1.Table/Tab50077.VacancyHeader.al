@@ -81,7 +81,7 @@ table 50077 "Vacancy Header"
         field(13; "Existing Salary"; Decimal) { }
         field(14; "New Position Salary"; Decimal) { }
         field(15; "Internal Candidate Identified"; Boolean) { }
-        field(16; "Internal Candidate Code"; Code[10])
+        field(16; "Internal Candidate Code"; Code[20])
         {
             Description = 'Not required';
             TableRelation = Employee;
@@ -152,7 +152,7 @@ table 50077 "Vacancy Header"
         {
             Editable = false;
         }
-        field(28; "No. Series"; Code[10])
+        field(28; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;

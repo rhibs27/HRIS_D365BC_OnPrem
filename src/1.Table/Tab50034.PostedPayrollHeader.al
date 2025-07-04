@@ -34,7 +34,7 @@ table 50034 "Posted Payroll Header"
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Responsibility Center"; Code[10])
+        field(8; "Responsibility Center"; Code[20])
         {
             TableRelation = "Responsibility Center";
         }
@@ -63,10 +63,10 @@ table 50034 "Posted Payroll Header"
         {
             TableRelation = "User Setup";
         }
-        field(17; "From Date (B.S)"; Code[10])
+        field(17; "From Date (B.S)"; Code[20])
         {
         }
-        field(18; "To Date (B.S)"; Code[10])
+        field(18; "To Date (B.S)"; Code[20])
         {
         }
         field(19; "Nepali Month"; Enum "Nepali Month")
@@ -74,16 +74,16 @@ table 50034 "Posted Payroll Header"
 
         }
         field(20; "Nepali Year"; Integer) { }
-        field(21; "Pay Cycle Code"; Code[10])
+        field(21; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(22; "Pay Cycle Term"; Code[10])
+        field(22; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term";
         }
         field(23; "Pay Cycle Period"; Integer) { }
-        field(24; "Currency Code"; Code[10])
+        field(24; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;

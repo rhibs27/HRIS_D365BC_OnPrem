@@ -339,7 +339,7 @@ report 50130 "Tax Deduction Info Mob App"
         end;
     end;
 
-    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[10])
+    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[20])
     var
         PrintExponent: Boolean;
         Ones: Integer;

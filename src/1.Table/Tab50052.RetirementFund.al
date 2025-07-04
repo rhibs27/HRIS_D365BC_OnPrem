@@ -15,14 +15,14 @@ table 50052 "Retirement Fund"
                 end;
             end;
         }
-        field(2; "Fiscal Year"; Code[10])
+        field(2; "Fiscal Year"; Code[20])
         {
         }
         field(3; "Payroll Month"; Enum "Nepali Month")
         {
             Description = 'Month for next Payroll';
         }
-        field(4; "No. Series"; Code[10]) { }
+        field(4; "No. Series"; Code[20]) { }
         field(5; "Employee No."; Code[20])
         {
             TableRelation = Employee;

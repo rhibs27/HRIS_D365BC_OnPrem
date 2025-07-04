@@ -22,11 +22,11 @@ table 50037 "Emp. Ledg. Entry No."
         field(7; Amount; Decimal) { }
         field(8; "Amount 2"; Decimal) { }
         field(9; "Amount 3"; Decimal) { }
-        field(10; "Pay Cycle Code"; Code[10])
+        field(10; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(11; "Pay Cycle Term"; Code[10])
+        field(11; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
         }

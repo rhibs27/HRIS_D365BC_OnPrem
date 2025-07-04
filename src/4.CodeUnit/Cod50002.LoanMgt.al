@@ -969,7 +969,7 @@ codeunit 50002 "Loan Mgt."
     //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
     //     end;
 
-    // procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: code[20])
+    // procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: Code[20])
     // var
     //     Confirmation: Label 'Confirm action?';
     //     Approved: Label 'Document is approved.';
