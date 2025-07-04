@@ -593,6 +593,7 @@ codeunit 50005 "Transfer Mgt."
         EmployeeTransfer1.Modify();
         // EmployeeTransfer.Init();
         EmployeeTransfer.TransferFields(EmpHrTransfer);
+        ApprovalMgt.UpdateFirstApproverStatus(EmployeeTransfer."No.");
         EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
         EmployeeTransfer.Modify();
         if GuiAllowed then
