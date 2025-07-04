@@ -287,10 +287,407 @@ report 50053 "Employee Salary Sheet Posted"
                 {
                     IncludeCaption = true;
                 }
-                column(VariableField50540_PostedPayrollLine; "Variable Field 50540")
+
+                column(VariableField50541_PostedPayrollLine; "Variable Field 50541")
                 {
                     IncludeCaption = true;
                 }
+
+                column(VariableField50542_PostedPayrollLine; "Variable Field 50542")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50543_PostedPayrollLine; "Variable Field 50543")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50544_PostedPayrollLine; "Variable Field 50544")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50545_PostedPayrollLine; "Variable Field 50545")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50546_PostedPayrollLine; "Variable Field 50546")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50547_PostedPayrollLine; "Variable Field 50547")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50548_PostedPayrollLine; "Variable Field 50548")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50549_PostedPayrollLine; "Variable Field 50549")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50550_PostedPayrollLine; "Variable Field 50550")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50551_PostedPayrollLine; "Variable Field 50551")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50552_PostedPayrollLine; "Variable Field 50552")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50553_PostedPayrollLine; "Variable Field 50553")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50554_PostedPayrollLine; "Variable Field 50554")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50555_PostedPayrollLine; "Variable Field 50555")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50556_PostedPayrollLine; "Variable Field 50556")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50557_PostedPayrollLine; "Variable Field 50557")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50558_PostedPayrollLine; "Variable Field 50558")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50559_PostedPayrollLine; "Variable Field 50559")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50560_PostedPayrollLine; "Variable Field 50560")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50561_PostedPayrollLine; "Variable Field 50561")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50562_PostedPayrollLine; "Variable Field 50562")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50563_PostedPayrollLine; "Variable Field 50563")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50564_PostedPayrollLine; "Variable Field 50564")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50565_PostedPayrollLine; "Variable Field 50565")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50566_PostedPayrollLine; "Variable Field 50566")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50567_PostedPayrollLine; "Variable Field 50567")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50568_PostedPayrollLine; "Variable Field 50568")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50569_PostedPayrollLine; "Variable Field 50569")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50570_PostedPayrollLine; "Variable Field 50570")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50571_PostedPayrollLine; "Variable Field 50571")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50572_PostedPayrollLine; "Variable Field 50572")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50573_PostedPayrollLine; "Variable Field 50573")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50574_PostedPayrollLine; "Variable Field 50574")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50575_PostedPayrollLine; "Variable Field 50575")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50576_PostedPayrollLine; "Variable Field 50576")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50577_PostedPayrollLine; "Variable Field 50577")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50578_PostedPayrollLine; "Variable Field 50578")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50579_PostedPayrollLine; "Variable Field 50579")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50580_PostedPayrollLine; "Variable Field 50580")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50581_PostedPayrollLine; "Variable Field 50581")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50582_PostedPayrollLine; "Variable Field 50582")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50583_PostedPayrollLine; "Variable Field 50583")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50584_PostedPayrollLine; "Variable Field 50584")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50585_PostedPayrollLine; "Variable Field 50585")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50586_PostedPayrollLine; "Variable Field 50586")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50587_PostedPayrollLine; "Variable Field 50587")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50588_PostedPayrollLine; "Variable Field 50588")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50589_PostedPayrollLine; "Variable Field 50589")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50590_PostedPayrollLine; "Variable Field 50590")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50591_PostedPayrollLine; "Variable Field 50591")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50592_PostedPayrollLine; "Variable Field 50592")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50593_PostedPayrollLine; "Variable Field 50593")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50594_PostedPayrollLine; "Variable Field 50594")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50595_PostedPayrollLine; "Variable Field 50595")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50596_PostedPayrollLine; "Variable Field 50596")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50597_PostedPayrollLine; "Variable Field 50597")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50598_PostedPayrollLine; "Variable Field 50598")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50599_PostedPayrollLine; "Variable Field 50599")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50600_PostedPayrollLine; "Variable Field 50600")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50601_PostedPayrollLine; "Variable Field 50601")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50602_PostedPayrollLine; "Variable Field 50602")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50603_PostedPayrollLine; "Variable Field 50603")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50604_PostedPayrollLine; "Variable Field 50604")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50605_PostedPayrollLine; "Variable Field 50605")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50606_PostedPayrollLine; "Variable Field 50606")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50607_PostedPayrollLine; "Variable Field 50607")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50608_PostedPayrollLine; "Variable Field 50608")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50609_PostedPayrollLine; "Variable Field 50609")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50610_PostedPayrollLine; "Variable Field 50610")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50611_PostedPayrollLine; "Variable Field 50611")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50612_PostedPayrollLine; "Variable Field 50612")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50613_PostedPayrollLine; "Variable Field 50613")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50614_PostedPayrollLine; "Variable Field 50614")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50615_PostedPayrollLine; "Variable Field 50615")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50616_PostedPayrollLine; "Variable Field 50616")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50617_PostedPayrollLine; "Variable Field 50617")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50618_PostedPayrollLine; "Variable Field 50618")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50619_PostedPayrollLine; "Variable Field 50619")
+                {
+                    IncludeCaption = true;
+                }
+
+                column(VariableField50620_PostedPayrollLine; "Variable Field 50620")
+                {
+                    IncludeCaption = true;
+                }
+
                 column(BranchName; DimValue.Name) { }
                 column(Field50490; Field50490Visible) { }
                 column(Field50491; Field50491Visible) { }
@@ -343,6 +740,90 @@ report 50053 "Employee Salary Sheet Posted"
                 column(Field50538; Field50538Visible) { }
                 column(Field50539; Field50539Visible) { }
                 column(Field50540; Field50540Visible) { }
+                column(Field50541; Field50541Visible) { }
+                column(Field50542; Field50542Visible) { }
+                column(Field50543; Field50543Visible) { }
+                column(Field50544; Field50544Visible) { }
+                column(Field50545; Field50545Visible) { }
+                column(Field50546; Field50546Visible) { }
+                column(Field50547; Field50547Visible) { }
+                column(Field50548; Field50548Visible) { }
+                column(Field50549; Field50549Visible) { }
+                column(Field50550; Field50550Visible) { }
+                column(Field50551; Field50551Visible) { }
+                column(Field50552; Field50552Visible) { }
+                column(Field50553; Field50553Visible) { }
+                column(Field50554; Field50554Visible) { }
+                column(Field50555; Field50555Visible) { }
+                column(Field50556; Field50556Visible) { }
+                column(Field50557; Field50557Visible) { }
+                column(Field50558; Field50558Visible) { }
+                column(Field50559; Field50559Visible) { }
+                column(Field50560; Field50560Visible) { }
+                column(Field50561; Field50561Visible) { }
+                column(Field50562; Field50562Visible) { }
+                column(Field50563; Field50563Visible) { }
+                column(Field50564; Field50564Visible) { }
+                column(Field50565; Field50565Visible) { }
+                column(Field50566; Field50566Visible) { }
+                column(Field50567; Field50567Visible) { }
+                column(Field50568; Field50568Visible) { }
+                column(Field50569; Field50569Visible) { }
+                column(Field50570; Field50570Visible) { }
+                column(Field50571; Field50571Visible) { }
+                column(Field50572; Field50572Visible) { }
+                column(Field50573; Field50573Visible) { }
+                column(Field50574; Field50574Visible) { }
+                column(Field50575; Field50575Visible) { }
+                column(Field50576; Field50576Visible) { }
+                column(Field50577; Field50577Visible) { }
+                column(Field50578; Field50578Visible) { }
+                column(Field50579; Field50579Visible) { }
+                column(Field50580; Field50580Visible) { }
+                column(Field50581; Field50581Visible) { }
+                column(Field50582; Field50582Visible) { }
+                column(Field50583; Field50583Visible) { }
+                column(Field50584; Field50584Visible) { }
+                column(Field50585; Field50585Visible) { }
+                column(Field50586; Field50586Visible) { }
+                column(Field50587; Field50587Visible) { }
+                column(Field50588; Field50588Visible) { }
+                column(Field50589; Field50589Visible) { }
+                column(Field50590; Field50590Visible) { }
+                column(Field50591; Field50591Visible) { }
+                column(Field50592; Field50592Visible) { }
+                column(Field50593; Field50593Visible) { }
+                column(Field50594; Field50594Visible) { }
+                column(Field50595; Field50595Visible) { }
+                column(Field50596; Field50596Visible) { }
+                column(Field50597; Field50597Visible) { }
+                column(Field50598; Field50598Visible) { }
+                column(Field50599; Field50599Visible) { }
+                column(Field50600; Field50600Visible) { }
+                column(Field50601; Field50601Visible) { }
+                column(Field50602; Field50602Visible) { }
+                column(Field50603; Field50603Visible) { }
+                column(Field50604; Field50604Visible) { }
+                column(Field50605; Field50605Visible) { }
+                column(Field50606; Field50606Visible) { }
+                column(Field50607; Field50607Visible) { }
+                column(Field50608; Field50608Visible) { }
+                column(Field50609; Field50609Visible) { }
+                column(Field50610; Field50610Visible) { }
+                column(Field50611; Field50611Visible) { }
+                column(Field50612; Field50612Visible) { }
+                column(Field50613; Field50613Visible) { }
+                column(Field50614; Field50614Visible) { }
+                column(Field50615; Field50615Visible) { }
+                column(Field50616; Field50616Visible) { }
+                column(Field50617; Field50617Visible) { }
+                column(Field50618; Field50618Visible) { }
+                column(Field50619; Field50619Visible) { }
+                column(Field50620; Field50620Visible) { }
+
+
+
+
 
                 trigger OnAfterGetRecord()
                 begin
@@ -433,6 +914,88 @@ report 50053 "Employee Salary Sheet Posted"
         Field50538Visible: Boolean;
         Field50539Visible: Boolean;
         Field50540Visible: Boolean;
+        Field50541Visible: Boolean;
+        Field50542Visible: Boolean;
+        Field50543Visible: Boolean;
+        Field50544Visible: Boolean;
+        Field50545Visible: Boolean;
+        Field50546Visible: Boolean;
+        Field50547Visible: Boolean;
+        Field50548Visible: Boolean;
+        Field50549Visible: Boolean;
+        Field50550Visible: Boolean;
+        Field50551Visible: Boolean;
+        Field50552Visible: Boolean;
+        Field50553Visible: Boolean;
+        Field50554Visible: Boolean;
+        Field50555Visible: Boolean;
+        Field50556Visible: Boolean;
+        Field50557Visible: Boolean;
+        Field50558Visible: Boolean;
+        Field50559Visible: Boolean;
+        Field50560Visible: Boolean;
+        Field50561Visible: Boolean;
+        Field50562Visible: Boolean;
+        Field50563Visible: Boolean;
+        Field50564Visible: Boolean;
+        Field50565Visible: Boolean;
+        Field50566Visible: Boolean;
+        Field50567Visible: Boolean;
+        Field50568Visible: Boolean;
+        Field50569Visible: Boolean;
+        Field50570Visible: Boolean;
+        Field50571Visible: Boolean;
+        Field50572Visible: Boolean;
+        Field50573Visible: Boolean;
+        Field50574Visible: Boolean;
+        Field50575Visible: Boolean;
+        Field50576Visible: Boolean;
+        Field50577Visible: Boolean;
+        Field50578Visible: Boolean;
+        Field50579Visible: Boolean;
+        Field50580Visible: Boolean;
+        Field50581Visible: Boolean;
+        Field50582Visible: Boolean;
+        Field50583Visible: Boolean;
+        Field50584Visible: Boolean;
+        Field50585Visible: Boolean;
+        Field50586Visible: Boolean;
+        Field50587Visible: Boolean;
+        Field50588Visible: Boolean;
+        Field50589Visible: Boolean;
+        Field50590Visible: Boolean;
+        Field50591Visible: Boolean;
+        Field50592Visible: Boolean;
+        Field50593Visible: Boolean;
+        Field50594Visible: Boolean;
+        Field50595Visible: Boolean;
+        Field50596Visible: Boolean;
+        Field50597Visible: Boolean;
+        Field50598Visible: Boolean;
+        Field50599Visible: Boolean;
+        Field50600Visible: Boolean;
+        Field50601Visible: Boolean;
+        Field50602Visible: Boolean;
+        Field50603Visible: Boolean;
+        Field50604Visible: Boolean;
+        Field50605Visible: Boolean;
+        Field50606Visible: Boolean;
+        Field50607Visible: Boolean;
+        Field50608Visible: Boolean;
+        Field50609Visible: Boolean;
+        Field50610Visible: Boolean;
+        Field50611Visible: Boolean;
+        Field50612Visible: Boolean;
+        Field50613Visible: Boolean;
+        Field50614Visible: Boolean;
+        Field50615Visible: Boolean;
+        Field50616Visible: Boolean;
+        Field50617Visible: Boolean;
+        Field50618Visible: Boolean;
+        Field50619Visible: Boolean;
+        Field50620Visible: Boolean;
+
+
         [InDataSet]
         HourCalculationVisible: Boolean;
         [InDataSet]
