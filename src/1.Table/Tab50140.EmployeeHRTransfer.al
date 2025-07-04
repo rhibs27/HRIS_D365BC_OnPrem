@@ -910,7 +910,7 @@ table 50140 "Employee Transfer"
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
             Validate("Employee No.", HRMgt.GetEmployeeNo());
-            "Approval Status" := "Approval Status"::Pending;
+            //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
