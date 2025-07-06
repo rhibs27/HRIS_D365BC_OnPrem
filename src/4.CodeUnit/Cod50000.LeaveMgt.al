@@ -488,12 +488,13 @@ codeunit 50000 "Leave Mgt."
     procedure CheckForLimitDays(LeaveCode: Code[20]; NoOfDays: Decimal)
     var
         LeaveTypeSetup: Record "Leave Type Setup";
+        LeaveReq: Record Leave;
     begin
         LeaveTypeSetup.Get(LeaveCode);
         if LeaveTypeSetup."Limit Max. Leave at Once" then
             if NoOfDays > LeaveTypeSetup."Maximum Leave at once" then
                 Error('Applied Leave Days for %1 cannot exceed %2.', LeaveTypeSetup.Description, LeaveTypeSetup."Maximum Leave at once");
-        if (NoOfDays < LeaveTypeSetup."Minimum Leave at once") or (NoOfDays > LeaveTypeSetup."Maximum Leave at once") then
+        If (NoOfDays < LeaveTypeSetup."Minimum Leave at once") then
             Error('Applied Leave Days for %1 must be between %2 and %3.', LeaveTypeSetup.Description, LeaveTypeSetup."Minimum Leave at once", LeaveTypeSetup."Maximum Leave at once");
     end;
 
