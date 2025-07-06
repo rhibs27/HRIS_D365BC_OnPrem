@@ -37,8 +37,8 @@ page 50088 "Leave Request"
                         LeaveType.Get(Rec."Leave Code");
                         IsCompensatory := LeaveType.Compensatory;
                         IsBereavement := LeaveType."Bereavement Leave";
-                        if IsCompensatory then
-                            RemainingDays := 0;
+                        // if IsCompensatory then
+                        //     RemainingDays := 0;
                         // if Rec."Leave Code" <> xRec."Leave Code" then
                         //     GenerateAttachment;
                         IsPaternity := LeaveType."Maternity/Paternity Leave";
