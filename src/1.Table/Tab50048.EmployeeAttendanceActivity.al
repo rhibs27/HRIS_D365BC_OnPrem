@@ -194,6 +194,7 @@ table 50048 "Employee Attendance & Activity"
         field(55; "Province Code"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province));
         }
         field(56; "Province Name"; Text[50])
         {
@@ -202,6 +203,7 @@ table 50048 "Employee Attendance & Activity"
         field(57; "Branch Code"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch));
         }
         field(58; "Branch Name"; Text[50])
         {
@@ -210,6 +212,7 @@ table 50048 "Employee Attendance & Activity"
         field(59; "Department Code"; Code[20])
         {
             DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
         field(60; "Department Name"; Text[50])
         {
