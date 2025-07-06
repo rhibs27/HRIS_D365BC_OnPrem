@@ -385,7 +385,8 @@ table 50153 "Cancel Document"
         }
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+            DataClassification = CustomerContent;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -658,6 +659,7 @@ table 50153 "Cancel Document"
         SalaryGrade: Record "Salary Grade";
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
+        OrganizationStructureList: Record "Organization Structure List";
 
 
     //EncashmentPeriodSetup: Record "OT Encashment Setup";

@@ -32283,6 +32283,56 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action TDS Withholding Certificate - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2632707057 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 345545436 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the action of Attendance Logs</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendacne Logs - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 345545436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Los</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendacne Logs - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2735614119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the action of Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Attendacne - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2735614119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Detail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Attendacne - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1514883969 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2922227932 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the action of Attendance Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendance Setup - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2922227932 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendance Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2137842149 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the action of Employee Work Shift</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Work Shift - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 2137842149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Work Shifts</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employee Work Shift - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 900836314 - Action 2701905267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Activities</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -32858,10 +32908,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action General - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 900836314 - Action 347328507 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 900836314 - Action 1013050644 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employees</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employees - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Employees1 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 900836314 - Action 2244803140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Employee List action.</source>
@@ -58222,6 +58272,26 @@
           <source>Substituted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Substitute - EnumValue Substituted - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1407850916 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1407850916 - EnumValue 1419079542 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fooding</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Type - EnumValue Fooding - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1407850916 - EnumValue 3553239740 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Lodging</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Type - EnumValue Lodging - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1407850916 - EnumValue 3149266657 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OutofExpense</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Allowance Type - EnumValue OutofExpense - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 657465377 - EnumValue 1526709447 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Default Periods</source>
