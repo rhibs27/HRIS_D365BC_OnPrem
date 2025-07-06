@@ -253,7 +253,7 @@ page 50201 "Retirement Fund Card"
                 begin
                     if not Confirm('Do you want to repoen the document ?', false) then
                         exit;
-                    Rec.TestField("Approval Status", "Approval Status"::"Pending Approval");
+                    Rec.TestField("Approval Status", "Approval Status"::Pending);
                     "Approval Status" := "Approval Status"::Open;
                     Rec.Modify;
                     Message('Document open successfully.');

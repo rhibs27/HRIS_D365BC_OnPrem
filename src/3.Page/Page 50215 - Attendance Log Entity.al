@@ -28,7 +28,7 @@
 //                     trigger OnValidate()
 //                     begin
 //                         if Rec."Late Remarks" <> '' then
-//                             Rec.Status := Rec.Status::"Pending Approval";
+//                             Rec.Status := Rec.Status::Pending;
 //                     end;
 //                 }
 //                 field(ApproverRemarks; Rec."Approver Remarks") { }

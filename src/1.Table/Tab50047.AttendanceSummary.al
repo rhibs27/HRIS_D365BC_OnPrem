@@ -23,7 +23,7 @@ table 50047 "Attendance Summary"
                 GetAttedanceDate;
             end;
         }
-        field(3; Status; Enum "Attendance Status")
+        field(3; Status; enum "Approval Status")
         {
             Editable = false;
         }
@@ -39,11 +39,11 @@ table 50047 "Attendance Summary"
         {
             Editable = false;
         }
-        field(7; "From Date (B.S)"; Code[10])
+        field(7; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(8; "To Date (B.S)"; Code[10])
+        field(8; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -55,11 +55,11 @@ table 50047 "Attendance Summary"
         {
             Editable = false;
         }
-        field(11; "Pay Cycle Code"; Code[10])
+        field(11; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(12; "Pay Cycle Term"; Code[10])
+        field(12; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }

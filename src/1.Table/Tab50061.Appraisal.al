@@ -58,7 +58,7 @@ table 50061 Appraisal
                     Validate(Rating, RatingSetup.Remarks);
             end;
         }
-        field(7; "Final Grade"; Code[10]) { }
+        field(7; "Final Grade"; Code[20]) { }
         field(8; Reviewer; Code[20])
         {
             TableRelation = Employee;
@@ -213,7 +213,7 @@ table 50061 Appraisal
         {
 
         }
-        field(62; Province; Code[10])
+        field(62; Province; Code[20])
         {
             Editable = false;
         }
@@ -249,7 +249,7 @@ table 50061 Appraisal
         {
             Editable = false;
         }
-        field(71; "Fiscal Year"; Code[10])
+        field(71; "Fiscal Year"; Code[20])
         {
             Editable = true;
         }
@@ -368,7 +368,7 @@ table 50061 Appraisal
           */
     end;
 
-    procedure DeleteAllSubFormKRA("code": Code[10])
+    procedure DeleteAllSubFormKRA("code": Code[20])
     begin
         KRASubform.Reset;
         KRASubform.SetRange("Key Result Area", code);

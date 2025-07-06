@@ -339,7 +339,7 @@ report 50130 "Tax Deduction Info Mob App"
         end;
     end;
 
-    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[10])
+    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[20])
     var
         PrintExponent: Boolean;
         Ones: Integer;
@@ -492,7 +492,7 @@ report 50130 "Tax Deduction Info Mob App"
         /*IF Employee."Employment Type" = Employee."Employment Type"::Contract THEN
           PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
         ELSE
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Regular);*/
+          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollLine.Reset;

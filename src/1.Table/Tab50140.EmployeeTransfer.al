@@ -213,7 +213,7 @@ table 50140 "Employee Transfer"
             Editable = false;
         }
 
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -653,7 +653,7 @@ table 50140 "Employee Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        // field(75; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
+        // field(75; "Transfer Allowance Approval"; enum "Approval Status")
         // {
         //     Description = 'Transfer';
         // }

@@ -255,7 +255,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'Attendane Missed';
         }
-        field(50051; "Spouse Code"; Code[10])
+        field(50051; "Spouse Code"; Code[20])
         {
             TableRelation = Relative;
             DataClassification = CustomerContent;
@@ -380,7 +380,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50078; "Leave Request No."; Code[10])
+        field(50078; "Leave Request No."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
@@ -407,7 +407,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50084; "Applicant No."; Code[10])
+        field(50084; "Applicant No."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
@@ -643,7 +643,7 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50137; "Retirement Fund Nos."; Code[10])
+        field(50137; "Retirement Fund Nos."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;

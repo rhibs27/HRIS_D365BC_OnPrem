@@ -15,14 +15,14 @@ table 50052 "Retirement Fund"
                 end;
             end;
         }
-        field(2; "Fiscal Year"; Code[10])
+        field(2; "Fiscal Year"; Code[20])
         {
         }
         field(3; "Payroll Month"; Enum "Nepali Month")
         {
             Description = 'Month for next Payroll';
         }
-        field(4; "No. Series"; Code[10]) { }
+        field(4; "No. Series"; Code[20]) { }
         field(5; "Employee No."; Code[20])
         {
             TableRelation = Employee;
@@ -127,7 +127,7 @@ table 50052 "Retirement Fund"
         {
             DataClassification = ToBeClassified;
         }
-        field(22; "Approval Status"; Enum "Employee Act. Approval Status")
+        field(22; "Approval Status"; Enum "Approval Status")
         {
             DataClassification = ToBeClassified;
             Editable = true;
@@ -213,7 +213,7 @@ table 50052 "Retirement Fund"
             "RTF Amount (Month)" := TempRF."RTF Amount (Month)";
             "CIT Amount (Month)" := TempRF."CIT Amount (Month)";
             "CIT Amount( Lumpsum)" := TempRF."CIT Amount( Lumpsum)";
-            "Approval Status" := "Approval Status"::"Pending Approval";
+            "Approval Status" := "Approval Status"::Pending;
             "Actual Lumpsump CIT" := TempRF."Actual Lumpsump CIT"; //Min
             "Actual Lumpsump RTF" := TempRF."Actual Lumpsump RTF";
             HRMgt.CalculateRetirementFund(Rec, "Projection Month")
@@ -247,7 +247,7 @@ table 50052 "Retirement Fund"
         if not GuiAllowed then begin
             TestField("Approval Status", "Approval Status"::Open);
             HRMgt.CalculateRetirementFund(Rec, "Projection Month");
-            "Approval Status" := "Approval Status"::"Pending Approval";
+            "Approval Status" := "Approval Status"::Pending;
         end;
     end;
 

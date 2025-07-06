@@ -145,7 +145,7 @@ page 50011 "Retirement Fund Entity"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        "Approval Status" := "Approval Status"::"Pending Approval";
+        "Approval Status" := "Approval Status"::Pending;
         PayrollGeneralSetup.Get; //Min
         if PayrollGeneralSetup."Enable RF Lumpsump Plan" then
             "Lumpsum Committed Contribution" := "Total Committed Contribution";

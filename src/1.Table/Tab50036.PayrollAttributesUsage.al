@@ -80,11 +80,11 @@ table 50036 "Payroll Attributes Usage"
                         Error('');
             end;
         }
-        field(9; "Pay Cycle Code"; Code[10])
+        field(9; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(10; "Pay Cycle Term"; Code[10])
+        field(10; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
         }

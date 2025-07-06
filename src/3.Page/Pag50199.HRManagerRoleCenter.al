@@ -58,7 +58,7 @@ page 50199 "HR Manager Role Center"
             group(General)
             {
                 Caption = 'General';
-                group("Employees")
+                group("Employees1")
                 {
                     Caption = 'Employees';
                     action("All Employees")
@@ -131,6 +131,48 @@ page 50199 "HR Manager Role Center"
                             RunPageView = where("Employment Type" = filter("Temporary"));
                             ToolTip = 'Executes the Probation Employee List action.';
                         }
+                    }
+                }
+
+            }
+            group(Attendance)
+            {
+                Caption = 'Attendance';
+                action("Attendacne Logs")
+                {
+                    Caption = 'Attendance Los';
+                    ApplicationArea = Basic, Suite;
+                    Image = ListPage;
+                    RunObject = page "Attendance Logs";
+                    ToolTip = 'Executes the action of Attendance Logs';
+                }
+                action("Employee Attendacne")
+                {
+                    Caption = 'Attendance Detail';
+                    ApplicationArea = Basic, Suite;
+                    Image = ListPage;
+                    RunObject = page "Employee Attendance & Activity";
+                    ToolTip = 'Executes the action of Attendance';
+                }
+                group(Setup)
+                {
+                    Caption = 'Setup';
+                    action("Attendance Setup")
+                    {
+                        Caption = 'Attendance Setup';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Attendance Setup";
+                        ToolTip = 'Executes the action of Attendance Setup';
+                    }
+
+                    action("Employee Work Shift")
+                    {
+                        Caption = 'Employee Work Shifts';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Employee Work Shift";
+                        ToolTip = 'Executes the action of Employee Work Shift';
                     }
                 }
 

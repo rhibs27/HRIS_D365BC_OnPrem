@@ -66,7 +66,7 @@ report 50135 "Extra Mileage EMail Send"
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -78,8 +78,8 @@ report 50135 "Extra Mileage EMail Send"
         Colon: Label ' : ';
         SendEmailToDepartmentHead: Boolean;
         SendEmailToEcosystemHead: Boolean;
-        EmailReceipent: Record "Agile Email Recipient";
-        EmailReceipentRec: Record "Agile Email Recipient";
+        EmailReceipent: Record "Email Template Recipient";
+        EmailReceipentRec: Record "Email Template Recipient";
         EmailText: Text;
     // Department: Record Department;
 

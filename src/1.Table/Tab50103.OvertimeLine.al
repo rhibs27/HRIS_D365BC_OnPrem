@@ -80,7 +80,7 @@ table 50103 "Overtime Line"
             Caption = 'Overtime Claim Type';
             Editable = false;
         }
-        field(13; "Employee Work Shift"; Code[10])
+        field(13; "Employee Work Shift"; Code[20])
         {
             Caption = 'Employee Work Shift';
             Editable = false;

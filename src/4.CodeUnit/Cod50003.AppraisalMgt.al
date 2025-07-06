@@ -18,7 +18,7 @@ codeunit 50003 "AppraisalMgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;

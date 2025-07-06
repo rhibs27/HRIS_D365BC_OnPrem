@@ -1,6 +1,6 @@
 codeunit 50005 "Transfer Mgt."
 {
-    procedure OpenTransferRequest(EmpCode: Code[10])
+    procedure OpenTransferRequest(EmpCode: Code[20])
     var
         //EmpAct4: Record "Employee Activity" temporary;
         EmpTransfer: Record "Employee Transfer" temporary;
@@ -118,7 +118,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         // if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
         //     Error('You are not eligible to recommend this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
         // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
         // EmpHrTransfer.Modify;
         // Message('Document has been recommended');
@@ -128,7 +128,7 @@ codeunit 50005 "Transfer Mgt."
     begin
         // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
         //     Error('You are not eligible to recommend this document');
-        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+        // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
         // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
         // EmpHrTransfer.Modify;
         // Message('Document has been recommended');
@@ -504,7 +504,7 @@ codeunit 50005 "Transfer Mgt."
     // begin
     //     EmpHrTransfer.TestField("Rejection Remarks");
     //     case EmpHrTransfer."Approval Status" of
-    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //         EmpHrTransfer."Approval Status"::Pending:
     //             begin
     //                 if StrPos(EmpHrTransfer."Recommender Code", HRMgt.GetEmployeeNo) = 0 then
     //                     Error('You are not eligible to reject this document');
@@ -545,7 +545,7 @@ codeunit 50005 "Transfer Mgt."
     // begin
     //     EmpHrTransfer.TestField("Rejection Remarks");
     //     case EmpHrTransfer."Approval Status" of
-    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //         EmpHrTransfer."Approval Status"::Pending:
     //             begin
     //                 if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
     //                     Error('You are not eligible to reject this document');
@@ -585,6 +585,7 @@ codeunit 50005 "Transfer Mgt."
         UnauthorizedApprover: Label 'You are not authorized to approve.';
         EmployeeTransfer: Record "Employee Transfer";
         EmployeeTransfer1: Record "Employee Transfer";
+        ApprovalMgt: Codeunit "Approver Mgt";
     begin
         if (EmpHrTransfer."Outstation/Discomfort Allow." <> 0) and (EmpHrTransfer."BM Accomodation Allow." <> 0) then
             Error(BMandOutStationError);
@@ -593,6 +594,7 @@ codeunit 50005 "Transfer Mgt."
         EmployeeTransfer1.Modify();
         // EmployeeTransfer.Init();
         EmployeeTransfer.TransferFields(EmpHrTransfer);
+        ApprovalMgt.UpdateFirstApproverStatus(EmployeeTransfer."No.");
         EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
         EmployeeTransfer.Modify();
         if GuiAllowed then
@@ -702,7 +704,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.Modify;
     end;
 
-    procedure ApproveTransferClaim(transferClaimNo: code[20])
+    procedure ApproveTransferClaim(transferClaimNo: Code[20])
     var
         TransferClaim: Record "Employee Transfer";
         ServiceHistory: Record "Employee Service History";
@@ -718,7 +720,7 @@ codeunit 50005 "Transfer Mgt."
         end;
     end;
 
-    procedure RejectTransferClaim(transferClaimNo: code[20])
+    procedure RejectTransferClaim(transferClaimNo: Code[20])
     var
         TransferClaim: Record "Employee Transfer";
         TransferClaim2: Record "Employee Transfer";
@@ -812,7 +814,7 @@ codeunit 50005 "Transfer Mgt."
         // Message('Document Returned.');
     end;
 
-    procedure ReturnTransferAPI(EmpHrTransfer: Record "Employee Transfer"; employeeCode: code[20])
+    procedure ReturnTransferAPI(EmpHrTransfer: Record "Employee Transfer"; employeeCode: Code[20])
     begin
         // if EmpHrTransfer.Type in [EmpHrTransfer.Type::"HR Transfer", EmpHrTransfer.Type::"Employee Transfer"] then
         //     Error('It is not transfer document.');

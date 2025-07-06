@@ -176,7 +176,7 @@ page 50200 "Retirement Funds"
                 begin
                     Rec.FilterGroup(2);
                     ClearAll();
-                    Rec.SetRange("Approval Status", "Approval Status"::"Pending Approval");
+                    Rec.SetRange("Approval Status", "Approval Status"::Pending);
                     Rec.FilterGroup(0);
                 end;
             }

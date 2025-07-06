@@ -132,7 +132,7 @@ report 50057 "Mail for Payroll"
         Footer: Text;
         Header: Text;
         Body: Text;
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Employee: Record Employee;
         PosPayLine: Record "Posted Payroll Line";
         PostedPayHeader: Record "Posted Payroll Header";

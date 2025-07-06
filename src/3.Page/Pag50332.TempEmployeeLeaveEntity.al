@@ -114,6 +114,6 @@
 //     }
 //     trigger OnNewRecord(BelowxRec: Boolean)
 //     begin
-//         Rec."Approval Status" := Rec."Approval Status"::"Pending Approval";
+//         Rec."Approval Status" := Rec."Approval Status"::Pending;
 //     end;
 // }

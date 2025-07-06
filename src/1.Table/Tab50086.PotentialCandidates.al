@@ -125,13 +125,13 @@ table 50086 "Potential Candidates"
             FieldClass = FlowFilter;
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(21; "Cause of Absence Filter"; Code[10])
+        field(21; "Cause of Absence Filter"; Code[20])
         {
             Caption = 'Cause of Absence Filter';
             FieldClass = FlowFilter;
             TableRelation = "Cause of Absence";
         }
-        field(22; "No. Series"; Code[10])
+        field(22; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
@@ -145,7 +145,7 @@ table 50086 "Potential Candidates"
         field(24; "User Id"; Code[50])
         {
         }
-        field(25; "Third Party Payroll Emp Code"; Code[10])
+        field(25; "Third Party Payroll Emp Code"; Code[20])
         {
         }
         field(26; "Job Position Type"; Enum "Job Position Type")
@@ -156,7 +156,7 @@ table 50086 "Potential Candidates"
         {
 
         }
-        field(28; "Job Title Code"; Code[10])
+        field(28; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
         }

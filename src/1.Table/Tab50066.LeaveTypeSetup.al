@@ -109,7 +109,7 @@ table 50066 "Leave Type Setup"
         {
             CalcFormula = count("Employee Activity" where("Leave Code" = field(Code),
                                                            Type = filter("Leave Request"),
-                                                           "Approval Status" = filter("Pending Approval"),
+                                                           "Approval Status" = filter(Pending),
                                                            "Start Date" = field("Date Filter")));
             FieldClass = FlowField;
         }

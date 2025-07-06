@@ -22,7 +22,7 @@ table 50048 "Employee Attendance & Activity"
         field(4; "Check Out Time"; Time)
         {
         }
-        field(5; Status; Enum "Attendance Status")
+        field(5; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -32,7 +32,7 @@ table 50048 "Employee Attendance & Activity"
         {
 
         }
-        field(7; "Employee Working Shift"; Code[10])
+        field(7; "Employee Working Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
         }
@@ -174,12 +174,12 @@ table 50048 "Employee Attendance & Activity"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(50; "Salary Level Code"; Code[10])
+        field(50; "Salary Level Code"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(51; "Salary Grade"; Code[10])
+        field(51; "Salary Grade"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Grade";

@@ -7,13 +7,13 @@ table 50030 "Pay Cycle Period"
 
     fields
     {
-        field(1; "Pay Cycle Code"; Code[10])
+        field(1; "Pay Cycle Code"; Code[20])
         {
             Editable = false;
             NotBlank = true;
             TableRelation = "Pay Cycle";
         }
-        field(2; "Pay Cycle Term"; Code[10])
+        field(2; "Pay Cycle Term"; Code[20])
         {
             Editable = false;
             NotBlank = true;

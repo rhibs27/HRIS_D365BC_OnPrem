@@ -183,7 +183,7 @@ page 50157 "Employee Vehicle Loan List"
                 begin
                     // Rec.FilterGroup(2);
                     // ClearAll();
-                    // Rec.SetRange("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    // Rec.SetRange("Approval Status", Rec."Approval Status"::Pending);
                     // Rec.FilterGroup(0);
                 end;
             }

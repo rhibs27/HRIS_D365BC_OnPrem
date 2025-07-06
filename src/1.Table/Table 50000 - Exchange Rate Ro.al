@@ -5,8 +5,8 @@
 //     fields
 //     {
 //         field(1; Date; Date) { }
-//         field(2; OrigCurrency; Code[10]) { }
-//         field(3; Currency; Code[10]) { }
+//         field(2; OrigCurrency; Code[20]) { }
+//         field(3; Currency; Code[20]) { }
 //         field(4; Multiplier; Decimal) { }
 //         field(5; Rate; Decimal)
 //         {

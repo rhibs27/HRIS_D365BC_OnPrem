@@ -96,7 +96,7 @@ table 50026 "Payroll Header"
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Responsibility Center"; Code[10])
+        field(8; "Responsibility Center"; Code[20])
         {
             TableRelation = "Responsibility Center";
         }
@@ -115,7 +115,7 @@ table 50026 "Payroll Header"
                     Error('Posting date must be less than today');
             end;
         }
-        field(12; Status; Enum "Attendance Status")
+        field(12; Status; enum "Approval Status")
         {
 
         }
@@ -130,11 +130,11 @@ table 50026 "Payroll Header"
             Editable = false;
             TableRelation = "User Setup";
         }
-        field(17; "From Date (B.S)"; Code[10])
+        field(17; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(18; "To Date (B.S)"; Code[10])
+        field(18; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -146,7 +146,7 @@ table 50026 "Payroll Header"
         {
             Editable = false;
         }
-        field(21; "Pay Cycle Code"; Code[10])
+        field(21; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -159,7 +159,7 @@ table 50026 "Payroll Header"
                 "Nepali Year" := 0;
             end;
         }
-        field(22; "Pay Cycle Term"; Code[10])
+        field(22; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
 
@@ -195,7 +195,7 @@ table 50026 "Payroll Header"
                 end;
             end;
         }
-        field(24; "Currency Code"; Code[10])
+        field(24; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;
@@ -241,7 +241,7 @@ table 50026 "Payroll Header"
         {
 
         }
-        field(30; "Employee Type"; enum "Employee")
+        field(30; "Employee Type"; enum "Employee Type")
         {
 
         }
@@ -423,7 +423,7 @@ table 50026 "Payroll Header"
         PayrollEngine: Codeunit "Payroll Engine";
     begin
         if PayrollHeader.FindFirst then begin
-            PayrollHeader.TestField(Status, Status::"Pending Approval");
+            PayrollHeader.TestField(Status, Status::Pending);
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
             //PayrollLine.SETRANGE("Employee No.",'SS0511');//Min Test
@@ -565,7 +565,7 @@ table 50026 "Payroll Header"
         //Employee.SETFILTER("No.",'%1|%2|%3','MM2154','SP3875','SP3988');
         if Type = Type::Settlement then begin
             Employee.SetRange(Status, Employee.Status::Inactive);
-            if "Employee Type" = "Employee Type"::Regular then
+            if "Employee Type" = "Employee Type"::Permanent then
                 Employee.SetFilter("Resignation Date", '<>%1', 0D)
             else
                 Employee.SetFilter("Contract Expiry Date", '>%1', PGSetup."Payroll Fiscal Year Start Date");
@@ -676,7 +676,7 @@ table 50026 "Payroll Header"
                             PayrollAttributeUsage.ValidateAttributes(Amount);
                     until PayrollAttributeUsage.Next = 0;
             until PayrollLine.Next = 0;
-        PayrollHeader.Validate(Status, PayrollHeader.Status::"Pending Approval");
+        PayrollHeader.Validate(Status, PayrollHeader.Status::Pending);
         PayrollHeader.Modify;
     end;
 

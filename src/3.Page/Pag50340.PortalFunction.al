@@ -166,7 +166,7 @@ page 50340 "Portal Function"
     //             exit;
     //         end;
     //         if not EmpActivity.Cancelled then begin
-    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //                 HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
     //             else begin
     //                 if not isApproved then begin
@@ -283,7 +283,7 @@ page 50340 "Portal Function"
     //         EstLodgCost: Decimal;
     //         EstFoodCost: Decimal;
     //         EmpAct: Record "Employee Activity";
-    //         approverCode: Code[10];
+    //         approverCode: Code[20];
     //     begin
     //         EmpVar.Get(empNo);
     //         SalLevel.Get(EmpVar."Salary Level");
@@ -345,7 +345,7 @@ page 50340 "Portal Function"
     //         if EmpActivity."Advance Cash Required" then
     //             EmpActivity.Validate("Advance Cash", advanceCash);
     //         EmpActivity.Modify;
-    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //             HrMgt.RecommendEmployeeActivityAPI(empActNo, empNo)
     //         else begin
     //             HrMgt.ApprovedRejectApprovalAPI(true, empActNo, empNo);
@@ -356,7 +356,7 @@ page 50340 "Portal Function"
     //     [Scope('Personalization')]
     //     procedure getOutofPocket(empNo: Code[20]; depatureTime: Time; arrivalTime: Time; startDate: Date; endDate: Date; empActNo: Code[20]): Text
     //     var
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         Employee.Get(empNo);
     //         SalaryLevel.Get(Employee."Salary Level");
@@ -392,7 +392,7 @@ page 50340 "Portal Function"
     //     procedure exitForTravelClaims(empAcitivityNo: Code[20]): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         EmpActivity.Get(empAcitivityNo);
 
@@ -417,7 +417,7 @@ page 50340 "Portal Function"
     //         )
     //     end;
 
-    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" NoofDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -471,7 +471,7 @@ page 50340 "Portal Function"
     //         end;
     //     end;
 
-    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" perDay: Boolean; NoOfDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -1597,7 +1597,7 @@ page 50340 "Portal Function"
     //     // begin
     //     //     EmpActivity.Get(empActivityNo);
     //     //     if isApproved then begin
-    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
+    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending then begin
     //     //             EmpActivity.Remarks := remark;
     //     //             HrMgt.RecommendAccessControl(EmpActivity);
     //     //         end else
@@ -2009,7 +2009,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2216,7 +2216,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         // case month of
     //         //     Format(MonthOption::Baisakh):
@@ -2424,7 +2424,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2508,7 +2508,7 @@ page 50340 "Portal Function"
     //             if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //             else
-    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //             PostedPayrollHeader.FindFirst;
     //             case month of
     //                 Format(MonthOption::Baisakh):
@@ -2593,7 +2593,7 @@ page 50340 "Portal Function"
     //         MonthOption: Enum "Nepali Month";
     //         FileName: Text;
     //         PostedPayrollHeader: Record "Posted Payroll Header";
-    //         PayCycleTerm: Code[10];
+    //         PayCycleTerm: Code[20];
     //         PayCyclePeriod: Record "Pay Cycle Period";
     //         recRef: RecordRef;
     //         tmpBlob: Codeunit "Temp Blob";

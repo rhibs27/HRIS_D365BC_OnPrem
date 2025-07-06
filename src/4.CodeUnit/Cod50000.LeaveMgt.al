@@ -66,7 +66,7 @@ codeunit 50000 "Leave Mgt."
     var
         Description: Text;
         Proviences: Text;
-        Gender: Option " ",Female,Male;
+        Gender: Enum "Employee Gender";
         ProviencesVar: Record Province;
         CalendarDate: Record Date;
         CalendarMgmt: Codeunit "Calendar Management";
@@ -811,7 +811,7 @@ codeunit 50000 "Leave Mgt."
         exit(Leave."No.");
     end;
 
-    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: code[20])
+    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: Code[20])
     var
         LeaveTable: Record "Leave";
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
