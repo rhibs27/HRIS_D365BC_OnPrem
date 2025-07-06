@@ -79,6 +79,36 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Shift End Time field.';
                     ApplicationArea = All;
                 }
+                field("Province Code"; "Province Code")
+                {
+                    ToolTip = 'Specified the value of Province Code field';
+                    ApplicationArea = All;
+                }
+                field("Province Name"; "Province Name")
+                {
+                    ToolTip = 'Specified the value of Province Name field';
+                    ApplicationArea = All;
+                }
+                field("Branch Code"; "Branch Code")
+                {
+                    ToolTip = 'Specified the value of Branch Code field';
+                    ApplicationArea = All;
+                }
+                field("Branch Name"; "Branch Name")
+                {
+                    ToolTip = 'Specified the value of Branch Name field';
+                    ApplicationArea = All;
+                }
+                field("Department Code"; "Department Code")
+                {
+                    ToolTip = 'Specified the value of Department Code field';
+                    ApplicationArea = All;
+                }
+                field("Department Name"; "Department Name")
+                {
+                    ToolTip = 'Specified the value of Department Name field';
+                    ApplicationArea = All;
+                }
                 field("Check In Difference"; Rec."Check In Difference")
                 {
                     ToolTip = 'Specifies the value of the Check In Difference field.';

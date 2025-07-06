@@ -1248,6 +1248,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Attendance Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Branch Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Branch Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 1542009562 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Check In Difference</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1272,6 +1282,16 @@
           <source>Day Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Day Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3334877077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Department Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1557300299 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Document No.</source>
@@ -1392,6 +1412,16 @@
           <source>Present Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Present Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Province Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Province Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1557300299 - Field 2510269975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Punch Out Check Reviewer</source>
@@ -5213,6 +5243,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Attendance Update - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Branch Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Branch Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 3500005727 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cash Risk Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5252,6 +5292,16 @@
           <source>Day Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Day Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3334877077 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Department Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3227853153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Early Check Out Day</source>
@@ -5382,6 +5432,16 @@
           <source>Present Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Present Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Province Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 237720087 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Province Name - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 2510269975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Punch Out Check Reviewer</source>
@@ -25648,6 +25708,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Attendance Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Branch Code field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 123962829 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Branch Name field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Branch Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 251429658 - Control 3500005727 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Cash Risk Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25687,6 +25757,16 @@
           <source>Specifies the value of the Day Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Day Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Department Code field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Department Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3334877077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Department Name field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Department Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 3227853153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Early Check Out Day field.</source>
@@ -25822,6 +25902,16 @@
           <source>Specifies the value of the Present Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Present Day - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Province Code field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Province Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 237720087 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specified the value of Province Name field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Province Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 2510269975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Punch Out Check Reviewer field.</source>
@@ -32294,7 +32384,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendacne Logs - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 900836314 - Action 345545436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Los</source>
+          <source>Attendance Logs</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Attendacne Logs - Property Caption</note>
         </trans-unit>
