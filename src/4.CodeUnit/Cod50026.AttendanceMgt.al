@@ -3,7 +3,6 @@ codeunit 50026 "Attendance Mgt"
     procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; DocumentNo: Code[20])
     var
         PayrollEngine: Codeunit "Payroll Engine";
-
     begin
         Clear(AttendanceLine);
         AttendanceSetUp.Get();

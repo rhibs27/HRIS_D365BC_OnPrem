@@ -140,7 +140,7 @@ page 50199 "HR Manager Role Center"
                 Caption = 'Attendance';
                 action("Attendacne Logs")
                 {
-                    Caption = 'Attendance Los';
+                    Caption = 'Attendance Logs';
                     ApplicationArea = Basic, Suite;
                     Image = ListPage;
                     RunObject = page "Attendance Logs";
