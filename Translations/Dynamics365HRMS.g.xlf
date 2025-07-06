@@ -58008,6 +58008,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Table ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1365319268 - Field 3133331050 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
+          <source>Transfer Claim Attributes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Incoming Document Ext - Field Transfer Claim Attributes - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1365319268 - Field 1878130204 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 956135699">
           <source>Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
