@@ -586,14 +586,15 @@ codeunit 50005 "Transfer Mgt."
         EmployeeTransfer: Record "Employee Transfer";
         EmployeeTransfer1: Record "Employee Transfer";
         ApprovalMgt: Codeunit "Approver Mgt";
+        IsHandled: Boolean;
     begin
-        if (EmpHrTransfer."Outstation/Discomfort Allow." <> 0) and (EmpHrTransfer."BM Accomodation Allow." <> 0) then
-            Error(BMandOutStationError);
+        OnBeforeSubmitClaimRequest(EmpHrTransfer, IsHandled);
         EmployeeTransfer1.Get(EmpHrTransfer."Transfer Request No");
         EmployeeTransfer1."Transfer Claim" := true;
         EmployeeTransfer1.Modify();
         // EmployeeTransfer.Init();
         EmployeeTransfer.TransferFields(EmpHrTransfer);
+        CheckClaimAttachments(EmployeeTransfer."No.", EmployeeTransfer."Employee No.");
         ApprovalMgt.UpdateFirstApproverStatus(EmployeeTransfer."No.");
         EmployeeTransfer.Validate("Approval Status", EmployeeTransfer."Approval Status"::Pending);
         EmployeeTransfer.Modify();
@@ -1212,8 +1213,37 @@ codeunit 50005 "Transfer Mgt."
         end
     end;
 
+    procedure CheckClaimAttachments(EmpActNo: Code[20]; EmpNo: Code[20])
+    var
+        TempIncomingDoc: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
+    begin
+        TempIncomingDoc.Reset;
+        TempIncomingDoc.SetRange("Employee Code", EmpNo);
+        TempIncomingDoc.SetRange("No.", EmpActNo);
+        if TempIncomingDoc.FindSet() then
+            repeat
+                AttachmentSetup.Reset;
+                AttachmentSetup.SetRange("Attachment Code", TempIncomingDoc."Attachment Code");
+                AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Transfer Claim");
+                AttachmentSetup.SetRange("Transfer Claim Attributes", TempIncomingDoc."Transfer Claim Attributes");
+                if AttachmentSetup.FindFirst then begin
+                    if AttachmentSetup.Mandatory then
+                        if TempIncomingDoc."File Name" = '' then
+                            Error('Attachment for %1 must be uploaded', AttachmentSetup."Attachment Code");
+                end;
+            until TempIncomingDoc.Next = 0;
+    end;
+
+
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeCalculateAllowance(Var TransferClaim: Record "Employee Transfer"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeSubmitClaimRequest(Var TransferClaim: Record "Employee Transfer"; var IsHandled: Boolean)
     begin
     end;
 
