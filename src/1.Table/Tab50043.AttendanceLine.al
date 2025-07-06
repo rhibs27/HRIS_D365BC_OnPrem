@@ -19,7 +19,6 @@ table 50043 "Attendance Line"
             begin
                 if "Employee No." <> '' then begin
                     if Employee.Get("Employee No.") then begin
-
                         if Employee."Deputation on" = DeputationType::Branch then begin
                             Validate("Province Code", Employee."Province Code");
                             Validate("Province Name", Employee."Province Name");
