@@ -7958,6 +7958,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - NamedType Text000</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 962821377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check In From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Check In From - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 1408641378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Out From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Check Out From - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8012,11 +8022,6 @@
           <source>Work Time</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Work Time - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2137842149 - Field 862735787 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Working Hour</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Working Hour - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 66636512 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>English-Nepali Date</source>
@@ -29578,6 +29583,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Qualification - Control To Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 962821377 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check In From field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Check In From - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 962821377 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check In from (Hrs)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Check In From - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 1408641378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check Out From field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Check Out From - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 1408641378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Out from (Hrs)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Check Out From - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2137842149 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29628,10 +29653,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Winter Start Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2137842149 - Control 862735787 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Working Hour field.</source>
+        <trans-unit id="Page 2137842149 - Control 244128944 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Working Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Working Hour - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Working Time - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4217161796 - Control 1270436920 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Deputation on field.</source>
