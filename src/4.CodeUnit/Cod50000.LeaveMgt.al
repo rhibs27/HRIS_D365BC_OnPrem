@@ -747,6 +747,7 @@ codeunit 50000 "Leave Mgt."
         Leave.SetRange("Start Date", StartDate, EndDate);
         Leave.SetRange("End Date", StartDate, EndDate);
         Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Leave.SetRange(Cancelled, false);
         if leave.FindFirst() then
             Error('Leave for %1 is already approved on this date range', Leave."Employee Name");
     end;
