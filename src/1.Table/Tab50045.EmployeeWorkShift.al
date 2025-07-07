@@ -34,15 +34,13 @@ table 50045 "Employee Work Shift"
                 CalcWorkTime("Start Time", "End Time");
             end;
         }
-        field(7; "Working Hour"; Duration)
-        {
-            Editable = false;
-        }
         field(8; "Lunch Start"; Time) { }
         field(9; "Winter End Time"; Time) { }
         field(10; "Friday End Time"; Time) { }
         field(11; "Winter Start Date"; Date) { }
         field(12; "Winter End Date"; Date) { }
+        field(13; "Check Out From"; Decimal) { }
+        field(14; "Check In From"; Decimal) { }
     }
 
     keys
