@@ -62,6 +62,7 @@ page 50223 "Functional Title Card"
                 }
                 field("Risk Title"; Rec."Risk Title")
                 {
+                    Caption = 'Risk and Morning counter Title Elligible';
                     ToolTip = 'Specifies the value of the Risk Title field.';
                     ApplicationArea = All;
                 }

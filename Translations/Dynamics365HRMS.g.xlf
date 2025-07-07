@@ -3198,6 +3198,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table District - Field InsideOutside Valley - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 847710914 - Field 2015693134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provience Code OSL</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table District - Field Provience Code OSL - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 847710914 - Field 1237689382 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -25138,6 +25143,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page District - Control InsideOutside Valley - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 847710914 - Control 2015693134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Provience Code OSL field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page District - Control Provience Code OSL - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 847710914 - Control 1237689382 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30677,6 +30687,11 @@
           <source>Specifies the value of the Risk Title field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Risk Title - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 3234145933 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Risk and Morning counter Title Elligible</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Risk Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4220065141 - Control 1469229426 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Written Exam field.</source>
