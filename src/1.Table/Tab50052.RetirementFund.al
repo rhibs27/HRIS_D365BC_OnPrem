@@ -222,7 +222,7 @@ table 50052 "Retirement Fund"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Retirement Fund Nos.");
-            NoSeriesMgt.InitSeries(HRSetup."Retirement Fund Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Retirement Fund Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         if ("CIT Amount (Month)" <> 0) or ("CIT Amount( Lumpsum)" <> 0) then begin
@@ -253,7 +253,7 @@ table 50052 "Retirement Fund"
 
     var
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
 
         HRMgt: Codeunit "HR Mgt.";
         TempRF: Record "Retirement Fund" temporary;
@@ -270,8 +270,8 @@ table 50052 "Retirement Fund"
             RF := Rec;
             HRSetup.Get;
             HRSetup.TestField("Retirement Fund Nos.");
-            if NoSeriesMgt.SelectSeries(HRSetup."Retirement Fund Nos.", OldRF."No. Series", "No. Series") then begin
-                NoSeriesMgt.SetSeries("No.");
+            if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Retirement Fund Nos.", OldRF."No. Series", "No. Series") then begin
+                NoSeriesMgt.GetNextNo("No.");
                 Rec := RF;
                 exit(true);
             end;

@@ -233,7 +233,7 @@ table 50034 "Posted Payroll Header"
                     PostedPayrollLine.Reset;
                     PostedPayrollLine.SetRange("Document No.", PostedPayrollHeader."No.");
                     PostedPayrollLine.SetRange(Reversed, false);
-                    if PostedPayrollLine.FindSet(true, true) then
+                    if PostedPayrollLine.FindSet() then
                         repeat
                             PostedPayrollLine.ReverseLine(PostedPayrollLine);
                         until PostedPayrollLine.Next = 0;

@@ -13,13 +13,13 @@ table 50026 "Payroll Header"
                 if "No." <> xRec."No." then begin
                     PRSetup.Get;
                     if Type = Type::Payroll then
-                        NoSeriesMngt.TestManual(PRSetup."Salary Plan No. Series")
+                        NoSeriesCodeunit.TestManual(PRSetup."Salary Plan No. Series")
                     else if Type = Type::Settlement then
-                        NoSeriesMngt.TestManual(PRSetup."Settlement No. Series")
+                        NoSeriesCodeunit.TestManual(PRSetup."Settlement No. Series")
                     else if Type = Type::Adjustment then
-                        NoSeriesMngt.TestManual(PRSetup."Payroll Adj No. Series")
+                        NoSeriesCodeunit.TestManual(PRSetup."Payroll Adj No. Series")
                     else if Type = Type::Resignation then
-                        NoSeriesMngt.TestManual(PRSetup."Resigned Plan No. Series");
+                        NoSeriesCodeunit.TestManual(PRSetup."Resigned Plan No. Series");
                     "No. Series" := '';
                 end;
             end;
@@ -300,7 +300,7 @@ table 50026 "Payroll Header"
 
         if "No." = '' then begin
             TestNoSeries;
-            NoSeriesMngt.InitSeries(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series")
+            HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         InitRecord;
@@ -333,7 +333,8 @@ table 50026 "Payroll Header"
     var
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
-        NoSeriesMngt: Codeunit NoSeriesManagement;
+        // NoSeriesMngt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         PRSetup: Record "Payroll General Setup";
         UserMgt: Codeunit "User Setup Management";
         EngNep: Record "English-Nepali Date";
@@ -352,15 +353,16 @@ table 50026 "Payroll Header"
         PayLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
         EncashmentSetup: Record "OT Encashment Setup";
+        HrMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(xSalaryHeader: Record "Payroll Header"): Boolean
     begin
         PRSetup.Get;
         TestNoSeries;
-        if NoSeriesMngt.SelectSeries(GetNoSeries, xSalaryHeader."No. Series", "No. Series") then begin
+        if NoSeriesCodeunit.LookupRelatedNoSeries(GetNoSeries, xSalaryHeader."No. Series", "No. Series") then begin
             PRSetup.Get;
             TestNoSeries;
-            NoSeriesMngt.SetSeries("No.");
+            NoSeriesCodeunit.GetNextNo("No.");
             exit(true);
         end;
     end;
@@ -392,13 +394,13 @@ table 50026 "Payroll Header"
     procedure InitRecord()
     begin
         if Type = Type::Payroll then
-            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Salary Plan Posting No. Series")
+            HrMgt.SetDefaultSeries("Posting No. Series", PRSetup."Salary Plan Posting No. Series")
         else if Type = Type::Settlement then
-            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Settlement Posting No. Series")
+            HrMgt.SetDefaultSeries("Posting No. Series", PRSetup."Settlement Posting No. Series")
         else if Type = Type::Adjustment then
-            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Posted Payroll Adj No. Series")
+            HrMgt.SetDefaultSeries("Posting No. Series", PRSetup."Posted Payroll Adj No. Series")
         else if Type = Type::Resignation then
-            NoSeriesMngt.SetDefaultSeries("Posting No. Series", PRSetup."Posted ResignedPlan No. Series");
+            HrMgt.SetDefaultSeries("Posting No. Series", PRSetup."Posted ResignedPlan No. Series");
         "Posting Description" := Format(Text001) + ' ' + "No.";
         "Document Date" := Today;
         "Posting Date" := Today;
@@ -578,10 +580,12 @@ table 50026 "Payroll Header"
         Employee.SetRange(Settled, false);
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
             Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date"); //Min
-        if "Employee Type" = "Employee Type"::Contract then
-            Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
+        // if "Employee Type" = "Employee Type"::Contract then
+        //     Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
         // else
         //     Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type", Employee."Employment Type"::Probation);
+        if "Employee Type" <> "Employee Type"::" " then
+            Employee.SetRange("Employment Type", "Employee Type");
         if Employee.FindSet then
             repeat
                 if PayrollEngine.IsValidEmployee(Employee, "From Date", "To Date") then begin

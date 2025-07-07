@@ -30,15 +30,19 @@ table 50027 "Payroll Line"
                 if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
                     if Employee."Resignation Date" <> 0D then
                         Error('Employee %1 has resigned.', Employee."Full Name");
-                    case PayrollHeader."Employee Type" of
-                        PayrollHeader."Employee Type"::Contract:
-                            if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                                Error('Employment type of employee %1 must be contract', Employee."Full Name");
+                    // case PayrollHeader."Employee Type" of
+                    //     PayrollHeader."Employee Type"::Contract:
+                    //         if Employee."Employment Type" <> Employee."Employment Type"::Contract then
+                    //             Error('Employment type of employee %1 must be contract', Employee."Full Name");
 
-                        PayrollHeader."Employee Type"::Permanent:
-                            if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
-                                Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
-                    end;
+                    //     PayrollHeader."Employee Type"::Permanent:
+                    //         if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
+                    //             Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
+                    // end;
+                    if PayrollHeader."Employee Type" <> PayrollHeader."Employee Type"::" " then
+                        if Employee."Employment Type" <> PayrollHeader."Employee Type" then
+                            Error('Employment type of employee %1 must be %2', Employee."Full Name", PayrollHeader."Employee Type".Names());
+
                     if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then begin
                         if Employee."Employment Date" = PayCyclePeriod."Pay Date" then //Min
                             Error('You Cannot Insert Employee of Employement Date %1', PayCyclePeriod."Pay Date");

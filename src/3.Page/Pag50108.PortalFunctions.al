@@ -3227,10 +3227,11 @@ page 50108 "Portal Functions"
         PostedPayrollHeader.SetRange("Nepali Year", year);
         PostedPayrollHeader.SetFilter("Nepali Month", month);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
-        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
-        else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
+        // else
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        PostedPayrollHeader.SetFilter("Employee Type", '%1|%2', PostedPayrollHeader."Employee Type"::" ", Employee."Employment Type");
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3426,10 +3427,12 @@ page 50108 "Portal Functions"
         PostedPayrollHeader.SetRange("Nepali Year", year);
         PostedPayrollHeader.SetFilter("Nepali Month", month);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
-        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
-        else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
+        // else
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        PostedPayrollHeader.SetFilter("Employee Type", '%1|%2', PostedPayrollHeader."Employee Type"::" ", Employee."Employment Type");
+
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3636,10 +3639,12 @@ page 50108 "Portal Functions"
         PostedPayrollHeader.SetRange("Nepali Year", year);
         PostedPayrollHeader.SetFilter("Nepali Month", month);
         PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
-        if Employee."Employment Type" = Employee."Employment Type"::Contract then
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
-        else
-            PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
+        // else
+        //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+        PostedPayrollHeader.SetFilter("Employee Type", '%1|%2', PostedPayrollHeader."Employee Type"::" ", Employee."Employment Type");
+
         PostedPayrollHeader.FindFirst;
         case month of
             Format(MonthOption::Baisakh):
@@ -3720,10 +3725,12 @@ page 50108 "Portal Functions"
             PostedPayrollHeader.SetRange("Nepali Year", year);
             PostedPayrollHeader.SetFilter("Nepali Month", month);
             PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Payroll);
-            if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
-            else
-                PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+            // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+            //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
+            // else
+            //     PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
+            PostedPayrollHeader.SetFilter("Employee Type", '%1|%2', PostedPayrollHeader."Employee Type"::" ", Employee."Employment Type");
+
             PostedPayrollHeader.FindFirst;
             case month of
                 Format(MonthOption::Baisakh):

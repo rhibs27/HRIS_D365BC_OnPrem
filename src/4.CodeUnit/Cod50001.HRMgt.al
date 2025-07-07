@@ -11413,7 +11413,7 @@ codeunit 50001 "HR Mgt."
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
         END;
     end;
- 
+
     procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])
     var
         NoSeries: Codeunit "No. Series";
@@ -11423,6 +11423,17 @@ codeunit 50001 "HR Mgt."
         else
             RecNoSeries := SetupNoSeries;
         DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
+    end;
+
+    procedure SetDefaultSeries(var NewNoSeriesCode: Code[20]; NoSeriesCode: Code[20])
+    var
+        GlobalNoSeries: record "No. Series";
+    begin
+        if NoSeriesCode <> '' then begin
+            GlobalNoSeries.Get(NoSeriesCode);
+            if GlobalNoSeries."Default Nos." then
+                NewNoSeriesCode := GlobalNoSeries.Code;
+        end;
     end;
 }
 

@@ -59838,20 +59838,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue   - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 545490910 - EnumValue 569967235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>All</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue ALL - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 545490910 - EnumValue 389783846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Contract</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue Contract - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 545490910 - EnumValue 348579807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Except Contract</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Type - EnumValue Except Contract - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 545490910 - EnumValue 1566445174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Permanent</source>

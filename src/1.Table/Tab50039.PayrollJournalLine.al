@@ -202,7 +202,7 @@ table 50039 "Payroll Journal Line"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";
@@ -570,7 +570,7 @@ table 50039 "Payroll Journal Line"
         PayrollAttributes: Record "Payroll Attributes";
         SourceCodeSetup: Record "Source Code Setup";
         Employee: Record Employee;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         PayrollEngine: Codeunit "Payroll Engine";
         HideValidationDialog: Boolean;
@@ -620,8 +620,8 @@ table 50039 "Payroll Journal Line"
             "Posting Date" := WorkDate;
             "Document Date" := WorkDate;
             if GenJnlBatch."No. Series" <> '' then begin
-                Clear(NoSeriesMgt);
-                "Document No." := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
+                Clear(NoSeriesCodeunit);
+                "Document No." := NoSeriesCodeunit.PeekNextNo(GenJnlBatch."No. Series", "Posting Date");
             end;
         end;
         "Account Type" := LastPayrollJournalLine."Account Type";
@@ -842,13 +842,13 @@ table 50039 "Payroll Journal Line"
         IsChanged := OldDimSetID <> "Dimension Set ID";
     end;
 
-    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
+    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit "No. Series")
     begin
         if NoSeriesCode = '' then
             exit;
 
         if (LastDocNo = '') or ("Document No." <> LastDocNo) then
-            TestField("Document No.", NoSeriesMgtInstance.GetNextNo(NoSeriesCode, "Posting Date", false));
+            TestField("Document No.", NoSeriesMgtInstance.PeekNextNo(NoSeriesCode, "Posting Date"));
     end;
 
     local procedure GetGLAccount()
