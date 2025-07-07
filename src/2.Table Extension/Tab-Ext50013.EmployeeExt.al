@@ -917,7 +917,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Caption = 'Salutation';
         }
-        field(50080; "Permanent District"; Text[30])
+        field(50080; "Permanent District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent District';
@@ -933,7 +933,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 VALIDATE("Permanent District", HRMgt.LookupDistrict("Permanent Province", "Permanent District"));
             end;
         }
-        field(50081; "Temporary District"; Text[30])
+        field(50081; "Temporary District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary District';
@@ -949,7 +949,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Temporary District", HRMgt.LookupDistrict("Temporary Province", "Temporary District"));
             end;
         }
-        field(50082; "Permanent Province"; Text[30])
+        field(50082; "Permanent Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent Provience address';
@@ -972,7 +972,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Permanent Province", HRMgt.LookupProvience("Permanent Province"));
             end;
         }
-        field(50083; "Temporary Province"; Text[30])
+        field(50083; "Temporary Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary Provience address';
