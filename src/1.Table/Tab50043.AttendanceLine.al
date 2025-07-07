@@ -12,39 +12,6 @@ table 50043 "Attendance Line"
         {
             Editable = false;
             TableRelation = Employee;
-            trigger OnValidate()
-            var
-                Employee: Record Employee;
-                DeputationType: Enum "Deputation Type";
-            begin
-                if "Employee No." <> '' then begin
-                    if Employee.Get("Employee No.") then begin
-                        if Employee."Deputation on" = DeputationType::Branch then begin
-                            Validate("Province Code", Employee."Province Code");
-                            Validate("Province Name", Employee."Province Name");
-                            Validate("Branch Code", Employee."Branch Code");
-                            Validate("Branch Name", Employee."Branch Name");
-                        end;
-                        if Employee."Deputation on" = DeputationType::Department then begin
-                            Validate("Province Code", Employee."Province Code");
-                            Validate("Province Name", Employee."Province Name");
-                            Validate("Department Code", Employee."Department Code");
-                            Validate("Department Name", Employee."Department Name");
-                        end;
-                        if Employee."Deputation on" = DeputationType::Province then begin
-                            Validate("Province Code", Employee."Province Code");
-                            Validate("Province Name", Employee."Province Name");
-                        end;
-                    end else begin
-                        Clear("Province Code");
-                        Clear("Province Name");
-                        Clear("Department Code");
-                        Clear("Department Name");
-                        Clear("Branch Code");
-                        Clear("Branch Name");
-                    end;
-                end;
-            end;
         }
         field(2; "Attendance Date"; Date)
         {
