@@ -561,7 +561,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure CalculateRemainingDays(EmpCode: Code[20]; LeaveTypecode: Code[20]; PostDate: Date): Decimal
+    procedure CalculateRemainingDays(EmpCode: Code[20]; LeaveTypeCode: Code[20]; PostDate: Date): Decimal
     var
         LeaveEarn: Record "Leave Earn";
     begin
