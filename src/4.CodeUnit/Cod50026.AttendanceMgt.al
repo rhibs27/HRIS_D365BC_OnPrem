@@ -3,9 +3,9 @@ codeunit 50026 "Attendance Mgt"
     procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; DocumentNo: Code[20])
     var
         PayrollEngine: Codeunit "Payroll Engine";
+        EmployeeWorkShift: Record "Employee Work Shift";
     begin
         Clear(AttendanceLine);
-        AttendanceSetUp.Get();
         Employee.get(EmpNo);
         AttendanceLine.Reset;
         AttendanceLine.SetRange("Employee No.", EmpNo);
@@ -15,6 +15,12 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
             AttendanceLine."Attendance Date" := InitialDate;
+            AttendanceLine."Province Code" := Employee."Province Code";
+            AttendanceLine."Province Name" := Employee."Province Name";
+            AttendanceLine."Branch Code" := Employee."Branch Code";
+            AttendanceLine."Branch Name" := Employee."Province Name";
+            AttendanceLine."Department Code" := Employee."Department Code";
+            AttendanceLine."Department Name" := Employee."Department Name";
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert(false);
         end;
@@ -35,19 +41,22 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Holiday Remarks" := '';
             AttendanceLine."Week Off Day" := 0;
         end;
+        EmployeeWorkShift.Get(AttendanceLine."Employee Working Shift");
         //For Check IN Time Get
         AttendanceLog.Reset;
         AttendanceLog.SetCurrentKey("Log Time");
         AttendanceLog.SetAscending("Log Time", true);
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+        AttendanceLog.SetRange("Log Time", AttendanceLine."Shift Start Time" - TextToDuration(format(EmployeeWorkShift."Check In From")), AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check In From")));
         if AttendanceLog.FindFirst then begin
             AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
             if (AttendanceLine."Check In Time" <> 0T) then begin
                 AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
                 AttendanceLine.Validate("Present Day", 1);
             end;
-        end;
+        end else
+            Clear(AttendanceLine."Check In Time");
         //For check Out Get 
         AttendanceLog.Reset;
         AttendanceLog.SetCurrentKey("Log Time");
@@ -56,7 +65,7 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.Findlast then begin
             if AttendanceLine."Check In Time" <> AttendanceLog."Log Time" then
-                if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(AttendanceSetUp."Check Out From"))) then
+                if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check Out From"))) then
                     AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
                 else
                     Clear(AttendanceLine."Check Out Time");

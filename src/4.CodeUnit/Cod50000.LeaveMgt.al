@@ -1112,7 +1112,7 @@ codeunit 50000 "Leave Mgt."
         EmpAttendanceActivity.Reset;
         EmpAttendanceActivity.SetRange("Employee No.", EmployeeCode);
         EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', StartDate, EndDate);
-        if EmpAttendanceActivity.FindFirst then
+        if EmpAttendanceActivity.FindSet then
             repeat
                 if EmpAttendanceActivity."Present Day" = 1 then
                     Error(LeaveError, EmpAttendanceActivity."Attendance Date");
