@@ -15,6 +15,12 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Document No." := DocumentNo;
             AttendanceLine."Employee No." := EmpNo;
             AttendanceLine."Attendance Date" := InitialDate;
+            AttendanceLine."Province Code" := Employee."Province Code";
+            AttendanceLine."Province Name" := Employee."Province Name";
+            AttendanceLine."Branch Code" := Employee."Branch Code";
+            AttendanceLine."Branch Name" := Employee."Province Name";
+            AttendanceLine."Department Code" := Employee."Department Code";
+            AttendanceLine."Department Name" := Employee."Department Name";
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert(false);
         end;
