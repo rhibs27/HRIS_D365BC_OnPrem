@@ -552,6 +552,7 @@ table 50136 "Travel Request"
                 if "Travel Countries" = "Travel Countries"::Nepal then begin
                     if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                         HRMgt.CheckDistrictName("Destination");
+                    Validate("No. of Days");
                 end else if "Travel Countries" = "Travel Countries"::"Other Countries" then
                         if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                             HRMgt.CheckCountryName("Destination");
