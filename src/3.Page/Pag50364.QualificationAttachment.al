@@ -49,7 +49,7 @@ page 50364 "Qualification Attachment"
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then
                             Error('Invalid file. Please upload jpg, png or pdf files.');
-                        AttachmentMgt.checkAttachmentExtension(Extension);
+                        AttachmentMgt.checkAttachmentExtensionImage(Extension);
                         Clear(Rec.Attachment);
                         Rec.Attachment.ImportStream(InStreamPic, FromFileName);
                         Rec.Modify(true);

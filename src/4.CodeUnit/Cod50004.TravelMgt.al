@@ -8,6 +8,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest1: Record "Travel Request";
     //EmpAct2: Record "Employee Activity";
     begin
+        Employee.get(EmpCode);
         TravelRequest1.Reset();
         TravelRequest1.SetRange("Employee No.", EmpCode);
         TravelRequest1.SetRange("Approval Status", TravelRequest1."Approval Status"::open);

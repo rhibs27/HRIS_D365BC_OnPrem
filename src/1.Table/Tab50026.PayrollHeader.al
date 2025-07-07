@@ -35,7 +35,7 @@ table 50026 "Payroll Header"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";

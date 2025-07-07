@@ -3048,7 +3048,7 @@ codeunit 50001 "HR Mgt."
             exit(Employee."Full Name");
     end;
 
-    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Access Control","Attendance Missed",Training,"Medical Insurance","Candiadte offer letter",Appraisal,"Loan Attachment","Allowance Assignment"; TypeOpt: Option " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,"On Hold"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
+    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: enum "Employee Activity Type"; TypeOpt: Enum "approval status"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
     var
         EmailTemplate: Record "Email Template";
         Footer: Text;
@@ -3132,7 +3132,7 @@ codeunit 50001 "HR Mgt."
                 EmployeeActivity.Get(DocumentNo);
                 //if EmployeeActivity.Type = EmployeeActivity.Type::"Access Control" then
                 //EmailReceipientText.add(GetAddressAccessControl(EmployeeActivity))
-                if (DocumentType = DocumentType::Transfer) and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Cancelled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
+                if (DocumentType = DocumentType::"Employee Transfer") and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Canceled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
                     EmailCCReceipent.Add('');
                     Employee.Reset;
                     EmployeeActivity.TestField("Incoming Supervisior");
@@ -3390,7 +3390,7 @@ codeunit 50001 "HR Mgt."
                                         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
                                     end;
 
-                                DocumentType::"Medical Insurance":
+                                DocumentType::"Medical Insurance Claim":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
                                         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
@@ -3409,7 +3409,7 @@ codeunit 50001 "HR Mgt."
                                             CodeunitEmailMessage.AppendToBody(StrSubstNo('Please approve document for resignation of employee %1(%2)', EmployeeActivity."Employee No.", EmployeeActivity."Employee Name"));
                                     end;
 
-                                DocumentType::Transfer:
+                                DocumentType::"Employee Transfer":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
                                         GetTransferBody(EmployeeActivity);
@@ -3484,7 +3484,7 @@ codeunit 50001 "HR Mgt."
 
                 CodeunitEmailMessage.AppendToBody('<br>' + RegardsMessage + '<br>');
             end;
-            if DocumentType <> DocumentType::Transfer then begin //Min 9.15.2022
+            if DocumentType <> DocumentType::"Employee Transfer" then begin //Min 9.15.2022
                 if AddEmailReceipentFromTemplate then begin
                     EmailReceipent.Reset;
                     EmailReceipent.SetRange("Email Template Code", EmailTemplate.Code);

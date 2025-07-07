@@ -20,20 +20,6 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
                     ApplicationArea = All;
-
-                    // trigger OnValidate()
-                    // begin
-                    //     if Rec."Requested Date" <> 0D then
-                    //         RemainingDays := LeaveMgt.CalculateRemainingDays(Rec."Employee No.", Rec."Leave Code", Rec."Requested Date");
-                    //     LeaveType.Get(Rec."Leave Code");
-                    //     IsCompensatory := LeaveType.Compensatory;
-                    //     IsBereavement := LeaveType."Bereavement Leave";
-                    //     if IsCompensatory then
-                    //         RemainingDays := 0;
-                    //     // if Rec."Leave Code" <> xRec."Leave Code" then
-                    //     //     GenerateAttachment;
-                    //     IsPaternity := LeaveType."Maternity/Paternity Leave";
-                    // end;
                 }
                 field("Leave Description"; Rec."Leave Description")
                 {
@@ -63,19 +49,6 @@ page 50227 "Leave Journal"
                 field(Status; Rec.Status)
                 {
                 }
-
-                // field("Start Time"; Rec."Start Time")
-                // {
-                //     Editable = false;
-                //     ToolTip = 'Specifies the value of the Start Time field.';
-                //     ApplicationArea = All;
-                // }
-                // field("End Time"; Rec."End Time")
-                // {
-                //     ToolTip = 'Specifies the value of the End Time field.';
-                //     ApplicationArea = All;
-                //     Editable = false;
-                // }
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
@@ -112,7 +85,8 @@ page 50227 "Leave Journal"
                 trigger OnAction()
 
                 begin
-                    EmpActMgt.SendForApproval(Rec."Emp Act. No");
+                    if Confirm('Do you want to Send for Approval request?', false) then
+                        EmpActMgt.SendForApproval(Rec."Emp Act. No");
                 end;
             }
             action("Approve")
@@ -123,7 +97,8 @@ page 50227 "Leave Journal"
                 Image = Approve;
                 trigger OnAction()
                 begin
-                    ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve request?', false) then
+                        ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
                 end;
             }
 
@@ -135,7 +110,8 @@ page 50227 "Leave Journal"
                 Image = Post;
                 trigger OnAction()
                 begin
-                    EmpActMgt.PostLeaveJournal(rec."Emp Act. No");
+                    if Confirm('Do you want to Post Leave?', false) then
+                        EmpActMgt.PostLeaveJournal(rec."Emp Act. No");
                 end;
             }
             action(Reject)
@@ -146,7 +122,8 @@ page 50227 "Leave Journal"
                 Image = Reject;
                 trigger OnAction()
                 begin
-                    EmpActMgt.RejectJournal(Rec, true);
+                    if Confirm('Do you want to Reject Leave?', false) then
+                        EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
         }

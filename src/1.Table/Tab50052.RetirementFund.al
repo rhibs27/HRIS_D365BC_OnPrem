@@ -261,7 +261,7 @@ table 50052 "Retirement Fund"
         Employee: Record Employee;
         PayrollGeneralSetup: Record "Payroll General Setup";
 
-    [Scope('Personalization')]
+    // //[Scope('Personalization')]
     procedure AssistEdit(OldRF: Record "Retirement Fund"): Boolean
     var
         RF: Record "Retirement Fund";

@@ -108,7 +108,7 @@ table 50058 "KPI Master"
         if "KPI No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("KPI No. Series");
-            NoSeriesMgt.InitSeries(HRSetup."KPI No. Series", xRec."No. Series", Today, "KPI No.", "No. Series");
+            HrMgt.InitNoSeriesNew(HRSetup."KPI No. Series", xRec."No. Series", Today, "KPI No.", "No. Series");
         end;
 
         Validate("Created By", UserId);
@@ -120,15 +120,16 @@ table 50058 "KPI Master"
         KPIMaster: Record "KPI Master";
         EngNepDate: Record "English-Nepali Date";
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(OldKPI: Record "KPI Master"): Boolean
     begin
         KPIMaster := Rec;
         HRSetup.Get;
         HRSetup.TestField("KPI No. Series"); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.SelectSeries(HRSetup."KPI No. Series", OldKPI."No. Series", KPIMaster."No. Series") then begin
-            NoSeriesMgt.SetSeries(KPIMaster."KPI No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."KPI No. Series", OldKPI."No. Series", KPIMaster."No. Series") then begin
+            NoSeriesMgt.GetNextNo(KPIMaster."KPI No.");
             Rec := KPIMaster;
             exit(true);
         end;

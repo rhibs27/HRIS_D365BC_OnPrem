@@ -1651,16 +1651,15 @@ table 50027 "Payroll Line"
                             LoanOutstandingfromFinacle.Reset;
                             LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
                             LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
+                            LoanOutstandingfromFinacle.SetFilter("Loan Type", '<>%1|<>%2', LoanOutstandingfromFinacle."Loan Type"::" ", LoanOutstandingfromFinacle."Loan Type"::"Salary Advance");
                             LoanOutstandingfromFinacle.SetRange("Is Manual", false);
                             if LoanOutstandingfromFinacle.FindSet then
                                 repeat
                                     case LoanOutstandingfromFinacle."Loan Type" of
-                                        LoanOutstandingfromFinacle."Loan Type"::"Personal Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(2, LoanOutstandingfromFinacle."Outstanding Amount");
                                         LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
-                                            AttributeAmount += CalculateDifferentialnterest(3, LoanOutstandingfromFinacle."Outstanding Amount");
-                                        LoanOutstandingfromFinacle."Loan Type"::"Vehicle Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(4, LoanOutstandingfromFinacle."Outstanding Amount");
+                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Outstanding Amount");
+                                        else
+                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type", LoanOutstandingfromFinacle."Outstanding Amount");
                                     end;
                                 until LoanOutstandingfromFinacle.Next = 0;
                         end;
