@@ -10,10 +10,10 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
         if EmpActJnl1.FindSet() then begin
-            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending");
             CheckLeaveDetails(EmpActJnl1);
+            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending");
         end else
-            Error('There arenot record in Status Open');
+            Error('Record not found in Status Open');
         ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
     end;
 
@@ -128,6 +128,7 @@ codeunit 50023 EmployeeActivityMgt
                 PostedLeaveJournal.Validate(Posted, true);
                 PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
                 PostedLeaveJournal.Insert(true);
+                LeaveMgt.LeaveApproved(LeaveRequest."No.");
             until leaveJournal.next() = 0
         else
             Error('There is no Document to post');
@@ -211,7 +212,8 @@ codeunit 50023 EmployeeActivityMgt
         EmployeeACTJnl.TestField("Start Date");
         EmployeeACTJnl.TestField("End Date");
         EmployeeACTJnl.TestField("Leave Code");
-        EmployeeACTJnl.TestField("Leave Type");
+        if EmployeeACTJnl."Leave Type" = EmployeeACTJnl."Leave Type"::" " then
+            Error('Leave Type cannot be blank in %1 line No %2', EmployeeACTJnl."Emp Act. No", EmployeeACTJnl."Line No");
     end;
 
     procedure CheckLeaveInSameDay(EmployeeACTJnl: Record "Employee Activity Journal")
