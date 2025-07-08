@@ -53,7 +53,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure checkLogin(loginName: Code[50]; pwd: Text[80]): Text
     //     var
     //         Employee: Record Employee;
@@ -111,7 +111,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure sendLateAttendance(employeeNo: Code[20]; lateRemarks: Text): Integer
     //     var
     //         DocumentType: Option " ","Leave Request","Travel Request","Travel Claim","Late Attendance",Training;
@@ -122,7 +122,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveLateAttendance(empNo: Code[20]; lateAttendanceDate: Date; isApproved: Boolean; remarks: Text): Text
     //     var
     //         AttendanceLog: Record "Attendance Log";
@@ -147,7 +147,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -166,7 +166,7 @@ page 50340 "Portal Function"
     //             exit;
     //         end;
     //         if not EmpActivity.Cancelled then begin
-    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //             if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //                 HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
     //             else begin
     //                 if not isApproved then begin
@@ -184,7 +184,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure employeeCheckoutTimeUpdate(empNo: Code[20]; checkoutDate: Date; checkoutTime: Time; puchoutRemarks: Text; punchoutReviewer: Code[20]; punchoutCheckReviewer: Code[20]; NightShiftCheckOutTime: Time): Text
     //     var
     //         Attendancelog: Record "Attendance Log";
@@ -205,7 +205,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure submitLeaveRequest(employeeNo: Code[20]; leaveCode: Code[20]; startDate: Date; endDate: Date; remarks: Text; compensatoryDate: Date; recommenderCode: Code[20]; approverCode: Code[20]; childGender: Text; forDeathof: Text; contactNo: Text): Integer
     //     var
     //         //TempEmpAct: Record "Employee Activity" temporary;
@@ -273,7 +273,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitEstimationCosts(empNo: Code[20]; withEmpNo: Code[20]; travelCountry: Text): Text
     //     var
     //         EmpVar: Record Employee;
@@ -283,7 +283,7 @@ page 50340 "Portal Function"
     //         EstLodgCost: Decimal;
     //         EstFoodCost: Decimal;
     //         EmpAct: Record "Employee Activity";
-    //         approverCode: Code[10];
+    //         approverCode: Code[20];
     //     begin
     //         EmpVar.Get(empNo);
     //         SalLevel.Get(EmpVar."Salary Level");
@@ -322,7 +322,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -334,7 +334,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveTravelActivity(empActNo: Code[20]; startDate: Date; endDate: Date; advanceCash: Decimal; empNo: Code[20]): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -345,7 +345,7 @@ page 50340 "Portal Function"
     //         if EmpActivity."Advance Cash Required" then
     //             EmpActivity.Validate("Advance Cash", advanceCash);
     //         EmpActivity.Modify;
-    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval") then
+    //         if (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
     //             HrMgt.RecommendEmployeeActivityAPI(empActNo, empNo)
     //         else begin
     //             HrMgt.ApprovedRejectApprovalAPI(true, empActNo, empNo);
@@ -353,10 +353,10 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure getOutofPocket(empNo: Code[20]; depatureTime: Time; arrivalTime: Time; startDate: Date; endDate: Date; empActNo: Code[20]): Text
     //     var
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         Employee.Get(empNo);
     //         SalaryLevel.Get(Employee."Salary Level");
@@ -373,7 +373,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     // [ServiceEnabled]
-    //     // [Scope('Personalization')]
+    //     // //[Scope('Personalization')]
     //     // procedure logIn(empNo: Code[20]; userName: Text[20]; password: Text[20]): text
     //     // var
 
@@ -388,11 +388,11 @@ page 50340 "Portal Function"
     //     // end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitForTravelClaims(empAcitivityNo: Code[20]): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
-    //         allType: Option " ",Fooding,Lodging,OutofExpense;
+    //         allType: Enum "Allowance Type"
     //     begin
     //         EmpActivity.Get(empAcitivityNo);
 
@@ -417,7 +417,7 @@ page 50340 "Portal Function"
     //         )
     //     end;
 
-    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLoding(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" NoofDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -471,7 +471,7 @@ page 50340 "Portal Function"
     //         end;
     //     end;
 
-    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
+    //     local procedure GetAllowanceFoodingLodingLimit(EmpActivity: Record "Employee Activity"; allType: Enum "Allowance Type" perDay: Boolean; NoOfDays: Decimal): Decimal
     //     var
     //         SalaryLevel1: Record "Salary Level";
     //         EmpVar: Record Employee;
@@ -596,7 +596,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnMarks(answer: Text): Integer
     //     var
     //         EmpFeedback: Record "Employee Feedback";
@@ -623,7 +623,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnDBRRatio(empNo: Code[20]; loanType: Text; paybackMonth: Integer; appliedAdvance: Decimal): Text
     //     var
     //         DbrRatio: Decimal;
@@ -663,7 +663,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnLoanCalculation(empNo: Code[20]; loanType: Text; repaymentMode: Text; insuranceTieup: Text; age: Decimal; repaymentPeriod: Decimal; appliedLoan: Decimal; propertyValue: Decimal; estimatedConstValue: Decimal; purposeofHousingLoan: Text): Text
     //     var
     //         DbrRatio: Decimal;
@@ -846,7 +846,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure sendEmploanSalAdvForApproval(empLoanNo: Code[20]; isApproved: Boolean)
     //     var
     //         EmpSalaryAdv: Record "Employee Loan/Advance";
@@ -856,7 +856,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveEmpLoanSalAdv(empLoanNo: Code[20]; isApproved: Boolean; remark: Text; EmpNo: Code[20])
     //     var
     //         EmpSalaryAdv: Record "Employee Loan/Advance";
@@ -872,7 +872,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure retrunAttachmentBase64(docNo: Code[20]; entryNo: Integer): Text
     //     var
     //         IncomingDoc: Record "Incoming Document";
@@ -898,7 +898,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure insertAttachmentforPurposeofHousing(empLoanNo: Code[20]; purposeofHousing: Text): Text
     //     var
     //         IncomingDoc: Record "Incoming Document";
@@ -957,7 +957,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure uploadAttachment(docNo: Code[20]; entryNo: Integer; fname: Text; ext: Text): Text
     //     var
     //         IncomingDoc: Record "Incoming Document";
@@ -1044,7 +1044,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure removeAttachment(docNo: Code[20]; entryNo: Integer)
     //     var
     //         IncomingDocument: Record "Incoming Document";
@@ -1089,7 +1089,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure substituteAllowanceAssignment(entryNo: Integer; lineNo: Integer; fromDate: Date; toDate: Date; empCode: Code[20]): Text
     //     var
     //         AllowanceLine: Record "Allowance Assignment Line";
@@ -1112,7 +1112,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure sendAllowanceForApproval(entryNo: Integer; isApproved: Boolean): Text
     //     var
     //         AllowanceLine: Record "Allowance Assignment Line";
@@ -1125,21 +1125,21 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveAllowanceAssignment(entryNo: Integer; isApproved: Boolean; EmpNo: Code[20]): Text
     //     begin
     //         // LoanMgt.ApproveRejectAllowanceAssignment(isApproved, entryNo);
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnAllowanceAssignment(entryNo: Integer; EmpNo: Code[20]): Text
     //     begin
     //         LoanMgt.ReturnAllowanceAssignment(entryNo);
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveResignationDoc(docNo: Code[20]; remarks: Text; isApproved: Boolean)
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -1166,7 +1166,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure submitOvertime(employeeNo: Code[20]; OTDate: Date; reasonforOT: Text; recommenderCode: Code[20]; approverCode: Code[20]; estimatedHrs: Decimal; encashmentCode: Code[20]): Integer
     //     var
     //         // TempEmpAct: Record "Employee Activity" temporary;
@@ -1428,21 +1428,21 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveSelectionCommittee(vacancyNo: Code[20])
     //     begin
     //         HrMgt.SelectionCommitteeApproval(vacancyNo);
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure generateInterviewEntries(vacancyCode: Code[20]; candidateCode: Code[20])
     //     begin
     //         HrMgt.GenerateInterviewerEntries(vacancyCode, candidateCode);
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure retrunResignationWaiver(empNo: Code[20]; proposedDateofResignation: Date): Text
     //     var
     //         ResignationDays: Integer;
@@ -1479,7 +1479,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure sendToHR(resignNo: Code[20]): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -1491,7 +1491,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure generateAttachmentAPI(leavecode: Code[20]; startDate: Date; endDate: Date; employeeNo: Code[20]): Text
     //     var
     //         TempIncomingDoc: Record "Incoming Document";
@@ -1540,7 +1540,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure uploadFeedbackAttachment(basestring: Text; fname: Text; ext: Text): Text
     //     var
     //         TempBlob: Codeunit "Temp Blob";
@@ -1562,7 +1562,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadFeedbackAttachment(fileName: Text): Text
     //     var
     //         TempBlob: Codeunit "Temp Blob";
@@ -1581,7 +1581,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure removeFeedbackAttachment(fname: Text)
     //     begin
     //         //LoanMgt.DeleteAttachment(IncomingDocument);
@@ -1590,14 +1590,14 @@ page 50340 "Portal Function"
     //     end;
 
     //     // [ServiceEnabled]
-    //     // [Scope('Personalization')]
+    //     // //[Scope('Personalization')]
     //     // procedure approveRejectAccessControl(empActivityNo: Code[20]; isApproved: Boolean; remark: Text)
     //     // var
     //     //     EmpActivity: Record "Employee Activity";
     //     // begin
     //     //     EmpActivity.Get(empActivityNo);
     //     //     if isApproved then begin
-    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then begin
+    //     //         if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending then begin
     //     //             EmpActivity.Remarks := remark;
     //     //             HrMgt.RecommendAccessControl(EmpActivity);
     //     //         end else
@@ -1609,7 +1609,7 @@ page 50340 "Portal Function"
     //     // end;
 
     //     // [ServiceEnabled]
-    //     // [Scope('Personalization')]
+    //     // //[Scope('Personalization')]
     //     // procedure approveRejectAccessControlLine(empActivityNo: Code[20]; lineNo: Integer; isApproved: Boolean)
     //     // var
     //     //     AccessControlLine: Record "Access Control Request Line";
@@ -1621,11 +1621,11 @@ page 50340 "Portal Function"
     //     // end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveRejectTransfer(empActivityNo: Code[20]; isApproved: Boolean; remark: Text; employeeNo: Code[20])
     //     var
     //         EmpActivity: Record "Employee Activity";
-    //         EmpHrTransfer: Record "Employee/HR Transfer";
+    //         EmpHrTransfer: Record "Employee Transfer";
     //     begin
     //         EmpHrTransfer.Get(empActivityNo);
     //         if isApproved then begin
@@ -1660,11 +1660,11 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure ackonwledgeTransfer(empActivityNo: Code[20]; dateOfJoining: Date; transferRemarks: Text)
     //     var
     //         //EmpActivity: Record "Employee Activity";
-    //         EmployeeTransfer: Record "Employee/HR Transfer";
+    //         EmployeeTransfer: Record "Employee Transfer";
     //         TransferMgt: Codeunit "Transfer Mgt.";
 
     //     begin
@@ -1675,11 +1675,11 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveRejectTransferClaim(empActivityNo: Code[20]; isApproved: Boolean; remarks: Text)
     //     var
     //         //EmpActivity: Record "Employee Activity";
-    //         EmployeeTransfer: Record "Employee/HR Transfer";
+    //         EmployeeTransfer: Record "Employee Transfer";
     //         TransferMgt: Codeunit "Transfer Mgt.";
     //     begin
     //         EmployeeTransfer.Get(empActivityNo);
@@ -1687,7 +1687,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnTrasferClaim(empActivityNo: Code[20]; relocationDis: Decimal; oustationDis: Decimal; bMAFDis: Decimal): Text
     //     var
     //         EmpActivity: Record "Employee Activity";
@@ -1872,7 +1872,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure GenerateEmployeeActivityAttachment(empActType: Text; employeeNo: Code[20]): Text
     //     var
     //         TempIncomingDoc: Record "Incoming Document";
@@ -1926,7 +1926,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnValutKeyAllowance(): Text
     //     var
     //         PGSetup: Record "Payroll General Setup";
@@ -1936,7 +1936,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure uploadEmployeeImage(empNo: Code[20]; ext: Text; fileBaseText: Text)
     //     var
     //         FileManagement: Codeunit "File Management";
@@ -1964,7 +1964,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadSampleDoc(attachmentCode: Code[20]): Text
     //     var
     //         IncomingDoc: Record "Incoming Document";
@@ -1989,7 +1989,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadPaySlip(year: Integer; month: Text; employeeNo: Code[20]) exitText: Text
     //     var
     //         PaySlip: Report "Payroll Payslip";
@@ -2009,7 +2009,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2071,7 +2071,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure onValidateKRACategory(AppraisalCode: Code[20])
     //     var
     //         AppraisalRec: Record Appraisal;
@@ -2082,7 +2082,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure approveRejectAppraisal(appraisalCode: Code[20])
     //     var
     //         AppraisalRec: Record Appraisal;
@@ -2092,7 +2092,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure postInterviewEvaluationEntry(candidiateCode: Code[20]; interviewerCode: Code[20]; vacancyCode: Code[20])
     //     var
     //         EvaluationEntry: Record "Evaluation Entry";
@@ -2135,7 +2135,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure recommendInternalCandidate(candidateCode: Code[20]; vacancyCode: Code[20]; remarksVar: Text; isApproved: Boolean)
     //     var
     //         CandidateVar: Record Candidate;
@@ -2146,7 +2146,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure applyForPromotion(candidateCode: Code[20]; vacancyCode: Code[20]; recommenderCode: Code[20]; candidateRemarks: Text)
     //     var
     //         Candidate: Record Candidate;
@@ -2158,7 +2158,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure updateLoan(empLoanCode: Code[20])
     //     var
     //         EmpLoan: Record "Employee Loan/Advance";
@@ -2178,7 +2178,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure checkAllowanceApproval(branchExtensionCode: Code[20]; empCode: Code[20])
     //     var
     //         FunctionalTitle: Record "Functional Title";
@@ -2194,7 +2194,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadTaxDeductionInfoReport(year: Integer; month: Text; employeeNo: Code[20]) exitText: Text
     //     var
     //         TaxDeductionInfo: Report "Tax Deduction Information";
@@ -2216,7 +2216,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         // case month of
     //         //     Format(MonthOption::Baisakh):
@@ -2262,7 +2262,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure submitRetirementFund(employeeNo: Code[20]): Integer
     //     var
     //         TempRetirementFund: Record "Retirement Fund" temporary;
@@ -2276,7 +2276,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure onOpenRetirementFund(): Text
     //     var
     //         RF: Record "Retirement Fund" temporary;
@@ -2310,7 +2310,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure calculateRetirementFund(nICARTFAmount: Decimal; cITAmount: Decimal; nICARTFAmountLumpsum: Decimal; cITAmountLumpsum: Decimal): Text
     //     var
     //         RF: Record "Retirement Fund" temporary;
@@ -2353,7 +2353,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitDeputationValue(): Text
     //     begin
     //         Employee.Get(HrMgt.GetEmployeeNo);
@@ -2361,7 +2361,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitFiscalYear(): Text
     //     begin
     //         PGSetup.Get; //Min -- For Exit previous fiscal year (Staff Declaration Form)
@@ -2370,7 +2370,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure returnRFData(): Text
     //     var
     //         PRAttributesUsage: Record "Payroll Attributes Usage";
@@ -2394,7 +2394,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitLumpSumpRF(): Boolean
     //     begin
     //         PGSetup.Get; //Min -- actual RF plan enable for portal
@@ -2405,7 +2405,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadPaySlipMobileApp(year: Integer; month: Text; EmployeeNo: Code[20]) exitText: Text
     //     var
     //         PaySlip: Report "Payroll Payslip";
@@ -2424,7 +2424,7 @@ page 50340 "Portal Function"
     //         if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //         else
-    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //             PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //         PostedPayrollHeader.FindFirst;
     //         case month of
     //             Format(MonthOption::Baisakh):
@@ -2487,7 +2487,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadTaxDeductionInfoMobileApp(year: Integer; month: Text; EmployeeNo: Code[20]) exitText: Text
     //     var
     //         TaxDeductionInfo: Report "Tax Deduction Info Mob App";
@@ -2508,7 +2508,7 @@ page 50340 "Portal Function"
     //             if Employee."Employment Type" = Employee."Employment Type"::Contract then
     //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Contract)
     //             else
-    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Regular);
+    //                 PostedPayrollHeader.SetRange("Employee Type", PostedPayrollHeader."Employee Type"::Permanent);
     //             PostedPayrollHeader.FindFirst;
     //             case month of
     //                 Format(MonthOption::Baisakh):
@@ -2551,14 +2551,14 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure exitCurrentFiscalYear(): Text
     //     begin
     //         exit(HrMgt.ReturnFiscalYear(Today)); //Min -- For Exit Current fiscal year (Extra Milage Module)
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure trainingempInoutTimeUpdate(empNo: Code[20]; trainingDate: Date; checkinTime: Time; checkoutTime: Time): Text
     //     var
     //         AttendanceLineRec: Record "Attendance Line";
@@ -2586,14 +2586,14 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure downloadSalarysheetDocMonthWise(year: Integer; month: Text) exitText: Text
     //     var
     //         SalarysheetDocMonthWise: Report "Salary Sheet Doc Portal";
     //         MonthOption: Enum "Nepali Month";
     //         FileName: Text;
     //         PostedPayrollHeader: Record "Posted Payroll Header";
-    //         PayCycleTerm: Code[10];
+    //         PayCycleTerm: Code[20];
     //         PayCyclePeriod: Record "Pay Cycle Period";
     //         recRef: RecordRef;
     //         tmpBlob: Codeunit "Temp Blob";
@@ -2676,7 +2676,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure modifyprobempscore(appcode: Code[20])
     //     var
     //         KPIMgt: Codeunit "KPI Mgt.";
@@ -2685,7 +2685,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure checkIfTargetExceeds(empcode: Code[20]; kpicode: Code[20]; startdate: Date; enddate: Date)
     //     var
     //         KPIMgt: Codeunit "KPI Mgt.";
@@ -2694,7 +2694,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure getChanges(since: DateTime): JsonArray
     //     var
     //         Leave: Record Leave; // Replace with your table name
@@ -2721,7 +2721,7 @@ page 50340 "Portal Function"
     //     end;
 
     //     [ServiceEnabled]
-    //     [Scope('Personalization')]
+    //     //[Scope('Personalization')]
     //     procedure myTask(employeeNo: Code[20]) HRCue: Record "HR Cue"
     //     var
     //         myTasks: Record "HR Cue";

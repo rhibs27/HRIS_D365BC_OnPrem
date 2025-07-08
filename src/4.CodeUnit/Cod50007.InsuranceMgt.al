@@ -73,7 +73,7 @@ codeunit 50007 "Insurance Mgt"
     //     EmpAct.Reset;
     //     EmpAct.Init;
     //     EmpAct.TransferFields(TempEmpAct);
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Pending);
     //     EmpAct.Validate("User ID", UserId);
     //     Employee.Get(EmpAct."Employee No.");
     //     // EmpAct.Validate("Recommender Code", Employee."Approver Code");
@@ -104,10 +104,10 @@ codeunit 50007 "Insurance Mgt"
     var
         ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
     begin
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
         if not Confirm(ConfirmCancel, false) then
             exit;
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Cancelled);
+        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Canceled);
         EmpAct.Modify(true);
     end;
 

@@ -8,7 +8,7 @@ page 50257 "HR Transfer API"
     DelayedInsert = true;
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
 
     layout
     {
@@ -215,7 +215,7 @@ page 50257 "HR Transfer API"
     //             Promoted = true;
     //             PromotedCategory = Process;
     //             PromotedIsBig = true;
-    //             Visible = Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+    //             Visible = Rec."Approval Status" = Rec."Approval Status"::Pending;
 
     //             trigger OnAction()
     //             begin

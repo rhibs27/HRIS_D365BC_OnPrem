@@ -19,13 +19,30 @@ page 50254 "Shift Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.', Comment = '%';
                 }
-                field("Deputation Name"; Rec."Deputation Code")
-                {
-                    ToolTip = 'Specifies the value of the Deputation Name field.', Comment = '%';
-                }
                 field("Deputation Type"; Rec."Deputation Type")
                 {
                     ToolTip = 'Specifies the value of the Deputation Type field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Deputation Name"; Rec."Deputation Name")
+                {
+                    ToolTip = 'Specifies the value of the Deputation Name field.', Comment = '%';
+                    Editable = false;
+                }
+                field("Deputation Sub Type"; Rec."Deputation Sub Type")
+                {
+                    ToolTip = 'Specifies the value of the Deputation Sub Type field.', Comment = '%';
+                    Editable = IsOpen;
+                }
+                field("Deputation Sub Type Code"; Rec."Deputation Sub Type Code")
+                {
+                    ToolTip = 'Specifies the value of the Deputation Sub Type Code field.', Comment = '%';
+                    Editable = IsOpen;
+                }
+                field("Deputation Sub Type Name"; Rec."Deputation Sub Type Name")
+                {
+                    ToolTip = 'Specifies the value of the Deputation Sub Type Name field.', Comment = '%';
+                    Editable = false;
                 }
                 field("From Date"; Rec."From Date")
                 {
@@ -59,9 +76,7 @@ page 50254 "Shift Assignment Card"
             }
             part(shiftSubForm; "shift subform")
             {
-                SubPageLink = "No." = field("No."),
-                            "Deputation Type" = field("Deputation Type"),
-                            "Deputation Code" = field("Deputation Code");
+                SubPageLink = "No." = field("No.");
                 UpdatePropagation = Both;
                 ApplicationArea = all;
                 Editable = IsOpen;

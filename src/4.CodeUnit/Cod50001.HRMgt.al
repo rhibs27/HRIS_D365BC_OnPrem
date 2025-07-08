@@ -107,10 +107,10 @@ codeunit 50001 "HR Mgt."
         TempInt: Integer;
         Employee1: Record Employee;
         SQLConnectionMgt: Codeunit "SQL Connection Mgt";
-        SQLConnection: DotNet SqlConnection;
-        SQLCommand: DotNet SqlCommand;
-        SQLParameter: DotNet SqlParameter;
-        SQLDataReader: DotNet SqlDataReader;
+        // SQLConnection: DotNet SqlConnection;
+        // SQLCommand: DotNet SqlCommand;
+        // SQLParameter: DotNet SqlParameter;
+        // SQLDataReader: DotNet SqlDataReader;
         SQLCommandType: Option StoredProcedure,TableDirect,Text;
         commandtext: Text;
         reader: Text;
@@ -749,7 +749,7 @@ codeunit 50001 "HR Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         CodeunitEmailMessage: Codeunit "Email Message";
         Header: Text;
         Body: Text;
@@ -818,7 +818,7 @@ codeunit 50001 "HR Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -957,7 +957,7 @@ codeunit 50001 "HR Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -1039,7 +1039,7 @@ codeunit 50001 "HR Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -1677,7 +1677,7 @@ codeunit 50001 "HR Mgt."
         InsertVacancyDocApprovalWorkflowSteps(Workflow,
           BuildVacancyConditions(Vacancy."Approval Status"::open),
           OnVacancyDocSendForApprovalCode,
-          BuildVacancyConditions(Vacancy."Approval Status"::"pending approval"),
+          BuildVacancyConditions(Vacancy."Approval Status"::Pending),
           OnVacancyDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
@@ -2036,14 +2036,14 @@ codeunit 50001 "HR Mgt."
             DATABASE::"Vacancy Header":
                 begin
                     RecRef.SetTable(Vacancy);
-                    Vacancy.Validate("Approval Status", Vacancy."Approval Status"::"pending approval");
+                    Vacancy.Validate("Approval Status", Vacancy."Approval Status"::Pending);
                     Vacancy.Modify;
                 end;
 
             DATABASE::"Training Header":
                 begin
                     RecRef.SetTable(TrainHead);
-                    TrainHead.Validate("Approval Status", Vacancy."Approval Status"::"pending approval");
+                    TrainHead.Validate("Approval Status", Vacancy."Approval Status"::Pending);
                     TrainHead.Modify;
                 end;
 
@@ -2053,8 +2053,8 @@ codeunit 50001 "HR Mgt."
                     Facilitator1.Reset;
                     Facilitator1.SetRange("Fiscal Year", Facilitator."Fiscal Year");
                     Facilitator1.SetFilter("Approval Status", '<>%1|%2', Facilitator1."Approval Status"::rejected, Facilitator1."Approval Status"::released);
-                    Facilitator1.ModifyAll("Approval Status", Facilitator1."Approval Status"::"pending approval");
-                    //Facilitator.VALIDATE("Approval Status",Facilitator."Approval Status"::"pending approval");
+                    Facilitator1.ModifyAll("Approval Status", Facilitator1."Approval Status"::Pending);
+                    //Facilitator.VALIDATE("Approval Status",Facilitator."Approval Status"::Pending);
                     //Facilitator.MODIFY;
                 end;
             else
@@ -2094,7 +2094,7 @@ codeunit 50001 "HR Mgt."
         InsertTrainingDocApprovalWorkflowSteps(Workflow,
           BuildTrainingConditions(TrainHead."Approval Status"::Open),
           OnTrainingDocSendForApprovalCode,
-          BuildTrainingConditions(TrainHead."Approval Status"::"Pending approval"),
+          BuildTrainingConditions(TrainHead."Approval Status"::Pending),
           OnTrainingDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
@@ -2400,7 +2400,7 @@ codeunit 50001 "HR Mgt."
         InsertFacilitatorDocApprovalWorkflowSteps(Workflow,
           BuildFacilitatorConditions(Facilitator."Approval Status"::open),
           OnFacilitatorDocSendForApprovalCode,
-          BuildFacilitatorConditions(Facilitator."Approval Status"::"pending approval"),
+          BuildFacilitatorConditions(Facilitator."Approval Status"::Pending),
           OnFacilitatorDocCancelForApprovalCode,
           WorkflowStepArgument, true);
     end;
@@ -2737,7 +2737,7 @@ codeunit 50001 "HR Mgt."
         exit(HoursText + ':' + MinutesText + ':' + SecondsText);
     end;
 
-    procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[10])
+    procedure CheckForCitizen(CitizenNo: Code[30]; CitizenPlace: Code[20])
     var
         ErrorCitizenError: Label 'Citizenship No %1 of issed place %2 already exist.';
     begin
@@ -3048,14 +3048,14 @@ codeunit 50001 "HR Mgt."
             exit(Employee."Full Name");
     end;
 
-    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: Option " ","Leave Request","Travel Request","Travel Claim",Transfer,Overtime,"Out of Office","Bulk Cash",Resignation,"Access Control","Attendance Missed",Training,"Medical Insurance","Candiadte offer letter",Appraisal,"Loan Attachment","Allowance Assignment"; TypeOpt: Option " ",Open,Approved,Rejected,"Pending Approval",Recommended,Cancelled,Acknowledged,Screened,"On Hold"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
+    procedure SendMailFromTemplate(TableNo: Integer; DocumentType: enum "Employee Activity Type"; TypeOpt: Enum "approval status"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
     var
         EmailTemplate: Record "Email Template";
         Footer: Text;
         Header: Text;
         Body: Text;
-        EmailMessage: Record "Agile Email Message";
-        EmailReceipent: Record "Agile Email Recipient";
+        EmailMessage: Record "Email Template Message";
+        EmailReceipent: Record "Email Template Recipient";
         Employee: Record Employee;
         EmployeeActivity: Record "Employee Activity";
         EmailReceipientText: List of [Text];
@@ -3097,7 +3097,7 @@ codeunit 50001 "HR Mgt."
         EmailTemplate.SetRange("Document Type", DocumentType);
         EmailTemplate.SetRange("Sub Type", SubType);
         //EmailTemplate.SETRANGE(Type,TypeOpt);
-        EmailTemplate.SetFilter(Type, Format(TypeOpt));
+        EmailTemplate.SetFilter("Approval Status", Format(TypeOpt));
         if TableNo = DATABASE::"Employee Loan/Advance" then begin
             // EVALUATE(TempInt, DocumentNo);
             if EmpLoan.Get(DocumentNo) then
@@ -3132,7 +3132,7 @@ codeunit 50001 "HR Mgt."
                 EmployeeActivity.Get(DocumentNo);
                 //if EmployeeActivity.Type = EmployeeActivity.Type::"Access Control" then
                 //EmailReceipientText.add(GetAddressAccessControl(EmployeeActivity))
-                if (DocumentType = DocumentType::Transfer) and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Cancelled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
+                if (DocumentType = DocumentType::"Employee Transfer") and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Canceled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
                     EmailCCReceipent.Add('');
                     Employee.Reset;
                     EmployeeActivity.TestField("Incoming Supervisior");
@@ -3390,7 +3390,7 @@ codeunit 50001 "HR Mgt."
                                         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
                                     end;
 
-                                DocumentType::"Medical Insurance":
+                                DocumentType::"Medical Insurance Claim":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
                                         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
@@ -3409,7 +3409,7 @@ codeunit 50001 "HR Mgt."
                                             CodeunitEmailMessage.AppendToBody(StrSubstNo('Please approve document for resignation of employee %1(%2)', EmployeeActivity."Employee No.", EmployeeActivity."Employee Name"));
                                     end;
 
-                                DocumentType::Transfer:
+                                DocumentType::"Employee Transfer":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
                                         GetTransferBody(EmployeeActivity);
@@ -3484,7 +3484,7 @@ codeunit 50001 "HR Mgt."
 
                 CodeunitEmailMessage.AppendToBody('<br>' + RegardsMessage + '<br>');
             end;
-            if DocumentType <> DocumentType::Transfer then begin //Min 9.15.2022
+            if DocumentType <> DocumentType::"Employee Transfer" then begin //Min 9.15.2022
                 if AddEmailReceipentFromTemplate then begin
                     EmailReceipent.Reset;
                     EmailReceipent.SetRange("Email Template Code", EmailTemplate.Code);
@@ -3507,7 +3507,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure ApprovedRejectApprovalAPI(Approved: Boolean; EmpActCode: Code[20]; employeeNo: code[20])
+    procedure ApprovedRejectApprovalAPI(Approved: Boolean; EmpActCode: Code[20]; employeeNo: Code[20])
     var
 
         EmpAct: Record "Employee Activity";
@@ -3589,10 +3589,10 @@ codeunit 50001 "HR Mgt."
                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
             end else begin
                 EmpAct.TestField("Rejection Remarks");
-                if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::"Pending Approval"]) then
-                    Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::"Pending Approval");
+                if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending]) then
+                    Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending);
                 CheckEmployeeActivityApproval(EmpAct);
-                if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+                if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)   //For email
                 else
                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
@@ -3640,7 +3640,7 @@ codeunit 50001 "HR Mgt."
                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
                 Message('The document has been approved.');
             end else
-                if (EmpAct."Approval Status" in [EmpAct."Approval Status"::"Pending Approval", EmpAct."Approval Status"::Recommended]) then begin
+                if (EmpAct."Approval Status" in [EmpAct."Approval Status"::Pending, EmpAct."Approval Status"::Recommended]) then begin
                     EmpAct.TestField("Rejection Remarks");
                     if EmpAct.Type = EmpAct.Type::"Travel Claim" then begin
                         EmpAct.TestField("Travel Order No.");
@@ -3649,7 +3649,7 @@ codeunit 50001 "HR Mgt."
                         EmpAct2.Modify;
                     end;
                     CheckEmployeeActivityApproval(EmpAct);
-                    if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+                    if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
                         SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)  //For email
                     else
                         SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
@@ -3746,10 +3746,10 @@ codeunit 50001 "HR Mgt."
                 Message('The document has been approved.');
             end else begin
                 EmpAct.TestField("Rejection Remarks");
-                if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::"Pending Approval"]) then
-                    Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::"Pending Approval");
+                if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending]) then
+                    Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending);
                 CheckEmployeeActivityApproval(EmpAct);
-                if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+                if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)   //For email
                 else
                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
@@ -3797,7 +3797,7 @@ codeunit 50001 "HR Mgt."
                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
                 Message('The document has been approved.');
             end else
-                if (EmpAct."Approval Status" in [EmpAct."Approval Status"::"Pending Approval", EmpAct."Approval Status"::Recommended]) then begin
+                if (EmpAct."Approval Status" in [EmpAct."Approval Status"::Pending, EmpAct."Approval Status"::Recommended]) then begin
                     EmpAct.TestField("Rejection Remarks");
                     if EmpAct.Type = EmpAct.Type::"Travel Claim" then begin
                         EmpAct.TestField("Travel Order No.");
@@ -3806,7 +3806,7 @@ codeunit 50001 "HR Mgt."
                         EmpAct2.Modify;
                     end;
                     CheckEmployeeActivityApproval(EmpAct);
-                    if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+                    if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
                         SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)  //For email
                     else
                         SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
@@ -4535,7 +4535,7 @@ codeunit 50001 "HR Mgt."
         EmpAct: Record "Employee Activity";
     begin
         EmpAct.Get(EmpActCode);
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
         CheckEmployeeActivityApproval(EmpAct);
         EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Recommended);
         EmpAct.Modify;
@@ -4547,7 +4547,7 @@ codeunit 50001 "HR Mgt."
         EmpAct: Record "Employee Activity";
     begin
         EmpAct.Get(EmpActCode);
-        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+        EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
         CheckEmployeeActivityApprovalAPI(EmpAct, employeeNo);
         EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Recommended);
         EmpAct.Modify;
@@ -4594,7 +4594,7 @@ codeunit 50001 "HR Mgt."
     //     LeaveTable.SetRange("Employee No.", Leave."Employee No.");
     //     LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
     //     LeaveTable.SetRange("Leave Code", LeaveTypeSetup.Code);
-    //     LeaveTable.SetFilter("Approval Status", '%1|%2|%3', LeaveTable."Approval Status"::Recommended, LeaveTable."Approval Status"::"Pending Approval", LeaveTable."Approval Status"::Open);
+    //     LeaveTable.SetFilter("Approval Status", '%1|%2|%3', LeaveTable."Approval Status"::Recommended, LeaveTable."Approval Status"::Pending, LeaveTable."Approval Status"::Open);
     //     if LeaveTable.FindFirst then
     //         Error(LeaveRequestError, LeaveTable."No.", LeaveTable."Leave Code");
     //     if GuiAllowed then begin
@@ -4637,7 +4637,7 @@ codeunit 50001 "HR Mgt."
     //     Leavevar.TransferFields(Leave);
     //     Leavevar.TestField("Approver Code");
     //     if Leavevar."Recommender Code" <> '' then
-    //         Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
+    //         Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Pending)
     //     else
     //         Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
     //     Leavevar.Validate("User ID", UserId);
@@ -4763,7 +4763,7 @@ codeunit 50001 "HR Mgt."
     //     if TravelRequest."Recommender Code" = '' then
     //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
     //     else
-    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
     //     TravelRequest.Validate("User ID", UserId);
     //     TravelRequest.Insert(true);
     //     if not (TravelReq."Travel Order No." = '') then begin
@@ -5250,13 +5250,13 @@ codeunit 50001 "HR Mgt."
     //         TravelRequest.Validate("Final Approver", Employee1."No.");
 
     //     TravelRequest.Validate("Requested Date", Today);
-    //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+    //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
     //     TravelRequest.Validate("User ID", UserId);
     //     TravelRequest.TestField("Approver Code");
     //     if TravelRequest."Recommender Code" = '' then
     //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
     //     else
-    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+    //         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
     //     TravelRequest.Validate("Total Claimed Amount");
     //     TravelRequest.Insert(true);
     //     SendMailFromTemplate(DATABASE::"Employee Activity", TravelRequest.Type::"Travel Claim", TravelRequest."Approval Status"::Open, '', TravelRequest."Employee No.", TravelRequest."No.", 0);   //For email
@@ -6036,7 +6036,7 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    // procedure OpenTransferRequest(EmpCode3: Code[10])
+    // procedure OpenTransferRequest(EmpCode3: Code[20])
     // var
     //     EmpAct4: Record "Employee Activity" temporary;
     //     RequestError: Label 'You are not eligible to request for a transfer.';
@@ -6171,7 +6171,7 @@ codeunit 50001 "HR Mgt."
 
         EmpActivity.Init;
         EmpActivity.TransferFields(TempEmpActivity);
-        EmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::"Pending Approval");
+        EmpActivity.Validate("Approval Status", TempEmpActivity."Approval Status"::Pending);
         EmpActivity.Validate("User ID", UserId);
         EmpActivity.Insert(true);
         // AddOvertimeAttachment(EmpOvertime."No.", EmpOvertime."Employee No.");
@@ -6188,9 +6188,9 @@ codeunit 50001 "HR Mgt."
         exit(true);
     end;
 
-    // procedure SendTransferApproval(TempEmphrtransfer: Record "Employee/HR Transfer" temporary): Boolean
+    // procedure SendTransferApproval(TempEmphrtransfer: Record "Employee Transfer" temporary): Boolean
     // var
-    //     EmphrTransfer: Record "Employee/HR Transfer";
+    //     EmphrTransfer: Record "Employee Transfer";
     //     ConfirmTransfer: Label 'Do you want to send transfer request ?';
     //     ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
     //     TransferSent: Label 'Transfer request approval has been sent.';
@@ -6221,7 +6221,7 @@ codeunit 50001 "HR Mgt."
     //     EmphrTransfer.Init;
     //     EmphrTransfer.Validate("Requested Date", Today);
     //     EmphrTransfer.TransferFields(TempEmphrtransfer);
-    //     EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::"Pending Approval");
+    //     EmphrTransfer.Validate("Approval Status", EmphrTransfer."Approval Status"::Pending);
     //     EmphrTransfer.Validate("User ID", UserId);
     //     Employee.Get(EmphrTransfer."Employee No.");
     //     //EmpAct.VALIDATE("Recommender Code", Employee."Approver Code");
@@ -6248,29 +6248,29 @@ codeunit 50001 "HR Mgt."
     //     exit(true);
     // end;
 
-    // procedure RecommendTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RecommendTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     // begin
     //     if StrPos(EmpHrTransfer."Recommender Code", GetEmployeeNo) = 0 then
     //         Error('You are not eligible to recommend this document');
-    //     EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+    //     EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
     //     EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
     //     EmpHrTransfer.Modify;
     //     Message('Document has been recommended');
     // end;
-    // procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // procedure RecommendTransferAPI(var EmpHrTransfer: Record "Employee Transfer"; employeeNo: Code[20])
     // begin
     //     // if StrPos(EmpHrTransfer."Recommender Code", employeeNo) = 0 then
     //     //     Error('You are not eligible to recommend this document');
-    //     // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::"Pending Approval");
+    //     // EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Pending);
     //     // EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Recommended);
     //     // EmpHrTransfer.Modify;
     //     // Message('Document has been recommended');
     // end;
 
-    // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ReviewTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6282,7 +6282,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     //     Message('Document has been reviewed.');
     // end;
-    // procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee/HR Transfer"; employeeNo: Code[20])
+    // procedure ReviewTransferAPI(var EmpHrTransfer: Record "Employee Transfer"; employeeNo: Code[20])
     // begin
     // if EmpHrTransfer.Reviewer <> employeeNo then
     //     Error('You are not elibile to review this document');
@@ -6292,7 +6292,7 @@ codeunit 50001 "HR Mgt."
     // Message('Document has been reviewed.');
     // end;
 
-    // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ScreenTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6351,12 +6351,12 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    // procedure HoldTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure HoldTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     //     TransferPageBuilder: FilterPageBuilder;
-    //     EmpHrTrsfer: Record "Employee/HR Transfer";
+    //     EmpHrTrsfer: Record "Employee Transfer";
     //     GetDate: Date;
     //     EmpServiceActivityRec: Record "Employee Service History";
     // begin
@@ -6395,12 +6395,12 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure CancelTransfer(var EmphrTransfer: Record "Employee/HR Transfer")
+    // procedure CancelTransfer(var EmphrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     //     TransferPageBuilder: FilterPageBuilder;
-    //     EmpHrTrnsferVar: Record "Employee/HR Transfer";
+    //     EmpHrTrnsferVar: Record "Employee Transfer";
     //     GetDate: Date;
     //     EmpServiceActivity: Record "Employee Service History";
     // begin
@@ -6447,14 +6447,14 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RejectTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
     // begin
     //     EmpHrTransfer.TestField("Rejection Remarks");
     //     case EmpHrTransfer."Approval Status" of
-    //         EmpHrTransfer."Approval Status"::"Pending Approval":
+    //         EmpHrTransfer."Approval Status"::Pending:
     //             begin
     //                 if StrPos(EmpHrTransfer."Recommender Code", GetEmployeeNo) = 0 then
     //                     Error('You are not eligible to reject this document');
@@ -6481,7 +6481,7 @@ codeunit 50001 "HR Mgt."
     //     end; // 
     // end;
 
-    // procedure ApproveTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ApproveTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmApprove: Label 'Confirm Approve?';
     //     ConfirmReject: Label 'Confirm Reject?';
@@ -6529,7 +6529,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure RequestTransferAllowanceClaim(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     BMandOutStationError: Label 'You cannot apply for both BM Accomodation Allowance and Outstation/Discomfort Allowance.';
     //     UnauthorizedApprover: Label 'You are not authorized to approve.';
@@ -6548,7 +6548,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify(true);
     // end;
 
-    // local procedure CheckTransferClaimApproval(EmpHrTransfer: Record "Employee/HR Transfer")
+    // local procedure CheckTransferClaimApproval(EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
@@ -6568,7 +6568,7 @@ codeunit 50001 "HR Mgt."
     //             Error(ApproveNotEligibleError);
     // end;
 
-    // procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee/HR Transfer"; remarksText: Text)
+    // procedure ApproveRejectTransferClaim(Approve: Boolean; var EmpHrTransfer: Record "Employee Transfer"; remarksText: Text)
     // var
     //     ServiceHistory: Record "Employee Service History";
     //     ReasonCode: Record "Reason Code";
@@ -6631,7 +6631,7 @@ codeunit 50001 "HR Mgt."
     //     EmpHrTransfer.Modify;
     // end;
 
-    // procedure ReturnTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure ReturnTransfer(EmpHrTransfer: Record "Employee Transfer")
     // begin
 
     //     if EmpHrTransfer.Type in [EmpHrTransfer.Type::"HR Transfer", EmpHrTransfer.Type::"Employee Transfer"] then
@@ -6656,7 +6656,7 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         Employee.FindFirst;
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
             if StrPos(EmpAct."Recommender Code", Employee."No.") = 0 then
                 Error(RecommendNotEligibleError);
         if EmpAct."Approval Status" = EmpAct."Approval Status"::Recommended then
@@ -6676,7 +6676,7 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         Employee.SetRange("No.", employeeNo);
         Employee.FindFirst;
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
             if StrPos(EmpAct."Recommender Code", Employee."No.") = 0 then
                 Error(RecommendNotEligibleError);
         if EmpAct."Approval Status" = EmpAct."Approval Status"::Recommended then
@@ -6688,7 +6688,7 @@ codeunit 50001 "HR Mgt."
         //ERROR(AcknowledgeError);
     end;
 
-    // procedure CalculateAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // procedure CalculateAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     Employee: Record Employee;
     //     TotalDays: Integer;
@@ -6725,7 +6725,7 @@ codeunit 50001 "HR Mgt."
     //     EmpTransfer.Modify;
     // end;
 
-    // local procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateRelocationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     LevelWiseAttribute: Record "Level Wise Attributes";
@@ -6752,7 +6752,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateOutstationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     LevelWiseAttribute: Record "Level Wise Attributes";
@@ -6781,7 +6781,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateBMAccomodationAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     RemoteArea: Record "Remote Area Category";
@@ -6819,7 +6819,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateOfficiatingAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel1: Record "Salary Level";
@@ -6846,7 +6846,7 @@ codeunit 50001 "HR Mgt."
     //     end;
     // end;
 
-    // local procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee/HR Transfer")
+    // local procedure CalculateRemoteAreaAllowance(var EmpTransfer: Record "Employee Transfer")
     // var
     //     DimensionValueCurrent: Record "Dimension Value";
     //     SalaryLevel1: Record "Salary Level";
@@ -6936,7 +6936,7 @@ codeunit 50001 "HR Mgt."
             exit(Employee."No.");
     end;
 
-    // procedure AcknowledgeTransfer(var EmpHrTransfer: Record "Employee/HR Transfer")
+    // procedure AcknowledgeTransfer(var EmpHrTransfer: Record "Employee Transfer")
     // var
     //     ConfirmAcknowledge: Label 'Do you want to acknowledge this transfer?';
     //     Acknowledged: Label 'Acknowledged.';
@@ -7024,7 +7024,7 @@ codeunit 50001 "HR Mgt."
 
     // end;
 
-    // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee/HR Transfer")
+    // procedure PopUpChangingTransferApprover(EmployeehrTransfer: Record "Employee Transfer")
     // var
     //     EmpActPageBuilder: FilterPageBuilder;
     //     EmpAct: Record "Employee Activity";
@@ -7175,7 +7175,7 @@ codeunit 50001 "HR Mgt."
     begin
     end;
 
-    // procedure OpenResignationRequest(EmpCode3: Code[10])
+    // procedure OpenResignationRequest(EmpCode3: Code[20])
     // var
     //     EmpAct4: Record "Employee Activity" temporary;
     //     RequestError: Label 'You are not eligible to request for a transfer.';
@@ -7228,7 +7228,7 @@ codeunit 50001 "HR Mgt."
     //     EmpAct.Reset;
     //     EmpAct.Init;
     //     EmpAct.TransferFields(TempEmpAct);
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Pending);
     //     EmpAct.Validate("User ID", UserId);
 
     //     Employee.Get(EmpAct."Employee No.");
@@ -7250,7 +7250,7 @@ codeunit 50001 "HR Mgt."
     //     //InsertResignationApprover(Resignation); //resignation approver
 
     //     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::Resignation, EmpAct."Approval Status"::Open, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-    //     if (EmpAct.Type = EmpAct.Type::Resignation) and (EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval") then
+    //     if (EmpAct.Type = EmpAct.Type::Resignation) and (EmpAct."Approval Status" = EmpAct."Approval Status"::Pending) then
     //         ResignationEmailSend(EmpAct."Employee No."); //Min 4.28.2022
     //     Message(ApprovalRequestSent);
     //     exit(true);
@@ -7260,7 +7260,7 @@ codeunit 50001 "HR Mgt."
     // var
     //     ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
     // begin
-    //     Resignation.TestField("Approval Status", Resignation."Approval Status"::"Pending Approval");
+    //     Resignation.TestField("Approval Status", Resignation."Approval Status"::Pending);
     //     if not Confirm(ConfirmCancel, false) then
     //         exit;
     //     Resignation.Validate("Approval Status", Resignation."Approval Status"::Cancelled);
@@ -7280,7 +7280,7 @@ codeunit 50001 "HR Mgt."
     //     //CheckEmployeeActivityApproval(EmpAct); //check authorized user
     //     Employee.Get(GetEmployeeNo);
 
-    //     if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then
+    //     if Resignation."Approval Status" = Resignation."Approval Status"::Pending then
     //         if StrPos(Resignation."Recommender Code", Employee."No.") = 0 then
     //             Error(RecommendNotEligibleError);
 
@@ -7296,7 +7296,7 @@ codeunit 50001 "HR Mgt."
     //         if GuiAllowed then
     //             if not Confirm(ConfirmApprove, false) then
     //                 exit;
-    //         if Resignation."Approval Status" = Resignation."Approval Status"::"Pending Approval" then begin
+    //         if Resignation."Approval Status" = Resignation."Approval Status"::Pending then begin
     //             Resignation.Validate("Approval Status", Resignation."Approval Status"::Recommended);
     //             SendMailFromTemplate(DATABASE::"Employee Activity", EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 0);
     //             SendMailFromTemplate(DATABASE::"Employee Activity", EmailTemplate."Document Type"::Resignation, Resignation."Approval Status"::Recommended, '', '', Resignation."No.", 2);
@@ -7329,7 +7329,7 @@ codeunit 50001 "HR Mgt."
     //     //CheckEmployeeActivityApproval(EmpAct); //check authorized user
     //     Employee.Get(employeeNo);
 
-    //     if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then
+    //     if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
     //         if StrPos(EmpAct."Recommender Code", Employee."No.") = 0 then
     //             Error(RecommendNotEligibleError);
 
@@ -7345,7 +7345,7 @@ codeunit 50001 "HR Mgt."
     //         if GuiAllowed then
     //             if not Confirm(ConfirmApprove, false) then
     //                 exit;
-    //         if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then begin
+    //         if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then begin
     //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Recommended);
     //             SendMailFromTemplate(Database::"Employee Activity", EmailTemplate."Document Type"::Resignation, EmpAct."Approval Status"::Recommended, '', '', EmpAct."No.", 0);
     //             SendMailFromTemplate(Database::"Employee Activity", EmailTemplate."Document Type"::Resignation, EmpAct."Approval Status"::Recommended, '', '', EmpAct."No.", 2);
@@ -7821,7 +7821,7 @@ codeunit 50001 "HR Mgt."
     begin
         EmployeeAct.Reset;
         EmployeeAct.SetRange(Type, EmployeeAct.Type::Resignation);
-        EmployeeAct.SetFilter("Approval Status", '<>%1&<>%2&<>%3', EmployeeAct."Approval Status"::Approved, EmployeeAct."Approval Status"::Rejected, EmployeeAct."Approval Status"::Cancelled);
+        EmployeeAct.SetFilter("Approval Status", '<>%1&<>%2&<>%3', EmployeeAct."Approval Status"::Approved, EmployeeAct."Approval Status"::Rejected, EmployeeAct."Approval Status"::Canceled);
         if EmployeeAct.Find('-') then
             repeat
                 if not IsDocApprover then begin
@@ -7936,7 +7936,7 @@ codeunit 50001 "HR Mgt."
     //     EmployeeAct.Reset;
     //     EmployeeAct.SetRange("Employee No.", EmployeeCode);
     //     EmployeeAct.SetRange(Type, EmployeeAct.Type::"Medical Insurance Claim");
-    //     EmployeeAct.SetFilter("Approval Status", '<>%1', EmployeeAct."Approval Status"::"Pending Approval");
+    //     EmployeeAct.SetFilter("Approval Status", '<>%1', EmployeeAct."Approval Status"::Pending);
     //     if not EmployeeAct.FindFirst then begin
     //         EmployeeAct.Init;
     //         EmployeeAct.Validate(Type, EmployeeAct.Type::"Medical Insurance Claim");
@@ -7965,7 +7965,7 @@ codeunit 50001 "HR Mgt."
     //     EmpAct.Reset;
     //     EmpAct.Init;
     //     EmpAct.TransferFields(TempEmpAct);
-    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Pending);
     //     EmpAct.Validate("User ID", UserId);
     //     Employee.Get(EmpAct."Employee No.");
     //     EmpAct.Validate("Recommender Code", Employee."Approver Code");
@@ -7996,7 +7996,7 @@ codeunit 50001 "HR Mgt."
     // var
     //     ConfirmCancel: Label 'Do you want to confirm cancel resignation request?';
     // begin
-    //     EmpAct.TestField("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+    //     EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Pending);
     //     if not Confirm(ConfirmCancel, false) then
     //         exit;
     //     EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Cancelled);
@@ -8119,47 +8119,9 @@ codeunit 50001 "HR Mgt."
     procedure getDeputation(empCode: Code[20]): Text
     var
         employee: Record Employee;
-        deputation: Text;
-        DimValue: Record "Dimension Value";
     begin
-        employee.Reset;
-        employee.SetRange("No.", empCode);
-        if employee.FindFirst then begin
-            case employee."Deputation on" of
-                employee."Deputation on"::Branch:
-                    begin
-                        DimValue.Reset;
-                        DimValue.SetRange(Code, employee."Global Dimension 1 Code");
-                        if DimValue.FindFirst then
-                            exit(DimValue.Name);
-                    end;
-
-                employee."Deputation on"::Department:
-                    begin
-                        exit(employee."Department Name");
-                    end;
-
-                employee."Deputation on"::"Extension Counter":
-                    begin
-                        exit(employee."Extension Counter Name");
-                    end;
-                employee."Deputation on"::Province:
-                    begin
-                        exit(employee."Province Name");
-                    end;
-
-                // employee."Deputation on"::"Sub Province":
-                //     begin
-                //         exit(employee."Sub Province Name");
-                //     end;
-
-                employee."Deputation on"::Unit:
-                    begin
-                        exit(employee."Unit Name");
-                    end;
-
-            end;
-        end;
+        if employee.Get(empCode) then
+            exit(employee."Deputation On Code");
     end;
 
     // local procedure "------Appraisal---------"()
@@ -8502,7 +8464,7 @@ codeunit 50001 "HR Mgt."
     //         EmployeeActivity.Init;
     //         EmployeeActivity.TransferFields(TempEmpActivity);
     //         if TempEmpActivity."Recommender Code" <> '' then
-    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Pending)
     //         else
     //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
 
@@ -8511,7 +8473,7 @@ codeunit 50001 "HR Mgt."
     //     end else begin
     //         EmployeeActivity.Get(TempEmpActivity."No.");
     //         if EmployeeActivity."Recommender Code" <> '' then
-    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::"Pending Approval")
+    //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Pending)
     //         else
     //             EmployeeActivity.Validate("Approval Status", EmployeeActivity."Approval Status"::Recommended);
     //         EmployeeActivity.Modify(true);
@@ -8592,7 +8554,7 @@ codeunit 50001 "HR Mgt."
         LeaveEarn: Record "Leave Earn";
         EmpAttendActivity: Record "Employee Attendance & Activity";
     begin
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then begin
+        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then begin
             if StrPos(EmpAct."Recommender Code", GetEmployeeNo) = 0 then
                 Error('You are not eligible')
             else begin
@@ -8656,7 +8618,7 @@ codeunit 50001 "HR Mgt."
     var
         EmpAttendActivity: Record "Employee Attendance & Activity";
     begin
-        if EmpAct."Approval Status" = EmpAct."Approval Status"::"Pending Approval" then begin
+        if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then begin
             if StrPos(EmpAct."Recommender Code", employeeNo) = 0 then
                 Error('You are not eligible')
             else begin
@@ -8770,7 +8732,7 @@ codeunit 50001 "HR Mgt."
     var
         DailyAttendanceQuestion: Record "Daily Attendance Question";
     begin
-        ConnectSQL();
+        // ConnectSQL();
         DailyAttendanceQuestion.Reset;
         //DailyAttendanceQuestion.SetRange("Sync to Portal", true);
         if DailyAttendanceQuestion.FindFirst then
@@ -8796,14 +8758,14 @@ codeunit 50001 "HR Mgt."
                 DailyAttendanceQuestion.Modify;
             until DailyAttendanceQuestion.Next = 0;
 
-        DisconnectSQL;
+        // DisconnectSQL;
     end;
 
     local procedure UpdateAttendanceQuestion(var DailyAttendanceQuestion: Record "Daily Attendance Question")
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
         if DailyAttendanceQuestion."Is Punch In Question" then
             IsPunchQuestion := '1'
         else
@@ -8821,24 +8783,24 @@ codeunit 50001 "HR Mgt."
                        SpaceTxt + 'IsPunchInQuestion' + '=''' + IsPunchQuestion + ''''
                        ;
 
-        SetupSQLCommand;
+        // SetupSQLCommand;
 
-        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        SQLCommand.ExecuteNonQuery;
+        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        // SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure InsertAttendanceQuestion(var DailyAttendanceQuestion: Record "Daily Attendance Question")
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext :=
           InsertTxt + 'AttendanceQuestions' + SpaceTxt + '(Question,Option1,Option2, ' +
@@ -8847,42 +8809,42 @@ codeunit 50001 "HR Mgt."
             '(@Question,@Option1,@Option2, ' +
             '@Option3,@Option4,@Correct_Answer,@Date,@IsPunchInQuestion)';
 
-        SetupSQLCommand;
-        SQLCommand.Parameters.AddWithValue('@Entry_No', FORMAT(DailyAttendanceQuestion."Entry No."));
-        SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
-        SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
-        SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
-        SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
-        SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
-        SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
-        SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
-        SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
-        SQLCommand.ExecuteNonQuery;
+        // SetupSQLCommand;
+        // SQLCommand.Parameters.AddWithValue('@Entry_No', FORMAT(DailyAttendanceQuestion."Entry No."));
+        // SQLCommand.Parameters.AddWithValue('@Question', Format(DailyAttendanceQuestion.Question));
+        // SQLCommand.Parameters.AddWithValue('@Option1', DailyAttendanceQuestion.Option1);
+        // SQLCommand.Parameters.AddWithValue('@Option2', DailyAttendanceQuestion.Option2);
+        // SQLCommand.Parameters.AddWithValue('@Option3', DailyAttendanceQuestion.Option3);
+        // SQLCommand.Parameters.AddWithValue('@Option4', DailyAttendanceQuestion.Option4);
+        // SQLCommand.Parameters.AddWithValue('@Correct_Answer', Format(DailyAttendanceQuestion."Correct Option"));
+        // SQLCommand.Parameters.AddWithValue('@Date', Format(DailyAttendanceQuestion."Question Date"));
+        // SQLCommand.Parameters.AddWithValue('@IsPunchInQuestion', DailyAttendanceQuestion."Is Punch In Question");
+        // SQLCommand.ExecuteNonQuery;
     end;
 
-    local procedure ConnectSQL()
-    begin
-        SQLConnectionMgt.SetupSQLConnection(SQLConnection);
-    end;
+    // local procedure ConnectSQL()
+    // begin
+    //     SQLConnectionMgt.SetupSQLConnection(SQLConnection);
+    // end;
 
-    local procedure DisconnectSQL()
-    begin
-        SQLConnectionMgt.CloseSQLConnection(SQLConnection);
-    end;
+    // local procedure DisconnectSQL()
+    // begin
+    //     SQLConnectionMgt.CloseSQLConnection(SQLConnection);
+    // end;
 
-    local procedure ClearSQLCommand()
-    begin
-        Clear(commandtext);
-    end;
+    // local procedure ClearSQLCommand()
+    // begin
+    //     Clear(commandtext);
+    // end;
 
-    local procedure SetupSQLCommand()
-    begin
-        SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
-    end;
+    // local procedure SetupSQLCommand()
+    // begin
+    //     SQLConnectionMgt.SetupSQLCommand(SQLConnection, SQLCommand, commandtext, SQLCommandType::Text);
+    // end;
 
     local procedure ReadAttendanceQuestionFromHRportal(QuestionDate: Date; IsPuchInQuest: Boolean)
     begin
-        ClearSQLCommand;
+        // ClearSQLCommand;
         if IsPuchInQuest then
             IsPunchQuestion := '1'
         else
@@ -8890,9 +8852,9 @@ codeunit 50001 "HR Mgt."
         commandtext := ReadCommandTxt + 'AttendanceQuestions' + SpaceTxt + WhereTxt + 'Date' + ' = ''' + Format(QuestionDate) + '''' +
                         SpaceTxt + AndText + SpaceTxt + 'IsPunchInQuestion' + '=''' + IsPunchQuestion + '''';
 
-        SetupSQLCommand;
-        SQLDataReader := SQLCommand.ExecuteReader;
-        SQLDataReader.Read;
+        // SetupSQLCommand;
+        // SQLDataReader := SQLCommand.ExecuteReader;
+        // SQLDataReader.Read;
     end;
 
     procedure SyncEmployee()
@@ -8902,7 +8864,7 @@ codeunit 50001 "HR Mgt."
         Employee.SetRange(Status, Employee.Status::Active);
         if Employee.Find('-') then
             repeat
-                DisconnectSQL();
+                // DisconnectSQL();
                 InsertPortalEmployee();
             until Employee.Next = 0;
     end;
@@ -8911,27 +8873,27 @@ codeunit 50001 "HR Mgt."
     begin
         Clear(commandtext);
 
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext :=
           InsertTxt + 'Employees' + SpaceTxt + '(EmployeeID,EmployeeName,EmployeeBOD) ' +
             ValuesTxt +
             '(@EmployeeID,@EmployeeName,@EmployeeBOD)';
 
-        SetupSQLCommand;
-        SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
-        SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
-        SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
-        SQLCommand.ExecuteNonQuery;
+        // SetupSQLCommand;
+        // SQLCommand.Parameters.AddWithValue('@EmployeeID', Employee."No.");
+        // SQLCommand.Parameters.AddWithValue('@EmployeeName', Employee."Full Name");
+        // SQLCommand.Parameters.AddWithValue('@EmployeeBOD', Format(Employee."Birth Date")); //Min --Birth Date add
+        // SQLCommand.ExecuteNonQuery;
     end;
 
     local procedure DeletePortalEmployee()
     begin
         Clear(commandtext);
-        ConnectSQL();
+        // ConnectSQL();
 
         commandtext := DeleteCommandTxt + 'Employees';
-        SetupSQLCommand;
+        // SetupSQLCommand;
         // SQLCommand.ExecuteNonQuery;
     end;
 
@@ -9058,7 +9020,7 @@ codeunit 50001 "HR Mgt."
     //         Error('Access type cannot be blank');
 
 
-    //     EmpActivity."Approval Status" := EmpActivity."Approval Status"::"Pending Approval";
+    //     EmpActivity."Approval Status" := EmpActivity."Approval Status"::Pending;
     //     EmpActivity.Modify;
 
     //     Message('Document has been sent for approval');
@@ -9066,7 +9028,7 @@ codeunit 50001 "HR Mgt."
 
     // procedure RecommendAccessControl(EmpActivity: Record "Employee Activity")
     // begin
-    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
+    //     EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Pending);
     //     if EmpActivity."Recommender Code" <> GetEmployeeNo then
     //         Error('You are not eligible to recommend this document');
 
@@ -9080,7 +9042,7 @@ codeunit 50001 "HR Mgt."
     //     AccessControlLine: Record "Access Control Request Line";
     // begin
     //     Employee.Get(GetEmployeeNo);
-    //     if EmpActivity."Approval Status" = EmpActivity."Approval Status"::"Pending Approval" then
+    //     if EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending then
     //         if EmpActivity."Recommender Code" <> Employee."No." then
     //             Error('You are not eligible to reject this document');
     //     EmpActivity.TestField("Rejection Remarks");
@@ -9092,7 +9054,7 @@ codeunit 50001 "HR Mgt."
     //     EmpActivity.Modify;
     //     Clear(AccessControlLine);
     //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
+    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::Pending);
     // end;
 
     // procedure ScreenAccessControl(EmpActivity: Record "Employee Activity")
@@ -9107,7 +9069,7 @@ codeunit 50001 "HR Mgt."
 
     //     Clear(AccessControlLine);
     //     AccessControlLine.SetRange("Document No.", EmpActivity."No.");
-    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::"pending approval");
+    //     AccessControlLine.ModifyAll(Status, AccessControlLine.Status::Pending);
 
     //     EmpActivity.Validate("Approval Status", EmpActivity."Approval Status"::Screened);
     //     EmpActivity.Modify;
@@ -9171,7 +9133,7 @@ codeunit 50001 "HR Mgt."
     //     AccessControlLine2.Reset;
     //     AccessControlLine2.SetRange("Document No.", AccessControlLine."Document No.");
     //     AccessControlLine2.SetFilter("Line No.", '<>%1', AccessControlLine."Line No.");
-    //     AccessControlLine2.SetRange(Status, AccessControlLine2.Status::"pending approval");
+    //     AccessControlLine2.SetRange(Status, AccessControlLine2.Status::Pending);
     //     if not AccessControlLine2.FindFirst then begin
     //         EmpActivity."Approval Status" := EmpActivity."Approval Status"::Approved;
     //         EmpActivity.Modify;
@@ -9330,14 +9292,14 @@ codeunit 50001 "HR Mgt."
     begin
         EmpActivity.Init;
         EmpActivity.TransferFields(TempEmpActivity);
-        EmpActivity."Approval Status" := EmpActivity."Approval Status"::"Pending Approval";
+        EmpActivity."Approval Status" := EmpActivity."Approval Status"::Pending;
         EmpActivity.Insert(true);
     end;
 
     procedure ApproveRejctChangeforEmp(EmpActivity: Record "Employee Activity"; IsApproved: Boolean)
     begin
         Employee.Get(GetEmployeeNo);
-        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::"Pending Approval");
+        EmpActivity.TestField("Approval Status", EmpActivity."Approval Status"::Pending);
 
         // if not Employee.Screener then
         //     Error('You are not eligible to approve');
@@ -9949,7 +9911,7 @@ codeunit 50001 "HR Mgt."
     //         EmpActivity.SetRange("Employee No.", EmpVar."No.");
     //         EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
     //         EmpActivity.SetFilter("Approval Status", '%1|%2|%3', EmpActivity."Approval Status"::Open,
-    //                               EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::"Pending Approval");
+    //                               EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::Pending);
     //         if EmpActivity.FindFirst then
     //             Error('Leave request of employee %1 is still pending', EmpVar."Full Name");
 
@@ -9999,7 +9961,7 @@ codeunit 50001 "HR Mgt."
     //         until LeaveTypeSetup.Next = 0;
     // end;
 
-    // local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee/HR Transfer")
+    // local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee Transfer")
     // var
     //     FunctionalTitle: Record "Functional Title";
     // begin
@@ -10195,7 +10157,7 @@ codeunit 50001 "HR Mgt."
         DetailedEmployeeLedgEntry: Record "Detailed Employee Ledger Entry";
     begin
         PRSetup.Get;
-        RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::"Pending Approval");
+        RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
         RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
         RetirementFund."Screened Date" := CurrentDateTime;
         RetirementFund."Screened By" := UserId;
@@ -10262,7 +10224,7 @@ codeunit 50001 "HR Mgt."
 
         RetirementFund.Init;
         RetirementFund.TransferFields(TempRetirementFund);
-        RetirementFund.Validate("Approval Status", RetirementFund."Approval Status"::"Pending Approval");
+        RetirementFund.Validate("Approval Status", RetirementFund."Approval Status"::Pending);
         RetirementFund.Insert(true);
 
         //SendMailFromTemplate(DATABASE::"Employee Activity",EmpAct.Type::"Travel Request",EmpAct."Approval Status"::Open,'',EmpAct."Employee No.",EmpAct."No.",0);   //For email
@@ -10285,7 +10247,7 @@ codeunit 50001 "HR Mgt."
                 Counter := 1;
                 RetirementFund.Reset();
                 RetirementFund.SetRange("Employee No.", Employee."No.");
-                RetirementFund.SetRange("Approval Status", RetirementFund."Approval Status"::"Pending Approval");
+                RetirementFund.SetRange("Approval Status", RetirementFund."Approval Status"::Pending);
                 RetirementFund.SetCurrentKey("Requested Date");
                 if RetirementFund.FindLast then
                     repeat
@@ -10404,7 +10366,7 @@ codeunit 50001 "HR Mgt."
     //         end;
     //     end;
 
-    //     procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
+    //     procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee Transfer")
     //     var
     //         EmpVar: Record Employee;
     //         ServiceCode: Code[20];
@@ -10440,7 +10402,7 @@ codeunit 50001 "HR Mgt."
 
     //     end;
 
-    //     procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    //     procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee Transfer")
     //     var
     //         ConfirmApprove: Label 'Confirm Approve?';
     //         ConfirmReject: Label 'Confirm Reject?';
@@ -10484,7 +10446,7 @@ codeunit 50001 "HR Mgt."
 
     //     end;
 
-    //     procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    //     procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee Transfer")
     //     var
     //         ConfirmApprove: Label 'Confirm Approve?';
     //         ConfirmReject: Label 'Confirm Reject?';
@@ -10522,7 +10484,7 @@ codeunit 50001 "HR Mgt."
     procedure ResignationEmailSend(EmployeeNo: Code[20])
     var
         EmpRec: Record Employee;
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         EmailReceipientText: Text;
         ListEmailReceipientText: List of [Text];
         EmailTemplate: Record "Email Template";
@@ -10531,8 +10493,8 @@ codeunit 50001 "HR Mgt."
         Body: Text;
         Footer: Text;
         Counter: Integer;
-        EmailReceipent: Record "Agile Email Recipient";
-        EmailReceipentRec: Record "Agile Email Recipient";
+        EmailReceipent: Record "Email Template Recipient";
+        EmailReceipentRec: Record "Email Template Recipient";
         EmailccReceipientText: List of [Text];
         EmailbccReceipientText: List of [Text];
 
@@ -10606,15 +10568,15 @@ codeunit 50001 "HR Mgt."
     local procedure UpdatePortalTransferEffDate(TransferEffectiveDate: Date; EmployeeID: Code[20])
     begin
         Clear(commandtext);
-        ConnectSQL();
+        // ConnectSQL();
         //commandtext := 'UPDATE Employees SET TransferEffectiveDate = NULL WHERE EmployeeID = @EmployeeID';
         commandtext := 'UPDATE Employees SET TransferEffectiveDate = @TransferEffectiveDate WHERE EmployeeID = @EmployeeID';
-        SetupSQLCommand;
+        // SetupSQLCommand;
         // SQLCommand.Parameters.AddWithValue('@TransferEffectiveDate', TransferEffectiveDate);
         //SQLCommand.Parameters.AddWithValue('@TransferEffectiveDate', 'NULL');
         // SQLCommand.Parameters.AddWithValue('@EmployeeID', EmployeeID);
         // SQLCommand.ExecuteNonQuery;
-        DisconnectSQL();
+        // DisconnectSQL();
     end;
 
     procedure GetEmpName(): Text
@@ -10658,7 +10620,7 @@ codeunit 50001 "HR Mgt."
         EmpAct.Init;
         EmpAct.Validate("Requested Date", Today);
         EmpAct.TransferFields(TempEmpAct);
-        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::"Pending Approval");
+        EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Pending);
         EmpAct.Validate("User ID", UserId);
         Employee.Get(EmpAct."Employee No.");
         //EmpAct.VALIDATE("Recommender Code", Employee."Approver Code");
@@ -10692,7 +10654,7 @@ codeunit 50001 "HR Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -10700,7 +10662,7 @@ codeunit 50001 "HR Mgt."
         EmailReceipent: List of [Text];
         OfferLetter: Report "Offer Letter2";
         Cand: Record Candidate;
-        EmailReceipentRec: Record "Agile Email Recipient";
+        EmailReceipentRec: Record "Email Template Recipient";
         CC: List of [Text];
         bCC: List of [Text];
     begin
@@ -10892,7 +10854,7 @@ codeunit 50001 "HR Mgt."
     procedure ResignationRejectEmailSend(EmployeeNo: Code[20])
     var
         EmpRec: Record Employee;
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         EmailReceipientText: Text;
         ListEmailReceipientText: List of [Text];
         EmailTemplate: Record "Email Template";
@@ -10901,8 +10863,8 @@ codeunit 50001 "HR Mgt."
         Body: Text;
         Footer: Text;
         Counter: Integer;
-        EmailReceipent: Record "Agile Email Recipient";
-        EmailReceipentRec: Record "Agile Email Recipient";
+        EmailReceipent: Record "Email Template Recipient";
+        EmailReceipentRec: Record "Email Template Recipient";
         cc: List of [Text];
         bcc: List of [Text];
     begin
@@ -11256,7 +11218,7 @@ codeunit 50001 "HR Mgt."
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     END;
 
-    procedure CheckDateStatus(CalendarCode: Code[10]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Option; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
+    procedure CheckDateStatus(CalendarCode: Code[20]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Option; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
     var
         BaseCalChange: Record "Base Calendar Change";
     begin
@@ -11450,6 +11412,28 @@ codeunit 50001 "HR Mgt."
             ELSE
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
         END;
+    end;
+
+    procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])
+    var
+        NoSeries: Codeunit "No. Series";
+    begin
+        If NoSeries.AreRelated(SetupNoSeries, xRecNoSeries) then
+            RecNoSeries := xRecNoSeries
+        else
+            RecNoSeries := SetupNoSeries;
+        DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
+    end;
+
+    procedure SetDefaultSeries(var NewNoSeriesCode: Code[20]; NoSeriesCode: Code[20])
+    var
+        GlobalNoSeries: record "No. Series";
+    begin
+        if NoSeriesCode <> '' then begin
+            GlobalNoSeries.Get(NoSeriesCode);
+            if GlobalNoSeries."Default Nos." then
+                NewNoSeriesCode := GlobalNoSeries.Code;
+        end;
     end;
 }
 

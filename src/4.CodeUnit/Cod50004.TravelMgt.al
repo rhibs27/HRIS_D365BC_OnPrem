@@ -8,6 +8,7 @@ codeunit 50004 "Travel Mgt."
         TravelRequest1: Record "Travel Request";
     //EmpAct2: Record "Employee Activity";
     begin
+        Employee.get(EmpCode);
         TravelRequest1.Reset();
         TravelRequest1.SetRange("Employee No.", EmpCode);
         TravelRequest1.SetRange("Approval Status", TravelRequest1."Approval Status"::open);
@@ -200,7 +201,7 @@ codeunit 50004 "Travel Mgt."
         // if TravelReq."Recommender Code" = '' then
         //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Recommended)
         // else
-        //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::"Pending Approval");
+        //     TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
         TravelReq.Validate("Approval Status", TravelReq."Approval Status"::Pending);
         TravelReq.Validate("User ID", UserId);
         if TravelReq."Advance Cash" > TravelReq."Total Estimated Cost" then
@@ -760,13 +761,13 @@ codeunit 50004 "Travel Mgt."
         // if Employee1.FindFirst then
         //     TravelRequest.Validate("Final Approver", Employee1."No.");
         TravelRequest.Validate("Requested Date", Today);
-        // TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        // TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
         // TravelRequest.Validate("User ID", UserId);
         // TravelRequest.TestField("Approver Code");
         // if TravelRequest."Recommender Code" = '' then
         //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Recommended)
         // else
-        //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::"Pending Approval");
+        //     TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
         TravelRequest.Validate("Total Claimed Amount");
         TravelRequest.Validate("Approval Status", TravelRequest."Approval Status"::Pending);
         TravelRequest.Modify();
@@ -799,7 +800,7 @@ codeunit 50004 "Travel Mgt."
     //     end;
     // end;
 
-    procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: code[20])
+    procedure FinalApproveForTravelAPI(var Travel: Record "Travel Request"; ApproverID: Code[20])
     var
         ConfirmScreen: Label 'Do you want to confirm screen this document?';
         FunctionalTitle: Record "Functional Title";
@@ -870,7 +871,7 @@ codeunit 50004 "Travel Mgt."
     //     EmpTravel: Record "Travel Request";
     // begin
     //     EmpTravel.Get(EmpTravelCode);
-    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
+    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::Pending);
     //     CheckEmployeeTravelApproval(EmpTravel);
     //     EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
     //     EmpTravel.Modify;
@@ -883,7 +884,7 @@ codeunit 50004 "Travel Mgt."
     //     EmpTravel: Record "Travel Request";
     // begin
     //     EmpTravel.Get(EmpTravelCode);
-    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::"Pending Approval");
+    //     EmpTravel.TestField("Approval Status", EmpTravel."Approval Status"::Pending);
     //     CheckEmployeeTravelApprovalAPI(EmpTravel, ApproverCode);
     //     EmpTravel.Validate("Approval Status", EmpTravel."Approval Status"::Recommended);
     //     EmpTravel.Modify;
@@ -901,7 +902,7 @@ codeunit 50004 "Travel Mgt."
     //     Employee.Reset;
     //     Employee.SetRange("NAV Login ID", UserId);
     //     Employee.FindFirst;
-    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Pending then
     //         if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
     //             Error(RecommendNotEligibleError);
     //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
@@ -922,7 +923,7 @@ codeunit 50004 "Travel Mgt."
     //     Employee.Reset;
     //     Employee.SetRange("No.", ApproverCode);
     //     Employee.FindFirst;
-    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::"Pending Approval" then
+    //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Pending then
     //         if StrPos("Travel Request"."Recommender Code", Employee."No.") = 0 then
     //             Error(RecommendNotEligibleError);
     //     if "Travel Request"."Approval Status" = "Travel Request"."Approval Status"::Recommended then
@@ -1140,7 +1141,7 @@ codeunit 50004 "Travel Mgt."
     //         HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Approved, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
     //         Message('The document has been approved.');
     //     end else
-    //         if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::"Pending Approval", TravelRequest."Approval Status"::Recommended]) then begin
+    //         if (TravelRequest."Approval Status" in [TravelRequest."Approval Status"::Pending, TravelRequest."Approval Status"::Recommended]) then begin
     //             TravelRequest.TestField("Rejection Remarks");
     //             if TravelRequest.Type = TravelRequest.Type::"Travel Claim" then begin
     //                 TravelRequest.TestField("Travel Order No.");
@@ -1149,7 +1150,7 @@ codeunit 50004 "Travel Mgt."
     //                 TravelRequest2.Modify;
     //             end;
     //             CheckEmployeeTravelApprovalAPI(TravelRequest, ApproverCode);
-    //             if TravelRequest."Approval Status" = TravelRequest."Approval Status"::"Pending Approval" then
+    //             if TravelRequest."Approval Status" = TravelRequest."Approval Status"::Pending then
     //                 HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Recommender Code", TravelRequest."No.", 0)  //For email
     //             else
     //                 HRMgt.SendMailFromTemplate(DATABASE::"Travel Request", TravelRequest.Type, TravelRequest."Approval Status"::Rejected, '', TravelRequest."Approver Code", TravelRequest."No.", 0);   //For email
@@ -1228,7 +1229,7 @@ codeunit 50004 "Travel Mgt."
             until IncomingDocument.Next = 0;
     end;
 
-    procedure GetAllowanceFoodingLodging(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal): Decimal
+    procedure GetAllowanceFoodingLodging(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; NoofDays: Decimal): Decimal
     var
         SalaryLevel1: Record "Salary Level";
         EmpVar: Record Employee;
@@ -1294,7 +1295,7 @@ codeunit 50004 "Travel Mgt."
         OnAfterGetTravelAllowance(EmpTravel, allType, NoofDays, SalaryLevel, SalaryLevel1)
     end;
 
-    procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; perDay: Boolean; NoOfDays: Decimal): Decimal
+    procedure GetAllowanceFoodingLodingLimit(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; perDay: Boolean; NoOfDays: Decimal): Decimal
     var
         SalaryLevel1: Record "Salary Level";
         EmpVar: Record Employee;
@@ -1516,7 +1517,7 @@ codeunit 50004 "Travel Mgt."
     end;
 
     [IntegrationEvent(false, false)]
-    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Option " ",Fooding,Lodging,OutofExpense; NoofDays: Decimal; SalaryLevel: Record "Salary Level"; SalaryLevel1: Record "Salary Level")
+    procedure OnAfterGetTravelAllowance(EmpTravel: Record "Travel Request"; allType: Enum "Allowance Type"; NoofDays: Decimal; SalaryLevel: Record "Salary Level"; SalaryLevel1: Record "Salary Level")
     begin
     end;
 

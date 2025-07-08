@@ -338,7 +338,7 @@ report 50070 "Tax Deduction Information"
         end;
     end;
 
-    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[10])
+    procedure FormatNoText(var NoText: array[2] of Text[80]; No: Decimal; CurrencyCode: Code[20])
     var
         PrintExponent: Boolean;
         Ones: Integer;
@@ -491,7 +491,7 @@ report 50070 "Tax Deduction Information"
         /*IF Employee."Employment Type" = Employee."Employment Type"::Contract THEN
           PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Contract)
         ELSE
-          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Regular);*/
+          PostedPayrollHeader.SETRANGE("Employee Type",PostedPayrollHeader."Employee Type"::Permanent);*/
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollLine.Reset;
@@ -1351,7 +1351,7 @@ report 50070 "Tax Deduction Information"
         RecRefs.Close;
     end;
 
-    procedure PassParPortal(empCode: code[20]; DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
+    procedure PassParPortal(empCode: Code[20]; DocNo: Code[20]; yearpar: Integer; Monthpar: Enum "Nepali Month")
     var
         PostedPayroll: Record "Posted Payroll Header";
     begin

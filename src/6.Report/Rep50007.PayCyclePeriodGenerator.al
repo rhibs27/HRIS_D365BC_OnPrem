@@ -273,13 +273,13 @@ report 50007 "Pay Cycle Period Generator"
         PayFrequency: Enum "Pay Frequency";
         GenerateFrequency: Option " ",Weekly,BiWeekly,SemiMonthly,Monthly,BiMonthly,Quarterly,SemiAnnually,"Date Formula";
         DateFormula: Text[20];
-        PayCycleCode: Code[10];
+        PayCycleCode: Code[20];
         FROMPayPeriodStart: Date;
         CurrPayPeriodStart: Date;
         CurrPayPeriodEnd: Date;
         CountPeriods: Integer;
         DefaultPayPeriods: Integer;
-        PayCycleTermCode: Code[10];
+        PayCycleTermCode: Code[20];
         PayPeriodsToGenerate: Integer;
         Day: Integer;
         WhatDay: Integer;
@@ -588,7 +588,7 @@ report 50007 "Pay Cycle Period Generator"
             PayPeriodsToGenerateEditable := true;
     end;
 
-    procedure OverlapCheck(NewTermStartDate: Date; NewTermEndDate: Date; PayCycleTermCode: Code[10]; PayCycleCode: Code[10])
+    procedure OverlapCheck(NewTermStartDate: Date; NewTermEndDate: Date; PayCycleTermCode: Code[20]; PayCycleCode: Code[20])
     var
         PayCycleTerm2: Record "Pay Cycle Term";
         PayCyclePeriod2: Record "Pay Cycle Period";

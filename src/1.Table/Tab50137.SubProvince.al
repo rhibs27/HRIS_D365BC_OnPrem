@@ -31,7 +31,7 @@
 //         {
 //             Caption = 'Search City';
 //         }
-//         field(4; "Country/Region Code"; Code[10])
+//         field(4; "Country/Region Code"; Code[20])
 //         {
 //             TableRelation = "Country/Region";
 //             Caption = 'Country/Region Code';
@@ -40,7 +40,7 @@
 //         {
 //             Caption = 'County';
 //         }
-//         field(6; "Province Code"; Code[10])
+//         field(6; "Province Code"; Code[20])
 //         {
 //             TableRelation = Province;
 //             DataClassification = CustomerContent;
@@ -72,7 +72,7 @@
 //         {
 //             DataClassification = ToBeClassified;
 //         }
-//         field(11; "Reporting Category"; Code[10])
+//         field(11; "Reporting Category"; Code[20])
 //         {
 //             // TableRelation = "Reporting Category"; todo
 //             DataClassification = ToBeClassified;

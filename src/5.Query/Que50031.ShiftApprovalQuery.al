@@ -30,6 +30,9 @@ query 50031 "Shift Approval Query"
                 column(deputationType; "Deputation Type") { }
                 column(deputationCode; "Deputation Code") { }
                 column(deputationName; "Deputation Name") { }
+                column(deputationSubType; "Deputation Sub Type") { }
+                column(deputationSubTypeCode; "Deputation Sub Type Code") { }
+                column(deputationSubTypeName; "Deputation Sub Type Name") { }
                 column(approvedDate; "Approved Date") { }
             }
         }

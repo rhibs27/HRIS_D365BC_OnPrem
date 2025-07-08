@@ -82,7 +82,7 @@ table 50093 "Allowance Assignment Line"
                 //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::"Pending Approval";
+                //     "Approval Status" := "Approval Status"::Pending;
 
                 // ValidateAllowanceType();
 
@@ -158,7 +158,7 @@ table 50093 "Allowance Assignment Line"
         // {
         //     TableRelation = Employee;
         //}
-        field(19; "Approval Status"; Enum "Attendance Status")
+        field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
         }
@@ -225,7 +225,7 @@ table 50093 "Allowance Assignment Line"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        "Approval Status" := "Approval Status"::Open;
+        Validate("Approval Status", "Approval Status"::Open);
 
         if "Line No." = 0 then
             GetLineNo();

@@ -145,7 +145,7 @@ codeunit 50015 "OverTime Mgt"
     //     Message('The document has been recommended.');
     // end;
 
-    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: code[20])
+    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: Code[20])
     // var
 
     //     OverTime: Record OverTime;
@@ -162,7 +162,7 @@ codeunit 50015 "OverTime Mgt"
     //     HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
     //     Message('The document has been approved.');
     // end else
-    //     if (OverTime."Approval Status" in [OverTime."Approval Status"::"Pending Approval", OverTime."Approval Status"::Recommended]) then begin
+    //     if (OverTime."Approval Status" in [OverTime."Approval Status"::Pending, OverTime."Approval Status"::Recommended]) then begin
     //         OverTime.TestField("Rejection Remarks");
     //         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
     //         if OverTime."Approval Status" = OverTime."Approval Status"::"Pending" then
@@ -186,7 +186,7 @@ codeunit 50015 "OverTime Mgt"
     // Employee.Reset;
     // Employee.SetRange("No.", employeeNo);
     // Employee.FindFirst;
-    // if OverTime."Approval Status" = OverTime."Approval Status"::"Pending Approval" then
+    // if OverTime."Approval Status" = OverTime."Approval Status"::Pending then
     //     if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
     //         Error(RecommendNotEligibleError);
     // if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then

@@ -8,11 +8,11 @@ table 50017 "Email Template"
         field(3; "Document Profile"; Enum "Document Profile")
         {
         }
-        field(4; "Document Type"; Enum "Email Document Type")
+        field(4; "Document Type"; Enum "Employee Activity Type")
         {
 
         }
-        field(5; Type; Enum "Email Status Type")
+        field(5; "Approval Status"; Enum "Approval Status")
         {
 
         }

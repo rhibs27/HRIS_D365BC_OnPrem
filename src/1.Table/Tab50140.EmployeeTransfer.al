@@ -1,6 +1,6 @@
-table 50140 "Employee/HR Transfer"
+table 50140 "Employee Transfer"
 {
-    Caption = 'Employee/Hr Transfer';
+    Caption = 'Employee Transfer';
     DataClassification = ToBeClassified;
     fields
     {
@@ -49,6 +49,7 @@ table 50140 "Employee/HR Transfer"
                     Validate("Deputation On", EmpVar."Deputation on");
                     Validate("Deputation on Code", EmpVar."Deputation On Code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
+                    Validate("Salary Level Name", EmpVar."Salary Level Description");
                     Validate("Functional Title", EmpVar."Functional Title");
                     Validate("Functional Title Desc", EmpVar."Functional Title Desc");
                     Validate("Unit Code", EmpVar."Unit Code");
@@ -212,7 +213,7 @@ table 50140 "Employee/HR Transfer"
             Editable = false;
         }
 
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -652,7 +653,7 @@ table 50140 "Employee/HR Transfer"
                 TransferMgt.CalculateAllowance(Rec);
             end;
         }
-        // field(75; "Transfer Allowance Approval"; Enum "Transfer Allowance Approval")
+        // field(75; "Transfer Allowance Approval"; enum "Approval Status")
         // {
         //     Description = 'Transfer';
         // }
@@ -890,6 +891,10 @@ table 50140 "Employee/HR Transfer"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(202; "Salary Level Name"; Text[100])
+        {
+            Editable = false;
+        }
     }
     keys
     {
@@ -905,7 +910,7 @@ table 50140 "Employee/HR Transfer"
     begin
         if (not GuiAllowed) and (type = Type::"Transfer Claim") then begin
             Validate("Employee No.", HRMgt.GetEmployeeNo());
-            "Approval Status" := "Approval Status"::Pending;
+            //"Approval Status" := "Approval Status"::Pending;
         end;
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -961,17 +966,17 @@ table 50140 "Employee/HR Transfer"
             Type::"Employee Transfer", Type::"HR Transfer":
                 begin
                     IncomingDocument.Reset;
-                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
+                    IncomingDocument.SetRange("Table ID", DATABASE::"Employee Transfer");
                     IncomingDocument.SetRange("No.", "No.");
                     IncomingDocument.DeleteAll(true);
                     AttachmentMandatory.Reset;
-                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::Transfer);
+                    AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Employee Transfer");
                     // AttachmentMandatory.SetRange("Transfer Category", "Transfer Category");
                     if AttachmentMandatory.FindFirst then
                         repeat
                             Clear(IncomingDocument);
                             IncomingDocument.Reset;
-                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee/HR Transfer");
+                            IncomingDocument.SetRange("Table ID", DATABASE::"Employee Transfer");
                             IncomingDocument.SetRange("No.", "No.");
                             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
                             if not IncomingDocument.FindFirst then begin
@@ -982,7 +987,7 @@ table 50140 "Employee/HR Transfer"
                                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                                 IncomingDocument."No." := "No.";
                                 IncomingDocument."Employee Code" := "Employee No.";
-                                IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                IncomingDocument."Table ID" := DATABASE::"Employee Transfer";
                                 if Type = Type::"Employee Transfer" then
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Employee Transfer"
                                 else if Type = Type::"HR Transfer" then
@@ -1013,7 +1018,7 @@ table 50140 "Employee/HR Transfer"
                                     IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
                                     IncomingDocument."No." := "No.";
                                     IncomingDocument."Employee Code" := "Employee No.";
-                                    IncomingDocument."Table ID" := DATABASE::"Employee/HR Transfer";
+                                    IncomingDocument."Table ID" := DATABASE::"Employee Transfer";
                                     IncomingDocument."Employee Activity Type" := IncomingDocument."Employee Activity Type"::"Transfer Claim";
                                     IncomingDocument.Insert(true);
                                 end;
@@ -1186,7 +1191,7 @@ table 50140 "Employee/HR Transfer"
         NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         TransferMgt: Codeunit "Transfer Mgt.";
         ApproverMgt: Codeunit "Approver Mgt";
         // LeaveTypeVar: Record "Leave Type Setup";
@@ -1194,7 +1199,7 @@ table 50140 "Employee/HR Transfer"
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
         DimValue: Record "Dimension Value";
-        "Employee Tranfer": Record "Employee/HR Transfer";
+        "Employee Tranfer": Record "Employee Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         OrganizationStructureList: Record "Organization Structure List";

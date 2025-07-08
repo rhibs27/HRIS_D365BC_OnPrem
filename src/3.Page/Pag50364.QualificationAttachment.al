@@ -49,7 +49,7 @@ page 50364 "Qualification Attachment"
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then
                             Error('Invalid file. Please upload jpg, png or pdf files.');
-                        AttachmentMgt.checkAttachmentExtension(Extension);
+                        AttachmentMgt.checkAttachmentExtensionImage(Extension);
                         Clear(Rec.Attachment);
                         Rec.Attachment.ImportStream(InStreamPic, FromFileName);
                         Rec.Modify(true);
@@ -83,13 +83,18 @@ page 50364 "Qualification Attachment"
                     ToFile: Text;
                     ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
+                    Instream: InStream;
                 begin
                     // Rec.TestField("Entry No.");
-                    if ItemTenantMedia.Get(Rec.Attachment.MediaId) then
+                    if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
                         ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Emp Qualification Type") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
-                    ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
-                    Rec.Attachment.ExportFile(ExportPath);
-                    FileManagement.ExportImage(ExportPath, ToFile);
+                        ItemTenantMedia.CalcFields(Content);
+                        ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
+                        DownloadFromStream(Instream, '', '', '', ToFile);
+                    end;
+                    // ExportPath := TemporaryPath + Format(Rec."Employee No.") + Format(Rec.Attachment.MediaId);
+                    // Rec.Attachment.ExportFile(ExportPath);
+                    // FileManagement.ExportImage(ExportPath, ToFile);
                 end;
             }
             action(DeletePicture)

@@ -1085,6 +1085,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
         addafter("Co&nfidential Info. Overview")
         {
+            action("Employee Bank Account")
+            {
+                ApplicationArea = all;
+                ToolTip = 'view Employee Bank account list';
+                RunObject = page "Employee Bank Account Lists";
+                RunPageLink = "Employee No." = FIELD("No.");
+                Promoted = true;
+                Image = Bank;
+                PromotedCategory = Process;
+
+            }
             action("Pay Employee")
             {
                 ApplicationArea = All;
@@ -1711,7 +1722,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         PageTransferHistory: Page "Employee Transfer Requests";
-                        EmployeeTransfer: Record "Employee/HR Transfer";
+                        EmployeeTransfer: Record "Employee Transfer";
                     begin
                         EmployeeTransfer.RESET;
                         Rec.FilterGroup(2);
@@ -2088,7 +2099,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         EmployeeAct: Record "Employee Activity";
         TransferCard: Page "Transfer Card";
         LoanMgt: Codeunit "Loan Mgt.";
-        Type: Option ,"Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
+        Type: Enum "Loan Type";
         AppraisalRec: Record Appraisal;
         FieldVisible: Boolean;
         FieldVisible1: Boolean;

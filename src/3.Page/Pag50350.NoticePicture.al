@@ -54,7 +54,7 @@ page 50350 "Notice Picture"
                         Extension := FileManagement.GetExtension(FileName);
                         if Extension = '' then
                             Error('Invalid file. Please upload jpg, png or pdf files.');
-                        AttachmentMgt.checkAttachmentExtension(Extension);
+                        AttachmentMgt.checkAttachmentExtensionImage(Extension);
                         Clear(Rec.Notice);
                         Rec.Notice.ImportStream(InStream, FileName);
                         Rec.Modify(true);
@@ -87,16 +87,18 @@ page 50350 "Notice Picture"
                 var
                     FileManagement: Codeunit "File Management";
                     ToFile: Text;
-                    ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
+                    Instream: InStream;
                 begin
                     Rec.TestField("Entry No.");
-                    if ItemTenantMedia.Get(Rec.Notice.MediaId) then
+                    if ItemTenantMedia.Get(Rec.Notice.MediaId) then begin
                         ToFile := Format(Rec."Entry No.") + '.' + FileManagement.GetExtension(ItemTenantMedia."File Name");
-                    ExportPath := TemporaryPath + Format(Rec."Entry No.") + Format(Rec.Notice.MediaId);
-                    Rec.Notice.ExportFile(ExportPath);
+                        ItemTenantMedia.CalcFields(Content);
+                        ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
+                        DownloadFromStream(Instream, '', '', '', ToFile);
+                    end;
 
-                    FileManagement.ExportImage(ExportPath, ToFile);
+
                 end;
             }
             action(DeletePicture)
@@ -113,7 +115,6 @@ page 50350 "Notice Picture"
 
                     if not Confirm(DeleteImageQst) then
                         exit;
-
                     Clear(Rec.Notice);
                     Rec.Modify(true);
                 end;

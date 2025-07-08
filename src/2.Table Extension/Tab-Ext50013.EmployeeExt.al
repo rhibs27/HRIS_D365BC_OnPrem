@@ -19,8 +19,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Pattern: Label '^[A-Za-z]+$';
 
             begin
-                if not Regex.IsMatch("First Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("First Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -31,8 +32,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Middle Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Middle Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -43,8 +45,9 @@ tableextension 50013 "Employee Ext" extends Employee
                 Regex: Codeunit Regex;
                 Pattern: Label '^[A-Za-z]+$';
             begin
-                if not Regex.IsMatch("Last Name", Pattern) then
-                    Error('Only Alphabet Character Allowed');
+                if "Middle Name" <> '' then
+                    if not Regex.IsMatch("Last Name", Pattern) then
+                        Error('Only Alphabet Character Allowed');
                 "Full Name" := FullName;
             end;
         }
@@ -387,7 +390,7 @@ tableextension 50013 "Employee Ext" extends Employee
             FieldClass = FlowFilter;
             TableRelation = "G/L Account"."No.";
         }
-        field(50006; "Employee Work Shift"; Code[10])
+        field(50006; "Employee Work Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
             DataClassification = CustomerContent;
@@ -554,7 +557,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error(Text007);
             end;
         }
-        field(50028; "Third Party Payroll Emp Code"; Code[10])
+        field(50028; "Third Party Payroll Emp Code"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'not used';
@@ -683,7 +686,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Clear("Citizenship Issue Place");
             end;
         }
-        field(50045; "Passport Number"; Code[10])
+        field(50045; "Passport Number"; Code[20])
         {
             DataClassification = CustomerContent;
         }
@@ -903,7 +906,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        // field(50078; "Company Code"; Code[10])
+        // field(50078; "Company Code"; Code[20])
         // {
         //     TableRelation = Department;
         //     DataClassification = CustomerContent;
@@ -914,7 +917,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Caption = 'Salutation';
         }
-        field(50080; "Permanent District"; Text[30])
+        field(50080; "Permanent District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent District';
@@ -930,7 +933,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 VALIDATE("Permanent District", HRMgt.LookupDistrict("Permanent Province", "Permanent District"));
             end;
         }
-        field(50081; "Temporary District"; Text[30])
+        field(50081; "Temporary District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary District';
@@ -946,7 +949,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Temporary District", HRMgt.LookupDistrict("Temporary Province", "Temporary District"));
             end;
         }
-        field(50082; "Permanent Province"; Text[30])
+        field(50082; "Permanent Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent Provience address';
@@ -969,7 +972,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Permanent Province", HRMgt.LookupProvience("Permanent Province"));
             end;
         }
-        field(50083; "Temporary Province"; Text[30])
+        field(50083; "Temporary Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary Provience address';
@@ -1082,7 +1085,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
                                                                                                                    "Attribute Sub Type" = filter("Attribute Sub Type"::RF)));
         }
-        field(50091; "Citizenship Issue Place Code"; Code[10])
+        field(50091; "Citizenship Issue Place Code"; Code[20])
         {
             TableRelation = District;
             DataClassification = CustomerContent;
@@ -1242,12 +1245,12 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Insurance Expiry Date (B.S.)", '');
             end;
         }
-        field(50111; "Insurance Date (B.S.)"; Code[10])
+        field(50111; "Insurance Date (B.S.)"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';
         }
-        field(50112; "Insurance Expiry Date (B.S.)"; Code[10])
+        field(50112; "Insurance Expiry Date (B.S.)"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Insurance';

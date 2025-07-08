@@ -22,11 +22,11 @@
 //             end;
 //         }
 //         field(3; Date; DateTime) { }
-//         field(4; "From Location Code"; Code[10])
+//         field(4; "From Location Code"; Code[20])
 //         {
 //             TableRelation = "FA Location".Code;
 //         }
-//         field(5; "To Location Code"; Code[10])
+//         field(5; "To Location Code"; Code[20])
 //         {
 //             TableRelation = "FA Location";
 
@@ -77,5 +77,5 @@
 
 //     var
 //         FixedAsset: Record "Fixed Asset";
-//         FALocation: Code[10];
+//         FALocation: Code[20];
 // }

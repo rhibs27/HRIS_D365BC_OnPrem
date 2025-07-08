@@ -8,7 +8,7 @@ table 50072 "Training Budget Header"
             AutoIncrement = true;
             Editable = false;
         }
-        field(2; "Fiscal Year"; Code[10])
+        field(2; "Fiscal Year"; Code[20])
         {
             trigger OnValidate()
             begin

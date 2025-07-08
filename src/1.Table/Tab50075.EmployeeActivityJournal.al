@@ -197,7 +197,7 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(23; "Employee Work Shift"; Code[10])
+        field(23; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -745,7 +745,7 @@ table 50075 "Employee Activity Journal"
         AttendanceSetup: Record "Attendance Setup";
         // GLSetup: Record "General Ledger Setup";
         // DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee/HR Transfer";
+        // "Employee Tranfer": Record "Employee Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";

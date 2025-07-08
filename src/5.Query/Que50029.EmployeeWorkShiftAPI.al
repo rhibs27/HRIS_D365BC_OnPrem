@@ -32,9 +32,6 @@ query 50029 "Employee Work Shift API"
             column(winterEndDate; "Winter End Date")
             {
             }
-            column(workingHour; "Working Hour")
-            {
-            }
             column(workTime; "Work Time")
             {
             }

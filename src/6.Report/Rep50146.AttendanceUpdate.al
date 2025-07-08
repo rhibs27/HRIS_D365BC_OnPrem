@@ -135,19 +135,19 @@ report 50146 "Attendance Update"
             end;
         end;
 
-        if (AttendanceSetUp."Check Out From") > Time() then begin
-            AttendanceLog.Reset;
-            AttendanceLog.SetRange(Date, Today);
-            AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-            if AttendanceLog.Findlast then begin
-                AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
-                if (AttendanceLine."Check In Time" <> 0T) then begin
-                    AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-                    AttendanceLine.Validate("Present Day", 1);
-                    AttendanceLine.Modify();
-                end;
-            end;
-        end;
+        // if (AttendanceSetUp."Check Out From") > Time() then begin
+        //     AttendanceLog.Reset;
+        //     AttendanceLog.SetRange(Date, Today);
+        //     AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
+        //     if AttendanceLog.Findlast then begin
+        //         AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
+        //         if (AttendanceLine."Check In Time" <> 0T) then begin
+        //             AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
+        //             AttendanceLine.Validate("Present Day", 1);
+        //             AttendanceLine.Modify();
+        //         end;
+        //     end;
+        // end;
     end;
 
     local procedure IsHoliday(Date: Date; Remarks: Text[100]): Boolean

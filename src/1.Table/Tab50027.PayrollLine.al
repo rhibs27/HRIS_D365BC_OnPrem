@@ -1,9 +1,6 @@
 table 50027 "Payroll Line"
 {
     DataClassification = CustomerContent;
-
-    // //Min 3.20.2022 -- IsValidComponent,function commented because, data filter does not match according condition applied on these function.
-
     fields
     {
         field(1; "Document No."; Code[20]) { }
@@ -33,15 +30,19 @@ table 50027 "Payroll Line"
                 if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
                     if Employee."Resignation Date" <> 0D then
                         Error('Employee %1 has resigned.', Employee."Full Name");
-                    case PayrollHeader."Employee Type" of
-                        PayrollHeader."Employee Type"::Contract:
-                            if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                                Error('Employment type of employee %1 must be contract', Employee."Full Name");
+                    // case PayrollHeader."Employee Type" of
+                    //     PayrollHeader."Employee Type"::Contract:
+                    //         if Employee."Employment Type" <> Employee."Employment Type"::Contract then
+                    //             Error('Employment type of employee %1 must be contract', Employee."Full Name");
 
-                        PayrollHeader."Employee Type"::Regular:
-                            if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
-                                Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
-                    end;
+                    //     PayrollHeader."Employee Type"::Permanent:
+                    //         if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
+                    //             Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
+                    // end;
+                    if PayrollHeader."Employee Type" <> PayrollHeader."Employee Type"::" " then
+                        if Employee."Employment Type" <> PayrollHeader."Employee Type" then
+                            Error('Employment type of employee %1 must be %2', Employee."Full Name", PayrollHeader."Employee Type".Names());
+
                     if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then begin
                         if Employee."Employment Date" = PayCyclePeriod."Pay Date" then //Min
                             Error('You Cannot Insert Employee of Employement Date %1', PayCyclePeriod."Pay Date");
@@ -170,14 +171,7 @@ table 50027 "Payroll Line"
                 GetTotalDays;
             end;
         }
-        field(168; "Absent Days Before Promotion"; Decimal)
-        {
-            Description = 'A';
-        }
-        field(169; "Absent Days After Promotion"; Decimal)
-        {
-            Description = 'A';
-        }
+
         field(16; "Absent Days"; Decimal)
         {
             Description = 'A';
@@ -319,7 +313,7 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
-        field(44; "Currency Code"; Code[10])
+        field(44; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;
@@ -331,7 +325,7 @@ table 50027 "Payroll Line"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
-        field(46; "Source Code"; Code[10])
+        field(46; "Source Code"; Code[20])
         {
             Description = 'Pranisha';
         }
@@ -659,165 +653,614 @@ table 50027 "Payroll Line"
             AutoFormatType = 1;
             CaptionClass = '8,50027,100';
         }
-        field(101; "Bank Name"; Text[50])
+        field(101; "Variable Field 50541"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,101';
         }
-        field(102; "Evening Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(103; "Holiday Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(104; "Bulk Cash Transfer Days"; Decimal) { }
-        field(105; "Cash Risk Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(106; "Friday Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(107; "Festival Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(108; "Vault Key Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(109; "Faciliating Hours"; Decimal)
-        {
-        }
-        field(110; "Gratuity Years"; Decimal)
-        {
-        }
-        field(111; "Document Type"; Enum "Payroll Document Type")
-        {
 
-        }
-        field(112; "Resignation Date"; Date) { }
-        field(113; "Annual Leave Days"; Decimal) { }
-        field(114; "Sick Leave Days"; Decimal) { }
-        field(115; "Total Adjusted Leave Days"; Decimal) { }
-        field(116; "Total Insurance Claim Amount"; Decimal) { }
-        field(117; LFA; Decimal) { }
-        field(118; "Morning Counter Days"; Decimal)
+        field(102; "Variable Field 50542"; Decimal)
         {
-            Description = 'allowance assignment';
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,102';
         }
-        field(119; "Prior Absent Days"; Decimal) { }
-        field(120; "Prior Present Days"; Decimal) { }
-        field(121; "Salary Advance No."; Code[20]) { }
-        field(122; "Projected Benefit"; Decimal)
+
+        field(103; "Variable Field 50543"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,103';
         }
-        field(123; "Past Benefit"; Decimal)
+
+        field(104; "Variable Field 50544"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,104';
         }
-        field(124; "Assessable Income"; Decimal)
+
+        field(105; "Variable Field 50545"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,105';
         }
-        field(125; "Past Retirement Fund"; Decimal)
+
+        field(106; "Variable Field 50546"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,106';
         }
-        field(126; "Projected Retirement Fund"; Decimal)
+
+        field(107; "Variable Field 50547"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,107';
         }
-        field(127; "Actual RF Contribution"; Decimal)
+
+        field(108; "Variable Field 50548"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,108';
         }
-        field(128; "1/3 of Assessable Income"; Decimal)
+
+        field(109; "Variable Field 50549"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,109';
         }
-        field(129; "Eligible RF Deduction"; Decimal)
+
+        field(110; "Variable Field 50550"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,110';
         }
-        field(130; "Life Insurance Premium"; Decimal)
+
+        field(111; "Variable Field 50551"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,111';
         }
-        field(131; "Health Insurance Premium"; Decimal)
+
+        field(112; "Variable Field 50552"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,112';
         }
-        field(132; "Taxable Income"; Decimal)
+
+        field(113; "Variable Field 50553"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,113';
         }
-        field(133; "Disable Person Reduction"; Decimal)
+
+        field(114; "Variable Field 50554"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,114';
         }
-        field(134; "Female Tax Credit"; Decimal)
+
+        field(115; "Variable Field 50555"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,115';
         }
-        field(135; "Total Tax Liability"; Decimal)
+
+        field(116; "Variable Field 50556"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,116';
         }
-        field(136; "Payable Tax Liability"; Decimal)
+
+        field(117; "Variable Field 50557"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,117';
         }
-        field(137; "Net Tax Liability"; Decimal)
+
+        field(118; "Variable Field 50558"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,118';
         }
-        field(138; "Social Security Tax(Annual)"; Decimal)
+
+        field(119; "Variable Field 50559"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,119';
         }
-        field(139; "Tax on Remuneration(Annual)"; Decimal)
+
+        field(120; "Variable Field 50560"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,120';
         }
-        field(140; "Total Tax Paid"; Decimal)
+
+        field(121; "Variable Field 50561"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,121';
         }
-        field(141; "Carry Forwarded Sick"; Decimal)
+
+        field(122; "Variable Field 50562"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,122';
         }
-        field(142; "Carry Forward Annual"; Decimal)
+
+        field(123; "Variable Field 50563"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,123';
         }
-        field(143; "Prorata Sick"; Decimal)
+
+        field(124; "Variable Field 50564"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,124';
         }
-        field(144; "Prorata Annual"; Decimal)
+
+        field(125; "Variable Field 50565"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,125';
         }
-        field(145; "Used Leave Sick"; Decimal)
+
+        field(126; "Variable Field 50566"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,126';
         }
-        field(146; "Used Leave Annual"; Decimal)
+
+        field(127; "Variable Field 50567"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,127';
         }
-        field(147; "Gratuity & leave Encash Tax"; Decimal)
+
+        field(128; "Variable Field 50568"; Decimal)
         {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,128';
         }
-        field(148; "Projection Month"; Decimal)
+
+        field(129; "Variable Field 50569"; Decimal)
         {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,129';
         }
-        field(149; "Deputation On"; Enum "Deputation Type")
+
+        field(130; "Variable Field 50570"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,130';
+        }
+        field(131; "Variable Field 50571"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,131';
+        }
+
+        field(132; "Variable Field 50572"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,132';
+        }
+
+        field(133; "Variable Field 50573"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,133';
+        }
+
+        field(134; "Variable Field 50574"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,134';
+        }
+
+        field(135; "Variable Field 50575"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,135';
+        }
+
+        field(136; "Variable Field 50576"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,136';
+        }
+
+        field(137; "Variable Field 50577"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,137';
+        }
+
+        field(138; "Variable Field 50578"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,138';
+        }
+
+        field(139; "Variable Field 50579"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,139';
+        }
+
+        field(140; "Variable Field 50580"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,140';
+        }
+
+        field(141; "Variable Field 50581"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,141';
+        }
+
+        field(142; "Variable Field 50582"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,142';
+        }
+
+        field(143; "Variable Field 50583"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,143';
+        }
+
+        field(144; "Variable Field 50584"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,144';
+        }
+
+        field(145; "Variable Field 50585"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,145';
+        }
+
+        field(146; "Variable Field 50586"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,146';
+        }
+
+        field(147; "Variable Field 50587"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,147';
+        }
+
+        field(148; "Variable Field 50588"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,148';
+        }
+
+        field(149; "Variable Field 50589"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,149';
+        }
+
+        field(150; "Variable Field 50590"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,150';
+        }
+
+        field(151; "Variable Field 50591"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,151';
+        }
+
+        field(152; "Variable Field 50592"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,152';
+        }
+
+        field(153; "Variable Field 50593"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,153';
+        }
+
+        field(154; "Variable Field 50594"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,154';
+        }
+
+        field(155; "Variable Field 50595"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,155';
+        }
+
+        field(156; "Variable Field 50596"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,156';
+        }
+
+        field(157; "Variable Field 50597"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,157';
+        }
+
+        field(158; "Variable Field 50598"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,158';
+        }
+
+        field(159; "Variable Field 50599"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,159';
+        }
+
+        field(160; "Variable Field 50600"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,160';
+        }
+
+        field(161; "Variable Field 50601"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,161';
+        }
+
+        field(162; "Variable Field 50602"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,162';
+        }
+
+        field(163; "Variable Field 50603"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,163';
+        }
+
+        field(164; "Variable Field 50604"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,164';
+        }
+
+        field(165; "Variable Field 50605"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,165';
+        }
+
+        field(166; "Variable Field 50606"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,166';
+        }
+
+        field(167; "Variable Field 50607"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,167';
+        }
+
+        field(168; "Variable Field 50608"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,168';
+        }
+
+        field(169; "Variable Field 50609"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,169';
+        }
+
+        field(170; "Variable Field 50610"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,170';
+        }
+
+        field(171; "Variable Field 50611"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,171';
+        }
+
+        field(172; "Variable Field 50612"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,172';
+        }
+
+        field(173; "Variable Field 50613"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,173';
+        }
+
+        field(174; "Variable Field 50614"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,174';
+        }
+
+        field(175; "Variable Field 50615"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,175';
+        }
+
+        field(176; "Variable Field 50616"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,176';
+        }
+
+        field(177; "Variable Field 50617"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,177';
+        }
+
+        field(178; "Variable Field 50618"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,178';
+        }
+
+        field(179; "Variable Field 50619"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,179';
+        }
+
+        field(180; "Variable Field 50620"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,180';
+        }
+
+        field(1000; "Bank Name"; Text[50]) { Editable = false; }
+        field(1001; "Evening Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1002; "Holiday Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1003; "Bulk Cash Transfer Days"; Decimal) { }
+        field(1004; "Cash Risk Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1005; "Friday Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1006; "Festival Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1007; "Vault Key Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1008; "Faciliating Hours"; Decimal) { }
+        field(1009; "Gratuity Years"; Decimal) { }
+        // field(1010; "Document Type"; Enum "Payroll Document Type") { }
+        field(1011; "Resignation Date"; Date) { }
+        field(1012; "Annual Leave Days"; Decimal) { }
+        field(1013; "Sick Leave Days"; Decimal) { }
+        field(1014; "Total Adjusted Leave Days"; Decimal) { }
+        field(1015; "Total Insurance Claim Amount"; Decimal) { }
+        field(1016; LFA; Decimal) { }
+        field(1017; "Morning Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1018; "Prior Absent Days"; Decimal) { }
+        field(1019; "Prior Present Days"; Decimal) { }
+        field(1020; "Salary Advance No."; Code[20]) { }
+        field(1021; "Projected Benefit"; Decimal) { Editable = false; }
+        field(1022; "Past Benefit"; Decimal) { Editable = false; }
+        field(1023; "Assessable Income"; Decimal) { Editable = false; }
+        field(1024; "Past Retirement Fund"; Decimal) { Editable = false; }
+        field(1025; "Projected Retirement Fund"; Decimal) { Editable = false; }
+        field(1026; "Actual RF Contribution"; Decimal) { Editable = false; }
+        field(1027; "1/3 of Assessable Income"; Decimal) { Editable = false; }
+        field(1028; "Eligible RF Deduction"; Decimal) { Editable = false; }
+        field(1029; "Life Insurance Premium"; Decimal) { Editable = false; }
+        field(1030; "Health Insurance Premium"; Decimal) { Editable = false; }
+        field(1031; "Taxable Income"; Decimal) { Editable = false; }
+        field(1032; "Disable Person Reduction"; Decimal) { Editable = false; }
+        field(1033; "Female Tax Credit"; Decimal) { Editable = false; }
+        field(1034; "Total Tax Liability"; Decimal) { Editable = false; }
+        field(1035; "Payable Tax Liability"; Decimal) { Editable = false; }
+        field(1036; "Net Tax Liability"; Decimal) { Editable = false; }
+        field(1037; "Social Security Tax(Annual)"; Decimal) { Editable = false; }
+        field(1038; "Tax on Remuneration(Annual)"; Decimal) { Editable = false; }
+        field(1039; "Total Tax Paid"; Decimal) { Editable = false; }
+        field(1040; "Carry Forwarded Sick"; Decimal) { Editable = false; }
+        field(1041; "Carry Forward Annual"; Decimal) { Editable = false; }
+        field(1042; "Prorata Sick"; Decimal) { Editable = false; }
+        field(1043; "Prorata Annual"; Decimal) { Editable = false; }
+        field(1044; "Used Leave Sick"; Decimal) { Editable = false; }
+        field(1045; "Used Leave Annual"; Decimal) { Editable = false; }
+        field(1046; "Gratuity & leave Encash Tax"; Decimal) { }
+        field(1047; "Projection Month"; Decimal) { }
+        field(1048; "Deputation On"; Enum "Deputation Type")
         {
             Editable = false;
             trigger OnValidate()
@@ -825,69 +1268,33 @@ table 50027 "Payroll Line"
                 Validate("Deputation Value", ExitTransferDeputationWise("Deputation On"));
             end;
         }
-        field(150; "Deputation Value"; Code[20])
-        {
-        }
-        field(151; "Sol ID"; Code[20])
-        {
-            Editable = false;
-        }
-        field(152; "1% Slab"; Decimal)
-        {
-        }
-        field(153; "10% Slab"; Decimal)
-        {
-        }
-        field(154; "20% Slab"; Decimal)
-        {
-        }
-        field(155; "30% Slab"; Decimal)
-        {
-        }
-        field(156; "36% Slab"; Decimal)
-        {
-        }
-        field(157; Type; Enum "Payroll Header Type")
-        {
-
-        }
-        field(158; "Remote Area Deduction"; Decimal)
-        {
-        }
-        field(159; Gender; Enum "Employee Gender")
+        field(1049; "Deputation Value"; Code[20]) { }
+        field(1050; "Sol ID"; Code[20]) { Editable = false; }
+        field(1051; "1% Slab"; Decimal) { }
+        field(1052; "10% Slab"; Decimal) { }
+        field(1053; "20% Slab"; Decimal) { }
+        field(1054; "30% Slab"; Decimal) { }
+        field(1055; "36% Slab"; Decimal) { }
+        field(1056; Type; Enum "Payroll Header Type") { }
+        field(1057; "Remote Area Deduction"; Decimal) { }
+        field(1058; Gender; Enum "Employee Gender")
         {
             Caption = 'Gender';
             Editable = false;
         }
-        field(160; "Marital Status"; enum "Marital Status")
-        {
-            Editable = false;
-        }
-        field(161; "Total SST Paid"; Decimal) { }
-        field(162; "Total Tax Remuneration Paid"; Decimal) { }
-        field(163; "LWP Days"; Decimal) { }
-        field(164; "Prior Leave Days"; Decimal) { }
-        field(165; "Property Insurance Premium"; Decimal) { }
-        field(166; Selected; Boolean) { }
-        field(167; "Current Non-Payments"; Decimal)
-        {
-            Editable = false;
-        }
-        field(170; "Projected Non-Payments"; Decimal)
-        {
-            Editable = false;
-        }
-        field(171; "Past Non-Payments"; Decimal)
-        {
-            Editable = false;
-        }
-        field(172; "39% Slab"; Decimal)
-        {
-        }
-        field(173; "Post Resignation Days"; Decimal)
-        {
-        }
-        field(174; "Post Payroll Days"; Decimal)
+        field(1059; "Marital Status"; enum "Marital Status") { Editable = false; }
+        field(1060; "Total SST Paid"; Decimal) { }
+        field(1061; "Total Tax Remuneration Paid"; Decimal) { }
+        field(1062; "LWP Days"; Decimal) { }
+        field(1063; "Prior Leave Days"; Decimal) { }
+        field(1064; "Property Insurance Premium"; Decimal) { }
+        field(1065; Selected; Boolean) { }
+        field(1066; "Current Non-Payments"; Decimal) { Editable = false; }
+        field(1067; "Projected Non-Payments"; Decimal) { Editable = false; }
+        field(1068; "Past Non-Payments"; Decimal) { Editable = false; }
+        field(1069; "39% Slab"; Decimal) { }
+        field(1070; "Post Resignation Days"; Decimal) { }
+        field(1071; "Post Payroll Days"; Decimal)
         {
             Description = 'Post Payroll Days';
             Editable = false;
@@ -896,6 +1303,15 @@ table 50027 "Payroll Line"
                 GetTotalDays;
             end;
         }
+        field(1072; "Absent Days Before Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
+        field(1073; "Absent Days After Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
+
     }
 
     keys
@@ -1176,7 +1592,7 @@ table 50027 "Payroll Line"
             // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
             // EmployeeAttendActivity.SetRange("Present Day", 0);
             //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
             EmployeeAttendActivity.SetRange("Attendance Date");
             EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
             EmployeeAttendActivity.CalcSums("Absent Day");
@@ -1235,16 +1651,15 @@ table 50027 "Payroll Line"
                             LoanOutstandingfromFinacle.Reset;
                             LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
                             LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
+                            LoanOutstandingfromFinacle.SetFilter("Loan Type", '<>%1|<>%2', LoanOutstandingfromFinacle."Loan Type"::" ", LoanOutstandingfromFinacle."Loan Type"::"Salary Advance");
                             LoanOutstandingfromFinacle.SetRange("Is Manual", false);
                             if LoanOutstandingfromFinacle.FindSet then
                                 repeat
                                     case LoanOutstandingfromFinacle."Loan Type" of
-                                        LoanOutstandingfromFinacle."Loan Type"::"Personal Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(2, LoanOutstandingfromFinacle."Outstanding Amount");
                                         LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
-                                            AttributeAmount += CalculateDifferentialnterest(3, LoanOutstandingfromFinacle."Outstanding Amount");
-                                        LoanOutstandingfromFinacle."Loan Type"::"Vehicle Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(4, LoanOutstandingfromFinacle."Outstanding Amount");
+                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Outstanding Amount");
+                                        else
+                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type", LoanOutstandingfromFinacle."Outstanding Amount");
                                     end;
                                 until LoanOutstandingfromFinacle.Next = 0;
                         end;
@@ -1356,7 +1771,7 @@ table 50027 "Payroll Line"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -1364,7 +1779,7 @@ table 50027 "Payroll Line"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -1821,7 +2236,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -1835,7 +2250,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);

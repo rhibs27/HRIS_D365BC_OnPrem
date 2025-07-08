@@ -2,7 +2,7 @@ page 50066 "Transfer Card"
 {
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
     // //Min 12.11.2022 -- for uneditable transfer effective date
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout
@@ -34,6 +34,12 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Salary Level Code field.';
                     ApplicationArea = All;
                 }
+                field("Salary Level Name"; Rec."Salary Level Name")
+                {
+                    ToolTip = 'Specifies the value of the Salary Level Name field.';
+                    ApplicationArea = All;
+                }
+
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.';
@@ -845,7 +851,7 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 var
-                    EmployeeTransfer: Record "Employee/HR Transfer";
+                    EmployeeTransfer: Record "Employee Transfer";
                     PageTransferHistory: Page "Employee Transfer Requests";
                 begin
                     EmployeeTransfer.Reset;
@@ -1093,7 +1099,7 @@ page 50066 "Transfer Card"
 
     procedure GetTransferEditibility()
     begin
-        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General]; //Min 12.09.2022 -- General Option added;
+        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General];
     end;
 
     // local procedure OnNewTransferRecord()

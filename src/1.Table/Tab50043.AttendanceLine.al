@@ -33,7 +33,7 @@ table 50043 "Attendance Line"
                 CalcAcutalWorkTime("Check In Time", "Check Out Time");
             end;
         }
-        field(5; Status; Enum "Attendance Status")
+        field(5; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -43,7 +43,7 @@ table 50043 "Attendance Line"
 
         }
 
-        field(7; "Employee Working Shift"; Code[10])
+        field(7; "Employee Working Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
 
@@ -156,13 +156,13 @@ table 50043 "Attendance Line"
             CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
             FieldClass = FlowField;
         }
-        field(50; "Salary Level Code"; Code[10])
+        field(50; "Salary Level Code"; Code[20])
         {
             Editable = false;
 
             TableRelation = "Salary Level";
         }
-        field(51; "Salary Grade"; Code[10])
+        field(51; "Salary Grade"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Grade";
@@ -172,71 +172,94 @@ table 50043 "Attendance Line"
         {
         }
         field(54; "Training Check Out Time"; Time) { }
-
-
-        field(55; "Pay Cycle Term"; Code[10])
+        field(55; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(56; "Province Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(57; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(58; "Branch Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(59; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(60; "Department Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(61; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
-        field(56; "Pay Cycle Code"; Code[10])
+        field(62; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
 
 
 
-        field(57; "From Date (B.S)"; Code[10])
+        field(63; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(58; Month; Enum "English Month")
-        {
-            Editable = false;
-        }
-
-        field(59; "Approved Activity"; Boolean)
-        {
-        }
-        field(60; "Holiday Remarks"; Text[250]) { }
-        field(61; "Entry Type"; Enum "Attendance Entry Type")
-        {
-        }
-        field(62; "Nepali Year"; Integer)
+        field(64; Month; Enum "English Month")
         {
             Editable = false;
         }
 
-        field(63; "From Date"; Date)
+        field(65; "Approved Activity"; Boolean)
+        {
+        }
+        field(66; "Holiday Remarks"; Text[250]) { }
+        field(67; "Entry Type"; Enum "Attendance Entry Type")
+        {
+        }
+        field(68; "Nepali Year"; Integer)
         {
             Editable = false;
         }
-        field(64; "To Date"; Date)
+
+        field(69; "From Date"; Date)
         {
             Editable = false;
         }
-        field(65; "Nepali Month"; Enum "Nepali Month")
+        field(70; "To Date"; Date)
         {
             Editable = false;
         }
-        field(66; "To Date (B.S)"; Code[10])
+        field(71; "Nepali Month"; Enum "Nepali Month")
+        {
+            Editable = false;
+        }
+        field(72; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
 
 
-        field(67; "Document No."; Code[20])
+        field(73; "Document No."; Code[20])
         {
             TableRelation = "Attendance Header"."No.";
         }
-        field(68; "No. Series"; Code[20])
+        field(74; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(70; "Pay Cycle Period"; Integer)
+        field(75; "Pay Cycle Period"; Integer)
         {
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
         }
+
 
 
     }

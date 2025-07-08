@@ -41,6 +41,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Maximum Leave at once field.';
                     ApplicationArea = All;
                 }
+                field("Minimum Leave at once"; Rec."Minimum Leave at once")
+                {
+                    ToolTip = 'Specifies the value of the Minimum Leave at once field.';
+                    ApplicationArea = All;
+                }
                 field("Exclude Non Working Days"; Rec."Exclude Non Working Days")
                 {
                     ToolTip = 'Specifies the value of the Exclude Non Working Days field.';

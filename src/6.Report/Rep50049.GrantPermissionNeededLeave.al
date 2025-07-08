@@ -64,9 +64,9 @@ report 50049 "Grant Permission Needed Leave"
                     if LeavetypSetup."Leave For Employee Type" <> Employee."Employment Type" then
                         Error('Not applicable for employee %1', Employee."Full Name");
 
-                // if not (LeavetypSetup."Marital Status" = LeavetypSetup."Marital Status"::) then
-                if LeavetypSetup."Marital Status" <> Employee."Marital Status" then
-                    Error('Not applicable for employee %1', Employee."Full Name");
+                if not (LeavetypSetup."Marital Status" = LeavetypSetup."Marital Status"::" ") then
+                    if LeavetypSetup."Marital Status" <> Employee."Marital Status" then
+                        Error('Not applicable for employee %1', Employee."Full Name");
 
                 if LeavetypSetup."Services Period" then begin
                     LeaveEarn.Reset;
@@ -74,7 +74,7 @@ report 50049 "Grant Permission Needed Leave"
                     LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                     if LeaveEarn.Count >= LeavetypSetup."Times Per Service Period" then
-                        Error('Employee has already taken leave for more than %1 times in his service period.', Employee."Service Period");
+                        Error('Employee has already taken leave for more than %1 times in his service period.', LeavetypSetup."Times Per Service Period");
                 end;
                 LeaveEarn.Reset;
                 LeaveEarn.Init;

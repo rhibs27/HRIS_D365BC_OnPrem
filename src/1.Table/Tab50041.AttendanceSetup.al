@@ -5,16 +5,16 @@ table 50041 "Attendance Setup"
 
     fields
     {
-        field(1; "Primary Key"; Code[10]) { }
-        field(2; "Attendance Document No. Series"; Code[10])
+        field(1; "Primary Key"; Code[20]) { }
+        field(2; "Attendance Document No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(3; "Activity Document No. Series"; Code[10])
+        field(3; "Activity Document No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(4; "Base Calender"; Code[10])
+        field(4; "Base Calender"; Code[20])
         {
             TableRelation = "Base Calendar";
         }
@@ -73,7 +73,7 @@ table 50041 "Attendance Setup"
         {
             DataClassification = ToBeClassified;
         }
-        field(19; "Check Out From"; Time)
+        field(19; "Check Out From"; Decimal)
         {
             DataClassification = ToBeClassified;
         }

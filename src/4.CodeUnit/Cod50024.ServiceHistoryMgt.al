@@ -8,7 +8,7 @@ codeunit 50024 "Service History Mgt"
     var
         EmpServiceHis: Record "Employee Service History";
         Candidate: Record Candidate;
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
     begin
         case ServiceEvent of
             ServiceEvent::Appointment:
@@ -439,7 +439,7 @@ codeunit 50024 "Service History Mgt"
             EmpActivity.SetRange("Employee No.", EmpVar."No.");
             EmpActivity.SetRange(Type, EmpActivity.Type::"Leave Request");
             EmpActivity.SetFilter("Approval Status", '%1|%2|%3', EmpActivity."Approval Status"::Open,
-                                  EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::"Pending Approval");
+                                  EmpActivity."Approval Status"::Recommended, EmpActivity."Approval Status"::Pending);
             if EmpActivity.FindFirst then
                 Error('Leave request of employee %1 is still pending', EmpVar."Full Name");
 
@@ -489,7 +489,7 @@ codeunit 50024 "Service History Mgt"
             until LeaveTypeSetup.Next = 0;
     end;
 
-    local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee/HR Transfer")
+    local procedure ValidateTransferField(EmployeeTransferRec: Record "Employee Transfer")
     var
         FunctionalTitle: Record "Functional Title";
     begin
@@ -568,7 +568,7 @@ codeunit 50024 "Service History Mgt"
         end;
     end;
 
-    procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee/HR Transfer")
+    procedure ReinstateCancelTransfer(EmpHrTransfer: Record "Employee Transfer")
     var
         EmpVar: Record Employee;
         ServiceCode: Code[20];
@@ -604,7 +604,7 @@ codeunit 50024 "Service History Mgt"
 
     end;
 
-    procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    procedure UpdateMissedTransfer(var EmployeeTransferRec: Record "Employee Transfer")
     var
         ConfirmApprove: Label 'Confirm Approve?';
         ConfirmReject: Label 'Confirm Reject?';
@@ -648,7 +648,7 @@ codeunit 50024 "Service History Mgt"
 
     end;
 
-    procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee/HR Transfer")
+    procedure ApprovedTransferUpdate(var EmployeeTransferRec: Record "Employee Transfer")
     var
         ConfirmApprove: Label 'Confirm Approve?';
         ConfirmReject: Label 'Confirm Reject?';

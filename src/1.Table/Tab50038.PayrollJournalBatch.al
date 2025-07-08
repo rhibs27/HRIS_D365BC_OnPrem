@@ -8,14 +8,14 @@ table 50038 "Payroll Journal Batch"
 
     fields
     {
-        field(1; "Code"; Code[10]) { }
+        field(1; "Code"; Code[20]) { }
         field(2; Description; Text[50]) { }
-        field(3; "No. Series"; Code[10])
+        field(3; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             TableRelation = "No. Series";
         }
-        field(4; "Posting No. Series"; Code[10])
+        field(4; "Posting No. Series"; Code[20])
         {
             Caption = 'Posting No. Series';
             TableRelation = "No. Series";

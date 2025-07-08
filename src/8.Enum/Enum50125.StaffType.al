@@ -26,4 +26,8 @@ enum 50125 "Staff Type"
     {
         Caption = 'Senior Management';
     }
+    value(6; "On-Call")
+    {
+        Caption = 'On-Call';
+    }
 }

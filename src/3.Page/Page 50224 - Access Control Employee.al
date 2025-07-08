@@ -126,7 +126,7 @@
 //                 PromotedCategory = Process;
 //                 PromotedIsBig = true;
 //                 PromotedOnly = true;
-//                 Visible = Rec."Approval Status" = Rec."Approval Status"::"Pending Approval";
+//                 Visible = Rec."Approval Status" = Rec."Approval Status"::Pending;
 //                 ToolTip = 'Executes the Recommend action.';
 //                 ApplicationArea = All;
 
@@ -208,7 +208,7 @@
 //     trigger OnOpenPage()
 //     begin
 //         IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
-//         ForRejected := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Recommended];
+//         ForRejected := Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Recommended];
 //         if Rec."Travel Order No." <> '' then
 //             IsFromTransfer := true;
 //     end;

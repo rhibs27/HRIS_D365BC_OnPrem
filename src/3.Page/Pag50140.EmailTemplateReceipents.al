@@ -4,7 +4,7 @@ page 50140 "Email Template Receipents"
 
     AutoSplitKey = true;
     PageType = ListPart;
-    SourceTable = "Agile Email Recipient";
+    SourceTable = "Email Template Recipient";
     ApplicationArea = All;
 
     layout

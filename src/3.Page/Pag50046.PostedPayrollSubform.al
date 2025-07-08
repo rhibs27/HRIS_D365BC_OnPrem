@@ -437,6 +437,568 @@ page 50046 "Posted Payroll Subform"
                     ToolTip = 'Specifies the value of the Variable Field 50540 field.';
                     ApplicationArea = All;
                 }
+                field("Variable Field 50541"; Rec."Variable Field 50541")
+                {
+                    Visible = Field50541Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50541 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50542"; Rec."Variable Field 50542")
+                {
+                    Visible = Field50542Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50542 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50543"; Rec."Variable Field 50543")
+                {
+                    Visible = Field50543Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50543 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50544"; Rec."Variable Field 50544")
+                {
+                    Visible = Field50544Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50544 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50545"; Rec."Variable Field 50545")
+                {
+                    Visible = Field50545Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50545 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50546"; Rec."Variable Field 50546")
+                {
+                    Visible = Field50546Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50546 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50547"; Rec."Variable Field 50547")
+                {
+                    Visible = Field50547Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50547 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50548"; Rec."Variable Field 50548")
+                {
+                    Visible = Field50548Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50548 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50549"; Rec."Variable Field 50549")
+                {
+                    Visible = Field50549Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50549 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50550"; Rec."Variable Field 50550")
+                {
+                    Visible = Field50550Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50550 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50551"; Rec."Variable Field 50551")
+                {
+                    Visible = Field50551Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50551 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50552"; Rec."Variable Field 50552")
+                {
+                    Visible = Field50552Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50552 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50553"; Rec."Variable Field 50553")
+                {
+                    Visible = Field50553Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50553 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50554"; Rec."Variable Field 50554")
+                {
+                    Visible = Field50554Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50554 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50555"; Rec."Variable Field 50555")
+                {
+                    Visible = Field50555Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50555 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50556"; Rec."Variable Field 50556")
+                {
+                    Visible = Field50556Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50556 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50557"; Rec."Variable Field 50557")
+                {
+                    Visible = Field50557Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50557 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50558"; Rec."Variable Field 50558")
+                {
+                    Visible = Field50558Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50558 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50559"; Rec."Variable Field 50559")
+                {
+                    Visible = Field50559Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50559 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50560"; Rec."Variable Field 50560")
+                {
+                    Visible = Field50560Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50560 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50561"; Rec."Variable Field 50561")
+                {
+                    Visible = Field50561Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50561 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50562"; Rec."Variable Field 50562")
+                {
+                    Visible = Field50562Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50562 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50563"; Rec."Variable Field 50563")
+                {
+                    Visible = Field50563Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50563 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50564"; Rec."Variable Field 50564")
+                {
+                    Visible = Field50564Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50564 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50565"; Rec."Variable Field 50565")
+                {
+                    Visible = Field50565Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50565 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50566"; Rec."Variable Field 50566")
+                {
+                    Visible = Field50566Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50566 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50567"; Rec."Variable Field 50567")
+                {
+                    Visible = Field50567Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50567 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50568"; Rec."Variable Field 50568")
+                {
+                    Visible = Field50568Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50568 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50569"; Rec."Variable Field 50569")
+                {
+                    Visible = Field50569Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50569 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50570"; Rec."Variable Field 50570")
+                {
+                    Visible = Field50570Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50570 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50571"; Rec."Variable Field 50571")
+                {
+                    Visible = Field50571Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50571 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50572"; Rec."Variable Field 50572")
+                {
+                    Visible = Field50572Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50572 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50573"; Rec."Variable Field 50573")
+                {
+                    Visible = Field50573Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50573 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50574"; Rec."Variable Field 50574")
+                {
+                    Visible = Field50574Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50574 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50575"; Rec."Variable Field 50575")
+                {
+                    Visible = Field50575Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50575 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50576"; Rec."Variable Field 50576")
+                {
+                    Visible = Field50576Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50576 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50577"; Rec."Variable Field 50577")
+                {
+                    Visible = Field50577Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50577 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50578"; Rec."Variable Field 50578")
+                {
+                    Visible = Field50578Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50578 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50579"; Rec."Variable Field 50579")
+                {
+                    Visible = Field50579Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50579 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50580"; Rec."Variable Field 50580")
+                {
+                    Visible = Field50580Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50580 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50581"; Rec."Variable Field 50581")
+                {
+                    Visible = Field50581Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50581 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50582"; Rec."Variable Field 50582")
+                {
+                    Visible = Field50582Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50582 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50583"; Rec."Variable Field 50583")
+                {
+                    Visible = Field50583Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50583 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50584"; Rec."Variable Field 50584")
+                {
+                    Visible = Field50584Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50584 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50585"; Rec."Variable Field 50585")
+                {
+                    Visible = Field50585Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50585 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50586"; Rec."Variable Field 50586")
+                {
+                    Visible = Field50586Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50586 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50587"; Rec."Variable Field 50587")
+                {
+                    Visible = Field50587Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50587 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50588"; Rec."Variable Field 50588")
+                {
+                    Visible = Field50588Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50588 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50589"; Rec."Variable Field 50589")
+                {
+                    Visible = Field50589Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50589 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50590"; Rec."Variable Field 50590")
+                {
+                    Visible = Field50590Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50590 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50591"; Rec."Variable Field 50591")
+                {
+                    Visible = Field50591Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50591 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50592"; Rec."Variable Field 50592")
+                {
+                    Visible = Field50592Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50592 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50593"; Rec."Variable Field 50593")
+                {
+                    Visible = Field50593Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50593 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50594"; Rec."Variable Field 50594")
+                {
+                    Visible = Field50594Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50594 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50595"; Rec."Variable Field 50595")
+                {
+                    Visible = Field50595Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50595 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50596"; Rec."Variable Field 50596")
+                {
+                    Visible = Field50596Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50596 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50597"; Rec."Variable Field 50597")
+                {
+                    Visible = Field50597Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50597 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50598"; Rec."Variable Field 50598")
+                {
+                    Visible = Field50598Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50598 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50599"; Rec."Variable Field 50599")
+                {
+                    Visible = Field50599Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50599 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50600"; Rec."Variable Field 50600")
+                {
+                    Visible = Field50600Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50600 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50601"; Rec."Variable Field 50601")
+                {
+                    Visible = Field50601Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50601 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50602"; Rec."Variable Field 50602")
+                {
+                    Visible = Field50602Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50602 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50603"; Rec."Variable Field 50603")
+                {
+                    Visible = Field50603Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50603 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50604"; Rec."Variable Field 50604")
+                {
+                    Visible = Field50604Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50604 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50605"; Rec."Variable Field 50605")
+                {
+                    Visible = Field50605Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50605 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50606"; Rec."Variable Field 50606")
+                {
+                    Visible = Field50606Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50606 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50607"; Rec."Variable Field 50607")
+                {
+                    Visible = Field50607Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50607 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50608"; Rec."Variable Field 50608")
+                {
+                    Visible = Field50608Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50608 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50609"; Rec."Variable Field 50609")
+                {
+                    Visible = Field50609Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50609 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50610"; Rec."Variable Field 50610")
+                {
+                    Visible = Field50610Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50610 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50611"; Rec."Variable Field 50611")
+                {
+                    Visible = Field50611Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50611 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50612"; Rec."Variable Field 50612")
+                {
+                    Visible = Field50612Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50612 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50613"; Rec."Variable Field 50613")
+                {
+                    Visible = Field50613Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50613 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50614"; Rec."Variable Field 50614")
+                {
+                    Visible = Field50614Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50614 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50615"; Rec."Variable Field 50615")
+                {
+                    Visible = Field50615Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50615 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50616"; Rec."Variable Field 50616")
+                {
+                    Visible = Field50616Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50616 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50617"; Rec."Variable Field 50617")
+                {
+                    Visible = Field50617Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50617 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50618"; Rec."Variable Field 50618")
+                {
+                    Visible = Field50618Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50618 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50619"; Rec."Variable Field 50619")
+                {
+                    Visible = Field50619Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50619 field.';
+                    ApplicationArea = All;
+                }
+
+                field("Variable Field 50620"; Rec."Variable Field 50620")
+                {
+                    Visible = Field50620Visible;
+                    ToolTip = 'Specifies the value of the Variable Field 50620 field.';
+                    ApplicationArea = All;
+                }
+
+
+
                 field("Projection Month"; Rec."Projection Month")
                 {
                     ToolTip = 'Specifies the value of the Projection Month field.';
@@ -825,6 +1387,95 @@ page 50046 "Posted Payroll Subform"
         Field50538Visible: Boolean;
         Field50539Visible: Boolean;
         Field50540Visible: Boolean;
+        Field50541Visible: Boolean;
+        Field50542Visible: Boolean;
+        Field50543Visible: Boolean;
+        Field50544Visible: Boolean;
+        Field50545Visible: Boolean;
+        Field50546Visible: Boolean;
+        Field50547Visible: Boolean;
+        Field50548Visible: Boolean;
+        Field50549Visible: Boolean;
+        Field50550Visible: Boolean;
+
+        Field50551Visible: Boolean;
+        Field50552Visible: Boolean;
+        Field50553Visible: Boolean;
+        Field50554Visible: Boolean;
+        Field50555Visible: Boolean;
+        Field50556Visible: Boolean;
+        Field50557Visible: Boolean;
+        Field50558Visible: Boolean;
+        Field50559Visible: Boolean;
+        Field50560Visible: Boolean;
+
+        Field50561Visible: Boolean;
+        Field50562Visible: Boolean;
+        Field50563Visible: Boolean;
+        Field50564Visible: Boolean;
+        Field50565Visible: Boolean;
+        Field50566Visible: Boolean;
+        Field50567Visible: Boolean;
+        Field50568Visible: Boolean;
+        Field50569Visible: Boolean;
+        Field50570Visible: Boolean;
+
+        Field50571Visible: Boolean;
+        Field50572Visible: Boolean;
+        Field50573Visible: Boolean;
+        Field50574Visible: Boolean;
+        Field50575Visible: Boolean;
+        Field50576Visible: Boolean;
+        Field50577Visible: Boolean;
+        Field50578Visible: Boolean;
+        Field50579Visible: Boolean;
+        Field50580Visible: Boolean;
+
+        Field50581Visible: Boolean;
+        Field50582Visible: Boolean;
+        Field50583Visible: Boolean;
+        Field50584Visible: Boolean;
+        Field50585Visible: Boolean;
+        Field50586Visible: Boolean;
+        Field50587Visible: Boolean;
+        Field50588Visible: Boolean;
+        Field50589Visible: Boolean;
+        Field50590Visible: Boolean;
+
+        Field50591Visible: Boolean;
+        Field50592Visible: Boolean;
+        Field50593Visible: Boolean;
+        Field50594Visible: Boolean;
+        Field50595Visible: Boolean;
+        Field50596Visible: Boolean;
+        Field50597Visible: Boolean;
+        Field50598Visible: Boolean;
+        Field50599Visible: Boolean;
+        Field50600Visible: Boolean;
+
+        Field50601Visible: Boolean;
+        Field50602Visible: Boolean;
+        Field50603Visible: Boolean;
+        Field50604Visible: Boolean;
+        Field50605Visible: Boolean;
+        Field50606Visible: Boolean;
+        Field50607Visible: Boolean;
+        Field50608Visible: Boolean;
+        Field50609Visible: Boolean;
+        Field50610Visible: Boolean;
+
+        Field50611Visible: Boolean;
+        Field50612Visible: Boolean;
+        Field50613Visible: Boolean;
+        Field50614Visible: Boolean;
+        Field50615Visible: Boolean;
+        Field50616Visible: Boolean;
+        Field50617Visible: Boolean;
+        Field50618Visible: Boolean;
+        Field50619Visible: Boolean;
+        Field50620Visible: Boolean;
+
+
         Field50489Visible: Boolean;
         Field50487Visible: Boolean;
         Field50488Visible: Boolean;
@@ -886,6 +1537,86 @@ page 50046 "Posted Payroll Subform"
         Field50538Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50538"));
         Field50539Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50539"));
         Field50540Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50540"));
+        Field50541Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50541"));
+        Field50542Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50542"));
+        Field50543Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50543"));
+        Field50544Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50544"));
+        Field50545Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50545"));
+        Field50546Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50546"));
+        Field50547Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50547"));
+        Field50548Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50548"));
+        Field50549Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50549"));
+        Field50550Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50550"));
+        Field50551Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50551"));
+        Field50552Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50552"));
+        Field50553Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50553"));
+        Field50554Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50554"));
+        Field50555Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50555"));
+        Field50556Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50556"));
+        Field50557Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50557"));
+        Field50558Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50558"));
+        Field50559Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50559"));
+        Field50560Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50560"));
+        Field50561Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50561"));
+        Field50562Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50562"));
+        Field50563Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50563"));
+        Field50564Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50564"));
+        Field50565Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50565"));
+        Field50566Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50566"));
+        Field50567Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50567"));
+        Field50568Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50568"));
+        Field50569Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50569"));
+        Field50570Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50570"));
+        Field50571Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50571"));
+        Field50572Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50572"));
+        Field50573Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50573"));
+        Field50574Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50574"));
+        Field50575Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50575"));
+        Field50576Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50576"));
+        Field50577Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50577"));
+        Field50578Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50578"));
+        Field50579Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50579"));
+        Field50580Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50580"));
+        Field50581Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50581"));
+        Field50582Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50582"));
+        Field50583Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50583"));
+        Field50584Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50584"));
+        Field50585Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50585"));
+        Field50586Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50586"));
+        Field50587Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50587"));
+        Field50588Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50588"));
+        Field50589Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50589"));
+        Field50590Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50590"));
+        Field50591Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50591"));
+        Field50592Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50592"));
+        Field50593Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50593"));
+        Field50594Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50594"));
+        Field50595Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50595"));
+        Field50596Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50596"));
+        Field50597Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50597"));
+        Field50598Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50598"));
+        Field50599Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50599"));
+        Field50600Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50600"));
+        Field50601Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50601"));
+        Field50602Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50602"));
+        Field50603Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50603"));
+        Field50604Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50604"));
+        Field50605Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50605"));
+        Field50606Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50606"));
+        Field50607Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50607"));
+        Field50608Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50608"));
+        Field50609Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50609"));
+        Field50610Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50610"));
+        Field50611Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50611"));
+        Field50612Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50612"));
+        Field50613Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50613"));
+        Field50614Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50614"));
+        Field50615Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50615"));
+        Field50616Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50616"));
+        Field50617Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50617"));
+        Field50618Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50618"));
+        Field50619Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50619"));
+        Field50620Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50620"));
         Field50489Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50489")); //Min 9.16.2022
         Field50487Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50487")); //Min 12.9.2022
         Field50488Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50488")); //Min 12.9.2022

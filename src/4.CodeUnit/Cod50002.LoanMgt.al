@@ -386,7 +386,7 @@ codeunit 50002 "Loan Mgt."
         EmpSalaryAdv.Reset;
         EmpSalaryAdv.SetRange("Employee Code", EmpLoan."Employee Code");
         //EmpSalaryAdv.SetRange("Approval Status", EmpLoan."Approval Status"::Approved);
-        //EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::"Pending Approval", EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
+        //EmpSalaryAdv.SetFilter("Approval Status", '%1|%2|%3|%4|%5', EmpLoan."Approval Status"::Pending, EmpLoan."Approval Status"::Recommended, EmpLoan."Approval Status"::Reviewed, EmpLoan."Approval Status"::Screened, EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("Approval Status", '%1|%2', EmpLoan."Approval Status"::"Pending", EmpLoan."Approval Status"::Approved);
         EmpSalaryAdv.SetFilter("No.", '<>%1', EmpLoan."No.");
         EmpSalaryAdv.SetRange(Settled, false);
@@ -887,7 +887,7 @@ codeunit 50002 "Loan Mgt."
             // if EmpLoan.Recommender = '' then
             //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
             // else
-            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::"Pending Approval");
+            //     EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Pending);
             EmpLoan.Modify();
             Message(APPROVALSENT);
         end else begin
@@ -940,7 +940,7 @@ codeunit 50002 "Loan Mgt."
     // CheckLoanApproval(EmpLoan);
     //action
     // if Approve then begin
-    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Pending then begin
     //         if EmpLoan."Recommendation Remarks" = '' then
     //             Error('Recommendation remarks must have value');
     //         EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
@@ -969,7 +969,7 @@ codeunit 50002 "Loan Mgt."
     //         HRMgt.SendMailFromTemplate(DATABASE::"Employee Loan/Advance", 0, EmpLoan."Approval Status", '', GetEmployeeCode(), Format(EmpLoan."No."), 0);
     //     end;
 
-    // procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: code[20])
+    // procedure ApproveRejectLoanAPI(var EmpLoan: Record "Employee Loan/Advance"; Approve: Boolean; ApproverNo: Code[20])
     // var
     //     Confirmation: Label 'Confirm action?';
     //     Approved: Label 'Document is approved.';
@@ -992,7 +992,7 @@ codeunit 50002 "Loan Mgt."
     //     CheckLoanApprovalAPI(EmpLoan, ApproverNo);
     //     //action
     //     if Approve then begin
-    //         if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //         if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Pending then begin
     //             if EmpLoan."Recommendation Remarks" = '' then
     //                 Error('Recommendation remarks must have value');
     //             EmpLoan.Validate("Approval Status", EmpLoan."Approval Status"::Recommended)
@@ -1268,7 +1268,7 @@ codeunit 50002 "Loan Mgt."
     //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
     // begin
-    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Pending then begin
     //         if StrPos(EmpLoan.Recommender, GetEmployeeCode()) = 0 then
     //             Error(RecommendNotEligibleError);
     //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
@@ -1283,7 +1283,7 @@ codeunit 50002 "Loan Mgt."
     //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
     //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
     // begin
-    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::"Pending Approval" then begin
+    //     if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Pending then begin
     //         if StrPos(EmpLoan.Recommender, ApprovalCode) = 0 then
     //             Error(RecommendNotEligibleError);
     //     end else if EmpLoan."Approval Status" = EmpLoan."Approval Status"::Screened then begin
@@ -1734,8 +1734,8 @@ codeunit 50002 "Loan Mgt."
         EmailTemplate: Record "Email Template";
         Employee: Record Employee;
         EmailReceipentTxt: Text;
-        EmailReceipent: Record "Agile Email Recipient";
-        EmailMessage: Record "Agile Email Message";
+        EmailReceipent: Record "Email Template Recipient";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;
@@ -1827,7 +1827,7 @@ codeunit 50002 "Loan Mgt."
                 ReportSelections.CalcFields("Report Caption");
                 ClientFileName := HRSetup."Attachment Storage Location" + 'temp\';
 
-                AttachmentMgt.CreateNewDir(HRSetup."Attachment Storage Location", EmployeeLoanAdvance."Employee Code", DirectoryName);
+                // AttachmentMgt.CreateNewDir(HRSetup."Attachment Storage Location", EmployeeLoanAdvance."Employee Code", DirectoryName);
                 FileName := EmployeeLoanAdvance."Employee Code" + '_' + ReportSelections."Report Caption" + '_' + Format(EmployeeLoanAdvance."No.") + '.docx';
                 ClientFileName := FileMgt.GetDirectoryName(DirectoryName) + '\' + EmployeeLoanAdvance."Employee Code" + '\' + FileName;
                 recRef.GetTable(EmployeeLoanAdvance);
@@ -1977,7 +1977,7 @@ codeunit 50002 "Loan Mgt."
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
     //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::"Pending Approval", AllowanceHeader."Approval Status"::Open] then begin //Min 7.3.2022
+    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin //Min 7.3.2022
     //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
     //             Employee.Get(HRMgt.GetEmployeeNo);
     //             // if not Employee.Screener then
@@ -2211,7 +2211,7 @@ codeunit 50002 "Loan Mgt."
         // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
         HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         Header: Text;
         Body: Text;
         Footer: Text;

@@ -2,7 +2,7 @@ page 50110 "Transfer Request Card"
 {
     DeleteAllowed = false;
     PageType = Card;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout
@@ -25,6 +25,11 @@ page 50110 "Transfer Request Card"
                 field("Salary Level Code"; Rec."Salary Level Code")
                 {
                     ToolTip = 'Specifies the value of the Salary Level Code field.';
+                    ApplicationArea = All;
+                }
+                field("Salary Level Name"; Rec."Salary Level Name")
+                {
+                    ToolTip = 'Specifies the value of the Salary Level Name field.';
                     ApplicationArea = All;
                 }
                 field("Transfer Category"; Rec."Transfer Category")

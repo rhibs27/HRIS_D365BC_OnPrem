@@ -44,9 +44,13 @@ codeunit 50025 "Shift Assignment Mgt"
             ShiftAssignLine.Init();
             ShiftAssignLine.Validate("No.", DocumentNo);
             ShiftAssignLine.Validate("Type", ShiftAssignLine."Type"::"Shift Assignment");
-            ShiftAssignLine.Validate("Deputation Code", ShiftAssignHeader."Deputation Code");
-            ShiftAssignLine.Validate("Deputation Name", ShiftAssignHeader."Deputation Name");
-            ShiftAssignLine.Validate("Deputation Type", ShiftAssignHeader."Deputation Type");
+            if ShiftAssignHeader."Deputation Sub Type" = ShiftAssignHeader."Deputation Sub Type"::" " then begin
+                ShiftAssignLine.Validate("Deputation Type", ShiftAssignHeader."Deputation Type");
+                ShiftAssignLine.Validate("Deputation Code", ShiftAssignHeader."Deputation Code");
+            end else begin
+                ShiftAssignLine.Validate("Deputation Type", ShiftAssignHeader."Deputation Sub Type");
+                ShiftAssignLine.Validate("Deputation Code", ShiftAssignHeader."Deputation Sub Type Code");
+            end;
             ShiftAssignLine.Validate("Employee No", EmployeeNo);
             ShiftAssignLine.Validate("Employee Work Shift", EmployeeWorkShift);
             ShiftAssignLine.Validate("Roster Date", FromDate);

@@ -32,7 +32,7 @@ table 50001 "KRA Master Setup1"
         field(8; "Target Assigned"; Decimal) { }
         field(9; "Actual Achievement"; Decimal) { }
         field(10; "Sol Id"; Code[20]) { }
-        field(11; "Province Code"; Code[10])
+        field(11; "Province Code"; Code[20])
         {
             TableRelation = Province;
 

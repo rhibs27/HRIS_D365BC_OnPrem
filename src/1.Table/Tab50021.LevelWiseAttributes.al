@@ -7,11 +7,11 @@ table 50021 "Level Wise Attributes"
 
     fields
     {
-        field(1; "Grade Code"; Code[10])
+        field(1; "Grade Code"; Code[20])
         {
             TableRelation = "Salary Grade";
         }
-        field(2; "Level Code"; Code[10])
+        field(2; "Level Code"; Code[20])
         {
             TableRelation = "Salary Level";
         }

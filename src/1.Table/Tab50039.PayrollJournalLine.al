@@ -6,7 +6,7 @@ table 50039 "Payroll Journal Line"
 
     fields
     {
-        field(1; "Journal Template Name"; Code[10])
+        field(1; "Journal Template Name"; Code[20])
         {
             Caption = 'Journal Template Name';
         }
@@ -89,7 +89,7 @@ table 50039 "Payroll Journal Line"
                 end;
             end;
         }
-        field(10; "Currency Code"; Code[10])
+        field(10; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             TableRelation = Currency;
@@ -163,13 +163,13 @@ table 50039 "Payroll Journal Line"
                 ValidateShortcutDimCode(2, "Shortcut Dimension 2 Code");
             end;
         }
-        field(17; "Source Code"; Code[10])
+        field(17; "Source Code"; Code[20])
         {
             Caption = 'Source Code';
             Editable = false;
             TableRelation = "Source Code";
         }
-        field(18; "Journal Batch Name"; Code[10])
+        field(18; "Journal Batch Name"; Code[20])
         {
             Caption = 'Journal Batch Name';
             TableRelation = "Payroll Journal Batch";
@@ -202,7 +202,7 @@ table 50039 "Payroll Journal Line"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";
@@ -231,11 +231,11 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(26; "From Date (B.S)"; Code[10])
+        field(26; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(27; "To Date (B.S)"; Code[10])
+        field(27; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -247,7 +247,7 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(30; "Pay Cycle Code"; Code[10])
+        field(30; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -259,7 +259,7 @@ table 50039 "Payroll Journal Line"
                 "Nepali Year" := 0;
             end;
         }
-        field(31; "Pay Cycle Term"; Code[10])
+        field(31; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term WHERE("Pay Cycle Code" = FIELD("Pay Cycle Code"));
 
@@ -529,7 +529,7 @@ table 50039 "Payroll Journal Line"
         field(72; "Sol ID"; Code[20])
         {
         }
-        field(73; "Fiscal Year"; Code[10])
+        field(73; "Fiscal Year"; Code[20])
         {
         }
         field(74; Type; Enum "Payroll Header Type")
@@ -570,7 +570,7 @@ table 50039 "Payroll Journal Line"
         PayrollAttributes: Record "Payroll Attributes";
         SourceCodeSetup: Record "Source Code Setup";
         Employee: Record Employee;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         PayrollEngine: Codeunit "Payroll Engine";
         HideValidationDialog: Boolean;
@@ -620,8 +620,8 @@ table 50039 "Payroll Journal Line"
             "Posting Date" := WorkDate;
             "Document Date" := WorkDate;
             if GenJnlBatch."No. Series" <> '' then begin
-                Clear(NoSeriesMgt);
-                "Document No." := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
+                Clear(NoSeriesCodeunit);
+                "Document No." := NoSeriesCodeunit.PeekNextNo(GenJnlBatch."No. Series", "Posting Date");
             end;
         end;
         "Account Type" := LastPayrollJournalLine."Account Type";
@@ -842,13 +842,13 @@ table 50039 "Payroll Journal Line"
         IsChanged := OldDimSetID <> "Dimension Set ID";
     end;
 
-    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
+    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit "No. Series")
     begin
         if NoSeriesCode = '' then
             exit;
 
         if (LastDocNo = '') or ("Document No." <> LastDocNo) then
-            TestField("Document No.", NoSeriesMgtInstance.GetNextNo(NoSeriesCode, "Posting Date", false));
+            TestField("Document No.", NoSeriesMgtInstance.PeekNextNo(NoSeriesCode, "Posting Date"));
     end;
 
     local procedure GetGLAccount()

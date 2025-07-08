@@ -40,6 +40,10 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         {
             DataClassification = CustomerContent;
         }
+        field(50008; "Transfer Claim Attributes"; Code[20])
+        {
+            TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
+        }
     }
     trigger OnDelete()
     begin

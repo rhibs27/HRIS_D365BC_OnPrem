@@ -22,7 +22,7 @@ table 50048 "Employee Attendance & Activity"
         field(4; "Check Out Time"; Time)
         {
         }
-        field(5; Status; Enum "Attendance Status")
+        field(5; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -32,7 +32,7 @@ table 50048 "Employee Attendance & Activity"
         {
 
         }
-        field(7; "Employee Working Shift"; Code[10])
+        field(7; "Employee Working Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
         }
@@ -174,12 +174,12 @@ table 50048 "Employee Attendance & Activity"
             Editable = false;
             FieldClass = FlowField;
         }
-        field(50; "Salary Level Code"; Code[10])
+        field(50; "Salary Level Code"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(51; "Salary Grade"; Code[10])
+        field(51; "Salary Grade"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Grade";
@@ -191,23 +191,50 @@ table 50048 "Employee Attendance & Activity"
         field(53; "Training Day"; Decimal) { }
 
         field(54; "Training Check Out Time"; Time) { }
+        field(55; "Province Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Province));
+        }
+        field(56; "Province Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(57; "Branch Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch));
+        }
+        field(58; "Branch Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(59; "Department Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
+        }
+        field(60; "Department Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+        }
 
-        //transfer field in attendance line upto feild 54
+        //transfer field in attendance line upto feild 60
 
-        field(71; "Head Teller Allowance Days"; Decimal)
+        field(101; "Head Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(72; "Teller Allowance Days"; Decimal)
+        field(102; "Teller Allowance Days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(73; "ATM Custodian Allowance days"; Decimal)
+        field(103; "ATM Custodian Allowance days"; Decimal)
         {
             Description = 'allowance assignment';
         }
-        field(74; "Attendance Update"; Boolean) { }
-        field(75; "Late Deduction"; Boolean)
+        field(104; "Attendance Update"; Boolean) { }
+        field(105; "Late Deduction"; Boolean)
         {
             Description = 'Late Deduction';
         }

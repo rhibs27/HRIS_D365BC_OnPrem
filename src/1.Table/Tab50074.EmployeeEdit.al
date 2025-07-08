@@ -170,7 +170,7 @@ table 50074 "Employee Edit"
             DataClassification = ToBeClassified;
         }
         //Employee Qualification and work experience << santosh 3.28.2025
-        field(23; "Qualification Code"; Code[10])
+        field(23; "Qualification Code"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
