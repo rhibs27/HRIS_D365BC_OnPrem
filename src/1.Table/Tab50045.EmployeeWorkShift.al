@@ -58,8 +58,8 @@ table 50045 "Employee Work Shift"
         if ("Start Time" = 0T) or ("End Time" = 0T) then
             "Work Time" := 0
         else begin
-            if EndTime <= StartTime then
-                Error(Text000);
+            // if EndTime <= StartTime then
+            //     Error(Text000);
             if (StartTime <> 0T) and (EndTime <> 0T) then
                 "Work Time" := EndTime - StartTime;
         end;

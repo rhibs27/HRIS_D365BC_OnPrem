@@ -23108,6 +23108,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Control Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2891534564 - Control 826563891 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check In Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Control Emp DateTime - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2891534564 - Control 1913498537 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61907,6 +61912,11 @@
           <source>Officer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue Officer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3275815306 - EnumValue 259921994 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>On-Call</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Staff Type - EnumValue On-Call - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3275815306 - EnumValue 1937548417 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Senior Management</source>
