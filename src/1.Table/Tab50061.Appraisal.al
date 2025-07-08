@@ -303,7 +303,7 @@ table 50061 Appraisal
         Validate("Requested Date", Today);
         if "Appraisal Code" = '' then begin
             HumanResSetup.TestField("Appraisal No.");
-            NoSeriesMgt.InitSeries(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
         end;
         HumanResSetup.TestField("HR Head Functional Title");
         EmployeeVar.Reset;
@@ -334,7 +334,7 @@ table 50061 Appraisal
         Appraisal: Record Appraisal;
         KRASubform: Record "KRA Subform List";
         HumanResSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         EngNepDate: Record "English-Nepali Date";
         RatingSetup: Record "Rating Setup";
         KRAMasterSetupRec: Record "KRA Master Setup";
@@ -383,10 +383,10 @@ table 50061 Appraisal
         Appraisal := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Appraisal No."); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Appraisal No.", OldAppraisal."No. Series", Appraisal."No. Series") then begin
+        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Appraisal No.", OldAppraisal."No. Series", Appraisal."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Appraisal No.");
-            NoSeriesMgt.SetSeries(Appraisal."Appraisal Code");
+            NoSeriesMgt.GetNextNo(Appraisal."Appraisal Code");
             Rec := Appraisal;
             exit(true);
         end;

@@ -26,7 +26,7 @@ codeunit 50013 "KPI Setup Indent"
         i: Integer;
         KPISetup: Record "KPI Setup Bank";
 
-    [Scope('Personalization')]
+    //[Scope('Personalization')]
     procedure Indent()
     begin
         Window.Open(Text004);
@@ -62,7 +62,7 @@ codeunit 50013 "KPI Setup Indent"
         OnAfterIndent;
     end;
 
-    [Scope('Personalization')]
+    //[Scope('Personalization')]
     procedure RunICAccountIndent()
     begin
         if not

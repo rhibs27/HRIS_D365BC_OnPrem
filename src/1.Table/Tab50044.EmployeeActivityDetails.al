@@ -181,7 +181,7 @@ table 50044 "Employee Activity Details"
         AttendanceSetup.Get;
         if "No." = '' then begin
             TestNoSeries;
-            NoSeriesMngt.InitSeries(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
+            HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
         end;
 
         "Assigned User ID" := UserId;
@@ -197,7 +197,8 @@ table 50044 "Employee Activity Details"
         AttendanceSetup: Record "Attendance Setup";
         Employee: Record Employee;
         SalaryLevel: Record "Salary Grade";
-        NoSeriesMngt: Codeunit NoSeriesManagement;
+        NoSeriesMngt: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
         Text005: Label 'You cannot rename a %1.';
         Text004: Label 'Reopen the document to modify data.';
         Text001: Label 'Start Date cannot be greater than End Date.';
@@ -217,9 +218,9 @@ table 50044 "Employee Activity Details"
     begin
         AttendanceSetup.Get;
         TestNoSeries;
-        if NoSeriesMngt.SelectSeries(GetNoSeries, xEmployeeActivityDetails."No. Series", "No. Series") then begin
+        if NoSeriesMngt.LookupRelatedNoSeries(GetNoSeries, xEmployeeActivityDetails."No. Series", "No. Series") then begin
             TestNoSeries;
-            NoSeriesMngt.SetSeries("No.");
+            NoSeriesMngt.GetNextNo("No.");
             exit(true);
         end;
     end;

@@ -11,7 +11,7 @@ table 50042 "Attendance Header"
             begin
                 if "No." <> xRec."No." then begin
                     AttendanceSetup.Get;
-                    NoSeriesMngt.TestManual(AttendanceSetup."Attendance Document No. Series");
+                    NoSeriesCodeunit.TestManual(AttendanceSetup."Attendance Document No. Series");
                     "No. Series" := '';
                 end;
             end;
@@ -27,7 +27,7 @@ table 50042 "Attendance Header"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";
@@ -194,7 +194,7 @@ table 50042 "Attendance Header"
         AttendanceSetup.Get;
         if "No." = '' then begin
             TestNoSeries;
-            NoSeriesMngt.InitSeries(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
+            HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
         end;
         InitRecord;
         "Assigned User ID" := UserId;
@@ -213,7 +213,8 @@ table 50042 "Attendance Header"
     end;
 
     var
-        NoSeriesMngt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
         AttendanceSetup: Record "Attendance Setup";
         AttendanceSummary: Record "Attendance Summary";
         UserMgt: Codeunit "User Setup Management";
@@ -234,9 +235,9 @@ table 50042 "Attendance Header"
     begin
         AttendanceSetup.Get;
         TestNoSeries;
-        if NoSeriesMngt.SelectSeries(GetNoSeries, xAttendanceHeader."No. Series", "No. Series") then begin
+        if NoSeriesCodeunit.LookupRelatedNoSeries(GetNoSeries, xAttendanceHeader."No. Series", "No. Series") then begin
             TestNoSeries;
-            NoSeriesMngt.SetSeries("No.");
+            NoSeriesCodeunit.GetNextNo("No.");
             exit(true);
         end;
     end;

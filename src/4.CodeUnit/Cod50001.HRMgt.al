@@ -11424,5 +11424,16 @@ codeunit 50001 "HR Mgt."
             RecNoSeries := SetupNoSeries;
         DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
     end;
+
+    procedure SetDefaultSeries(var NewNoSeriesCode: Code[20]; NoSeriesCode: Code[20])
+    var
+        GlobalNoSeries: record "No. Series";
+    begin
+        if NoSeriesCode <> '' then begin
+            GlobalNoSeries.Get(NoSeriesCode);
+            if GlobalNoSeries."Default Nos." then
+                NewNoSeriesCode := GlobalNoSeries.Code;
+        end;
+    end;
 }
 

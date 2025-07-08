@@ -79,7 +79,7 @@ table 50053 "Recruitment Memo"
         if "No. Series" = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Recruitment No. Series");
-            NoSeriesMgt.InitSeries(HRSetup."Recruitment No. Series", xRec."No. Series", Today, "Memo No.", "No. Series");
+            HrMgt.InitNoSeriesNew(HRSetup."Recruitment No. Series", xRec."No. Series", Today, "Memo No.", "No. Series");
         end;
     end;
 
@@ -90,17 +90,18 @@ table 50053 "Recruitment Memo"
 
     var
         RecruitementLine: Record "Recruitement Memo Line";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         RecruitmentMemo: Record "Recruitment Memo";
+        HrMgt: Codeunit "HR Mgt.";
 
     procedure AssistEdit(OldRecruitmentMemo: Record "Recruitment Memo"): Boolean
     begin
         RecruitmentMemo := Rec;
         HRSetup.Get;
         HRSetup.TestField("Recruitment No. Series");
-        if NoSeriesMgt.SelectSeries(HRSetup."Recruitment No. Series", OldRecruitmentMemo."No. Series", RecruitmentMemo."No. Series") then begin
-            NoSeriesMgt.SetSeries(RecruitmentMemo."Memo No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Recruitment No. Series", OldRecruitmentMemo."No. Series", RecruitmentMemo."No. Series") then begin
+            NoSeriesMgt.GetNextNo(RecruitmentMemo."Memo No.");
             Rec := RecruitmentMemo;
             exit(true);
         end;
