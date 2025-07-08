@@ -125,6 +125,7 @@ table 50075 "Employee Activity Journal"
             trigger OnValidate()
             begin
                 if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
+                    EmployeeActMgt.CheckLeaveInSameDay(Rec);
                     LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
                     LeaveMgt.CheckForEmployeeLimit("Leave Code", "Employee No.");
@@ -741,11 +742,9 @@ table 50075 "Employee Activity Journal"
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        EmployeeActMgt: Codeunit EmployeeActivityMgt;
         SalaryLevel: Record "Salary Level";
         AttendanceSetup: Record "Attendance Setup";
-        // GLSetup: Record "General Ledger Setup";
-        // DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";

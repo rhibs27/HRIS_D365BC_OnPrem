@@ -9,9 +9,10 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJnl1.Reset();
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
-        if EmpActJnl1.FindSet() then
-            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending")
-        else
+        if EmpActJnl1.FindSet() then begin
+            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending");
+            CheckLeaveDetails(EmpActJnl1);
+        end else
             Error('There arenot record in Status Open');
         ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
     end;
@@ -203,6 +204,28 @@ codeunit 50023 EmployeeActivityMgt
         PostEmployeeActJournal."Evening OT Hours" := Overtime."Evening OT Hours";
         PostEmployeeActJournal."Total OT Hours" := Overtime."Total OT Hours";
         PostEmployeeActJournal.Insert(true);
+    end;
+
+    procedure CheckLeaveDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    begin
+        EmployeeACTJnl.TestField("Start Date");
+        EmployeeACTJnl.TestField("End Date");
+        EmployeeACTJnl.TestField("Leave Code");
+        EmployeeACTJnl.TestField("Leave Type");
+    end;
+
+    procedure CheckLeaveInSameDay(EmployeeACTJnl: Record "Employee Activity Journal")
+    var
+        EmpActJnl: Record "Employee Activity Journal";
+    begin
+        EmpActJnl.SetRange("Employee Act Type", EmpActJnl."Employee Act Type"::"Leave Request");
+        EmpActJnl.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
+        EmpActJnl.SetRange("Start Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
+        EmpActJnl.SetRange("End Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
+        EmpActJnl.Setfilter("Approval Status", '<>%1', EmpActJnl."Approval Status"::Rejected);
+        EmpActJnl.SetFilter("Line No", '<>%1', EmployeeACTJnl."Line No");
+        if EmpActJnl.FindFirst() then
+            Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
     end;
 
     var
