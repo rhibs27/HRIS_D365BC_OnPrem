@@ -102,8 +102,8 @@ table 50075 "Employee Activity Journal"
                 LeaveMgt: Codeunit "Leave Mgt.";
             begin
                 if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
-                    TestField("Leave Type");
-                    TestField("Leave Code");
+                    if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
+                        Error('Leave code and leave type cannot be blank')
                 end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
@@ -125,7 +125,6 @@ table 50075 "Employee Activity Journal"
             trigger OnValidate()
             begin
                 if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
-                    LeaveMgt.CheckRemainingLeaveDays("Employee No.", "Leave Code", "No. of Days");
                     LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
                     LeaveMgt.CheckForEmployeeLimit("Leave Code", "Employee No.");
