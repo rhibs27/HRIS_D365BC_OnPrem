@@ -88,7 +88,7 @@ table 50075 "Employee Activity Journal"
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                    Clear("No. of Days");
                 end;
 
             end;
@@ -131,8 +131,9 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckForEmployeeLimit("Leave Code", "Employee No.");
                     LeaveMgt.CheckLeaveApproved("Employee No.", "Start Date", "End Date");
                     LeaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
-                    LeaveMgt.CheckLeaveConflict("Leave Code", "Start Date", "End Date");
+                    LeaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                     LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                    LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                 end;
             end;
 
@@ -171,6 +172,7 @@ table 50075 "Employee Activity Journal"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
+            Editable = false;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
@@ -309,7 +311,6 @@ table 50075 "Employee Activity Journal"
                     Clear("End Date");
                     Clear("No. of Days");
                 end;
-
                 if "End Date" <> 0D then
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
             end;
@@ -650,6 +651,7 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
+            Editable = false;
         }
     }
     keys
@@ -664,6 +666,12 @@ table 50075 "Employee Activity Journal"
         "User ID" := UserId;
         "Requester Employee" := HrMgt.GetEmployeeNo();
         "Requested Date" := Today;
+    end;
+
+    trigger OnDelete()
+    begin
+        if not ("Approval Status" in ["Approval Status"::Open]) then
+            Error('Only Open records can be deleted. Current status: %1', "Approval Status");
     end;
 
     procedure SetUpNewLine(LastActJnlLine: Record "Employee Activity Journal")
@@ -695,6 +703,7 @@ table 50075 "Employee Activity Journal"
             if not CurrDocumentNo then begin
                 HRSetup.Get();
                 "Posting Date" := WorkDate();
+                HRSetup.TestField("Employee Act. Journal Series");
                 "No. Series" := HRSetup."Employee Act. Journal Series";
                 "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
                 ApprovalHRMS.Reset();

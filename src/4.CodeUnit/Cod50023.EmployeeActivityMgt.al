@@ -10,11 +10,14 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
         if EmpActJnl1.FindSet() then begin
-            CheckLeaveDetails(EmpActJnl1);
-            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending");
+            repeat
+                CheckLeaveDetails(EmpActJnl1);
+                EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
+                EmpActJnl1.Modify();
+            until EmpActJnl1.Next() = 0;
+            ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
         end else
             Error('Record not found in Status Open');
-        ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -222,12 +225,16 @@ codeunit 50023 EmployeeActivityMgt
     begin
         EmpActJnl.SetRange("Employee Act Type", EmpActJnl."Employee Act Type"::"Leave Request");
         EmpActJnl.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
+        EmpActJnl.Setfilter("Approval Status", '<>%1', EmpActJnl."Approval Status"::Rejected);
+        EmpActJnl.FilterGroup(-1);
         EmpActJnl.SetRange("Start Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
         EmpActJnl.SetRange("End Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
-        EmpActJnl.Setfilter("Approval Status", '<>%1', EmpActJnl."Approval Status"::Rejected);
-        EmpActJnl.SetFilter("Line No", '<>%1', EmployeeACTJnl."Line No");
-        if EmpActJnl.FindFirst() then
-            Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
+        EmpActJnl.FilterGroup(0);
+        if EmpActJnl.FindSet() then
+            repeat
+                if not ((EmpActJnl."Emp Act. No" = EmployeeACTJnl."Emp Act. No") and (EmpActJnl."Line No" = EmployeeACTJnl."Line No")) then
+                    Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
+            until EmpActJnl.Next() = 0;
     end;
 
     var

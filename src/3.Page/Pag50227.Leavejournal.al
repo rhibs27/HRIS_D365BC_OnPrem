@@ -15,11 +15,13 @@ page 50227 "Leave Journal"
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Leave Description"; Rec."Leave Description")
                 {
@@ -30,29 +32,34 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the Leave Type field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
                 }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
+                    ApplicationArea = All;
+                    Editable = IsOpen;
+                }
+                field("No. of Days"; Rec."No. of Days")
+                {
+                    ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)
                 {
-                }
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
+                    Visible = StatusView;
                 }
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
@@ -63,6 +70,7 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
+                    Editable = IsOpen or IsPending;
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -82,6 +90,7 @@ page 50227 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = SendApprovalRequest;
+                Visible = IsOpen;
                 trigger OnAction()
 
                 begin
@@ -95,6 +104,7 @@ page 50227 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Approve;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Approve request?', false) then
@@ -108,10 +118,13 @@ page 50227 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Post;
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to Post Leave?', false) then
+                    if Confirm('Do you want to Post Leave?', false) then begin
                         EmpActMgt.PostLeaveJournal(rec."Emp Act. No");
+                        CurrPage.Close();
+                    end;
                 end;
             }
             action(Reject)
@@ -120,6 +133,7 @@ page 50227 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Reject;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
                     if Confirm('Do you want to Reject Leave?', false) then
@@ -136,7 +150,31 @@ page 50227 "Leave Journal"
         Rec.SetUpNewLine(xRec);
     end;
 
+    trigger OnAfterGetRecord()
+    begin
+        SetLayout();
+    end;
+
+    trigger OnOpenPage()
+    begin
+        SetLayout();
+    end;
+
+    procedure SetLayout()
+    begin
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+    end;
+
     var
+        StatusView, ApprovalStatusView : Boolean;
+        IsOpen, IsPending, IsApproved, IsRejected : Boolean;
         UnitEdit: Boolean;
         DepartmentEdit: Boolean;
         ExtensionCounterEdit: Boolean;
