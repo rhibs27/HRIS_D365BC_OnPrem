@@ -11413,7 +11413,7 @@ codeunit 50001 "HR Mgt."
                 CaptionRange := DescCaptionSet[1] + '..' + DescCaptionSet[CurrSetLength];
         END;
     end;
- 
+
     procedure InitNoSeriesNew(SetupNoSeries: Code[20]; xRecNoSeries: Code[20]; DocDate: Date; var DocNo: Code[20]; var RecNoSeries: Code[20])
     var
         NoSeries: Codeunit "No. Series";
@@ -11423,6 +11423,60 @@ codeunit 50001 "HR Mgt."
         else
             RecNoSeries := SetupNoSeries;
         DocNo := NoSeries.PeekNextNo(RecNoSeries, DocDate)
+    end;
+
+    procedure getServicePeriodText(var Employee: Record Employee)
+    var
+        NewEmploymentDate: Date;
+    begin
+        if Employee."Employment Date" <> 0D then begin
+            NewEmploymentDate := GetAdjustedEmploymentDate(Employee);
+            if Employee."Termination Date" <> 0D then
+                Employee."Service Period" := GetAge(NewEmploymentDate, Employee."Termination Date")
+            else
+                Employee."Service Period" := GetAge(NewEmploymentDate, Today);
+        end;
+
+    end;
+
+    procedure GetAdjustedEmploymentDate(Employee: Record Employee): Date
+    var
+        AdjustingDays: Integer;
+        EmployeeInactiveLine: Record service
+        NewEmploymentDate: Date;
+        PreviousPeriod: DateFormula;
+    begin
+        AdjustingDays := 0;
+        if Employee."Employment Date" <> 0D then begin
+            NewEmploymentDate := Employee."Employment Date";
+
+            EmployeeInactiveLine.Reset();
+            EmployeeInactiveLine.SetRange("Employee No.", Employee."No.");
+            if EmployeeInactiveLine.FindSet() then
+                repeat
+                    if not EmployeeInactiveLine."Counted In Service Period" then
+                        if EmployeeInactiveLine."Re-active Date" <> 0D then
+                            AdjustingDays += EmployeeInactiveLine."Re-active Date" - EmployeeInactiveLine."Inactive Date"
+                        else
+                            AdjustingDays += WorkDate() - EmployeeInactiveLine."Inactive Date";
+                until EmployeeInactiveLine.Next() = 0;
+
+            NewEmploymentDate := NewEmploymentDate + AdjustingDays;
+
+            if Format(Employee."Previous Service Period") <> '' then begin
+                if Format(Employee."Additional Service Period") <> '' then
+                    Evaluate(PreviousPeriod, '-' + (Format(Employee."Previous Service Period") + '-' + Format(Employee."Additional Service Period")))
+                else
+                    Evaluate(PreviousPeriod, '-' + Format(Employee."Previous Service Period"));
+                NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
+            end
+            else
+                if Format(Employee."Additional Service Period") <> '' then begin
+                    Evaluate(PreviousPeriod, '-' + Format(Employee."Additional Service Period"));
+                    NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
+                end;
+            exit(NewEmploymentDate);
+        end;
     end;
 }
 
