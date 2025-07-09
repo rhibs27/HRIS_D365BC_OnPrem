@@ -7,12 +7,12 @@ table 50149 "Approval HRMS"
         field(1; "Document No."; Code[20])
         {
             Caption = 'Document No.';
-            Editable = false;
+            //Editable = false;
         }
         field(2; "Document Type"; Enum "Employee Activity Type")
         {
             Caption = 'Document Type';
-            Editable = false;
+            //Editable = false;
         }
         field(3; "Approver No"; Code[20])
         {
@@ -31,12 +31,12 @@ table 50149 "Approval HRMS"
         field(4; "Approver Name"; Text[100])
         {
             Caption = 'Approver Name';
-            Editable = false;
+            //Editable = false;
         }
         field(5; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
-            Editable = false;
+            //Editable = false;
         }
         field(6; "Approval Sequence"; Integer)
         {
@@ -50,7 +50,7 @@ table 50149 "Approval HRMS"
         {
             DataClassification = ToBeClassified;
             TableRelation = Employee;
-            Editable = false;
+            //Editable = false;
             trigger OnValidate()
             var
                 ApprovalEmployee: Record Employee;

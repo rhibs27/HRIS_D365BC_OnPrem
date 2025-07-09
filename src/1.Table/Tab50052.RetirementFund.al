@@ -38,13 +38,7 @@ table 50052 "Retirement Fund"
         }
         field(7; "Annual Accessible Income"; Decimal)
         {
-            // Description = 'Assesable Income for the year (incuding\'
-            //               '\'
-            //               'up to last voucher/mpl oyee\'
-            //               '\'
-            //               '\'
-            //               '\'
-            //               'nnual assessable income is';
+
         }
         field(8; "RF Contribution Eligible Amt"; Decimal)
         {
@@ -70,9 +64,7 @@ table 50052 "Retirement Fund"
         field(13; "Additional Space for RF Cont."; Decimal)
         {
             DataClassification = ToBeClassified;
-            // Description = 'Max limit - Actual/Projected contribution\'
-            //               '\'
-            //               '';
+
         }
         field(14; "RTF Amount (Month)"; Decimal)
         {
@@ -196,6 +188,12 @@ table 50052 "Retirement Fund"
         {
             DataClassification = ToBeClassified;
         }
+        field(33; "Rejection Remarks"; Text[250])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Rejection Remarks';
+
+        }
     }
 
     keys
@@ -203,18 +201,21 @@ table 50052 "Retirement Fund"
         key(Key1; "No.") { }
     }
     trigger OnInsert()
+    var
+        EmpActivityType: Enum "Employee Activity Type";
+        RetirementFund: Record "Retirement Fund";
     begin
         if not GuiAllowed then begin
             TempRF := Rec;
-            HRMgt.OpenRFRequest(TempRF."Employee No.", RF);
+            HRMgt.OpenRFRequest(TempRF."Employee No.", TempRF2);
             //HRMgt.OpenRFRequest(HRMgt.GetEmployeeNo(), RF);
-            Rec := RF;
+            Rec := TempRF2;
             "RTF Amount (Lumpsum)" := TempRF."RTF Amount (Lumpsum)";
             "RTF Amount (Month)" := TempRF."RTF Amount (Month)";
             "CIT Amount (Month)" := TempRF."CIT Amount (Month)";
             "CIT Amount( Lumpsum)" := TempRF."CIT Amount( Lumpsum)";
             "Approval Status" := "Approval Status"::Pending;
-            "Actual Lumpsump CIT" := TempRF."Actual Lumpsump CIT"; //Min
+            "Actual Lumpsump CIT" := TempRF."Actual Lumpsump CIT";
             "Actual Lumpsump RTF" := TempRF."Actual Lumpsump RTF";
             HRMgt.CalculateRetirementFund(Rec, "Projection Month")
         end;
@@ -222,7 +223,15 @@ table 50052 "Retirement Fund"
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Retirement Fund Nos.");
+
             HRMgt.InitNoSeriesNew(HRSetup."Retirement Fund Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            RetirementFund.ReadIsolation(IsolationLevel::ReadUncommitted);
+            RetirementFund.SetLoadFields("No.");
+            while RetirementFund.get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
+
+            if "Approval Status" <> "Approval Status"::Approved then
+                ApproverMgt.InsertApproval("Employee No.", "No.", EmpActivityType::Retirement, "Approval Status");
         end;
 
         if ("CIT Amount (Month)" <> 0) or ("CIT Amount( Lumpsum)" <> 0) then begin
@@ -230,16 +239,6 @@ table 50052 "Retirement Fund"
             if Employee."CIT No." = '' then
                 Error('Your CIT no. is blank. Please verify with HR department.');
         end;
-        /*PayrollGeneralSetup.GET; //Min
-        IF PayrollGeneralSetup."Enable RF Lumpsump Plan" THEN BEGIN
-          TESTFIELD("RTF Amount (Lumpsum)",0);
-          TESTFIELD("CIT Amount( Lumpsum)",0);
-          IF "Actual Lumpsump RTF" <= 0 THEN
-            ERROR('Actual Lumpsum RTF Contribution Amount must be greater then 0.');
-          Employee.GET(HRMgt.GetEmployeeNo);
-          IF Employee."CIT No." <> '' THEN
-            TESTFIELD("Actual Lumpsump CIT");
-          END;*/
     end;
 
     trigger OnModify()
@@ -251,15 +250,31 @@ table 50052 "Retirement Fund"
         end;
     end;
 
+    trigger OnDelete()
+    var
+        CannotDelete: Label 'Cannot delete document.';
+        ApprovalEntry: Record "Approval HRMS";
+    begin
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Created]) then
+            Error(CannotDelete)
+        else begin
+            ApprovalEntry.Reset();
+            ApprovalEntry.SetRange("Document No.", "No.");
+            ApprovalEntry.SetRange("Employee No", "Employee No.");
+            ApprovalEntry.DeleteAll();
+        end;
+    end;
+
     var
         HRSetup: Record "Human Resources Setup";
         NoSeriesMgt: Codeunit "No. Series";
 
         HRMgt: Codeunit "HR Mgt.";
         TempRF: Record "Retirement Fund" temporary;
-        RF: Record "Retirement Fund" temporary;
+        TempRF2: Record "Retirement Fund" temporary;
         Employee: Record Employee;
         PayrollGeneralSetup: Record "Payroll General Setup";
+        ApproverMgt: Codeunit "Approver Mgt";
 
     // //[Scope('Personalization')]
     procedure AssistEdit(OldRF: Record "Retirement Fund"): Boolean

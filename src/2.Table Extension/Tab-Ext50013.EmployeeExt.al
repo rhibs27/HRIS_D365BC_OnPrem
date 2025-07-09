@@ -57,10 +57,7 @@ tableextension 50013 "Employee Ext" extends Employee
             var
                 TypeHelper: Codeunit "Type Helper";
             begin
-                // Clear(Len); //Min >> --- for Special Characters Control Add.
-                // Len := StrLen(DelChr("Mobile Phone No.", '=', DelChr("Mobile Phone No.", '=', SpecialChars)));
-                // if Len > 0 then
-                //     Error(SpecialCharsErr);
+
                 if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
                     Error('Phone No Validation Error');
                 if StrLen("Mobile Phone No.") > 15 then //Min
@@ -74,10 +71,7 @@ tableextension 50013 "Employee Ext" extends Employee
             var
                 TypeHelper: Codeunit "Type Helper";
             begin
-                // Clear(Len); //Min >> --- for Special Characters Control Add.
-                // Len := StrLen(DelChr("Mobile Phone No.", '=', DelChr("Mobile Phone No.", '=', SpecialChars)));
-                // if Len > 0 then
-                //     Error(SpecialCharsErr);
+
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
                 if "Mobile Phone No." <> '' then begin
@@ -109,10 +103,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Permanent Address';
         }
-        // modify("Address 2")
-        // {
-        //     Caption = 'Temporary Address';
-        // }
+
         modify(Gender)
         {
             trigger OnAfterValidate()
@@ -138,22 +129,17 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnAfterValidate()
             begin
-                TestField("CIF ID");
-                EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
-                EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
-                EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
-                if EmployeeRec.FindFirst then
-                    Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+                // TestField("CIF ID");
+                if "Bank Account No." <> '' then begin
+                    EmployeeRec.Reset;
+                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+                    EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
+                    if EmployeeRec.FindFirst then
+                        Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+                end;
             end;
         }
-        // modify("Global Dimension 1 Code")
-        // {
-        // TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Branch), Blocked = filter(false));
-        // trigger OnAfterValidate()
-        // begin
-        //     ValidateDeputationOn();
-        // end;
-        // }
+
         field(50001; "Branch Code"; Code[20])
         {
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
@@ -198,25 +184,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50003; "Deputation On Code"; Code[20])
         {
             Editable = false;
-            // TableRelation = "Organization Structure List".Code where(Type = field("Deputation on"), Blocked = filter(false));
-            // // ValidateTableRelation = false;
-            // trigger OnValidate()
-            // begin
-            //     ValidateDeputationOn();
-            //     // TestField("Deputation on");
-            //     // case "Deputation on" of
-            //     //     "Deputation on"::Branch:
-            //     //         ValidateDeputationOn;
-            //     //     "Deputation on"::Department:
-            //     //         ValidateDeputationOn;
-            //     //     "Deputation on"::Province:
-            //     //         ValidateDeputationOn;
-            //     //     "Deputation on"::"Extension Counter":
-            //     //         ValidateDeputationOn;
-            //     //     "Deputation on"::Unit:
-            //     //         ValidateDeputationOn;
-            //     // end;
-            // end;
+
         }
         field(50092; "Province Code"; Code[20])
         {
@@ -256,42 +224,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Department Name");
                 end;
-                // TestField("Deputation on");
-                // if "Deputation on" = "Deputation on"::Department then begin
-                //     Clear("Province Code");
-                //     Clear("Province Name");
-                //     Clear("Global Dimension 1 Code");
-                //     Clear("Extension Counter Code");
-                //     Clear("Unit Code");
-                //     Clear("Extension Counter Name");
-                //     Clear("Department Name");
-                //     Clear("Unit Name");
-                //     Clear("Branch Name");
-                //     Clear("Posting Region");
-                //     Clear("Inside/Outside Valley"); //Min 10.12.2022
-                //     if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
-                //         "Department Name" := OrganizationStructureList.Name;
-                //         "Province Code" := OrganizationStructureList."Province Code";
-                //         "Province Name" := OrganizationStructureList."Province Name";
-                //         "Posting Region" := OrganizationStructureList."Region";
-                //         "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
-                //     end else begin
-                //         Clear("Department Name");
-                //         Clear("Province Code");
-                //         Clear("Province Name");
-                //         Clear("Posting Region");
-                //         Clear("Inside/Outside Valley");
-                //     end;
-                //     // Depart.Get("Department Code");
-                //     // "Department Name" := Depart.Name;
-                //     // "Eco-System" := Depart."Eco-System"; //Min 10.12.2022
-                //     // if ProvinceVar.Get(Depart."Province Code") then begin
-                //     //     "Province Code" := ProvinceVar.Code;
-                //     //     "Province Name" := ProvinceVar.Description;
-                //     //     "Inside/Outisde Valley" := ProvinceVar."Inside/Outside Valley";
-                //     //     "Posting Region" := ProvinceVar."Posting Region";
-                //     // end;
-                // end;
+
             end;
         }
         field(50133; "Department Name"; Text[50])
@@ -317,14 +250,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Validate("Unit Name", OrganizationStructureList.Name);
                 if "Unit Code" = '' then
                     Clear("Unit Code");
-                // OrganizationStructureList.Reset();
-                // if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "unit Code") then begin
-                //     "Department Name" := OrganizationStructureList.Name;
-                //     "Province Code" := OrganizationStructureList."Province Code";
-                //     "Province Name" := OrganizationStructureList."Province Name";
-                //     "Posting Region" := OrganizationStructureList."Region";
-                //     "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
-                // end;
+
             end;
         }
         field(50132; "Unit Name"; Text[100])
@@ -365,13 +291,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 if "Extension Counter Code" = '' then
                     Clear("Extension Counter Name");
 
-                // if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then begin
-                //     "Department Name" := OrganizationStructureList.Name;
-                //     "Province Code" := OrganizationStructureList."Province Code";
-                //     "Province Name" := OrganizationStructureList."Province Name";
-                //     "Posting Region" := OrganizationStructureList."Region";
-                //     "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
-                // end;
+
             end;
         }
         field(50135; "Extension Counter Name"; Text[100])
@@ -396,12 +316,6 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Employee Work Shift";
             DataClassification = CustomerContent;
         }
-        // field(50007; "Assigned User ID"; Code[50])
-        // {
-        //     TableRelation = "User Setup";
-        //     DataClassification = CustomerContent;
-        //     Caption = 'Assigned User ID';
-        // }
         field(50008; "Total Earning"; Decimal)
         {
             FieldClass = FlowField;
@@ -636,14 +550,6 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Attribute Sub Type" = filter("Attribute Sub Type"::"Employer Contribution"),
                                                                                                                    "Document Type" = field("Document Type Filter")));
         }
-        // field(50038; "Total PF"; Decimal)
-        // {
-        //     FieldClass = FlowField;
-        //     CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
-        //                                                                                                            "Posting Date" = field("Date Filter"),
-        //                                                                                                            Reversed = const(false),
-        //                                                                                                            "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
-        // }
 
         field(50039; "Advance for Expenses"; Decimal)
         {
@@ -652,15 +558,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                              "Posting Date" = field("Date Filter"),
                                                                                              "G/L Account No." = const('121082')));
         }
-        // field(50040; "CIT Office Cont. Deduction"; Decimal)
-        // {
-        //     FieldClass = FlowField;
-        //     CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
-        //                                                                                                            "Posting Date" = field("Date Filter"),
-        //                                                                                                            Reversed = const(false),
-        //                                                                                                            "Payroll Attribute Code" = const('CIT- OFFICE CONT.-DE')));
-        //     Editable = false;
-        // }
+
         field(50041; "Document Type Filter"; Enum "Employee Document Type")
         {
             FieldClass = FlowFilter;
@@ -709,24 +607,7 @@ tableextension 50013 "Employee Ext" extends Employee
                             "Attribute Type" = const("Non-Payment"), "Posting Date" = field("Date Filter"), Reversed = const(false), "Non-Taxable" = const(false)));
             Editable = false;
         }
-        // field(50050; Cluster; Code[20])
-        // {
-        //     DataClassification = CustomerContent;
-        //     // TableRelation = if ("Sub Province Code" = const()) "Employee Hierarchy Master" where(Type = const(Cluster))
-        //     // else
-        //     // "Employee Hierarchy Master" where("Sub-Province" = field("Sub Province Code"),
-        //     //                                                                                              "Type" = const(Cluster));
-        //     trigger OnValidate()
-        //     var
-        //         ClusExtCounter: Record "Employee Hierarchy Master";
-        //     begin
-        //         //ValidateCluster;
-        //         if not ClusExtCounter.Get(Cluster) then begin
-        //             Clear("Global Dimension 1 Code");
-        //             Clear("Extension Counter Code");
-        //         end;
-        //     end;
-        // }
+
         field(50051; "Distance betn Res and Office"; Decimal)
         {
             DataClassification = CustomerContent;
@@ -867,21 +748,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
             end;
         }
-        // field(50072; "Approver Code"; Code[20])
-        // {
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
-        //     DataClassification = CustomerContent;
-
-        //     trigger OnValidate()
-        //     begin
-        //         HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-        //     end;
-        // }
-        // field(50073; "Recommender Name"; Text[50])
-        // { DataClassification = CustomerContent; }
-        // field(50074; "Approver Name"; Text[50])
-        // { DataClassification = CustomerContent; }
         field(50074; "Staff level"; Enum "Staff Type")
         { DataClassification = CustomerContent; }
         field(50075; "Service Period"; Integer)
@@ -907,12 +773,6 @@ tableextension 50013 "Employee Ext" extends Employee
                 end;
             end;
         }
-        // field(50078; "Company Code"; Code[20])
-        // {
-        //     TableRelation = Department;
-        //     DataClassification = CustomerContent;
-        //     Caption = 'Company Code';
-        // }
         field(50079; Salutation; Enum Salutation)
         {
             DataClassification = CustomerContent;
@@ -1142,26 +1002,7 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
         }
 
-        // field(50098; "Reporting Line 1"; Code[20])
-        // {
-        //     DataClassification = CustomerContent;
-        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 1"));
-        // }
-        // field(50099; "Reporting Line 2"; Code[20])
-        // {
-        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Reporting Line 2"));
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50100; Office; Code[20])
-        // {
-        //     TableRelation = "Employee Hierarchy Master" where(Type = const(Office));
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50101; "Eco-System"; Code[20])
-        // {
-        //     TableRelation = "Employee Hierarchy Master" where(Type = const("Eco-System"));
-        //     DataClassification = CustomerContent;
-        // }
+
         field(50102; "Lump Sum CIT"; Decimal)
         {
             FieldClass = FlowField;
@@ -1181,18 +1022,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 HRMgt.AddRemoveDocApprover("No.", "Resignation Approver");
             end;
         }
-        // field(50104; "Mobile No."; Text[15])
-        // {
-        //     DataClassification = CustomerContent;
-        //     trigger OnValidate()
-        //     VAR
-        //         TypeHelper: Codeunit "Type Helper";
-        //     begin
-        //         if not TypeHelper.IsPhoneNumber(Rec."Mobile No.") then
-        //             Error('Phone No Validation Error');
 
-        //     end;
-        // }
         field(50105; "Emergency Mobile No."; Text[15])
         {
             DataClassification = CustomerContent;
@@ -1436,18 +1266,6 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             TableRelation = Relative;
         }
-        // field(50150; COPO; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50151; "Department Head"; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50152; "Chief Of Eco-System"; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        // }
         field(50153; "KPI Functional Title"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1480,22 +1298,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = ToBeClassified;
             CharAllowed = '09--';
         }
-        // field(50156; Task; Code[20])
-        // {
-        //     DataClassification = ToBeClassified;
-        //     TableRelation = "Employee Task";
-        //     trigger OnValidate()
-        //     var
-        //         EmployeeTask: Record "Employee Task";
-        //     begin
-        //         if EmployeeTask.Get(Task) then
-        //             Validate("Task Name", EmployeeTask."Task Name");
-        //     end;
-        // }
-        // field(50157; "Task Name"; Text[100])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
+
 
         field(50158; "Approver Role"; Code[20])
         {
@@ -1619,39 +1422,6 @@ tableextension 50013 "Employee Ext" extends Employee
         Text010: Label 'Mobile No. %1 already used in Employee No. %2.';
         Text009: Label 'Mobile No. must be 15 digits.';
 
-    local procedure CreateDimension()
-    var
-        DimValue: Record "Dimension Value";
-    begin
-        //IME19.00 Begin
-        GLSetup.Get;
-        GLSetup.TestField("Employee Dimension");
-        DimName := FullName();
-        DimValue.SetRange("Dimension Code", GLSetup."Employee Dimension");
-        DimValue.SetRange(Code, "No.");
-        if not DimValue.FindFirst then begin
-            DimValue.Init;
-            DimValue.Validate("Dimension Code", GLSetup."Employee Dimension");
-            DimValue.Validate(Code, "No.");
-            DimValue.Validate(Name, DimName);
-            DimValue.Insert(true);
-            Clear(DefaultDimension);
-            DefaultDimension.Init;
-            DefaultDimension.Validate("Table ID", Database::Employee);
-            DefaultDimension.Validate("No.", "No.");
-            DefaultDimension.Validate("Dimension Code", GLSetup."Employee Dimension");
-            DefaultDimension.Validate("Dimension Value Code", "No.");
-            DefaultDimension.Validate("Value Posting", DefaultDimension."Value Posting"::"Same Code");
-            DefaultDimension.Insert(true);
-        end else begin
-            if DimValue.Name <> DimName then begin
-                DimValue.Validate(Name, DimName);
-                DimValue.Modify;
-            end;
-        end;
-        //IME19.00 End
-        // Bhuwan 8/16/2019
-    end;
 
     procedure GenerateNewEmployeeCard(CurrentEmployee: Record Employee);
     var
