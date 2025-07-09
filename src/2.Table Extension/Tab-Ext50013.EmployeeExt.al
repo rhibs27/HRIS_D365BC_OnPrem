@@ -138,12 +138,14 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnAfterValidate()
             begin
-                TestField("CIF ID");
-                EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
-                EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
-                EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
-                if EmployeeRec.FindFirst then
-                    Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+                // TestField("CIF ID");
+                if "Bank Account No." <> '' then begin
+                    EmployeeRec.Reset;
+                    EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
+                    EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
+                    if EmployeeRec.FindFirst then
+                        Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
+                end;
             end;
         }
         // modify("Global Dimension 1 Code")
