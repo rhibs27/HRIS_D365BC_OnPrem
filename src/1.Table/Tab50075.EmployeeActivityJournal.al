@@ -121,10 +121,9 @@ table 50075 "Employee Activity Journal"
         }
         field(9; "No. of Days"; Decimal)
         {
-            Editable = false;
             trigger OnValidate()
             begin
-                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
+                if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Used) then begin
                     LeaveMgt.CheckRemainingLeaveDays("Employee No.", "Leave Code", "No. of Days");
                     LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
@@ -645,6 +644,20 @@ table 50075 "Employee Activity Journal"
         field(97; "Total OT Hours"; Decimal)
         {
             Editable = false;
+        }
+        field(98; "Adjustment Type"; Enum "Leave Earn Type")
+        {
+            ValuesAllowed = Used, Adjustment;
+            InitValue = Used;
+            trigger OnValidate()
+            begin
+                if "Adjustment Type" = "Adjustment Type"::Adjustment then begin
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("Start Date (BS)");
+                    Clear("End Date (BS)");
+                end;
+            end;
         }
         field(100; Status; text[20])
         {

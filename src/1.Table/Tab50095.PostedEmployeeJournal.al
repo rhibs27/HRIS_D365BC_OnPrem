@@ -367,6 +367,10 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
+        field(98; "Adjustment Type"; Enum "Leave Earn Type")
+        {
+            ValuesAllowed = Used, Adjustment;
+        }
         field(100; Status; text[20])
         {
             DataClassification = ToBeClassified;
