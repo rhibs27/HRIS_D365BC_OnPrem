@@ -577,7 +577,7 @@ table 50106 "Employee Loan/Advance"
                         NoSeriesMgt.InitSeries(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
             end;
-        ApproverMgt.InsertApprovalLoan("Employee Code", "No.", Type, "Loan Type");
+        ApproverMgt.InsertApproval("Employee Code", "No.", Type, "Loan Type");
         Validate("Approval Status", "Approval Status"::Open);
         LoanMgt.CalculateFields(Rec);
         CheckForAlreadyExitsLoan();

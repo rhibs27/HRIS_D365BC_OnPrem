@@ -76,13 +76,6 @@ report 50139 "Daily Attendance Update"
     }
 
     labels { }
-
-    trigger OnPostReport()
-    begin
-        if GuiAllowed then
-            Message('Success');
-    end;
-
     trigger OnPreReport()
     begin
         AttendanceSetup.Get;

@@ -183,14 +183,14 @@ codeunit 50000 "Leave Mgt."
                     ((EndDate > leave."Start Date") and (EndDate < leave."End Date")) then
                     Error('Leave has already been request between %1 to %2', StartDate, EndDate);
             until leave.Next = 0;
-        EmpAttendanceActivity.Reset; //Min 4.11.2022
-        EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
-        EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
-        if EmpAttendanceActivity.FindFirst then
-            repeat
-                if EmpAttendanceActivity."Present Day" = 1 then
-                    Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-            until EmpAttendanceActivity.Next = 0;
+        // EmpAttendanceActivity.Reset; //Min 4.11.2022
+        // EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
+        // EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
+        // if EmpAttendanceActivity.FindFirst then
+        //     repeat
+        //         if EmpAttendanceActivity."Present Day" = 1 then
+        //             Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+        //     until EmpAttendanceActivity.Next = 0;
     end;
 
     procedure CheckForLeaveCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20]; NoofDays: Decimal)
@@ -297,11 +297,11 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1', MaritalStatus);
+        LeavetypSetup.SetFilter("Marital Status", '%1|%2', MaritalStatus, LeavetypSetup."Marital Status"::" ");
         LeavetypSetup.SetRange(Compensatory, false);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        if LeavetypSetup.Find('-') then
+        if LeavetypSetup.FindSet() then
             repeat
                 Clear(LeaveEarn);
                 LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
@@ -754,7 +754,6 @@ codeunit 50000 "Leave Mgt."
 
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
-        //Leavevar: Record "Leave";
         Approval: record "Approval HRMS";
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
@@ -764,23 +763,23 @@ codeunit 50000 "Leave Mgt."
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
+        CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
+        CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type");
+        CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
+        CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
         end else begin
             CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
-            if not LeaveTypeSetup.Compensatory then
-                CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
-            CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
-            CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
-            // if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
-            //     GenerateLeaveAttachment(leave);
+            CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         end;
 
         Leave.TestField("Start Date");
         Leave.TestField("End Date");
         Leave.TestField(Remarks);
+        Leave.TestField("Leave Code");
         PayrollSetup.Get;
         //check for fisal year start date
         if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
@@ -793,18 +792,12 @@ codeunit 50000 "Leave Mgt."
                 Leave.TestField("For Death Of");
         if Leave."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
-        Leave.TestField("Leave Code");
-
-        //IF NOT CheckForCompensatory(TempEmpAct."Leave Code",TempEmpAct."Employee No.",TempEmpAct."Compensatory Date",TempEmpAct."No. of Days") THEN //Min 12.19.2022 -- Commented,Compensatory Leave route through OT Lines.
         CheckRemainingLeaveDays(Leave."Leave Code", Leave."Employee No.", Leave."No. of Days");
-
         CheckDependability(Leave."Leave Code", Leave."Employee No.");
         CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
-        if GuiAllowed then
-            Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
-        if GuiAllowed then
-            AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
         if GuiAllowed then begin
+            Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
+            AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
@@ -1131,7 +1124,7 @@ codeunit 50000 "Leave Mgt."
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
     begin
         if LeaveType <> LeaveType::"Full Day" then
-            exit; //No need to check attendance for Half Day or Compensatory Leave
+            exit; //No need to check attendance for Half Day
         EmpAttendanceActivity.Reset;
         EmpAttendanceActivity.SetRange("Employee No.", EmployeeCode);
         EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', StartDate, EndDate);
@@ -1140,6 +1133,23 @@ codeunit 50000 "Leave Mgt."
                 if EmpAttendanceActivity."Present Day" = 1 then
                     Error(LeaveError, EmpAttendanceActivity."Attendance Date");
             until EmpAttendanceActivity.Next = 0;
+    end;
+
+    procedure CheckHalfLeave(StartDate: date; EndDate: date; LeaveType: Enum "Leave Type"; LeaveCode: Code[20])
+    var
+        HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
+    begin
+        if LeaveType in [LeaveType::"First Half", LeaveType::"Second Half"] then
+            if StartDate <> EndDate then
+                Error(HalfLeaveError);
+        if LeaveTypeSetup.Get(LeaveCode) then begin
+            If LeaveType <> LeaveType::"Full Day" then
+                if LeaveTypeSetup."Half Leave Allowed" then begin
+                    If HrMgt.IsFriday(StartDate) then
+                        Error('Half Leave is not allowed on Fridays')
+                end else
+                    Error('Half Leave is not allowed in %1', LeaveTypeSetup.Description);
+        end;
     end;
 
     [IntegrationEvent(false, false)]
@@ -1158,4 +1168,5 @@ codeunit 50000 "Leave Mgt."
         AttendanceSetup: Record "Attendance Setup";
         ApproverMgt: Codeunit "Approver Mgt";
         DailyAttendanceUpdate: Report "Daily Attendance Update";
+        LeaveTypeSetup: Record "Leave Type Setup";
 }

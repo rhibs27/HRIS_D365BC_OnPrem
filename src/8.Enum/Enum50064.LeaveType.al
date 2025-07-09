@@ -14,4 +14,7 @@ enum 50064 "Leave Type"
     {
         Caption = 'Second Half';
     }
+    value(3; " ")
+    {
+    }
 }

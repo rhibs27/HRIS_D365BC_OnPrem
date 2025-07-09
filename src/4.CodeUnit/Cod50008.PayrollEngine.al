@@ -4682,6 +4682,44 @@ codeunit 50008 "Payroll Engine"
             until PayrollAttr.Next = 0;
     end;
 
+    //no in use
+    procedure ProcessRetirementFundsDoc(var RetirementFund: Record "Retirement Fund")
+    var
+        PayrollAttributesUses: Record "Payroll Attributes Usage";
+        PayrollAttributes: Record "Payroll Attributes";
+        Employee: Record Employee;
+    begin
+
+        Employee.Get(RetirementFund."Employee No.");
+        PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributesUses.Subtype::CIT, PayrollAttributesUses.Subtype::RF);
+        if PayrollAttributes.FindSet() then
+            repeat
+                if not PayrollAttributesUses.Get(PayrollAttributes.Code, RetirementFund."Employee No.") then begin
+                    Clear(PayrollAttributesUses);
+                    PayrollAttributesUses.Init();
+                    PayrollAttributesUses.Validate("Employee Code", RetirementFund."Employee No.");
+                    PayrollAttributesUses.Validate(Code, PayrollAttributes.Code);
+                    PayrollAttributesUses.Validate(Subtype, PayrollAttributes.Subtype);
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                    PayrollAttributesUses.Insert(true);
+                end
+                else begin
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                    PayrollAttributesUses.Modify(true);
+                end;
+            until PayrollAttributes.Next() = 0;
+
+        if RetirementFund."Lumpsum Committed Contribution" <> 0 then begin
+            //
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")
     begin

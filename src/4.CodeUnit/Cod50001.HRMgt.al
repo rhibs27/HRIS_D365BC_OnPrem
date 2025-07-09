@@ -10157,14 +10157,14 @@ codeunit 50001 "HR Mgt."
         DetailedEmployeeLedgEntry: Record "Detailed Employee Ledger Entry";
     begin
         PRSetup.Get;
-        RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
-        RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
+        // RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
+        // RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
         RetirementFund."Screened Date" := CurrentDateTime;
         RetirementFund."Screened By" := UserId;
         Employee.Get(RetirementFund."Employee No.");
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", RetirementFund."Employee No.");
-        PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4', PRSetup."CIT (Monthly)", PRSetup."CIT (Lumpsum)", PRSetup."RTF (Monthly)", PRSetup."RTF (Lumpsum)");
+        PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4', PRSetup."CIT (Monthly)", PRSetup."CIT (Lumpsum)", PRSetup."RTF (Monthly)", PRSetup."RTF (Lumpsum)");  //use payroll subtype
         if PayrollAttributesUsage.FindSet then
             repeat
                 case PayrollAttributesUsage.Code of
@@ -10193,17 +10193,7 @@ codeunit 50001 "HR Mgt."
                 end;
                 PayrollAttributesUsage.Modify(true);
                 Employee.Modify;
-            /* IF ((PayrollAttributesUsage.Code = PRSetup."CIT (Lumpsum)") AND (RetirementFund."CIT Amount( Lumpsum)" <> 0)) OR
-               ((PayrollAttributesUsage.Code = PRSetup."RTF (Lumpsum)") AND (RetirementFund."RTF Amount (Lumpsum)" <> 0)) THEN BEGIN
-               DetailedEmployeeLedgEntry.RESET;
-               DetailedEmployeeLedgEntry.SETRANGE("Employee No.",RetirementFund."Employee No.");
-               DetailedEmployeeLedgEntry.SETRANGE("Fiscal Year",ReturnFiscalYear(DT2DATE(RetirementFund."Requested Date")));
-               DetailedEmployeeLedgEntry.SETRANGE("Payroll Attribute Code",PayrollAttributesUsage.Code);
-               DetailedEmployeeLedgEntry.MODIFYALL(Disabled,TRUE);
-             END;*/
             until PayrollAttributesUsage.Next = 0;
-
-
     end;
 
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund" temporary): Boolean

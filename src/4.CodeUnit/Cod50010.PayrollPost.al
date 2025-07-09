@@ -477,12 +477,6 @@ codeunit 50010 "Payroll-Post"
                 PayrollLine.Delete;
             until PayrollLine.Next = 0;
         PayrollHeader.Delete;
-        /*JournalAllocation.RESET; //commented at UTS1.00
-        JournalAllocation.SETRANGE("Document No.",PayrollHeader."No.");
-        JournalAllocation.DELETEALL;
-        PayrollBalancingAccount.RESET;
-        PayrollBalancingAccount.SETRANGE("Document No.",PayrollHeader."No.");
-        PayrollBalancingAccount.DELETEALL;*/
     end;
 
     local procedure GetEmpDesignationAccount(FieldID: Integer): Code[20]

@@ -13,11 +13,6 @@ page 50030 "Tax Setup Subform"
         {
             repeater(Group)
             {
-                field("Tax Group Code"; Rec."Tax Group Code")
-                {
-                    ToolTip = 'Specifies the value of the Tax Group Code field.';
-                    ApplicationArea = All;
-                }
                 field("Start Amount"; Rec."Start Amount")
                 {
                     ToolTip = 'Specifies the value of the Start Amount field.';

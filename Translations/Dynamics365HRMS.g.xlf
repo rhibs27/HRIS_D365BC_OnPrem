@@ -18013,6 +18013,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Resignation - Field Waiver Case - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Method 3152277940 - NamedType 2564025060" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot delete document.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Method OnDelete - NamedType CannotDelete</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 2022197337 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual Lumpsump CIT</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18122,6 +18127,11 @@
           <source>Provident Fund Projected</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Provident Fund Projected - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rejection Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Rejection Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1145153898 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
@@ -18787,11 +18797,6 @@
           <source>Start Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Tax Setup Line - Field Start Amount - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1159415640 - Field 2552458873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Tax Group Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Tax Setup Line - Field Tax Group Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1159415640 - Field 2336841233 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Tax Rate</source>
@@ -20857,6 +20862,11 @@
           <source>Your %1 Leave has exceeded maximum days limit as %1 cannot exceed %2 consecutive days.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckForMulipleRequest - NamedType ErrorforConsecutive</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2342910349 - Method 2247308866 - NamedType 1960708476" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Half Leaves cannot be applied in multiple days.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Leave Mgt. - Method CheckHalfLeave - NamedType HalfLeaveError</note>
         </trans-unit>
         <trans-unit id="Codeunit 2342910349 - Method 695085038 - NamedType 2996237022" size-unit="char" translate="yes" xml:space="preserve">
           <source>Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved</source>
@@ -36074,7 +36084,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2992605534 - Control 1765229233 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Speicifies the value of the Adjustment Type field</source>
+          <source>Specifies the value of the Adjustment Type field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Control Adjustment Type - Property ToolTip</note>
         </trans-unit>
@@ -41868,6 +41878,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Timesheet Summary - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2517403992 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>payrollGeneralSetupAPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page PayrollGeneralSetupAPI - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2517403992 - Control 2798636473 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Ex. Amt. not Exceeding</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page PayrollGeneralSetupAPI - Control taxExAmtNotExceeding - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 384581401 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>New,Process,Report,Employee Activity,Employee Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46393,6 +46413,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Total Deduction - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Action 803889193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Approve Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Approve - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Action 2997986122 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Reject Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Reject Request - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Action 2071937805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Reopen action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46407,6 +46437,16 @@
           <source>Executes the Submit action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Submit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Action 774215734 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Withdraw - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 964771063 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>payrollGeneralSetupAPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Entity - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 733203159 - Control 2022197337 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Actual Lumpsump CIT field.</source>
@@ -47523,15 +47563,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Tax Setup Subform - Control Start Amount - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3001186484 - Control 2552458873 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Tax Group Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Tax Setup Subform - Control Tax Group Code - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3001186484 - Control 2336841233 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Tax Rate field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Tax Setup Subform - Control Tax Rate - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>taxSetupLineAPI</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Control 707985127 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Control code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Control 805419605 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Control endAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Control 1294919425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Control lineNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Control 650856528 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Amount</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Control startAmount - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 704454736 - Control 3936714577 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Rate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page TAXSetupLineAPI - Control taxRate - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 565033530 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Terms and Conditions</source>
@@ -59718,6 +59783,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Deputation Type - EnumValue Province - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 2327667423 - EnumValue 2349405279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Deputation Type - EnumValue Sub-Department - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 2327667423 - EnumValue 2656465897 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sub-Unit</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59992,6 +60062,11 @@
           <source>Resignation</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Resignation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 485836041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Retirement</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Retirement - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shift Assignment</source>
