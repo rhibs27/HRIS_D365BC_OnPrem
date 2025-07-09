@@ -47073,20 +47073,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Employee Name - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 3611456095 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee No field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Employee No - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3611456095 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the End Date field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control End Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3611456095 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Entry No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Entry No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3611456095 - Control 1210943281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the No of days field.</source>
