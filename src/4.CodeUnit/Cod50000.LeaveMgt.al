@@ -1032,6 +1032,28 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
+    procedure InsertLeaveEarnfromJournal(
+        LeaveCode: Code[20];
+        EmpNo: Code[20];
+        EarnType: Enum "Leave Earn Type";
+        Days: Decimal;
+        DocumentNo: Code[20];
+        RequestedDate: Date)
+    var
+        LeaveEarn: Record "Leave Earn";
+        HRMgt: Codeunit "HR Mgt.";
+    begin
+        LeaveEarn.Init;
+        LeaveEarn.Validate("Leave Code", LeaveCode);
+        LeaveEarn.Validate(EmpNo, EmpNo);
+        LeaveEarn.Validate(Type, EarnType);
+        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(RequestedDate));
+        LeaveEarn.Validate("Posted Date", Today);
+        LeaveEarn.Validate("Balancing Days", Days);
+        LeaveEarn.Validate("Leave Request No", DocumentNo);
+        LeaveEarn.Insert(true);
+    end;
+
     procedure ApproveCancelledLeave(CancelLeaveCode: Code[20])
     var
         LeaveEarn: Record "Leave Earn";

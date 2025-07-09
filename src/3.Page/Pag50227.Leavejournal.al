@@ -31,15 +31,22 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Leave Type field.';
                     ApplicationArea = All;
                 }
+                field("Adjustment Type"; Rec."Adjustment Type")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Speicifies the value of the Adjustment Type field';
+                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
+                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Used;
                 }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
+                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Used;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -53,6 +60,7 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
+                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
                 }
                 field("Fiscal Year"; Rec."Fiscal Year")
                 {
