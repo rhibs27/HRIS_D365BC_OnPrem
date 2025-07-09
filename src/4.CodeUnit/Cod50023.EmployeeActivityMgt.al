@@ -9,11 +9,15 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJnl1.Reset();
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
-        if EmpActJnl1.FindSet() then
-            EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Pending")
-        else
-            Error('There arenot record in Status Open');
-        ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
+        if EmpActJnl1.FindSet() then begin
+            repeat
+                CheckLeaveDetails(EmpActJnl1);
+                EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
+                EmpActJnl1.Modify();
+            until EmpActJnl1.Next() = 0;
+            ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
+        end else
+            Error('Record not found in Status Open');
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -138,6 +142,7 @@ codeunit 50023 EmployeeActivityMgt
                 if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then
                     PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
                 PostedLeaveJournal.Insert(true);
+                LeaveMgt.LeaveApproved(LeaveRequest."No.");
             until leaveJournal.next() = 0
         else
             Error('There is no Document to post');
@@ -214,6 +219,33 @@ codeunit 50023 EmployeeActivityMgt
         PostEmployeeActJournal."Evening OT Hours" := Overtime."Evening OT Hours";
         PostEmployeeActJournal."Total OT Hours" := Overtime."Total OT Hours";
         PostEmployeeActJournal.Insert(true);
+    end;
+
+    procedure CheckLeaveDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    begin
+        EmployeeACTJnl.TestField("Start Date");
+        EmployeeACTJnl.TestField("End Date");
+        EmployeeACTJnl.TestField("Leave Code");
+        if EmployeeACTJnl."Leave Type" = EmployeeACTJnl."Leave Type"::" " then
+            Error('Leave Type cannot be blank in %1 line No %2', EmployeeACTJnl."Emp Act. No", EmployeeACTJnl."Line No");
+    end;
+
+    procedure CheckLeaveInSameDay(EmployeeACTJnl: Record "Employee Activity Journal")
+    var
+        EmpActJnl: Record "Employee Activity Journal";
+    begin
+        EmpActJnl.SetRange("Employee Act Type", EmpActJnl."Employee Act Type"::"Leave Request");
+        EmpActJnl.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
+        EmpActJnl.Setfilter("Approval Status", '<>%1', EmpActJnl."Approval Status"::Rejected);
+        EmpActJnl.FilterGroup(-1);
+        EmpActJnl.SetRange("Start Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
+        EmpActJnl.SetRange("End Date", EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date");
+        EmpActJnl.FilterGroup(0);
+        if EmpActJnl.FindSet() then
+            repeat
+                if not ((EmpActJnl."Emp Act. No" = EmployeeACTJnl."Emp Act. No") and (EmpActJnl."Line No" = EmployeeACTJnl."Line No")) then
+                    Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
+            until EmpActJnl.Next() = 0;
     end;
 
     var
