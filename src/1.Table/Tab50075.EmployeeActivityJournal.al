@@ -124,8 +124,6 @@ table 50075 "Employee Activity Journal"
             trigger OnValidate()
             begin
                 if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Used) then begin
-                    LeaveMgt.CheckRemainingLeaveDays("Employee No.", "Leave Code", "No. of Days");
-                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
                     EmployeeActMgt.CheckLeaveInSameDay(Rec);
                     LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
                     LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
@@ -137,7 +135,6 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
                 end;
             end;
-
         }
         field(10; "Requested Date"; Date)
         {
