@@ -1085,6 +1085,27 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
         addafter("Co&nfidential Info. Overview")
         {
+            action("Employee Bank Account")
+            {
+                ApplicationArea = all;
+                ToolTip = 'view Employee Bank account list';
+                RunObject = page "Employee Bank Account Lists";
+                RunPageLink = "Employee No." = FIELD("No.");
+                Promoted = true;
+                Image = Bank;
+                PromotedCategory = Process;
+
+            }
+            action("Service Inactivity Details")
+            {
+                ApplicationArea = all;
+                Tooltip = 'view Service Inactivity Details';
+                RunObject = page "Service Inactivity Details";
+                RunPageLink = "Employee No" = Field("No.");
+                promoted = true;
+                image = ServiceLedger;
+                PromotedCategory = Process;
+            }
             action("Pay Employee")
             {
                 ApplicationArea = All;

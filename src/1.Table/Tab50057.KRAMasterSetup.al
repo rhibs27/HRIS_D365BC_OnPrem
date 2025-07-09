@@ -12,7 +12,7 @@ table 50057 "KRA Master Setup"
             begin
                 if "KRA No." <> xRec."KRA No." then begin
                     HumanResSetup.Get;
-                    NoSeriesMgt.TestManual(HumanResSetup."KRA Setup No.");
+                    NoSeries.TestManual(HumanResSetup."KRA Setup No.");
                     "No. Series" := '';
                 end;
             end;
@@ -89,12 +89,13 @@ table 50057 "KRA Master Setup"
         if "KRA No." = '' then begin
             HumanResSetup.get();
             HumanResSetup.TestField("KRA Setup No.");
-            NoSeriesMgt.InitSeries(HumanResSetup."KRA Setup No.", xRec."No. Series", 0D, "KRA No.", "No. Series");
+            HrMgt.InitNoSeriesNew(HumanResSetup."KRA Setup No.", xRec."No. Series", 0D, "KRA No.", "No. Series");
         end;
     end;
 
     var
         KeyValueMasterRec: Record "Key Value Master";
         HumanResSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeries: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
 }

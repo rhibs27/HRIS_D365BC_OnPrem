@@ -270,7 +270,7 @@ page 50217 "Employee Edit Entity"
         AttachmentMgt: Codeunit "Attachment Mgt.";
         AttachmentType: Enum "Attachment Setup Type";
     begin
-        AttachmentMgt.checkAttachmentExtension(extension);
+        AttachmentMgt.checkAttachmentExtensionImage(extension);
         FileName := Rec."Employee No." + '.' + extension;
         TempBlob.CreateOutStream(outStream);
         base64.FromBase64(attachmentImport, Outstream);

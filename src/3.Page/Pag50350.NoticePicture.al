@@ -54,7 +54,7 @@ page 50350 "Notice Picture"
                         Extension := FileManagement.GetExtension(FileName);
                         if Extension = '' then
                             Error('Invalid file. Please upload jpg, png or pdf files.');
-                        AttachmentMgt.checkAttachmentExtension(Extension);
+                        AttachmentMgt.checkAttachmentExtensionImage(Extension);
                         Clear(Rec.Notice);
                         Rec.Notice.ImportStream(InStream, FileName);
                         Rec.Modify(true);

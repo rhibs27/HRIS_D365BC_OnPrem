@@ -46,7 +46,7 @@ codeunit 50014 "Event Management"
         FileMgt: Codeunit "File Management";
     begin
         // Define maximum allowed file size 
-        AttachmentMgt.checkAttachmentExtension(FileMgt.GetExtension(FileName));
+        // AttachmentMgt.checkAttachmentExtension(FileMgt.GetExtension(FileName));
         AttachmentSetup.Reset();
         AttachmentSetup.SetRange("Attachment Code", DocumentAttachment."Attachment Document Type");
         if AttachmentSetup.FindFirst() then

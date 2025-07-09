@@ -14,7 +14,7 @@ table 50076 Candidate
             begin
                 if "No." <> xRec."No." then begin
                     HumanResSetup.Get;
-                    NoSeriesMgt.TestManual(HumanResSetup."Candidate Nos.");
+                    NoSeriesCodeunit.TestManual(HumanResSetup."Candidate Nos.");
                     "No. Series" := '';
                 end;
                 // HRMgt.InsertAttachmentLines("No.", 'CV');
@@ -440,7 +440,7 @@ table 50076 Candidate
         if "No." = '' then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.InitSeries(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
     end;
 
@@ -465,7 +465,7 @@ table 50076 Candidate
         Employee: Record Employee;
         EmployeeQualification: Record "Employee Qualification";
         Relative: Record "Employee Relative";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         Text000: Label 'Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
         Candidate: Record Candidate;
@@ -485,10 +485,10 @@ table 50076 Candidate
         Candidate := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Candidate Nos."); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Candidate Nos.", OldCandidate."No. Series", Candidate."No. Series") then begin
+        if NoSeriesCodeunit.LookupRelatedNoSeries(HumanResSetup."Candidate Nos.", OldCandidate."No. Series", Candidate."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.SetSeries(Candidate."No.");
+            NoSeriesCodeunit.GetNextNo(Candidate."No.");
             Rec := Candidate;
             exit(true);
         end;

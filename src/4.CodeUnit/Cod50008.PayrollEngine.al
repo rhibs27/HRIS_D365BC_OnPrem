@@ -3760,12 +3760,13 @@ codeunit 50008 "Payroll Engine"
                 /*PayrollAttributesUsage.SETRANGE("Employee Code",Employee."No.");
                 PayrollAttributesUsage.DELETEALL;*/
                 PayrollAttributes.Reset;
-                if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
-                else if Employee."Employment Type" = Employee."Employment Type"::Probation then
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
-                else
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
+                // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
+                // else if Employee."Employment Type" = Employee."Employment Type"::Probation then
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
+                // else
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
+                PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::" ", Employee."Employment Type");
                 if PayrollAttributes.Find('-') then
                     repeat
                         Clear(PayrollAttributesUsage);

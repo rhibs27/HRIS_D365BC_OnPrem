@@ -24,7 +24,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine: Record "Payroll Journal Line";
         PayrollJnlBatch: Record "Payroll Journal Batch";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         NoSeriesMgt2: Codeunit NoSeriesManagement;
         NoSeries: Record "No. Series";
         EmpLedgCreated: Boolean;
@@ -97,8 +97,8 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PostJournal(PayrollJournalLine);
         if GLEntryNo <> 0 then begin
             UpdateAndDeleteLines;
-            if PayrollJnlBatch."No. Series" <> '' then
-                NoSeriesMgt.SaveNoSeries;
+            // if PayrollJnlBatch."No. Series" <> '' then
+            //     NoSeriesMgt.SaveNoSeries;
             Message(Text002);
             Commit;
         end;
@@ -407,7 +407,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine.TestField("Employee No.");
         PayrollJournalLine.TestField("Assigned User ID");
 
-        PayrollJournalLine.CheckDocNoBasedOnNoSeries(LastDocNo, PayrollJnlBatch."No. Series", NoSeriesMgt);
+        PayrollJournalLine.CheckDocNoBasedOnNoSeries(LastDocNo, PayrollJnlBatch."No. Series", NoSeriesCodeunit);
         if PayrollJournalLine."Posting No. Series" <> '' then
             PayrollJournalLine.TestField("Posting No. Series", PayrollJnlBatch."Posting No. Series");
     end;

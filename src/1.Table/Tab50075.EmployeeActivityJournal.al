@@ -99,7 +99,12 @@ table 50075 "Employee Activity Journal"
             trigger OnValidate()
             var
                 TravelMgt: Codeunit "Travel Mgt.";
+                LeaveMgt: Codeunit "Leave Mgt.";
             begin
+                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
+                    TestField("Leave Type");
+                    TestField("Leave Code");
+                end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
                 if EngNepDate.FindFirst then
@@ -107,7 +112,7 @@ table 50075 "Employee Activity Journal"
                 else
                     Clear("End Date (BS)");
                 if "End Date" <> 0D then
-                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
+                    Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
                 else begin
                     Clear("End Date (BS)");
                     Clear("No. of Days");
@@ -116,7 +121,19 @@ table 50075 "Employee Activity Journal"
         }
         field(9; "No. of Days"; Decimal)
         {
-            Editable = false;
+            trigger OnValidate()
+            begin
+                if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Used) then begin
+                    LeaveMgt.CheckRemainingLeaveDays("Employee No.", "Leave Code", "No. of Days");
+                    LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
+                    LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
+                    LeaveMgt.CheckForEmployeeLimit("Leave Code", "Employee No.");
+                    LeaveMgt.CheckLeaveApproved("Employee No.", "Start Date", "End Date");
+                    LeaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
+                    LeaveMgt.CheckLeaveConflict("Leave Code", "Start Date", "End Date");
+                    LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                end;
+            end;
 
         }
         field(10; "Requested Date"; Date)
@@ -145,11 +162,6 @@ table 50075 "Employee Activity Journal"
         }
         field(14; Remarks; Text[100])
         {
-
-            trigger OnLookup()
-            begin
-                // PAGE.Run(PAGE::"Employee List");
-            end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -163,16 +175,6 @@ table 50075 "Employee Activity Journal"
         {
             CaptionClass = '1,2,1';
             Editable = false;
-            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
-            // trigger OnValidate()
-            // begin
-            //     GLSetup.Get;
-            //     if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-            //         Validate("Branch Name", DimValue.Name)
-            //     else
-            //         Validate("Branch Name", '');
-            // end;
         }
         field(18; Department; Code[20])
         {
@@ -267,11 +269,7 @@ table 50075 "Employee Activity Journal"
                     end;
                     Clear("Compensatory Date");
                     Clear("Child's Gender");
-                    // Clear("Contact No."); //nilesh
                 end;
-                /*IF "Leave Code" = 'COMPENSATORY' THEN //Min 8.7.2022
-                  ERROR(Text002);*/
-
             end;
         }
         field(41; "Leave Description"; Text[50])
@@ -646,6 +644,20 @@ table 50075 "Employee Activity Journal"
         field(97; "Total OT Hours"; Decimal)
         {
             Editable = false;
+        }
+        field(98; "Adjustment Type"; Enum "Leave Earn Type")
+        {
+            ValuesAllowed = Used, Adjustment;
+            InitValue = Used;
+            trigger OnValidate()
+            begin
+                if "Adjustment Type" = "Adjustment Type"::Adjustment then begin
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("Start Date (BS)");
+                    Clear("End Date (BS)");
+                end;
+            end;
         }
         field(100; Status; text[20])
         {

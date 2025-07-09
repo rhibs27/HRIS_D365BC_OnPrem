@@ -107,6 +107,8 @@ page 50255 "Shift subform"
                                 ShiftLine.SetView(FilterPage.GetView('Select Employee Details'));
                                 Evaluate(EmployeeCode, ShiftLine.GetFilter("Employee No"));
                             end;
+                            if EmployeeCode = '' then
+                                Error('Please Select Employee');
                             ShiftAssignmentMgt.ValidateEmployeeOnDate(ShiftLine);
                             ShiftAssignmentMgt.InsertShiftLine(rec."No.", EmployeeCode, ShiftLine.GetFilter("Employee Work Shift"), ShiftAssignmentHeader."From Date", ShiftAssignmentHeader."To Date");
                             CurrPage.Update();
@@ -139,6 +141,8 @@ page 50255 "Shift subform"
                         Evaluate(EmployeeCode, ShiftLine.GetFilter("Employee No"));
                         Evaluate(Remarks, ShiftLine.GetFilter(Remarks));
                     end;
+                    if EmployeeCode = '' then
+                        Error('Please Select Employee');
                     if Rec."Employee No" = EmployeeCode then
                         Error('You cannot substitute Same Employee');
                     ShiftAssignmentMgt.SubstituteShiftLine(rec, EmployeeCode, Remarks);

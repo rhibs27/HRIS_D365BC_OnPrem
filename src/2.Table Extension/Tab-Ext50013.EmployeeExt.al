@@ -169,6 +169,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Province Name");
                     Clear("Posting Region");
                     Clear("Inside/Outside Valley");
+                    Clear("Sol Id");
                 end;
                 Validate("Global Dimension 1 Code", "Branch Code");
                 if "Deputation on" = "Deputation on"::Branch then
@@ -919,7 +920,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Caption = 'Salutation';
         }
-        field(50080; "Permanent District"; Text[30])
+        field(50080; "Permanent District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent District';
@@ -935,7 +936,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 VALIDATE("Permanent District", HRMgt.LookupDistrict("Permanent Province", "Permanent District"));
             end;
         }
-        field(50081; "Temporary District"; Text[30])
+        field(50081; "Temporary District"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary District';
@@ -951,7 +952,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Temporary District", HRMgt.LookupDistrict("Temporary Province", "Temporary District"));
             end;
         }
-        field(50082; "Permanent Province"; Text[30])
+        field(50082; "Permanent Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Permanent Provience address';
@@ -974,7 +975,7 @@ tableextension 50013 "Employee Ext" extends Employee
                 Validate("Permanent Province", HRMgt.LookupProvience("Permanent Province"));
             end;
         }
-        field(50083; "Temporary Province"; Text[30])
+        field(50083; "Temporary Province"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'Temporary Provience address';
@@ -1805,6 +1806,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     // Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol ID");
                     OrganizationStructureLine.Reset();
                     OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
                     OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
@@ -1819,6 +1821,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     // Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol ID");
                     OrganizationStructureLine.Reset();
                     OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
                     OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
@@ -1831,6 +1834,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Province Name", OrganizationStructureList."Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                    Validate("Sol Id", OrganizationStructureList."Sol ID");
                 end;
             "Deputation on"::"Extension Counter":
                 begin
@@ -1841,6 +1845,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         // Validate("Province Name", OrganizationStructureList."Province Name");
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                        Validate("Sol Id", OrganizationStructureList."Sol ID");
                     end;
                     // OrganizationStructureLine.Reset();
                     // OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Branch);
@@ -1866,6 +1871,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         // Validate("Province Name", OrganizationStructureList."Province Name");
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
+                        Validate("Sol Id", OrganizationStructureList."Sol ID");
                     end;
                     // OrganizationStructureLine.Reset();
                     // OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Department);
@@ -1992,6 +1998,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Posting Region");
         Clear("Inside/Outside Valley");
         Clear("Deputation On Code");
+        Clear("Sol Id");
     end;
 
     local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Integer) ReturnText: Text;

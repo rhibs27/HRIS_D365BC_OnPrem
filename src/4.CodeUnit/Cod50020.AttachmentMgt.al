@@ -50,7 +50,7 @@ codeunit 50020 "Attachment Mgt."
             Error('The file is %1 MB. Maximum allowed size is %2 MB.', round(FileSize / 1024 / 1024, 0.01, '='), round(MaxFileSize / 1024 / 1024, 1, '='));
     end;
 
-    procedure checkAttachmentExtension(Ext: text)
+    procedure checkAttachmentExtensionImage(Ext: text)
     begin
         if Ext in ['jpg', 'jpeg', 'png', 'pdf'] then
             exit // Valid file extension, do nothing
