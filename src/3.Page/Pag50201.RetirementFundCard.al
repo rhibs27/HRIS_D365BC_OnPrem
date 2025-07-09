@@ -10,7 +10,7 @@ page 50201 "Retirement Fund Card"
         {
             group(General)
             {
-                Editable = false;
+
                 field("No."; Rec."No.")
                 {
                     Visible = false;
@@ -149,7 +149,7 @@ page 50201 "Retirement Fund Card"
             group(Result)
             {
                 Caption = 'Result';
-                Editable = false;
+                // Editable = false;
                 field("Total Committed Contribution"; "Total Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Total Committed Contribution field.';
@@ -170,6 +170,7 @@ page 50201 "Retirement Fund Card"
             {
                 Caption = 'Approval';
                 Editable = false;
+                Visible = false;
                 field("Approval Status"; "Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -195,6 +196,12 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Screened By field.';
                     ApplicationArea = All;
                 }
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
+                Editable = false;
             }
         }
     }
@@ -259,6 +266,84 @@ page 50201 "Retirement Fund Card"
                     Message('Document open successfully.');
                 end;
             }
+            action(Approve)
+            {
+                Image = Approve;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Rec."Rejection Remarks" := '';
+                        Message('retirement fund is Approved by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
+            action("Reject Request")
+            {
+                Image = Reject;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
+                end;
+            }
+            // action("Cancel Leave")
+            // {
+            //     Image = Cancel;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the Reject Request action.';
+            //     ApplicationArea = All;
+            //     Visible = IsApproved and not IsCancelled;
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want Cancel the request?', false) then begin
+            //             Leavemgt.OpenCancelEmpActivity(Rec);
+            //             // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
+            //         end;
+            //     end;
+            // }
+            // action("Withdraw Leave")
+            // {
+            //     Image = CancelLine;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     ToolTip = 'Executes the WithDraw Request action.';
+            //     ApplicationArea = All;
+            //     Visible = IsPending;
+            //     trigger OnAction()
+            //     begin
+            //         if Confirm('Do you want WithDraw the request?', false) then begin
+            //             ApprovalMgt.WithDrawRequest(RecRef);
+            //             Message('Leave has been withdrew.');
+            //         end;
+            //     end;
+            // }
         }
     }
 
@@ -272,18 +357,15 @@ page 50201 "Retirement Fund Card"
     begin
         IsScreened := "Approval Status" = "Approval Status"::Screened;
         ActionVisible := "Approval Status" in ["Approval Status"::Open, "Approval Status"::" "];
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        //IF NOT IsApplied THEN
-        //IF NOT CONFIRM('The data will be erased. Do you want to continue?',TRUE) THEN
-        //ERROR('');
+        IsPending := "Approval Status" = "Approval Status"::Pending;
     end;
 
     var
+        RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
         IsApplied: Boolean;
         IsScreened: Boolean;
         ActionVisible: Boolean;
+        IsPending: Boolean;
+        ApprovalMgt: Codeunit "Approver Mgt";
 }

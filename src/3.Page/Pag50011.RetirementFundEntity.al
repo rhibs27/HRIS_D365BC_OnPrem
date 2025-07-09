@@ -1,3 +1,4 @@
+#pragma implicitwith disable
 page 50011 "Retirement Fund Entity"
 {
     DelayedInsert = true;
@@ -8,70 +9,71 @@ page 50011 "Retirement Fund Entity"
     APIGroup = 'HRMS';
     APIVersion = 'v2.0';
     SourceTable = "Retirement Fund";
-
+    ApplicationArea = All;
+    Caption = 'payrollGeneralSetupAPI';
     layout
     {
         area(Content)
         {
             repeater(General)
             {
-                //Editable = false;
+                ////Editable = false;
                 field(no; Rec."No.")
                 {
-                    Editable = false;
-                    trigger OnAssistEdit()
-                    begin
-                        if AssistEdit(xRec) then
-                            CurrPage.Update;
-                    end;
+                    // //Editable = false;
+                    // trigger OnAssistEdit()
+                    // begin
+                    //     if AssistEdit(xRec) then
+                    //         CurrPage.Update;
+                    // end;
                 }
                 field(employeeNo; Rec."Employee No.")
                 {
-                    // Editable = false;
+                    // //Editable = false;
                 }
                 field(employeeName; Rec."Employee Name")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(fiscalYear; Rec."Fiscal Year")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(payrollMonth; Rec."Payroll Month")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(annualAccessibleMonth; Rec."Annual Accessible Income")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(rfContributionEligibleAmt; Rec."RF Contribution Eligible Amt")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(providentFundDeposited; Rec."Provident Fund Deposited")
                 {
-                    Editable = false;
+                    // //Editable = false;
                 }
                 field(rfContributionDeposited; Rec."RF Contribution Deposited")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(providentFundProjected; Rec."Provident Fund Projected")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(actualProjectedContribution; Rec."Actual/Projected Contribution")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(additionalSpaceForRF; Rec."Additional Space for RF Cont.")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(projectionMonth; Rec."Projection Month")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(nICARTFAmount; Rec."RTF Amount (Month)") { }
                 field(cITAmount; Rec."CIT Amount (Month)") { }
@@ -79,15 +81,15 @@ page 50011 "Retirement Fund Entity"
                 field(cITAmountLumpSum; Rec."CIT Amount( Lumpsum)") { }
                 field(totalCommittedContribution; Rec."Total Committed Contribution")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(totalDeduction; Rec."Total Deduction")
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(difference; Rec.Difference)
                 {
-                    Editable = false;
+                    //Editable = false;
                 }
                 field(approvalStatus; Rec."Approval Status") { }
                 field(createdDate; Rec."Created Date") { }
@@ -145,10 +147,10 @@ page 50011 "Retirement Fund Entity"
 
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
-        "Approval Status" := "Approval Status"::Pending;
+        Rec."Approval Status" := Rec."Approval Status"::Pending;
         PayrollGeneralSetup.Get; //Min
         if PayrollGeneralSetup."Enable RF Lumpsump Plan" then
-            "Lumpsum Committed Contribution" := "Total Committed Contribution";
+            Rec."Lumpsum Committed Contribution" := Rec."Total Committed Contribution";
     end;
 
     trigger OnOpenPage()
@@ -162,3 +164,5 @@ page 50011 "Retirement Fund Entity"
         ActionVisible: Boolean;
         PayrollGeneralSetup: Record "Payroll General Setup";
 }
+
+#pragma implicitwith restore

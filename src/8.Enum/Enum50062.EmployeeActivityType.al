@@ -116,4 +116,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Candiadte offer letter';
     }
+    value(29; Retirement)
+    {
+        Caption = 'Retirement';
+    }
 }

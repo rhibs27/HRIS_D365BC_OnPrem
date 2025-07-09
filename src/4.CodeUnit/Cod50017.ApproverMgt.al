@@ -9,7 +9,11 @@ codeunit 50017 "Approver Mgt"
     // >>RecRef.Field(100) = Status 
     // >> warning: don't Change the Field ID on the Table>>
     // >> Insert Approval for Employee Activity from Approval Setup Line >> Santosh 2025-03-04 >>
-    procedure InsertApproval(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status")
+    procedure InsertApproval(EmployeeNo: Code[20];
+                                EmpActNo: Code[20];
+                                EmpActType: enum "Employee Activity Type";
+                                ApprovalStatus: Enum "Approval Status")
+
     var
         ApprovalSetupLine: Record "Approval Setup line";
         Approval: Record "Approval HRMS";
@@ -18,11 +22,10 @@ codeunit 50017 "Approver Mgt"
         Approval1: Record "Approval HRMS";
         count: Integer;
     begin
-        EmpRequest.Reset();
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         count := 0;
         if ApprovalSetupLine.Findset() then
@@ -71,8 +74,8 @@ codeunit 50017 "Approver Mgt"
 
     // >> Insert Approval for Loan >> Santosh 2025-03-04 >>
     procedure InsertApprovalLoan(EmployeeNo: Code[20];
-        EmpActNo: Code[20];
-        EmpActType: enum "Employee Activity Type";
+                                    EmpActNo: Code[20];
+                                    EmpActType: enum "Employee Activity Type";
         LoanType: Enum "Loan Type")
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -207,79 +210,101 @@ codeunit 50017 "Approver Mgt"
     // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean)
     var
-        Approver: Record "Approval HRMS";
-        Approver2: Record "Approval HRMS";
+        ApprovalHRMS: Record "Approval HRMS";
+        ApprovalHRMS2: Record "Approval HRMS";
         ApproveNotEligibleError: Label 'You are not Eligible to Approve or reject this document ';
         ApprovalStatusField: text;
-        ApprovalStatusEnum: Enum "Approval Status";
-        EmpActType: Enum "Employee Activity Type";
+        ApprovalStatus: Enum "Approval Status";
+        EmployeeActivityType: Enum "Employee Activity Type";
         StatusMaster: Record "Status Master";
+        FieldRef: FieldRef;
+        Fieldref2: FieldRef;
+        DocumentNo: Code[20];
+        RetirementFund: Record "Retirement Fund";
     begin
-        // Get the fields dynamically using FieldRef
-        ApprovalStatusField := Format((RecRef.Field(16)));
-        EmpActType := RecRef.Field(2).Value;
-        if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
-            CheckApprover(RecRef.Field(1).Value);
-            Approver.Reset();
-            Approver.SetRange("Document No.", RecRef.Field(1).Value);
-            Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
-            if Approver.FindSet() then begin
+        case RecRef.Number() of
+            Database::"Retirement Fund":
+                begin
+                    FieldRef := RecRef.Field(RetirementFund.FieldNo("Approval Status"));
+                    ApprovalStatusField := FieldRef.Value;
+                    EmployeeActivityType := EmployeeActivityType::Retirement;
+                    Fieldref2 := RecRef.Field(RetirementFund.FieldNo("No."));
+                    DocumentNo := Fieldref2.Value();
+                end;
+            else begin
+                //old code
+                ApprovalStatusField := Format((RecRef.Field(16)));
+                EmployeeActivityType := RecRef.Field(2).Value;
+                DocumentNo := RecRef.Field(1).Value;
+            end;
+        end;
+        if ApprovalStatusField = Format(ApprovalStatus::Pending) then begin
+            CheckApprover(DocumentNo);
+            ApprovalHRMS.Reset();
+            ApprovalHRMS.SetRange("Document No.", DocumentNo);
+            ApprovalHRMS.SetRange("Approval Status", ApprovalHRMS."Approval Status"::Open);
+            if ApprovalHRMS.FindSet() then begin
                 repeat
                     if Approved then begin
-                        Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
-                        Approver.Validate("Approved By", HRMgt.GetEmpName());
-                        RecRef.Field(100).Validate(Approver.Status);
+                        ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
+                        ApprovalHRMS.Validate("Approved By", HRMgt.GetEmpName());
+                        RecRef.Field(100).Validate(ApprovalHRMS.Status);
                     end
                     else begin
-                        Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-                        Approver.Validate("Rejected By", HRMgt.GetEmpName());
-                        RecRef.Field(16).Validate(ApprovalStatusEnum::Rejected);
-                        case EmpActType of
-                            EmpActType::"Leave Request":
+                        ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                        ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                        RecRef.Field(16).Validate(ApprovalStatus::Rejected);
+                        case EmployeeActivityType of
+                            EmployeeActivityType::"Leave Request":
                                 //for leave Cancelled Reject
                                 begin
                                     if RecRef.Field(39).value then
                                         leaveMgt.RejectLeaveCancel(RecRef.Field(1).Value) // For Cancelled Leave
                                 end;
                             //for travel claim Reject
-                            EmpActType::"Travel Claim":
+                            EmployeeActivityType::"Travel Claim":
                                 begin
                                     TravelMgt.TravelClaimReject(RecRef.Field(1).Value);
 
                                 end;
-                            EmpActType::"Transfer Claim":
+                            EmployeeActivityType::"Transfer Claim":
                                 begin
                                     TransferMgt.RejectTransferClaim(RecRef.Field(1).Value);
                                 end;
                             //for Allowance claim return
-                            EmpActType::"Allowance Assignment":
+                            EmployeeActivityType::"Allowance Assignment":
                                 begin
-                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
                                     RecRef.Field(100).Validate('');
                                     RecRef.Modify();
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
-                            EmpActType::"Overtime Bulk":
+                            EmployeeActivityType::"Overtime Bulk":
                                 begin
-                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
                                     RecRef.Field(100).Validate('');
                                     RecRef.Modify();
                                     OverTimeMgt.ApproveRejectOvertimeLine(false, RecRef.Field(1).Value);
                                     exit;
                                 end;
                             //for Allowance claim Reject
-                            EmpActType::"Allowance Assignment Claim":
+                            EmployeeActivityType::"Allowance Assignment Claim":
                                 begin
                                     AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(false, RecRef.Field(1).Value);
                                 end;
-                            EmpActType::"Shift Assignment":
+                            EmployeeActivityType::"Shift Assignment":
                                 begin
-                                    RecRef.Field(16).Validate(ApprovalStatusEnum::Open);
+                                    RecRef.Field(16).Validate(ApprovalStatus::Open);
                                     RecRef.Field(100).Validate('');
                                     RecRef.Modify();
                                     ShiftAssignmentMgt.ApproveRejectShiftLine(false, RecRef.Field(1).Value);
                                     exit;
+                                end;
+                            EmployeeActivityType::Retirement:
+                                begin
+                                    RecRef.Field(22).Validate(ApprovalStatus::Rejected);
+                                    RecRef.Modify();
                                 end;
                         end;
                         // Get the Rejected Status from Status Master
@@ -292,73 +317,85 @@ codeunit 50017 "Approver Mgt"
                             Error('Rejected Status not Found On Status Master Setup');
                     end;
                     RecRef.Modify();
-                    Approver.Modify();
-                until Approver.Next() = 0;
+                    ApprovalHRMS.Modify();
+                until ApprovalHRMS.Next() = 0;
                 // Modify the record dynamically
             end;
             //Find next approval step
             if Approved then begin
-                Approver2.Reset();
-                Approver2.SetRange("Document No.", (RecRef.Field(1).Value));
-                Approver2.SetRange("Approval Sequence", Approver."Approval Sequence" + 1);
-                if Approver2.FindSet() then
+                ApprovalHRMS2.Reset();
+                ApprovalHRMS2.SetRange("Document No.", DocumentNo);
+                ApprovalHRMS2.SetRange("Approval Sequence", ApprovalHRMS."Approval Sequence" + 1);
+                if ApprovalHRMS2.FindSet() then
                     repeat
-                        Approver2."Approval Status" := Approver2."Approval Status"::Open;
-                        Approver2.Modify;
-                    until Approver2.Next() = 0
+                        ApprovalHRMS2."Approval Status" := ApprovalHRMS2."Approval Status"::Open;
+                        ApprovalHRMS2.Modify;
+                    until ApprovalHRMS2.Next() = 0
                 else begin
                     // If no next approval step found then set the status to approved
-                    RecRef.Field(16).Validate(ApprovalStatusEnum::Approved);
-                    RecRef.Field(37).Validate(Today);
+                    if EmployeeActivityType = EmployeeActivityType::Retirement then begin
+                        RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved);
+                        RetirementFund.Modify();
+                    end
+                    else begin
+                        //old code
+                        RecRef.Field(16).Validate(ApprovalStatus::Approved);
+                        RecRef.Field(16).Validate(ApprovalStatus::Approved);
+                        RecRef.Field(37).Validate(Today);
+                    end;
                     RecRef.Modify();
-                    case EmpActType of
+                    case EmployeeActivityType of
                         //for leave
-                        EmpActType::"Leave Request":
+                        EmployeeActivityType::"Leave Request":
                             begin
                                 if RecRef.Field(39).value then
                                     leaveMgt.ApproveCancelledLeave(RecRef.Field(1).Value) // For Cancelled Leave
                                 else
                                     leaveMgt.LeaveApproved(RecRef.Field(1).Value); // For leave Approved
                             end;
-                        EmpActType::"Travel Request":
+                        EmployeeActivityType::"Travel Request":
                             begin
                                 TravelMgt.TravelApproved(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Travel Claim":
+                        EmployeeActivityType::"Travel Claim":
                             begin
                                 TravelMgt.TravelClaimApproved(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Attendance Missed":
+                        EmployeeActivityType::"Attendance Missed":
                             begin
                                 AttendanceMissed.AttendanceMissedApproved(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Transfer Claim":
+                        EmployeeActivityType::"Transfer Claim":
                             begin
                                 TransferMgt.ApproveTransferClaim(RecRef.Field(1).Value);
                             end;
-                        EmpActType::Overtime:
+                        EmployeeActivityType::Overtime:
                             begin
                                 OverTimeMgt.ApproveOverTime(RecRef.Field(1).Value);
                             end;
-                        EmpActType::Resignation:
+                        EmployeeActivityType::Resignation:
                             begin
                                 ResignationMgt.ApproveResignation(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Employee Edit":
+                        EmployeeActivityType::"Employee Edit":
                             begin
                                 ChangesInEmployeeMgt.ApproveChangesInEmployee(RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Allowance Assignment", EmpActType::"Allowance Assignment Claim":
+                        EmployeeActivityType::"Allowance Assignment", EmployeeActivityType::"Allowance Assignment Claim":
                             begin
                                 AllowanceAssignmentMgt.ApproveRejectAllowanceAssignment(true, RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Overtime Bulk":
+                        EmployeeActivityType::"Overtime Bulk":
                             begin
                                 OverTimeMgt.ApproveRejectOvertimeLine(true, RecRef.Field(1).Value);
                             end;
-                        EmpActType::"Shift Assignment":
+                        EmployeeActivityType::"Shift Assignment":
                             begin
                                 ShiftAssignmentMgt.ApproveRejectShiftLine(true, RecRef.Field(1).Value);
+                            end;
+                        EmployeeActivityType::Retirement:
+                            begin
+                                //update payroll attribute uses
                             end;
                     end;
                 end;

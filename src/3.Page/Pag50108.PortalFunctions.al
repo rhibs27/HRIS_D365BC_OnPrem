@@ -3493,7 +3493,7 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    //[Scope('Personalization')]
+    [Scope('Personalization')]
     procedure onOpenRetirementFund(empNo: Code[20]): Text
     var
         RF: Record "Retirement Fund" temporary;
