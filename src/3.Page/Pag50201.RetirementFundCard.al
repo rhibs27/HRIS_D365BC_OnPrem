@@ -302,48 +302,32 @@ page 50201 "Retirement Fund Card"
                         IF REC."Rejection Remarks" = '' then
                             Error('Rejection Remarks is Empty')
                         else begin
+                            RecRef.GetTable(Rec);
                             ApprovalMgt.ApproveRejectDocument(RecRef, false);
                             Message('Leave is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
             }
-            // action("Cancel Leave")
-            // {
-            //     Image = Cancel;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Reject Request action.';
-            //     ApplicationArea = All;
-            //     Visible = IsApproved and not IsCancelled;
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want Cancel the request?', false) then begin
-            //             Leavemgt.OpenCancelEmpActivity(Rec);
-            //             // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
-            //         end;
-            //     end;
-            // }
-            // action("Withdraw Leave")
-            // {
-            //     Image = CancelLine;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the WithDraw Request action.';
-            //     ApplicationArea = All;
-            //     Visible = IsPending;
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want WithDraw the request?', false) then begin
-            //             ApprovalMgt.WithDrawRequest(RecRef);
-            //             Message('Leave has been withdrew.');
-            //         end;
-            //     end;
-            // }
+            action(Withdraw)
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        RecRef.GetTable(Rec);
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Leave has been withdrew.');
+                    end;
+                end;
+            }
         }
     }
 

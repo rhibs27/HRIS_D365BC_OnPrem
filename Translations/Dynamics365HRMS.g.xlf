@@ -46433,6 +46433,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Submit - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Action 774215734 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Withdraw - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 964771063 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>payrollGeneralSetupAPI</source>
           <note from="Developer" annotates="general" priority="2"></note>

@@ -221,6 +221,7 @@ codeunit 50017 "Approver Mgt"
         Fieldref2: FieldRef;
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
+        PayrollEngine: Codeunit "Payroll Engine";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -396,6 +397,8 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Retirement:
                             begin
                                 //update payroll attribute uses
+                                RetirementFund.Get(RecRef.RecordId);
+                                HRMgt.ScreenRF(RetirementFund);
                             end;
                     end;
                 end;
@@ -426,10 +429,22 @@ codeunit 50017 "Approver Mgt"
         ApprovalStatusEnum: Enum "Approval Status";
         EmpActType: Enum "Employee Activity Type";
         StatusMaster: Record "Status Master";
+        RetirementFund: Record "Retirement Fund";
     begin
         // Get the fields dynamically using FieldRef
-        ApprovalStatusField := Format((RecRef.Field(16)));
-        EmpActType := RecRef.Field(2).Value;
+        case RecRef.Number() of
+            Database::"Retirement Fund":
+                begin
+                    ApprovalStatusField := Format((RecRef.Field(RetirementFund.FieldNo("Approval Status"))));
+                    EmpActType := EmpActType::Retirement;
+                end;
+            else begin
+                //old code
+                ApprovalStatusField := Format((RecRef.Field(16)));
+                EmpActType := RecRef.Field(2).Value;
+
+            end;
+        end;
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
             CheckRequester(RecRef.Field(1).Value);
             Approver.Reset();
@@ -437,9 +452,14 @@ codeunit 50017 "Approver Mgt"
             Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
             Approver.SetRange("Approval Sequence", 1);
             if Approver.Findfirst() then begin
-                RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
+                if EmpActType = EmpActType::Retirement then
+                    RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatusEnum::Withdrawn)
+                else
+                    RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
+                RecRef.Modify();
                 Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
                 Approver.Modify();
+
                 // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
