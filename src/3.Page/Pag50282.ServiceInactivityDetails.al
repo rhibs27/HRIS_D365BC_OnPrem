@@ -1,4 +1,4 @@
-page 50264 "Service Inactivity Details"
+page 50282 "Service Inactivity Details"
 {
     ApplicationArea = All;
     Caption = 'Service Inactivity Ledger List';
