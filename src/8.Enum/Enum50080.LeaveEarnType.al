@@ -38,4 +38,8 @@ enum 50080 "Leave Earn Type"
     {
         Caption = 'CarryForward';
     }
+    value(9; Adjustment)
+    {
+        Caption = 'Adjustment';
+    }
 }

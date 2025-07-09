@@ -6,6 +6,7 @@ codeunit 50026 "Attendance Mgt"
         EmployeeWorkShift: Record "Employee Work Shift";
     begin
         Clear(AttendanceLine);
+        Clear(Employee);
         Employee.get(EmpNo);
         AttendanceLine.Reset;
         AttendanceLine.SetRange("Employee No.", EmpNo);
@@ -18,7 +19,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Province Code" := Employee."Province Code";
             AttendanceLine."Province Name" := Employee."Province Name";
             AttendanceLine."Branch Code" := Employee."Branch Code";
-            AttendanceLine."Branch Name" := Employee."Province Name";
+            AttendanceLine."Branch Name" := Employee."Branch Name";
             AttendanceLine."Department Code" := Employee."Department Code";
             AttendanceLine."Department Name" := Employee."Department Name";
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);

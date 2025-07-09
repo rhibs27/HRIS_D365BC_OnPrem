@@ -673,11 +673,12 @@ table 50140 "Employee Transfer"
                 if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
                     EmployeeRec.Get("Outgoing Branch Rep. Person");
                     "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
-                    // if SalaryLevel.Get("Salary Level Code") then;
-                    // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                    // if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                    //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                end;
+                end else
+                    Clear("Outgoing Reporting Person Name");
+                // if SalaryLevel.Get("Salary Level Code") then;
+                // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
+                // if SalaryLevel.Rank >= SalaryLevel1.Rank then
+                //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
                 if "Outgoing Branch Rep. Person" = "Employee No." then
                     Error('Cannot Select Yourself as Outgoing Reporting person');
             end;

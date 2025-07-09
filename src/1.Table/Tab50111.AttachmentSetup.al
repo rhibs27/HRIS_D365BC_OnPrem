@@ -61,7 +61,7 @@ table 50111 "Attachment Setup"
         }
         field(13; "Transfer Claim Attributes"; Code[20])
         {
-            TableRelation = "Payroll Attributes".Code where("Activity Type" = const("Attachment Setup Type"::"Transfer Claim"));
+            TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
         }
 
     }

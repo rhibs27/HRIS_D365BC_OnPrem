@@ -76,6 +76,7 @@ query 50008 "Transfer Query"
                     column(reasonDescription; "Reason Description") { }
                     column(reasonForTransfer; "Reason for Transfer") { }
                     column(provinceCode; "Province Code") { }
+                    column(provinceName; "Province Name") { }
                     column(unitCode; "Unit Code") { }
                     column(remarks; Remarks) { }
                     column(screenerRemarks; "Screener Remarks") { }

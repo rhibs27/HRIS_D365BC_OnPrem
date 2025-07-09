@@ -97,35 +97,46 @@ codeunit 50023 EmployeeActivityMgt
         LeaveRequest: Record Leave;
         leaveJournal: Record "Employee Activity Journal";
         PostedLeaveJournal: Record "Posted Employee Journal";
+        LeaveMgt: Codeunit "Leave Mgt.";
     begin
         leaveJournal.Reset();
         leaveJournal.SetRange("Emp Act. No", EmpActNo);
         leaveJournal.setrange("Approval Status", leaveJournal."Approval Status"::Approved);
         if leaveJournal.FindSet() then
             repeat
-                LeaveMgt.CheckPendingLeave('', leaveJournal."Leave Code", leaveJournal."Employee No.");
-                LeaveMgt.CheckRemainingLeaveDays(leaveJournal."Leave Code", leaveJournal."Employee No.", leaveJournal."No. of Days");
-                LeaveMgt.CheckForEmployeeLimit(leaveJournal."Leave Code", leaveJournal."Employee No.");
-                LeaveRequest.Reset();
-                LeaveRequest.Init();
-                LeaveRequest.Validate("No.", '');
-                LeaveRequest.Validate("Employee No.", leaveJournal."Employee No.");
-                LeaveRequest.Validate("Leave Code", leaveJournal."Leave Code");
-                LeaveRequest.Validate("Leave Description", leaveJournal."Leave Description");
-                LeaveRequest.Validate("Leave Type", leaveJournal."Leave Type");
-                LeaveRequest.Validate("Start Date", leaveJournal."Start Date");
-                LeaveRequest.Validate("End Date", leaveJournal."End Date");
-                LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
-                LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
-                LeaveRequest.Validate("Approved Date", Today);
-                LeaveRequest.Validate(Type, LeaveRequest.Type::"Leave Request");
-                LeaveRequest.Validate("Form Journal", true);
-                LeaveRequest.Insert(true);
+                if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then begin
+                    LeaveMgt.CheckPendingLeave('', leaveJournal."Leave Code", leaveJournal."Employee No.");
+                    LeaveMgt.CheckRemainingLeaveDays(leaveJournal."Leave Code", leaveJournal."Employee No.", leaveJournal."No. of Days");
+                    LeaveMgt.CheckForEmployeeLimit(leaveJournal."Leave Code", leaveJournal."Employee No.");
+                    LeaveRequest.Reset();
+                    LeaveRequest.Init();
+                    LeaveRequest.Validate("No.", '');
+                    LeaveRequest.Validate("Employee No.", leaveJournal."Employee No.");
+                    LeaveRequest.Validate("Leave Code", leaveJournal."Leave Code");
+                    LeaveRequest.Validate("Leave Description", leaveJournal."Leave Description");
+                    LeaveRequest.Validate("Leave Type", leaveJournal."Leave Type");
+                    LeaveRequest.Validate("Start Date", leaveJournal."Start Date");
+                    LeaveRequest.Validate("End Date", leaveJournal."End Date");
+                    LeaveRequest.Validate(Remarks, leaveJournal.Remarks);
+                    LeaveRequest.Validate("Approval Status", LeaveRequest."Approval Status"::Approved);
+                    LeaveRequest.Validate("Approved Date", Today);
+                    LeaveRequest.Validate(Type, LeaveRequest.Type::"Leave Request");
+                    LeaveRequest.Validate("Form Journal", true);
+                    LeaveRequest.Insert(true);
+                end else if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Adjustment then
+                        LeaveMgt.InsertLeaveEarnfromJournal(
+                            leaveJournal."Leave Code",
+                            leaveJournal."Employee No.",
+                            leaveJournal."Adjustment Type",
+                            leaveJournal."No. of Days",
+                            leaveJournal."Emp Act. No",
+                            leaveJournal."Requested Date");
                 PostedLeaveJournal.Init();
                 PostedLeaveJournal.TransferFields(leaveJournal);
                 leaveJournal.Delete();
                 PostedLeaveJournal.Validate(Posted, true);
-                PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
+                if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then
+                    PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
                 PostedLeaveJournal.Insert(true);
             until leaveJournal.next() = 0
         else
