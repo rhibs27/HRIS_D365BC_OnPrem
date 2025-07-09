@@ -36084,7 +36084,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2992605534 - Control 1765229233 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Speicifies the value of the Adjustment Type field</source>
+          <source>Specifies the value of the Adjustment Type field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Control Adjustment Type - Property ToolTip</note>
         </trans-unit>
