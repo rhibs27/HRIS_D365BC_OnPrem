@@ -18468,6 +18468,61 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Selection Commitee - Field Vacancy Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 246325006 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Service Inactivity Ledger</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Employee Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Employee No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 2649176925 - Method 2126772001 - NamedType 2268265938" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date must be less than or equal to End Date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field End Date - Method OnValidate - NamedType DateValidataionError</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 1210943281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No of days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field No of days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Remarks - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 1745199600 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Doc No</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Source Doc No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 246325006 - Field 474480784 - Method 2126772001 - NamedType 2268265938" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date must be less than or equal to End Date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Start Date - Method OnValidate - NamedType DateValidataionError</note>
+        </trans-unit>
         <trans-unit id="Table 2889195544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shift Assignment</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -47008,6 +47063,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Service History Lists - Control Service History Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3611456095 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Service Inactivity Ledger List</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Employee No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the End Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Entry No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 1210943281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No of days field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control No of days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 1745199600 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Source Doc No field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Source Doc No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3611456095 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Service Inactivity Details - Control Start Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shift Assignment</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54277,6 +54377,11 @@
           <source>References</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action References - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Action 3611456095 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>view Service Inactivity Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Action Service Inactivity Details - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 1214640677 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Executes the Allowance Assignment action.</source>
