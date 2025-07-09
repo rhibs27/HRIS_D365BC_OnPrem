@@ -37,7 +37,7 @@ page 50227 "Leave Journal"
                 field("Adjustment Type"; Rec."Adjustment Type")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Speicifies the value of the Adjustment Type field';
+                    ToolTip = 'Specifies the value of the Adjustment Type field';
                 }
                 field("Start Date"; Rec."Start Date")
                 {
@@ -49,12 +49,13 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
                     ApplicationArea = All;
-                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen ;
+                    Editable = (Rec."Adjustment Type" = Rec."Adjustment Type"::Used) and IsOpen;
                 }
                 field("No. of Days"; Rec."No. of Days")
                 {
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
+                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -65,12 +66,6 @@ page 50227 "Leave Journal"
                 field(Status; Rec.Status)
                 {
                     Visible = StatusView;
-
-                field("No. of Days"; Rec."No. of Days")
-                {
-                    ToolTip = 'Specifies the value of the No. of Days field.';
-                    ApplicationArea = All;
-                    Editable = Rec."Adjustment Type" = Rec."Adjustment Type"::Adjustment;
                 }
 
                 field("Fiscal Year"; Rec."Fiscal Year")
