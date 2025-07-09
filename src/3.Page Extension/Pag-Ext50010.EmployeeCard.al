@@ -1096,6 +1096,16 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 PromotedCategory = Process;
 
             }
+            action("Service Inactivity Details")
+            {
+                ApplicationArea = all;
+                Tooltip = 'view Service Inactivity Details';
+                RunObject = page "Service Inactivity Details";
+                RunPageLink = "Employee No" = Field("No.");
+                promoted = true;
+                image = ServiceLedger;
+                PromotedCategory = Process;
+            }
             action("Pay Employee")
             {
                 ApplicationArea = All;
