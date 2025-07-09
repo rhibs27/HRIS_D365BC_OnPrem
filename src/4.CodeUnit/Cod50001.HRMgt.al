@@ -11435,5 +11435,106 @@ codeunit 50001 "HR Mgt."
                 NewNoSeriesCode := GlobalNoSeries.Code;
         end;
     end;
+
+    procedure getServicePeriodText(var Employee: Record Employee)
+    var
+        NewEmploymentDate: Date;
+    begin
+        if Employee."Employment Date" <> 0D then begin
+            NewEmploymentDate := GetAdjustedEmploymentDate(Employee);
+            if Employee."Termination Date" <> 0D then
+                Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
+            else
+                Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
+        end;
+    end;
+
+    procedure GetAdjustedEmploymentDate(Employee: Record Employee): Date
+    var
+        AdjustingDays: Integer;
+        EmployeeInactiveLine: Record "Service Inactivity Ledger";
+        NewEmploymentDate: Date;
+        PreviousPeriod: DateFormula;
+    begin
+        AdjustingDays := 0;
+        if Employee."Employment Date" <> 0D then begin
+            NewEmploymentDate := Employee."Employment Date";
+
+            EmployeeInactiveLine.Reset();
+            EmployeeInactiveLine.SetRange("Employee No.", Employee."No.");
+            if EmployeeInactiveLine.FindSet() then
+                repeat
+                    if not EmployeeInactiveLine."Counted In Service Period" then
+                        if EmployeeInactiveLine."End Date" <> 0D then
+                            AdjustingDays += EmployeeInactiveLine."End Date" - EmployeeInactiveLine."Start Date"
+                        else
+                            AdjustingDays += WorkDate() - EmployeeInactiveLine."Start Date";
+                until EmployeeInactiveLine.Next() = 0;
+
+            NewEmploymentDate := NewEmploymentDate + AdjustingDays;
+
+            // if Format(Employee."Previous Service Period") <> '' then begin
+            //     if Format(Employee."Additional Service Period") <> '' then
+            //         Evaluate(PreviousPeriod, '-' + (Format(Employee."Previous Service Period") + '-' + Format(Employee."Additional Service Period")))
+            //     else
+            //         Evaluate(PreviousPeriod, '-' + Format(Employee."Previous Service Period"));
+            //     NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
+            // end
+            // else
+            //     if Format(Employee."Additional Service Period") <> '' then begin
+            //         Evaluate(PreviousPeriod, '-' + Format(Employee."Additional Service Period"));
+            //         NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
+            //     end;
+            exit(NewEmploymentDate);
+        end;
+    end;
+
+    procedure GetAge(BirthDate: Date; ToDate: Date) Age: Text
+    var
+
+        Year, Month, Days : Integer;
+        YearText, MonthText, DayText, ReturnValue : Text;
+    begin
+        GetAgeInteger(BirthDate, ToDate, Year, Month, Days);
+        if Year = 1 then
+            YearText := ' year'
+        else
+            YearText := ' years';
+
+        if Month = 1 then
+            MonthText := ' month'
+        else
+            MonthText := ' months';
+
+        if Days = 1 then
+            DayText := ' day'
+        else
+            DayText := ' days';
+
+        Clear(ReturnValue);
+        if Year > 0 then
+            ReturnValue := Format(Year) + YearText + ' ';
+        if Month > 0 then
+            ReturnValue += Format(Month) + MonthText + ' ';
+        if Days > 0 then
+            ReturnValue += Format(Days) + DayText;
+        exit(ReturnValue);
+    end;
+
+    procedure GetAgeInteger(BirthDate: Date; ToDate: Date; var year: Integer; var Month: Integer; var Days: Integer)
+    begin
+        year := Date2DMY(ToDate, 3) - Date2DMY(BirthDate, 3);
+        Month := Date2DMY(ToDate, 2) - Date2DMY(BirthDate, 2);        //Total Service = Employment date - Today's date
+        Days := Date2DMY(ToDate, 1) - Date2DMY(BirthDate, 1) + 1;  // include today
+        if Days < 0 then begin
+            Month := Month - 1;
+            Days := Date2DMY(CalcDate('<CM>', BirthDate), 1) - Abs(Days);
+        end;
+
+        if Month < 0 then begin
+            year := year - 1;
+            Month := 12 - Abs(Month);
+        end;
+    end;
 }
 

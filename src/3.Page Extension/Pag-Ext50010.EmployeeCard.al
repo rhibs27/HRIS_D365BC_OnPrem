@@ -1004,6 +1004,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 SubPageLink = "Employee No. Filter" = FIELD("No.");
             }
         }
+        addafter("Employment Date")
+        {
+            field("Service Period Text"; rec."Service Period Text")
+            {
+                ApplicationArea = all;
+            }
+        }
 
     }
     actions
@@ -1101,7 +1108,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = all;
                 Tooltip = 'view Service Inactivity Details';
                 RunObject = page "Service Inactivity Details";
-                RunPageLink = "Employee No" = Field("No.");
+                RunPageLink = "Employee No." = Field("No.");
                 promoted = true;
                 image = ServiceLedger;
                 PromotedCategory = Process;
