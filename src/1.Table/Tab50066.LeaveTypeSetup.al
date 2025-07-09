@@ -142,6 +142,11 @@ table 50066 "Leave Type Setup"
         field(40; "Minimum Leave at once"; Decimal)
         {
         }
+        field(41; "Exclude in Service Period"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
 
     keys

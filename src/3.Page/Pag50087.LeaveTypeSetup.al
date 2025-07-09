@@ -177,6 +177,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Leave Ajusted sequentially for absent days in Settlement';
                     ApplicationArea = All;
                 }
+                field("Exclude in Service Period"; Rec."Exclude in Service Period")
+                {
+                    ToolTip = 'If checked leave taken will not be counted in service period';
+                    ApplicationArea = All;
+                }
             }
         }
     }
