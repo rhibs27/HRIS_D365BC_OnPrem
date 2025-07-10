@@ -2979,7 +2979,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentEarning := 0;
         TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 180 do begin //Min 9.16.2022
+        for FieldID := 47 to 180 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -4718,18 +4718,29 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure GetTotalAnnualEarning(var Employee: Record Employee; var TotalAnualEarning: Decimal)
+    procedure RFGetTotalAnnualEarning(var Employee: Record Employee; var RFTotalEarning: Decimal; RFprojectMonth: Integer)
     var
         EmployeePayrollOpening: Record "Employee Payroll Opening";
         PayrollgeneralSetup: Record "Payroll General Setup";
         paycycleperiod: Record "Pay Cycle Period";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayAttribute: Record "Payroll Attributes";
     begin
         PayrollgeneralSetup.Get();
         paycycleperiod.SetRange("Start Date", PayrollgeneralSetup."Payroll Fiscal Year Start Date", PayrollgeneralSetup."Payroll Fiscal Year End Date");
         paycycleperiod.FindFirst();
         EmployeePayrollOpening.SetRange("Fiscal Year", paycycleperiod."Pay Cycle Term");
         if EmployeePayrollOpening.FindFirst() then
-            TotalAnualEarning += EmployeePayrollOpening."Total Benefit Opening";
+            RFTotalEarning += EmployeePayrollOpening."Total Benefit Opening";
+
+        PayrollAttrUses.SetRange("Employee Code", Employee."No.");
+        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Benefits);
+        if PayrollAttrUses.FindSet() then
+            repeat
+                PayAttribute.get(PayrollAttrUses.code);
+            // if PayAttribute."Apply Every Month" then
+
+            until PayrollAttrUses.Next() = 0;
 
 
     end;
