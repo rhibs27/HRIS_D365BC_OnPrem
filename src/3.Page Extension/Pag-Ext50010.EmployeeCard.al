@@ -1008,6 +1008,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             field("Service Period Text"; rec."Service Period Text")
             {
+                caption = 'Service Period';
                 ApplicationArea = all;
             }
         }

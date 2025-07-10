@@ -56,6 +56,8 @@ report 50025 "Daily Update"
             repeat
                 HRMgt.CheckAgeAndBirthday(Employee."Birth Date", Today, Employee.Age, AgeDays, IsBirthDay);
                 HRMgt.CheckAgeAndBirthday(Employee."Employment Date", Today, Employee."Service Period", AgeDays, IsBirthDay);
+                if Employee."Employment Date" <> 0D then
+                    Employee.Validate("Employment Date");
                 Employee.Modify;
             until Employee.Next = 0;
     end;
