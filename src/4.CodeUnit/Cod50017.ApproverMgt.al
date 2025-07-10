@@ -336,7 +336,7 @@ codeunit 50017 "Approver Mgt"
                     // If no next approval step found then set the status to approved
                     if EmployeeActivityType = EmployeeActivityType::Retirement then begin
                         RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Approved);
-                        RetirementFund.Modify();
+
                     end
                     else begin
                         //old code

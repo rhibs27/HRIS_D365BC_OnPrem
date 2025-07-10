@@ -119,6 +119,8 @@ tableextension 50013 "Employee Ext" extends Employee
                 TestField(Gender);
                 if "Contract Expiry Month" <> "Contract Expiry Month"::" " then
                     Validate("Contract Expiry Month");
+                if "Employment Date" <> 0D then
+                    HrMgt.getServicePeriodText(Rec);
             end;
         }
         modify(Title)
@@ -1349,6 +1351,11 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                     "Approval Status" = const("Approval Status"::Approved), Expired = const(false)));
             Editable = false;
         }
+        field(50166; "Service Period Text"; Text[100])
+        {
+            DataClassification = CustomerContent;
+        }
+
     }
     keys
     {

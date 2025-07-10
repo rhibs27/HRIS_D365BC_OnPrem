@@ -10,7 +10,7 @@ table 50119 "Service Inactivity Ledger"
             Caption = 'Entry No.';
             AutoIncrement = true;
         }
-        field(2; "Employee No"; Code[20])
+        field(2; "Employee No."; Code[20])
         {
             Caption = 'Employee No';
             TableRelation = Employee;
@@ -18,7 +18,7 @@ table 50119 "Service Inactivity Ledger"
             var
                 Employee: Record Employee;
             begin
-                if Employee.Get("Employee No") then begin
+                if Employee.Get("Employee No.") then begin
                     "Employee Name" := Employee."Full Name";
                 end else begin
                     "Employee Name" := '';
@@ -68,6 +68,10 @@ table 50119 "Service Inactivity Ledger"
         field(8; Remarks; Text[100])
         {
             Caption = 'Remarks';
+        }
+        field(9; "Counted In Service Period"; Boolean)
+        {
+
         }
     }
     keys

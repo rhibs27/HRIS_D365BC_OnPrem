@@ -999,6 +999,7 @@ codeunit 50000 "Leave Mgt."
         EmpAttendActivity: Record "Employee Attendance & Activity";
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
+        ServiceInactivity: Record "Service Inactivity Ledger";
     begin
         leave.Get(leavecode);
         OnBeforeLeaveApproved(leave, IsHandled);
@@ -1012,6 +1013,19 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
+        end;
+        LeaveTypeSetup.get(leavecode);
+        if LeaveTypeSetup."Exclude in Service Period" then begin
+            //Create Service inactivity line
+            clear(ServiceInactivity);
+            ServiceInactivity.Init();
+            ServiceInactivity."Entry No." := hrmgt.GetNextEntryNo(Database::"Service Inactivity Ledger");
+            ServiceInactivity.Validate("Employee No.", leave."Employee No.");
+            ServiceInactivity.Validate("Start Date", leave."Start Date");
+            ServiceInactivity.Validate("End Date", leave."End Date");
+            ServiceInactivity.Insert(true);
+
+
         end;
         Commit();
         // Update Daily Attendance
