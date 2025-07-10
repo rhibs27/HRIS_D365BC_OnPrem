@@ -464,7 +464,8 @@ codeunit 50017 "Approver Mgt"
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
                 if StatusMaster.FindFirst() then begin
-                    RecRef.Field(100).Validate(StatusMaster.Status);
+                    if EmpActType <> EmpActType::Retirement then
+                        RecRef.Field(100).Validate(StatusMaster.Status);
                     RecRef.Modify();
                 end
                 else

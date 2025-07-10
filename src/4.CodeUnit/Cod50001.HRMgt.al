@@ -1744,7 +1744,7 @@ codeunit 50001 "HR Mgt."
     [EventSubscriber(ObjectType::Codeunit, 2, 'OnCompanyInitialize', '', false, false)]
     procedure InsertWorkflowTemplates()
     begin
-        InsertVacancyApprovalWorkflowTemplate;    //Pradhan IMERemit1.00
+        InsertVacancyApprovalWorkflowTemplate;
         InsertTrainingApprovalWorkflowTemplate;   //>>training
         InsertFacilitatorApprovalWorkflowTemplate; //>>Facilitator
     end;
@@ -10106,7 +10106,9 @@ codeunit 50001 "HR Mgt."
             "Projection Month" := PostedPayrollLine."Projection Month";
             Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
             Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
-            RF."Annual Accessible Income" := PostedPayrollLine."Assessable Income";
+            // RF."Annual Accessible Income" := PostedPayrollLine."Assessable Income";
+
+
             if RF."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
                 "RF Contribution Eligible Amt" := Round(RF."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
             else

@@ -46248,20 +46248,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Created Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Requested Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1532841482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened By field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Screened By - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1895218171 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Screened Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 3042250613 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Current Details</source>

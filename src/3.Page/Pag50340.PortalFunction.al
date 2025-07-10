@@ -1217,7 +1217,7 @@ page 50340 "Portal Function"
     //           EmpActivity.SETFILTER(Type,'%1|%2|%3|%4',EmpActivity.Type::"Leave Request",EmpActivity.Type::"Travel Request",
     //                             EmpActivity.Type::"Out of Office",EmpActivity.Type::"Bulk Cash");
     //           EmpActivity.SETFILTER("Start Date",'<=%1',AttendaceLine."Attendance Date");
-    //           EmpActivity.SETFILTER("End Date",'>=%1',AttendaceLine."Attendance Date");    //pradhan
+    //           EmpActivity.SETFILTER("End Date",'>=%1',AttendaceLine."Attendance Date");     
     //           IF NOT EmpActivity.FINDFIRST THEN
     //             EXIT(CountStartDate);
     //         UNTIL AttendaceLine.NEXT=0;

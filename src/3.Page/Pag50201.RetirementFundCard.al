@@ -169,8 +169,8 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
-                Editable = false;
-                Visible = false;
+                // Editable = false;
+                // Visible = false;
                 field("Approval Status"; "Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -186,15 +186,21 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("Screened Date"; "Screened Date")
+                // field("Screened Date"; "Screened Date")
+                // {
+                //     ToolTip = 'Specifies the value of the Screened Date field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Screened By"; "Screened By")
+                // {
+                //     ToolTip = 'Specifies the value of the Screened By field.';
+                //     ApplicationArea = All;
+                // }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
-                }
-                field("Screened By"; "Screened By")
-                {
-                    ToolTip = 'Specifies the value of the Screened By field.';
-                    ApplicationArea = All;
+                    Visible = IsPending;
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -202,6 +208,7 @@ page 50201 "Retirement Fund Card"
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
                 Editable = false;
+                Visible = IsPending;
             }
         }
     }
@@ -324,7 +331,7 @@ page 50201 "Retirement Fund Card"
                     if Confirm('Do you want WithDraw the request?', false) then begin
                         RecRef.GetTable(Rec);
                         ApprovalMgt.WithDrawRequest(RecRef);
-                        Message('Leave has been withdrew.');
+                        Message('Retirement request has been withdrew.');
                     end;
                 end;
             }
