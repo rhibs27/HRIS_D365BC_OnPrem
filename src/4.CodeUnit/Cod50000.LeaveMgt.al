@@ -280,7 +280,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Option " ",Permanent,Probation,Contract; Gender: Option " ",Female,Male; MaritalStatus: Option)
+    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender"; MaritalStatus: Enum "Marital Status")
     var
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
@@ -369,14 +369,14 @@ codeunit 50000 "Leave Mgt."
                         DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", Today, true);
                         LeaveEarn.Validate("Entry No.", DocNo);
                         LeaveEarn.Insert();
-                    end else if LeavetypSetup."Encashable Limit" <= LeavetypSetup."Remaining Days" then begin
+                    end else if LeavetypSetup."Encashable Limit" < LeavetypSetup."Remaining Days" then begin
                         LeaveEarn.Init;
                         LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
                         LeaveEarn.Validate(EmpNo, Employee."No.");
                         LeaveEarn.Validate(Type, LeaveEarn.Type::Encashed);
                         LeaveEarn.Validate("Fiscal year", EnglishNepaliDate."Fiscal Year");
                         LeaveEarn.Validate("Posted Date", Today);
-                        LeaveEarn.Validate("Balancing Days", -LeavetypSetup."Encashable Limit");
+                        LeaveEarn.Validate("Balancing Days", -(LeavetypSetup."Remaining Days" - LeavetypSetup."Encashable Limit"));
                         DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", Today, true);
                         LeaveEarn.Validate("Entry No.", DocNo);
                         LeaveEarn.Insert();

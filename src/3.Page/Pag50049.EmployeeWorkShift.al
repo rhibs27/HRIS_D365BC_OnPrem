@@ -23,6 +23,14 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Deputation Type"; Rec."Deputation Type")
+                {
+                    ApplicationArea = All;
+                }
+                field("Deputation Code"; Rec."Deputation Code")
+                {
+                    ApplicationArea = All;
+                }
                 field("Start Time"; Rec."Start Time")
                 {
                     ToolTip = 'Specifies the value of the Start Time field.';

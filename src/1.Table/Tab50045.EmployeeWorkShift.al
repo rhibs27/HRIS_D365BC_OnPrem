@@ -41,8 +41,22 @@ table 50045 "Employee Work Shift"
         field(12; "Winter End Date"; Date) { }
         field(13; "Check Out From"; Decimal) { }
         field(14; "Check In From"; Decimal) { }
-    }
+        field(15; "Deputation Type"; Enum "Deputation Type")
+        {
+            Caption = 'Deputation Type';
+        }
+        field(16; "Deputation Code"; Code[20])
+        {
+            Caption = 'Deputation Code';
+            DataClassification = ToBeClassified;
+            TableRelation = if ("Deputation Type" = filter("Deputation Type"::Branch)) "Organization Structure list".Code where(Type = Filter("Deputation Type"::Branch))
+            else if ("Deputation Type" = filter("Deputation Type"::Unit)) "Organization Structure list".Code where(Type = Filter("Deputation Type"::Unit))
+            else if ("Deputation Type" = filter("Deputation Type"::Department)) "Organization Structure list".Code where(Type = Filter("Deputation Type"::Department))
+            else if ("Deputation Type" = filter("Deputation Type"::Province)) "Organization Structure list".Code where(Type = Filter("Deputation Type"::Province))
+            else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) "Organization Structure list".Code where(Type = Filter("Deputation Type"::"Extension Counter"));
+        }
 
+    }
     keys
     {
         key(Key1; "Code") { }

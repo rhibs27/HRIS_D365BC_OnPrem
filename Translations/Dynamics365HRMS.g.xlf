@@ -8023,6 +8023,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Deputation Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
