@@ -134,6 +134,8 @@ tableextension 50013 "Employee Ext" extends Employee
                 // TestField("CIF ID");
                 if "Bank Account No." <> '' then begin
                     EmployeeRec.Reset;
+                // TestField("CIF ID");s
+                EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
                     EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
                     if EmployeeRec.FindFirst then
