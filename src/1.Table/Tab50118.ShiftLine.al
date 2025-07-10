@@ -61,7 +61,7 @@ table 50118 "Shift Line"
         field(9; "Employee Work Shift"; Code[20])
         {
             Caption = 'Employee Work Shift';
-            TableRelation = "Employee Work Shift".Code;
+            TableRelation = "Employee Work Shift" where("Deputation Code" = field("Deputation Code"));
             trigger OnValidate()
             var
             begin
