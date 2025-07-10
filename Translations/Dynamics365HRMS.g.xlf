@@ -55318,6 +55318,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Vehicle Advance - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2278755647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Service Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Service Period Text - Property Caption</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Change 4200184881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
