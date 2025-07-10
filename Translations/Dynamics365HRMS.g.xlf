@@ -10813,6 +10813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Encashable Limit - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3429304363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Exclude in Service Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Exclude in Service Period - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 3110935929 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Exclude Non Working Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18483,15 +18488,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 246325006 - Field 4251439335 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Counted In Service Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Counted In Service Period - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 246325006 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Employee Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 246325006 - Field 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Table 246325006 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Employee No - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Service Inactivity Ledger - Field Employee No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 246325006 - Field 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>End Date</source>
@@ -36422,6 +36432,11 @@
           <source>Specifies the value of the Encashable Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Encashable Limit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3429304363 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>If checked leave taken will not be counted in service period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Exclude in Service Period - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 3110935929 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Exclude Non Working Days field.</source>
@@ -57267,6 +57282,11 @@
           <source>Service Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Service Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 2278755647 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Service Period Text</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Service Period Text - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 902249373 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Settled</source>

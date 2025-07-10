@@ -11526,5 +11526,29 @@ codeunit 50001 "HR Mgt."
             Month := 12 - Abs(Month);
         end;
     end;
+
+    procedure GetNextEntryNo(TableID: Integer): Integer
+    var
+        RecRef: RecordRef;
+        FieldRefs: FieldRef;
+        KeyRefs: KeyRef;
+        NextEntryNo: Integer;
+        PkIndex: Integer;
+    begin
+        NextEntryNo := 0;
+        RecRef.Open(TableID);
+        //check primary key is integer or not
+        KeyRefs := RecRef.KeyIndex(1);
+        FieldRefs := KeyRefs.FieldIndex(1);
+        PkIndex := FieldRefs.Number; //Field number pf PK field
+        if FieldRefs.Type <> FieldRefs.Type::Integer then
+            Error('Invalid pk type');
+        if RecRef.FindLast() then begin
+            FieldRefs := RecRef.Field(PkIndex);
+            NextEntryNo := FieldRefs.Value;
+        end;
+        exit(NextEntryNo + 1);
+    end;
+
 }
 

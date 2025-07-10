@@ -1019,7 +1019,7 @@ codeunit 50000 "Leave Mgt."
             //Create Service inactivity line
             clear(ServiceInactivity);
             ServiceInactivity.Init();
-
+            ServiceInactivity."Entry No." := hrmgt.GetNextEntryNo(Database::"Service Inactivity Ledger");
             ServiceInactivity.Validate("Employee No.", leave."Employee No.");
             ServiceInactivity.Validate("Start Date", leave."Start Date");
             ServiceInactivity.Validate("End Date", leave."End Date");
