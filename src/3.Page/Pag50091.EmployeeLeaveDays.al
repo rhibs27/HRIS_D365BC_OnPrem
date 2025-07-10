@@ -4,6 +4,7 @@ page 50091 "Employee Leave Days"
     SourceTable = "Leave Type Setup";
     ApplicationArea = All;
     DeleteAllowed = false;
+    Editable = false;
     layout
     {
         area(Content)

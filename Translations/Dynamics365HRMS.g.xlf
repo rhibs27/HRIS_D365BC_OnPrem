@@ -8023,6 +8023,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2594954132 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Deputation Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 2327667423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Deputation Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Description</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15892,6 +15902,16 @@
           <source>Absent Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Absent Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3742225897 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Absent Days After Promotion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Absent Days After Promotion - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1308880542 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Absent Days Before Promotion</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Absent Days Before Promotion - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3571157512 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Actual RF Contribution</source>
