@@ -167,12 +167,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Age field.';
+                Editable = false;
 
             }
             field("CIF ID"; Rec."CIF ID")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CIF ID field.';
+                Visible = false;
 
             }
             field("Marital Status"; Rec."Marital Status")
@@ -315,6 +317,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Permanent VDC field.';
 
                 }
+                field("Permanent Locality"; Rec."Permanent Locality")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Permanent Locality.';
+
+                }
                 field("Permanent House"; Rec."Permanent House")
                 {
                     ApplicationArea = All;
@@ -361,6 +369,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary VDC field.';
+
+                }
+                field("Temporary Locality"; Rec."Temporary Locality")
+                {
+                    Editable = not SameAsPermanent;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Temporary Locality.';
 
                 }
                 field("Temporary House"; Rec."Temporary House")
@@ -531,12 +546,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sub Unit Code field.';
+                    Visible = false;
                 }
                 field("Sub Unit Name"; Rec."Sub Unit Name")
                 {
                     Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sub Unit Name field.';
+                    Visible = false;
                 }
                 field("Department Code"; Rec."Department Code")
                 {
@@ -1010,6 +1027,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 caption = 'Service Period';
                 ApplicationArea = all;
+                Editable = false;
             }
         }
 
@@ -2236,11 +2254,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         CASE Rec."Deputation on" OF
             Rec."Deputation on"::Branch:
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2250,10 +2268,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec."Deputation on"::Province:
                 BEGIN
                     ProvinceEdit := true;
-                    BranchEdit := false;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := false;
                     BranchVisible := false;
                     ProvinceVisible := true;
@@ -2262,8 +2280,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Department:
                 BEGIN
-                    ProvinceEdit := false;
-                    BranchEdit := false;
+                    ProvinceEdit := true;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2275,8 +2293,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Unit:
                 BEGIN
-                    ProvinceEdit := false;
-                    BranchEdit := false;
+                    ProvinceEdit := true;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2288,11 +2306,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::"Extension Counter":
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2384,6 +2402,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         rec."Temporary Province" := rec."Permanent Province";
         rec."Temporary District" := rec."Permanent District";
         rec."Temporary VDC" := rec."Permanent VDC";
+        rec."Temporary Locality" := rec."Permanent Locality";
         rec.Validate("Temporary Ward No", rec."Ward No");
         Rec."Temporary House" := rec."Permanent House";
     end;
@@ -2393,6 +2412,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         Rec."Temporary Province" := '';
         Rec."Temporary District" := '';
         Rec."Temporary VDC" := '';
+        rec."Temporary Locality" := '';
         Rec."Temporary Ward No" := 0;
         Rec."Temporary House" := '';
         rec."Temporary Address" := '';

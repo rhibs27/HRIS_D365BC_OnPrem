@@ -18,9 +18,11 @@ table 50048 "Employee Attendance & Activity"
         }
         field(3; "Check In Time"; Time)
         {
+            BlankNumbers = BlankZero;
         }
         field(4; "Check Out Time"; Time)
         {
+            BlankNumbers = BlankZero;
         }
         field(5; Status; enum "Approval Status")
         {

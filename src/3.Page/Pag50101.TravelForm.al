@@ -537,7 +537,7 @@ page 50101 "Travel Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Print Report action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);

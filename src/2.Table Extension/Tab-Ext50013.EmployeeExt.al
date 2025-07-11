@@ -570,6 +570,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50042; Age; Integer)
         {
             DataClassification = CustomerContent;
+            Editable = false;
         }
         field(50043; "Marital Status"; Enum "Marital Status")
         {
@@ -790,7 +791,7 @@ tableextension 50013 "Employee Ext" extends Employee
             BEGIN
                 IF (Rec."Permanent District" <> xRec."Permanent District") AND ("Permanent District" <> '') THEN
                     HRMgt.CheckDistrictName("Permanent District");
-                "Address" := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+                "Address" := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             END;
 
             trigger OnLookup()
@@ -806,7 +807,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary District" <> xRec."Temporary District") and ("Temporary District" <> '') then
                     HRMgt.CheckDistrictName("Temporary District");
-                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             END;
 
             trigger OnLookup()
@@ -829,7 +830,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("KPI Deputation");
                     Clear("Permanent District");
                 end;
-                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
 
             trigger OnLookup()
@@ -852,7 +853,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Temporary Ward No");
                     Clear("Temporary District");
                 end;
-                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             end;
 
             trigger OnLookup()
@@ -899,7 +900,7 @@ tableextension 50013 "Employee Ext" extends Employee
                             Error('Temporary Ward No. should be less than %1', Municipalities."No of ward");
                     end else
                         Error('Temporary VDC Not Found in Municipality Table');
-                    "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                    "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
                 end;
             end;
         }
@@ -910,7 +911,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Permanent VDC");
-                "Address" := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+                "Address" := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             END;
 
             trigger OnLookup()
@@ -925,7 +926,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Temporary VDC" <> xRec."Temporary VDC") and ("Temporary VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Temporary VDC");
-                "Temporary Address" := ReturnAddress("Temporary Province", "Temporary District", "Temporary VDC", "Temporary Ward No");
+                "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             END;
 
             trigger OnLookup()
@@ -984,7 +985,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Error('Ward No. should be less than %1', Municipalities."No of ward");
                 end else
                     Error('Permanent VDC Not Found in Municipality Table');
-                Address := ReturnAddress("Permanent Province", "Permanent District", "Permanent VDC", "Ward No");
+                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
         }
         field(50094; "Disable Punch in"; Boolean)
@@ -1268,7 +1269,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50149; "Relation With Emergency Cont"; Text[30])
         {
             DataClassification = CustomerContent;
-            TableRelation = Relative;
+            TableRelation = "Employee Relative";
         }
         field(50153; "KPI Functional Title"; Code[20])
         {
@@ -1356,6 +1357,24 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50166; "Service Period Text"; Text[100])
         {
             DataClassification = CustomerContent;
+        }
+
+        field(50167; "Permanent Locality"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+
+            begin
+                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+            end;
+        }
+        field(50168; "Temporary Locality"; Text[100])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
+            end;
         }
 
     }
@@ -1773,10 +1792,10 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Sol Id");
     end;
 
-    local procedure ReturnAddress(Prov: Text; DistrictVara: Text; VDCVar: Text; WardNoVar: Integer) ReturnText: Text;
+    local procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
     begin
         Clear(ReturnText);
-        ReturnText := Prov + ', ' + DistrictVara + ', ' + VDCVar + '-' + Format(WardNoVar);
+        ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ',' + DistrictVara + ', ' + Prov;
     end;
 
     procedure RFRequest();

@@ -1623,7 +1623,13 @@ codeunit 50008 "Payroll Engine"
                         end else begin
                             EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
                         end;
-                        EmployeeAttendanceActivity."Leave Day" := 1;
+                        if leave."Leave Type" = Leave."Leave Type"::"Full Day" then begin
+                            EmployeeAttendanceActivity."Leave Day" := 1;
+                            EmployeeAttendanceActivity."Present Day" := 0;
+                        end else begin
+                            EmployeeAttendanceActivity."Leave Day" := 0.5;
+                            EmployeeAttendanceActivity."Present Day" := 0.5;
+                        end;
                         EmployeeAttendanceActivity."Tour Day" := 0;
                         EmployeeAttendanceActivity."Half Day" := 0;
                         EmployeeAttendanceActivity."OT Hrs" := 0;

@@ -63,71 +63,42 @@ page 50108 "Portal Functions"
     procedure checkLogin(): Text
     var
         Employee: Record Employee;
-        AttMissedDate: Date;
         counter: Integer;
-        disableLogin: Boolean;
-        disabelLogintext: Text;
-        isAdmin: Text;
         FirstLogin: Text;
         user: Record User;
         WebServiceKey: text;
         IdentityManagement: Codeunit "Identity Management";
+        PayrollGenSetup: Record "Payroll General Setup";
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
     begin
+        PayrollGenSetup.Get();
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         Employee.SetRange(Status, Employee.Status::Active);
         if not Employee.FindFirst then
             Error(NoEmployeeMappingErr + SystemAdminTxt);
-
-        isAdmin := 'False';
-        if UserSetup.Get(UserId) then;
-        if UserSetup."Is Admin" then
-            isAdmin := 'True';
-        if Employee."Disable Punch in" then
-            disableLogin := true;
-
-        user.Reset();
-        user.SetRange("User Name", UserId);
-        user.FindFirst();
-        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
-        //check for transfer
-        /*TransferVar.RESET; //Min -- commented since it was manage through approved, ack action and job queue.
-        TransferVar.SETRANGE("Employee No.",Employee."No.");
-        TransferVar.SETFILTER(Type,'%1|%2',TransferVar.Type::"HR Transfer",TransferVar.Type::"Employee Transfer");
-        TransferVar.SETRANGE("Approval Status",TransferVar."Approval Status"::Approved);
-        TransferVar.SETFILTER("Transfer Effective Date",'<=%1',TODAY);
-        IF TransferVar.FINDFIRST THEN
-          disableLogin := TRUE;*/
-        //for attendance count
-        AttMissedDate := Today;
+        counter := 0;
+        EmployeeAttendanceActivity.Reset();
+        EmployeeAttendanceActivity.SetRange("Employee No.", Employee."No.");
+        EmployeeAttendanceActivity.SetRange("Attendance Date", PayrollGenSetup."Payroll Fiscal Year Start Date", CalcDate('<-1D>', Today));
+        if EmployeeAttendanceActivity.FindSet() then
+            repeat
+                if (EmployeeAttendanceActivity."Present Day" = 1) and ((EmployeeAttendanceActivity."Check In Time" = 0T) or (EmployeeAttendanceActivity."Check Out Time" = 0T)) then
+                    counter := counter + 1
+                else if EmployeeAttendanceActivity."Absent Day" = 1 then
+                    counter := counter + 1;
+            until EmployeeAttendanceActivity.Next() = 0;
+        // user.Reset();
+        // user.SetRange("User Name", UserId);
+        // user.FindFirst();
+        // WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         if Employee.Login then
             FirstLogin := 'false'
         else
             FirstLogin := 'true';
-        counter := 0;
-        if Employee."Attendance Missed On" <> 0D then begin
-            AttendanceSetup.Get;
-            AttMissedDate := Employee."Attendance Missed On";
-            if not AttendanceSetup."Deactivate Punch in Count" then
-                counter := Employee."Attendance Missed Count";
-        end;
-        if not AttendanceSetup."Deactivate Punch in Count" then
-            if (counter > 5) then
-                disableLogin := true;
-
-        if disableLogin then
-            disabelLogintext := 'True'
-        else
-            disabelLogintext := 'False';
         exit('{"empno" : "' + Employee."No." +
-              '","attmisseddate" : "' + getDateinFormat(AttMissedDate) +
-              '",' + '"count" : "' + Format(counter) + '"' +
-              ',"disableLogin" : "' + disabelLogintext + '"' +
-              ',"recommendercode": "' + Employee."KPI Deputation Value" +
-              '","isAdmin": "' + isAdmin +
+              '",' + '"count" : "' + Format(counter) +
               '","firstLogin": "' + FirstLogin +
-              '","WebServiceKey": "' + WebServiceKey +
-              '","functionalTitle": "' + Employee."Functional Title Desc" +
               '","employeeName": "' + Employee."Full Name" +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
@@ -220,44 +191,6 @@ page 50108 "Portal Functions"
     //     end;
     // end;
 
-    // [ServiceEnabled]
-    // //[Scope('Personalization')]
-    // procedure approveEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; employeeNo: Code[20])
-    // var
-    //     EmpActivity: Record "Employee Activity";
-    // begin
-    //     EmpActivity.Get(empActNo);
-    //     if EmpActivity.Type = EmpActivity.Type::Resignation then begin
-    //         if isApproved then begin
-    //             EmpActivity.Validate(Remarks, rejectionRemarks);
-    //             EmpActivity.Modify;
-    //             HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
-    //         end else begin
-    //             EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-    //             EmpActivity.Modify;
-    //             HrMgt.ApproveRejectResignationAPI(isApproved, EmpActivity, employeeNo);
-    //         end;
-    //         exit;
-    //     end;
-    //     if not EmpActivity.Cancelled then begin
-    //         if isApproved and (EmpActivity."Approval Status" = EmpActivity."Approval Status"::Pending) then
-    //             HrMgt.RecommendEmployeeActivityAPI(empActNo, employeeNo)
-    //         else begin
-    //             if not isApproved then begin
-    //                 EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-    //                 EmpActivity.Modify;
-    //             end;
-    //             HrMgt.ApprovedRejectApprovalAPI(isApproved, empActNo, employeeNo);
-    //         end;
-    //     end else begin
-    //         EmpActivity.Get(empActNo);
-    //         EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-    //         EmpActivity.Modify;
-    //         HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, employeeNo);
-    //     end;
-    // end;
-
-
     // Commented for Stored Procedure for Attendance Sync.
 
     // [ServiceEnabled]
@@ -281,17 +214,6 @@ page 50108 "Portal Functions"
     //         Error('Record not found');
     // end;
 
-    // [ServiceEnabled]
-    // //[Scope('Personalization')]
-    // procedure approveCancelAndAttendanceEmployeeActivity(empActNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text; approverCode: Code[20])
-    // var
-    //     EmpActivity: Record "Employee Activity";
-    // begin
-    //     EmpActivity.Get(empActNo);
-    //     EmpActivity.Validate("Rejection Remarks", rejectionRemarks);
-    //     EmpActivity.Modify;
-    //     HrMgt.ApproveRejectCancelAttendanceMissedAPI(EmpActivity, isApproved, approverCode);
-    // end;
 
     [ServiceEnabled]
     //[Scope('Personalization')]
@@ -329,14 +251,12 @@ page 50108 "Portal Functions"
         AttendanceMissed.Validate("Reason Code", reasonCode);
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Pending);
         AttendanceMissed.Validate("Start Date", startDate);
-        // AttendanceMissed.Validate("End Date", endDate);
         AttendanceMissed.Validate(Remarks, remarks);
         if (AttendanceMissed."Start Date" >= Today) then
             Error('Cannot apply for future date.Please check the date.');
         if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
         AttendanceMissed.TestField("Start Date");
-        // AttendanceMissed.TestField("End Date");
         AttendanceMissed.TestField(Remarks);
         AttendanceMissed.Insert(true);
     end;

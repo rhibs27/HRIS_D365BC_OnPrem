@@ -49,7 +49,8 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetAscending("Log Time", true);
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        AttendanceLog.SetRange("Log Time", AttendanceLine."Shift Start Time" - TextToDuration(format(EmployeeWorkShift."Check In From")), AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check In From")));
+        if EmployeeWorkShift."Check In From" <> 0 then
+            AttendanceLog.SetRange("Log Time", AttendanceLine."Shift Start Time" - TextToDuration(format(EmployeeWorkShift."Check In From")), AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check In From")));
         if AttendanceLog.FindFirst then begin
             AttendanceLine.Validate("Check In Time", AttendanceLog."Log Time");
             if (AttendanceLine."Check In Time" <> 0T) then begin
@@ -64,14 +65,15 @@ codeunit 50026 "Attendance Mgt"
         AttendanceLog.SetAscending("Log Time", true);
         AttendanceLog.SetRange(Date, InitialDate);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        if AttendanceLog.Findlast then begin
-            if AttendanceLine."Check In Time" <> AttendanceLog."Log Time" then
-                if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check Out From"))) then
-                    AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
-                else
-                    Clear(AttendanceLine."Check Out Time");
-        end;
-
+        if AttendanceLog.Findlast then
+            if AttendanceLine."Check In Time" <> AttendanceLog."Log Time" then begin
+                if EmployeeWorkShift."Check Out From" <> 0 then begin
+                    if AttendanceLog."Log Time" >= (AttendanceLine."Shift Start Time" + TextToDuration(format(EmployeeWorkShift."Check Out From"))) then
+                        AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time")
+                end else
+                    AttendanceLine.Validate("Check Out Time", AttendanceLog."Log Time");
+            end else
+                Clear(AttendanceLine."Check Out Time");
         EngNep.Reset; //Min 1.25.2023
         EngNep.SetRange("English Date", InitialDate);
         if EngNep.FindFirst then
