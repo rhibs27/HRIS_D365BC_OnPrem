@@ -1027,7 +1027,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 caption = 'Service Period';
                 ApplicationArea = all;
-                Visible = false;
+                Editable = false;
             }
         }
 
