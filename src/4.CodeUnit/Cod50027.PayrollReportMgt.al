@@ -5,6 +5,9 @@ codeunit 50027 "Payroll Report Mgt."
 {
     var
         EmployeeFilter: Code[20];
+        AttendanceSetupReady: Boolean;
+        AttendanceSetup: Record "Attendance Setup";
+        PgSetup: record "Payroll General Setup";
 
     procedure SetEmployeeCode(empCode: Code[20])
     begin
@@ -893,8 +896,8 @@ codeunit 50027 "Payroll Report Mgt."
 
     local procedure GetAttendanceSetup()
     begin
-        AttendanceSetup.Get;
-        AttendanceSetupReady := true;
+        // AttendanceSetup.Get;
+        // AttendanceSetupReady := true;
     end;
 
     // procedure IsHourCalculation(): Boolean
@@ -980,7 +983,307 @@ codeunit 50027 "Payroll Report Mgt."
         exit(Exp1);
     end;
 
+    //this function is used to get the annual accessible income of an employee based on the payroll attributes usage
+    // it calculates the total annual earnings and total retirement contributions
+    procedure GetAnnualAccessibleIncome(EmpCode: Code[20];
+                                        PostedPayrollNo: Code[20];
+                                        PayCycleTerm: Code[20];
+                                        var TotalAnnualEarning: Decimal;
+                                        var TotalRetirement: Decimal)
     var
-        AttendanceSetupReady: Boolean;
-        AttendanceSetup: Record "Attendance Setup";
+        LastEntryNo: Integer;
+        TaxSetupHdr: Record "Tax Setup Header";
+        RemainingMonth: Integer;
+        EmployeePayrollOpen: Record "Employee Payroll Opening";
+        DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
+        TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry" temporary;
+        Employee: Record Employee;
+    begin
+        //1. finds if payroll has posted for employee
+        //if found, then it will get the last posted month and project the earning for remaining months
+        //if not found, then it will project the earning for all months of the pay cycle term
+        //2. it will then get the total annual earnings and total retirement contributions
+
+        TempDetailedEmpLedgerEntry.DeleteAll();
+        LastEntryNo := 90000000;
+
+        EmployeePayrollOpen.Reset();
+        EmployeePayrollOpen.SetRange("Employee No.", EmpCode);
+        EmployeePayrollOpen.SetRange("Fiscal Year", PaycycleTerm);
+        if EmployeePayrollOpen.FindFirst() then;
+
+        TaxSetupHdr.Get(Employee."Tax Code");
+
+        DetailedEmpLedgerEntry.Reset;
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetFilter("Employee No.", EmpCode);
+        DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        if DetailedEmpLedgerEntry.FindLast then begin
+            CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, PayCycleTerm, EmpCode, LastEntryNo, TempDetailedEmpLedgerEntry);
+            // RemainingMonth := GetLastPayCycle(EmpCode,PayCycleTerm) - DetailedEmpLedgerEntry."Pay Cycle Period"
+        end
+        else begin
+            CreateTempDetailedLedgerFromPAttrUsage(1, PayCycleTerm, EmpCode, LastEntryNo, TempDetailedEmpLedgerEntry);
+            // RemainingMonth := GetLastPayCycle(EmpCode,PayCycleTerm);
+        end;
+
+
+        Clear(DetailedEmpLedgerEntry);
+        DetailedEmpLedgerEntry.Reset;
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
+        DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        if DetailedEmpLedgerEntry.FindFirst then
+            repeat
+                TempDetailedEmpLedgerEntry.Init;
+                TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
+                if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+                    TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
+                TempDetailedEmpLedgerEntry.Insert;
+            until DetailedEmpLedgerEntry.Next = 0;
+
+
+        PgSetup.Get();
+        Employee.Reset;
+        Employee.SetRange("No.", EmpCode);
+        Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
+        Employee.FindFirst;
+        Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
+                "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
+
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
+        TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
+        TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3',
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution");
+
+        TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
+
+
+        TempDetailedEmpLedgerEntry.DeleteAll();
+    end;
+
+    local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean
+    var
+        PayrollAtr: Record "Payroll Attributes";
+    begin
+        if PayrollAtr.Get(AttrCode) then begin
+            if PayrollAtr.Irregular then
+                if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
+                    exit(true)
+                else
+                    exit(false);
+            if PayrollAtr."Non-Taxable" then
+                exit(false);
+
+            if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
+                exit(true);
+
+            if PayrollAtr."Apply Every Month" then
+                exit(true);
+
+            if (PayrollAtr.Type = PayrollAtr.Type::Deduction) then begin
+
+                if PayrollAtr.Subtype in [PayrollAtr.Subtype::"Social Security Tax", PayrollAtr.Subtype::"Tax on Remuneration & Benefits"] then
+                    exit(true);
+
+                exit(false);
+            end;
+        end;
+        exit(false);
+    end;
+
+    procedure GetTax(StartAmount: Decimal; endAmount: Decimal; var RemainingTaxableAmount: Decimal): Decimal
+    var
+        RemainingAmountCopy: Decimal;
+    begin
+        if (endAmount - StartAmount) <= RemainingTaxableAmount then begin
+            RemainingTaxableAmount := RemainingTaxableAmount - (endAmount - StartAmount + 1);
+            exit(endAmount - StartAmount + 1)
+        end
+        else begin
+            RemainingAmountCopy := RemainingTaxableAmount;
+            RemainingTaxableAmount := 0;
+            exit(RemainingAmountCopy);
+        end;
+    end;
+
+    local procedure GetTax2(StartAmount: Decimal; endAmount: Decimal; RemainTaxable: Decimal; TempTax: Decimal; TaxSetupLine: Record "Tax Setup Line"): Decimal
+    begin
+
+        if RemainTaxable > 0 then
+            exit(endAmount - StartAmount + 1)
+        else
+            if TaxSetupLine."Tax Rate" > 1 then
+                exit(Round(TempTax * 100 / TaxSetupLine."Tax Rate", 0.01, '='))
+            else
+                exit(Round(TempTax * 100, 0.01, '='));
+    end;
+
+    procedure CreateTempDetailedLedgerFromPAttrUsage(StartPeriod: Integer;
+                                                    PayCycleTerm: Code[20];
+                                                    EmpCode: Code[20];
+                                                    var TempEntryNo: Integer;
+                                                    var TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry" temporary)
+    var
+        i: Integer;
+        PayrollAttrUsage: Record "Payroll Attributes Usage";
+        PayAttr: Record "Payroll Attributes";
+        InsertData: Boolean;
+        FirstIteration: Boolean;
+        PgSetup: Record "Payroll General Setup";
+        EmpVar: Record Employee;
+    begin
+
+        FirstIteration := true;
+        PgSetup.Get();
+        EmpVar.Get(EmpCode);
+
+        for i := StartPeriod to GetLastPayCycle(EmpCode, PayCycleTerm) do begin
+            PayrollAttrUsage.Reset();
+            PayrollAttrUsage.SetRange("Employee Code", EmpCode);
+            if PayrollAttrUsage.FindSet() then
+                repeat
+                    InsertData := false;
+                    PayrollAttrUsage.CalcFields(Type, Subtype, "Formula Exists");
+                    if CheckIfProjectable(PayrollAttrUsage.Code) then
+                        InsertData := true;
+                    PayAttr.Get(PayrollAttrUsage.Code);
+                    if (PayAttr."Pay Frequency" <> 0) and (getPaidFrequency(PayAttr.Code, TempDetailedEmpLedgerEntry) >= PayAttr."Pay Frequency") then
+                        InsertData := false;
+                    if InsertData then begin
+                        TempDetailedEmpLedgerEntry.Init();
+                        TempDetailedEmpLedgerEntry."Entry No." := TempEntryNo;
+                        TempDetailedEmpLedgerEntry."Employee No." := EmpCode;
+                        TempDetailedEmpLedgerEntry.Validate("Payroll Attribute Code", PayrollAttrUsage.Code);
+                        if PayAttr.Type = PayAttr.Type::Benefits then
+                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
+                        TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
+
+                        // TempDetailedEmpLedgerEntry."Specific Component" := PayAttr."Specific Component";
+                        // TempDetailedEmpLedgerEntry."Pension Specific" := PayAttr."Pension Specific";
+                        // TempDetailedEmpLedgerEntry."Settlement Specific" := PayAttr."Settlement Specific";
+                        TempDetailedEmpLedgerEntry."Non-Taxable" := PayAttr."Non-Taxable";
+                        TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
+                        TempDetailedEmpLedgerEntry."Pay Cycle Term" := PayCycleTerm;
+                        TempDetailedEmpLedgerEntry."Pay Cycle Period" := i;
+                        TempDetailedEmpLedgerEntry.Amount := PayrollAttrUsage.Amount;
+                        if PayrollAttrUsage."Formula Exists" then begin
+
+                            TempDetailedEmpLedgerEntry.Amount := getAttributeAmount(EmpCode, PayrollAttrUsage.Code);
+                        end;
+
+                        // if PayAttr.Subtype = PayAttr.Subtype::Grade then
+                        //     TempDetailedEmpLedgerEntry.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerEntry.Amount, TempDetailedEmpLedgerEntry."Pay Cycle Period");  //update according to grade plan
+
+                        //tempcode non payment as 12 month>>
+                        // if PayAttr.Type = PayAttr.Type::"Non-Payment" then
+                        //     if not FirstIteration then
+                        //         TempDetailedEmpLedgerEntry.Amount := 0;
+
+                        //get interest income amt
+                        // if PayAttr."Specific Component" = PayAttr."Specific Component"::"Interest Income" then
+                        //     TempDetailedEmpLedgerEntry.Amount := getInterestIncome(TempDetailedEmpLedgerEntry."Employee No.",
+                        //                                                         PayAttr.Code,
+                        //                                                         TempDetailedEmpLedgerEntry."Pay Cycle Term",
+                        //                                                         TempDetailedEmpLedgerEntry."Pay Cycle Period"
+                        //                                                         );
+
+                        TempDetailedEmpLedgerEntry.Insert();
+                        TempEntryNo += 1;
+                    end;
+                until PayrollAttrUsage.Next() = 0;
+
+            FirstIteration := false;
+        end;
+    end;
+
+    procedure getPaidFrequency(attrCode: Code[20]; var TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry"): Integer
+    begin
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Payroll Attribute Code", attrCode);
+        exit(TempDetailedEmpLedgerEntry.Count);
+    end;
+
+
+    // Returns the last pay cycle period for the given employee code and pay cycle term. (last salary posted month for employee)
+    procedure GetLastPayCycle(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
+    var
+        PGSetup: Record "Payroll General Setup";
+        EmpRec: Record Employee;
+        PayrollRepMgt: Codeunit "Payroll Report Mgt.";
+        RemainingMonth: Integer;
+    begin
+        RemainingMonth := 12;
+        EmpRec.Get(empCode);
+        PGSetup.Get();
+
+        //terminated employee
+        if EmpRec.Status = EmpRec.Status::Terminated then
+            if EmpRec."Termination Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Termination Date") and
+                (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Termination Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriodForTermination(EmpRec, 'MONTHLY', PayCycleTerm);
+
+        //contract expiry EmpRec
+        if EmpRec."Employment Type" = EmpRec."Employment Type"::Contract then
+            if EmpRec."Contract Expiry Date" <> 0D then
+                if (PGSetup."Payroll Fiscal Year Start Date" < EmpRec."Contract Expiry Date") and
+                        (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
+                    RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
+
+        //force retired EmpRec
+        // if EmpRec."Force Retirement Date" <> 0D then
+        //     if (EmpRec."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
+        //         RemainingMonth := PayrollRepMgt.GetPayPeriodForForceRetirement(EmpRec, 'MONTHLY', PayCycleTerm);
+
+        exit(RemainingMonth);
+    end;
+
+    // procedure GetGradeAmt(Emp: Record Employee; var GradeAmt: Decimal; payPeriod: Integer): Decimal
+    // var
+    //     GradePlan: Record "Grade Plan";
+    //     levelwiseAttr: Record "Level Wise Attributes";
+    // begin
+    //     GradePlan.Reset();
+    //     GradePlan.SetRange("Employee No.", Emp."No.");
+    //     GradePlan.SetRange("Salary Level", Emp."Salary Level");
+    //     GradePlan.SetRange(Verified, true);
+    //     GradePlan.SetRange(Applied, false);
+    //     GradePlan.SetFilter("Salary Grade", '<>%1', Emp."Salary Grade");
+    //     GradePlan.SetFilter("Pay Cycle Period", '<>%1&<=%2', 0, payPeriod);
+    //     if GradePlan.FindLast() then
+    //         //get the applied month
+    //         if levelwiseAttr.Get(GradePlan."Salary Grade", Emp."Salary Level") then
+    //             GradeAmt := levelwiseAttr."Level Rate";
+
+    //     exit(GradeAmt);
+    // end;
+
+    // procedure getInterestIncome(empCode: Code[20]; PattrCode: Code[20]; PayCycleTerm: Code[20]; payCycleperiod: Integer): Decimal
+    // var
+    //     InterestIncome: Record "Payroll Interest Income";
+    // begin
+    //     InterestIncome.Reset();
+    //     InterestIncome.SetRange("Employee Code", empCode);
+    //     InterestIncome.SetRange("Payroll Attribute", PattrCode);
+    //     InterestIncome.SetRange("Pay Cycle Term", PayCycleTerm);
+    //     InterestIncome.SetRange("Pay Cycle Period", payCycleperiod);
+    //     InterestIncome.CalcSums("Interest Perquisite");
+    //     exit(InterestIncome."Interest Perquisite")
+    // end;
+
+    // procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
+    // begin
+    //     EmployeeFilter := empCode;
+    //     PayCycleTerm := FiscalYear;
+    // end;
 }

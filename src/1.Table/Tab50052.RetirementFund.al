@@ -208,7 +208,6 @@ table 50052 "Retirement Fund"
         if not GuiAllowed then begin
             TempRF := Rec;
             HRMgt.OpenRFRequest(TempRF."Employee No.", TempRF2);
-            //HRMgt.OpenRFRequest(HRMgt.GetEmployeeNo(), RF);
             Rec := TempRF2;
             "RTF Amount (Lumpsum)" := TempRF."RTF Amount (Lumpsum)";
             "RTF Amount (Month)" := TempRF."RTF Amount (Month)";
