@@ -164,7 +164,10 @@ table 50025 "Payroll Attributes"
             end;
         }
         field(38; "Static GL Ledger Account"; Code[10]) { }
-        field(39; "Activity Type"; enum "Employee Activity Type") { }
+        field(39; "Activity Type"; enum "Employee Activity Type")
+        {
+            ValuesAllowed = " ", "Transfer Claim";
+        }
         field(40; "Transfer Claim Flexible"; Boolean) { }
     }
 
