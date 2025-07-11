@@ -112,7 +112,8 @@ page 50222 "Transfer Journal"
                 Image = SendApprovalRequest;
                 trigger OnAction()
                 begin
-                    EmpActMgt.SendForApproval(Rec."Emp Act. No");
+                    if Confirm('Do you want to Send for Approval request?', false) then
+                        EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"HR Transfer");
                 end;
             }
             action("Approve")
@@ -123,7 +124,8 @@ page 50222 "Transfer Journal"
                 Image = Approve;
                 trigger OnAction()
                 begin
-                    ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve request?', false) then
+                        ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
                 end;
             }
             action(Post)
@@ -134,7 +136,10 @@ page 50222 "Transfer Journal"
                 Image = Post;
                 trigger OnAction()
                 begin
-                    EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                    if Confirm('Do you want to Post Transfer?', false) then begin
+                        EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                        CurrPage.Close();
+                    end;
                 end;
             }
             action(Reject)
@@ -145,7 +150,8 @@ page 50222 "Transfer Journal"
                 Image = Reject;
                 trigger OnAction()
                 begin
-                    EmpActMgt.RejectJournal(Rec, true);
+                    if Confirm('Do you want to Reject Transfer?', false) then
+                        EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
         }
