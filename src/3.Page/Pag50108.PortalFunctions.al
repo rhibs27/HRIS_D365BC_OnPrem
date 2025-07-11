@@ -91,7 +91,7 @@ page 50108 "Portal Functions"
         // user.Reset();
         // user.SetRange("User Name", UserId);
         // user.FindFirst();
-        // WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
+        WebServiceKey := IdentityManagement.GetWebServicesKey(user."User Security ID");
         if Employee.Login then
             FirstLogin := 'false'
         else

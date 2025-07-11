@@ -8491,12 +8491,6 @@ End Function
         <Field Name="CompanyInfoName">
           <DataField>CompanyInfoName</DataField>
         </Field>
-        <Field Name="CompanyInfoAddress">
-          <DataField>CompanyInfoAddress</DataField>
-        </Field>
-        <Field Name="CompanyCommunicationAddress">
-          <DataField>CompanyCommunicationAddress</DataField>
-        </Field>
         <Field Name="CompanyPhNo">
           <DataField>CompanyPhNo</DataField>
         </Field>
@@ -8520,9 +8514,6 @@ End Function
         </Field>
         <Field Name="BankAccountNo">
           <DataField>BankAccountNo</DataField>
-        </Field>
-        <Field Name="EmployeeBranch">
-          <DataField>EmployeeBranch</DataField>
         </Field>
         <Field Name="EmployeeSalaryLevel">
           <DataField>EmployeeSalaryLevel</DataField>
@@ -8670,30 +8661,6 @@ End Function
         </Field>
         <Field Name="TotalTaxFormat">
           <DataField>TotalTaxFormat</DataField>
-        </Field>
-        <Field Name="PastBenifit">
-          <DataField>PastBenifit</DataField>
-        </Field>
-        <Field Name="PastBenifitFormat">
-          <DataField>PastBenifitFormat</DataField>
-        </Field>
-        <Field Name="PastRetirement">
-          <DataField>PastRetirement</DataField>
-        </Field>
-        <Field Name="PastRetirementFormat">
-          <DataField>PastRetirementFormat</DataField>
-        </Field>
-        <Field Name="PastSStPaid">
-          <DataField>PastSStPaid</DataField>
-        </Field>
-        <Field Name="PastSStPaidFormat">
-          <DataField>PastSStPaidFormat</DataField>
-        </Field>
-        <Field Name="PastTaxRenPaid">
-          <DataField>PastTaxRenPaid</DataField>
-        </Field>
-        <Field Name="PastTaxRenPaidFormat">
-          <DataField>PastTaxRenPaidFormat</DataField>
         </Field>
         <Field Name="NonTaxable">
           <DataField>NonTaxable</DataField>

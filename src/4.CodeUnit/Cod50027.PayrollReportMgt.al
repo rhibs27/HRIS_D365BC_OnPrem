@@ -1,3 +1,6 @@
+//This codeunit is used to store payroll calculation for reports
+//It contains complex payroll projection calculation without using payroll lines
+//Temperrory table of Dateiled employee ledger entry is used to store the data.
 codeunit 50027 "Payroll Report Mgt."
 {
     var
