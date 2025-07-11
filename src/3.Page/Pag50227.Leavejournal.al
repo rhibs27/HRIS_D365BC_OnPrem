@@ -102,7 +102,7 @@ page 50227 "Leave Journal"
 
                 begin
                     if Confirm('Do you want to Send for Approval request?', false) then
-                        EmpActMgt.SendForApproval(Rec."Emp Act. No");
+                        EmpActMgt.SendForApproval(Rec."Emp Act. No", rec."Employee Act Type"::"Leave Request");
                 end;
             }
             action("Approve")
