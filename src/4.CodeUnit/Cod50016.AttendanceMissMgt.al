@@ -42,8 +42,6 @@ codeunit 50016 "AttendanceMiss Mgt"
 
     procedure OpenAttendanceMissed(EmpCode: Code[20])
     var
-        //TempEmpActivity: Record "Employee Activity" temporary;
-        //CancelDocument: Record "Cancel Document" temporary;
         AttendanceMissed: Record "Attendance Missed" temporary;
         ApprovalEntry: Record "Approval HRMS";
     begin
@@ -117,26 +115,13 @@ codeunit 50016 "AttendanceMiss Mgt"
     //     end;
     // end;
 
-    procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary)
+    procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
         AttendanceMissed1, AttendanceMissed2 : Record "Attendance Missed";
-        //EmployeeActivity: Record "Employee Activity";
-        //CancelDocument2: Record "Cancel Document";
-        //EmployeeActivity2: Record "Employee Activity";
-        leave: Record Leave;
-        //EmpAct: Record "Employee Activity";
-        LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        // if AttendanceMissed.Type = AttendanceMissed.Type::"Leave Request" then begin //Min 10.13.2022
-        //     leave.Reset;
-        //     leave.SetRange("Cancelled Document No.", AttendanceMissed."Cancelled Document No.");
-        //     leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
-        //     if leave.FindFirst then
-        //         Error(LeaveCancelError, leave."No.", leave."Leave Code");
-        // end;
         AttendanceMissed2.Reset();
         AttendanceMissed2.SetRange("Employee No.", AttendanceMissed."Employee No.");
         AttendanceMissed2.SetRange("Start Date", AttendanceMissed."Start Date");
@@ -156,36 +141,10 @@ codeunit 50016 "AttendanceMiss Mgt"
             AttendanceMissed.TestField(Remarks);
             AttendanceMissed1.Init;
             AttendanceMissed1.TransferFields(AttendanceMissed);
-            // if CancelDocument."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
-            // else
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-
             AttendanceMissed1.Validate("Approval Status", AttendanceMissed1."Approval Status"::Pending);
             AttendanceMissed1.Insert(true);
-        end else begin
-            // CancelDocument1.Get(CancelDocument."No.");
-            // if CancelDocument1."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
-            // else
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-            // CancelDocument1.Modify(true);
         end;
-
-
-        // if CancelDocument1.Type = CancelDocument1.Type::"Leave Request" then begin
-        //     Clear(CancelDocument2);
-        //     CancelDocument2.Get(CancelDocument."Cancelled Document No.");
-        //     CancelDocument2."Cancelled No." := CancelDocument1."No.";
-        //     CancelDocument2.Modify;
-
-        //     if (CancelDocument1."Start Date" < CancelDocument2."Start Date") or (CancelDocument1."End Date" < CancelDocument2."Start Date") then
-        //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-        //     if (CancelDocument1."Start Date" > CancelDocument2."End Date") or (CancelDocument1."End Date" > CancelDocument2."End Date") then
-        //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-        // end;
+        exit(AttendanceMissed1."No.");
     end;
 
     procedure ApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary): Text
@@ -326,11 +285,10 @@ codeunit 50016 "AttendanceMiss Mgt"
         EmployeeAttendance.SetRange("Employee No.", EmpCode);
         EmployeeAttendance.SetRange("Attendance Date", StartDate, EndDate);
         EmployeeAttendance.FilterGroup(-1);
-        EmployeeAttendance.SetRange("Present Day", 1);
         EmployeeAttendance.SetRange("Leave Day", 1);
         EmployeeAttendance.FilterGroup(0);
         if EmployeeAttendance.FindFirst then
-            Error('You were present or on a leave on date %1.', EmployeeAttendance."Attendance Date");
+            Error('You were on a leave on date %1.', EmployeeAttendance."Attendance Date");
     end;
 
     // procedure ApproveRejectCancelAttendanceMissed(CancelDocument: Record "Cancel Document"; IsApproved: Boolean)
@@ -401,44 +359,72 @@ codeunit 50016 "AttendanceMiss Mgt"
     // >> On Approve Attendance Missed >> Santosh >> 2025-03-04
     procedure AttendanceMissedApproved(AttendanceMissCode: Code[20])
     var
-        EmpAttendActivity: Record "Employee Attendance & Activity";
+        AttendanceLog: Record "Attendance Log";
         AttendanceMissed: Record "Attendance Missed";
+        DailyAttendanceUpdate: Report "Daily Attendance Update";
+        EmpAttendActivity: Record "Employee Attendance & Activity";
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then begin
-            EmpAttendActivity.Reset;
-            EmpAttendActivity.SetRange("Employee No.", AttendanceMissed."Employee No.");
-            EmpAttendActivity.SetRange("Attendance Date", AttendanceMissed."Start Date", AttendanceMissed."End Date");
-            if EmpAttendActivity.Find('-') then
-                repeat
-                    EmpAttendActivity."Absent Day" := 0;
-                    EmpAttendActivity."Present Day" := 1;
-                    EmpAttendActivity."Leave Day" := 0;
-                    if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then
-                        EmpAttendActivity."Week Off Day" := 1
-                    else
-                        EmpAttendActivity."Week Off Day" := 0;
-                    EmpAttendActivity."Tour Day" := 0;
-                    EmpAttendActivity."Source No." := AttendanceMissed."No.";
-                    EmpAttendActivity."Check In Time" := AttendanceMissed."Check In Time";
-                    EmpAttendActivity."Check Out Time" := AttendanceMissed."Check Out Time";
-                    EmpAttendActivity."Attendance Update" := true;
-                    EmpAttendActivity."Employee Activity Found" := true;
-                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                    EmpAttendActivity.Modify;
-                until EmpAttendActivity.Next = 0;
-            AttendanceSetup.Get;
-            Employee.Get(AttendanceMissed."Employee No.");
-            Employee.Validate("Attendance Missed On", HRMgt.CheckLeaveCount(Employee."No."));
-            if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-                if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                    Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-                else
-                    Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-            end else
-                Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-            Employee.Modify;
+            if AttendanceMissed."Check In Time" <> 0T then begin
+                AttendanceLog.Init();
+                AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
+                AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
+                AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
+                AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
+                AttendanceLog.Validate("Biometric Attendance", false);
+                AttendanceLog.Insert();
+            end;
+            if AttendanceMissed."Check Out Time" <> 0T then begin
+                AttendanceLog.Init();
+                AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
+                AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
+                AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
+                AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
+                AttendanceLog.Validate("Biometric Attendance", false);
+                AttendanceLog.Insert();
+            end;
+            // Update Daily Attendance
+            DailyAttendanceUpdate.SetRequestFilterValue(AttendanceMissed."Start Date", AttendanceMissed."Start Date", AttendanceMissed."Employee No.");
+            DailyAttendanceUpdate.UseRequestPage(false);
+            DailyAttendanceUpdate.Run();//For Ongoing Leave
+            if EmpAttendActivity.get(AttendanceMissed."Employee No.", AttendanceMissed."Start Date") then begin
+                EmpAttendActivity."Attendance Update" := true;
+                EmpAttendActivity.Modify();
+            end;
+
+            // EmpAttendActivity.Reset;
+            // EmpAttendActivity.SetRange("Employee No.", AttendanceMissed."Employee No.");
+            // EmpAttendActivity.SetRange("Attendance Date", AttendanceMissed."Start Date", AttendanceMissed."End Date");
+            // if EmpAttendActivity.Find('-') then
+            //     repeat
+            //         EmpAttendActivity."Absent Day" := 0;
+            //         EmpAttendActivity."Present Day" := 1;
+            //         EmpAttendActivity."Leave Day" := 0;
+            //         if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then
+            //             EmpAttendActivity."Week Off Day" := 1
+            //         else
+            //             EmpAttendActivity."Week Off Day" := 0;
+            //         EmpAttendActivity."Tour Day" := 0;
+            //         EmpAttendActivity."Source No." := AttendanceMissed."No.";
+            //         EmpAttendActivity."Check In Time" := AttendanceMissed."Check In Time";
+            //         EmpAttendActivity."Check Out Time" := AttendanceMissed."Check Out Time";
+            //         EmpAttendActivity."Attendance Update" := true;
+            //         EmpAttendActivity."Employee Activity Found" := true;
+            //         EmpAttendActivity."Created Datetime" := CurrentDateTime;
+            //         EmpAttendActivity.Modify;
+            //     until EmpAttendActivity.Next = 0;
+            // AttendanceSetup.Get;
+            // Employee.Get(AttendanceMissed."Employee No.");
+            // Employee.Validate("Attendance Missed On", HRMgt.CheckLeaveCount(Employee."No."));
+            // if AttendanceSetup."Activate Punch in Date" <> 0D then begin
+            //     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
+            //         Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+            //     else
+            //         Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            // end else
+            //     Employee.Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
+            // Employee.Modify;
         end;
-        AttendanceMissed.Modify;
     end;
 }

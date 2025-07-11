@@ -1,4 +1,4 @@
-page 50342 EmpOnLeave
+page 50342 "Emp On Leave Today API"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
@@ -49,5 +49,5 @@ page 50342 EmpOnLeave
     end;
 
     var
-    HrMgt : Codeunit "HR Mgt.";
+        HrMgt: Codeunit "HR Mgt.";
 }
