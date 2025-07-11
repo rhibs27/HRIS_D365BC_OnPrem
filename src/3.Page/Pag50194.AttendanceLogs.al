@@ -14,6 +14,11 @@ page 50194 "Attendance Logs"
         {
             repeater(Group)
             {
+                field("Emp DateTime"; rec."Emp DateTime")
+                {
+                    ToolTip = 'Specifies the value of the Employee ID field.';
+                    ApplicationArea = All;
+                }
                 field("Employee ID"; Rec."Employee ID")
                 {
                     ToolTip = 'Specifies the value of the Employee ID field.';

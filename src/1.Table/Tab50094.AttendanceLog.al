@@ -4,7 +4,7 @@ table 50094 "Attendance Log"
     // * Machine Emp. Code
     // * Employee Name
     // - Two fields Added
-    //     validation of employee code will bring Employee code and Name in the record.
+    // validation of employee code will bring Employee code and Name in the record.
 
     Caption = 'Attendance Log';
     DataClassification = CustomerContent;

@@ -759,7 +759,6 @@ permissionset 50000 D365HRMSPermission
         page "Employee Transfer Claim" = X,
         page "Employee Transfer Entity" = X,
         page "Employee Travel Entity" = X,
-        page EmpOnLeave = X,
         page "HR loan officer" = X,
         page "HR Overview" = X,
         page "HR Payroll Manager" = X,

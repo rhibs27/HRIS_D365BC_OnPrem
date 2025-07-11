@@ -1,4 +1,4 @@
-page 50332 "Attendance Missed API"
+page 50332 "Attendance Missed Request API"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
@@ -45,13 +45,18 @@ page 50332 "Attendance Missed API"
                 {
                     Caption = 'End Date';
                 }
-                field(checkInTime; Rec."Check In Time")
+                field(prevCheckInTime; HrMgt.getTimeInFormat(Rec."Previous Check In Time"))
                 {
                 }
-                field(checkOutTime; Rec."Check Out Time")
+                field(prevCheckOutTime; HrMgt.getTimeInFormat(Rec."Previous Check Out Time"))
                 {
                 }
-
+                field(checkInTime; HrMgt.getTimeInFormat(Rec."Check In Time"))
+                {
+                }
+                field(checkOutTime; HrMgt.getTimeInFormat(Rec."Check Out Time"))
+                {
+                }
                 field(no; Rec."No.")
                 {
                     Caption = 'No.';
@@ -94,9 +99,11 @@ page 50332 "Attendance Missed API"
             }
         }
     }
-    trigger OnOpenPage()
     var
         HrMgt: Codeunit "HR Mgt.";
+
+    trigger OnOpenPage()
+
     begin
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         Rec.SetAscending("No.", false);

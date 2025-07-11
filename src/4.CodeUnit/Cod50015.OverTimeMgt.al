@@ -443,9 +443,9 @@ codeunit 50015 "OverTime Mgt"
         leaveTypeSetup: Record "Leave Type Setup";
     begin
         OverTime.Get(overTimeNo);
-        leaveTypeSetup.SetRange("Substitute Leave", true);
+        leaveTypeSetup.SetRange(Compensatory, true);
         if not leaveTypeSetup.FindFirst() then
-            Error('Leave Type not found for substitute leave.');
+            Error('Leave Type not found for Compensatory leave.');
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", leaveTypeSetup."Code");
         LeaveEarn.Validate(EmpNo, OverTime."Employee No.");
