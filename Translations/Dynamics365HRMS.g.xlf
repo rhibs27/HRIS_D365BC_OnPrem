@@ -42288,11 +42288,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Portal Functions - Method RequestTransferClaim - NamedType UnauthorizedApprover</note>
         </trans-unit>
-        <trans-unit id="Page 4277848567 - Method 3970313554 - NamedType 2996237022" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Portal Functions - Method submitLeaveRequest - NamedType LeaveRequestError</note>
-        </trans-unit>
         <trans-unit id="Page 3651188298 - Control 2694167148 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Appraisal Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
