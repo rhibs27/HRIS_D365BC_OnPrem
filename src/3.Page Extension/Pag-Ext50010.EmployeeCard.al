@@ -2254,11 +2254,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         CASE Rec."Deputation on" OF
             Rec."Deputation on"::Branch:
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2268,10 +2268,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec."Deputation on"::Province:
                 BEGIN
                     ProvinceEdit := true;
-                    BranchEdit := false;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := false;
                     BranchVisible := false;
                     ProvinceVisible := true;
@@ -2280,8 +2280,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Department:
                 BEGIN
-                    ProvinceEdit := false;
-                    BranchEdit := false;
+                    ProvinceEdit := true;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2293,8 +2293,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Unit:
                 BEGIN
-                    ProvinceEdit := false;
-                    BranchEdit := false;
+                    ProvinceEdit := true;
+                    BranchEdit := true;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2306,11 +2306,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::"Extension Counter":
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := true;
+                    UnitEdit := true;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
