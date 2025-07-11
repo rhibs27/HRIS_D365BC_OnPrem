@@ -1116,7 +1116,7 @@ table 50035 "Posted Payroll Line"
         field(1046; "Gratuity & leave Encash Tax"; Decimal) { }
         field(1047; "Projection Month"; Decimal) { }
         field(1048; "Deputation On"; Enum "Deputation Type") { }
-        field(1049; "Deputation Code"; Code[20]) { }
+        field(1049; "Deputation Code"; Code[20]) { }  //
         field(1050; "Sol ID"; Code[20]) { }
         field(1051; "1% Slab"; Decimal) { }
         field(1052; "10% Slab"; Decimal) { }
@@ -1135,20 +1135,31 @@ table 50035 "Posted Payroll Line"
         field(1062; "LWP Days"; Decimal) { }
         field(1063; "Prior Leave Days"; Decimal) { }
         field(1064; "Property Insurance Premium"; Decimal) { }
-        field(1065; "Current Non-Payments"; Decimal) { }
-        field(1066; "Projected Non-Payments"; Decimal) { }
-        field(1067; "Past Non-Payments"; Decimal) { }
-        field(1068; "39% Slab"; Decimal) { }
-        field(1069; "Post Resignation Days"; Decimal) { }
-        field(1070; "Post Payroll Days"; Decimal) { Description = 'Post Payroll Days'; Editable = false; }
-        field(1071; "CIT Posted 1"; Boolean) { }
-        field(1072; "PF Posted 1"; Boolean) { }
-        field(1073; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1074; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
-        field(1075; "CIT Posted 2"; Boolean) { }
-        field(1076; "PF Posted 2"; Boolean) { }
-        field(1077; "Posting Date"; Date) { }
-        field(1078; Reversed; Boolean) { }
+
+        //
+        field(1066; "Current Non-Payments"; Decimal) { }
+        field(1067; "Projected Non-Payments"; Decimal) { }
+        field(1068; "Past Non-Payments"; Decimal) { }
+        field(1069; "39% Slab"; Decimal) { }
+        field(1070; "Post Resignation Days"; Decimal) { }
+
+        field(1071; "Post Payroll Days"; Decimal) { Description = 'Post Payroll Days'; Editable = false; }
+        field(1072; "Absent Days Before Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
+        field(1073; "Absent Days After Promotion"; Decimal)
+        {
+            Description = 'A';
+        }
+        field(1075; "CIT Posted 1"; Boolean) { }
+        field(1076; "PF Posted 1"; Boolean) { }
+        field(1077; "IC Posted 1"; Boolean) { Description = 'Income Tax 1 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1078; "IC Posted 2"; Boolean) { Description = 'Income Tax 2 ( Social Security Tax and Tax on Remuneration)'; }
+        field(1079; "CIT Posted 2"; Boolean) { }
+        field(1080; "PF Posted 2"; Boolean) { }
+        field(1081; "Posting Date"; Date) { }
+        field(1082; Reversed; Boolean) { }
 
     }
 
