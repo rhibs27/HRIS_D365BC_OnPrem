@@ -25688,6 +25688,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Templates - Control Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 484116663 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EmployeeOnLeave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp On Leave Today API - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2701905267 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28958,6 +28963,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Loan/Advance API - NamedType Error1</note>
         </trans-unit>
+        <trans-unit id="Page 1350650245 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EmployeeOnLeave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee On Leave Months - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 506621030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>employeeOverTimeEntity</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30792,11 +30802,6 @@
           <source>Specifies the value of the Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employeewise KPI List - Control Period - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3058644566 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>EmployeeOnLeave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page EmpOnLeave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4177272057 - Control 4038995315 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Attribute Code field.</source>
