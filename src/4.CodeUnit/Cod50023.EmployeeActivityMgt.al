@@ -1,17 +1,18 @@
 codeunit 50023 EmployeeActivityMgt
 {
-    procedure SendForApproval(DocumentNo: Code[20])
+    procedure SendForApproval(DocumentNo: Code[20]; DocumentType: Enum "Employee Activity Type")
     var
-        // HRSetup: Record "Human Resources Setup";
         EmpActJnl1: Record "Employee Activity Journal";
         ApprovalHRMS: Record "Approval HRMS";
     begin
         EmpActJnl1.Reset();
         EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
+        EmpActJnl1.SetRange("Employee Act Type", DocumentType);
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
         if EmpActJnl1.FindSet() then begin
             repeat
-                CheckLeaveDetails(EmpActJnl1);
+                if DocumentType = DocumentType::"Leave Request" then
+                    CheckLeaveDetails(EmpActJnl1);
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
             until EmpActJnl1.Next() = 0;

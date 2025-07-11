@@ -285,83 +285,6 @@ page 50108 "Portal Functions"
     begin
     end;
 
-    // [ServiceEnabled]
-    // //[Scope('Personalization')]
-    // procedure getEmployeeApprovals(requestType: Code[20]): text
-    // var
-    //     Hrsetup: Record "Human Resources Setup";
-    //     RecommenderCode: Code[250];
-    //     RecommenderName: Text[500];
-    //     ApprovalCode: Code[250];
-    //     ApproverName: Code[500];
-    //     EmployeeRequest: Record Employee;
-    //     Employee: Record Employee;
-    //     Approval: Record "Approval HRMS";
-    //     ApprovalSetupLine: Record "Approval Setup Line";
-    // begin
-    //     Hrsetup.Get();
-    //     if Hrsetup."Approval From Setup" then begin
-    //         EmployeeRequest.get(HrMgt.GetEmployeeNo());
-    //         ApprovalSetupLine.Reset();
-    //         CASE requestType OF
-    //             FORMAT(ApprovalSetupLine."Request Type"::"Leave Request"):
-    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Leave Request");
-    //             FORMAT(ApprovalSetupLine."Request Type"::"Travel Request"):
-    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Request");
-    //             FORMAT(ApprovalSetupLine."Request Type"::"Travel Claim"):
-    //                 ApprovalSetupLine.SetRange("Request Type", ApprovalSetupLine."Request Type"::"Travel Claim");
-    //         END;
-    //         ApprovalSetupLine.SetRange("Deputation On", EmployeeRequest."Deputation On");
-    //         ApprovalSetupLine.SetRange("Employee Role", EmployeeRequest."Approver Role");
-    //         ApprovalSetupLine.SetRange("Approval Sequence", 1);
-    //         if ApprovalSetupLine.FindSet() then
-    //             repeat
-    //                 Employee.Reset();
-    //                 Employee.SetRange("Deputation On", ApprovalSetupLine."Deputation On");
-    //                 if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Branch then
-    //                     Employee.SetRange("Global Dimension 1 Code", EmployeeRequest."Global Dimension 1 Code")
-    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Department then
-    //                     Employee.SetRange("Department Code", EmployeeRequest."Department Code")
-    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Province then
-    //                     Employee.SetRange("Province Code", EmployeeRequest."Province Code");
-    //                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-    //                 if Employee.FindFirst() then begin
-    //                     RecommenderCode += Employee."No." + '/';
-    //                     RecommenderName += Employee."Full Name" + '/';
-    //                 end;
-    //             until ApprovalSetupLine.Next() = 0;
-
-    //         ApprovalSetupLine.SetRange("Approval Sequence");
-    //         ApprovalSetupLine.SetRange("Approval Sequence", 2);
-    //         if ApprovalSetupLine.FindSet() then
-    //             repeat
-    //                 Employee.Reset();
-    //                 Employee.SetRange("Deputation On", ApprovalSetupLine."Deputation On");
-    //                 if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Branch then
-    //                     Employee.SetRange("Global Dimension 1 Code", EmployeeRequest."Global Dimension 1 Code")
-    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Department then
-    //                     Employee.SetRange("Department Code", EmployeeRequest."Department Code")
-    //                 else if EmployeeRequest."Deputation On" = EmployeeRequest."Deputation On"::Province then
-    //                     Employee.SetRange("Province Code", EmployeeRequest."Province Code");
-    //                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-    //                 if Employee.FindFirst() then begin
-    //                     ApprovalCode += Employee."No." + '/';
-    //                     ApproverName += Employee."Full Name" + '/'
-    //                 end;
-    //             until ApprovalSetupLine.Next() = 0;
-    //         exit('{' +
-    //         '"ApprovalFromSetup" : "' + (Format('true')) + '",' +
-    //         '"RecommenderCode" : "' + (Format(RecommenderCode)) + '",' +
-    //         '"RecommenderName" : "' + (Format(RecommenderName)) + '",' +
-    //         '"ApprovalCode" : "' + (Format(ApprovalCode)) + '",' +
-    //         '"ApproverName" : "' + (Format(ApproverName)) + '"}');
-    //     end
-    //     else
-    //         exit('false')
-    // end;
-
-
-
     [ServiceEnabled]
     //[Scope('Personalization')]
     procedure submitLeaveRequest(leaveCode: Code[20]; startDate: Date; leaveType: text[20]; endDate: Date; remarks: Text; childGender: Text; forDeathof: Text): text
@@ -428,42 +351,6 @@ page 50108 "Portal Functions"
         end;
         tempLeave.Validate("Approval Status", tempLeave."Approval Status"::Pending);
         tempLeave.Insert(true);
-        //For Approver Line Generate
-        // if not HRSetup."Approval From Setup" then
-        //     if (recommenderCode = '') and (approverCode <> '') then begin
-        //         tempLeave."Approver Type" := tempLeave."Approver Type"::Direct;
-        //         tempLeave."Approval Status" := tempLeave."Approval Status"::Recommended;
-        //         Approval.Init();
-        //         Approval.validate("Document No.", Templeave."No.");
-        //         Approval.Validate("Approver No", approverCode);
-        //         Approval.Validate("Document Type", tempLeave.type);
-        //         Approval.validate("Employee No", tempLeave."Employee No.");
-        //         Approval.validate("Approval Sequence", 2);
-        //         Approval.validate("approval Status", tempLeave."Approval Status"::Recommended);
-        //         Approval.insert(true);
-        //     end else if (approverCode <> '') and (recommenderCode <> '') then begin
-        //         tempLeave."Approver Type" := tempLeave."Approver Type"::"With Recommendation";
-        //         tempLeave."Approval Status" := tempLeave."Approval Status"::Pending;
-        //         //for Recommendation
-        //         Approval.Init();
-        //         Approval.validate("Document No.", Templeave."No.");
-        //         Approval.Validate("Approver No", recommenderCode);
-        //         Approval.Validate("Document Type", tempLeave.type);
-        //         Approval.validate("Employee No", tempLeave."Employee No.");
-        //         Approval.validate("Approval Sequence", 1);
-        //         Approval.validate("approval Status", tempLeave."Approval Status"::Pending);
-        //         Approval.insert(true);
-        //         // For Approval
-        //         Approval.Init();
-        //         Approval.validate("Document No.", Templeave."No.");
-        //         Approval.Validate("Approver No", approverCode);
-        //         Approval.Validate("Document Type", tempLeave.type);
-        //         Approval.validate("Employee No", tempLeave."Employee No.");
-        //         Approval.validate("Approval Sequence", 2);
-        //         Approval.validate("approval Status", tempLeave."Approval Status"::Pending);
-        //         Approval.insert(true);
-        //     end else if approverCode = '' then
-        //             Error('Approver Code must have value');
         docNo := LeaveMgt.ApplyForLeave(tempLeave);
         if docNo <> '' then
             exit(docNo);
@@ -3124,7 +3011,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     //[Scope('Personalization')]
-    procedure downloadPaySlip(year: Integer; month: Text; employeeNo: Code[20]): Text
+    procedure downloadPaySlip(year: Integer; month: Text): Text
     var
         PaySlip: Report "Payroll Payslip";
         MonthOption: Enum "Nepali Month";
@@ -3141,8 +3028,7 @@ page 50108 "Portal Functions"
 
     begin
         HRSetup.get();
-
-        Employee.Get(employeeNo);
+        Employee.Get(HrMgt.GetEmployeeNo());
         PostedPayrollHeader.Reset;
         PostedPayrollHeader.SetRange("Nepali Year", year);
         PostedPayrollHeader.SetFilter("Nepali Month", month);
@@ -3325,7 +3211,7 @@ page 50108 "Portal Functions"
 
     [ServiceEnabled]
     //[Scope('Personalization')]
-    procedure downloadTaxDeductionInfoReport(year: Integer; month: Text; employeeNo: Code[20]) exitText: Text
+    procedure downloadTaxDeductionInfoReport(year: Integer; month: Text) exitText: Text
     var
         TaxDeductionInfo: Report "Tax Deduction Information";
         MonthOption: Enum "Nepali Month";
@@ -3337,12 +3223,12 @@ page 50108 "Portal Functions"
         tempbolb: Codeunit "Temp Blob";
         instream: InStream;
         base64: Codeunit "Base64 Convert";
+        EmployeeNo: Code[20];
 
     begin
         HRSetup.Get();
-        Employee.Reset;
-        Employee.SetRange("No.", employeeNo);
-        Employee.FindFirst;
+        EmployeeNo := HrMgt.GetEmployeeNo();
+        Employee.get(EmployeeNo);
         PostedPayrollHeader.Reset;
         PostedPayrollHeader.SetRange("Nepali Year", year);
         PostedPayrollHeader.SetFilter("Nepali Month", month);
