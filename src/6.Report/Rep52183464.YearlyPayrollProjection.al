@@ -744,8 +744,8 @@ report 50144 "Yearly Payroll Projection"
                             TempDetailedEmpLedgerPRM.Amount := PayrollReportMgt.getAttributeAmount(EmployeeFilter, PayrollAttrUsage.Code);
                         end;
 
-                        if PayAttr.Subtype = PayAttr.Subtype::Grade then
-                            TempDetailedEmpLedgerPRM.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerPRM.Amount, TempDetailedEmpLedgerPRM."Pay Cycle Period");  //update according to grade plan
+                        // if PayAttr.Subtype = PayAttr.Subtype::Grade then
+                        //     TempDetailedEmpLedgerPRM.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerPRM.Amount, TempDetailedEmpLedgerPRM."Pay Cycle Period");  //update according to grade plan
 
                         //tempcode non payment as 12 month>>
                         // if PayAttr.Type = PayAttr.Type::"Non-Payment" then
@@ -753,12 +753,12 @@ report 50144 "Yearly Payroll Projection"
                         //         TempDetailedEmpLedgerPRM.Amount := 0;
 
                         //get interest income amt
-                        if PayAttr."Specific Component" = PayAttr."Specific Component"::"Interest Income" then
-                            TempDetailedEmpLedgerPRM.Amount := getInterestIncome(TempDetailedEmpLedgerPRM."Employee No.",
-                                                                                PayAttr.Code,
-                                                                                TempDetailedEmpLedgerPRM."Pay Cycle Term",
-                                                                                TempDetailedEmpLedgerPRM."Pay Cycle Period"
-                                                                                );
+                        // if PayAttr."Specific Component" = PayAttr."Specific Component"::"Interest Income" then
+                        //     TempDetailedEmpLedgerPRM.Amount := getInterestIncome(TempDetailedEmpLedgerPRM."Employee No.",
+                        //                                                         PayAttr.Code,
+                        //                                                         TempDetailedEmpLedgerPRM."Pay Cycle Term",
+                        //                                                         TempDetailedEmpLedgerPRM."Pay Cycle Period"
+                        //                                                         );
 
                         TempDetailedEmpLedgerPRM.Insert();
                         TempEntryNo += 1;
@@ -802,45 +802,45 @@ report 50144 "Yearly Payroll Projection"
                     RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
 
         //force retired EmpRec
-        if EmpRec."Force Retirement Date" <> 0D then
-            if (EmpRec."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
-                RemainingMonth := PayrollRepMgt.GetPayPeriodForForceRetirement(EmpRec, 'MONTHLY', PayCycleTerm);
+        // if EmpRec."Force Retirement Date" <> 0D then
+        //     if (EmpRec."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
+        //         RemainingMonth := PayrollRepMgt.GetPayPeriodForForceRetirement(EmpRec, 'MONTHLY', PayCycleTerm);
 
         exit(RemainingMonth);
     end;
 
-    procedure GetGradeAmt(Emp: Record Employee; var GradeAmt: Decimal; payPeriod: Integer): Decimal
-    var
-        GradePlan: Record "Grade Plan";
-        levelwiseAttr: Record "Level Wise Attributes";
-    begin
-        GradePlan.Reset();
-        GradePlan.SetRange("Employee No.", Emp."No.");
-        GradePlan.SetRange("Salary Level", Emp."Salary Level");
-        GradePlan.SetRange(Verified, true);
-        GradePlan.SetRange(Applied, false);
-        GradePlan.SetFilter("Salary Grade", '<>%1', Emp."Salary Grade");
-        GradePlan.SetFilter("Pay Cycle Period", '<>%1&<=%2', 0, payPeriod);
-        if GradePlan.FindLast() then
-            //get the applied month
-            if levelwiseAttr.Get(GradePlan."Salary Grade", Emp."Salary Level") then
-                GradeAmt := levelwiseAttr."Level Rate";
+    // procedure GetGradeAmt(Emp: Record Employee; var GradeAmt: Decimal; payPeriod: Integer): Decimal
+    // var
+    //     GradePlan: Record "Grade Plan";
+    //     levelwiseAttr: Record "Level Wise Attributes";
+    // begin
+    //     GradePlan.Reset();
+    //     GradePlan.SetRange("Employee No.", Emp."No.");
+    //     GradePlan.SetRange("Salary Level", Emp."Salary Level");
+    //     GradePlan.SetRange(Verified, true);
+    //     GradePlan.SetRange(Applied, false);
+    //     GradePlan.SetFilter("Salary Grade", '<>%1', Emp."Salary Grade");
+    //     GradePlan.SetFilter("Pay Cycle Period", '<>%1&<=%2', 0, payPeriod);
+    //     if GradePlan.FindLast() then
+    //         //get the applied month
+    //         if levelwiseAttr.Get(GradePlan."Salary Grade", Emp."Salary Level") then
+    //             GradeAmt := levelwiseAttr."Level Rate";
 
-        exit(GradeAmt);
-    end;
+    //     exit(GradeAmt);
+    // end;
 
-    procedure getInterestIncome(empCode: Code[20]; PattrCode: Code[20]; PayCycleTerm: Code[20]; payCycleperiod: Integer): Decimal
-    var
-        InterestIncome: Record "Payroll Interest Income";
-    begin
-        InterestIncome.Reset();
-        InterestIncome.SetRange("Employee Code", empCode);
-        InterestIncome.SetRange("Payroll Attribute", PattrCode);
-        InterestIncome.SetRange("Pay Cycle Term", PayCycleTerm);
-        InterestIncome.SetRange("Pay Cycle Period", payCycleperiod);
-        InterestIncome.CalcSums("Interest Perquisite");
-        exit(InterestIncome."Interest Perquisite")
-    end;
+    // procedure getInterestIncome(empCode: Code[20]; PattrCode: Code[20]; PayCycleTerm: Code[20]; payCycleperiod: Integer): Decimal
+    // var
+    //     InterestIncome: Record "Payroll Interest Income";
+    // begin
+    //     InterestIncome.Reset();
+    //     InterestIncome.SetRange("Employee Code", empCode);
+    //     InterestIncome.SetRange("Payroll Attribute", PattrCode);
+    //     InterestIncome.SetRange("Pay Cycle Term", PayCycleTerm);
+    //     InterestIncome.SetRange("Pay Cycle Period", payCycleperiod);
+    //     InterestIncome.CalcSums("Interest Perquisite");
+    //     exit(InterestIncome."Interest Perquisite")
+    // end;
 
     procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
     begin

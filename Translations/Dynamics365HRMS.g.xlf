@@ -54018,6 +54018,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Validate Travel Claim - Control Leave Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 3012955398 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Yearly Payroll Projection</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EmployeeFilter field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Employee No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the PayCycleTerm field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Query 193572365 - QueryColumn 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>

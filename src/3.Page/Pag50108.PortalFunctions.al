@@ -4176,7 +4176,7 @@ page 50108 "Portal Functions"
 
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
           + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
-          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove;
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove + RetirementFundForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
