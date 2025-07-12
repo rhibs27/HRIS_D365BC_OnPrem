@@ -992,7 +992,7 @@ codeunit 50000 "Leave Mgt."
         END;
     end;
 
-    procedure LeaveApproved(leavecode: Code[20])
+    procedure LeaveApproved(leaveNo: Code[20])
     var
         leaveEarn: Record "Leave Earn";
         leave: Record Leave;
@@ -1001,7 +1001,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
     begin
-        leave.Get(leavecode);
+        leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
             LeaveEarn.Init;
@@ -1014,7 +1014,7 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
         end;
-        LeaveTypeSetup.get(leavecode);
+        LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
             //Create Service inactivity line
             clear(ServiceInactivity);
@@ -1024,8 +1024,6 @@ codeunit 50000 "Leave Mgt."
             ServiceInactivity.Validate("Start Date", leave."Start Date");
             ServiceInactivity.Validate("End Date", leave."End Date");
             ServiceInactivity.Insert(true);
-
-
         end;
         Commit();
         // Update Daily Attendance
