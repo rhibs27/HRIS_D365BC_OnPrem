@@ -253,7 +253,7 @@ page 50100 "Posted Leave Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
-                        Leavemgt.OpenCancelEmpActivity(Rec);
+                        LeaveMgt.OpenCancelEmpActivity(Rec);
                         // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
                     end;
                 end;
