@@ -35,8 +35,11 @@ codeunit 50020 "Attachment Mgt."
         FileSize: Integer;
         AttachmentSetup: Record "Attachment Setup";
         MaxFileSize: Integer;
+        EmployeeActType: Enum "Employee Activity Type";
     begin
-        // Define maximum allowed file size 
+        // Define maximum allowed file size
+        if EmpActType = format(EmployeeActType::"HR Transfer") then
+            EmpActType := format(EmployeeActType::"Employee Transfer");
         AttachmentSetup.Reset();
         AttachmentSetup.SetFilter(Type, EmpActType);
         if AttachmentSetup.FindFirst() then
