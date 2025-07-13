@@ -54,7 +54,7 @@ codeunit 50000 "Leave Mgt."
                 else
                     Difference := 0.5;
                 if LeaveTypeSetup."Exclude Non Working Days" then
-                    exit(EndDate - StartDate + Difference - GetNonWokingDays(StartDate, EndDate, Empcode))
+                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
                 else
                     exit(EndDate - StartDate + Difference);
             end;
@@ -62,7 +62,7 @@ codeunit 50000 "Leave Mgt."
             exit(EndDate - StartDate + 1);
     end;
 
-    procedure GetNonWokingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
+    procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     var
         Description: Text;
         Proviences: Text;
@@ -590,7 +590,7 @@ codeunit 50000 "Leave Mgt."
                 Error(ErrorNoOfDays);
             if not (CompensatoryDate in [PayrollSetup."Payroll Fiscal Year Start Date" .. PayrollSetup."Payroll Fiscal Year End Date"]) then
                 Error('Cannot apply for previous fiscal year');
-            //IF GetNonWokingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
+            //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
             //ERROR(ErrorNonWokDays,CompensatoryDate);
             //check for compensatory
             EmpActivity.Reset;
@@ -992,7 +992,7 @@ codeunit 50000 "Leave Mgt."
         END;
     end;
 
-    procedure LeaveApproved(leavecode: Code[20])
+    procedure LeaveApproved(leaveNo: Code[20])
     var
         leaveEarn: Record "Leave Earn";
         leave: Record Leave;
@@ -1001,7 +1001,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
     begin
-        leave.Get(leavecode);
+        leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
             LeaveEarn.Init;
@@ -1014,7 +1014,7 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
         end;
-        LeaveTypeSetup.get(leavecode);
+        LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
             //Create Service inactivity line
             clear(ServiceInactivity);
@@ -1024,8 +1024,6 @@ codeunit 50000 "Leave Mgt."
             ServiceInactivity.Validate("Start Date", leave."Start Date");
             ServiceInactivity.Validate("End Date", leave."End Date");
             ServiceInactivity.Insert(true);
-
-
         end;
         Commit();
         // Update Daily Attendance
@@ -1104,7 +1102,7 @@ codeunit 50000 "Leave Mgt."
             //             EmpAttendActivity."Present Day" := 0;
             //             EmpAttendActivity."Absent Day" := 1;
             //         end;
-            //         if GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
+            //         if GetNonWorkingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
             //             EmpAttendActivity."Absent Day" := 0;
             //         end;
             //         EmpAttendActivity."Leave Day" := 0;

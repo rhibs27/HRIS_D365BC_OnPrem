@@ -23,6 +23,12 @@ query 50029 "Employee Work Shift API"
             column(endTime; "End Time")
             {
             }
+            column(deputationType; "Deputation Type")
+            {
+            }
+            column(deputationCode; "Deputation Code")   
+            {
+            }
             column(fridayEndTime; "Friday End Time")
             {
             }

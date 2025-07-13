@@ -351,11 +351,12 @@ table 50124 Leave
                             Validate("End Time", WorkShift."End Time");
                         end;
                 end;
-                if "Leave Type" <> xRec."Leave Type" then begin
-                    Clear("Start Date");
-                    Clear("End Date");
-                    Clear("No. of Days");
-                end;
+                if GuiAllowed then
+                    if "Leave Type" <> xRec."Leave Type" then begin
+                        Clear("Start Date");
+                        Clear("End Date");
+                        Clear("No. of Days");
+                    end;
                 if "End Date" <> 0D then begin
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
                 end;

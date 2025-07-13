@@ -158,7 +158,7 @@ report 50146 "Attendance Update"
     begin
         RetrunBool := false;
         Clear(CalendarDescription);
-        RetrunBool := LeaveMgt.GetNonWokingDays(Today, Today, Employee."No.") <> 0;
+        RetrunBool := LeaveMgt.GetNonWorkingDays(Today, Today, Employee."No.") <> 0;
         CalendarDescription := HRMgt.ReturnCalendarDescription;
         exit(RetrunBool);
     end;
