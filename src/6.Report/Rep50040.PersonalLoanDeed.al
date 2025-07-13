@@ -31,7 +31,7 @@ report 50040 "Personal Loan Deed"
             column(CitizenshipNoNepali; EmpVar."Citizenship No. (Nepali)") { }
             column(AmountInWordsNepali; "Amount In Words (Nepali)") { }
             column(EmpNoNepali; EmpVar."Employee No. (Nepali)") { }
-            column(WardNo; Format(EmpVar."Ward No")) { }
+            column(WardNo; Format(EmpVar."Permanent Ward No")) { }
             column(EmpDistrict; EmpDistrict) { }
             column(OfferDate; "Offer Letter Date(Nepali)") { }
 

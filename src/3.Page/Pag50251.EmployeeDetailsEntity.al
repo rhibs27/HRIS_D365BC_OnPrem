@@ -91,7 +91,7 @@ page 50251 "Employee Details Entity"
                 field(TemporaryHouse; Rec."Temporary House") { }
                 field(CitizenshipIssuePlaceCode; Rec."Citizenship Issue Place Code") { }
                 field(ProvinceCode; Rec."Province Code") { }
-                field(WardNo; Rec."Ward No") { }
+                field(WardNo; Rec."Permanent Ward No") { }
                 // field(Office; Rec.Office) { }
                 // field(EcoSystem; Rec."Eco-System") { }
                 field(ContractExpiryDate; Rec."Contract Expiry Date") { }

@@ -134,8 +134,8 @@ tableextension 50013 "Employee Ext" extends Employee
                 // TestField("CIF ID");
                 if "Bank Account No." <> '' then begin
                     EmployeeRec.Reset;
-                // TestField("CIF ID");s
-                EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
+                    // TestField("CIF ID");s
+                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
                     EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
                     if EmployeeRec.FindFirst then
@@ -159,7 +159,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Inside/Outside Valley");
                     Clear("Sol Id");
                 end;
-                Validate("Global Dimension 1 Code", "Branch Code");
+                // Validate("Global Dimension 1 Code", "Branch Code");  //this is not ideal for all company
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
                 else begin
@@ -613,8 +613,9 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
         }
 
-        field(50051; "Distance betn Res and Office"; Decimal)
+        field(50051; "Distance betwn Res and Office"; Decimal)
         {
+            Caption = 'Distance between Residence and Office';
             DataClassification = CustomerContent;
         }
         field(50052; "Full Name"; Text[50])
@@ -791,7 +792,7 @@ tableextension 50013 "Employee Ext" extends Employee
             BEGIN
                 IF (Rec."Permanent District" <> xRec."Permanent District") AND ("Permanent District" <> '') THEN
                     HRMgt.CheckDistrictName("Permanent District");
-                "Address" := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+                "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             END;
 
             trigger OnLookup()
@@ -830,7 +831,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("KPI Deputation");
                     Clear("Permanent District");
                 end;
-                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+                Address := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
 
             trigger OnLookup()
@@ -911,7 +912,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if (Rec."Permanent VDC" <> xRec."Permanent VDC") and ("Permanent VDC" <> '') then
                     HRMgt.CheckMunicipalityName("Permanent VDC");
-                "Address" := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+                "Address" := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             END;
 
             trigger OnLookup()
@@ -968,7 +969,7 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
         }
 
-        field(50093; "Ward No"; Integer)
+        field(50093; "Permanent Ward No"; Integer)
         {
             DataClassification = CustomerContent;
             MinValue = 1;
@@ -981,11 +982,11 @@ tableextension 50013 "Employee Ext" extends Employee
                     Error('Please select Permanent VDC first');
                 Municipalities.SetRange("Municipality Name", "Permanent VDC");
                 if Municipalities.FindFirst() then begin
-                    if "Ward No" > Municipalities."No of ward" then
+                    if "Permanent Ward No" > Municipalities."No of ward" then
                         Error('Ward No. should be less than %1', Municipalities."No of ward");
                 end else
                     Error('Permanent VDC Not Found in Municipality Table');
-                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+                Address := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
         }
         field(50094; "Disable Punch in"; Boolean)
@@ -1269,7 +1270,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50149; "Relation With Emergency Cont"; Text[30])
         {
             DataClassification = CustomerContent;
-            TableRelation = "Employee Relative";
+
         }
         field(50153; "KPI Functional Title"; Code[20])
         {
@@ -1333,7 +1334,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
-        field(50163; "Emergency Contact Name"; Text[20])
+        field(50163; "Emergency Contact Name"; Text[50])
         {
             DataClassification = ToBeClassified;
         }
@@ -1365,7 +1366,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
 
             begin
-                Address := ReturnAddress("Permanent VDC", "Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
+                Address := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
             end;
         }
         field(50168; "Temporary Locality"; Text[100])
@@ -1598,11 +1599,13 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
-                    OrganizationStructureLine.Reset();
-                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-                    OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
-                    if OrganizationStructureLine.FindFirst() then
-                        Validate("Province Code", OrganizationStructureLine.Code);
+
+                    //need to fix it
+                    // OrganizationStructureLine.Reset();
+                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+                    // OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
+                    // if OrganizationStructureLine.FindFirst() then
+                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
@@ -1613,11 +1616,13 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
-                    OrganizationStructureLine.Reset();
-                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
-                    OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
-                    if OrganizationStructureLine.FindFirst() then
-                        Validate("Province Code", OrganizationStructureLine.Code);
+
+                    //need to fix it
+                    // OrganizationStructureLine.Reset();
+                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
+                    // OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
+                    // if OrganizationStructureLine.FindFirst() then
+                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
@@ -1646,11 +1651,12 @@ tableextension 50013 "Employee Ext" extends Employee
                     //     Validate("Branch Code", OrganizationStructureLine.Code);
                     // end;
 
-                    OrganizationStructureLine.Reset();
-                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-                    OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
-                    if OrganizationStructureLine.FindFirst() then
-                        Validate("Province Code", OrganizationStructureLine.Code);
+                    //need to fix it
+                    // OrganizationStructureLine.Reset();
+                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
+                    // OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
+                    // if OrganizationStructureLine.FindFirst() then
+                    //     Validate("Province Code", OrganizationStructureLine.Code);
 
                 end;
             "Deputation on"::Unit:
@@ -1670,11 +1676,13 @@ tableextension 50013 "Employee Ext" extends Employee
                     // OrganizationStructureLine.SetRange("Reporting Code", "Unit Code");
                     // if OrganizationStructureLine.FindFirst() then
                     //     Validate("Department Code", OrganizationStructureLine.Code);
-                    OrganizationStructureLine.Reset();
-                    OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
-                    OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
-                    if OrganizationStructureLine.FindFirst() then
-                        Validate("Province Code", OrganizationStructureLine.Code);
+
+                    //need to fix it
+                    // OrganizationStructureLine.Reset();
+                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
+                    // OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
+                    // if OrganizationStructureLine.FindFirst() then
+                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
         end;
 

@@ -125,6 +125,65 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
+        field(50017; "Set Emergency Contact"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+                Employeerelative: Record "Employee Relative";
+            begin
+                //case when emergency contact is cleared
+                if (not Rec."Set Emergency Contact") and xRec."Set Emergency Contact" then begin
+                    Employee.Get("Employee No.");
+                    Employee."Relation With Emergency Cont" := '';
+                    Employee."Emergency Contact Name" := '';
+                    Employee."Emergency Contact Email" := '';
+                    Employee."Emergency Mobile No." := '';
+                    Employee.Modify();
+                end
+                else if "Set Emergency Contact" then begin
+                    // no two emergency contact
+                    Employeerelative.SetRange("Employee No.", "Employee No.");
+                    Employeerelative.SetRange("Set Emergency Contact", true);
+                    Employeerelative.SetFilter("Line No.", '<>%1', "Line No.");
+                    if Employeerelative.Count() > 0 then
+                        Error('Employee can have only one emergency contact at a time');
+
+                    // flow data to employee
+                    TestField("Relative Code");
+                    TestField("Full Name");
+                    TestField("Phone No.");
+                    Employee.Get("Employee No.");
+                    Employee."Relation With Emergency Cont" := "Relative Code";
+                    Employee."Emergency Contact Name" := "Full Name";
+                    Employee."Emergency Contact Email" := "E-mail";
+                    Employee."Emergency Mobile No." := "Phone No.";
+                    Employee.Modify();
+
+                    Message('Emergency contact details updated sucessfully!');
+                end;
+
+            end;
+        }
+        field(50018; "E-mail"; text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+    }
+    keys
+    {
+        key(key2; "Relative Code")
+        {
+
+        }
+    }
+    fieldgroups
+    {
+        addlast(DropDown; "Relative Code", "Full Name")
+        {
+
+        }
     }
     var
         Hrmgt: Codeunit "HR Mgt.";

@@ -121,7 +121,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Temporary Address field.';
             }
-            field("Distance between Residence and Office"; Rec."Distance betn Res and Office")
+            field("Distance between Residence and Office"; Rec."Distance betwn Res and Office")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Distance between Residence and Office field.';
@@ -300,12 +300,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 field("Permanent Province"; Rec."Permanent Province")
                 {
+                    Caption = 'Province';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent Province field.';
 
                 }
                 field("Permanent District"; Rec."Permanent District")
                 {
+                    Caption = 'District';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent District field.';
 
@@ -313,23 +315,26 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 field("Permanent VDC"; Rec."Permanent VDC")
                 {
+                    Caption = 'VDC (Rural-Municipality)/ Municipality/ Metropolitan city';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent VDC field.';
 
                 }
                 field("Permanent Locality"; Rec."Permanent Locality")
                 {
+                    Caption = 'Locality';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent Locality.';
 
                 }
                 field("Permanent House"; Rec."Permanent House")
                 {
+                    Caption = 'House No.';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent House field.';
 
                 }
-                field("Ward No"; Rec."Ward No")
+                field("Ward No"; Rec."Permanent Ward No")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Ward No field.';
@@ -352,6 +357,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Province"; Rec."Temporary Province")
                 {
+                    Caption = 'Province';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Province field.';
@@ -359,6 +365,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary District"; Rec."Temporary District")
                 {
+                    Caption = 'District';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary District field.';
@@ -366,6 +373,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary VDC"; Rec."Temporary VDC")
                 {
+                    Caption = 'VDC (Rural-Municipality)/ Municipality/ Metropolitan city';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary VDC field.';
@@ -373,6 +381,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Locality"; Rec."Temporary Locality")
                 {
+                    Caption = 'Locality';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Locality.';
@@ -380,6 +389,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary House"; Rec."Temporary House")
                 {
+                    Caption = 'House No.';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary House field.';
@@ -387,6 +397,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Ward No"; Rec."Temporary Ward No")
                 {
+                    Caption = 'Ward No.';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Ward No field.';
@@ -394,25 +405,30 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
 
             }
-            group("Emergency Contact")
+            group("Emergency Contact Details")
             {
+                Editable = false;
                 field("Relation With Emergency Cont"; Rec."Relation With Emergency Cont")
                 {
+                    Caption = 'Relation';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont field.';
                 }
                 field("Emergency Cont. Name"; Rec."Emergency Contact Name")
                 {
+                    Caption = 'Name';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Name field.';
                 }
                 field("Emergency Mobile No."; Rec."Emergency Mobile No.")
                 {
+                    Caption = 'Mobile No.';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Emergency Mobile No. field.';
                 }
                 field("Emergency Cont. Email"; Rec."Emergency Contact Email")
                 {
+                    Caption = 'E-mail';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Email field.';
                 }
@@ -887,12 +903,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Premium Property Insurance field.', Comment = '%';
                 }
-                // field("Assigned User ID"; Rec."Assigned User ID")
-                // {
-                //     Visible = false;
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Assigned User ID field.', Comment = '%';
-                // }
                 field("Contract Salary Amount"; Rec."Contract Salary Amount")
                 {
                     ApplicationArea = All;
@@ -1882,10 +1892,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = AddWatch;
                     PromotedCategory = Category7;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Assign Job Function action.';
+                    ToolTip = 'Executes the Assign Job Function action. Which updates info based on deputation';
                     trigger OnAction()
                     begin
-                        IF CONFIRM('Do you want to assign job function?', FALSE) THEN
+                        IF CONFIRM('Do you want to assign job function?', false) THEN
                             ServiceHistoryMgt.PopUpForJobAssignment(Rec);
                     end;
                 }
@@ -2403,7 +2413,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         rec."Temporary District" := rec."Permanent District";
         rec."Temporary VDC" := rec."Permanent VDC";
         rec."Temporary Locality" := rec."Permanent Locality";
-        rec.Validate("Temporary Ward No", rec."Ward No");
+        rec.Validate("Temporary Ward No", rec."Permanent Ward No");
         Rec."Temporary House" := rec."Permanent House";
     end;
 
