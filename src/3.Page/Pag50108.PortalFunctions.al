@@ -1757,7 +1757,7 @@ page 50108 "Portal Functions"
             if (EmployeeAttendance."Check In Time" = 0T) or (EmployeeAttendance."Check Out Time" = 0T) then begin
                 Error('Check in or Check out not found.');
             end;
-            if LeaveMgt.GetNonWokingDays(overTimeDate, overTimeDate, HrMgt.GetEmployeeNo()) = 0 then begin
+            if LeaveMgt.GetNonWorkingDays(overTimeDate, overTimeDate, HrMgt.GetEmployeeNo()) = 0 then begin
                 // if AttendanceLog."Check Out Time" >= EndTime then begin
                 if (EmployeeAttendance."Check Out Time" - EmployeeAttendance."Check In Time") < StandardWorkingHrs then begin
                     Error(StrSubstNo('Working hrs %1 hrs is less than Standard Working Hrs .', StandardWorkingHrs));

@@ -3883,14 +3883,14 @@ codeunit 50001 "HR Mgt."
     //         else
     //             Difference := 0.5;
     //         if LeaveTypeSetup."Exclude Non Working Days" then
-    //             exit(EndDate - StartDate + Difference - GetNonWokingDays(StartDate, EndDate, Empcode))
+    //             exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
     //         else
     //             exit(EndDate - StartDate + Difference);
     //     end else
     //         exit(EndDate - StartDate + 1);
     // end;
 
-    // procedure GetNonWokingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
+    // procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     // var
     //     Description: Text;
     //     Proviences: Text;
@@ -4423,7 +4423,7 @@ codeunit 50001 "HR Mgt."
     //             Error(ErrorNoOfDays);
     //         if not (CompensatoryDate in [PayrollSetup."Payroll Fiscal Year Start Date" .. PayrollSetup."Payroll Fiscal Year End Date"]) then
     //             Error('Cannot apply for previous fiscal year');
-    //         //IF GetNonWokingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
+    //         //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
     //         //ERROR(ErrorNonWokDays,CompensatoryDate);
     //         //check for compensatory
     //         EmpActivity.Reset;
@@ -8545,7 +8545,7 @@ codeunit 50001 "HR Mgt."
     //                     EmpAttendActivity."Present Day" := 0;
     //                     EmpAttendActivity."Absent Day" := 1;
     //                 end;
-    //                 if LeaveMgt.GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
+    //                 if LeaveMgt.GetNonWorkingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
     //                     EmpAttendActivity."Absent Day" := 0;
     //                 end;
     //                 EmpAttendActivity."Leave Day" := 0;
@@ -9414,7 +9414,7 @@ codeunit 50001 "HR Mgt."
     //             exit(false);
     //         end;
 
-    //         if LeaveMgt.GetNonWokingDays(EmployeeActivity."Start Date", EmployeeActivity."End Date", EmployeeActivity."Employee No.") = 0 then begin
+    //         if LeaveMgt.GetNonWorkingDays(EmployeeActivity."Start Date", EmployeeActivity."End Date", EmployeeActivity."Employee No.") = 0 then begin
     //             if AttendanceLog."Check Out Time" >= EndTime then begin
     //                 if (AttendanceLog."Check Out Time" - AttendanceLog."Check In Time") < StandardWorkingHrs then begin
     //                     RejectionRemarks := StrSubstNo('System rejected. Working hrs is less than %1 hrs.', StandardWorkingHrs);

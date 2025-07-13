@@ -141,46 +141,19 @@ page 50194 "Attendance Logs"
 
     actions
     {
-        area(Creation)
-        {
-            action("Edit Lists")
-            {
-                Image = Edit;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Edit Lists action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    Message('You do not have authority to change Attendance Log.');
-                end;
-            }
-            action(Delete)
-            {
-                trigger OnAction()
-                var
-                    AttendanceLog: Record "Attendance Log";
-                begin
-                    AttendanceLog.DeleteAll();
-                end;
-            }
-        }
     }
 
-    trigger OnOpenPage()
-    begin
-        if UserSetup.Get(UserId) then begin
-            if UserSetup."Is Admin" then
-                CurrPage.Editable(true)
-            else
-                CurrPage.Editable(false);
-        end else
-            CurrPage.Editable(false);
-    end;
+    // trigger OnOpenPage()
+    // begin
+    //     if UserSetup.Get(UserId) then begin
+    //         if UserSetup."Is Admin" then
+    //             CurrPage.Editable(true)
+    //         else
+    //             CurrPage.Editable(false);
+    //     end else
+    //         CurrPage.Editable(false);
+    // end;
 
-    var
-        UserSetup: Record "User Setup";
+    // var
+    //     UserSetup: Record "User Setup";
 }

@@ -55,6 +55,10 @@ table 50045 "Employee Work Shift"
             else if ("Deputation Type" = filter("Deputation Type"::Province)) "Organization Structure list".Code where(Type = Filter("Deputation Type"::Province))
             else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) "Organization Structure list".Code where(Type = Filter("Deputation Type"::"Extension Counter"));
         }
+        field(17; OverNight; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
@@ -68,14 +72,22 @@ table 50045 "Employee Work Shift"
         Text000: Label 'Start time cannot be greater or equal to End time.';
 
     local procedure CalcWorkTime(StartTime: Time; EndTime: Time)
+    var
+        Duration24: Duration;
     begin
+        Duration24 := 24 * 3600000;
         if ("Start Time" = 0T) or ("End Time" = 0T) then
             "Work Time" := 0
         else begin
-            // if EndTime <= StartTime then
-            //     Error(Text000);
+            if not OverNight then
+                if EndTime <= StartTime then
+                    Error(Text000);
             if (StartTime <> 0T) and (EndTime <> 0T) then
-                "Work Time" := EndTime - StartTime;
+                if not OverNight then
+                    "Work Time" := EndTime - StartTime
+                else
+                    "Work Time" := EndTime - StartTime + Duration24;
+
         end;
     end;
 }

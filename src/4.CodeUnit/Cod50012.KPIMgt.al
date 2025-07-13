@@ -206,7 +206,7 @@ codeunit 50012 "KPI Mgt."
 
     procedure CalculateNoOfWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     begin
-        exit(EndDate - StartDate - LeaveMgt.GetNonWokingDays(StartDate, EndDate, EmpCode) + 1);
+        exit(EndDate - StartDate - LeaveMgt.GetNonWorkingDays(StartDate, EndDate, EmpCode) + 1);
     end;
 
     procedure CalculateDailyKPIScoreSummary(EmpCode: Code[20]): Decimal

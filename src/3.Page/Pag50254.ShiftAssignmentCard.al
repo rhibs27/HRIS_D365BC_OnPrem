@@ -107,6 +107,8 @@ page 50254 "Shift Assignment Card"
                 begin
                     ShiftLine.Reset;
                     ShiftLine.SetRange("No.", Rec."No.");
+                    if ShiftLine.Count = 0 then
+                        Error('Shift Line not Found');
                     if Confirm('Do you want to send approval request?', false) then
                         ShiftAssignmentMgt.SendApprovalShiftAssignment(Rec, ShiftLine);
                 end;

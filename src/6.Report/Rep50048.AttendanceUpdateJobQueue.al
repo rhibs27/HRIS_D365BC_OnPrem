@@ -397,7 +397,7 @@ report 50048 "Attendance Update Job Queue"
                         end;
                     PRSetup."Vault Key":
                         begin
-                            if LeaveMgt.GetNonWokingDays(AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."Employee Code") = 0 then
+                            if LeaveMgt.GetNonWorkingDays(AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."Employee Code") = 0 then
                                 //EmployeeAttendanceActivity.SETFILTER("Check In Time",'<>%1',0T);
                                 EmployeeAttendanceActivity.SetRange("Present Day", 1);
                             RejectionRemarks := 'No Check In found.'

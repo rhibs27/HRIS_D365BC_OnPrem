@@ -8058,6 +8058,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field Lunch Start - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2137842149 - Field 1267938342 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>OverNight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Work Shift - Field OverNight - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2137842149 - Field 4085236075 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Registered Employees</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23358,11 +23363,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Control Log Time - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 2891534564 - Action 607810855 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Edit Lists action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Logs - Action Edit Lists - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 3520775762 - Control 1090351696 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Active field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -30732,6 +30732,11 @@
           <source>Specifies the value of the Lunch Start field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control Lunch Start - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2137842149 - Control 1267938342 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Overnight From field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Work Shift - Control OverNight - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2137842149 - Control 4085236075 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Registered Employees field.</source>
