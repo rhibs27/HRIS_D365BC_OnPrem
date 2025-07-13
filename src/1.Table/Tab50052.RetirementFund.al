@@ -275,7 +275,7 @@ table 50052 "Retirement Fund"
         PayrollGeneralSetup: Record "Payroll General Setup";
         ApproverMgt: Codeunit "Approver Mgt";
 
-    // //[Scope('Personalization')]
+
     procedure AssistEdit(OldRF: Record "Retirement Fund"): Boolean
     var
         RF: Record "Retirement Fund";

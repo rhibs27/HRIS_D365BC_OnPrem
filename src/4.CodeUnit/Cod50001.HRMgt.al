@@ -10072,6 +10072,7 @@ codeunit 50001 "HR Mgt."
         PayrollAttribute: Record "Payroll Attributes";
         LevelWiseAttributes: Record "Level Wise Attributes";
         PayrollReportMgt: Codeunit "Payroll Report Mgt.";
+        PayCyclePeriod: Record "Pay Cycle Period";
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -10106,14 +10107,20 @@ codeunit 50001 "HR Mgt."
         end;
 
         if not PostedDocFound then begin
-            EngNep.Reset;
-            if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then begin
-                EngNep.SetRange("English Date", Employee."Employment Date");
-            end else begin
-                EngNep.SetRange("English Date", PRSetup."Payroll Fiscal Year Start Date");
-            end;
-            EngNep.FindFirst;
-            TempRetirementFund."Payroll Month" := EngNep."Nepali Month";
+            // EngNep.Reset;
+            // if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then begin
+            //     EngNep.SetRange("English Date", Employee."Employment Date");
+            // end else begin
+            //     EngNep.SetRange("English Date", PRSetup."Payroll Fiscal Year Start Date");
+            // end;
+            // EngNep.FindFirst;
+            // TempRetirementFund."Payroll Month" := EngNep."Nepali Month";
+            if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
+                PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
+            else
+                PayCyclePeriod.SetRange("Start Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
+            PayCyclePeriod.FindFirst();
+            TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
         end;
 
         WITH TempRetirementFund DO BEGIN
@@ -10182,8 +10189,8 @@ codeunit 50001 "HR Mgt."
         DetailedEmployeeLedgEntry: Record "Detailed Employee Ledger Entry";
     begin
         PRSetup.Get;
-        // RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
-        // RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
+        RetirementFund.TestField("Approval Status", RetirementFund."Approval Status"::Pending);
+        RetirementFund."Approval Status" := RetirementFund."Approval Status"::Screened;
         RetirementFund."Screened Date" := CurrentDateTime;
         RetirementFund."Screened By" := UserId;
         Employee.Get(RetirementFund."Employee No.");

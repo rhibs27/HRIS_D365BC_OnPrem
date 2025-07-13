@@ -1020,11 +1020,9 @@ codeunit 50027 "Payroll Report Mgt."
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
         if DetailedEmpLedgerEntry.FindLast then begin
             CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, PayCycleTerm, EmpCode, LastEntryNo, TempDetailedEmpLedgerEntry);
-            // RemainingMonth := GetLastPayCycle(EmpCode,PayCycleTerm) - DetailedEmpLedgerEntry."Pay Cycle Period"
         end
         else begin
             CreateTempDetailedLedgerFromPAttrUsage(1, PayCycleTerm, EmpCode, LastEntryNo, TempDetailedEmpLedgerEntry);
-            // RemainingMonth := GetLastPayCycle(EmpCode,PayCycleTerm);
         end;
 
 
@@ -1147,7 +1145,7 @@ codeunit 50027 "Payroll Report Mgt."
         PgSetup.Get();
         EmpVar.Get(EmpCode);
 
-        for i := StartPeriod to GetLastPayCycle(EmpCode, PayCycleTerm) do begin
+        for i := StartPeriod to GetLastPayCycleForEmployee(EmpCode, PayCycleTerm) do begin
             PayrollAttrUsage.Reset();
             PayrollAttrUsage.SetRange("Employee Code", EmpCode);
             if PayrollAttrUsage.FindSet() then
@@ -1214,8 +1212,7 @@ codeunit 50027 "Payroll Report Mgt."
     end;
 
 
-    // Returns the last pay cycle period for the given employee code and pay cycle term. (last salary posted month for employee)
-    procedure GetLastPayCycle(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
+    procedure GetLastPayCycleForEmployee(empCode: Code[20]; PayCycleTerm: Code[20]): Integer
     var
         PGSetup: Record "Payroll General Setup";
         EmpRec: Record Employee;
@@ -1286,4 +1283,19 @@ codeunit 50027 "Payroll Report Mgt."
     //     EmployeeFilter := empCode;
     //     PayCycleTerm := FiscalYear;
     // end;
+
+    procedure GetPayrollprojectionMonthForEmployee(EmpCode: Code[20];
+                                                PayCycleTerm: Code[20];
+                                                var PayrollProjectionMonth: Integer)
+    var
+        DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
+    begin
+        DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        if DetailedEmpLedgerEntry.FindLast() then
+            PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm) - DetailedEmpLedgerEntry."Pay Cycle Period"
+        else
+            PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm);
+    end;
 }

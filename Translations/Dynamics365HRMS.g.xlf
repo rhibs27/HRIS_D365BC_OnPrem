@@ -46548,6 +46548,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Control Total Committed Contribution - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 733203159 - Action 2913119229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Approved - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 733203159 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46557,21 +46562,6 @@
           <source>Executes the Pending Approval action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Pending Approval - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 2076644855 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen All Valid Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action ScreenAll - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 2076644855 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screen All Valid Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action ScreenAll - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screened action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Screened - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2559681272 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
