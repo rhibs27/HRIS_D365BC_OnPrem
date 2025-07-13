@@ -58,6 +58,11 @@ page 50049 "Employee Work Shift"
                     ApplicationArea = All;
                     Caption = 'Check Out from (Hrs)';
                 }
+                field(OverNight; rec.OverNight)
+                {
+                    ToolTip = 'Specifies the value of the Overnight From field.';
+                    ApplicationArea = All;
+                }
                 field("Lunch Start"; Rec."Lunch Start")
                 {
                     ToolTip = 'Specifies the value of the Lunch Start field.';

@@ -361,7 +361,7 @@ table 50093 "Allowance Assignment Line"
             'FESTIVAL':
                 begin
                     if (BaseCalenderChange."Holiday Type" = BaseCalenderChange."Holiday Type"::Festival)
-                      and (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                      and (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);
@@ -381,7 +381,7 @@ table 50093 "Allowance Assignment Line"
                 end;
             'HOLIDAY COUNTER':
                 begin
-                    if (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                    if (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);

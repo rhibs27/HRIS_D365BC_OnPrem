@@ -257,7 +257,7 @@ codeunit 50016 "AttendanceMiss Mgt"
                         EmpAttendActivity."Present Day" := 0;
                         EmpAttendActivity."Absent Day" := 1;
                     end;
-                    if LeaveMgt.GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
+                    if LeaveMgt.GetNonWorkingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
                         EmpAttendActivity."Absent Day" := 0;
                     end;
                     EmpAttendActivity."Leave Day" := 0;

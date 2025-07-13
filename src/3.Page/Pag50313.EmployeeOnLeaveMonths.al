@@ -33,6 +33,12 @@ page 50313 "Employee On Leave Months"
                 {
 
                 }
+                field(leaveType; Rec."Leave Type")
+                {
+                }
+                field(noOfDays; Rec."No. of Days")
+                {
+                }
                 field(ApprovalStatus; Rec."Approval Status")
                 {
 
