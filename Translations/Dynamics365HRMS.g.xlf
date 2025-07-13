@@ -38384,7 +38384,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Activity Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 930293571 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Apply Every Month field.</source>
+          <source>Specifies the value of the Apply Every Month field. If checkd amount will be forcasted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Apply Every Month - Property ToolTip</note>
         </trans-unit>
@@ -38404,7 +38404,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column Id - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1881355371 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Column Name field.</source>
+          <source>Specifies the value of the Column Name field. Content in this field is used to make a formula expression.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column Name - Property ToolTip</note>
         </trans-unit>
@@ -38414,12 +38414,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1529750507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Deduct on Absent field.</source>
+          <source>Specifies the value of the Deduct on Absent field. If checked amount will be deducted based on absent and unpaid days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Deduct on Absent - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 432224739 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field.</source>
+          <source>Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field. If checked, value will be cleared from "Payroll attributes uses" on posting payroll plan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Delete Amount After Posting - Property ToolTip</note>
         </trans-unit>
@@ -38444,12 +38444,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Finacle GL Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3304877602 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Formula field.</source>
+          <source>Specifies how dependent attributes calculated.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Formula - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3852983238 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the G/L Account No. field.</source>
+          <source>Specifies the value of the G/L Account No. field. Where amount will get posted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control G/L Account No. - Property ToolTip</note>
         </trans-unit>
@@ -38474,7 +38474,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Mutually Exclusive - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 37689199 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Non-Taxable field.</source>
+          <source>Specifies the value of the Non-Taxable field. Amount in non-taxable will increase the netpay without increasing taxable amount.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Non-Taxable - Property ToolTip</note>
         </trans-unit>
@@ -38484,7 +38484,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <source>Specifies the value of the Pay Cycle Period field. Use it if you have specific attributes that need to be posted in certain time period such as Dashin</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Period - Property ToolTip</note>
         </trans-unit>
@@ -38494,12 +38494,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 813619024 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Pay Frequency field.</source>
+          <source>Specifies the value of the Pay Frequency field. Use it if you need to used such attribute for certain times only. Normally checked for bonus, dasin and insentives</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Frequency - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 914559482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Plan Flexible field.</source>
+          <source>If checked user is allowed to modify the value of payroll attribute in "Payroll Plan", else can not</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Plan Flexible - Property ToolTip</note>
         </trans-unit>
@@ -38519,17 +38519,17 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Static GL Ledger Account - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Status field.</source>
+          <source>Specifies the value of the Status field. Only Active attributes can be used in payroll</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1761304904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Subtype field.</source>
+          <source>Specifies nature of payroll attributes in more details such as TAX, retirements and so on</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Subtype - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3646584705 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Tax at once field.</source>
+          <source>Specifies the value of the Tax at once field. If checked, TAX incured due to the attribute will not be forcasted. Generally use for Insentive, Bonus etc.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Tax at once - Property ToolTip</note>
         </trans-unit>
@@ -38539,12 +38539,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Tax Info Report Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Type field.</source>
+          <source>Specifies payroll attributes nature, such as benifit, deduction etc.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 757949596 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Usage Flexible field.</source>
+          <source>If checked user is allowed to change the Amount of that attribute in "Payroll Attribute Uses" page. Otherwise can not</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Usage Flexible - Property ToolTip</note>
         </trans-unit>
