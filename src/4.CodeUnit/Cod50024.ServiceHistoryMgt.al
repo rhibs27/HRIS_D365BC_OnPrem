@@ -265,89 +265,84 @@ codeunit 50024 "Service History Mgt"
         JobAssignmentPageBuilder: FilterPageBuilder;
         ServiceHistory: Record "Employee Service History";
         DateVar: Date;
-        EmpActivity: Record "Employee Activity";
+        EmployeeEdit: Record "Employee Edit";
         ServiceCode: Code[20];
     begin
 
-        JobAssignmentPageBuilder.AddRecord('Assignment in Job Function', EmpActivity);
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Deputation On");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Province Code");
-        // JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Sub Province Code");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Shortcut Dimension 1 Code");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity.Department);
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Extension Counter Code");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Unit Code");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Functional Title");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity."Start Date");
-        JobAssignmentPageBuilder.ADdField('Assignment in Job Function', EmpActivity.Remarks);
-
+        JobAssignmentPageBuilder.AddRecord('Assignment in Job Function', EmployeeEdit);
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Deputation On");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Province Code");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Branch Code");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Department Code");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Extension Counter Code");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Unit Code");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Functional Title");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit."Requested Date");
+        JobAssignmentPageBuilder.AddField('Assignment in Job Function', EmployeeEdit.Remarks);
         if JobAssignmentPageBuilder.RunModal then begin
-            EmpActivity.SetView(JobAssignmentPageBuilder.GetView('Assignment in Job Function'));
-
-            if EmpActivity.GetFilter("Functional Title") = '' then
+            EmployeeEdit.SetView(JobAssignmentPageBuilder.GetView('Assignment in Job Function'));
+            if EmployeeEdit.GetFilter("Functional Title") = '' then
                 Error('Functional Title cannot be blank.');
-            if EmpActivity.GetFilter("Deputation On") = Format(EmpActivity."Deputation On"::" ") then
+            if EmployeeEdit.GetFilter("Deputation On") = Format(EmployeeEdit."Deputation On"::" ") then
                 Error('Deputation on must have value.');
-            Evaluate(DateVar, EmpActivity.GetFilter("Start Date"));
-            if EmpActivity.GetFilter(Remarks) = '' then
+            Evaluate(DateVar, EmployeeEdit.GetFilter("Requested Date"));
+            if EmployeeEdit.GetFilter(Remarks) = '' then
                 Error('Remarks cannot be blank.');
 
             if DateVar = 0D then
                 Error('Date must have value.');
-            ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Assignment in Job Function", EmpActivity.GetFilter(Remarks), DateVar);
+            ServiceCode := AddToServiceHistory(EmpVar."No.", ServiceHistory."Service Event"::"Assignment in Job Function", EmployeeEdit.GetFilter(Remarks), DateVar);
 
-            case EmpActivity.GetFilter("Deputation On") of
-                Format(EmpActivity."Deputation On"::Province):
+            case EmployeeEdit.GetFilter("Deputation On") of
+                Format(EmployeeEdit."Deputation On"::Province):
                     begin
-                        if EmpActivity.GetFilter("Province Code") = '' then
+                        if EmployeeEdit.GetFilter("Province Code") = '' then
                             Error('Province Code must have value.');
                         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::Province);
-                        EmpVar.Validate("Province Code", EmpActivity.GetFilter("Province Code"));
+                        EmpVar.Validate("Province Code", EmployeeEdit.GetFilter("Province Code"));
                     end;
 
-                // Format(EmpActivity."Deputation On"::"Sub Province"):
-                //     begin
-                //         if EmpActivity.GetFilter("Sub Province Code") = '' then
-                //             Error('Sub-province Code must have value.');
-                //         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::"Sub Province");
-                //         EmpVar.Validate("Sub Province Code", EmpActivity.GetFilter("Sub Province Code"));
-                //     end;
-
-                Format(EmpActivity."Deputation On"::Branch):
+                Format(EmployeeEdit."Deputation On"::Branch):
                     begin
-                        if EmpActivity.GetFilter("Shortcut Dimension 1 Code") = '' then
+                        if EmployeeEdit.GetFilter("Branch Code") = '' then
                             Error('Branch Code must have value.');
                         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::Branch);
-                        EmpVar.Validate("Global Dimension 1 Code", EmpActivity.GetFilter("Shortcut Dimension 1 Code"));
+                        EmpVar.Validate("Branch Code", EmployeeEdit.GetFilter("Branch Code"));
                     end;
 
-                Format(EmpActivity."Deputation On"::Department):
+                Format(EmployeeEdit."Deputation On"::Department):
                     begin
-                        if EmpActivity.GetFilter(Department) = '' then
+                        if EmployeeEdit.GetFilter("Department Code") = '' then
                             Error('Department Code must have value.');
                         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::Department);
-                        EmpVar.Validate("Department Code", EmpActivity.GetFilter(Department));
+                        EmpVar.Validate("Department Code", EmployeeEdit.GetFilter("Department Code"));
                     end;
 
-                Format(EmpActivity."Deputation On"::Unit):
+                Format(EmployeeEdit."Deputation On"::Unit):
                     begin
-                        if EmpActivity.GetFilter("Unit Code") = '' then
+                        if EmployeeEdit.GetFilter("Unit Code") = '' then
                             Error('Unit Code must have value.');
+                        if EmployeeEdit.GetFilter("Department Code") = '' then
+                            Error('Department is mandatory for unit');
                         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::Unit);
-                        EmpVar.Validate("Unit Code", EmpActivity.GetFilter("Unit Code"));
+                        EmpVar.Validate("Department Code", EmployeeEdit.GetFilter("Department Code"));
+                        EmpVar.Validate("Unit Code", EmployeeEdit.GetFilter("Unit Code"));
                     end;
 
-                Format(EmpActivity."Deputation On"::"Extension Counter"):
+                Format(EmployeeEdit."Deputation On"::"Extension Counter"):
                     begin
-                        if EmpActivity.GetFilter("Province Code") = '' then
+                        if EmployeeEdit.GetFilter("Province Code") = '' then
                             Error('Extension Counter Code must have value.');
+                        if EmployeeEdit.GetFilter("Branch Code") = '' then
+                            Error('Branch is mandatory for extension counter');
                         EmpVar.Validate("Deputation on", EmpVar."Deputation on"::"Extension Counter");
-                        EmpVar.Validate("Extension Counter Code", EmpActivity.GetFilter("Extension Counter Code"));
+                        EmpVar.Validate("Branch Code", EmployeeEdit.GetFilter("Branch Code"));
+                        EmpVar.Validate("Extension Counter Code", EmployeeEdit.GetFilter("Extension Counter Code"));
                     end;
 
             end;
 
-            EmpVar.Validate("Functional Title", EmpActivity.GetFilter("Functional Title"));
+            EmpVar.Validate("Functional Title", EmployeeEdit.GetFilter("Functional Title"));
             EmpVar.Modify;
 
             if ServiceHistory.Get(ServiceCode) then begin
@@ -373,9 +368,9 @@ codeunit 50024 "Service History Mgt"
     begin
 
         JobAdditionPageBuilder.AddRecord('Assignment in Job Addition', EmpActivity);
-        JobAdditionPageBuilder.ADdField('Assignment in Job Addition', EmpActivity."Functional Title");
-        JobAdditionPageBuilder.ADdField('Assignment in Job Addition', EmpActivity."Start Date");
-        JobAdditionPageBuilder.ADdField('Assignment in Job Addition', EmpActivity.Remarks);
+        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Functional Title");
+        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity."Start Date");
+        JobAdditionPageBuilder.AddField('Assignment in Job Addition', EmpActivity.Remarks);
 
         if JobAdditionPageBuilder.RunModal then begin
             EmpActivity.SetView(JobAdditionPageBuilder.GetView('Assignment in Job Addition'));
@@ -417,10 +412,10 @@ codeunit 50024 "Service History Mgt"
     begin
         EmpVar.TestField("Employment Type", EmpVar."Employment Type"::Contract);
         JobAdditionPageBuilder.AddRecord('Assignment in Contract Renews', Employee1);
-        JobAdditionPageBuilder.ADdField('Assignment in Contract Renews', Employee1."Contract Renew Date");
-        JobAdditionPageBuilder.ADdField('Assignment in Contract Renews', Employee1."Contract Expiry Month");
+        JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Renew Date");
+        JobAdditionPageBuilder.AddField('Assignment in Contract Renews', Employee1."Contract Expiry Month");
         JobAdditionPageBuilder.AddRecord('Assignment in Contract Renew', EmpActivity);
-        JobAdditionPageBuilder.ADdField('Assignment in Contract Renew', EmpActivity.Remarks);
+        JobAdditionPageBuilder.AddField('Assignment in Contract Renew', EmpActivity.Remarks);
 
         if JobAdditionPageBuilder.RunModal then begin
             Employee1.SetView(JobAdditionPageBuilder.GetView('Assignment in Contract Renews'));
@@ -557,7 +552,7 @@ codeunit 50024 "Service History Mgt"
         EmpRec: Record Employee;
     begin
         EmployeePageBuilder.AddRecord('Change Salary Level', EmpRec);
-        EmployeePageBuilder.ADdField('Change Salary Level', EmpRec."Salary Level");
+        EmployeePageBuilder.AddField('Change Salary Level', EmpRec."Salary Level");
         if EmployeePageBuilder.RunModal then begin
             EmpRec.SetView(EmployeePageBuilder.GetView('Change Salary Level'));
             if EmpRec.GetFilter("Salary Level") = '' then

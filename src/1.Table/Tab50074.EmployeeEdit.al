@@ -218,7 +218,7 @@ table 50074 "Employee Edit"
         { DataClassification = CustomerContent; }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[30])
+        field(33; Remarks; Text[50])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         { DataClassification = CustomerContent; }
@@ -381,7 +381,37 @@ table 50074 "Employee Edit"
         {
             Editable = false;
         }
+        field(101; "Functional Title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
+        field(102; "Deputation on"; Enum "Deputation Type")
+        {
 
+        }
+        field(103; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+        }
+
+        field(104; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
+        }
+        field(105; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+        }
+        field(106; "Extension Counter Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
+        }
+        field(107; "Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
+        }
     }
     keys
     {

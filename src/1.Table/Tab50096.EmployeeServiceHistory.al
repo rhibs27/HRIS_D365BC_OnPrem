@@ -72,10 +72,11 @@ table 50096 "Employee Service History"
             begin
                 if FunctionalTitle.Get("Functional Title (To)") then
                     Validate("Functional Title Desc. (To)", FunctionalTitle.Description);
-                if ("Functional Title (From)" <> "Functional Title (To)") and ("Service Event" <> "Service Event"::Appointment) then begin//KPI1.00 aakrista
-                    KPIMgt.CreateAppriasalAfterEmployeeTransfer("Employee No.");
-                    KPIMgt.ExpireKPITarget("Functional Title (From)", "Employee No.");
-                end;
+
+                // if ("Functional Title (From)" <> "Functional Title (To)") and ("Service Event" <> "Service Event"::Appointment) then begin
+                //     KPIMgt.CreateAppriasalAfterEmployeeTransfer("Employee No.");
+                //     KPIMgt.ExpireKPITarget("Functional Title (From)", "Employee No.");
+                // end;  //this code need to move to company specific
             end;
         }
         field(16; "Functional Title Desc. (To)"; Text[100]) { }
@@ -116,21 +117,29 @@ table 50096 "Employee Service History"
     fieldgroups { }
 
     trigger OnInsert()
+    var
+        EmpServiceHistory: Record "Employee Service History";
     begin
         "Created DateTime" := CurrentDateTime;
         "Created by" := UserId;
         if "Service History Code" = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Service History No. Series");
-            NoSeriesMgt.InitSeries(HRSetup."Service History No. Series", xRec."No. Series", Today, "Service History Code", "No. Series");
+            HrMgt.InitNoSeriesNew(HRSetup."Service History No. Series", xRec."No. Series", Today, "Service History Code", "No. Series");
+
+            EmpServiceHistory.ReadIsolation(IsolationLevel::ReadUncommitted);
+            EmpServiceHistory.SetLoadFields("Service History Code");
+            while EmpServiceHistory.Get("Service History Code") do
+                "Service History Code" := NoSeriesMgt.GetNextNo(HRSetup."Service History No. Series");
         end;
     end;
 
     var
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         FunctionalTitle: Record "Functional Title";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
         KPIMgt: Codeunit "KPI Mgt.";
+        HrMgt: Codeunit "HR Mgt.";
 }

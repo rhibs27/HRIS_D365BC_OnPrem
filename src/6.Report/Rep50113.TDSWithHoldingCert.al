@@ -29,7 +29,7 @@ report 50113 "TDS WithHolding Cert"
                 column(MobilePhoneNo; "Mobile Phone No.") { }
                 column(PermanentDistrict; "Permanent District") { }
                 column(PermanentVDC; "Permanent VDC") { }
-                column(WardNo; "Ward No") { }
+                column(WardNo; "Permanent Ward No") { }
                 column(PermanentHouse; "Permanent House") { }
                 column(TaxableAmtTextArrayBefore1; TaxableAmtTextArrayBefore[1]) { }
                 column(TaxableAmtTextArrayBefore2; TaxableAmtTextArrayBefore[2]) { }

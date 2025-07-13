@@ -30,7 +30,7 @@ report 50034 "Loan Deed Vehicle Loan"
             column(ChoroChori; ChoroChori) { }
             column(NatiNatini; NatiNatini) { }
             column(AmountInWordsNepali; "Amount In Words (Nepali)") { }
-            column(EmpWardNo; EmpVar."Ward No") { }
+            column(EmpWardNo; EmpVar."Permanent Ward No") { }
             column(DisbursedAmt; "Disbursed Amount") { }
 
             trigger OnAfterGetRecord()
