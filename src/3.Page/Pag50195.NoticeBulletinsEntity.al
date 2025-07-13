@@ -78,7 +78,7 @@ page 50195 NoticeBulletinsEntity
                 TempBlob.FromRecord(ItemTenantMedia, ItemTenantMedia.FieldNo(Content));
                 TempBlob.CreateInStream(InStr);
                 ImageTxt := base64.ToBase64(InStr);
-                Extension := fileMgt.GetExtension(ItemTenantMedia."File Name");
+                Extension := fileMgt.GetExtension(ItemTenantMedia.Description);
                 exit('{' + '"extension": "' + Extension + '",' + '"attachBase64":"' + ImageTxt + '"}');
             end;
         end;
