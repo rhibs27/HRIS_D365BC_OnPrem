@@ -29,12 +29,22 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 end;
             }
         }
-        addafter("Relative Code")
+        addbefore("Birth Date")
         {
             field("Full Name"; Rec."Full Name")
             {
             }
+
+            field("E-mail"; Rec."E-mail")
+            {
+
+            }
+            field("Set Emergency Contact"; Rec."Set Emergency Contact")
+            {
+
+            }
         }
+        moveafter("Relative Code"; "Phone No.")
         addafter("Relative's Employee No.")
         {
             field(Address; Rec.Address)

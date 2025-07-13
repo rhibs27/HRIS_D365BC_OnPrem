@@ -31,7 +31,7 @@ report 50042 "Guarantee Personal Loan"
             column(EmployeeNoNepali; EmpVar."Employee No. (Nepali)") { }
             column(EmployeeCitizenshipIssueDate; EmpVar."Citizenship Date(Nepali)") { }
             column(AmountInWordsNepali; "Amount In Words (Nepali)") { }
-            column(EmployeeWardNo; Format(EmpVar."Ward No")) { }
+            column(EmployeeWardNo; Format(EmpVar."Permanent Ward No")) { }
             column(CurrentYear; Format(CurrentYear)) { }
             column(CurrentMonth; Format(CurrentMonth)) { }
             column(CurrentDay; Format(CurrentDay)) { }

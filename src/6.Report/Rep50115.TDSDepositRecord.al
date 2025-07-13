@@ -90,7 +90,7 @@ report 50115 "TDS Deposit Record"
                 trigger OnAfterGetRecord()
                 begin
                     Clear(AddressText);
-                    AddressText := StrSubstNo('%1-%2, %3', "Permanent VDC", "Ward No", "Permanent District");
+                    AddressText := StrSubstNo('%1-%2, %3', "Permanent VDC", "Permanent Ward No", "Permanent District");
                 end;
 
                 trigger OnPreDataItem()
