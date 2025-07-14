@@ -482,6 +482,7 @@ codeunit 50017 "Approver Mgt"
         Leave: Record Leave;
         TravelRequest: Record "Travel Request";
         RecRef: RecordRef;
+        RetirementFund: Record "Retirement Fund";
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -500,6 +501,14 @@ codeunit 50017 "Approver Mgt"
                         RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
                     end;
+                end;
+            EmpActTypeEnum::Retirement:
+                begin
+                    if RetirementFund.Get(documentNo) then begin
+                        RecRef.GetTable(RetirementFund);
+                        WithDrawRequest(RecRef);
+                    end;
+
                 end;
         end;
     end;
