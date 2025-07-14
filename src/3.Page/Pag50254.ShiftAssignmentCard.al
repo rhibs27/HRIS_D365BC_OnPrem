@@ -33,11 +33,19 @@ page 50254 "Shift Assignment Card"
                 {
                     ToolTip = 'Specifies the value of the Deputation Sub Type field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Deputation Sub Type Code"; Rec."Deputation Sub Type Code")
                 {
                     ToolTip = 'Specifies the value of the Deputation Sub Type Code field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Deputation Sub Type Name"; Rec."Deputation Sub Type Name")
                 {

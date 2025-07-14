@@ -46,7 +46,7 @@ table 50093 "Allowance Assignment Line"
         }
         field(5; "Employee Code"; Code[20])
         {
-            TableRelation = if (Type = const(Branch)) Employee."No." where("Global Dimension 1 Code" = field(Code))
+            TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
             else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code));
 
             trigger OnValidate()
