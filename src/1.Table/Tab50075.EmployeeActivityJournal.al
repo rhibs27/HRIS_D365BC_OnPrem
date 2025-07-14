@@ -111,8 +111,10 @@ table 50075 "Employee Activity Journal"
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
-                if "End Date" <> 0D then
-                    Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
+                if "End Date" <> 0D then begin
+                    if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
+                        Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
+                end
                 else begin
                     Clear("End Date (BS)");
                     Clear("No. of Days");

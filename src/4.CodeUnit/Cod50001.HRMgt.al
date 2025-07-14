@@ -11240,7 +11240,7 @@ codeunit 50001 "HR Mgt."
         WorkFlowSetup.SetNextStep(Workflow, SentApprovalRequestResponseID3, SendApprovalRequestResponseID);
     END;
 
-    procedure CheckDateStatus(CalendarCode: Code[20]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Option; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
+    procedure CheckDateStatus(CalendarCode: Code[20]; TargetDate: Date; VAR Description: Text[50]; VAR Proviences: Text[150]; VAR Gender: Enum "Employee Gender"; VAR InOutValley: Option; VAR PostingRegion: Option; VAR Branch: Text): Boolean
     var
         BaseCalChange: Record "Base Calendar Change";
     begin

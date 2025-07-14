@@ -28,6 +28,10 @@ report 50147 "Allowance Assignment Summary"
                 column(KeyCustodian; KeyCustodian) { }
                 column(Teller; Teller) { }
                 column(HeadTeller; HeadTeller) { }
+                column(Type; Type) { }
+                column(Panel; Panel) { }
+                column(Employee_Name; "Employee Name") { }
+                column(Employee_Code; "Employee Code") { }
 
                 trigger OnAfterGetRecord()
                 begin

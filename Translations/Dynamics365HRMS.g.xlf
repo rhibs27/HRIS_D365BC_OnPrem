@@ -23158,6 +23158,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Detail - Control Work Time Difference - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approval Status field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Approval Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the End Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the No. of Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control No. of Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control No. of Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Remarks - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Start Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Start Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2135744328 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51513,11 +51553,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report HR Job Queue - Control Send Training Mail - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 1866078574 - NamedType 2476940767" size-unit="char" translate="yes" xml:space="preserve">
-          <source>#1############### of #2###############</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Import Attendance - NamedType Text000</note>
-        </trans-unit>
         <trans-unit id="Report 2228278729 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Inome and Tax Calculation Detail for</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60057,6 +60092,11 @@
           <source>Allowance Assignment Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Allowance Assignment Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Attendance Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>
