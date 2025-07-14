@@ -26,8 +26,9 @@ page 50240 "Attendance Activity Entity"
                 field(employeeName; Rec."Employee Name") { }
                 field(attendanceDate; Rec."Attendance Date") { }
                 field(dayType; Rec."Day Type") { }
-                field(checkInTime; getTimeinFormat(Rec."Check In Time")) { }
-                field(checkOutTime; getTimeinFormat(Rec."Check Out Time")) { }
+                field(checkInTime; HrMgt.getTimeInFormat(Rec."Check In Time")) { }
+                field(checkOutTime; HrMgt.getTimeInFormat(Rec."Check Out Time")) { }
+                field(employeeWorkingShift; Rec."Employee Working Shift") { }
                 field(lateRemarks; Rec."Late Remarks") { }
                 field(holidayRemarks; Rec."Holiday Remarks") { }
                 field(presentDay; Rec."Present Day") { }
@@ -46,59 +47,12 @@ page 50240 "Attendance Activity Entity"
     }
 
     trigger OnOpenPage()
-    var
-        HrMgt: Codeunit "HR Mgt.";
     begin
         Rec.SetRange("Employee No.", HrMgt.GetEmployeeNo());
         Rec.SetAscending("Attendance Date", false);
     end;
 
-    local procedure getTimeinFormat(varTime: Time): Text
     var
-        Milliseconds: Integer;
-        Hours: Integer;
-        Minutes: Integer;
-        Seconds: Integer;
-        HoursText: Text;
-        MinutesText: Text;
-        SecondsText: Text;
-        TimeText: Text;
-    begin
-        if varTime = 0T then
-            exit('');
-        Milliseconds := varTime - 000000T;
+        HrMgt: Codeunit "HR Mgt.";
 
-        Hours := Round(Milliseconds div 1000 div 60 div 60, 1, '=');
-        if Hours < 10 then
-            HoursText := '0' + Format(Hours)
-        else
-            HoursText := Format(Hours);
-        Milliseconds -= Hours * 1000 * 60 * 60;
-        TimeText := 'AM';
-        Minutes := Round(Milliseconds div 1000 div 60, 1, '=');
-        if Minutes < 10 then
-            MinutesText := '0' + Format(Minutes)
-        else
-            MinutesText := Format(Minutes);
-        if Hours = 12 then
-            TimeText := 'PM';
-        Milliseconds -= Minutes * 1000 * 60;
-
-        Seconds := Round(Milliseconds div 1000, 1, '=');
-        if Seconds < 10 then
-            SecondsText := '0' + Format(Seconds)
-        else
-            SecondsText := Format(Seconds);
-        Milliseconds -= Seconds * 1000;
-
-        if Hours > 12 then begin
-            Hours := Hours mod 12;
-            TimeText := 'PM';
-            if Hours < 10 then
-                HoursText := '0' + Format(Hours)
-            else
-                HoursText := Format(Hours);
-        end;
-        exit(HoursText + ':' + MinutesText + ' ' + TimeText);
-    end;
 }

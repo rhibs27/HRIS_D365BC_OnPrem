@@ -96,12 +96,12 @@ table 50113 "Shift Assignment Header"
         }
         field(14; "Deputation Sub Type"; Enum "Deputation Type")
         {
-            ValuesAllowed = " ", Unit, "Extension Counter";
+            ValuesAllowed = " ", Unit, "Extension Counter", "Sub-Unit";
             trigger OnValidate()
             begin
                 TestField("Deputation Type");
-                if ("Deputation Type" = "Deputation Type"::Branch) and ("Deputation Sub Type" = "Deputation Sub Type"::Unit) then
-                    Error('Deputation Sub Type cannot be Unit for Branch.');
+                if ("Deputation Type" = "Deputation Type"::Branch) and (("Deputation Sub Type" = "Deputation Sub Type"::Unit) or ("Deputation Sub Type" = "Deputation Sub Type"::"Sub-Unit")) then
+                    Error('Deputation Sub Type cannot be Unit or Sub-Unit for Branch.');
                 if ("Deputation Type" = "Deputation Type"::Department) and ("Deputation Sub Type" = "Deputation Sub Type"::"Extension Counter") then
                     Error('Deputation Sub Type cannot be Extension Counter for Department.');
                 if "Deputation Sub Type" <> xRec."Deputation Sub Type" then begin
@@ -117,7 +117,8 @@ table 50113 "Shift Assignment Header"
         {
             DataClassification = ToBeClassified;
             TableRelation = if ("Deputation Sub Type" = filter("Deputation Type"::unit)) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::Department), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::unit))
-            else if ("Deputation Sub Type" = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
+            else if ("Deputation Sub Type" = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
+            else if ("Deputation Sub Type" = filter("Deputation Type"::"Sub-Unit")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::unit), Code = field("Deputation Code"), "Reporting Type" = filter("Deputation Type"::"Sub-Unit"));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
