@@ -368,7 +368,7 @@ page 50003 "Employee Payroll Adjustment"
                     EmpPayrollAdj.SetRange("Attribute Code", PayrollAttributes.Code);
                     EmpPayrollAdj.SetRange("Employee No.", Employee."No.");
                     if EmpPayrollAdj.FindFirst then begin
-                        //IF EmpPayrollAdj.Amount <> 0 THEN          //pradhan
+                        //IF EmpPayrollAdj.Amount <> 0 THEN           
                         if EmpPayrollAdj.Amount < 0 then begin
                             Length := StrLen(Expression);
                             if StrPosition - 2 < 1 then

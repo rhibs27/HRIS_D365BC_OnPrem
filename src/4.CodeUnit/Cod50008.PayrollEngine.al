@@ -181,7 +181,7 @@ codeunit 50008 "Payroll Engine"
         Employee.FindFirst;
         Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
                          "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax",
-                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");//pradhan
+                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");
         //Check Employee Status
         Employee.TestField("Employment Date");
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
@@ -349,7 +349,7 @@ codeunit 50008 "Payroll Engine"
             if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
                 MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
             else
-                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);    //pradhan
+                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
         end;
         PayrollLine.RoundAmount(MonthlyTax);
 
@@ -416,7 +416,7 @@ codeunit 50008 "Payroll Engine"
         CurrentEarning := 0;
         CurrentNonPaymentBenefits := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 100 do begin //Min 9.16.2022
+        for FieldID := 61 to 180 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -428,8 +428,7 @@ codeunit 50008 "Payroll Engine"
                 Evaluate(FieldValue, Format(FieldRef.Value));
                 FieldValue := Round(FieldValue, 0.01, '=');
                 PayrollAttributes.TestField(Status, PayrollAttributes.Status::Active);
-                if not PayrollAttributes."Tax at once" then begin               //pradhan
-                                                                                // Current Earning/Donation
+                if not PayrollAttributes."Tax at once" then begin
                     if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                         if PayrollAttributes."Non-Taxable" = false then begin
                             if FieldValue <> 0 then begin
@@ -469,7 +468,7 @@ codeunit 50008 "Payroll Engine"
                       (PayrollAttributes.Code = PGSetup."Insurance Recover") then
                         InsuranceRecovery := FieldValue;
                     if (PayrollAttributes.Type = PayrollAttributes.Type::Deduction) and
-                      (PayrollAttributes.Subtype in [PayrollAttributes.Subtype::"Employee Contribution", //SUMAN
+                      (PayrollAttributes.Subtype in [PayrollAttributes.Subtype::"Employee Contribution",
                                                      PayrollAttributes.Subtype::"Employer Contribution",
                                                      PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF, PayrollAttributes.Subtype::"Lump Sum Contribution"]) then begin
                         if FieldValue <> 0 then begin
@@ -482,10 +481,10 @@ codeunit 50008 "Payroll Engine"
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
                                 RF := FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Lump Sum Contribution" then
-                                LumpSumCIT += FieldValue; // bhuwan
+                                LumpSumCIT += FieldValue;
                         end;
                     end;
-                end;                //pradhan
+                end;
             end;
         end;
         RecRef.Close;
@@ -521,13 +520,13 @@ codeunit 50008 "Payroll Engine"
                             FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                             Evaluate(UsageAmount, Format(FieldRefs.Value));
                             UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if not PayrollAttributes."Tax at once" then begin         //pradhan
+                            if not PayrollAttributes."Tax at once" then begin
                                 if PayrollAttributes."Apply Every Month" then
                                     ProjectionEarning += UsageAmount * RemainingMonth
                                 else begin
                                     ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                                 end;
-                            end;      //pradhan
+                            end;
                         end;
                     end;
                 end;
@@ -543,7 +542,7 @@ codeunit 50008 "Payroll Engine"
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                        (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")   //pradhan
+                        (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")
                        then begin
                         if PayrollAttributesUsage.Amount <> 0 then
                             UsageAmount := PayrollAttributesUsage.Amount
@@ -588,7 +587,7 @@ codeunit 50008 "Payroll Engine"
                 PayrollAttributesUsage.CalcFields("Formula Exists");
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
-                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin      //pradhan
+                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
                         if PayrollAttributesUsage.Amount <> 0 then
                             UsageAmount := PayrollAttributesUsage.Amount
                         else if PayrollAttributesUsage."Formula Exists" then
@@ -822,7 +821,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN          //pradhan
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
                         Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
                     else
                         Expression := InsStr(Expression, Format(0), StrPosition);
@@ -1004,7 +1003,7 @@ codeunit 50008 "Payroll Engine"
             EndDate := PCP."End Date";
     end;
 
-    local procedure CreateDocuments()
+    local procedure CreateDocuments()  //?
     var
         PGSetup: Record "Payroll General Setup";
         PayCyclePeriod: Record "Pay Cycle Period";
@@ -1735,7 +1734,7 @@ codeunit 50008 "Payroll Engine"
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch));   //pradhan
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch));
     end;
 
     local procedure GetDailyFoodAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AttendanceSetup: Record "Attendance Setup"; CheckInLateMinutes: Duration; CheckOutEarlyMinutes: Duration): Decimal
@@ -2983,11 +2982,10 @@ codeunit 50008 "Payroll Engine"
         FieldRef: FieldRef;
         FieldValue: Decimal;
     begin
-        //pradhan>>
         TaxAtOnceCurrentEarning := 0;
         TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 100 do begin //Min 9.16.2022
+        for FieldID := 61 to 180 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -4724,6 +4722,33 @@ codeunit 50008 "Payroll Engine"
         if RetirementFund."Lumpsum Committed Contribution" <> 0 then begin
             //
         end;
+    end;
+
+    procedure RFGetTotalAnnualEarning(var Employee: Record Employee; var RFTotalEarning: Decimal; RFprojectMonth: Integer)
+    var
+        EmployeePayrollOpening: Record "Employee Payroll Opening";
+        PayrollgeneralSetup: Record "Payroll General Setup";
+        paycycleperiod: Record "Pay Cycle Period";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayAttribute: Record "Payroll Attributes";
+    begin
+        PayrollgeneralSetup.Get();
+        paycycleperiod.SetRange("Start Date", PayrollgeneralSetup."Payroll Fiscal Year Start Date", PayrollgeneralSetup."Payroll Fiscal Year End Date");
+        paycycleperiod.FindFirst();
+        EmployeePayrollOpening.SetRange("Fiscal Year", paycycleperiod."Pay Cycle Term");
+        if EmployeePayrollOpening.FindFirst() then
+            RFTotalEarning += EmployeePayrollOpening."Total Benefit Opening";
+
+        PayrollAttrUses.SetRange("Employee Code", Employee."No.");
+        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Benefits);
+        if PayrollAttrUses.FindSet() then
+            repeat
+                PayAttribute.get(PayrollAttrUses.code);
+            // if PayAttribute."Apply Every Month" then
+
+            until PayrollAttrUses.Next() = 0;
+
+
     end;
 
     [IntegrationEvent(false, false)]

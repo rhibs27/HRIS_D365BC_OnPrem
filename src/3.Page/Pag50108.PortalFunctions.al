@@ -63,12 +63,13 @@ page 50108 "Portal Functions"
     var
         Employee: Record Employee;
         counter: Integer;
-        FirstLogin: Text;
+        FirstLogin, AllowAllowanceAssignment, AllowShiftAssignment : Text;
         user: Record User;
         WebServiceKey: text;
         IdentityManagement: Codeunit "Identity Management";
         PayrollGenSetup: Record "Payroll General Setup";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        functionalTitle: Record "Functional Title";
     begin
         PayrollGenSetup.Get();
         Employee.Reset;
@@ -95,16 +96,44 @@ page 50108 "Portal Functions"
             FirstLogin := 'false'
         else
             FirstLogin := 'true';
+        if FunctionalTitle.get(Employee."Functional Title") then begin
+            if functionalTitle."Allow AllowanceAssignment" then
+                AllowAllowanceAssignment := 'true'
+            else
+                AllowAllowanceAssignment := 'false';
+            if functionalTitle."Allow ShiftAssignment" then
+                AllowShiftAssignment := 'true'
+            else
+                AllowShiftAssignment := 'false';
+        end;
         exit('{"empno" : "' + Employee."No." +
               '",' + '"count" : "' + Format(counter) +
               '","firstLogin": "' + FirstLogin +
               '","employeeName": "' + Employee."Full Name" +
+              '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
+              '","allowShiftAssignment": "' + AllowShiftAssignment +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
+    end;
+
+    [ServiceEnabled]
+    procedure loginSuccess(): Integer
+    var
+        Employee: Record Employee;
+        user: Record User;
+    begin
+        Employee.Reset();
+        if Employee.Get(HrMgt.GetEmployeeNo()) then begin
+            Employee.Login := true;
+            Employee.Modify();
+            user.Reset();
+            user.SetRange("User Name", UserId);
+            user.FindFirst();
+            exit(200);
+        end;
     end;
 
     // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
-    //[Scope('Personalization')]
     procedure getEmployeeApproval(empActType: Code[30]): text
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -637,8 +666,8 @@ page 50108 "Portal Functions"
           '"foodingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
           '"lodgingPerDayLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, true, 1)), '=', ',') + '",' +
           '"lodgingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
-          '"depatureTime": "' + getTimeinFormat(TravelMgt.GetDepatureTime(empTravelNo)) + '",' +
-          '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
+          '"depatureTime": "' + Hrmgt.getTimeinFormat(TravelMgt.GetDepatureTime(empTravelNo)) + '",' +
+          '"arrivalTime" : "' + Hrmgt.getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
         '}'
         )
     end;
@@ -663,42 +692,6 @@ page 50108 "Portal Functions"
         //year
         Year := Format(Date2DMY(DateVar, 3));
         exit(Year + '-' + Month + '-' + Day);
-    end;
-
-    local procedure getTimeinFormat(varTime: Time): Text
-    var
-        Milliseconds: Integer;
-        Hours: Integer;
-        Minutes: Integer;
-        Seconds: Integer;
-        HoursText: Text;
-        MinutesText: Text;
-        SecondsText: Text;
-    begin
-        Milliseconds := varTime - 000000T;
-
-        Hours := Round(Milliseconds div 1000 div 60 div 60, 1, '=');
-        if Hours < 10 then
-            HoursText := '0' + Format(Hours)
-        else
-            HoursText := Format(Hours);
-        Milliseconds -= Hours * 1000 * 60 * 60;
-
-        Minutes := Round(Milliseconds div 1000 div 60, 1, '=');
-        if Minutes < 10 then
-            MinutesText := '0' + Format(Minutes)
-        else
-            MinutesText := Format(Minutes);
-        Milliseconds -= Minutes * 1000 * 60;
-
-        Seconds := Round(Milliseconds div 1000, 1, '=');
-        if Seconds < 10 then
-            SecondsText := '0' + Format(Seconds)
-        else
-            SecondsText := Format(Seconds);
-        Milliseconds -= Seconds * 1000;
-
-        exit(HoursText + ':' + MinutesText + ':' + SecondsText);
     end;
 
     local procedure "Loan API"()
@@ -1457,24 +1450,34 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    procedure downloadAllowanceAssignmentSummary(DocumentNo: Code[20]): Text
+    procedure downloadAllowanceAssignmentSummary(documentNo: Code[20]): Text
     var
         AllowanceAssignmentReport: Report "Allowance Assignment Summary";
         TempBlob: Codeunit "Temp Blob";
         OutStr: OutStream;
-        InStr: InStream;
+        InStream: InStream;
         Base64: Codeunit "Base64 Convert";
         exitText: Text;
         ext: Text;
         format: ReportFormat;
+        RecRef: RecordRef;
+        AllowaceAssignmentHeader: Record "Allowance Assignment Header";
     begin
-        ext := 'pdf';
-        format := ReportFormat::Pdf;
-        AllowanceAssignmentReport.PassParPortal(DocumentNo);
+        // ext := 'pdf';
+        // format := ReportFormat::Pdf;
+        // AllowanceAssignmentReport.PassParPortal(DocumentNo);
+        // TempBlob.CreateOutStream(OutStr);
+        // AllowanceAssignmentReport.SaveAs('', format, OutStr);
+        // TempBlob.CreateInStream(InStr);
+        // exitText := Base64.ToBase64(InStr);
+
+        AllowaceAssignmentHeader.Get(DocumentNo);
         TempBlob.CreateOutStream(OutStr);
-        AllowanceAssignmentReport.SaveAs('', format, OutStr);
-        TempBlob.CreateInStream(InStr);
-        exitText := Base64.ToBase64(InStr);
+        recRef.Get(AllowaceAssignmentHeader.RecordId);
+        recRef.SetTable(AllowaceAssignmentHeader);
+        AllowanceAssignmentReport.SaveAs('', format::Pdf, OutStr, recRef);
+        TempBlob.CreateInStream(instream);
+        exitText := base64.ToBase64(InStream);
         exit('{"extension":"' + ext + '","attachBase64":"' + exitText + '"}');
     end;
 
@@ -1487,7 +1490,7 @@ page 50108 "Portal Functions"
         if (branchExtensionCode = Employee."Global Dimension 1 Code") or (branchExtensionCode = Employee."Extension Counter Code") then begin
             Employee.TestField("Functional Title");
             FunctionalTitle.Get(Employee."Functional Title");
-            if not FunctionalTitle."Is Allowance Approval" then
+            if not FunctionalTitle."Allow AllowanceAssignment" then
                 Error('Employee not eligible for approva');
         end else
             Error('Employee not eligible for approval');
@@ -1791,8 +1794,8 @@ page 50108 "Portal Functions"
         exit(
        '{' +
          '"totalOTHrs" : "' + DelChr(Format(TotalOTHrs)) + '",' +
-         '"checkInTime" : "' + DelChr(getTimeinFormat(EmployeeAttendance."Check In Time"), '=', ',') + '",' +
-         '"checkOutTime" : "' + delchr(getTimeinFormat(EmployeeAttendance."Check Out Time"), '=', ',') + '",' +
+         '"checkInTime" : "' + DelChr(Hrmgt.getTimeinFormat(EmployeeAttendance."Check In Time"), '=', ',') + '",' +
+         '"checkOutTime" : "' + delchr(Hrmgt.getTimeinFormat(EmployeeAttendance."Check Out Time"), '=', ',') + '",' +
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
@@ -2561,6 +2564,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentClaimForApprove: Integer;
         ShiftAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
+        RetirementFundForApprove: Integer;
     begin
         Clear(leaveForApprove);
         Clear(TravelReqForApprove);
@@ -2755,9 +2759,17 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         ShiftAssignmentForApprove := Approval.Count();
 
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Retirement);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        RetirementFundForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
           + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
-          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove;
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove + RetirementFundForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -2784,6 +2796,7 @@ page 50108 "Portal Functions"
         ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
         ',"OvertimeBulkForApprove": "' + format(OvertimeBulkForApprove) + '"' +
         ',"ShiftAssignmentForApprove": "' + format(ShiftAssignmentForApprove) + '"' +
+        ',"RetirementFundForApprove": "' + format(RetirementFundForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
     end;
 

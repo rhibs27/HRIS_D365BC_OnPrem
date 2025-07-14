@@ -1,4 +1,4 @@
-page 50342 "Emp On Leave Today API"
+page 50342 "Employee On Leave Today API"
 {
     APIGroup = 'HRMS';
     APIPublisher = 'Agile';
@@ -46,6 +46,7 @@ page 50342 "Emp On Leave Today API"
         Rec.Setfilter("End Date", '>=%1', Today);
         rec.SetRange("Deputation On Code", HrMgt.getDeputation(HrMgt.GetEmployeeNo()));
         Rec.SetRange("Approval Status", Rec."Approval Status"::Approved);
+        Rec.SetRange(Cancelled, false);
     end;
 
     var

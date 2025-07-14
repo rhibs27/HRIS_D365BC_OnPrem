@@ -1,7 +1,5 @@
 page 50032 "Payroll Attributes"
 {
-    // version PRM19.01.01
-
     PageType = List;
     SourceTable = "Payroll Attributes";
     UsageCategory = Administration;
@@ -25,12 +23,12 @@ page 50032 "Payroll Attributes"
                 }
                 field(Type; Rec.Type)
                 {
-                    ToolTip = 'Specifies the value of the Type field.';
+                    ToolTip = 'Specifies payroll attributes nature, such as benifit, deduction etc.';
                     ApplicationArea = All;
                 }
                 field(Subtype; Rec.Subtype)
                 {
-                    ToolTip = 'Specifies the value of the Subtype field.';
+                    ToolTip = 'Specifies nature of payroll attributes in more details such as TAX, retirements and so on';
                     ApplicationArea = All;
                 }
                 field("Activity Type"; rec."Activity Type")
@@ -41,17 +39,17 @@ page 50032 "Payroll Attributes"
                 }
                 field("Non-Taxable"; Rec."Non-Taxable")
                 {
-                    ToolTip = 'Specifies the value of the Non-Taxable field.';
+                    ToolTip = 'Specifies the value of the Non-Taxable field. Amount in non-taxable will increase the netpay without increasing taxable amount.';
                     ApplicationArea = All;
                 }
                 field("G/L Account No."; Rec."G/L Account No.")
                 {
-                    ToolTip = 'Specifies the value of the G/L Account No. field.';
+                    ToolTip = 'Specifies the value of the G/L Account No. field. Where amount will get posted';
                     ApplicationArea = All;
                 }
                 field("Column Name"; Rec."Column Name")
                 {
-                    ToolTip = 'Specifies the value of the Column Name field.';
+                    ToolTip = 'Specifies the value of the Column Name field. Content in this field is used to make a formula expression.';
                     ApplicationArea = All;
                 }
                 field("Column No."; Rec."Column No.")
@@ -61,17 +59,17 @@ page 50032 "Payroll Attributes"
                 }
                 field(Formula; Rec.Formula)
                 {
-                    ToolTip = 'Specifies the value of the Formula field.';
+                    ToolTip = 'Specifies how dependent attributes calculated.';
                     ApplicationArea = All;
                 }
                 field("Usage Flexible"; Rec."Usage Flexible")
                 {
-                    ToolTip = 'Specifies the value of the Usage Flexible field.';
+                    ToolTip = 'If checked user is allowed to change the Amount of that attribute in "Payroll Attribute Uses" page. Otherwise can not';
                     ApplicationArea = All;
                 }
                 field("Plan Flexible"; Rec."Plan Flexible")
                 {
-                    ToolTip = 'Specifies the value of the Plan Flexible field.';
+                    ToolTip = 'If checked user is allowed to modify the value of payroll attribute in "Payroll Plan", else can not';
                     ApplicationArea = All;
                 }
                 field("Claim Flexible"; Rec."Transfer Claim Flexible")
@@ -81,27 +79,27 @@ page 50032 "Payroll Attributes"
                 }
                 field(Status; Rec.Status)
                 {
-                    ToolTip = 'Specifies the value of the Status field.';
+                    ToolTip = 'Specifies the value of the Status field. Only Active attributes can be used in payroll';
                     ApplicationArea = All;
                 }
                 field("Apply Every Month"; Rec."Apply Every Month")
                 {
-                    ToolTip = 'Specifies the value of the Apply Every Month field.';
+                    ToolTip = 'Specifies the value of the Apply Every Month field. If checkd amount will be forcasted';
                     ApplicationArea = All;
                 }
                 field("Delete Amount After Posting"; Rec."Delete Amount After Posting")
                 {
-                    ToolTip = 'Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field.';
+                    ToolTip = 'Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field. If checked, value will be cleared from "Payroll attributes uses" on posting payroll plan';
                     ApplicationArea = All;
                 }
                 field("Tax at once"; Rec."Tax at once")
                 {
-                    ToolTip = 'Specifies the value of the Tax at once field.';
+                    ToolTip = 'Specifies the value of the Tax at once field. If checked, TAX incured due to the attribute will not be forcasted. Generally use for Insentive, Bonus etc.';
                     ApplicationArea = All;
                 }
                 field("Deduct on Absent"; Rec."Deduct on Absent")
                 {
-                    ToolTip = 'Specifies the value of the Deduct on Absent field.';
+                    ToolTip = 'Specifies the value of the Deduct on Absent field. If checked amount will be deducted based on absent and unpaid days';
                     ApplicationArea = All;
                 }
                 field("Posting Method"; Rec."Posting Method")
@@ -121,12 +119,12 @@ page 50032 "Payroll Attributes"
                 }
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
-                    ToolTip = 'Specifies the value of the Pay Cycle Period field.';
+                    ToolTip = 'Specifies the value of the Pay Cycle Period field. Use it if you have specific attributes that need to be posted in certain time period such as Dashin';
                     ApplicationArea = All;
                 }
                 field("Pay Frequency"; Rec."Pay Frequency")
                 {
-                    ToolTip = 'Specifies the value of the Pay Frequency field.';
+                    ToolTip = 'Specifies the value of the Pay Frequency field. Use it if you need to used such attribute for certain times only. Normally checked for bonus, dasin and insentives';
                     ApplicationArea = All;
                 }
                 field("Employee Type"; Rec."Employee Type")

@@ -71,7 +71,7 @@ table 50032 "Detailed Employee Ledg. En PRM"
         {
 
         }
-        field(19; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(19; "Attribute Sub Type"; Enum "Payroll SubType")
         {
 
         }

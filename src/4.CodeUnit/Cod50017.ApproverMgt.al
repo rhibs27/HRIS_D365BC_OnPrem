@@ -464,7 +464,8 @@ codeunit 50017 "Approver Mgt"
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
                 if StatusMaster.FindFirst() then begin
-                    RecRef.Field(100).Validate(StatusMaster.Status);
+                    if EmpActType <> EmpActType::Retirement then
+                        RecRef.Field(100).Validate(StatusMaster.Status);
                     RecRef.Modify();
                 end
                 else
@@ -481,6 +482,7 @@ codeunit 50017 "Approver Mgt"
         Leave: Record Leave;
         TravelRequest: Record "Travel Request";
         RecRef: RecordRef;
+        RetirementFund: Record "Retirement Fund";
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -499,6 +501,14 @@ codeunit 50017 "Approver Mgt"
                         RecRef.GetTable(TravelRequest);
                         WithDrawRequest(RecRef);
                     end;
+                end;
+            EmpActTypeEnum::Retirement:
+                begin
+                    if RetirementFund.Get(documentNo) then begin
+                        RecRef.GetTable(RetirementFund);
+                        WithDrawRequest(RecRef);
+                    end;
+
                 end;
         end;
     end;

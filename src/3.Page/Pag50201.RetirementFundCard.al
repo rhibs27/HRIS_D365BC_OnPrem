@@ -3,6 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {
@@ -19,7 +20,7 @@ page 50201 "Retirement Fund Card"
 
                     trigger OnAssistEdit()
                     begin
-                        if AssistEdit(xRec) then
+                        if Rec.AssistEdit(xRec) then
                             CurrPage.Update;
                     end;
                 }
@@ -43,7 +44,7 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Remarks)
+                field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
@@ -58,52 +59,52 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Annual Accessible Income field.';
                     ApplicationArea = All;
                 }
-                field("RF Contribution Eligible Amt"; "RF Contribution Eligible Amt")
+                field("RF Contribution Eligible Amt"; Rec."RF Contribution Eligible Amt")
                 {
                     ToolTip = 'Specifies the value of the RF Contribution Eligible Amt field.';
                     ApplicationArea = All;
                 }
-                field("Provident Fund Deposited"; "Provident Fund Deposited")
+                field("Provident Fund Deposited"; Rec."Provident Fund Deposited")
                 {
                     ToolTip = 'Specifies the value of the Provident Fund Deposited field.';
                     ApplicationArea = All;
                 }
-                field("RF Contribution Deposited"; "RF Contribution Deposited")
+                field("RF Contribution Deposited"; Rec."RF Contribution Deposited")
                 {
                     ToolTip = 'Specifies the value of the RF Contribution Deposited field.';
                     ApplicationArea = All;
                 }
-                field("Provident Fund Projected"; "Provident Fund Projected")
+                field("Provident Fund Projected"; Rec."Provident Fund Projected")
                 {
                     ToolTip = 'Specifies the value of the Provident Fund Projected field.';
                     ApplicationArea = All;
                 }
-                field("Actual/Projected Contribution"; "Actual/Projected Contribution")
+                field("Actual/Projected Contribution"; Rec."Actual/Projected Contribution")
                 {
                     ToolTip = 'Specifies the value of the Actual/Projected Contribution field.';
                     ApplicationArea = All;
                 }
-                field("Additional Space for RF Cont."; "Additional Space for RF Cont.")
+                field("Additional Space for RF Cont."; Rec."Additional Space for RF Cont.")
                 {
                     ToolTip = 'Specifies the value of the Additional Space for RF Cont. field.';
                     ApplicationArea = All;
                 }
-                field("Projection Month"; "Projection Month")
+                field("Projection Month"; Rec."Projection Month")
                 {
                     ToolTip = 'Specifies the value of the Projection Month field.';
                     ApplicationArea = All;
                 }
-                field("Actual Lumpsump CIT"; "Actual Lumpsump CIT")
+                field("Actual Lumpsump CIT"; Rec."Actual Lumpsump CIT")
                 {
                     ToolTip = 'Specifies the value of the Actual Lumpsump CIT field.';
                     ApplicationArea = All;
                 }
-                field("Actual Lumpsump RTF"; "Actual Lumpsump RTF")
+                field("Actual Lumpsump RTF"; Rec."Actual Lumpsump RTF")
                 {
                     ToolTip = 'Specifies the value of the Actual Lumpsump RTF field.';
                     ApplicationArea = All;
                 }
-                field("Lumpsum Committed Contribution"; "Lumpsum Committed Contribution")
+                field("Lumpsum Committed Contribution"; Rec."Lumpsum Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Lumpsum Committed Contribution field.';
                     ApplicationArea = All;
@@ -116,13 +117,13 @@ page 50201 "Retirement Fund Card"
                 group(Monthly)
                 {
                     Caption = 'Monthly';
-                    field("RTF Amount (Month)"; "RTF Amount (Month)")
+                    field("RTF Amount (Month)"; Rec."RTF Amount (Month)")
                     {
                         Caption = 'RTF';
                         ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
-                    field("CIT Amount (Month)"; "CIT Amount (Month)")
+                    field("CIT Amount (Month)"; Rec."CIT Amount (Month)")
                     {
                         Caption = 'CIT';
                         ToolTip = 'Specifies the value of the CIT field.';
@@ -132,13 +133,13 @@ page 50201 "Retirement Fund Card"
                 group(Lumpsum)
                 {
                     Caption = 'Lumpsum';
-                    field("RTF Amount (Lumpsum)"; "RTF Amount (Lumpsum)")
+                    field("RTF Amount (Lumpsum)"; Rec."RTF Amount (Lumpsum)")
                     {
                         Caption = 'RTF';
                         ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
-                    field("CIT Amount( Lumpsum)"; "CIT Amount( Lumpsum)")
+                    field("CIT Amount( Lumpsum)"; Rec."CIT Amount( Lumpsum)")
                     {
                         Caption = 'CIT';
                         ToolTip = 'Specifies the value of the CIT field.';
@@ -150,17 +151,17 @@ page 50201 "Retirement Fund Card"
             {
                 Caption = 'Result';
                 // Editable = false;
-                field("Total Committed Contribution"; "Total Committed Contribution")
+                field("Total Committed Contribution"; Rec."Total Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Total Committed Contribution field.';
                     ApplicationArea = All;
                 }
-                field("Total Deduction"; "Total Deduction")
+                field("Total Deduction"; Rec."Total Deduction")
                 {
                     ToolTip = 'Specifies the value of the Total Deduction field.';
                     ApplicationArea = All;
                 }
-                field(Difference; Difference)
+                field(Difference; Rec.Difference)
                 {
                     ToolTip = 'Specifies the value of the Difference field.';
                     ApplicationArea = All;
@@ -169,32 +170,29 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
-                Editable = false;
-                Visible = false;
-                field("Approval Status"; "Approval Status")
+                // Editable = false;
+                // Visible = false;
+                field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
-                field("Created Date"; "Created Date")
+                field("Created Date"; Rec."Created Date")
                 {
                     ToolTip = 'Specifies the value of the Created Date field.';
                     ApplicationArea = All;
                 }
-                field("Requested Date"; "Requested Date")
+                field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
-                field("Screened Date"; "Screened Date")
+
+                field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
-                }
-                field("Screened By"; "Screened By")
-                {
-                    ToolTip = 'Specifies the value of the Screened By field.';
-                    ApplicationArea = All;
+                    Visible = IsPending;
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -202,6 +200,7 @@ page 50201 "Retirement Fund Card"
                 SubPageLink = "Document No." = field("No.");
                 ApplicationArea = all;
                 Editable = false;
+
             }
         }
     }
@@ -260,8 +259,8 @@ page 50201 "Retirement Fund Card"
                 begin
                     if not Confirm('Do you want to repoen the document ?', false) then
                         exit;
-                    Rec.TestField("Approval Status", "Approval Status"::Pending);
-                    "Approval Status" := "Approval Status"::Open;
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
+                    Rec."Approval Status" := Rec."Approval Status"::Open;
                     Rec.Modify;
                     Message('Document open successfully.');
                 end;
@@ -324,7 +323,7 @@ page 50201 "Retirement Fund Card"
                     if Confirm('Do you want WithDraw the request?', false) then begin
                         RecRef.GetTable(Rec);
                         ApprovalMgt.WithDrawRequest(RecRef);
-                        Message('Leave has been withdrew.');
+                        Message('Retirement request has been withdrew.');
                     end;
                 end;
             }
@@ -333,15 +332,15 @@ page 50201 "Retirement Fund Card"
 
     trigger OnAfterGetRecord()
     begin
-        IsScreened := "Approval Status" = "Approval Status"::Screened;
-        ActionVisible := "Approval Status" in ["Approval Status"::Open, "Approval Status"::" "];
+        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
+        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
     end;
 
     trigger OnOpenPage()
     begin
-        IsScreened := "Approval Status" = "Approval Status"::Screened;
-        ActionVisible := "Approval Status" in ["Approval Status"::Open, "Approval Status"::" "];
-        IsPending := "Approval Status" = "Approval Status"::Pending;
+        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
+        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
     end;
 
     var

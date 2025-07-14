@@ -334,7 +334,7 @@ tableextension 50013 "Employee Ext" extends Employee
             FieldClass = FlowField;
             CalcFormula = - sum("Detailed Employee Ledger Entry".Amount where("Employee No." = field("No."),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::CIT | "Attribute Sub Type"::"Employee Contribution" | "Attribute Sub Type"::"Employer Contribution" | "Attribute Sub Type"::RF | "Attribute Sub Type"::"Lump Sum Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT | "Payroll SubType"::"Employee Contribution" | "Payroll SubType"::"Employer Contribution" | "Payroll SubType"::RF | "Payroll SubType"::"Lump Sum Contribution"),
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Document Type" = field("Document Type Filter")));
@@ -532,7 +532,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::"Employee Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Employee Contribution"),
                                                                                                                    "Document Type" = field("Document Type Filter")));
         }
         field(50036; "CIT Deposit"; Decimal)
@@ -542,7 +542,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::CIT)));
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::CIT)));
         }
         field(50037; "PF Contribution (Office)"; Decimal)
         {
@@ -551,7 +551,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::"Employer Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Employer Contribution"),
                                                                                                                    "Document Type" = field("Document Type Filter")));
         }
 
@@ -950,7 +950,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = field("Date Filter"),
                                                                                                                    Reversed = const(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::RF)));
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::RF)));
         }
         field(50091; "Citizenship Issue Place Code"; Code[20])
         {
@@ -1016,7 +1016,7 @@ tableextension 50013 "Employee Ext" extends Employee
                                                                                                                    "Posting Date" = FIELD("Date Filter"),
                                                                                                                    "Reversed" = CONST(false),
                                                                                                                    "Attribute Type" = filter("Attribute Type"::Deduction),
-                                                                                                                   "Attribute Sub Type" = filter("Attribute Sub Type"::"Lump Sum Contribution"),
+                                                                                                                   "Attribute Sub Type" = filter("Payroll SubType"::"Lump Sum Contribution"),
                                                                                                                    "Disabled" = CONST(false)));
             Editable = false;
         }

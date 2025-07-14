@@ -58,7 +58,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
             DataClassification = ToBeClassified;
 
         }
-        field(50011; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(50011; "Attribute Sub Type"; Enum "Payroll SubType")
         {
             DataClassification = ToBeClassified;
         }

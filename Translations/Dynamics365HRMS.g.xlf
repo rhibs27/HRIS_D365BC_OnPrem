@@ -8483,6 +8483,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Facilitator Pool - Field Skill - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3975378601 - Field 220670230 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allow AllowanceAssignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Allow AllowanceAssignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3975378601 - Field 3492481134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allow ShiftAssignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Allow ShiftAssignment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3975378601 - Field 1626697065 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Reminder Mail</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8552,11 +8562,6 @@
           <source>Holiday Counter Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Holiday Counter Eligible - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3975378601 - Field 874409551 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Allowance Approval</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Is Allowance Approval - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3975378601 - Field 1955532959 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Is Specific Functional</source>
@@ -25763,11 +25768,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Templates - Control Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 484116663 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>EmployeeOnLeave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Emp On Leave Today API - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 2701905267 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -29043,6 +29043,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee On Leave Months - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 4095204585 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>EmployeeOnLeave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee On Leave Today API - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 506621030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>employeeOverTimeEntity</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31138,6 +31143,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Final Selected Candidates list - Action Send Offer Letter - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 220670230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow AllowanceAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Allow AllowanceAssignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 3492481134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow ShiftAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Allow ShiftAssignment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4220065141 - Control 1626697065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Reminder Mail field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31218,11 +31233,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Holiday Counter Eligible - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 4220065141 - Control 874409551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Allowance Approval field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Is Allowance Approval - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 4220065141 - Control 3862311378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the KPI Incentive % field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31257,6 +31267,11 @@
           <source>Specifies the value of the Written Exam field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Written Exam - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4267332767 - Control 220670230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow AllowanceAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Allow AllowanceAssignment - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4267332767 - Control 1626697065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Reminder Mail field.</source>
@@ -31342,11 +31357,6 @@
           <source>Specifies the value of the Holiday Counter Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Holiday Counter Eligible - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 4267332767 - Control 874409551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Allowance Approval field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Is Allowance Approval - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4267332767 - Control 1955532959 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Is Specific Functional field.</source>
@@ -38459,7 +38469,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Activity Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 930293571 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Apply Every Month field.</source>
+          <source>Specifies the value of the Apply Every Month field. If checkd amount will be forcasted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Apply Every Month - Property ToolTip</note>
         </trans-unit>
@@ -38479,7 +38489,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column Id - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1881355371 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Column Name field.</source>
+          <source>Specifies the value of the Column Name field. Content in this field is used to make a formula expression.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column Name - Property ToolTip</note>
         </trans-unit>
@@ -38489,12 +38499,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Column No. - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1529750507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Deduct on Absent field.</source>
+          <source>Specifies the value of the Deduct on Absent field. If checked amount will be deducted based on absent and unpaid days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Deduct on Absent - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 432224739 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field.</source>
+          <source>Specifies the value of the Delete Amount on Employee Attribute Usage After Posting field. If checked, value will be cleared from "Payroll attributes uses" on posting payroll plan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Delete Amount After Posting - Property ToolTip</note>
         </trans-unit>
@@ -38519,12 +38529,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Finacle GL Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3304877602 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Formula field.</source>
+          <source>Specifies how dependent attributes calculated.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Formula - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3852983238 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the G/L Account No. field.</source>
+          <source>Specifies the value of the G/L Account No. field. Where amount will get posted</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control G/L Account No. - Property ToolTip</note>
         </trans-unit>
@@ -38549,7 +38559,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Mutually Exclusive - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 37689199 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Non-Taxable field.</source>
+          <source>Specifies the value of the Non-Taxable field. Amount in non-taxable will increase the netpay without increasing taxable amount.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Non-Taxable - Property ToolTip</note>
         </trans-unit>
@@ -38559,7 +38569,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3972573639 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Pay Cycle Period field.</source>
+          <source>Specifies the value of the Pay Cycle Period field. Use it if you have specific attributes that need to be posted in certain time period such as Dashin</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Period - Property ToolTip</note>
         </trans-unit>
@@ -38569,12 +38579,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 813619024 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Pay Frequency field.</source>
+          <source>Specifies the value of the Pay Frequency field. Use it if you need to used such attribute for certain times only. Normally checked for bonus, dasin and insentives</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Pay Frequency - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 914559482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Plan Flexible field.</source>
+          <source>If checked user is allowed to modify the value of payroll attribute in "Payroll Plan", else can not</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Plan Flexible - Property ToolTip</note>
         </trans-unit>
@@ -38594,17 +38604,17 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Static GL Ledger Account - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Status field.</source>
+          <source>Specifies the value of the Status field. Only Active attributes can be used in payroll</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Status - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1761304904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Subtype field.</source>
+          <source>Specifies nature of payroll attributes in more details such as TAX, retirements and so on</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Subtype - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 3646584705 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Tax at once field.</source>
+          <source>Specifies the value of the Tax at once field. If checked, TAX incured due to the attribute will not be forcasted. Generally use for Insentive, Bonus etc.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Tax at once - Property ToolTip</note>
         </trans-unit>
@@ -38614,12 +38624,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Tax Info Report Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 1878130204 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Type field.</source>
+          <source>Specifies payroll attributes nature, such as benifit, deduction etc.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Type - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2858165342 - Control 757949596 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Usage Flexible field.</source>
+          <source>If checked user is allowed to change the Amount of that attribute in "Payroll Attribute Uses" page. Otherwise can not</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Usage Flexible - Property ToolTip</note>
         </trans-unit>
@@ -46303,20 +46313,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Created Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2171557962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Rejection Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Rejection Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Requested Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1532841482 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened By field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Screened By - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1895218171 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Screened Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Screened Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Control 3042250613 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Current Details</source>
@@ -46628,6 +46633,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Control Total Committed Contribution - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 733203159 - Action 2913119229 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Pending Approval action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Approved - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 733203159 - Action 4259830144 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Open action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46637,21 +46647,6 @@
           <source>Executes the Pending Approval action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Pending Approval - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 2076644855 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen All Valid Request action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action ScreenAll - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 2076644855 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Screen All Valid Request</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action ScreenAll - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 733203159 - Action 1735395895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screened action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Funds - Action Screened - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2559681272 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
@@ -54053,6 +54048,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Validate Travel Claim - Control Leave Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 3012955398 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Yearly Payroll Projection</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - Control 665443949 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EmployeeFilter field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Employee No - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 3012955398 - Control 4263720962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the PayCycleTerm field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Yearly Payroll Projection - Control Pay Cycle Term - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Query 193572365 - QueryColumn 509812749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -59467,81 +59477,6 @@
           <source>HR</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Attendance Missed Access - EnumValue HR - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 2473906886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Advance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Advance - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 3227672870 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Basic</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Basic - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 872270394 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>CIT</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue CIT - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 1807949796 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Donation</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Donation - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 3016163392 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Contribution</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Employee Contribution - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 3816037861 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employer Contribution</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Employer Contribution - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 4039751811 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Gratuity</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Gratuity - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 2179104272 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Loan</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Loan - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 383081523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Lump Sum Contribution</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Lump Sum Contribution - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 3795213477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Medical</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Medical - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 4277479248 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>RF</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue RF - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 2199278724 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Social Security Tax</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Social Security Tax - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 959558030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Tax on Interest</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Tax on Interest - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 368370732 - EnumValue 3748222119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Tax on Remuneration &amp; Benefits</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Attribute Sub Type - EnumValue Tax on Remuneration &amp; Benefits - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2709262848 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

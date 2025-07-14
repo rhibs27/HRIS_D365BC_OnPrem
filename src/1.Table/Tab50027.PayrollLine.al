@@ -329,6 +329,8 @@ table 50027 "Payroll Line"
         {
             Description = 'Pranisha';
         }
+        //field 47-60 will be removed to make it array simple  
+        //which make variable field start from field no 61 50501
         field(47; "Variable Field 50487"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
@@ -1666,7 +1668,7 @@ table 50027 "Payroll Line"
                         /*IF PayrollAttributes.Subtype IN [PayrollAttributes.Subtype::"Employee Contribution",PayrollAttributes.Subtype::"Employer Contribution"] THEN
                            BasicAdjustmentPF(AttributeAmount);*/
                         RoundAmount(AttributeAmount);
-                        if AttributeAmount <> 0 then //pradhan
+                        if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
@@ -1917,7 +1919,7 @@ table 50027 "Payroll Line"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then begin
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN          //pradhan
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
                         if PayrollAttributesUsage.Amount < 0 then begin
                             Length := StrLen(Expression);
                             Substring1 := CopyStr(Expression, 1, StrPosition - 2);
@@ -2198,7 +2200,7 @@ table 50027 "Payroll Line"
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
-                    /*IF PayrollAttributes."Deduct on Absent" THEN BEGIN //pradhan -- calculating of after dedcution
+                    /*IF PayrollAttributes."Deduct on Absent" THEN BEGIN   -- calculating of after dedcution
                         AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
                     END;*/
                     RoundAmount(AttributeAmount);
