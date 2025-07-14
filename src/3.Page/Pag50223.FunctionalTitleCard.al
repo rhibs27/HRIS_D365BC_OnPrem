@@ -91,9 +91,14 @@ page 50223 "Functional Title Card"
                     ToolTip = 'Specifies the value of the Allowance Reminder Mail field.';
                     ApplicationArea = All;
                 }
-                field("Is Allowance Approval"; Rec."Is Allowance Approval")
+                field("Allow AllowanceAssignment"; Rec."Allow AllowanceAssignment")
                 {
-                    ToolTip = 'Specifies the value of the Is Allowance Approval field.';
+                    ToolTip = 'Specifies the value of the Is Allow AllowanceAssignment field.';
+                    ApplicationArea = All;
+                }
+                field("Allow ShiftAssignment"; Rec."Allow ShiftAssignment")
+                {
+                    ToolTip = 'Specifies the value of the Is Allow ShiftAssignment field.';
                     ApplicationArea = All;
                 }
                 field("EM/ECM Identifier"; Rec."EM/ECM Identifier")
@@ -117,37 +122,6 @@ page 50223 "Functional Title Card"
                     ApplicationArea = All;
                 }
             }
-            // part(Control13; "Access Control Subform")
-            // {
-            //     SubPageLink = Type = const("Funtional Title"),
-            //                   Code = field(Code);
-            //     ApplicationArea = All;
-            // }
-        }
-    }
-
-    actions
-    {
-        area(Creation)
-        {
-            // action("KPI Setup")
-            // {
-            //     RunObject = Page Page60273;
-            //     RunPageLink = Field1 = CONST("0"),
-            //                   Field2 = FIELD(Code);
-            //     Scope = Repeater;
-            //     ToolTip = 'Executes the KPI Setup action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         /*FunctionalTitle := GETFILTER(Code);//KPI1.00
-            //         IF FunctionalTitle <> '' THEN
-            //           Code := FunctionalTitle;
-            //         */
-
-            //     end;
-            // }
         }
     }
 }

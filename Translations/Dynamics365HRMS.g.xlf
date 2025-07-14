@@ -8483,6 +8483,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Facilitator Pool - Field Skill - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3975378601 - Field 220670230 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allow AllowanceAssignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Allow AllowanceAssignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3975378601 - Field 3492481134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allow ShiftAssignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Allow ShiftAssignment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3975378601 - Field 1626697065 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Allowance Reminder Mail</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8552,11 +8562,6 @@
           <source>Holiday Counter Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Holiday Counter Eligible - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 3975378601 - Field 874409551 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Is Allowance Approval</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Is Allowance Approval - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3975378601 - Field 1955532959 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Is Specific Functional</source>
@@ -31098,6 +31103,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Final Selected Candidates list - Action Send Offer Letter - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 220670230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow AllowanceAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Allow AllowanceAssignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 3492481134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow ShiftAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Allow ShiftAssignment - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 4220065141 - Control 1626697065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Reminder Mail field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31178,11 +31193,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Holiday Counter Eligible - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 4220065141 - Control 874409551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Allowance Approval field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Is Allowance Approval - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 4220065141 - Control 3862311378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the KPI Incentive % field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31217,6 +31227,11 @@
           <source>Specifies the value of the Written Exam field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Written Exam - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4267332767 - Control 220670230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Is Allow AllowanceAssignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Allow AllowanceAssignment - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4267332767 - Control 1626697065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Allowance Reminder Mail field.</source>
@@ -31302,11 +31317,6 @@
           <source>Specifies the value of the Holiday Counter Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Holiday Counter Eligible - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 4267332767 - Control 874409551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Is Allowance Approval field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Is Allowance Approval - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4267332767 - Control 1955532959 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Is Specific Functional field.</source>
