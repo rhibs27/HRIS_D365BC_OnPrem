@@ -120,4 +120,8 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Retirement';
     }
+    value(30; "Attendance Journal")
+    {
+        Caption = 'Attendance Journal';
+    }
 }
