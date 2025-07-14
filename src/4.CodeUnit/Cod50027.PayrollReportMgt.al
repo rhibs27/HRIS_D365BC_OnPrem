@@ -616,7 +616,7 @@ codeunit 50027 "Payroll Report Mgt."
         //if found, then it will get the last posted month and project the earning for remaining months
         //if not found, then it will project the earning for all months of the pay cycle term
         //2. it will then get the total annual earnings and total retirement contributions
-
+        Employee.get(EmpCode);
         TempDetailedEmpLedgerEntry.DeleteAll();
         LastEntryNo := 90000000;
 
@@ -670,10 +670,13 @@ codeunit 50027 "Payroll Report Mgt."
 
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
-        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3',
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
                                         TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
                                         TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
-                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution");
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution"
+                                        );
 
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
