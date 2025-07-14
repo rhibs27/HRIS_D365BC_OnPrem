@@ -36,6 +36,7 @@ page 50314 "Attendance Journal"
                     Caption = 'Late Days';
                     ToolTip = 'Specifies the value of the No. of Days field.';
                     ApplicationArea = All;
+                    Editable = IsOpen;
 
                 }
                 field("Approval Status"; Rec."Approval Status")
