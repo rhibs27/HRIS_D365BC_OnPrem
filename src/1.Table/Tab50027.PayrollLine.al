@@ -329,6 +329,8 @@ table 50027 "Payroll Line"
         {
             Description = 'Pranisha';
         }
+        //field 47-60 will be removed to make it array simple  
+        //which make variable field start from field no 61 50501
         field(47; "Variable Field 50487"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
