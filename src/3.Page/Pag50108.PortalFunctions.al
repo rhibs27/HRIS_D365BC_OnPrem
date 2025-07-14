@@ -63,12 +63,13 @@ page 50108 "Portal Functions"
     var
         Employee: Record Employee;
         counter: Integer;
-        FirstLogin: Text;
+        FirstLogin, AllowAllowanceAssignment, AllowShiftAssignment : Text;
         user: Record User;
         WebServiceKey: text;
         IdentityManagement: Codeunit "Identity Management";
         PayrollGenSetup: Record "Payroll General Setup";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        functionalTitle: Record "Functional Title";
     begin
         PayrollGenSetup.Get();
         Employee.Reset;
@@ -95,10 +96,22 @@ page 50108 "Portal Functions"
             FirstLogin := 'false'
         else
             FirstLogin := 'true';
+        if FunctionalTitle.get(Employee."Functional Title") then begin
+            if functionalTitle."Allow AllowanceAssignment" then
+                AllowAllowanceAssignment := 'true'
+            else
+                AllowAllowanceAssignment := 'false';
+            if functionalTitle."Allow ShiftAssignment" then
+                AllowShiftAssignment := 'true'
+            else
+                AllowShiftAssignment := 'false';
+        end;
         exit('{"empno" : "' + Employee."No." +
               '",' + '"count" : "' + Format(counter) +
               '","firstLogin": "' + FirstLogin +
               '","employeeName": "' + Employee."Full Name" +
+              '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
+              '","allowShiftAssignment": "' + AllowShiftAssignment +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
@@ -106,11 +119,15 @@ page 50108 "Portal Functions"
     procedure loginSuccess(): Integer
     var
         Employee: Record Employee;
+        user: Record User;
     begin
         Employee.Reset();
         if Employee.Get(HrMgt.GetEmployeeNo()) then begin
             Employee.Login := true;
             Employee.Modify();
+            user.Reset();
+            user.SetRange("User Name", UserId);
+            user.FindFirst();
             exit(200);
         end;
     end;
@@ -1433,24 +1450,34 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    procedure downloadAllowanceAssignmentSummary(DocumentNo: Code[20]): Text
+    procedure downloadAllowanceAssignmentSummary(documentNo: Code[20]): Text
     var
         AllowanceAssignmentReport: Report "Allowance Assignment Summary";
         TempBlob: Codeunit "Temp Blob";
         OutStr: OutStream;
-        InStr: InStream;
+        InStream: InStream;
         Base64: Codeunit "Base64 Convert";
         exitText: Text;
         ext: Text;
         format: ReportFormat;
+        RecRef: RecordRef;
+        AllowaceAssignmentHeader: Record "Allowance Assignment Header";
     begin
-        ext := 'pdf';
-        format := ReportFormat::Pdf;
-        AllowanceAssignmentReport.PassParPortal(DocumentNo);
+        // ext := 'pdf';
+        // format := ReportFormat::Pdf;
+        // AllowanceAssignmentReport.PassParPortal(DocumentNo);
+        // TempBlob.CreateOutStream(OutStr);
+        // AllowanceAssignmentReport.SaveAs('', format, OutStr);
+        // TempBlob.CreateInStream(InStr);
+        // exitText := Base64.ToBase64(InStr);
+
+        AllowaceAssignmentHeader.Get(DocumentNo);
         TempBlob.CreateOutStream(OutStr);
-        AllowanceAssignmentReport.SaveAs('', format, OutStr);
-        TempBlob.CreateInStream(InStr);
-        exitText := Base64.ToBase64(InStr);
+        recRef.Get(AllowaceAssignmentHeader.RecordId);
+        recRef.SetTable(AllowaceAssignmentHeader);
+        AllowanceAssignmentReport.SaveAs('', format::Pdf, OutStr, recRef);
+        TempBlob.CreateInStream(instream);
+        exitText := base64.ToBase64(InStream);
         exit('{"extension":"' + ext + '","attachBase64":"' + exitText + '"}');
     end;
 
@@ -1463,7 +1490,7 @@ page 50108 "Portal Functions"
         if (branchExtensionCode = Employee."Global Dimension 1 Code") or (branchExtensionCode = Employee."Extension Counter Code") then begin
             Employee.TestField("Functional Title");
             FunctionalTitle.Get(Employee."Functional Title");
-            if not FunctionalTitle."Is Allowance Approval" then
+            if not FunctionalTitle."Allow AllowanceAssignment" then
                 Error('Employee not eligible for approva');
         end else
             Error('Employee not eligible for approval');
