@@ -780,6 +780,10 @@ codeunit 50027 "Payroll Report Mgt."
                         TempDetailedEmpLedgerEntry.Validate("Payroll Attribute Code", PayrollAttrUsage.Code);
                         if PayAttr.Type = PayAttr.Type::Benefits then
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
+                        if PayAttr.Type = PayAttr.Type::Deduction then
+                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::Deduction;
+                        if PayAttr.Subtype = PayAttr.Subtype::Basic then
+                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning";
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
 
                         // TempDetailedEmpLedgerEntry."Specific Component" := PayAttr."Specific Component";
