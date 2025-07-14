@@ -28,7 +28,7 @@ page 50240 "Attendance Activity Entity"
                 field(dayType; Rec."Day Type") { }
                 field(checkInTime; HrMgt.getTimeInFormat(Rec."Check In Time")) { }
                 field(checkOutTime; HrMgt.getTimeInFormat(Rec."Check Out Time")) { }
-                field(employeeWorkingShift; Rec."Employee Working Shift") { }
+                field(workShift; Rec."Employee Working Shift") { }
                 field(lateRemarks; Rec."Late Remarks") { }
                 field(holidayRemarks; Rec."Holiday Remarks") { }
                 field(presentDay; Rec."Present Day") { }

@@ -20,7 +20,7 @@ table 50010 "Functional Title"
         field(12; "Evening Counter Eligible"; Boolean) { }
         field(13; "Holiday Counter Eligible"; Boolean) { }
         field(14; "Allowance Reminder Mail"; Boolean) { }
-        field(15; "Is Allowance Approval"; Boolean) { }
+        field(15; "Allow AllowanceAssignment"; Boolean) { }
         field(16; "EM/ECM Identifier"; Boolean) { }
         field(17; "BM/OBM"; Boolean) { }
         field(18; Blocked; Boolean) { }
@@ -31,6 +31,7 @@ table 50010 "Functional Title"
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
         field(22; "BM Allowance"; Decimal) { }
+        field(23; "Allow ShiftAssignment"; Boolean) { }
     }
     keys
     {

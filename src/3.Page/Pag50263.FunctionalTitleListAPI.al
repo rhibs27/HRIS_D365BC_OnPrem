@@ -58,7 +58,6 @@ page 50263 "Functional Title List API"
 
     var
         Selected: Boolean;
-        [InDataSet]
         ShowSelected: Boolean;
         FunctTitle: Record "Functional Title";
         TempFunctTitle: Record "Functional Title" temporary;
