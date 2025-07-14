@@ -295,12 +295,18 @@ table 50026 "Payroll Header"
     fieldgroups { }
 
     trigger OnInsert()
+    var
+        PayrollHdrs: Record "Payroll Header";
     begin
         PRSetup.Get;
 
         if "No." = '' then begin
             TestNoSeries;
             HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
+            PayrollHdrs.ReadIsolation(IsolationLevel::ReadUncommitted);
+            PayrollHdrs.SetLoadFields("No.");
+            while PayrollHdrs.get("No.") do
+                "No." := NoSeriesCodeunit.GetNextNo("No. Series");
         end;
 
         InitRecord;
@@ -308,7 +314,7 @@ table 50026 "Payroll Header"
         "Document Date" := Today;
         PGSetup.Get;
         PGSetup.TestField("HRMS Month");
-        if PGSetup."Previous Year Payroll Enable" then //Min 7.18.2022
+        if PGSetup."Previous Year Payroll Enable" then
             ValidatePayCyclesPrev
         else
             ValidatePayCycles;
@@ -333,7 +339,6 @@ table 50026 "Payroll Header"
     var
         PGSetup: Record "Payroll General Setup";
         AttendanceSetup: Record "Attendance Setup";
-        // NoSeriesMngt: Codeunit NoSeriesManagement;
         NoSeriesCodeunit: Codeunit "No. Series";
         PRSetup: Record "Payroll General Setup";
         UserMgt: Codeunit "User Setup Management";
@@ -563,8 +568,6 @@ table 50026 "Payroll Header"
 
         Employee.Reset;
         Employee.SetCurrentKey("Employment Type");
-        //Employee.SETFILTER("No.",'PT3265'); //Min For Check
-        //Employee.SETFILTER("No.",'%1|%2|%3','MM2154','SP3875','SP3988');
         if Type = Type::Settlement then begin
             Employee.SetRange(Status, Employee.Status::Inactive);
             if "Employee Type" = "Employee Type"::Permanent then
@@ -601,11 +604,7 @@ table 50026 "Payroll Header"
                         PayrollEngine.GetAttendanceForPayroll(PayrollLine, Rec);
                     end
                     else if AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::"Time Sheet" then begin
-                        /* UTS Commented
-                        PayrollEngine.PrepareEmployeeDailyTimesheet(PayrollLine,Rec);
-                        PayrollEngine.GetTimeSheetForPayroll(PayrollLine,Rec);
-                        PayrollEngine.CreateTimeSheetAllocation(PayrollLine,Rec);
-                        */
+                        // PayrollEngine.GetTimeSheetForPayroll(PayrollLine, Rec);
                     end;
                     PayrollLine.Insert(true);
                     LineNo += 10000;
@@ -622,15 +621,6 @@ table 50026 "Payroll Header"
         if PayrollLine.FindSet then
             repeat
                 PayrollLine.TestField("Employee No.");
-            /*IF NOT (Type = Type::Resignation) THEN
-              IF NOT Irregular THEN
-                PayrollLine.TESTFIELD("Present Days");
-            PayrollLine.TESTFIELD("Global Dimension 1 Code");
-            PayrollLine.TESTFIELD("Dimension Set ID");
-            IF CheckValue THEN BEGIN
-              IF PayrollLine."Net Pay" <= 0 THEN
-                PayrollLine.FIELDERROR("Net Pay");
-            END;*/
             until PayrollLine.Next = 0;
     end;
 
@@ -707,22 +697,12 @@ table 50026 "Payroll Header"
             repeat
                 PayrollEngine.InsertPayrollAttributesUsage(PayrollLine."Employee No.");
                 if Type = Type::Adjustment then begin
-                    /*PayrollAttUsage.RESET; //Min 3.20.2022 -- Commented,below inside repeat function code already commented so.
-                    PayrollAttUsage.SETRANGE("Employee Code",PayrollLine."Employee No.");*/
                     PayCyclePeriod.Reset;
                     PayCyclePeriod.SetRange("Pay Cycle Code", "Pay Cycle Code");
                     PayCyclePeriod.SetRange("Pay Cycle Term", "Pay Cycle Term");
                     PayCyclePeriod.SetRange(Period, "Pay Cycle Period");
                     if PayCyclePeriod.FindFirst then;
                     GetGlobalAttributes(PayrollLine."Employee No.");
-                    /*IF PayrollAttUsage.FINDFIRST THEN REPEAT //Min 3.20.2022 -- Commented,same reason as above.
-                      CLEAR(Amt);
-                     { Amt := PayrollEngine.ValidateAttributes(PayrollAttUsage.Code,PayrollLine,PayCyclePeriod);
-                      IF Amt <> 0 THEN BEGIN
-                        PayrollAttUsage.Amount := Amt;
-                        PayrollAttUsage.MODIFY;
-                      END;}
-                    UNTIL PayrollAttUsage.NEXT =0;*/
                 end;
             until PayrollLine.Next = 0;
         Message('Attributes Updated.');

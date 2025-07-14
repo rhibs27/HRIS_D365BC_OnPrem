@@ -201,12 +201,14 @@ page 50041 "Payroll Subform"
                     ToolTip = 'Specifies the value of the Variable Field 50499 field.';
                     ApplicationArea = All;
                 }
+
                 field("Variable Field 50500"; Rec."Variable Field 50500")
                 {
                     Visible = Field50500Visible;
                     ToolTip = 'Specifies the value of the Variable Field 50500 field.';
                     ApplicationArea = All;
                 }
+                //start from here
                 field("Variable Field 50501"; Rec."Variable Field 50501")
                 {
                     Visible = Field50501Visible;
@@ -2106,14 +2108,16 @@ page 50041 "Payroll Subform"
         Field50489Visible: Boolean;
         Field50487Visible: Boolean;
         Field50488Visible: Boolean;
-        [InDataSet]
+
         HourCalculationVisible: Boolean;
-        [InDataSet]
+
         TimeSheetVisible: Boolean;
-        [InDataSet]
+
         SettlementVisible: Boolean;
         PayrollHeader: Record "Payroll Header";
         IsResignation: Boolean;
+
+        VariableFieldVisible: array[121] of Boolean;
 
 
     local procedure InitColumnVisibility()

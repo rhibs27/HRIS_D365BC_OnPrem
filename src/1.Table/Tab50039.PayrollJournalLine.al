@@ -294,7 +294,7 @@ table 50039 "Payroll Journal Line"
         {
 
         }
-        field(34; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(34; "Attribute Sub Type"; Enum "Payroll SubType")
         {
 
         }
@@ -781,41 +781,42 @@ table 50039 "Payroll Journal Line"
             PayrollAttributes.Type::Benefits:
                 PayrollJournalLine."Attribute Type" := PayrollJournalLine."Attribute Type"::"Other Earnings";
         end;
+        PayrollJournalLine."Attribute Sub Type" := PayrollAttributes.Subtype;
         case PayrollAttributes.Subtype of
-            PayrollAttributes.Subtype::" ":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::" ";
-            PayrollAttributes.Subtype::Advance:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Advance;
-            PayrollAttributes.Subtype::CIT:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::CIT;
-            PayrollAttributes.Subtype::Donation:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Donation;
-            PayrollAttributes.Subtype::"Employee Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employee Contribution";
-            PayrollAttributes.Subtype::"Employer Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employer Contribution";
-            PayrollAttributes.Subtype::Loan:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Loan;
-            PayrollAttributes.Subtype::Medical:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Medical;
-            PayrollAttributes.Subtype::"Tax on Remuneration & Benefits":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Remuneration & Benefits";
-            PayrollAttributes.Subtype::"Tax on Interest":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Interest";
-            PayrollAttributes.Subtype::"Lump Sum Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Lump Sum Contribution";
-            PayrollAttributes.Subtype::RF:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::RF;
-            PayrollAttributes.Subtype::Gratuity:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Gratuity;
-            PayrollAttributes.Subtype::"Social Security Tax":
-                begin
-                    PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Social Security Tax";
-                end;
+            // PayrollAttributes.Subtype::" ":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::" ";
+            // PayrollAttributes.Subtype::Advance:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Advance;
+            // PayrollAttributes.Subtype::CIT:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::CIT;
+            // PayrollAttributes.Subtype::Donation:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Donation;
+            // PayrollAttributes.Subtype::"Employee Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employee Contribution";
+            // PayrollAttributes.Subtype::"Employer Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employer Contribution";
+            // PayrollAttributes.Subtype::Loan:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Loan;
+            // PayrollAttributes.Subtype::Medical:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Medical;
+            // PayrollAttributes.Subtype::"Tax on Remuneration & Benefits":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Remuneration & Benefits";
+            // PayrollAttributes.Subtype::"Tax on Interest":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Interest";
+            // PayrollAttributes.Subtype::"Lump Sum Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Lump Sum Contribution";
+            // PayrollAttributes.Subtype::RF:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::RF;
+            // PayrollAttributes.Subtype::Gratuity:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Gratuity;
+            // PayrollAttributes.Subtype::"Social Security Tax":
+            //     begin
+            //         PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Social Security Tax";
+            //     end;
             PayrollAttributes.Subtype::Basic:
                 begin
                     PayrollJournalLine."Attribute Type" := PayrollJournalLine."Attribute Type"::"Basic Earning";
-                    PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Basic;
+                    // PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Basic;
                 end;
         end;
     end;

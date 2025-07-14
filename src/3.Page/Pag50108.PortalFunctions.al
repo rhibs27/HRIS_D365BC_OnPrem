@@ -2564,6 +2564,7 @@ page 50108 "Portal Functions"
         AllowanceAssignmentClaimForApprove: Integer;
         ShiftAssignmentForApprove: Integer;
         Approval: Record "Approval HRMS";
+        RetirementFundForApprove: Integer;
     begin
         Clear(leaveForApprove);
         Clear(TravelReqForApprove);
@@ -2758,9 +2759,17 @@ page 50108 "Portal Functions"
         Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
         ShiftAssignmentForApprove := Approval.Count();
 
+
+        Approval.Reset();
+        Approval.SetRange("Document Type", Approval."Document Type"::Retirement);
+        Approval.SetRange("Approver No", HrMgt.GetEmployeeNo());
+        Approval.SetFilter("Document No.", '<>%1', '');
+        Approval.SetRange("Approval Status", Approval."Approval Status"::"Open");
+        RetirementFundForApprove := Approval.Count();
+
         TotalCount := leaveForApprove + LeaveCancelledForApprove + PersonalLoanForApprove + VehicleLoanForApprove + HomeLoanForApprove + TravelReqForApprove + EmployeeTransferForApprove + AllowanceAssignmentForApprove + TransferAcknowledgeForApprove + TransferHandoverForApprove + TravelClaimApprove
           + ResignForApprove + ResignClearanceForApprove + OverTimeForApprove + EmployeeEditForApprove + AppraisalForRecommendation + AppraisalForApprove + SalaryAdvanceForApprove + AttendanceMissedForApprove + LateAttendanceForApprove + InsuranceForApprove + MedicalInsuranceClaimForApprove
-          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove;
+          + TransferClaimForApprove + OvertimeBulkForApprove + AllowanceAssignmentClaimForApprove + ShiftAssignmentForApprove + RetirementFundForApprove;
 
         exit('{"leaveForApprove" : "' + Format(leaveForApprove) + '"' +
         ',"PersonalLoanForApprove": "' + format(PersonalLoanForApprove) + '"' +
@@ -2787,6 +2796,7 @@ page 50108 "Portal Functions"
         ',"MedicalInsuranceClaimForApprove": "' + format(MedicalInsuranceClaimForApprove) + '"' +
         ',"OvertimeBulkForApprove": "' + format(OvertimeBulkForApprove) + '"' +
         ',"ShiftAssignmentForApprove": "' + format(ShiftAssignmentForApprove) + '"' +
+        ',"RetirementFundForApprove": "' + format(RetirementFundForApprove) + '"' +
         ',"TotalCount" :"' + DelChr(Format(TotalCount), '=', '{}') + '"}');
     end;
 
