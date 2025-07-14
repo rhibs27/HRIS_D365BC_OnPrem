@@ -484,7 +484,7 @@ codeunit 50027 "Payroll Report Mgt."
         //     Error('Pay period doest match');
     end;
 
-    procedure ShowHidePayrollColumn(var VariableFieldVisible: array[131] of Boolean; FieldStartNo: Integer)
+    procedure ShowHidePayrollColumn(var VariableFieldVisible: array[120] of Boolean; FieldStartNo: Integer)
     var
         i: Integer;
     begin

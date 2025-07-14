@@ -236,22 +236,36 @@ page 50045 "Posted Payroll Plan"
                     Rec.ReverseDocument(PostedPayrollHeader);
                 end;
             }
-            action("Payroll Salary Statement")
+            // action("Payroll Salary Statement")
+            // {
+            //     AccessByPermission = tabledata "Posted Payroll Header" = I;
+            //     Image = "Report";
+            //     Promoted = true;
+            //     PromotedCategory = "Report";
+            //     PromotedIsBig = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Payroll Salary Statement action.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     begin
+            //         PostedPayrollHeaderRec.Reset;
+            //         PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
+            //         Report.Run(Report::"Employee Salary Sheet Posted", true, true, PostedPayrollHeaderRec);
+            //     end;
+            // }  //replaced with open in excel
+            action(OpenInExcel)
             {
-                AccessByPermission = tabledata "Posted Payroll Header" = I;
-                Image = "Report";
-                Promoted = true;
-                PromotedCategory = "Report";
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Payroll Salary Statement action.';
                 ApplicationArea = All;
+                Caption = 'Open in Excel';
+                Image = Excel;
+                ToolTip = 'Open the data in Excel for analysis or editing';
 
                 trigger OnAction()
+                var
+                    EditInExcel: Codeunit "Edit in Excel";
                 begin
-                    PostedPayrollHeaderRec.Reset;
-                    PostedPayrollHeaderRec.SetRange("No.", Rec."No.");
-                    Report.Run(Report::"Employee Salary Sheet Posted", true, true, PostedPayrollHeaderRec);
+                    EditInExcel.EditPageInExcel('Posted Payroll Plan' + Rec."No.", Page::"Payroll Plan");
                 end;
             }
             action("Payroll CIT")

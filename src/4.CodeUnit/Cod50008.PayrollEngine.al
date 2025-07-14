@@ -1346,7 +1346,7 @@ codeunit 50008 "Payroll Engine"
     procedure GetGenJnlDocumentNo(var PayrollJournalLine: Record "Payroll Journal Line"; PostingDate: Date; CreateError: Boolean): Code[20]
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         DocumentNo: Code[20];
     begin
         PayrollJournalBatch.Get(PayrollJournalLine."Journal Batch Name");
@@ -1438,7 +1438,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Option; DocTableName: Text[1024]; DocNoOfRecords: Integer)
+    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
     begin
         if DocNoOfRecords = 0 then
             exit;
@@ -2192,7 +2192,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then
@@ -2285,7 +2285,7 @@ codeunit 50008 "Payroll Engine"
         IncomeTaxAttrib1: Code[20];
         IncomeTaxAttrib2: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
         DocumentNo1: Code[20];
     begin
@@ -2397,7 +2397,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then

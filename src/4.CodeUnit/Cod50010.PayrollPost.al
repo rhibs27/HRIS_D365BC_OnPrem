@@ -215,7 +215,7 @@ codeunit 50010 "Payroll-Post"
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PayrollEngine: Codeunit "Payroll Engine";
         FieldID: Integer;
         LastLineNo: Integer;

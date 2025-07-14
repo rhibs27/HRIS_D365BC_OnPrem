@@ -68,8 +68,9 @@ tableextension 50003 "User Setup Ext" extends "User Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50016; "Can View Confirmation Appraisal"; Boolean)
+        field(50016; "Can View Confirm Appraisal"; Boolean)
         {
+            Caption = 'Can View Confirmation Appraisal';
             DataClassification = CustomerContent;
         }
         field(50017; "Can View Change Log"; Boolean)
