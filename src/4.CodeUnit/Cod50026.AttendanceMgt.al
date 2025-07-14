@@ -28,6 +28,7 @@ codeunit 50026 "Attendance Mgt"
         end;
         ShiftLine.Reset(); //Check for Approved WorkShift
         ShiftLine.SetRange("Roster Date", InitialDate);
+        ShiftLine.SetRange("Employee No", EmpNo);
         ShiftLine.SetRange("Approval Status", ShiftLine."Approval Status"::Approved);
         ShiftLine.Setfilter("Substitute Type", '%1|%2', ShiftLine."Substitute Type"::" ", ShiftLine."Substitute Type"::"Added as Substitute");
         if ShiftLine.FindFirst() then
@@ -111,31 +112,42 @@ codeunit 50026 "Attendance Mgt"
     end;
 
     local procedure GetCheckOutTime(InitialDate: Date; EmployeeWorkShift: Record "Employee Work Shift"; EmployeeNo: Code[20]; CheckInTime: Time): Time
-    var
-        SearchDate: Date;
     begin
-        // Determine search date based on overnight shift
-        if EmployeeWorkShift.OverNight then
-            SearchDate := InitialDate + 1
-        else
-            SearchDate := InitialDate;
 
+        // Initialize attendance log query
         AttendanceLog.Reset;
         AttendanceLog.SetCurrentKey("Log Time");
         AttendanceLog.SetRange("Employee ID", EmployeeNo);
-        AttendanceLog.SetRange(Date, SearchDate);
-        if EmployeeWorkShift.OverNight then begin
-            AttendanceLog.SetAscending("Log Time", true)
-        end else begin
+        if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
+            AttendanceLog.SetRange(Date, InitialDate + 1);
+            if EmployeeWorkShift."Check Out From" <> 0 then
+                AttendanceLog.SetRange("Log Time", EmployeeWorkShift."End Time" - TextToDuration(format(EmployeeWorkShift."Check Out From")), EmployeeWorkShift."End Time" + TextToDuration(format(EmployeeWorkShift."Check Out From")));
+            AttendanceLog.SetAscending("Log Time", true);
+            if AttendanceLog.Findfirst() then
+                exit(AttendanceLog."Log Time");
+            // If not found on next day, search same day after check-in
+            AttendanceLog.Reset;
+            AttendanceLog.SetCurrentKey("Log Time");
+            AttendanceLog.SetRange("Employee ID", EmployeeNo);
+            AttendanceLog.SetRange(Date, InitialDate);
+            AttendanceLog.SetFilter("Log Time", '>%1', CheckInTime);
             AttendanceLog.SetAscending("Log Time", false);
+            if AttendanceLog.FindFirst() then
+                exit(AttendanceLog."Log Time")
+
+        end else begin
+            // Regular shift - search same day
+            AttendanceLog.SetRange(Date, InitialDate);
+            AttendanceLog.SetFilter("Log Time", '>%1', CheckInTime);
             if EmployeeWorkShift."Check Out From" <> 0 then
                 AttendanceLog.Setfilter("Log Time", '>=%1', EmployeeWorkShift."Start Time" + TextToDuration(format(EmployeeWorkShift."Check Out From")));
-        end;
-        if AttendanceLog.FindFirst then begin
-            if CheckInTime <> AttendanceLog."Log Time" then
-                exit(AttendanceLog."Log Time")
-        end else
+            AttendanceLog.SetAscending("Log Time", false);
+            if AttendanceLog.FindFirst then begin
+                exit(AttendanceLog."Log Time");
+            end;
+            // No checkout time found
             exit(0T)
+        end;
     end;
 
     var
@@ -146,6 +158,4 @@ codeunit 50026 "Attendance Mgt"
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
         AttendanceSetUp: Record "Attendance Setup";
-
-
 }

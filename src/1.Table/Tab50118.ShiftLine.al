@@ -25,7 +25,8 @@ table 50118 "Shift Line"
             TableRelation = if ("Deputation Type" = filter("Deputation Type"::Branch)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::Department)) Employee."No." where("Deputation On Code" = field("Deputation Code"))
             else if ("Deputation Type" = filter("Deputation Type"::Unit)) Employee."No." where("Unit Code" = field("Deputation Code"))
-            else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) Employee."No." where("Extension Counter Code" = field("Deputation Code"));
+            else if ("Deputation Type" = filter("Deputation Type"::"Extension Counter")) Employee."No." where("Extension Counter Code" = field("Deputation Code"))
+            else if ("Deputation Type" = filter("Deputation Type"::Province)) Employee."No." where("Deputation On Code" = field("Deputation Code"));
             trigger OnValidate()
             var
                 Employee: Record Employee;
@@ -67,15 +68,8 @@ table 50118 "Shift Line"
                 EmployeeWorkShift: Record "Employee Work Shift";
             begin
                 EmployeeWorkShift.Reset();
-
                 // First try to find records matching the current deputation code
-                EmployeeWorkShift.SetRange("Deputation Code", "Deputation Code");
-                if not EmployeeWorkShift.FindFirst() then begin
-                    // If no match found, show all blank deputation codes
-                    EmployeeWorkShift.Reset();
-                    EmployeeWorkShift.SetRange("Deputation Code", '');
-                end;
-
+                EmployeeWorkShift.Setfilter("Deputation Code", '%1|%2', "Deputation Code", '');
                 if PAGE.RunModal(0, EmployeeWorkShift) = ACTION::LookupOK then
                     "Employee Work Shift" := EmployeeWorkShift.Code;
             end;
@@ -129,13 +123,11 @@ table 50118 "Shift Line"
     trigger OnInsert()
     begin
         Validate("Approval Status", "Approval Status"::Open);
-
     end;
 
     var
         OrganizationStructureList: Record "Organization Structure List";
         Employee: Record Employee;
-
         ShiftMgn: Codeunit "Shift Assignment Mgt";
 
 

@@ -102,9 +102,21 @@ page 50108 "Portal Functions"
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
+    [ServiceEnabled]
+    procedure loginSuccess(): Integer
+    var
+        Employee: Record Employee;
+    begin
+        Employee.Reset();
+        if Employee.Get(HrMgt.GetEmployeeNo()) then begin
+            Employee.Login := true;
+            Employee.Modify();
+            exit(200);
+        end;
+    end;
+
     // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
-    //[Scope('Personalization')]
     procedure getEmployeeApproval(empActType: Code[30]): text
     var
         ApprovalSetupLine: Record "Approval Setup line";
@@ -637,8 +649,8 @@ page 50108 "Portal Functions"
           '"foodingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Fooding, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
           '"lodgingPerDayLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, true, 1)), '=', ',') + '",' +
           '"lodgingLimit" : "' + DelChr(Format(TravelMgt.GetAllowanceFoodingLodingLimit(EmpTravel, allType::Lodging, false, EmpTravel."Total No. of Days")), '=', ',') + '",' +
-          '"depatureTime": "' + getTimeinFormat(TravelMgt.GetDepatureTime(empTravelNo)) + '",' +
-          '"arrivalTime" : "' + getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
+          '"depatureTime": "' + Hrmgt.getTimeinFormat(TravelMgt.GetDepatureTime(empTravelNo)) + '",' +
+          '"arrivalTime" : "' + Hrmgt.getTimeinFormat(TravelMgt.GetArrivalTime(empTravelNo)) + '"' +
         '}'
         )
     end;
@@ -663,42 +675,6 @@ page 50108 "Portal Functions"
         //year
         Year := Format(Date2DMY(DateVar, 3));
         exit(Year + '-' + Month + '-' + Day);
-    end;
-
-    local procedure getTimeinFormat(varTime: Time): Text
-    var
-        Milliseconds: Integer;
-        Hours: Integer;
-        Minutes: Integer;
-        Seconds: Integer;
-        HoursText: Text;
-        MinutesText: Text;
-        SecondsText: Text;
-    begin
-        Milliseconds := varTime - 000000T;
-
-        Hours := Round(Milliseconds div 1000 div 60 div 60, 1, '=');
-        if Hours < 10 then
-            HoursText := '0' + Format(Hours)
-        else
-            HoursText := Format(Hours);
-        Milliseconds -= Hours * 1000 * 60 * 60;
-
-        Minutes := Round(Milliseconds div 1000 div 60, 1, '=');
-        if Minutes < 10 then
-            MinutesText := '0' + Format(Minutes)
-        else
-            MinutesText := Format(Minutes);
-        Milliseconds -= Minutes * 1000 * 60;
-
-        Seconds := Round(Milliseconds div 1000, 1, '=');
-        if Seconds < 10 then
-            SecondsText := '0' + Format(Seconds)
-        else
-            SecondsText := Format(Seconds);
-        Milliseconds -= Seconds * 1000;
-
-        exit(HoursText + ':' + MinutesText + ':' + SecondsText);
     end;
 
     local procedure "Loan API"()
@@ -1791,8 +1767,8 @@ page 50108 "Portal Functions"
         exit(
        '{' +
          '"totalOTHrs" : "' + DelChr(Format(TotalOTHrs)) + '",' +
-         '"checkInTime" : "' + DelChr(getTimeinFormat(EmployeeAttendance."Check In Time"), '=', ',') + '",' +
-         '"checkOutTime" : "' + delchr(getTimeinFormat(EmployeeAttendance."Check Out Time"), '=', ',') + '",' +
+         '"checkInTime" : "' + DelChr(Hrmgt.getTimeinFormat(EmployeeAttendance."Check In Time"), '=', ',') + '",' +
+         '"checkOutTime" : "' + delchr(Hrmgt.getTimeinFormat(EmployeeAttendance."Check Out Time"), '=', ',') + '",' +
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
