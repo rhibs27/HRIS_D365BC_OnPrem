@@ -416,7 +416,7 @@ codeunit 50008 "Payroll Engine"
         CurrentEarning := 0;
         CurrentNonPaymentBenefits := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 180 do begin
+        for FieldID := 61 to 180 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -2985,7 +2985,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentEarning := 0;
         TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 180 do begin
+        for FieldID := 61 to 180 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
