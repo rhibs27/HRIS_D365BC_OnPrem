@@ -14563,76 +14563,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Used Leave Sick - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 3234577806 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50487</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50487 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 3872274423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50488</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50488 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 215003744 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50489</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50489 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 2252867968 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50490</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50490 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 1615171351 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50491</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50491 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 3528261202 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50492</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50492 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 2890564585 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50493</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50493 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 508687140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50494</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50494 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 4165957819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50495</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50495 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 1784080374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50496</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50496 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 1146383757 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50497</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50497 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 1446262328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50498</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50498 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 808565711 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50499</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50499 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 2378240213 - Field 4178333680 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50500</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50500 - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3540637063 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Variable Field 50501</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15232,6 +15162,206 @@
           <source>Variable Field 50620</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50620 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2249984112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50621</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50621 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2887680729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50622</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50622 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3525377346 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50623</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50623 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 4163073963 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50624</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50624 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 505803284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50625</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50625 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1143499901 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50626</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50626 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1781196518 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50627</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50627 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 805681855 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50628</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50628 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1443378472 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50629</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50629 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1888819768 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50630</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50630 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1251123151 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50631</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50631 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3164213002 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50632</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50632 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2526516385 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50633</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50633 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 144638940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50634</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50634 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3801909619 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50635</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50635 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1420032174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50636</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50636 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 782335557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50637</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50637 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2695425408 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50638</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50638 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2057728791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50639</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50639 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 24270221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50640</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50640 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 661966838 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50641</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50641 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3043844283 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50642</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50642 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3681540900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50643</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50643 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1768451049 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50644</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50644 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2406147666 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50645</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50645 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 493057815 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50646</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50646 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1130754432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50647</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50647 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3512631877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50648</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50648 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 4150328494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50649</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50649 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 300802494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50650</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50650 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3958073173 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50651</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50651 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 3320376556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50652</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50652 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2682679939 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50653</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50653 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2044983322 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50654</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50654 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1407286705 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50655</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50655 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 769590088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50656</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50656 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 131893471 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50657</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50657 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 1107408134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50658</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50658 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 469711517 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50659</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50659 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 560538763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50660</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Variable Field 50660 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>
@@ -16518,76 +16648,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Used Leave Sick - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 3234577806 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50487</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50487 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 3872274423 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50488</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50488 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 215003744 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50489</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50489 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 2252867968 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50490</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50490 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 1615171351 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50491</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50491 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 3528261202 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50492</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50492 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 2890564585 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50493</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50493 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 508687140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50494</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50494 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 4165957819 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50495</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50495 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 1784080374 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50496</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50496 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 1146383757 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50497</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50497 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 1446262328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50498</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50498 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 808565711 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50499</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50499 - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 4113727574 - Field 4178333680 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Variable Field 50500</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50500 - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3540637063 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Variable Field 50501</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -17187,6 +17247,206 @@
           <source>Variable Field 50620</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50620 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2249984112 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50621</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50621 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2887680729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50622</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50622 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3525377346 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50623</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50623 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 4163073963 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50624</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50624 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 505803284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50625</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50625 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1143499901 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50626</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50626 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1781196518 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50627</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50627 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 805681855 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50628</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50628 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1443378472 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50629</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50629 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1888819768 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50630</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50630 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1251123151 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50631</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50631 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3164213002 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50632</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50632 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2526516385 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50633</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50633 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 144638940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50634</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50634 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3801909619 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50635</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50635 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1420032174 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50636</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50636 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 782335557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50637</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50637 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2695425408 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50638</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50638 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2057728791 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50639</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50639 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 24270221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50640</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50640 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 661966838 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50641</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50641 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3043844283 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50642</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50642 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3681540900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50643</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50643 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1768451049 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50644</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50644 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2406147666 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50645</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50645 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 493057815 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50646</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50646 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1130754432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50647</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50647 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3512631877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50648</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50648 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 4150328494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50649</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50649 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 300802494 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50650</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50650 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3958073173 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50651</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50651 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 3320376556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50652</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50652 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2682679939 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50653</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50653 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2044983322 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50654</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50654 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1407286705 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50655</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50655 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 769590088 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50656</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50656 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 131893471 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50657</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50657 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 1107408134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50658</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50658 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 469711517 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50659</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50659 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 560538763 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Variable Field 50660</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Variable Field 50660 - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>
@@ -40058,6 +40318,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Import Employee - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3181578682 - Action 2425328576 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open the data in Excel for analysis or editing</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action OpenInExcel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3181578682 - Action 2425328576 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open in Excel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action OpenInExcel - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 3181578682 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the P&amp;ost action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40077,11 +40347,6 @@
           <source>Executes the Release action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Release - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3181578682 - Action 2490150045 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Salary Statement Preview action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Plan - Action Salary Statement Preview - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3181578682 - Action 2353623890 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Update Attributes action.</source>
@@ -40617,61 +40882,6 @@
           <source>Specifies the value of the Unpaid Hours field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Unpaid Hours - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 2252867968 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50490 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50490 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 1615171351 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50491 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50491 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 3528261202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50492 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50492 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 2890564585 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50493 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50493 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 508687140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50494 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50494 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 4165957819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50495 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50495 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 1784080374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50496 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50496 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 1146383757 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50497 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50497 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 1446262328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50498 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50498 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 808565711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50499 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50499 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2861396102 - Control 4178333680 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50500 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Settlement Subform - Control Variable Field 50500 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2861396102 - Control 3540637063 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Variable Field 50501 field.</source>
@@ -41257,76 +41467,6 @@
           <source>Specifies the value of the Used Leave Sick field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Used Leave Sick - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 3234577806 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50487 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50487 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 3872274423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50488 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50488 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 215003744 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50489 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50489 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 2252867968 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50490 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50490 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 1615171351 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50491 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50491 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 3528261202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50492 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50492 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 2890564585 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50493 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50493 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 508687140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50494 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50494 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 4165957819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50495 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50495 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 1784080374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50496 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50496 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 1146383757 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50497 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50497 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 1446262328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50498 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50498 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 808565711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50499 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50499 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3884601073 - Control 4178333680 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50500 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50500 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 3540637063 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Variable Field 50501 field.</source>
@@ -43638,6 +43778,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action ReSet - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 535886985 - Action 2425328576 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open the data in Excel for analysis or editing</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action OpenInExcel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 535886985 - Action 2425328576 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open in Excel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action OpenInExcel - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 535886985 - Action 1721954861 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Payroll CIT action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -43647,11 +43797,6 @@
           <source>Executes the Payroll PF action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Payroll PF - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 535886985 - Action 199784400 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Payroll Salary Statement action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Plan - Action Payroll Salary Statement - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 535886985 - Action 3617871837 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Payroll Slip action.</source>
@@ -44197,76 +44342,6 @@
           <source>Specifies the value of the Used Leave Sick field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Used Leave Sick - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 3234577806 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50487 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50487 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 3872274423 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50488 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50488 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 215003744 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50489 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50489 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 2252867968 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50490 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50490 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 1615171351 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50491 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50491 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 3528261202 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50492 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50492 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 2890564585 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50493 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50493 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 508687140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50494 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50494 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 4165957819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50495 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50495 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 1784080374 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50496 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50496 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 1146383757 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50497 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50497 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 1446262328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50498 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50498 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 808565711 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50499 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50499 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3668632682 - Control 4178333680 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Variable Field 50500 field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Payroll Subform - Control Variable Field 50500 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3668632682 - Control 3540637063 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Variable Field 50501 field.</source>
@@ -58938,10 +59013,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field Can View Change Log - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 4110536417 - Field 4018336693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 337631938">
+        <trans-unit id="TableExtension 4110536417 - Field 2879328122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 337631938">
           <source>Can View Confirmation Appraisal</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field Can View Confirmation Appraisal - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension User Setup Ext - Field Can View Confirm Appraisal - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4110536417 - Field 601394255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 337631938">
           <source>Can View Payroll Fields</source>

@@ -10106,6 +10106,8 @@ codeunit 50001 "HR Mgt."
                 TempRetirementFund."Payroll Month" := PostedPayrollHdr."Nepali Month" + 1;
         end;
 
+
+
         if not PostedDocFound then begin
             // EngNep.Reset;
             // if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then begin
@@ -10127,24 +10129,18 @@ codeunit 50001 "HR Mgt."
             "Projection Month" := PostedPayrollLine."Projection Month";
             Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
             Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
-            // TempRetirementFund."Annual Accessible Income" := PostedPayrollLine."Assessable Income";  //calculate using updated data from payroll attribute uses
             PayrollReportMgt.GetAnnualAccessibleIncome("Employee No.", PostedPayrollHdr."No.", PostedPayrollHdr."Pay Cycle Term",
                                             TempRetirementFund."Annual Accessible Income",
                                              TempRetirementFund."RF Contribution Eligible Amt");
 
-            // if TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
-            //     "RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
-            // else
-            //     "RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
-
-            if TempRetirementFund."RF Contribution Eligible Amt" > PRSetup."Tax Ex. Amt. not Exceeding" then
-                "RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding"
-            else if "RF Contribution Eligible Amt" > Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=') then
-                "RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=');
+            if TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
+                "RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
+            else
+                "RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
 
             "Provident Fund Deposited" := Employee."PF Contribution" * 2;
             "RF Contribution Deposited" := Employee."RF Deposit";
-            "CIT Contribution Deposited" := Employee."Total Retirement Contribution"; //Min -- For CIT Contribution Deposited
+            "CIT Contribution Deposited" := Employee."Total Retirement Contribution";
 
             PayrollAttributesUsage.Reset;
             PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
