@@ -106,26 +106,8 @@ table 50136 "Travel Request"
                     Clear("Out of Pocket Expense");
                 end;
                 //AT Travel Req Control
-                if Type = Type::"Travel Request" then begin
-                    TravelRequest.Reset;
-                    TravelRequest.SetRange("Employee No.", "Employee No.");
-                    TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-                    TravelRequest.SetFilter("No.", '<>%1', "No.");
-                    TravelRequest.SetFilter("Approval Status", '<>%1 &<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
-                    TravelRequest.SetRange("Start Date", "Start Date");
-                    if TravelRequest.FindFirst then
-                        Error('Travel Request for Start Date = %1 already exists for %2', "Start Date", "Employee Name");
-                end;
-                //Min 4.26.2022 -- Check for Missed Attendance.
-                // if Type = Type::"Attendance Missed" then begin
-                //     EmpActivityRec.Reset;
-                //     EmpActivityRec.SetRange("Employee No.", "Employee No.");
-                //     EmpActivityRec.SetRange(Type, EmpActivityRec.Type::"Attendance Missed");
-                //     EmpActivityRec.SetRange("Start Date", Rec."Start Date");
-                //     EmpActivityRec.SetFilter("Approval Status", '<>%1', EmpActivityRec."Approval Status"::Rejected);
-                //     if EmpActivityRec.FindFirst then
-                //         Error('Missed Attendance already applied for date %1', Rec."Start Date");
-                // end;
+                if Type = Type::"Travel Request" then
+                    TravelMgt.ValidateTravelRequestOverlap(Rec);
             end;
         }
         field(8; "End Date"; Date)
@@ -147,6 +129,8 @@ table 50136 "Travel Request"
                 if Type = Type::"Travel Claim" then begin
                     Clear("Out of Pocket Expense");
                 end;
+                if Type = Type::"Travel Request" then
+                    TravelMgt.ValidateTravelRequestOverlap(Rec);
             end;
         }
         field(9; "No. of Days"; Decimal)

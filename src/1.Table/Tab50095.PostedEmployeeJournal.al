@@ -380,6 +380,13 @@ table 50095 "Posted Employee Journal"
         {
             DataClassification = ToBeClassified;
         }
+        field(102; "Approver Role (TO)"; code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(103; "Approver Role"; code[20])
+        {
+        }
     }
     keys
     {

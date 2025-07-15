@@ -26,6 +26,7 @@ page 50341 "Employee Transfer Entity"
                 }
                 field(employeeName; Rec."Employee Name") { }
                 field(salaryLevel; Rec."Salary Level Code") { }
+                field(salaryLevelName;Rec."Salary Level Name"){ }
                 field(department; Rec.Department) { }
                 field(departmenName; Rec."Department Name") { }
                 field(branchCode; Rec."Shortcut Dimension 1 Code") { }

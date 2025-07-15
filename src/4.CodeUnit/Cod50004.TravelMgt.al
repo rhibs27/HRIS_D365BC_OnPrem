@@ -1498,6 +1498,25 @@ codeunit 50004 "Travel Mgt."
             until AttachmentSetup.Next = 0;
     END;
 
+    procedure ValidateTravelRequestOverLap(TravelRequest1: Record "Travel Request")
+    var
+        TravelRequest: Record "Travel Request";
+    begin
+        TravelRequest.Reset;
+        TravelRequest.SetRange("Employee No.", TravelRequest1."Employee No.");
+        TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
+        TravelRequest.SetFilter("No.", '<>%1', TravelRequest1."No.");
+        TravelRequest.SetFilter("Approval Status", '<>%1&<>%2&<>%3',TravelRequest."Approval Status"::Rejected,TravelRequest."Approval Status"::Open,
+                               TravelRequest."Approval Status"::Withdrawn);
+        if TravelRequest.FindSet then
+            repeat
+                // Check for overlap: Start1 <= End2 AND End1 >= Start2
+                // if ("Start Date" <= TravelRequest."End Date") and ("End Date" >= TravelRequest."Start Date") then
+                if ((TravelRequest1."Start Date" > TravelRequest."Start Date") and (TravelRequest1."Start Date" < TravelRequest."End Date")) or ((TravelRequest1."End Date" > TravelRequest."Start Date") and (TravelRequest1."End Date" < TravelRequest."End Date")) then
+                    Error('Travel Request overlaps with existing request %1 from %2 to %3 for %4',TravelRequest."No.", TravelRequest."Start Date", TravelRequest."End Date", TravelRequest1."Employee Name");
+            until TravelRequest.Next = 0;
+    end;
+
     var
         Employee, Employee1 : Record Employee;
         HRMgt: Codeunit "HR Mgt.";

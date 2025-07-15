@@ -44,6 +44,7 @@ table 50075 "Employee Activity Journal"
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On Code", EmpVar."Deputation On Code");
+                    Validate("Approver Role", EmpVar."Approver Role");
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -666,6 +667,15 @@ table 50075 "Employee Activity Journal"
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
             Editable = false;
+        }
+        field(102; "Approver Role"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(103; "Approver Role (TO)"; Code[20])
+        {
+            TableRelation = "Approval Role";
         }
     }
     keys
