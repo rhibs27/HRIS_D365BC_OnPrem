@@ -513,8 +513,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Province Code"; Rec."Province Code")
                 {
-                    Editable = ProvinceEdit;
-                    Visible = true;
+                    // Editable = ProvinceEdit;
+                    // Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Code field.';
 
@@ -530,8 +530,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Branch Code"; Rec."Branch Code")
                 {
                     ApplicationArea = All;
-                    Editable = BranchEdit;
-                    Enabled = BranchVisible;
+                    // Editable = BranchEdit;
+                    // Enabled = BranchVisible;
                     // Enabled = false;
                     ToolTip = 'Specifies the value of the Branch Code field.';
 
@@ -546,8 +546,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Extension Counter Code"; Rec."Extension Counter Code")
                 {
                     ApplicationArea = All;
-                    Editable = ExtensionCounterEdit;
-                    Enabled = ExtensionCounterVisible;
+                    // Editable = ExtensionCounterEdit;
+                    // Enabled = ExtensionCounterVisible;
                     ToolTip = 'Specifies the value of the Extension Counter Code field.';
 
                 }
@@ -559,7 +559,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Sub Unit Code"; Rec."Sub Unit Code")
                 {
-                    Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
+                    //Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sub Unit Code field.';
                     Visible = false;
@@ -573,8 +573,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Department Code"; Rec."Department Code")
                 {
-                    Editable = DepartmentEdit;
-                    Enabled = DepartmentVisible;
+                    // Editable = DepartmentEdit;
+                    // Enabled = DepartmentVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Department Code field.';
 
@@ -588,8 +588,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Unit Code"; Rec."Unit Code")
                 {
-                    Editable = UnitEdit;
-                    Enabled = UnitVisible;
+                    // Editable = UnitEdit;
+                    // Enabled = UnitVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Unit Code field.';
 

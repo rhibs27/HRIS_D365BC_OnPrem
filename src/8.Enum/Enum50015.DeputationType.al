@@ -34,8 +34,5 @@ enum 50015 "Deputation Type"
     {
         Caption = 'Sub-Unit';
     }
-    value(8; "Sub-Department")
-    {
-        Caption = 'Sub-Department';
-    }
+
 }

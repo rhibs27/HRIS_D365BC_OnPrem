@@ -59973,11 +59973,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Deputation Type - EnumValue Province - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 2327667423 - EnumValue 2349405279 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sub-Department</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Deputation Type - EnumValue Sub-Department - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 2327667423 - EnumValue 2656465897 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sub-Unit</source>
           <note from="Developer" annotates="general" priority="2"></note>
