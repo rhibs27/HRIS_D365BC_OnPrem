@@ -639,26 +639,25 @@ codeunit 50027 "Payroll Report Mgt."
         end;
 
 
-        Clear(DetailedEmpLedgerEntry);
-        DetailedEmpLedgerEntry.Reset;
-        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
-        DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        if DetailedEmpLedgerEntry.FindFirst then
-            repeat
-                TempDetailedEmpLedgerEntry.Init;
-                TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
-                if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
-                    TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
-                TempDetailedEmpLedgerEntry.Insert;
-            until DetailedEmpLedgerEntry.Next = 0;
+        // Clear(DetailedEmpLedgerEntry);
+        // DetailedEmpLedgerEntry.Reset;
+        // DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        // DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
+        // DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        // if DetailedEmpLedgerEntry.FindFirst then
+        //     repeat
+        //         TempDetailedEmpLedgerEntry.Init;
+        //         TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
+        //         if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+        //             TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
+        //         TempDetailedEmpLedgerEntry.Insert;
+        //     until DetailedEmpLedgerEntry.Next = 0;
 
 
         PgSetup.Get();
         Employee.Reset;
         Employee.SetRange("No.", EmpCode);
         Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
-        Employee.FindFirst;
         Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
                 "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
 
@@ -666,7 +665,7 @@ codeunit 50027 "Payroll Report Mgt."
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
         TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+        TotalAnnualEarning := Employee."Total Earning" + TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
 
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
@@ -679,7 +678,7 @@ codeunit 50027 "Payroll Report Mgt."
                                         );
 
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
+        TotalRetirement := Employee."Total Retirement Contribution" + TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
 
         TempDetailedEmpLedgerEntry.DeleteAll();
@@ -779,11 +778,13 @@ codeunit 50027 "Payroll Report Mgt."
                         TempDetailedEmpLedgerEntry."Employee No." := EmpCode;
                         TempDetailedEmpLedgerEntry.Validate("Payroll Attribute Code", PayrollAttrUsage.Code);
                         if PayAttr.Type = PayAttr.Type::Benefits then
-                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
+                            if PayAttr.Subtype = PayAttr.Subtype::Basic then
+                                TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning"
+                            else
+                                TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
                         if PayAttr.Type = PayAttr.Type::Deduction then
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::Deduction;
-                        if PayAttr.Subtype = PayAttr.Subtype::Basic then
-                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning";
+
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
 
                         // TempDetailedEmpLedgerEntry."Specific Component" := PayAttr."Specific Component";
