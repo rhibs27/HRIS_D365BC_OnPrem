@@ -1457,28 +1457,24 @@ page 50108 "Portal Functions"
         OutStr: OutStream;
         InStream: InStream;
         Base64: Codeunit "Base64 Convert";
-        exitText: Text;
-        ext: Text;
+        ext, exitText : Text;
         format: ReportFormat;
         RecRef: RecordRef;
         AllowaceAssignmentHeader: Record "Allowance Assignment Header";
     begin
-        // ext := 'pdf';
-        // format := ReportFormat::Pdf;
-        // AllowanceAssignmentReport.PassParPortal(DocumentNo);
-        // TempBlob.CreateOutStream(OutStr);
-        // AllowanceAssignmentReport.SaveAs('', format, OutStr);
-        // TempBlob.CreateInStream(InStr);
-        // exitText := Base64.ToBase64(InStr);
-
+        ext := 'pdf';
         AllowaceAssignmentHeader.Get(DocumentNo);
-        TempBlob.CreateOutStream(OutStr);
-        recRef.Get(AllowaceAssignmentHeader.RecordId);
-        recRef.SetTable(AllowaceAssignmentHeader);
-        AllowanceAssignmentReport.SaveAs('', format::Pdf, OutStr, recRef);
-        TempBlob.CreateInStream(instream);
-        exitText := base64.ToBase64(InStream);
-        exit('{"extension":"' + ext + '","attachBase64":"' + exitText + '"}');
+        if (ApprovalMgt.CheckApproverBoolean(documentNo)) or (AllowaceAssignmentHeader."Employee No." = HrMgt.GetEmployeeNo()) then begin
+            AllowanceAssignmentReport.PassParPortal(documentNo);
+            TempBlob.CreateOutStream(OutStr);
+            recRef.Get(AllowaceAssignmentHeader.RecordId);
+            recRef.SetTable(AllowaceAssignmentHeader);
+            AllowanceAssignmentReport.SaveAs('', format::Pdf, OutStr, recRef);
+            TempBlob.CreateInStream(instream);
+            exitText := base64.ToBase64(InStream);
+            exit('{"extension":"' + ext + '","attachBase64":"' + exitText + '"}');
+        end;
+        exit('401')
     end;
 
     [ServiceEnabled]

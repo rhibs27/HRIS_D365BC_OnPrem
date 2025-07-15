@@ -207,6 +207,21 @@ codeunit 50017 "Approver Mgt"
             Error(ApproveNotEligibleError);
     end;
 
+    procedure CheckApproverBoolean(EmpActNo: Code[20]): Boolean
+    var
+        ApprovalLine: Record "Approval HRMS";
+        Employee: Record Employee;
+    begin
+        Employee.Reset();
+        Employee.Get(HRMgt.GetEmployeeNo());
+        ApprovalLine.Reset();
+        ApprovalLine.SetRange("Document No.", EmpActNo);
+        ApprovalLine.SetRange("Approval Status", ApprovalLine."Approval Status"::Open);
+        ApprovalLine.SetRange("Approver No", HRMgt.GetEmployeeNo());
+        if ApprovalLine.Findfirst() then
+            exit(true);
+    end;
+
     // >> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveRejectDocument(var RecRef: RecordRef; Approved: Boolean)
     var
