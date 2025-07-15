@@ -25,8 +25,7 @@ query 50001 "Leave Query"
             {
                 DataItemLink = "Approver No" = employee."No.";
 
-                column(no;
-                "Document No.")
+                column(no; "Document No.")
                 {
 
                 }
