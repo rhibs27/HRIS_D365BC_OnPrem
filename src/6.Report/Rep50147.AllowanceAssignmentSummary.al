@@ -22,6 +22,7 @@ report 50147 "Allowance Assignment Summary"
             dataitem("Allowance Assignment Line"; "Allowance Assignment Line")
             {
                 DataItemLink = "No." = field("No.");
+                DataItemTableView = where("Approval Status" = filter(<> "Approval Status"::rejected), "Substitute Type" = filter(<> "Substitute Type"::Substituted));
 
                 column(Date; "From Date") { }
                 column(AtmAllowance; AtmAllowance) { }
@@ -32,6 +33,7 @@ report 50147 "Allowance Assignment Summary"
                 column(Panel; Panel) { }
                 column(Employee_Name; "Employee Name") { }
                 column(Employee_Code; "Employee Code") { }
+                column(AllowanceType; "Allowance Type") { }
 
                 trigger OnAfterGetRecord()
                 begin
