@@ -639,33 +639,32 @@ codeunit 50027 "Payroll Report Mgt."
         end;
 
 
-        // Clear(DetailedEmpLedgerEntry);
-        // DetailedEmpLedgerEntry.Reset;
-        // DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
-        // DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
-        // DetailedEmpLedgerEntry.SetRange(Reversed, false);
-        // if DetailedEmpLedgerEntry.FindFirst then
-        //     repeat
-        //         TempDetailedEmpLedgerEntry.Init;
-        //         TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
-        //         if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
-        //             TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
-        //         TempDetailedEmpLedgerEntry.Insert;
-        //     until DetailedEmpLedgerEntry.Next = 0;
+        Clear(DetailedEmpLedgerEntry);
+        DetailedEmpLedgerEntry.Reset;
+        DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+        DetailedEmpLedgerEntry.SetRange("Employee No.", EmpCode);
+        DetailedEmpLedgerEntry.SetRange(Reversed, false);
+        if DetailedEmpLedgerEntry.FindFirst then
+            repeat
+                TempDetailedEmpLedgerEntry.Init;
+                TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
+                if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+                    TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
+                TempDetailedEmpLedgerEntry.Insert;
+            until DetailedEmpLedgerEntry.Next = 0;
 
 
-        PgSetup.Get();
-        Employee.Reset;
-        Employee.SetRange("No.", EmpCode);
-        Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
-        Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
-                "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
+        // PgSetup.Get();
+        // Employee.Reset;
+        // Employee.SetRange("No.", EmpCode);
+        // Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
+        // Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
+        //         "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
 
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
-        TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalAnnualEarning := Employee."Total Earning" + TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+        TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
 
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
@@ -678,7 +677,7 @@ codeunit 50027 "Payroll Report Mgt."
                                         );
 
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := Employee."Total Retirement Contribution" + TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
+        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
 
         TempDetailedEmpLedgerEntry.DeleteAll();
@@ -794,11 +793,14 @@ codeunit 50027 "Payroll Report Mgt."
                         TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
                         TempDetailedEmpLedgerEntry."Pay Cycle Term" := PayCycleTerm;
                         TempDetailedEmpLedgerEntry."Pay Cycle Period" := i;
-                        TempDetailedEmpLedgerEntry.Amount := PayrollAttrUsage.Amount;
                         if PayrollAttrUsage."Formula Exists" then begin
-
-                            TempDetailedEmpLedgerEntry.Amount := getAttributeAmount(EmpCode, PayrollAttrUsage.Code);
-                        end;
+                            if PayrollAttrUsage.Amount <> 0 then
+                                TempDetailedEmpLedgerEntry.Amount := PayrollAttrUsage.Amount
+                            else
+                                TempDetailedEmpLedgerEntry.Amount := getAttributeAmount(EmpCode, PayrollAttrUsage.Code)
+                        end
+                        else
+                            TempDetailedEmpLedgerEntry.Amount := PayrollAttrUsage.Amount;
 
                         // if PayAttr.Subtype = PayAttr.Subtype::Grade then
                         //     TempDetailedEmpLedgerEntry.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerEntry.Amount, TempDetailedEmpLedgerEntry."Pay Cycle Period");  //update according to grade plan
@@ -827,7 +829,7 @@ codeunit 50027 "Payroll Report Mgt."
 
     procedure getPaidFrequency(attrCode: Code[20]; var TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry"): Integer
     begin
-        TempDetailedEmpLedgerEntry.Reset();
+
         TempDetailedEmpLedgerEntry.SetRange("Payroll Attribute Code", attrCode);
         exit(TempDetailedEmpLedgerEntry.Count);
     end;

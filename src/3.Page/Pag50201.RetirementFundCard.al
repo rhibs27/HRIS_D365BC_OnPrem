@@ -150,7 +150,7 @@ page 50201 "Retirement Fund Card"
             group(Result)
             {
                 Caption = 'Result';
-                // Editable = false;
+                Editable = false;
                 field("Total Committed Contribution"; Rec."Total Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Total Committed Contribution field.';
@@ -170,8 +170,6 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
-                // Editable = false;
-                // Visible = false;
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';

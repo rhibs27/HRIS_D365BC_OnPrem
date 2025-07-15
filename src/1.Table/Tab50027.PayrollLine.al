@@ -2304,7 +2304,7 @@ table 50027 "Payroll Line"
         FieldRefs: FieldRef;
     begin
         RecRefs.Open(Database::"Payroll Line");
-        for FieldID := 50 to 100 do begin
+        for FieldID := 61 to 220 do begin
             FieldRefs := RecRefs.Field(1);
             FieldRefs.SetRange(PayrollHeader."No.");
             FieldRefs := RecRefs.Field(2);

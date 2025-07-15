@@ -10073,6 +10073,7 @@ codeunit 50001 "HR Mgt."
         LevelWiseAttributes: Record "Level Wise Attributes";
         PayrollReportMgt: Codeunit "Payroll Report Mgt.";
         PayCyclePeriod: Record "Pay Cycle Period";
+        DetailedEmpledger: Record "Detailed Employee Ledger Entry";
     begin
         Clear(Employee);
         Employee.Get(EmpCode);
@@ -10087,79 +10088,57 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund.Validate("Requested Date", CurrentDateTime);
         TempRetirementFund.Insert;
 
-        PostedPayrollHdr.Reset;
-        PostedPayrollHdr.SetRange("From Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
-        PostedPayrollHdr.SetRange(Reversed, false);
-        if PostedPayrollHdr.FindLast then begin
-            repeat
-                PostedPayrollLine.Reset;
-                PostedPayrollLine.SetRange("Document No.", PostedPayrollHdr."No.");
-                PostedPayrollLine.SetRange("Employee No.", EmpCode);
-                if PostedPayrollLine.FindLast then
-                    PostedDocFound := true;
-            until (PostedPayrollHdr.Next(-1) = 0) or PostedDocFound;
-            if PostedPayrollHdr.Get(PostedPayrollLine."Document No.") then;
+        if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
+            PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
+        else
+            PayCyclePeriod.SetRange("Start Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
+        PayCyclePeriod.FindFirst();
+        TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month" + 1;
 
-            if PostedPayrollHdr."Nepali Month" = PostedPayrollHdr."Nepali Month"::Chaitra then
-                TempRetirementFund."Payroll Month" := TempRetirementFund."Payroll Month"::Baisakh
-            else
-                TempRetirementFund."Payroll Month" := PostedPayrollHdr."Nepali Month" + 1;
-        end;
+        DetailedEmpledger.SetLoadFields("Employee No.", "Posting Date", "Pay Cycle Term", "Pay Cycle Period");
+        DetailedEmpledger.SetRange("Employee No.", EmpCode);
+        // DetailedEmpledger.SetRange("Posting Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
+        DetailedEmpledger.SetRange("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
+        DetailedEmpledger.SetRange(Reversed, false);
+        if DetailedEmpledger.FindFirst() then begin
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term") - DetailedEmpledger."Pay Cycle Period";
+        end
+        else
+            TempRetirementFund."Projection Month" := PayrollReportMgt.GetLastPayCycleForEmployee(empcode, PayCyclePeriod."Pay Cycle Term");
 
+        Employee.Reset();
+        Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
+        Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
+        PayrollReportMgt.GetAnnualAccessibleIncome(EmpCode, '', PayCyclePeriod."Pay Cycle Term",
+                                        TempRetirementFund."Annual Accessible Income",
+                                         TempRetirementFund."RF Contribution Eligible Amt");
 
+        if TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
+            TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
+        else
+            TempRetirementFund."RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
 
-        if not PostedDocFound then begin
-            // EngNep.Reset;
-            // if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then begin
-            //     EngNep.SetRange("English Date", Employee."Employment Date");
-            // end else begin
-            //     EngNep.SetRange("English Date", PRSetup."Payroll Fiscal Year Start Date");
-            // end;
-            // EngNep.FindFirst;
-            // TempRetirementFund."Payroll Month" := EngNep."Nepali Month";
-            if Employee."Employment Date" > PRSetup."Payroll Fiscal Year Start Date" then
-                PayCyclePeriod.SetRange("Start Date", Employee."Employment Date", PRSetup."Payroll Fiscal Year End Date")
-            else
-                PayCyclePeriod.SetRange("Start Date", PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
-            PayCyclePeriod.FindFirst();
-            TempRetirementFund."Payroll Month" := PayCyclePeriod."Nepali Month";
-        end;
+        TempRetirementFund."Provident Fund Deposited" := Employee."PF Contribution" * 2;
+        TempRetirementFund."RF Contribution Deposited" := Employee."RF Deposit";
+        TempRetirementFund."CIT Contribution Deposited" := Employee."Total Retirement Contribution";
 
-        WITH TempRetirementFund DO BEGIN
-            "Projection Month" := PostedPayrollLine."Projection Month";
-            Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
-            Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
-            PayrollReportMgt.GetAnnualAccessibleIncome("Employee No.", PostedPayrollHdr."No.", PostedPayrollHdr."Pay Cycle Term",
-                                            TempRetirementFund."Annual Accessible Income",
-                                             TempRetirementFund."RF Contribution Eligible Amt");
+        // PayrollAttributesUsage.Reset;
+        // PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
+        // PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::"Employee Contribution");
+        // if PayrollAttributesUsage.FindFirst then begin
+        //     LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
+        //     TempRetirementFund."Provident Fund Projected" := LevelWiseAttributes."Total Basic Salary" * 0.1 * 2 * ("Projection Month");
+        // end;  will check
 
-            if TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
-                "RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
-            else
-                "RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
+        TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected" + TempRetirementFund."CIT Contribution Deposited";
+        TempRetirementFund."Additional Space for RF Cont." := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '=');
+        CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
+        TempRetirementFund.Difference := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Total Deduction", 0.01, '=');
+        TempRetirementFund.Modify;
 
-            "Provident Fund Deposited" := Employee."PF Contribution" * 2;
-            "RF Contribution Deposited" := Employee."RF Deposit";
-            "CIT Contribution Deposited" := Employee."Total Retirement Contribution";
+        if GuiAllowed then
+            PAGE.Run(PAGE::"Retirement Fund Card", TempRetirementFund)
 
-            PayrollAttributesUsage.Reset;
-            PayrollAttributesUsage.SetRange("Employee Code", EmpCode);
-            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::"Employee Contribution");
-            if PayrollAttributesUsage.FindFirst then begin
-                LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
-                "Provident Fund Projected" := LevelWiseAttributes."Total Basic Salary" * 0.1 * 2 * ("Projection Month");
-            end;
-
-            TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected" + TempRetirementFund."CIT Contribution Deposited"; //Min -- Added "CIT Contribution Deposited"
-            TempRetirementFund."Additional Space for RF Cont." := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '=');
-            //RF."Lumpsum Committed Contribution" := RF."RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min
-            CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
-            TempRetirementFund.Difference := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Total Deduction", 0.01, '=');
-            TempRetirementFund.Modify;
-
-            if GuiAllowed then //NICASIA SM for Web Portal
-                PAGE.Run(PAGE::"Retirement Fund Card", TempRetirementFund)
-        end;
     end;
 
     procedure CalculateRetirementFund(var RF: Record "Retirement Fund"; ProjectionMonth: Integer)
