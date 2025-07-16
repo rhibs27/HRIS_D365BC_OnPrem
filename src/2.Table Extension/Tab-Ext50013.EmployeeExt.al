@@ -149,16 +149,16 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
-                // if "Branch Code" <> xRec."Branch Code" then begin
-                //     Clear("Branch Name");
-                //     Clear("Extension Counter Code");
-                //     Clear("Extension Counter Name");
-                //     Clear("Province Code");
-                //     Clear("Province Name");
-                //     Clear("Posting Region");
-                //     Clear("Inside/Outside Valley");
-                //     Clear("Sol Id");
-                // end;
+                if "Branch Code" <> xRec."Branch Code" then begin
+                    Clear("Branch Name");
+                    Clear("Extension Counter Code");
+                    Clear("Extension Counter Name");
+                    Clear("Province Code");
+                    Clear("Province Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outside Valley");
+                    Clear("Sol Id");
+                end;
                 // Validate("Global Dimension 1 Code", "Branch Code");  //this is not ideal for all company
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
@@ -211,15 +211,15 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
-                // if "Department Code" <> xRec."Department Code" then begin
-                //     Clear("Department Name");
-                //     Clear("Province Code");
-                //     Clear("Province Name");
-                //     Clear("Unit Code");
-                //     Clear("Unit Name");
-                //     Clear("Posting Region");
-                //     Clear("Inside/Outside Valley");
-                // end;
+                if "Department Code" <> xRec."Department Code" then begin
+                    Clear("Department Name");
+                    Clear("Province Code");
+                    Clear("Province Name");
+                    Clear("Unit Code");
+                    Clear("Unit Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outside Valley");
+                end;
                 if "Deputation on" = "Deputation on"::Department then
                     ValidateDeputationOn()
                 else begin
