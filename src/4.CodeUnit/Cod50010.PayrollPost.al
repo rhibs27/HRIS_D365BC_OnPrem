@@ -215,7 +215,7 @@ codeunit 50010 "Payroll-Post"
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         PayrollAttributes: Record "Payroll Attributes";
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PayrollEngine: Codeunit "Payroll Engine";
         FieldID: Integer;
         LastLineNo: Integer;
@@ -255,7 +255,7 @@ codeunit 50010 "Payroll-Post"
                 Clear(PayrollJnlPostLine);
                 PostedPayrollLine.InitFromPayrollLine(PostedPayrollHeader, PayrollLine);
                 PostedPayrollLine.Insert;
-                for FieldID := 61 to 180 do begin
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin

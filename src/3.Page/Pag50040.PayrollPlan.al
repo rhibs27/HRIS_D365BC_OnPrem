@@ -343,20 +343,34 @@ page 50040 "Payroll Plan"
                         Rec.OpenBalancingAccount;
                     end;
                 }
-                action("Salary Statement Preview")
+                // action("Salary Statement Preview")
+                // {
+                //     Image = "Report";
+                //     Promoted = true;
+                //     PromotedCategory = "Report";
+                //     PromotedIsBig = true;
+                //     ToolTip = 'Executes the Salary Statement Preview action.';
+                //     ApplicationArea = All;
+
+                //     trigger OnAction()
+                //     begin
+                //         PayrollHeaderRec.Reset;
+                //         PayrollHeaderRec.SetRange("No.", Rec."No.");
+                //         Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
+                //     end;
+                // }  //replace with open in excel
+                action(OpenInExcel)
                 {
-                    Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Salary Statement Preview action.';
                     ApplicationArea = All;
+                    Caption = 'Open in Excel';
+                    Image = Excel;
+                    ToolTip = 'Open the data in Excel for analysis or editing';
 
                     trigger OnAction()
+                    var
+                        EditInExcel: Codeunit "Edit in Excel";
                     begin
-                        PayrollHeaderRec.Reset;
-                        PayrollHeaderRec.SetRange("No.", Rec."No.");
-                        Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
+                        EditInExcel.EditPageInExcel('Payroll Plan' + Rec."No.", Page::"Payroll Plan");
                     end;
                 }
                 action("Employee Adjustment")

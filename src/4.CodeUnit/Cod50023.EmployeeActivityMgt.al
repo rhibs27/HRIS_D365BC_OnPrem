@@ -78,6 +78,7 @@ codeunit 50023 EmployeeActivityMgt
                 TransferRequest.Validate("Incoming Supervisior", TransferEmployeeJournal."Incoming Supervisor");
                 TransferRequest.Validate("Outgoing Branch Rep. Person", TransferEmployeeJournal."Outgoing Branch Rep. Person");
                 TransferRequest.Validate("Notify to", TransferEmployeeJournal."Notify to");
+                TransferRequest.Validate("Approver Role To", TransferEmployeeJournal."Approver Role (TO)");
                 TransferRequest.Validate(Remarks, TransferEmployeeJournal.Remarks);
                 TransferRequest.Validate("Approval Status", TransferRequest."Approval Status"::Approved);
                 TransferRequest.Validate("Is Transfer Details Added", true);

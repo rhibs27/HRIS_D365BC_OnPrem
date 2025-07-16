@@ -10,7 +10,7 @@ table 50052 "Retirement Fund"
             begin
                 if "No." <> xRec."No." then begin
                     HRSetup.Get;
-                    NoSeriesMgt.TestManual(HRSetup."Retirement Fund Nos.");
+                    NoSeries.TestManual(HRSetup."Retirement Fund Nos.");
                     "No. Series" := '';
                 end;
             end;
@@ -227,7 +227,7 @@ table 50052 "Retirement Fund"
             RetirementFund.ReadIsolation(IsolationLevel::ReadUncommitted);
             RetirementFund.SetLoadFields("No.");
             while RetirementFund.get("No.") do
-                "No." := NoSeriesMgt.GetNextNo("No. Series");
+                "No." := NoSeries.GetNextNo("No. Series");
 
             if "Approval Status" <> "Approval Status"::Approved then
                 ApproverMgt.InsertApproval("Employee No.", "No.", EmpActivityType::Retirement, "Approval Status");
@@ -266,8 +266,7 @@ table 50052 "Retirement Fund"
 
     var
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit "No. Series";
-
+        NoSeries: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
         TempRF: Record "Retirement Fund" temporary;
         TempRF2: Record "Retirement Fund" temporary;
@@ -278,17 +277,15 @@ table 50052 "Retirement Fund"
 
     procedure AssistEdit(OldRF: Record "Retirement Fund"): Boolean
     var
-        RF: Record "Retirement Fund";
+        RetirementFund: Record "Retirement Fund";
     begin
-        with RF do begin
-            RF := Rec;
-            HRSetup.Get;
-            HRSetup.TestField("Retirement Fund Nos.");
-            if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Retirement Fund Nos.", OldRF."No. Series", "No. Series") then begin
-                NoSeriesMgt.GetNextNo("No.");
-                Rec := RF;
-                exit(true);
-            end;
+        RetirementFund := Rec;
+        HRSetup.Get;
+        HRSetup.TestField("Retirement Fund Nos.");
+        if NoSeries.LookupRelatedNoSeries(HRSetup."Retirement Fund Nos.", OldRF."No. Series", RetirementFund."No. Series") then begin
+            NoSeries.GetNextNo(RetirementFund."No.");
+            Rec := RetirementFund;
+            exit(true);
         end;
     end;
 }
