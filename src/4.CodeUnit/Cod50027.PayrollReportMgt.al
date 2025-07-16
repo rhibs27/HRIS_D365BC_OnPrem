@@ -602,7 +602,8 @@ codeunit 50027 "Payroll Report Mgt."
                                         PostedPayrollNo: Code[20];
                                         PayCycleTerm: Code[20];
                                         var TotalAnnualEarning: Decimal;
-                                        var TotalRetirement: Decimal)
+                                        var TotalRetirement: Decimal;
+                                        var TotalPF: decimal)
     var
         LastEntryNo: Integer;
         TaxSetupHdr: Record "Tax Setup Header";
@@ -679,6 +680,14 @@ codeunit 50027 "Payroll Report Mgt."
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
+                                        );
+        TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        TotalPF := TempDetailedEmpLedgerEntry.Amount;
 
         TempDetailedEmpLedgerEntry.DeleteAll();
     end;
