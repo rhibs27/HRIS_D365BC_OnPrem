@@ -173,7 +173,7 @@ page 50271 "Confirmation Appraisal List"
         Rec.SetRange("Appraisal Type", Rec."Appraisal Type"::Confirmation);
         Rec.FilterGroup(1);
         UserSetup.Get(UserId); //Min
-        if not UserSetup."Can View Confirmation Appraisal" then
+        if not UserSetup."Can View Confirm Appraisal" then
             Error(Err001);
     end;
 

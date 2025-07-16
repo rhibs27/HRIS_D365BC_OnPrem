@@ -25,7 +25,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJnlBatch: Record "Payroll Journal Batch";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
         NoSeriesCodeunit: Codeunit "No. Series";
-        NoSeriesMgt2: Codeunit NoSeriesManagement;
+        NoSeries2: Codeunit "No. Series";
         NoSeries: Record "No. Series";
         EmpLedgCreated: Boolean;
         GLEntryNo: Integer;
@@ -46,6 +46,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         HRMgt: Codeunit "HR Mgt.";
         DebitAmount: Decimal;
         CreditAmount: Decimal;
+        NoSeriesBatch: Codeunit "No. Series - Batch";
 
     procedure RunWithCheck(var PayrollJournalLine2: Record "Payroll Journal Line"): Integer
     var
@@ -97,8 +98,8 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PostJournal(PayrollJournalLine);
         if GLEntryNo <> 0 then begin
             UpdateAndDeleteLines;
-            // if PayrollJnlBatch."No. Series" <> '' then
-            //     NoSeriesMgt.SaveNoSeries;
+            if PayrollJnlBatch."No. Series" <> '' then
+                NoSeriesBatch.SaveState();
             Message(Text002);
             Commit;
         end;
@@ -418,7 +419,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         LastDocNo := PayrollJournalLine."Document No.";
         if PostingNo = '' then begin
             PostingNo :=
-              NoSeriesMgt2.GetNextNo(PayrollJournalLine."Posting No. Series", PayrollJournalLine."Posting Date", true);
+              NoSeries2.GetNextNo(PayrollJournalLine."Posting No. Series", PayrollJournalLine."Posting Date", true);
         end;
         PayrollJournalLine."Posting No." := PostingNo;
         PayrollJournalLine.Modify;

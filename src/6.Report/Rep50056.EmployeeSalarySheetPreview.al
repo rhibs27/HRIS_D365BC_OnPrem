@@ -90,50 +90,50 @@ report 50056 "Employee Salary Sheet Preview"
                 column(EmployeeDesignation_PayrollLine; "Functional Title") { }
                 column(CurrencyCode_PayrollLine; "Currency Code") { }
                 column(DimensionSetID_PayrollLine; "Dimension Set ID") { }
-                column(VariableField50490_PostedPayrollLine; "Variable Field 50490")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50491_PostedPayrollLine; "Variable Field 50491")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50492_PostedPayrollLine; "Variable Field 50492")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50493_PostedPayrollLine; "Variable Field 50493")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50494_PostedPayrollLine; "Variable Field 50494")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50495_PostedPayrollLine; "Variable Field 50495")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50496_PostedPayrollLine; "Variable Field 50496")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50497_PostedPayrollLine; "Variable Field 50497")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50498_PostedPayrollLine; "Variable Field 50498")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50499_PostedPayrollLine; "Variable Field 50499")
-                {
-                    IncludeCaption = true;
-                }
-                column(VariableField50500_PostedPayrollLine; "Variable Field 50500")
-                {
-                    IncludeCaption = true;
-                }
+                // column(VariableField50490_PostedPayrollLine; "Variable Field 50490")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50491_PostedPayrollLine; "Variable Field 50491")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50492_PostedPayrollLine; "Variable Field 50492")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50493_PostedPayrollLine; "Variable Field 50493")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50494_PostedPayrollLine; "Variable Field 50494")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50495_PostedPayrollLine; "Variable Field 50495")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50496_PostedPayrollLine; "Variable Field 50496")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50497_PostedPayrollLine; "Variable Field 50497")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50498_PostedPayrollLine; "Variable Field 50498")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50499_PostedPayrollLine; "Variable Field 50499")
+                // {
+                //     IncludeCaption = true;
+                // }
+                // column(VariableField50500_PostedPayrollLine; "Variable Field 50500")
+                // {
+                //     IncludeCaption = true;
+                // }
                 column(VariableField50501_PayrollLine; "Variable Field 50501")
                 {
                     IncludeCaption = true;
@@ -928,17 +928,17 @@ report 50056 "Employee Salary Sheet Preview"
 
     local procedure InitColumnVisibility()
     begin
-        Field50490Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50490"));
-        Field50491Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50491"));
-        Field50492Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50492"));
-        Field50493Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50493"));
-        Field50494Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50494"));
-        Field50495Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50495"));
-        Field50496Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50496"));
-        Field50497Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50497"));
-        Field50498Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50498"));
-        Field50499Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50499"));
-        Field50500Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50500"));
+        // Field50490Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50490"));
+        // Field50491Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50491"));
+        // Field50492Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50492"));
+        // Field50493Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50493"));
+        // Field50494Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50494"));
+        // Field50495Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50495"));
+        // Field50496Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50496"));
+        // Field50497Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50497"));
+        // Field50498Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50498"));
+        // Field50499Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50499"));
+        // Field50500Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50500"));
 
         Field50501Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50501"));
         Field50502Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", "Payroll Line".FieldNo("Variable Field 50502"));

@@ -184,89 +184,6 @@ table 50035 "Posted Payroll Line"
             TableRelation = "Dimension Set Entry";
         }
 
-        field(47; "Variable Field 50487"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,47';
-            Description = 'added for bank';
-        }
-        field(48; "Variable Field 50488"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,48';
-            Description = 'added for bank';
-        }
-        field(49; "Variable Field 50489"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,49';
-        }
-        field(50; "Variable Field 50490"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,50';
-            Description = 'added for bank';
-        }
-        field(51; "Variable Field 50491"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,52';
-            Description = 'added for bank';
-        }
-        field(52; "Variable Field 50492"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,52';
-            Description = 'added for bank';
-        }
-        field(53; "Variable Field 50493"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,53';
-            Description = 'added for bank';
-        }
-        field(54; "Variable Field 50494"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,54';
-            Description = 'added for bank';
-        }
-        field(55; "Variable Field 50495"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,55';
-            Description = 'added for bank';
-        }
-        field(56; "Variable Field 50496"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,56';
-            Description = 'added for bank';
-        }
-        field(57; "Variable Field 50497"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,57';
-            Description = 'added for bank';
-        }
-        field(58; "Variable Field 50498"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,58';
-            Description = 'added for bank';
-        }
-        field(59; "Variable Field 50499"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,59';
-            Description = 'added for bank';
-        }
-        field(60; "Variable Field 50500"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,60';
-            Description = 'added for bank';
-        }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";
@@ -1066,7 +983,285 @@ table 50035 "Posted Payroll Line"
             CaptionClass = '8,50027,180';
         }
 
+        field(181; "Variable Field 50621"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,181';
+        }
 
+        field(182; "Variable Field 50622"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,182';
+        }
+
+        field(183; "Variable Field 50623"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,183';
+        }
+
+        field(184; "Variable Field 50624"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,184';
+        }
+
+        field(185; "Variable Field 50625"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,185';
+        }
+
+        field(186; "Variable Field 50626"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,186';
+        }
+
+        field(187; "Variable Field 50627"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,187';
+        }
+
+        field(188; "Variable Field 50628"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,188';
+        }
+
+        field(189; "Variable Field 50629"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,189';
+        }
+
+        field(190; "Variable Field 50630"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,190';
+        }
+
+        field(191; "Variable Field 50631"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,191';
+        }
+
+        field(192; "Variable Field 50632"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,192';
+        }
+
+        field(193; "Variable Field 50633"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,193';
+        }
+
+        field(194; "Variable Field 50634"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,194';
+        }
+
+        field(195; "Variable Field 50635"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,195';
+        }
+
+        field(196; "Variable Field 50636"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,196';
+        }
+
+        field(197; "Variable Field 50637"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,197';
+        }
+
+        field(198; "Variable Field 50638"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,198';
+        }
+
+        field(199; "Variable Field 50639"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,199';
+        }
+
+        field(200; "Variable Field 50640"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,200';
+        }
+
+        field(201; "Variable Field 50641"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,201';
+        }
+
+        field(202; "Variable Field 50642"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,202';
+        }
+
+        field(203; "Variable Field 50643"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,203';
+        }
+
+        field(204; "Variable Field 50644"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,204';
+        }
+
+        field(205; "Variable Field 50645"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,205';
+        }
+
+        field(206; "Variable Field 50646"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,206';
+        }
+
+        field(207; "Variable Field 50647"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,207';
+        }
+
+        field(208; "Variable Field 50648"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,208';
+        }
+
+        field(209; "Variable Field 50649"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,209';
+        }
+
+        field(210; "Variable Field 50650"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,210';
+        }
+
+        field(211; "Variable Field 50651"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,211';
+        }
+
+        field(212; "Variable Field 50652"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,212';
+        }
+
+        field(213; "Variable Field 50653"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,213';
+        }
+
+        field(214; "Variable Field 50654"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,214';
+        }
+
+        field(215; "Variable Field 50655"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,215';
+        }
+
+        field(216; "Variable Field 50656"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,216';
+        }
+
+        field(217; "Variable Field 50657"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,217';
+        }
+
+        field(218; "Variable Field 50658"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,218';
+        }
+
+        field(219; "Variable Field 50659"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,219';
+        }
+
+        field(220; "Variable Field 50660"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,220';
+        }
         field(1000; "Bank Name"; Text[50]) { }
         field(1001; "Evening Counter Days"; Decimal) { Description = 'allowance assignment'; }
         field(1002; "Holiday Counter Days"; Decimal) { Description = 'allowance assignment'; }

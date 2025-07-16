@@ -82,7 +82,7 @@ pageextension 50003 UserSetup extends "User Setup"
                 Visible = false;
                 ToolTip = 'Specifies the value of the Can View Appraisal List field.', Comment = '%';
             }
-            field("Can View Confirmation Appraisal"; Rec."Can View Confirmation Appraisal")
+            field("Can View Confirmation Appraisal"; Rec."Can View Confirm Appraisal")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Can View Confirmation Appraisa field.', Comment = '%';

@@ -416,7 +416,7 @@ codeunit 50008 "Payroll Engine"
         CurrentEarning := 0;
         CurrentNonPaymentBenefits := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 61 to 180 do begin
+        for FieldID := 61 to 220 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -1346,7 +1346,7 @@ codeunit 50008 "Payroll Engine"
     procedure GetGenJnlDocumentNo(var PayrollJournalLine: Record "Payroll Journal Line"; PostingDate: Date; CreateError: Boolean): Code[20]
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         DocumentNo: Code[20];
     begin
         PayrollJournalBatch.Get(PayrollJournalLine."Journal Batch Name");
@@ -1438,7 +1438,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Option; DocTableName: Text[1024]; DocNoOfRecords: Integer)
+    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
     begin
         if DocNoOfRecords = 0 then
             exit;
@@ -2192,7 +2192,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then
@@ -2231,7 +2231,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2285,7 +2285,7 @@ codeunit 50008 "Payroll Engine"
         IncomeTaxAttrib1: Code[20];
         IncomeTaxAttrib2: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
         DocumentNo1: Code[20];
     begin
@@ -2328,7 +2328,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2397,7 +2397,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then
@@ -2436,7 +2436,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2570,7 +2570,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2985,7 +2985,7 @@ codeunit 50008 "Payroll Engine"
         TaxAtOnceCurrentEarning := 0;
         TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 61 to 180 do begin
+        for FieldID := 61 to 220 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);

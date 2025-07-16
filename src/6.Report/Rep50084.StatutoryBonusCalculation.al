@@ -51,7 +51,7 @@ report 50084 "Statutory Bonus Calculation"
                 TempPayrollLine."Employee Name" := Employee."Full Name";
                 TempPayrollLine."Current Benefit" := InitialBonusDays;
                 TempPayrollLine."Basic Salary" := TotalEarning;
-                TempPayrollLine."Variable Field 50490" := AverageMonthlyEarning;
+                // TempPayrollLine."Variable Field 50490" := AverageMonthlyEarning; //need to relocate
                 TempPayrollLine."Present Days" := LWPDays;
                 TempPayrollLine."Absent Days" := AbsentDays;
                 TempPayrollLine."Net Pay" := TotalEarning / 12;
@@ -90,7 +90,7 @@ report 50084 "Statutory Bonus Calculation"
             column(EmployeeNo_TempPayrollLine; TempPayrollLine."Employee No.") { }
             column(TotalEarning; TempPayrollLine."Basic Salary") { }
             column(AvgMonthlyEarn; TotalAverageMonthlyEarning) { }
-            column(eligiblebonus; TempPayrollLine."Variable Field 50491") { }
+            // column(eligiblebonus; TempPayrollLine."Variable Field 50491") { }  //need to relocate
             column(eligibleDays; TempPayrollLine."Current Benefit") { }
             column(LWPDays; TempPayrollLine."Present Days") { }
             column(AbsentDays; TempPayrollLine."Absent Days") { }
@@ -103,7 +103,8 @@ report 50084 "Statutory Bonus Calculation"
 
             trigger OnAfterGetRecord()
             begin
-                TempPayrollLine."Variable Field 50491" := TempPayrollLine."Variable Field 50490" / TotalAverageMonthlyEarning * PayrollGeneralSetup."Distributable Amt. for Statuto";
+                //   TempPayrollLine."Variable Field 50491" := TempPayrollLine."Variable Field 50490" / TotalAverageMonthlyEarning * PayrollGeneralSetup."Distributable Amt. for Statuto";
+                //need to relocate
                 TempPayrollLine.Modify;
             end;
         }

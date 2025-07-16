@@ -137,72 +137,72 @@ page 50210 "Payroll Settlement Subform"
                     ToolTip = 'Specifies the value of the Basic Salary field.';
                     ApplicationArea = All;
                 }
-                field("Variable Field 50490"; Rec."Variable Field 50490")
-                {
-                    Visible = Field50490Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50490 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50491"; Rec."Variable Field 50491")
-                {
-                    Visible = Field50491Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50491 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50492"; Rec."Variable Field 50492")
-                {
-                    Visible = Field50492Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50492 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50493"; Rec."Variable Field 50493")
-                {
-                    Visible = Field50493Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50493 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50494"; Rec."Variable Field 50494")
-                {
-                    Visible = Field50494Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50494 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50495"; Rec."Variable Field 50495")
-                {
-                    Visible = Field50495Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50495 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50496"; Rec."Variable Field 50496")
-                {
-                    Visible = Field50496Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50496 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50497"; Rec."Variable Field 50497")
-                {
-                    Visible = Field50497Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50497 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50498"; Rec."Variable Field 50498")
-                {
-                    Visible = Field50498Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50498 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50499"; Rec."Variable Field 50499")
-                {
-                    Visible = Field50499Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50499 field.';
-                    ApplicationArea = All;
-                }
-                field("Variable Field 50500"; Rec."Variable Field 50500")
-                {
-                    Visible = Field50500Visible;
-                    ToolTip = 'Specifies the value of the Variable Field 50500 field.';
-                    ApplicationArea = All;
-                }
+                // field("Variable Field 50490"; Rec."Variable Field 50490")
+                // {
+                //     Visible = Field50490Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50490 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50491"; Rec."Variable Field 50491")
+                // {
+                //     Visible = Field50491Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50491 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50492"; Rec."Variable Field 50492")
+                // {
+                //     Visible = Field50492Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50492 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50493"; Rec."Variable Field 50493")
+                // {
+                //     Visible = Field50493Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50493 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50494"; Rec."Variable Field 50494")
+                // {
+                //     Visible = Field50494Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50494 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50495"; Rec."Variable Field 50495")
+                // {
+                //     Visible = Field50495Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50495 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50496"; Rec."Variable Field 50496")
+                // {
+                //     Visible = Field50496Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50496 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50497"; Rec."Variable Field 50497")
+                // {
+                //     Visible = Field50497Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50497 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50498"; Rec."Variable Field 50498")
+                // {
+                //     Visible = Field50498Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50498 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50499"; Rec."Variable Field 50499")
+                // {
+                //     Visible = Field50499Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50499 field.';
+                //     ApplicationArea = All;
+                // }
+                // field("Variable Field 50500"; Rec."Variable Field 50500")
+                // {
+                //     Visible = Field50500Visible;
+                //     ToolTip = 'Specifies the value of the Variable Field 50500 field.';
+                //     ApplicationArea = All;
+                // }
                 field("Variable Field 50501"; Rec."Variable Field 50501")
                 {
                     Visible = Field50501Visible;
@@ -895,24 +895,24 @@ page 50210 "Payroll Settlement Subform"
         Field50538Visible: Boolean;
         Field50539Visible: Boolean;
         Field50540Visible: Boolean;
-        [InDataSet]
+        // [InDataSet]
         HourCalculationVisible: Boolean;
-        [InDataSet]
+        // [InDataSet]
         TimeSheetVisible: Boolean;
 
     local procedure InitColumnVisibility()
     begin
-        Field50490Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50490"));
-        Field50491Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50491"));
-        Field50492Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50492"));
-        Field50493Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50493"));
-        Field50494Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50494"));
-        Field50495Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50495"));
-        Field50496Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50496"));
-        Field50497Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50497"));
-        Field50498Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50498"));
-        Field50499Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50499"));
-        Field50500Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50500"));
+        // Field50490Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50490"));
+        // Field50491Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50491"));
+        // Field50492Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50492"));
+        // Field50493Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50493"));
+        // Field50494Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50494"));
+        // Field50495Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50495"));
+        // Field50496Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50496"));
+        // Field50497Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50497"));
+        // Field50498Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50498"));
+        // Field50499Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50499"));
+        // Field50500Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50500"));
         Field50501Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50501"));
         Field50502Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50502"));
         Field50503Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50503"));
