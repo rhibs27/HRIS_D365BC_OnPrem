@@ -4803,6 +4803,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Approved Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 333147355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Approver Role - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 2774916669 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role (TO)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Approver Role (TO) - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3589989410 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -15407,6 +15417,16 @@
           <source>Approved Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Approved Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 333147355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Approver Role - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 2774916669 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approver Role (TO)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Approver Role (TO) - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 504766950 - Field 123962829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Name</source>
@@ -49207,6 +49227,11 @@
           <source>Transfer Journal</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 276376150 - Control 3598852419 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Approver Role (TO) field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Transfer Journal - Control Approval Role (To) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 276376150 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>

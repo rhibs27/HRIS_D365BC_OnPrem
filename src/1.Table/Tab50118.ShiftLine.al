@@ -62,17 +62,7 @@ table 50118 "Shift Line"
         field(9; "Employee Work Shift"; Code[20])
         {
             Caption = 'Employee Work Shift';
-            TableRelation = "Employee Work Shift";
-            trigger OnLookup()
-            var
-                EmployeeWorkShift: Record "Employee Work Shift";
-            begin
-                EmployeeWorkShift.Reset();
-                // First try to find records matching the current deputation code
-                EmployeeWorkShift.Setfilter("Deputation Code", '%1|%2', "Deputation Code", '');
-                if PAGE.RunModal(0, EmployeeWorkShift) = ACTION::LookupOK then
-                    "Employee Work Shift" := EmployeeWorkShift.Code;
-            end;
+            TableRelation = "Employee Work Shift" where("Deputation Code" = field("Deputation Code"));
 
             trigger OnValidate()
             begin
