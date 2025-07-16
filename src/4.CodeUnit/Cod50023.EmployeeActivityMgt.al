@@ -138,12 +138,13 @@ codeunit 50023 EmployeeActivityMgt
                             leaveJournal."Requested Date");
                 PostedLeaveJournal.Init();
                 PostedLeaveJournal.TransferFields(leaveJournal);
-                leaveJournal.Delete();
-                PostedLeaveJournal.Validate(Posted, true);
-                if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then
+                if leaveJournal."Adjustment Type" = leaveJournal."Adjustment Type"::Used then begin
                     PostedLeaveJournal.Validate("Document No", LeaveRequest."No.");
+                    LeaveMgt.LeaveApproved(LeaveRequest."No.");
+                end;
+                PostedLeaveJournal.Validate(Posted, true);
                 PostedLeaveJournal.Insert(true);
-                LeaveMgt.LeaveApproved(LeaveRequest."No.");
+                leaveJournal.Delete();
             until leaveJournal.next() = 0
         else
             Error('There is no Document to post');
@@ -224,11 +225,14 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure CheckLeaveDetails(EmployeeACTJnl: Record "Employee Activity Journal")
     begin
-        EmployeeACTJnl.TestField("Start Date");
-        EmployeeACTJnl.TestField("End Date");
         EmployeeACTJnl.TestField("Leave Code");
-        if EmployeeACTJnl."Leave Type" = EmployeeACTJnl."Leave Type"::" " then
-            Error('Leave Type cannot be blank in %1 line No %2', EmployeeACTJnl."Emp Act. No", EmployeeACTJnl."Line No");
+        EmployeeACTJnl.TestField("No. of Days");
+        if EmployeeACTJnl."Adjustment Type" = EmployeeACTJnl."Adjustment Type"::Used then begin
+            EmployeeACTJnl.TestField("Start Date");
+            EmployeeACTJnl.TestField("End Date");
+            if EmployeeACTJnl."Leave Type" = EmployeeACTJnl."Leave Type"::" " then
+                Error('Leave Type cannot be blank in %1 line No %2', EmployeeACTJnl."Emp Act. No", EmployeeACTJnl."Line No");
+        end;
     end;
 
     procedure CheckLeaveInSameDay(EmployeeACTJnl: Record "Employee Activity Journal")

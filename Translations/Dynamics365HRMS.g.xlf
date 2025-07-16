@@ -49488,6 +49488,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Out of Pocket Expense - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1674581342 - Control 3303942631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Road/Air Fare field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Road/Air Fare - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1674581342 - Control 3303942631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transportation Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Road/Air Fare - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1674581342 - Control 3933242367 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Claimed Amount field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -49532,11 +49542,6 @@
           <source>Specifies the value of the Reimbursable field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Reimbursable - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1674581342 - Control 3303942631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Road/Air Fare field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Travel Claim - Control Road/Air Fare - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1674581342 - Control 2837765042 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Claimed Country field.</source>

@@ -72,6 +72,8 @@ page 50108 "Portal Functions"
         functionalTitle: Record "Functional Title";
     begin
         PayrollGenSetup.Get();
+        AllowShiftAssignment := 'false';
+        AllowAllowanceAssignment := 'false';
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         Employee.SetRange(Status, Employee.Status::Active);
@@ -98,13 +100,9 @@ page 50108 "Portal Functions"
             FirstLogin := 'true';
         if FunctionalTitle.get(Employee."Functional Title") then begin
             if functionalTitle."Allow AllowanceAssignment" then
-                AllowAllowanceAssignment := 'true'
-            else
-                AllowAllowanceAssignment := 'false';
+                AllowAllowanceAssignment := 'true';
             if functionalTitle."Allow ShiftAssignment" then
-                AllowShiftAssignment := 'true'
-            else
-                AllowShiftAssignment := 'false';
+                AllowShiftAssignment := 'true';
         end;
         exit('{"empno" : "' + Employee."No." +
               '",' + '"count" : "' + Format(counter) +

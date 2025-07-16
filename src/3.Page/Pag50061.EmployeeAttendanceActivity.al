@@ -2,10 +2,10 @@ page 50061 "Employee Attendance & Activity"
 {
     // version ATM.19.01.01
 
-    //DeleteAllowed = false;
-    //Editable = false;
-    //InsertAllowed = false;
-    //ModifyAllowed = false;
+    DeleteAllowed = false;
+    Editable = false;
+    InsertAllowed = false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = "Employee Attendance & Activity";
     UsageCategory = Lists;

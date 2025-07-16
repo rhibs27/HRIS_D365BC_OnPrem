@@ -135,7 +135,8 @@ table 50075 "Employee Activity Journal"
                     LeaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                     LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
                     LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
-                end;
+                end else if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Adjustment) then
+                        LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days")
             end;
         }
         field(10; "Requested Date"; Date)
@@ -172,7 +173,7 @@ table 50075 "Employee Activity Journal"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            Editable = false;
+            Editable = False;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {

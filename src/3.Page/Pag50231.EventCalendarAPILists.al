@@ -17,7 +17,7 @@ page 50231 "Event Calendar API Lists"
         {
             repeater(Group)
             {
-                field(empNo; "Employee Filter") { }
+                field(empNo; HrMgt.GetEmployeeNo()) { }
                 field(BaseCalendarCode; Rec."Base Calendar Code") { }
                 field(RecurringSystem; Rec."Recurring System") { }
                 field(Date; Rec.Date) { }
@@ -37,9 +37,7 @@ page 50231 "Event Calendar API Lists"
 
     trigger OnAfterGetRecord()
     begin
-        Employee.Reset;
-        Employee.SetRange("No.", Rec.GetFilter("Employee Filter"));
-        Employee.FindFirst;
+        Employee.Get(HrMgt.GetEmployeeNo());
         Rec.SetRange(Nonworking, true);
         Rec.SetFilter("Gender Filter", '%1|%2', Employee.Gender, Rec."Gender Filter"::" ");
         Rec.SetFilter("Inside/Outside Valley", '%1|%2', Employee."Inside/Outside Valley", Rec."Inside/Outside Valley"::" ");
@@ -49,4 +47,5 @@ page 50231 "Event Calendar API Lists"
 
     var
         Employee: Record Employee;
+        HrMgt: Codeunit "HR Mgt.";
 }

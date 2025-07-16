@@ -207,11 +207,6 @@ page 50351 "Travel Claim"
                     ToolTip = 'Specifies the value of the Currency Code field.';
                     ApplicationArea = All;
                 }
-                field("Road/Air Fare"; Rec."Road/Air Fare")
-                {
-                    ToolTip = 'Specifies the value of the Road/Air Fare field.';
-                    ApplicationArea = All;
-                }
                 field(Reimbursable; Rec.Reimbursable)
                 {
                     ToolTip = 'Specifies the value of the Reimbursable field.';
@@ -258,13 +253,17 @@ page 50351 "Travel Claim"
                         ToolTip = 'Specifies the value of the Lodging Allowance field.';
                         ApplicationArea = All;
                     }
+                    field("Road/Air Fare"; Rec."Road/Air Fare")
+                    {
+                        ToolTip = 'Specifies the value of the Road/Air Fare field.';
+                        ApplicationArea = All;
+                        Caption = 'Transportation Allowance';
+                    }
                     field("Out of Pocket Expense"; Rec."Out of Pocket Expense")
                     {
                         ToolTip = 'Specifies the value of the Out of Pocket Expense field.';
                         ApplicationArea = All;
                     }
-
-
                     field("Conveyance Expense"; Rec."Conveyance Expense")
                     {
                         Visible = false;

@@ -244,7 +244,7 @@ codeunit 50000 "Leave Mgt."
             LeaveTypeSetup.CalcFields("Remaining Days");
         if (not LeaveTypeSetup.Compensatory) and (not LeaveTypeSetup."Skip Balance Check") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
-                Error(NoLeaveDaysError + EmpCode);
+                Error(NoLeaveDaysError);
     end;
 
     procedure CheckForMulipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
