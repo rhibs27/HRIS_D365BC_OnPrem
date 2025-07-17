@@ -133,7 +133,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
         if AttendanceMissed."No." = '' then begin
             AttendanceMissed.TestField("Start Date");
-            if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
+            if (AttendanceMissed."Start Date" > Today) or (AttendanceMissed."End Date" > Today) then
                 Error('Cannot apply for future date.Please check the date.');
             if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
                 Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");

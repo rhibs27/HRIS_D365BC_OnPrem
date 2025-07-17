@@ -6,6 +6,7 @@ page 50248 "Shift Assignment"
     SourceTable = "Shift Assignment Header";
     UsageCategory = Lists;
     CardPageId = "Shift Assignment Card";
+    ModifyAllowed=false;
 
     layout
     {
