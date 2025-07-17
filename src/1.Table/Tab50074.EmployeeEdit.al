@@ -81,7 +81,7 @@ table 50074 "Employee Edit"
             Caption = 'Temporary Province';
             DataClassification = CustomerContent;
         }
-        field(12; VDC; Text[30])
+        field(12; VDC; Text[50])
         {
             Caption = 'VDC';
             DataClassification = CustomerContent;
