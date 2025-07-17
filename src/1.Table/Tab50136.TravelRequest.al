@@ -655,7 +655,7 @@ table 50136 "Travel Request"
             trigger OnLookup()
             begin
                 if TravelRequest.Get("Travel Order No.") then
-                    PAGE.Run(50093, TravelRequest);
+                    PAGE.Run(Page::"Travel Form", TravelRequest);
             end;
         }
         field(66; "Total No. of Days"; Decimal)
