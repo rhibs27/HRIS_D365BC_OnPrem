@@ -103,7 +103,6 @@ report 50017 "Generate Leave Balance"
         Type: Option " ","Employeement Type Change","New Fiscal Year";
         ConfirmationDate: Date;
         ServiceHistory: Record "Employee Service History";
-        [InDataSet]
         IsTypeEmploymentTypeChanged: Boolean;
         SalaryLevel: Code[20];
         PayrollEngine: Codeunit "Payroll Engine";

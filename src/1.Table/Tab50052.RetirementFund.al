@@ -36,7 +36,7 @@ table 50052 "Retirement Fund"
         {
             Editable = false;
         }
-        field(7; "Annual Accessible Income"; Decimal)
+        field(7; "Annual Assessable Income"; Decimal)
         {
 
         }
@@ -152,29 +152,10 @@ table 50052 "Retirement Fund"
         field(28; "Actual Lumpsump CIT"; Decimal)
         {
             DataClassification = ToBeClassified;
-
-            trigger OnValidate()
-            begin
-                // PayrollGeneralSetup.Get; //Min
-                // if PayrollGeneralSetup."Enable RF Lumpsump Plan" then begin
-                //     Employee.Get("Employee No.");
-                //     if Employee."CIT No." <> '' then
-                //         TestField("Actual Lumpsump CIT");
-                // end; commented code 1/10/25
-            end;
         }
         field(29; "Actual Lumpsump RTF"; Decimal)
         {
             DataClassification = ToBeClassified;
-
-            trigger OnValidate()
-            begin
-                /*PayrollGeneralSetup.GET; //Min
-                IF PayrollGeneralSetup."Enable RF Lumpsump Plan" THEN BEGIN
-                  IF "Actual Lumpsump RTF" <= 0 THEN
-                    ERROR('Actual Lumpsum RTF Contribution Amount must be greater then 0.');
-                  END;*/
-            end;
         }
         field(30; "Lumpsum Committed Contribution"; Decimal)
         {
@@ -193,6 +174,10 @@ table 50052 "Retirement Fund"
             DataClassification = ToBeClassified;
             Caption = 'Rejection Remarks';
 
+        }
+        field(34; "Recommended Monthly CIT/RF"; Decimal)
+        {
+            Description = 'Optimal monthly retirement deposit for minimise TAX';
         }
     }
 

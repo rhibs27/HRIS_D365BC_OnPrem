@@ -44,7 +44,7 @@ page 50200 "Retirement Funds"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-                field("Annual Accessible Income"; Rec."Annual Accessible Income")
+                field("Annual Accessible Income"; Rec."Annual Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Annual Accessible Income field.';
                     ApplicationArea = All;

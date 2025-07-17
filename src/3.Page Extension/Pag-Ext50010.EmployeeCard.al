@@ -1893,6 +1893,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category7;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Assign Job Function action. Which updates info based on deputation';
+
                     trigger OnAction()
                     begin
                         IF CONFIRM('Do you want to assign job function?', false) THEN

@@ -43,7 +43,7 @@ page 50011 "Retirement Fund Entity"
                 {
                     // //Editable = false;
                 }
-                field(annualAccessibleMonth; Rec."Annual Accessible Income")
+                field(annualAccessibleMonth; Rec."Annual Assessable Income")
                 {
                     // //Editable = false;
                 }

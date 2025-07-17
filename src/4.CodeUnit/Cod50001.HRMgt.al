@@ -10110,12 +10110,12 @@ codeunit 50001 "HR Mgt."
         Employee.SetFilter("Date Filter", '%1..%2', PRSetup."Payroll Fiscal Year Start Date", PRSetup."Payroll Fiscal Year End Date");
         Employee.CalcFields("PF Contribution", "CIT Deposit", "RF Deposit", "Total Retirement Contribution");
         PayrollReportMgt.GetAnnualAccessibleIncome(EmpCode, '', PayCyclePeriod."Pay Cycle Term",
-                                        TempRetirementFund."Annual Accessible Income",
+                                        TempRetirementFund."Annual Assessable Income",
                                         TempRetirementFund."RF Contribution Eligible Amt",
                                         TempRetirementFund."Provident Fund Projected");
 
-        if TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
-            TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Accessible Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
+        if TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion" < PRSetup."Tax Ex. Amt. not Exceeding" then
+            TempRetirementFund."RF Contribution Eligible Amt" := Round(TempRetirementFund."Annual Assessable Income" / PRSetup."Tax Ex. Amt Divsion", 0.01, '=')
         else
             TempRetirementFund."RF Contribution Eligible Amt" := PRSetup."Tax Ex. Amt. not Exceeding";
 
@@ -10124,9 +10124,11 @@ codeunit 50001 "HR Mgt."
         TempRetirementFund."CIT Contribution Deposited" := Employee."Total Retirement Contribution";
 
         TempRetirementFund."Provident Fund Projected" := TempRetirementFund."Provident Fund Projected" - Employee."PF Contribution";
-
         TempRetirementFund."Actual/Projected Contribution" := TempRetirementFund."Provident Fund Deposited" + TempRetirementFund."RF Contribution Deposited" + TempRetirementFund."Provident Fund Projected" + TempRetirementFund."CIT Contribution Deposited";
+
         TempRetirementFund."Additional Space for RF Cont." := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Actual/Projected Contribution", 0.01, '=');
+        TempRetirementFund."Recommended Monthly CIT/RF" := Round(TempRetirementFund."Additional Space for RF Cont." / TempRetirementFund."Projection Month", 0.01);
+
         CalculateRetirementFund(TempRetirementFund, TempRetirementFund."Projection Month");
         TempRetirementFund.Difference := Round(TempRetirementFund."RF Contribution Eligible Amt" - TempRetirementFund."Total Deduction", 0.01, '=');
         TempRetirementFund.Modify;
@@ -10166,33 +10168,18 @@ codeunit 50001 "HR Mgt."
         Employee.Get(RetirementFund."Employee No.");
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", RetirementFund."Employee No.");
-        PayrollAttributesUsage.SetFilter(Code, '%1|%2|%3|%4', PRSetup."CIT (Monthly)", PRSetup."CIT (Lumpsum)", PRSetup."RTF (Monthly)", PRSetup."RTF (Lumpsum)");  //use payroll subtype
+        PayrollAttributesUsage.SetFilter(Subtype, '%1|%2', PayrollAttributesUsage.Subtype::CIT, PayrollAttributesUsage.Subtype::RF);
         if PayrollAttributesUsage.FindSet then
             repeat
-                case PayrollAttributesUsage.Code of
-                    PRSetup."CIT (Monthly)":
-                        begin
-                            //IF RetirementFund."CIT Amount (Month)" <> 0 THEN //Min 6.9.2022
-                            PayrollAttributesUsage.Amount := RetirementFund."CIT Amount (Month)";
-                        end;
-                    PRSetup."CIT (Lumpsum)":
-                        begin
-                            if RetirementFund."CIT Amount( Lumpsum)" <> 0 then
-                                Employee."Lumpsum CIT (Not Actual)" := RetirementFund."CIT Amount( Lumpsum)";
-                        end;
 
-                    PRSetup."RTF (Monthly)":
-                        begin
-                            //IF RetirementFund."RTF Amount (Month)" <> 0 THEN //Min 6.9.2022
-                            PayrollAttributesUsage.Amount := RetirementFund."RTF Amount (Month)";
-                        end;
+                PayrollAttributesUsage.CalcFields(Subtype);
+                if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::CIT then
+                    if RetirementFund."CIT Amount (Month)" <> 0 then
+                        PayrollAttributesUsage.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::RF then
+                    if RetirementFund."RTF Amount (Month)" <> 0 then
+                        PayrollAttributesUsage.Validate(Amount, RetirementFund."RTF Amount (Month)");
 
-                    PRSetup."RTF (Lumpsum)":
-                        begin
-                            if RetirementFund."RTF Amount (Lumpsum)" <> 0 then
-                                Employee."Lumpsum RF (Not Actual)" := RetirementFund."RTF Amount (Lumpsum)";
-                        end;
-                end;
                 PayrollAttributesUsage.Modify(true);
                 Employee.Modify;
             until PayrollAttributesUsage.Next = 0;
@@ -10200,13 +10187,11 @@ codeunit 50001 "HR Mgt."
 
     procedure ApplyForRetirementFund(TempRetirementFund: Record "Retirement Fund" temporary): Boolean
     var
-        ConfirmTravel: Label 'Do you want to send travel request ?';
-        ErrorNoOfDays: Label 'No. of Travel days must be greater than 0.';
         RetirementFund: Record "Retirement Fund";
         LoanMgt: Codeunit "Loan Mgt.";
     begin
         if GuiAllowed then
-            if not Confirm('Do you want to send retirement fund for approval ?', false) then
+            if not Confirm('Do you want to send retirement fund for approval?', false) then
                 exit;
 
         TempRetirementFund.TestField("Fiscal Year");

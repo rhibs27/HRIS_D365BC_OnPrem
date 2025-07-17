@@ -1,8 +1,5 @@
 page 50040 "Payroll Plan"
 {
-    // version PRM19.01.01
-
-    // //Min 11.29.2022 -- For Import Update OverTime Employees,Amount,Disbursement in payroll adjustment.
 
     PageType = Card;
     SourceTable = "Payroll Header";
@@ -33,13 +30,11 @@ page 50040 "Payroll Plan"
                 }
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
-                    //Visible = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.';
                     ApplicationArea = All;
                 }
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
-                    //Editable = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.';
                     ApplicationArea = All;
                 }
@@ -235,8 +230,7 @@ page 50040 "Payroll Plan"
                     var
                         PayrollHeader: Record "Payroll Header";
                     begin
-                        /*CurrPage.SETSELECTIONFILTER(PayrollHeader);
-                        GetDetails(PayrollHeader);*/
+
                         PayrollHeader.Reset;
                         PayrollHeader.SetRange("No.", Rec."No.");
                         if PayrollHeader.FindFirst then begin
@@ -472,7 +466,7 @@ page 50040 "Payroll Plan"
 
     trigger OnAfterGetRecord()
     begin
-        UserSetup.Get(UserId); //Min
+        UserSetup.Get(UserId);
         if UserSetup."Allow Previous Year Payroll" then
             PrevYearPayroll := true
         else

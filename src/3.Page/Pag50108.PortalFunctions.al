@@ -2287,7 +2287,7 @@ page 50108 "Portal Functions"
         InitReturnApiValue();
         InsertAPINameValue('fiscalYear', RF."Fiscal Year");
         InsertAPINameValue('payrollMonth', Format(RF."Payroll Month"));
-        InsertAPINameValue('annualAccessibleIncome', Format(RF."Annual Accessible Income"));
+        InsertAPINameValue('annualAccessibleIncome', Format(RF."Annual Assessable Income"));
         InsertAPINameValue('rfContributionEligibleAmt', Format(RF."RF Contribution Eligible Amt"));
         InsertAPINameValue('providentFundDeposited', Format(RF."Provident Fund Deposited"));
         InsertAPINameValue('rfContributionDeposited', Format(RF."RF Contribution Deposited"));

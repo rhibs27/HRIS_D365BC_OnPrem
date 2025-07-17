@@ -346,6 +346,27 @@ page 50329 "Employee Entity"
                 //     EntitySetName = 'attachmentEntities';
                 //     SubPageLink = "Employee Code" = field("No.");
                 // }
+                field(permanentLocality; Rec."Permanent Locality")
+                {
+
+                }
+                field(temporaryLocality; Rec."Temporary Locality")
+                {
+
+                }
+                field(permanentWardNo; Rec."Permanent Ward No")
+                {
+
+                }
+                field(servicePeriodText; Rec."Service Period Text")
+                {
+
+                }
+                field(salarylevelDescription; Rec."Salary Level Description")
+                {
+
+                }
+
             }
         }
     }

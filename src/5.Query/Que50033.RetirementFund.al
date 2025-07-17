@@ -34,7 +34,7 @@ query 50033 "Retirement Fund"
                     column(employeeName; "Employee Name") { }
                     column(fiscalYear; "Fiscal Year") { }
                     column(payrollMonth; "Payroll Month") { }
-                    column(annualAccessibleIncome; "Annual Accessible Income") { }
+                    column(annualAccessibleIncome; "Annual Assessable Income") { }
                     column(rfContributionEligibleAmt; "RF Contribution Eligible Amt") { }
                     column(providentFundDeposited; "Provident Fund Deposited") { }
                     column(rfContributionDeposited; "RF Contribution Deposited") { }

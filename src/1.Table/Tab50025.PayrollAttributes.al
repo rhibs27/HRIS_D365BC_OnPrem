@@ -167,9 +167,13 @@ table 50025 "Payroll Attributes"
 
         field(39; "Activity Type"; enum "Employee Activity Type")
         {
-            ValuesAllowed = " ", "Transfer Claim";
+            ValuesAllowed = " ", "Transfer Claim";  //include it in spefiific attribute
         }
         field(40; "Transfer Claim Flexible"; Boolean) { }
+        field(41; "Specific Attributes"; Enum "Specific Payroll Attributes")
+        {
+
+        }
     }
 
     keys
