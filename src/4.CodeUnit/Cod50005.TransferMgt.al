@@ -78,7 +78,7 @@ codeunit 50005 "Transfer Mgt."
         EmphrTransfer.SetFilter("Approval Status", '%1|%2|%3', EmphrTransfer."Approval Status"::Pending, EmphrTransfer."Approval Status"::Approved, EmphrTransfer."Approval Status"::"On Hold");
         EmphrTransfer.SetFilter("No.", '<>%1', TempEmphrtransfer."No.");
         if EmphrTransfer.FindFirst then
-            Error('Transfer card of employee %1 is still open or pending.', EmphrTransfer."Employee Name");
+            Error('Transfer No %2 of employee %1 is still not Acknowledge.', EmphrTransfer."Employee Name", EmphrTransfer."No.");
 
         EmphrTransfer.Reset;
         EmphrTransfer.Init;

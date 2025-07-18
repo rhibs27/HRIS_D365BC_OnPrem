@@ -250,7 +250,7 @@ codeunit 50000 "Leave Mgt."
             LeaveTypeSetup.CalcFields("Remaining Days");
         if (not LeaveTypeSetup.Compensatory) and (not LeaveTypeSetup."Skip Balance Check") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
-                Error(NoLeaveDaysError + EmpCode);
+                Error(NoLeaveDaysError);
     end;
 
     procedure CheckForMulipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
@@ -820,6 +820,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTable.SetFilter("No.", '<>%1', leaveRequestNo);
         LeaveTable.SetRange("Employee No.", EmployeeNo);
         LeaveTable.SetRange(Type, LeaveTable.Type::"Leave Request");
+        LeaveTable.SetRange("Leave Code", LeaveCode);
         LeaveTable.SetRange("Approval Status", LeaveTable."Approval Status"::Pending);
         if LeaveTable.FindFirst then
             Error(LeaveRequestError, LeaveTable."No.", LeaveTable."Leave Code");

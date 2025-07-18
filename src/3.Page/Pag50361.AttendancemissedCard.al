@@ -1,6 +1,7 @@
 page 50361 "Attendance missed Card"
 {
     ApplicationArea = All;
+    InsertAllowed=false;
     Caption = 'Attendance missed Card';
     PageType = Card;
     SourceTable = "Attendance Missed";

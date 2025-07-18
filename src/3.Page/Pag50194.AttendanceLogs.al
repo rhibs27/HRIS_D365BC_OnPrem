@@ -1,13 +1,13 @@
 page 50194 "Attendance Logs"
 {
-    // version AMS6.1.0
-
-    // Editable = false;
+    DeleteAllowed = false;
+    Editable = false;
     PageType = List;
     SourceTable = "Attendance Log";
     UsageCategory = Lists;
     ApplicationArea = All;
-
+    InsertAllowed = false;
+    ModifyAllowed = false;
     layout
     {
         area(Content)

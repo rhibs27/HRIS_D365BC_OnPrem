@@ -724,29 +724,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Disable Punch in field.';
                 }
-                // field(Screener; Rec.Screener)
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Screener field.';
+                field("Portal Attendance"; Rec."Portal Attendance")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Portal Attendance field.';
 
-                // }
+                }
                 field("Resignation Approver"; Rec."Resignation Approver")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
                 }
-                // field("Selection committee"; Rec."Selection committee")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Selection committee field.';
-
-                // // }
-                // field("System Owner"; Rec."System Owner")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the System Owner field.';
-
-                // }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;
@@ -2272,8 +2260,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
-                    DepartmentEdit := true;
-                    UnitEdit := true;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2283,10 +2271,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec."Deputation on"::Province:
                 BEGIN
                     ProvinceEdit := true;
-                    BranchEdit := true;
+                    BranchEdit := false;
                     ExtensionCounterEdit := false;
-                    DepartmentEdit := true;
-                    UnitEdit := true;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := false;
                     BranchVisible := false;
                     ProvinceVisible := true;
@@ -2295,8 +2283,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Department:
                 BEGIN
-                    ProvinceEdit := true;
-                    BranchEdit := true;
+                    ProvinceEdit := false;
+                    BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2308,8 +2296,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::Unit:
                 BEGIN
-                    ProvinceEdit := true;
-                    BranchEdit := true;
+                    ProvinceEdit := false;
+                    BranchEdit := false;
                     ExtensionCounterEdit := false;
                     DepartmentEdit := true;
                     UnitEdit := true;
@@ -2324,8 +2312,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
-                    DepartmentEdit := true;
-                    UnitEdit := true;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;

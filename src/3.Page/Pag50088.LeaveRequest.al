@@ -114,11 +114,6 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the Child''s Gender field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
                 field("Pay Type"; Rec."Pay Type")
                 {
                     ToolTip = 'Specifies the value of the Pay Type field.';
@@ -129,12 +124,14 @@ page 50088 "Leave Request"
                     Enabled = IsCompensatory;
                     ToolTip = 'Specifies the value of the Compensatory Date field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("For Death Of"; Rec."For Death Of")
                 {
                     Editable = IsBereavement;
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {
@@ -155,7 +152,11 @@ page 50088 "Leave Request"
                     ToolTip = 'Specifies the value of the Balancing Remaining Days field.';
                     ApplicationArea = All;
                 }
-
+                field(Remarks; Rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                }
             }
             part(Attachment; "Attachment Subform")
             {

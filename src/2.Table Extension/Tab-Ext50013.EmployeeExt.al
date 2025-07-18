@@ -146,19 +146,18 @@ tableextension 50013 "Employee Ext" extends Employee
 
         field(50001; "Branch Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Province), Code = field("Province Code"), "Reporting Type" = filter("Deputation Type"::Branch));
             trigger OnValidate()
             begin
-                // if "Branch Code" <> xRec."Branch Code" then begin
-                //     Clear("Branch Name");
-                //     Clear("Extension Counter Code");
-                //     Clear("Extension Counter Name");
-                //     Clear("Province Code");
-                //     Clear("Province Name");
-                //     Clear("Posting Region");
-                //     Clear("Inside/Outside Valley");
-                //     Clear("Sol Id");
-                // end;
+                TestField("Province Code");
+                if "Branch Code" <> xRec."Branch Code" then begin
+                    Clear("Branch Name");
+                    Clear("Extension Counter Code");
+                    Clear("Extension Counter Name");
+                    Clear("Posting Region");
+                    Clear("Inside/Outside Valley");
+                    Clear("Sol Id");
+                end;
                 // Validate("Global Dimension 1 Code", "Branch Code");  //this is not ideal for all company
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
@@ -247,6 +246,7 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
             trigger OnValidate()
             begin
+                TestField("Department Code");
                 if "Deputation on" = "Deputation on"::Unit then
                     ValidateDeputationOn
                 else if "Deputation on" = "Deputation on"::Department then
@@ -287,6 +287,7 @@ tableextension 50013 "Employee Ext" extends Employee
             var
                 OrganizationStructureList: Record "Organization Structure list";
             begin
+                TestField("Branch Code");
                 if "Deputation on" = "Deputation on"::"Extension Counter" then
                     ValidateDeputationOn
                 else if "Deputation on" = "Deputation on"::Branch then
@@ -730,11 +731,6 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
         }
 
-        // field(50069; Screener; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        //     Description = 'Loan';
-        // }
         field(50070; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
@@ -1172,11 +1168,10 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'In nepali';
             Editable = false;
         }
-        // field(50125; "System Owner"; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        //     Description = 'System Access';
-        // }
+        field(50125; "Portal Attendance"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
         field(50126; "CIF ID"; Code[20])
         {
             DataClassification = CustomerContent;
@@ -1587,9 +1582,7 @@ tableextension 50013 "Employee Ext" extends Employee
         end;
     end;
 
-    local procedure ValidateDeputationOn();
-    var
-        OrganizationStructureLine: Record "Organization Structure line";
+    local procedure ValidateDeputationOn()
     begin
         TestField("Deputation on");
         //For Province Code and Name Get 
@@ -1598,35 +1591,17 @@ tableextension 50013 "Employee Ext" extends Employee
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Branch Code") then begin
                     Validate("Deputation On Code", OrganizationStructureList.Code);
                     Validate("Branch Name", OrganizationStructureList.Name);
-                    // Validate("Province Code", OrganizationStructureList."Province Code");
-                    // Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
-
-                    //need to fix it
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
-                    // if OrganizationStructureLine.FindFirst() then
-                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
             "Deputation on"::Department:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Department Code") then begin
                     Validate("Deputation On Code", OrganizationStructureList.Code);
                     Validate("Department Name", OrganizationStructureList.Name);
-                    // Validate("Province Code", OrganizationStructureList."Province Code");
-                    // Validate("Province Name", OrganizationStructureList."Province Name");
                     Validate("Posting Region", OrganizationStructureList."Region");
                     Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                     Validate("Sol Id", OrganizationStructureList."Sol ID");
-
-                    //need to fix it
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
-                    // if OrganizationStructureLine.FindFirst() then
-                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code") then begin
@@ -1641,124 +1616,23 @@ tableextension 50013 "Employee Ext" extends Employee
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Extension Counter Code") then begin
                         Validate("Deputation On Code", OrganizationStructureList.Code);
                         Validate("Extension Counter Name", OrganizationStructureList.Name);
-                        // Validate("Province Code", OrganizationStructureList."Province Code");
-                        // Validate("Province Name", OrganizationStructureList."Province Name");
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
                     end;
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Branch);
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::"Extension Counter");
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Extension Counter Code");
-                    // if OrganizationStructureLine.FindFirst() then begin
-                    //     Validate("Branch Code", OrganizationStructureLine.Code);
-                    // end;
-
-                    //need to fix it
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Branch);
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Branch Code");
-                    // if OrganizationStructureLine.FindFirst() then
-                    //     Validate("Province Code", OrganizationStructureLine.Code);
-
                 end;
             "Deputation on"::Unit:
                 begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::unit, "Unit code") then begin
                         Validate("Deputation On Code", OrganizationStructureList.Code);
                         Validate("Unit Name", OrganizationStructureList.Name);
-                        // Validate("Province Code", OrganizationStructureList."Province Code");
-                        // Validate("Province Name", OrganizationStructureList."Province Name");
                         Validate("Posting Region", OrganizationStructureList."Region");
                         Validate("Inside/Outside Valley", OrganizationStructureList."InsideOutside Valley");
                         Validate("Sol Id", OrganizationStructureList."Sol ID");
                     end;
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange(Type, OrganizationStructureLine.Type::Department);
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Unit);
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Unit Code");
-                    // if OrganizationStructureLine.FindFirst() then
-                    //     Validate("Department Code", OrganizationStructureLine.Code);
-
-                    //need to fix it
-                    // OrganizationStructureLine.Reset();
-                    // OrganizationStructureLine.SetRange("Reporting Type", OrganizationStructureLine.Type::Department);
-                    // OrganizationStructureLine.SetRange("Reporting Code", "Department Code");
-                    // if OrganizationStructureLine.FindFirst() then
-                    //     Validate("Province Code", OrganizationStructureLine.Code);
                 end;
         end;
-
-        // if "Deputation on" = "Deputation on"::Branch then begin
-        //     Clear("Province Code");
-        //     Clear("Province Name");
-        //     Clear("Extension Counter Code");
-        //     Clear("Department Code");
-        //     Clear("Unit Code");
-        //     Clear("Extension Counter Name");
-        //     Clear("Department Name");
-        //     Clear("Unit Name");
-        //     Clear("Branch Name");
-        //     Clear("Posting Region");
-        //     Clear("Inside/Outside Valley");
-        //     OrganizationStructureList.Reset();
-        //     if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Deputation On Code") then begin
-        //         "Branch Name" := OrganizationStructureList.Name;
-        //         "Province Code" := OrganizationStructureList."Province Code";
-        //         "Province Name" := OrganizationStructureList."Province Name";
-        //         "Posting Region" := OrganizationStructureList."Region";
-        //         "Inside/Outside Valley" := OrganizationStructureList."InsideOutside Valley";
-        //     end else begin
-        //         Clear("Branch Name");
-        //         Clear("Province Code");
-        //         Clear("Province Name");
-        //         Clear("Posting Region");
-        //         Clear("Inside/Outside Valley");
-        //     end;
-        // end;
     end;
-
-    // local procedure ValidateExtenCounter();
-    // begin
-    //     if "Deputation on" = "Deputation on"::"Extension Counter" then begin
-    //         Clear("Province Code");
-    //         Clear("Province Name");
-    //         // Clear("Sub Province Name");
-    //         // Clear("Sub Province Code");
-    //         Clear("Global Dimension 1 Code");
-    //         Clear("Department Code");
-    //         Clear("Unit Code");
-    //         Clear("Extension Counter Name");
-    //         Clear("Department Name");
-    //         Clear("Unit Name");
-    //         Clear("Branch Name");
-    //         Clear("Posting Region");
-    //         Clear("Inside/Outside Valley");
-
-    //         EmpHie.Reset;
-    //         EmpHie.SetRange(Code, "Extension Counter Code");
-    //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-    //         if EmpHie.FindFirst then begin
-    //             "Global Dimension 1 Code" := EmpHie."Shortcut Dimension 1 Code";
-    //             "Extension Counter Name" := EmpHie.Description;
-    //             DimensionValue.Reset;
-    //             DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-    //             DimensionValue.SetRange(Code, EmpHie."Shortcut Dimension 1 Code");
-    //             if DimensionValue.FindFirst then begin
-    //                 "Branch Name" := DimensionValue.Name;
-    //                 "Sol Id" := DimensionValue.Code;
-    //                 "Posting Region" := DimensionValue."Posting Region";
-    //                 "Inside/Outside Valley" := DimensionValue."Inside/Outisde Valley";
-    //                 if ProvinceVar.Get(DimensionValue.Province) then begin
-    //                     "Province Code" := ProvinceVar.Code;
-    //                     "Province Name" := ProvinceVar.Description;
-    //                 end;
-    //             end;
-    //             ValidateShortcutDimCode(1, "Global Dimension 1 Code");
-    //         end;
-    //     end;
-    // end;
 
     PROCEDURE TransferRequest();
     BEGIN

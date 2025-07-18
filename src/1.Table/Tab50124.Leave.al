@@ -151,6 +151,7 @@ table 50124 Leave
                         leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
                         leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");
                         leaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
+                        leaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
                     end;
             end;
         }
