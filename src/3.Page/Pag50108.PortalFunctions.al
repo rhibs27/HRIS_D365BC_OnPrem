@@ -57,13 +57,13 @@ page 50108 "Portal Functions"
     local procedure "---API1.00 BEGIN"()
     begin
     end;
-
+    //   '","portalAttendance": "' + PortalAttendance +
     [ServiceEnabled]
     procedure checkLogin(): Text
     var
         Employee: Record Employee;
         counter: Integer;
-        FirstLogin, AllowAllowanceAssignment, AllowShiftAssignment : Text;
+        FirstLogin, AllowAllowanceAssignment, AllowShiftAssignment, PortalAttendance : Text;
         user: Record User;
         WebServiceKey: text;
         IdentityManagement: Codeunit "Identity Management";
@@ -74,6 +74,7 @@ page 50108 "Portal Functions"
         PayrollGenSetup.Get();
         AllowShiftAssignment := 'false';
         AllowAllowanceAssignment := 'false';
+        PortalAttendance := 'false';
         Employee.Reset;
         Employee.SetRange("NAV Login ID", UserId);
         Employee.SetRange(Status, Employee.Status::Active);
@@ -98,6 +99,8 @@ page 50108 "Portal Functions"
             FirstLogin := 'false'
         else
             FirstLogin := 'true';
+        if Employee."Portal Attendance" then
+            PortalAttendance := 'true';
         if FunctionalTitle.get(Employee."Functional Title") then begin
             if functionalTitle."Allow AllowanceAssignment" then
                 AllowAllowanceAssignment := 'true';
@@ -242,6 +245,26 @@ page 50108 "Portal Functions"
         RecRef.GetTable(AttendanceMissed);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
 
+    end;
+
+    [ServiceEnabled]
+    procedure attendanceLogs() //create Attendance from Portal
+    var
+        AttendanceLogs: Record "Attendance Log";
+        EmployeeCode: Code[20];
+    begin
+        EmployeeCode := HrMgt.GetEmployeeNo();
+        Employee.Get(EmployeeCode);
+        if Employee."Portal Attendance" then begin
+            AttendanceLogs.Init();
+            AttendanceLogs.Validate("Date Time Log", CurrentDateTime);
+            AttendanceLogs.Validate("Log Time", Time);
+            AttendanceLogs.Validate("Employee ID", EmployeeCode);
+            AttendanceLogs.Validate("Biometric Attendance", true);
+            AttendanceLogs.Validate(Date, Today);
+            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(Time));
+            AttendanceLogs.Insert()
+        end;
     end;
 
     local procedure "------Leave API---------"()

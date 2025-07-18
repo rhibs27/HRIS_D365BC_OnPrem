@@ -720,29 +720,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Disable Punch in field.';
                 }
-                // field(Screener; Rec.Screener)
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Screener field.';
+                field("Portal Attendance"; Rec."Portal Attendance")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Portal Attendance field.';
 
-                // }
+                }
                 field("Resignation Approver"; Rec."Resignation Approver")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
                 }
-                // field("Selection committee"; Rec."Selection committee")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Selection committee field.';
-
-                // // }
-                // field("System Owner"; Rec."System Owner")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the System Owner field.';
-
-                // }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;

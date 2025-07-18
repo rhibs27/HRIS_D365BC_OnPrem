@@ -731,11 +731,6 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
         }
 
-        // field(50069; Screener; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        //     Description = 'Loan';
-        // }
         field(50070; "Job Title Code"; Code[20])
         {
             TableRelation = "Job Title";
@@ -1173,11 +1168,10 @@ tableextension 50013 "Employee Ext" extends Employee
             Description = 'In nepali';
             Editable = false;
         }
-        // field(50125; "System Owner"; Boolean)
-        // {
-        //     DataClassification = CustomerContent;
-        //     Description = 'System Access';
-        // }
+        field(50125; "Portal Attendance"; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
         field(50126; "CIF ID"; Code[20])
         {
             DataClassification = CustomerContent;
