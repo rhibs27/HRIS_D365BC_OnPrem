@@ -15,7 +15,7 @@ pageextension 50012 Qualifications extends Qualifications
             }
             field("Qualification Type"; Rec."Qualification Type")
             {
-                Visible = QualificationTypeEditable;
+                // Visible = QualificationTypeEditable;
                 ApplicationArea = All;
                 Editable = QualificationTypeEditable;
                 ToolTip = 'Specifies the value of the Qualification Type field.';

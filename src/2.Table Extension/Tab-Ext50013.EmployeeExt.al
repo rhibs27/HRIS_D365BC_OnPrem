@@ -1152,7 +1152,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'In nepali';
         }
-        field(50122; "VDC/Municipality (Nepali)"; Text[20])
+        field(50122; "VDC/Municipality (Nepali)"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali';
