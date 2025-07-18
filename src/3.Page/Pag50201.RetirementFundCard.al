@@ -44,11 +44,7 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
+
             }
             group("Annual Income Details")
             {
@@ -112,7 +108,7 @@ page 50201 "Retirement Fund Card"
             group("Current Details")
             {
                 Caption = 'Current Details';
-                Editable = not IsScreened;
+                Editable = ActionVisible;
                 group(Monthly)
                 {
                     Caption = 'Monthly';
@@ -174,21 +170,24 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
-                Editable = false;
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Created Date"; Rec."Created Date")
                 {
                     ToolTip = 'Specifies the value of the Created Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
 
                 field("Rejection Remarks"; Rec."Rejection Remarks")

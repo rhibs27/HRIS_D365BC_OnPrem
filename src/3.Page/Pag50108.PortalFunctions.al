@@ -920,7 +920,7 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    //[Scope('Personalization')]
+
     procedure sendEmploanSalAdvForApproval(empLoanNo: Code[20]; isApproved: Boolean)
     var
         EmpSalaryAdv: Record "Employee Loan/Advance";
@@ -930,7 +930,7 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    //[Scope('Personalization')]
+
     procedure approveEmpLoanSalAdv(empLoanNo: Code[20]; isApproved: Boolean; remark: Text; approverNo: Code[20])
     var
         EmpSalaryAdv: Record "Employee Loan/Advance";
@@ -1544,7 +1544,7 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    //[Scope('Personalization')]
+
     procedure approveEmployeeResignation(empResignNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
     var
         //EmpActivity: Record "Employee Activity";
@@ -2278,7 +2278,6 @@ page 50108 "Portal Functions"
     end;
 
     [ServiceEnabled]
-    [Scope('Personalization')]
     procedure onOpenRetirementFund(empNo: Code[20]): Text
     var
         RF: Record "Retirement Fund" temporary;
@@ -2291,42 +2290,41 @@ page 50108 "Portal Functions"
         InsertAPINameValue('rfContributionEligibleAmt', Format(RF."RF Contribution Eligible Amt"));
         InsertAPINameValue('providentFundDeposited', Format(RF."Provident Fund Deposited"));
         InsertAPINameValue('rfContributionDeposited', Format(RF."RF Contribution Deposited"));
-        InsertAPINameValue('citContributionDeposited', Format(RF."CIT Contribution Deposited")); //Min
+        InsertAPINameValue('citContributionDeposited', Format(RF."CIT Contribution Deposited"));
         InsertAPINameValue('providentFundProjected', Format(RF."Provident Fund Projected"));
         InsertAPINameValue('actualProjectedContribution', Format(RF."Actual/Projected Contribution"));
         InsertAPINameValue('additionalSpaceforRF', Format(RF."Additional Space for RF Cont."));
         InsertAPINameValue('projectedMonth', Format(RF."Projection Month"));
-        InsertAPINameValue('nICARTFAmount', Format(RF."RTF Amount (Month)"));
+        InsertAPINameValue('rTFAmountMonth', Format(RF."RTF Amount (Month)"));
         InsertAPINameValue('cITAmount', Format(RF."CIT Amount (Month)"));
-        InsertAPINameValue('nICARTFAmountLumpsum', Format(RF."RTF Amount (Lumpsum)"));
-        InsertAPINameValue('cITAmountLumpsum', Format(RF."CIT Amount( Lumpsum)"));
+        InsertAPINameValue('rTFAmountLumpSum', Format(RF."RTF Amount (Lumpsum)"));
+        InsertAPINameValue('cITAmountLumpSum', Format(RF."CIT Amount( Lumpsum)"));
         InsertAPINameValue('totalCommittedContribution', Format(RF."Total Committed Contribution"));
         InsertAPINameValue('totalDeduction', Format(RF."Total Deduction"));
         InsertAPINameValue('difference', Format(RF.Difference));
         InsertAPINameValue('approvalStatus', Format(RF."Approval Status"));
-        InsertAPINameValue('lumpsumCommittedContribution', Format(RF."Lumpsum Committed Contribution")); //Min
-        InsertAPINameValue('lumpsumSpaceMaxBenefit', Format(RF."Lumpsum Space Max Benefit")); //Min
-        //InsertAPINameValue('requestedDate',getDateinFormat(TODAY));
+        InsertAPINameValue('lumpSumCommittedContribution', Format(RF."Lumpsum Committed Contribution"));
+        InsertAPINameValue('lumpSumSpaceMaxBenefit', Format(RF."Lumpsum Space Max Benefit"));
+        InsertAPINameValue('recommendedMonthlyCITRF', Format(RF."Recommended Monthly CIT/RF"));
         CloseReturnApiValue();
         exit(ReturnAPIValue);
     end;
 
     [ServiceEnabled]
-    //[Scope('Personalization')]
-    procedure calculateRetirementFund(nICARTFAmount: Decimal; cITAmount: Decimal; nICARTFAmountLumpsum: Decimal; cITAmountLumpsum: Decimal; empNo: Code[20]): Text
+    procedure calculateRetirementFund(RTFAmountMonthly: Decimal; cITAmount: Decimal; RTFAmountLumpsum: Decimal; cITAmountLumpsum: Decimal; empNo: Code[20]): Text
     var
         RF: Record "Retirement Fund" temporary;
     begin
         HrMgt.OpenRFRequest(empNo, RF);
-        RF."RTF Amount (Month)" := nICARTFAmount;
-        RF."RTF Amount (Lumpsum)" := nICARTFAmountLumpsum;
+        RF."RTF Amount (Month)" := RTFAmountMonthly;
+        RF."RTF Amount (Lumpsum)" := RTFAmountLumpsum;
         RF."CIT Amount (Month)" := cITAmount;
         RF."CIT Amount( Lumpsum)" := cITAmountLumpsum;
         HrMgt.CalculateRetirementFund(RF, RF."Projection Month");
         InitReturnApiValue;
         InsertAPINameValue('totalCommittedContribution', Format(RF."Total Committed Contribution"));
-        InsertAPINameValue('lumpsumCommittedContribution', Format(RF."Lumpsum Committed Contribution")); //Min
-        InsertAPINameValue('lumpsumSpaceMaxBenefit', Format(RF."Lumpsum Space Max Benefit")); //Min
+        InsertAPINameValue('lumpSumCommittedContribution', Format(RF."Lumpsum Committed Contribution")); //Min
+        InsertAPINameValue('lumpSumSpaceMaxBenefit', Format(RF."Lumpsum Space Max Benefit")); //Min
         InsertAPINameValue('totalDeduction', Format(RF."Total Deduction"));
         InsertAPINameValue('difference', Format(RF.Difference));
         CloseReturnApiValue;
@@ -2366,20 +2364,20 @@ page 50108 "Portal Functions"
     var
         PRAttributesUsage: Record "Payroll Attributes Usage";
         CITAmt: Decimal;
-        NICAAmt: Decimal;
+        CITMonthlyAmt: Decimal;
     begin
         Employee.Get(empNo);
         PGSetup.Get();
         InitReturnApiValue();
         InsertAPINameValue('citNo', Employee."CIT No.");
-        InsertAPINameValue('cITAmountLumpsum', Format(Employee."Lumpsum CIT (Not Actual)"));
-        InsertAPINameValue('nICARTFAmountLumpsum', Format(Employee."Lumpsum RF (Not Actual)"));
+        InsertAPINameValue('cITAmountLumpSum', Format(Employee."Lumpsum CIT (Not Actual)"));
+        InsertAPINameValue('rTFAmountLumpSum', Format(Employee."Lumpsum RF (Not Actual)"));
         if PRAttributesUsage.Get(PGSetup."CIT (Monthly)", Employee."No.") then
             CITAmt := PRAttributesUsage.Amount;
         InsertAPINameValue('cITAmount', Format(CITAmt));
         if PRAttributesUsage.Get(PGSetup."RTF (Monthly)", Employee."No.") then
-            NICAAmt := PRAttributesUsage.Amount;
-        InsertAPINameValue('nICARTFAmount', Format(NICAAmt));
+            CITMonthlyAmt := PRAttributesUsage.Amount;
+        InsertAPINameValue('rTFAmountMonth', Format(CITMonthlyAmt));
         CloseReturnApiValue;
         exit(ReturnAPIValue);
     end;
@@ -2387,7 +2385,7 @@ page 50108 "Portal Functions"
     [ServiceEnabled]
     procedure exitLumpSumpRF(): Boolean
     begin
-        PGSetup.Get; //Min -- actual RF plan enable for portal
+        PGSetup.Get;
         if PGSetup."Enable RF Lumpsump Plan" then
             exit(true)
         else
@@ -2983,5 +2981,22 @@ page 50108 "Portal Functions"
         if ShiftLine."Employee No" = empCode then
             Error('You cannot substitute Same Employee');
         ShiftAssignmentMgt.SubstituteShiftLine(ShiftLine, empCode, Remarks);
+    end;
+
+    [ServiceEnabled]
+    procedure approveRejectRetirementFunds(RetirementDocNo: Code[20]; isApproved: Boolean; rejectionRemarks: Text)
+    var
+        RecRef: RecordRef;
+        RetirementFunds: Record "Retirement Fund";
+    begin
+        RetirementFunds.Get(RetirementDocNo);
+        if not isApproved then begin
+            if rejectionRemarks = '' then
+                Error('Rejection Remarks is empty');
+            RetirementFunds.Validate("Rejection Remarks", rejectionRemarks);
+            RetirementFunds.Modify;
+        end;
+        RecRef.GetTable(RetirementFunds);
+        ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
     end;
 }

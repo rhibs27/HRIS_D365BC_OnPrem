@@ -78,6 +78,7 @@ codeunit 50000 "Leave Mgt."
         Branch: Text;
         DimValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
+        Community: Enum "Community Type";
     begin
         Counter := 0;
         PayrollSetup.Get;
@@ -89,9 +90,9 @@ codeunit 50000 "Leave Mgt."
         if CalendarDate.Find('-') then
             repeat
                 Clear(AlreadyAdded);
-                if HRMgt.CheckDateStatus(BaseCalendar.Code, CalendarDate."Period Start", Description, Proviences, Gender, InOutValley, PostingRegion, Branch) then begin
+                if HRMgt.CheckDateStatus(BaseCalendar.Code, CalendarDate."Period Start", Description, Proviences, Gender, InOutValley, PostingRegion, Branch, Community) then begin
                     CalendarDescription := Description;
-                    if (Proviences = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') then
+                    if (Proviences = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") then
                         Counter += 1
                     else begin
                         if Proviences <> '' then begin
@@ -136,6 +137,11 @@ codeunit 50000 "Leave Mgt."
                         if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
+                        end;
+
+                        if Community = Employee.Community then begin
+                            Counter += 1;
+                            AlreadyAdded := true
                         end;
 
                     end;

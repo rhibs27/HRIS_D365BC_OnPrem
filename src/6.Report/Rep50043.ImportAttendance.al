@@ -96,8 +96,10 @@ report 50043 "Import Attendance"
         PostingRegion: Option;
         province: Text;
         Branch: Text;
+        Community: Enum "Community Type";
     begin
         gender := gender::" ";
+        Community := Community::" ";
         exit(AttMgt.CheckDateStatus(AttendanceSetup."Base Calender",
                                         Date,
                                         Remarks,
@@ -105,7 +107,8 @@ report 50043 "Import Attendance"
                                         gender,
                                         InOutValley,
                                         PostingRegion,
-                                        Branch));
+                                        Branch,
+                                        Community));
     end;
 
     procedure SetAttendanceDocument(var NewAttendanceHeader: Record "Attendance Header")

@@ -1,9 +1,6 @@
 report 50007 "Pay Cycle Period Generator"
 {
-    // version PRM19.01.01
-
     Caption = 'Pay Cycle Period Generator';
-    // Permissions = TableData TableData37032300 = rim;
     ProcessingOnly = true;
     ApplicationArea = All;
 
@@ -318,13 +315,13 @@ report 50007 "Pay Cycle Period Generator"
         Text038: Label 'A generated Start Date cannot exceed the Pay Period Start Date plus one year.';
         Text039: Label 'This report can only be run from the Pay Cycle Terms form.';
         Text040: Label 'You must enter a Generate Frequency.';
-        [InDataSet]
+
         DateFormulaEditable: Boolean;
-        [InDataSet]
+
         DefaultInsurableHoursVisible: Boolean;
-        [InDataSet]
+
         GenerateFrequencyEditable: Boolean;
-        [InDataSet]
+
         PayPeriodsToGenerateEditable: Boolean;
 
     procedure GeneratePayPeriods()

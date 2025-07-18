@@ -75,9 +75,10 @@ page 50011 "Retirement Fund Entity"
                 {
                     //Editable = false;
                 }
-                field(nICARTFAmount; Rec."RTF Amount (Month)") { }
+                field(recommendedMonthlyCITRF; Rec."Recommended Monthly CIT/RF") { }
+                field(rTFAmountMonth; Rec."RTF Amount (Month)") { }
                 field(cITAmount; Rec."CIT Amount (Month)") { }
-                field(nICARTFAmountLumpSum; Rec."RTF Amount (Lumpsum)") { }
+                field(rTFAmountLumpSum; Rec."RTF Amount (Lumpsum)") { }
                 field(cITAmountLumpSum; Rec."CIT Amount( Lumpsum)") { }
                 field(totalCommittedContribution; Rec."Total Committed Contribution")
                 {
@@ -108,41 +109,41 @@ page 50011 "Retirement Fund Entity"
 
     actions
     {
-        area(Processing)
-        {
-            action(Submit)
-            {
-                Image = Suggest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = ActionVisible;
+        // area(Processing)
+        // {
+        //     action(Submit)
+        //     {
+        //         Image = Suggest;
+        //         Promoted = true;
+        //         PromotedCategory = Process;
+        //         PromotedIsBig = true;
+        //         Visible = ActionVisible;
 
-                trigger OnAction()
-                begin
-                    if HRMgt.ApplyForRetirementFund(Rec) then begin
-                        IsApplied := true;
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Screen)
-            {
-                Image = Stages;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
+        //         trigger OnAction()
+        //         begin
+        //             if HRMgt.ApplyForRetirementFund(Rec) then begin
+        //                 IsApplied := true;
+        //                 CurrPage.Close;
+        //             end;
+        //         end;
+        //     }
+        //     action(Screen)
+        //     {
+        //         Image = Stages;
+        //         Promoted = true;
+        //         PromotedCategory = Process;
+        //         PromotedIsBig = true;
 
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to screen the document ?', false) then
-                        exit;
-                    HRMgt.ScreenRF(Rec);
+        //         trigger OnAction()
+        //         begin
+        //             if not Confirm('Do you want to screen the document ?', false) then
+        //                 exit;
+        //             HRMgt.ScreenRF(Rec);
 
-                    Message('Document screened successfully.');
-                end;
-            }
-        }
+        //             Message('Document screened successfully.');
+        //         end;
+        //     }
+        // }
     }
 
     trigger OnNewRecord(BelowxRec: Boolean)

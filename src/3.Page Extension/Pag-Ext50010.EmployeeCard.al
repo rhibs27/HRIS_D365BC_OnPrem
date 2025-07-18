@@ -244,6 +244,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Religion field.';
             }
+            field(Community; Rec.Community)
+            {
+                ApplicationArea = all;
+            }
 
         }
         addafter(General)

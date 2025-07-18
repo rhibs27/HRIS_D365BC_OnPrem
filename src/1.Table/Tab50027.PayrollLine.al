@@ -1515,6 +1515,10 @@ table 50027 "Payroll Line"
         {
             SumIndexFields = "Net Pay";
         }
+        key(Key2; "Salary Level", "Salary Grade")
+        {
+
+        }
     }
 
     fieldgroups { }

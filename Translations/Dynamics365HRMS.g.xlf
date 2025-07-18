@@ -46563,11 +46563,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Payroll Month - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 472338107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Result</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56608,6 +56603,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension UserSetup - Control Update Budget - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Community - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56662,6 +56662,11 @@
           <source>Branch</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Branch - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Community - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Gender</source>
@@ -57022,6 +57027,11 @@
           <source>Citizenship No. (Nepali)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Citizenship No. (Nepali) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Community - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3953737557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Confirmation Date</source>
@@ -59847,6 +59857,46 @@
           <source>Without Bill</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Claim Type - EnumValue Without Bill - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1473131283 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Christian</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Christian - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 3951861867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Khas</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Khas - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1839335055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Kirat</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Kirat - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 2527800629 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Muslim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Muslim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 3175955561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Newar</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Newar - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 659910851 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sikh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Sikh - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 2048154788 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tharu/Maithili</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Tharu/Maithili - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4133302435 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

@@ -509,7 +509,6 @@ page 50040 "Payroll Plan"
         PayrollHeaderRec: Record "Payroll Header";
         TypeFilter: Text;
         PayrollAdj: Record "Employee Payroll Adjustment";
-        [InDataSet]
         AjustmentVisible: Boolean;
         PayrollLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";

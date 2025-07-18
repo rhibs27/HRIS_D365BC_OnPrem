@@ -1377,6 +1377,10 @@ tableextension 50013 "Employee Ext" extends Employee
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             end;
         }
+        field(50169; Community; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     keys
