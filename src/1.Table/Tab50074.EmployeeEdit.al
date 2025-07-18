@@ -281,7 +281,7 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
         }
         //Changes In relative 
-        field(45; "Relative Code"; Code[20])
+        field(45; "Relative Code"; Code[10])
         {
             Caption = 'Relative Code';
             Description = 'Employee Relative';

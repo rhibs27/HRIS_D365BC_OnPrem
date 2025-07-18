@@ -14,6 +14,10 @@ table 50152 "Approval Setup Line"
         {
             Caption = 'Deputation On';
             Editable = false;
+            trigger OnValidate()
+            begin
+                Validate("Deputation Type", "Deputation On");
+            end;
         }
         field(3; "Employee Role"; Code[20])
         {
@@ -59,7 +63,7 @@ table 50152 "Approval Setup Line"
         {
             DataClassification = ToBeClassified;
         }
-        field(9; "From Deputation"; Boolean)
+        field(9; "Deputation Type"; Enum "Deputation Type")
         {
             DataClassification = ToBeClassified;
             InitValue = true;

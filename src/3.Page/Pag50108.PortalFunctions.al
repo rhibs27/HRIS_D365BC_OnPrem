@@ -53,6 +53,7 @@ page 50108 "Portal Functions"
         CheckSalaryLevel: Record "Salary Level";
         BelowSOAmt: Decimal;
         EngNepDate: Record "English-Nepali Date";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     local procedure "---API1.00 BEGIN"()
     begin
@@ -116,23 +117,6 @@ page 50108 "Portal Functions"
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
-    [ServiceEnabled]
-    procedure loginSuccess(): Integer
-    var
-        Employee: Record Employee;
-        user: Record User;
-    begin
-        Employee.Reset();
-        if Employee.Get(HrMgt.GetEmployeeNo()) then begin
-            Employee.Login := true;
-            Employee.Modify();
-            user.Reset();
-            user.SetRange("User Name", UserId);
-            user.FindFirst();
-            exit(200);
-        end;
-    end;
-
     // Api for getting Approval from setup << Santosh << 11-3-25
     [ServiceEnabled]
     procedure getEmployeeApproval(empActType: Code[30]): text
@@ -159,13 +143,16 @@ page 50108 "Portal Functions"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."From Deputation" then begin
+                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                     Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                     if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                         Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                         Employee.SetRange("Department Code", EmpRequest."Department Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end else begin
+                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -260,10 +247,11 @@ page 50108 "Portal Functions"
             AttendanceLogs.Validate("Date Time Log", CurrentDateTime);
             AttendanceLogs.Validate("Log Time", Time);
             AttendanceLogs.Validate("Employee ID", EmployeeCode);
-            AttendanceLogs.Validate("Biometric Attendance", true);
+            AttendanceLogs.Validate("Biometric Attendance", false);
             AttendanceLogs.Validate(Date, Today);
             AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(Time));
-            AttendanceLogs.Insert()
+            AttendanceLogs.Insert();
+            AttendanceMgt.DailyAttendanceUpdate(Today, Today, EmployeeCode)
         end;
     end;
 
