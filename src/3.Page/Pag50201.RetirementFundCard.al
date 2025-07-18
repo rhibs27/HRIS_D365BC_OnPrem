@@ -307,15 +307,19 @@ page 50201 "Retirement Fund Card"
                     PortalFunctions: Page "Portal Functions";
                     CancellationRemarks: Text;
                     FilterPageBuilder: FilterPageBuilder;
+                    RetirementFund: Record "Retirement Fund";
                 begin
-                    // Rec.TestField("Approval Status",Rec."Approval Status"::Approved);
-                    // Clear(FilterPageBuilder);
-                    // FilterPageBuilder.AddTable()
-                    //     CancellationRemarks := 
-                    //     // RecRef.GetTable(Rec);
-                    //     // ApprovalMgt.WithDrawRequest(RecRef);
-                    //     Message('Retirement request has been canceled.');
-                    // end;
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    Clear(FilterPageBuilder);
+                    FilterPageBuilder.AddRecord('Cancel RF', RetirementFund);
+                    FilterPageBuilder.AddField('Cancel RF', RetirementFund."Remarks");
+                    if FilterPageBuilder.RunModal() then begin
+                        RetirementFund.SetView(FilterPageBuilder.GetView('cancel RF'));
+                        CancellationRemarks := RetirementFund.GetFilter(Remarks);
+                        Rec."Remarks" := CancellationRemarks;
+                        PortalFunctions.CancelApprovedRF(rec."No.", CancellationRemarks);
+                        Message('Retirement request has been canceled.');
+                    end
                 end;
             }
         }
