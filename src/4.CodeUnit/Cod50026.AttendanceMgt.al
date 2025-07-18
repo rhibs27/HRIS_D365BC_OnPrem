@@ -55,7 +55,7 @@ codeunit 50026 "Attendance Mgt"
             Clear(AttendanceLine."Check In Time");
         //For check Out Get 
         CheckOutTime := GetCheckOutTime(InitialDate, EmployeeWorkShift, EmpNo, CheckInTime);
-        if CheckOutTime <> 0T then begin
+        if (CheckOutTime <> 0T) and (CheckInTime <> CheckOutTime) then begin
             AttendanceLine.Validate("Check Out Time", CheckOutTime);
             if AttendanceLine."Entry Type" <> AttendanceLine."Entry Type"::Present then begin
                 AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
