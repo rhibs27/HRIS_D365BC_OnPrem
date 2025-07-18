@@ -18403,6 +18403,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Approval Status - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 4069904181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Cancelled - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1145153898 - Field 1642020493 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>CIT Amount (Month)</source>
           <note from="Developer" annotates="general" priority="2"></note>

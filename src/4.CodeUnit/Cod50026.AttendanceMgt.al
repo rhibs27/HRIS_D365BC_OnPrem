@@ -9,6 +9,7 @@ codeunit 50026 "Attendance Mgt"
         Clear(AttendanceLine);
         Clear(Employee);
         Employee.get(EmpNo);
+        UpdateEmployeeIDInAttendanceLog(); // you can skip it if employee id is updated during sync.
         AttendanceLine.Reset;
         AttendanceLine.SetRange("Employee No.", EmpNo);
         AttendanceLine.SetRange("Attendance Date", InitialDate);
@@ -152,6 +153,26 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
+    procedure UpdateEmployeeIDInAttendanceLog()
+    begin
+        AttendanceLog.Reset();
+        AttendanceLog.SetRange("Employee ID", '');
+        if AttendanceLog.FindSet() then begin
+            AttendanceLog."Employee ID" := GetEmployeeIDFromBiometric(AttendanceLog."Machine Emp. Code");
+            AttendanceLog.Modify();
+        end;
+    end;
+
+    procedure GetEmployeeIDFromBiometric(BiometricID: Text): code[20]
+    var
+        Employee: Record Employee;
+    begin
+        Employee.SetLoadFields("No.", "Employee Attendance ID");
+        Employee.SetRange("Employee Attendance ID", BiometricID);
+        if Employee.FindFirst() then
+            exit(Employee."No.")
+    end;
+
     var
         AttendanceLine: Record "Attendance Line";
         AttendanceLog: Record "Attendance Log";
@@ -160,4 +181,5 @@ codeunit 50026 "Attendance Mgt"
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
         AttendanceSetUp: Record "Attendance Setup";
+
 }
