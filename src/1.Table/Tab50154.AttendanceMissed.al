@@ -72,15 +72,21 @@ table 50154 "Attendance Missed"
             trigger OnValidate()
             var
                 EmpAttendanceActivity: Record "Employee Attendance & Activity";
+                AttendanceMissed1: Record "Attendance Missed";
             begin
                 EmpAttendanceActivity.Reset;
                 EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
                 EmpAttendanceActivity.SetRange("Attendance Date", "Start Date");
                 if EmpAttendanceActivity.FindFirst then begin
-                    "Previous Check In Time" := EmpAttendanceActivity."Check In Time";
-                    "Previous Check Out Time" := EmpAttendanceActivity."Check Out Time";
+                    if Type = Type::"Attendance Missed" then begin
+                        Validate("Previous Check In Time", EmpAttendanceActivity."Check In Time");
+                        Validate("Previous Check Out Time", EmpAttendanceActivity."Check Out Time");
+                    end else
+                        if Type = Type::"Late Attendance" then begin
+                            Validate("Check In Time", EmpAttendanceActivity."Check In Time");
+                            Validate("Check Out Time", EmpAttendanceActivity."Check Out Time");
+                        end;
                 end;
-
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "Start Date");
                 if EngNepDate.FindFirst then

@@ -347,6 +347,7 @@ page 50061 "Employee Attendance & Activity"
                     PromotedCategory = Process;
                     PromotedIsBig = true;
                     PromotedOnly = true;
+                    Visible = false;
                     ToolTip = 'Executes the Change Reviewer/ Check Reviewer action.';
                     ApplicationArea = All;
 

@@ -4,7 +4,7 @@ page 50221 "Late Attendance Card"
     Caption = 'Late Attendance Card';
     PageType = Card;
     SourceTable = "Attendance Missed";
-
+    InsertAllowed = false;
     layout
     {
         area(Content)

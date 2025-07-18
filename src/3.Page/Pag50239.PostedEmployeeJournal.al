@@ -5,6 +5,9 @@ page 50239 "Posted Employee Journal"
     PageType = List;
     SourceTable = "Posted Employee Journal";
     UsageCategory = Lists;
+    InsertAllowed = false;
+    DeleteAllowed = false;
+    ModifyAllowed = false;
 
     layout
     {
