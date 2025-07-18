@@ -2899,7 +2899,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure CheckMunicipalityName(MunicipalityName: Text[30])
+    procedure CheckMunicipalityName(MunicipalityName: Text[50])
     var
         Municipality: Record Municipality;
         ErrorDistrict: Label 'Municipality Name %1 Not found';
