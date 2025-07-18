@@ -1,9 +1,5 @@
 report 50139 "Daily Attendance Update"
 {
-    // //Min 1.3 --- Added ServiceHistory."Service Event"::"Back From Deputation" Parameter instead of ServiceHistory."Service Event"::"Transfer"
-    // //Min 3.13.2022 -- For Update data in "Employee Service History" and "Employee" Table of "Approved" and "Acknowledge" Transfer.
-    // //Min 9.26.2022 -- For Document No.Flow in Service History of Re-instiate Transfer.
-    // //Min 11.25.2022 -- Sync "Salary Level,Grade" in Emp Attendance Activity.
 
     ProcessingOnly = true;
     UsageCategory = Tasks;
@@ -17,7 +13,7 @@ report 50139 "Daily Attendance Update"
             {
                 trigger OnAfterGetRecord()
                 begin
-                    if "Employment Date" = 0D then    // skip blank employment date employee oman
+                    if "Employment Date" = 0D then
                         CurrReport.Skip;
                     AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
@@ -29,7 +25,7 @@ report 50139 "Daily Attendance Update"
                     if EmployeeNo <> '' then
                         SetRange("No.", EmployeeNo);
                     SetFilter("Employment Date", '<=%1', InitialDate);
-                    SetRange(Status, Employee.Status::Active); //Min 8.26.2022
+                    SetRange(Status, Employee.Status::Active);
                 end;
             }
             //Date 
