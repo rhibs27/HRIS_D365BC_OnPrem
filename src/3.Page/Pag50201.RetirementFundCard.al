@@ -315,6 +315,32 @@ page 50201 "Retirement Fund Card"
                     //     // RecRef.GetTable(Rec);
                     //     // ApprovalMgt.WithDrawRequest(RecRef);
                     //     Message('Retirement request has been canceled.');
+                end;
+                end;
+            }
+            action(Cancel)
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                ApplicationArea = All;
+                Visible = IsApproved;
+                trigger OnAction()
+                var
+                    PortalFunctions: Page "Portal Functions";
+                    CancellationRemarks: Text;
+                    FilterPageBuilder: FilterPageBuilder;
+                begin
+                    // Rec.TestField("Approval Status",Rec."Approval Status"::Approved);
+                    // Clear(FilterPageBuilder);
+                    // FilterPageBuilder.AddTable()
+                    //     CancellationRemarks := 
+                    //     // RecRef.GetTable(Rec);
+                    //     // ApprovalMgt.WithDrawRequest(RecRef);
+                    //     Message('Retirement request has been canceled.');
                     // end;
                 end;
             }
