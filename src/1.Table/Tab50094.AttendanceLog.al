@@ -19,10 +19,22 @@ table 50094 "Attendance Log"
         }
         field(1; "Employee ID"; Code[20])
         {
+            TableRelation = Employee;
         }
         field(2; Date; Date) { }
         field(3; "Log Time"; Time) { }
-        field(4; "Machine Code"; Integer) { }
+        field(4; "Machine Code"; Integer)
+        {
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                Employee.SetLoadFields("Employee Attendance ID");
+                Employee.SetRange("Employee Attendance ID", Format("Machine Code"));
+                if Employee.FindFirst() then
+                    "Employee ID" := Employee."No.";
+            end;
+        }
         field(5; "Biometric Attendance"; Boolean)
         {
         }

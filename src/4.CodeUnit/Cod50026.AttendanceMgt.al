@@ -116,6 +116,7 @@ codeunit 50026 "Attendance Mgt"
 
         // Initialize attendance log query
         AttendanceLog.Reset;
+        AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
         AttendanceLog.SetCurrentKey("Log Time");
         AttendanceLog.SetRange("Employee ID", EmployeeNo);
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
@@ -127,6 +128,7 @@ codeunit 50026 "Attendance Mgt"
                 exit(AttendanceLog."Log Time");
             // If not found on next day, search same day after check-in
             AttendanceLog.Reset;
+            AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
             AttendanceLog.SetCurrentKey("Log Time");
             AttendanceLog.SetRange("Employee ID", EmployeeNo);
             AttendanceLog.SetRange(Date, InitialDate);

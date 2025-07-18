@@ -179,6 +179,10 @@ table 50052 "Retirement Fund"
         {
             Description = 'Optimal monthly retirement deposit for minimise TAX';
         }
+        field(35; Cancelled; Boolean)
+        {
+
+        }
     }
 
     keys

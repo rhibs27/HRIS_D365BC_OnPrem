@@ -2793,7 +2793,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure CheckDistrictName(DistrictName: Text[30])
+    procedure CheckDistrictName(DistrictName: Text[50])
     var
         DistrictVar: Record District;
         ErrorDistrict: Label 'District Name %1 Not found';
@@ -2804,7 +2804,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, DistrictName);
     end;
 
-    procedure CheckCountryName(CountryName: Text[30])
+    procedure CheckCountryName(CountryName: Text[50])
     var
         Country: Record "Country/Region";
         ErrorDistrict: Label 'Country Name %1 Not found';
@@ -2815,7 +2815,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, CountryName);
     end;
 
-    procedure LookupCountry(): Text[30]
+    procedure LookupCountry(): Text[50]
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2829,7 +2829,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupCountryOtherThenNepalAndSAARC(): Text[30]
+    procedure LookupCountryOtherThenNepalAndSAARC(): Text[50]
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2847,7 +2847,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupCountrySAARC(IsSAARC: Boolean): Text[30]
+    procedure LookupCountrySAARC(IsSAARC: Boolean): Text[50]
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2864,7 +2864,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupDistrict(ProvienceName: Text[30]; xDisTxt: Text[30]): Text[30]
+    procedure LookupDistrict(ProvienceName: Text[50]; xDisTxt: Text[50]): Text[50]
     var
         PageDistrict: Page "District";
         DistrictVar: Record District;
@@ -2882,7 +2882,7 @@ codeunit 50001 "HR Mgt."
         exit(xDisTxt);
     end;
 
-    procedure LookupAllDistrict(): Text[30]
+    procedure LookupAllDistrict(): Text[50]
     var
         PageDistrict: Page "District";
         DistrictVar: Record District;
@@ -2899,7 +2899,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure CheckMunicipalityName(MunicipalityName: Text[30])
+    procedure CheckMunicipalityName(MunicipalityName: Text[50])
     var
         Municipality: Record Municipality;
         ErrorDistrict: Label 'Municipality Name %1 Not found';
@@ -2910,7 +2910,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, MunicipalityName);
     end;
 
-    procedure LookupMunicipalityName(DistrictName: Text[30]; MunicipalityName: Text[30]): Text[30]
+    procedure LookupMunicipalityName(DistrictName: Text[50]; MunicipalityName: Text[50]): Text[50]
     var
         PageMunicipality: Page "Municipalities";
         Municipality: Record Municipality;
@@ -2928,7 +2928,7 @@ codeunit 50001 "HR Mgt."
         exit(MunicipalityName);
     end;
 
-    procedure CheckProvience(ProvienceName: Text[30])
+    procedure CheckProvience(ProvienceName: Text[50])
     var
         ProvienceVar: Record Province;
         ErrorProvience: Label 'Provience Name %1 not found.';
@@ -2939,7 +2939,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorProvience, ProvienceName);
     end;
 
-    procedure LookupProvience(xProvTxt: Text[30]): Text[30]
+    procedure LookupProvience(xProvTxt: Text[50]): Text[50]
     var
         PageProvience: Page "Provinces List";
         ProvienceZone: Record Province;
@@ -2956,7 +2956,7 @@ codeunit 50001 "HR Mgt."
         exit(xProvTxt);
     end;
 
-    // procedure CheckSubProvience(SubProvienceName: Text[30])
+    // procedure CheckSubProvience(SubProvienceName: Text[50])
     // var
     //     // SubProvienceVar: Record "Sub Province";
     //     ErrorSubProvience: Label 'Sub-Provience Name %1 not found.';
@@ -2967,7 +2967,7 @@ codeunit 50001 "HR Mgt."
     //         Error(ErrorSubProvience, SubProvienceName);
     // end;
 
-    // procedure LookupSubProvience(ProvienceName: Text[30]; xSubProvTxt: Text[30]): Text[30]
+    // procedure LookupSubProvience(ProvienceName: Text[50]; xSubProvTxt: Text[50]): Text[50]
     // var
     //     SubProvienceVar: Record "Sub Province";
     //     PageSubProvience: Page "SubProvinceList";
@@ -10171,14 +10171,21 @@ codeunit 50001 "HR Mgt."
         PayrollAttributesUsage.SetFilter(Subtype, '%1|%2', PayrollAttributesUsage.Subtype::CIT, PayrollAttributesUsage.Subtype::RF);
         if PayrollAttributesUsage.FindSet then
             repeat
-
                 PayrollAttributesUsage.CalcFields(Subtype);
                 if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::CIT then
                     if RetirementFund."CIT Amount (Month)" <> 0 then
-                        PayrollAttributesUsage.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                        if RetirementFund.Cancelled then
+                            PayrollAttributesUsage.Validate(Amount, 0)
+                        else
+                            PayrollAttributesUsage.Validate(Amount, RetirementFund."CIT Amount (Month)");
+
+
                 if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::RF then
                     if RetirementFund."RTF Amount (Month)" <> 0 then
-                        PayrollAttributesUsage.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                        if RetirementFund.Cancelled then
+                            PayrollAttributesUsage.Validate(Amount, 0)  //reversing the changes
+                        else
+                            PayrollAttributesUsage.Validate(Amount, RetirementFund."RTF Amount (Month)");
 
                 PayrollAttributesUsage.Modify(true);
                 Employee.Modify;
