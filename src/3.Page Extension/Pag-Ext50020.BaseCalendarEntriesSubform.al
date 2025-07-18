@@ -43,6 +43,12 @@ pageextension 50020 "Base Calendar Entries Subform" extends "Base Calendar Entri
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Branch field.';
             }
+            field(Community; Rec.Community)
+            {
+                ApplicationArea = all;
+            }
         }
+
+
     }
 }

@@ -1361,6 +1361,7 @@ table 50035 "Posted Payroll Line"
     keys
     {
         key(Key1; "Document No.", "Line No.") { }
+        key(key2; "Salary Level", "Salary Grade") { }
     }
 
     fieldgroups { }

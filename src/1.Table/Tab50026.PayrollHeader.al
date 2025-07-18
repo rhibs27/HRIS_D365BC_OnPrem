@@ -708,7 +708,7 @@ table 50026 "Payroll Header"
         Message('Attributes Updated.');
     end;
 
-    local procedure GetGlobalAttributes(EmpCode: Code[20])
+    local procedure GetGlobalAttributes(EmpCode: Code[20])  //this should be go into get attribute
     var
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         AttributeAmount: Decimal;

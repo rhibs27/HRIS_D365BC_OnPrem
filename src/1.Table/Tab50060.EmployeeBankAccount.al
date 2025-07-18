@@ -136,6 +136,23 @@ table 50060 "Employee Bank Account"
         field(26; "Primary Payroll Account"; Boolean)
         {
             caption = 'Primary Payroll Account';
+            trigger OnValidate()
+            var
+                EmpBankAccount: Record "Employee Bank Account";
+            begin
+                if Rec."Primary Payroll Account" <> xRec."Primary Payroll Account" then begin
+                    if Rec."Primary Payroll Account" then begin
+                        //check for multiple
+                        EmpBankAccount.Reset();
+                        EmpBankAccount.SetRange("Employee No.", Rec."Employee No.");
+                        EmpBankAccount.SetRange("Primary Payroll Account", true);
+                        EmpBankAccount.SetFilter(Code, '<>%1', Rec.Code);
+                        if EmpBankAccount.Count() > 0 then
+                            Error('Employee can have only one primary payroll account at a time');
+                    end
+                end;
+
+            end;
 
         }
         field(1211; "Bank Clearing Code"; Text[50])

@@ -39,7 +39,8 @@ codeunit 50027 "Payroll Report Mgt."
             if PayrollAttributesUsage1.FindLast then
                 BasicAmt := PayrollAttributesUsage1.Amount;
 
-            exit(EvaluateAmount(SkipOneTimeAttr(PayAttr.Formula), BasicAmt))
+            // exit(EvaluateAmount(SkipOneTimeAttr(PayAttr.Formula), BasicAmt))
+            exit(EvaluateAmount(PayAttr.Formula, BasicAmt))
         end;
     end;
 
@@ -286,7 +287,7 @@ codeunit 50027 "Payroll Report Mgt."
                     AttributeAmount := 0;
                     if PayrollAttributes.Formula <> '' then
                         // AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, basicAmt);
-                        AttributeAmount := EvaluateAmount(SkipOneTimeAttr(PayrollAttributes.Formula), basicAmt);
+                    AttributeAmount := EvaluateAmount(SkipOneTimeAttr(PayrollAttributes.Formula), basicAmt);
 
                     PayrollAttributesUsage.Amount := AttributeAmount;
                     PayrollAttributesUsage.Modify();
@@ -602,7 +603,8 @@ codeunit 50027 "Payroll Report Mgt."
                                         PostedPayrollNo: Code[20];
                                         PayCycleTerm: Code[20];
                                         var TotalAnnualEarning: Decimal;
-                                        var TotalRetirement: Decimal)
+                                        var TotalRetirement: Decimal;
+                                        var TotalPF: decimal)
     var
         LastEntryNo: Integer;
         TaxSetupHdr: Record "Tax Setup Header";
@@ -617,6 +619,7 @@ codeunit 50027 "Payroll Report Mgt."
         //if not found, then it will project the earning for all months of the pay cycle term
         //2. it will then get the total annual earnings and total retirement contributions
         Employee.get(EmpCode);
+        SetEmployeeCode(EmpCode);
         TempDetailedEmpLedgerEntry.DeleteAll();
         LastEntryNo := 90000000;
 
@@ -653,14 +656,6 @@ codeunit 50027 "Payroll Report Mgt."
                 TempDetailedEmpLedgerEntry.Insert;
             until DetailedEmpLedgerEntry.Next = 0;
 
-
-        // PgSetup.Get();
-        // Employee.Reset;
-        // Employee.SetRange("No.", EmpCode);
-        // Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
-        // Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
-        //         "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
-
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
@@ -679,6 +674,14 @@ codeunit 50027 "Payroll Report Mgt."
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2',
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution",
+                                        TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution"
+                                        );
+        TempDetailedEmpLedgerEntry.CalcSums(Amount);
+        TotalPF := TempDetailedEmpLedgerEntry.Amount;
 
         TempDetailedEmpLedgerEntry.DeleteAll();
     end;
@@ -696,8 +699,8 @@ codeunit 50027 "Payroll Report Mgt."
             if PayrollAtr."Non-Taxable" then
                 exit(false);
 
-            if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
-                exit(true);
+            // if PayrollAtr.Type = PayrollAtr.Type::"Non-Payment" then
+            //     exit(true); // will see it
 
             if PayrollAtr."Apply Every Month" then
                 exit(true);
@@ -709,6 +712,7 @@ codeunit 50027 "Payroll Report Mgt."
 
                 exit(false);
             end;
+            exit(true);  //because its benefit
         end;
         exit(false);
     end;
@@ -829,7 +833,6 @@ codeunit 50027 "Payroll Report Mgt."
 
     procedure getPaidFrequency(attrCode: Code[20]; var TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry"): Integer
     begin
-
         TempDetailedEmpLedgerEntry.SetRange("Payroll Attribute Code", attrCode);
         exit(TempDetailedEmpLedgerEntry.Count);
     end;
@@ -921,4 +924,5 @@ codeunit 50027 "Payroll Report Mgt."
         else
             PayrollProjectionMonth := GetLastPayCycleForEmployee(EmpCode, PayCycleTerm);
     end;
+
 }

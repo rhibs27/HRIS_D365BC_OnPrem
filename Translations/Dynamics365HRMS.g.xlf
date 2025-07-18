@@ -12423,6 +12423,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Posting Method - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2858165342 - Field 2564314137 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specific Attributes</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Attributes - Field Specific Attributes - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2858165342 - Field 2077815818 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Static GL Ledger</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -18388,10 +18393,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Additional Space for RF Cont. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1145153898 - Field 3114569008 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Annual Accessible Income</source>
+        <trans-unit id="Table 1145153898 - Field 1938396872 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Annual Assessable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Annual Accessible Income - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Annual Assessable Income - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1145153898 - Field 1878856189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status</source>
@@ -18477,6 +18482,11 @@
           <source>Provident Fund Projected</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Provident Fund Projected - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1145153898 - Field 1533587031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recommended Monthly CIT/RF</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Retirement Fund - Field Recommended Monthly CIT/RF - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1145153898 - Field 2171557962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rejection Remarks</source>
@@ -20922,16 +20932,6 @@
           <source>No. of Travel days must be greater than 0.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForApprovalForms - NamedType ErrorNoOfDays</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3452210115 - NamedType 3646518990" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to send travel request ?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForRetirementFund - NamedType ConfirmTravel</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3452210115 - NamedType 861884801" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Travel days must be greater than 0.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForRetirementFund - NamedType ErrorNoOfDays</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3730703477 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Status must be %1 or %2.</source>
@@ -38873,6 +38873,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Posting Method - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2858165342 - Control 2564314137 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify the payroll nature in deep level. It is used to identify very specific payroll attributes such as leave encash, walefare etc</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Attributes - Control Specific Attributes - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2858165342 - Control 2077815818 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Static GL Ledger field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46393,6 +46398,61 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Resignation Plan List - Control Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2022197337 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Lumpsump CIT field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual Lumpsump CIT - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 8783819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual Lumpsump RTF field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual Lumpsump RTF - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1935592469 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Actual/Projected Contribution field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual/Projected Contribution - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2807444150 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Additional Space for RF Cont. field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Additional Space for RF Cont. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 3114569008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Annual Accessible Income field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Annual Accessible Income - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 4240594223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Lumpsum Committed Contribution field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Lumpsum Committed Contribution - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1171283103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Projection Month field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Projection Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2875325603 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Provident Fund Deposited field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Provident Fund Deposited - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 2633188888 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Provident Fund Projected field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Provident Fund Projected - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 18660533 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the RF Contribution Deposited field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RF Contribution Deposited - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1523634529 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the RF Contribution Eligible Amt field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RF Contribution Eligible Amt - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 227370865 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46463,6 +46523,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control CIT Amount (Month) - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1935349422 - Control 1533587031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Optimal monthly retirement deposit to minimize TAX</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Recommended Monthly CIT/RF - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 32953495 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the RTF field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46498,71 +46563,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Payroll Month - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1520407288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Past Details</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Past Details - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2022197337 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Actual Lumpsump CIT field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual Lumpsump CIT - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 8783819 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Actual Lumpsump RTF field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual Lumpsump RTF - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1935592469 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Actual/Projected Contribution field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Actual/Projected Contribution - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2807444150 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Additional Space for RF Cont. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Additional Space for RF Cont. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 3114569008 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Annual Accessible Income field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Annual Accessible Income - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 4240594223 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Lumpsum Committed Contribution field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Lumpsum Committed Contribution - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1171283103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Projection Month field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Projection Month - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2875325603 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Provident Fund Deposited field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Provident Fund Deposited - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 2633188888 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Provident Fund Projected field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control Provident Fund Projected - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 18660533 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the RF Contribution Deposited field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RF Contribution Deposited - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Control 1523634529 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the RF Contribution Eligible Amt field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Control RF Contribution Eligible Amt - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1935349422 - Control 472338107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Result</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46593,20 +46593,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Reject Request - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1935349422 - Action 2071937805 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Reopen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Reopen - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Screen - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1935349422 - Action 1829548432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 1935349422 - Action 3345442956 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Submit action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Submit - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Retirement Fund Card - Action Submit for Approval - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1935349422 - Action 774215734 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the WithDraw Request action.</source>
@@ -56623,6 +56613,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension UserSetup - Control Update Budget - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Community - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56677,6 +56672,11 @@
           <source>Branch</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Branch - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2368645735 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Customized Calendar Change - Field Community - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2368645735 - Field 2303302321 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2368645735">
           <source>Gender</source>
@@ -57037,6 +57037,11 @@
           <source>Citizenship No. (Nepali)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Citizenship No. (Nepali) - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Community</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Community - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3953737557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Confirmation Date</source>
@@ -59868,6 +59873,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Claim Type - EnumValue Without Bill - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1473131283 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Christian</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Christian - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 3951861867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Khas</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Khas - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 1839335055 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Kirat</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Kirat - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 2527800629 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Muslim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Muslim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 3175955561 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Newar</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Newar - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 659910851 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sikh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Sikh - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3374683293 - EnumValue 2048154788 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tharu/Maithili</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Community Type - EnumValue Tharu/Maithili - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 4133302435 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -62602,6 +62647,96 @@
           <source>Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Service Event - EnumValue Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1377142873 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Arrear</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Arrear - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 986758042 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Geography Pro-Rata</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Geography Pro-Rata - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1369821570 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Home Leave Encash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Home Leave Encash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 353172556 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance Recover</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Insurance Recover - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 2849991671 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Interest Income</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Interest Income - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 125613877 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Deduction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Late Deduction - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 2785079291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Encash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Leave Encash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1574534984 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Lunch Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Lunch Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 2836148020 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Medical Book Payment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Medical Book Payment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1402062614 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Medical Booking</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Medical Booking - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 123424209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Salary</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue OverTime Salary - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 988053922 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Settlement Recovery</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Settlement Recovery - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 2629351109 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sick Leave Encash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Sick Leave Encash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1146052748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Stress Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Stress Allowance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 3398323765 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Substitute Leave Encash</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Substitute Leave Encash - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 1534710575 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Welfare Book Payment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Welfare Book Payment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2615421126 - EnumValue 2837414361 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Welfare Booking</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Specific Payroll Attributes - EnumValue Welfare Booking - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3275815306 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

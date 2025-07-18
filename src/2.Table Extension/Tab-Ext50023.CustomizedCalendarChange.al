@@ -27,5 +27,10 @@ tableextension 50023 "Customized Calendar Change" extends "Customized Calendar C
             Caption = 'Branch';
             DataClassification = ToBeClassified;
         }
+        field(50005; Community; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
 }

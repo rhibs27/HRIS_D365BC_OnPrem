@@ -11,7 +11,7 @@ page 50201 "Retirement Fund Card"
         {
             group(General)
             {
-
+                Editable = false;
                 field("No."; Rec."No.")
                 {
                     Visible = false;
@@ -44,17 +44,12 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Rec.Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
+
             }
-            group("Past Details")
+            group("Annual Income Details")
             {
-                Caption = 'Past Details';
                 Editable = false;
-                field("Annual Accessible Income"; Rec."Annual Accessible Income")
+                field("Annual Accessible Income"; Rec."Annual Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Annual Accessible Income field.';
                     ApplicationArea = All;
@@ -113,10 +108,15 @@ page 50201 "Retirement Fund Card"
             group("Current Details")
             {
                 Caption = 'Current Details';
-                Editable = not IsScreened;
+                Editable = ActionVisible;
                 group(Monthly)
                 {
                     Caption = 'Monthly';
+                    field("Recommended Monthly CIT/RF"; Rec."Recommended Monthly CIT/RF")
+                    {
+                        Editable = false;
+                        ToolTip = 'Optimal monthly retirement deposit to minimize TAX';
+                    }
                     field("RTF Amount (Month)"; Rec."RTF Amount (Month)")
                     {
                         Caption = 'RTF';
@@ -170,20 +170,24 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Created Date"; Rec."Created Date")
                 {
                     ToolTip = 'Specifies the value of the Created Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
 
                 field("Rejection Remarks"; Rec."Rejection Remarks")
@@ -207,7 +211,7 @@ page 50201 "Retirement Fund Card"
     {
         area(Processing)
         {
-            action(Submit)
+            action("Submit for Approval")
             {
                 Image = Suggest;
                 Promoted = true;
@@ -225,44 +229,7 @@ page 50201 "Retirement Fund Card"
                     end;
                 end;
             }
-            action(Screen)
-            {
-                Image = Stages;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to screen the document ?', false) then
-                        exit;
-                    HRMgt.ScreenRF(Rec);
-
-                    Message('Document screened successfully.');
-                end;
-            }
-            action(Reopen)
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Reopen action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to repoen the document ?', false) then
-                        exit;
-                    Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
-                    Rec."Approval Status" := Rec."Approval Status"::Open;
-                    Rec.Modify;
-                    Message('Document open successfully.');
-                end;
-            }
             action(Approve)
             {
                 Image = Approve;
@@ -279,7 +246,7 @@ page 50201 "Retirement Fund Card"
                         RecRef.GetTable(Rec);
                         ApprovalMgt.ApproveRejectDocument(RecRef, true);
                         Rec."Rejection Remarks" := '';
-                        Message('retirement fund is Approved by %1', HRMgt.GetEmpName());
+                        Message('Retirement fund is Approved by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }

@@ -1515,6 +1515,10 @@ table 50027 "Payroll Line"
         {
             SumIndexFields = "Net Pay";
         }
+        key(Key2; "Salary Level", "Salary Grade")
+        {
+
+        }
     }
 
     fieldgroups { }
@@ -1662,28 +1666,19 @@ table 50027 "Payroll Line"
     procedure ValidateEmployee()
     begin
         GetPayrollHeader;
+
         Employee.Get("Employee No.");
-        Employee.TestField("Salary Grade");
-        Employee.TestField("Salary Level");
         Employee.TestField("Employment Date");
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         Employee.TestField("Bank Account No.");
+
         HRSetup.Get;
-        //HRSetup.TESTFIELD("Employee Dimension");
-        HRSetup.TestField("Base Interest Rate");
         AttendanceSetup.Get;
-        /*DefaultDimension.RESET;
-        DefaultDimension.SETRANGE("Table ID",DATABASE::Employee);
-        DefaultDimension.SETRANGE("No.",Employee."No.");
-        DefaultDimension.SETRANGE("Dimension Code",HRSetup."Employee Dimension");
-        IF NOT DefaultDimension.FINDFIRST THEN
-          ERROR(Text001,Employee."No.");*/
-        BasicSalarywithGrade.Get(Employee."Salary Grade", Employee."Salary Level");
+        if BasicSalarywithGrade.Get(Employee."Salary Grade", Employee."Salary Level") then;
         if not PayrollHeader.Irregular then begin
             TestTotalDays(PayrollHeader);
-            //TESTFIELD("Present Days");
         end;
         if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Hour then
             TestField("Paid Hours");
@@ -1691,7 +1686,11 @@ table 50027 "Payroll Line"
         Validate("Global Dimension 2 Code", Employee."Global Dimension 2 Code");
         "Bank Account No." := Employee."Bank Account No.";
         "Bank Name" := Employee."Bank Name";
-        //ValidateShortcutDimCode(GetDimensionNo(HRSetup."Employee Dimension"),DefaultDimension."Dimension Value Code");
+
+        OnValidateEmployeeOnBeforeModifyLine(Rec);  //use it to check all the necessary validation before processing
+                                                    // HRSetup.TestField("Base Interest Rate");  again not every company has such setup
+                                                    // Employee.TestField("Salary Grade");  //not every company can have salary level and grade used
+                                                    // Employee.TestField("Salary Level");
         Modify;
         GetPayrollAttributes;
     end;
@@ -1746,87 +1745,56 @@ table 50027 "Payroll Line"
     begin
         GetPayrollHeader;
         if not PayrollHeader.Irregular then
-            /*IF "Present Days" = 0 THEN
-              EXIT;*/
-        PGSetup.Get;
+            PGSetup.Get;
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
+
         AbsentDeductionAmount := 0;
         BasicSalaryAfterDeduction := GetBasicSalaryAfterDeduction;
         if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
             "Late Rate" := Round("Basic Salary" / PGSetup."Total Days" * 12, 1, '=') //For NIMB
         else
             "Late Rate" := Round("Basic Salary" / "Total Days", 1, '='); // For base
+
         Clear(SettlementRecovery);
         Clear(PromotionFound);
-        EmpSalAdv.Reset;
-        EmpSalAdv.SetRange("Employee Code", "Employee No.");
-        EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
-        EmpSalAdv.SetRange(Settled, false);
-        EmpSalAdv.SetRange("Loan Type", EmpSalAdv."Loan Type"::"Salary Advance");
-        if EmpSalAdv.FindFirst then
-            Validate("Salary Advance No.", EmpSalAdv."No.");
         Modify;
         ResetValues;
-        Clear(PromotionHistory);
-        PromotionHistory.Reset;
-        PromotionHistory.SetRange("Employee No.", "Employee No.");
-        PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-        if PromotionHistory.FindFirst then begin
-            PromotionFound := true;
-            //Absent Days for LWP before and after promotion
-            EmployeeAttendActivity.Reset;
-            EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
-            EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            EmployeeAttendActivity.SetRange("Present Day", 0);
-            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
-            EmployeeAttendActivity.CalcSums("Absent Day");
-            rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
 
-            // EmployeeAttendActivity.Reset;
-            // EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
-            // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            // EmployeeAttendActivity.SetRange("Present Day", 0);
-            //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
-            EmployeeAttendActivity.SetRange("Attendance Date");
-            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
-            EmployeeAttendActivity.CalcSums("Absent Day");
-            Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
-            // EmployeeAttendActivity.SetRange("Attendance Date");
-            // // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date",);
-            // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
-            // EmployeeAttendActivity.CalcSums("Absent Day");
-            // Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
-            Rec.Modify();
-            GetGlobalAttributes; //temporary
+        GetGlobalAttributes();
+        CalculateAbsentasimBeforeAndAfterpromotion();
+        UpdateSalaryAdvanceNo();
+        CalculateLateDeduction();
+        CalculateOTBenifit();
+        GetTotalInsurranceClaim();
 
-        end;
+
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
+            GetSettlementRecovery();
+
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        //PayrollAttributesUsage.SETFILTER(Code,'PF-BENEFIT');//Min -- for Check
         if PayrollAttributesUsage.FindFirst then
             repeat
-                //IF PayrollAttributes.GET(PayrollAttributesUsage.Code) THEN BEGIN
-                PayrollAttributes.Reset;
+                PayrollAttributes.Reset;  //here reset is used instead of get to select only irregular attribute on processing irregular payroll 
+                                          //because irregular in not defined in payroll attribute uses table
                 if not PayrollHeader.Irregular then
                     PayrollAttributes.SetRange(Irregular, false)
                 else
                     PayrollAttributes.SetRange(Irregular, true);
-                //PayrollAttributes.SETRANGE("Apply Every Month",TRUE);
                 PayrollAttributes.SetRange(Code, PayrollAttributesUsage.Code);
                 if PayrollAttributes.FindFirst then begin
                     AttributeAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
-                            if PGSetup."Loan Attribute" = PayrollAttributes.Code then begin
-                                if (PayrollAttributesUsage."Is Loan EMI Applicable") then
-                                    if (PayrollAttributesUsage."Last EMI Date" = 0D) then begin
-                                        AttributeAmount := PayrollAttributesUsage.Amount;
-                                    end else
-                                        if (PayrollAttributesUsage."Last EMI Date" >= PayrollHeader."From Date") then
-                                            AttributeAmount := PayrollAttributesUsage.Amount;
-                            end else
-                                AttributeAmount := PayrollAttributesUsage.Amount;
+                            // if PGSetup."Loan Attribute" = PayrollAttributes.Code then begin  //this code will sent to seprate procedure
+                            //     if (PayrollAttributesUsage."Is Loan EMI Applicable") then
+                            //         if (PayrollAttributesUsage."Last EMI Date" = 0D) then begin
+                            //             AttributeAmount := PayrollAttributesUsage.Amount;
+                            //         end else
+                            //             if (PayrollAttributesUsage."Last EMI Date" >= PayrollHeader."From Date") then
+                            //                 AttributeAmount := PayrollAttributesUsage.Amount;
+                            // end else
+                            AttributeAmount := PayrollAttributesUsage.Amount;
                         end else
                             if PayrollAttributesUsage.Formula <> '' then
                                 AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
@@ -1835,84 +1803,23 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
-                        if PayrollAttributes."Apply Every Month" then begin
-                            PayrollAttributesUsage.Amount := AttributeAmount;
-                            PayrollAttributesUsage.Modify;
-                        end;
-                        if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin
+                        // if PayrollAttributes."Apply Every Month" then begin  //will see
+                        //     PayrollAttributesUsage.Amount := AttributeAmount;
+                        //     PayrollAttributesUsage.Modify;
+                        // end;
+                        // if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin  //always deduct if deduct on absent is true
+                        if PayrollAttributes."Deduct on Absent" then
                             AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                        end;//temporary
-                        if PayrollAttributes."Differential Interest" then begin //calculate differential interest
-                            LoanOutstandingfromFinacle.Reset;
-                            LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
-                            LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
-                            LoanOutstandingfromFinacle.SetFilter("Loan Type", '<>%1|<>%2', LoanOutstandingfromFinacle."Loan Type"::" ", LoanOutstandingfromFinacle."Loan Type"::"Salary Advance");
-                            LoanOutstandingfromFinacle.SetRange("Is Manual", false);
-                            if LoanOutstandingfromFinacle.FindSet then
-                                repeat
-                                    case LoanOutstandingfromFinacle."Loan Type" of
-                                        LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
-                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Outstanding Amount");
-                                        else
-                                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type", LoanOutstandingfromFinacle."Outstanding Amount");
-                                    end;
-                                until LoanOutstandingfromFinacle.Next = 0;
-                        end;
-                        /*IF PayrollAttributes.Subtype IN [PayrollAttributes.Subtype::"Employee Contribution",PayrollAttributes.Subtype::"Employer Contribution"] THEN
-                           BasicAdjustmentPF(AttributeAmount);*/
+                        //end;//temporary
+
+                        CalculateDifferentialInterestAmount(AttributeAmount);  //will check and send the code above if possible
+
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
-            //END; //Min 3.20.2022 -- Commented
             until PayrollAttributesUsage.Next = 0;
-        if PGSetup."Late Deduction Component" <> '' then begin
-            if PayrollAttributes.Get(PGSetup."Late Deduction Component") then begin
-                if PayrollAttributes.Status = PayrollAttributes.Status::Active then begin
-                    AttributeAmount := "Late Rate" * "Late Days";
-                    RoundAmount(AttributeAmount);
-                    SaveValues(AttributeAmount, PayrollAttributes.Code);
-                end;
-            end;
-        end;
-        /*
-        IF PGSetup."OT Benefit Component" <> '' THEN BEGIN
-          IF PayrollAttributes.GET(PGSetup."OT Benefit Component") THEN BEGIN
-            IF PayrollAttributes.Status = PayrollAttributes.Status::Active THEN BEGIN
-              IF PayrollAttributesUsage.GET(PayrollAttributes.Code,Employee."No.") THEN BEGIN
-                AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
-                RoundAmount(AttributeAmount);
-                SaveValues(AttributeAmount,PayrollAttributes.Code);
-              END;
-            END;
-          END;
-        END;
-        */
-        //AT >>
-        if "Total Insurance Claim Amount" > 0 then begin
-            if PGSetup."Insurance Recover" <> '' then begin
-                if PayrollAttributes.Get(PGSetup."Insurance Recover") then begin
-                    if PayrollAttributes.Status = PayrollAttributes.Status::Active then begin
-                        if PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                            HRSetup.Get;
-                            AttributeAmount := ((HRSetup."Policy End Date" - "Resignation Date") / 365) * HRSetup."Medical Insurance Premium";
-                            RoundAmount(AttributeAmount);
-                            SaveValues(AttributeAmount, PayrollAttributes.Code);
-                        end;
-                    end;
-                end;
-            end;
-        end;
-        //AT <<
-        if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
-            if PGSetup."Settlement Recovery" <> '' then begin
-                if PayrollAttributes.Get(PGSetup."Settlement Recovery") then begin
-                    RoundAmount(SettlementRecovery);
-                    SaveValues(SettlementRecovery, PayrollAttributes.Code);
-                end;
-            end;
-        end;
     end;
 
     local procedure IsValidComponent(): Boolean
@@ -2369,7 +2276,6 @@ table 50027 "Payroll Line"
             repeat
                 if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
                     AttributeAmount := 0;
-                    //IF IsValidComponent THEN BEGIN //Min 3.20.2022 -- Commented
                     FieldRefs := RecRefs.Field(1);
                     FieldRefs.SetRange(Employee."Salary Grade");
                     FieldRefs := RecRefs.Field(2);
@@ -2393,9 +2299,7 @@ table 50027 "Payroll Line"
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
-                    /*IF PayrollAttributes."Deduct on Absent" THEN BEGIN   -- calculating of after dedcution
-                        AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                    END;*/
+
                     RoundAmount(AttributeAmount);
                     if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                         DeductForRecovery(AttributeAmount);
@@ -2403,7 +2307,6 @@ table 50027 "Payroll Line"
                         SaveValues(AttributeAmount, PayrollAttributes.Code);
                     PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
                 end;
-            //END; //Min 3.20.2022 -- Commented
             until PayrollColumnConfiguration.Next = 0;
         end;
 
@@ -2760,5 +2663,157 @@ table 50027 "Payroll Line"
 
         "Tax Exempted Insurance Premium" := FinalLifeInsAmount + FinalHealthInsAmt + FinalPropertyInsAmt;
         */
+    end;
+
+    procedure CalculateAbsentasimBeforeAndAfterpromotion()
+    var
+        EmployeeAttendActivity: Record "Employee Attendance & Activity";
+    begin
+        Clear(PromotionHistory);
+        PromotionHistory.Reset;
+        PromotionHistory.SetRange("Employee No.", "Employee No.");
+        PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+        if PromotionHistory.FindFirst then begin
+            PromotionFound := true;
+            //Absent Days for LWP before and after promotion
+            EmployeeAttendActivity.Reset;
+            EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            EmployeeAttendActivity.SetRange("Present Day", 0);
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
+
+            // EmployeeAttendActivity.Reset;
+            // EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            // EmployeeAttendActivity.SetRange("Present Day", 0);
+            //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
+            EmployeeAttendActivity.SetRange("Attendance Date");
+            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            // EmployeeAttendActivity.SetRange("Attendance Date");
+            // // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date",);
+            // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            // EmployeeAttendActivity.CalcSums("Absent Day");
+            // Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            Rec.Modify();
+            GetGlobalAttributes; //temporary
+
+        end;
+    end;
+
+    procedure UpdateSalaryAdvanceNo()
+    var
+        EmpSalAdv: Record "Employee Loan/Advance";
+    begin
+        EmpSalAdv.Reset;
+        EmpSalAdv.SetRange("Employee Code", "Employee No.");
+        EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
+        EmpSalAdv.SetRange(Settled, false);
+        EmpSalAdv.SetRange("Loan Type", EmpSalAdv."Loan Type"::"Salary Advance");
+        if EmpSalAdv.FindFirst then
+            Validate("Salary Advance No.", EmpSalAdv."No.");
+    end;
+
+    procedure CalculateLatededuction()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Late Deduction");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                PayrollAttrUses.Amount := "Late Rate" * "Late Days";
+                PayrollAttrUses.Modify();
+            end;
+        end;
+    end;
+
+    procedure CalculateOTBenifit()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
+                RoundAmount(AttributeAmount);
+                PayrollAttrUses.Amount := AttributeAmount;
+                PayrollAttrUses.Modify();
+            end;
+        end;
+
+    end;
+
+    procedure GetTotalInsurranceClaim()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        if "Total Insurance Claim Amount" > 0 then begin
+            PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Insurance Recover");
+            PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+            if PayrollAttr.FindFirst() then begin
+                if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                    HRSetup.Get;
+                    AttributeAmount := ((HRSetup."Policy End Date" - "Resignation Date") / 365) * HRSetup."Medical Insurance Premium";
+                    RoundAmount(AttributeAmount);
+                    PayrollAttrUses.Modify();
+                end
+            end;
+        end;
+
+    end;
+
+    procedure GetSettlementRecovery()
+    var
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Insurance Recover");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get("Employee No.", PayrollAttr.Code) then begin
+                RoundAmount(SettlementRecovery);
+                PayrollAttrUses.Amount := SettlementRecovery;
+                PayrollAttrUses.Modify();
+            end;
+        end;
+    end;
+
+    local procedure CalculateDifferentialInterestAmount(var AttributeAmount: Decimal)
+    var
+        LoanOutstandingfromFinacle: Record "Loan Outstanding from Finacle";
+    begin
+        if PayrollAttributes."Differential Interest" then begin //calculate differential interest
+            LoanOutstandingfromFinacle.Reset;
+            LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
+            LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
+            LoanOutstandingfromFinacle.SetFilter("Loan Type", '<>%1|<>%2', LoanOutstandingfromFinacle."Loan Type"::" ", LoanOutstandingfromFinacle."Loan Type"::"Salary Advance");
+            LoanOutstandingfromFinacle.SetRange("Is Manual", false);
+            if LoanOutstandingfromFinacle.FindSet then
+                repeat
+                    case LoanOutstandingfromFinacle."Loan Type" of
+                        LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
+                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Outstanding Amount");
+                        else
+                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type", LoanOutstandingfromFinacle."Outstanding Amount");
+                    end;
+                until LoanOutstandingfromFinacle.Next = 0;
+        end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
+    begin
     end;
 }

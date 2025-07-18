@@ -210,15 +210,15 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
-                if "Department Code" <> xRec."Department Code" then begin
-                    Clear("Department Name");
-                    Clear("Province Code");
-                    Clear("Province Name");
-                    Clear("Unit Code");
-                    Clear("Unit Name");
-                    Clear("Posting Region");
-                    Clear("Inside/Outside Valley");
-                end;
+                // if "Department Code" <> xRec."Department Code" then begin
+                //     Clear("Department Name");
+                //     Clear("Province Code");
+                //     Clear("Province Name");
+                //     Clear("Unit Code");
+                //     Clear("Unit Name");
+                //     Clear("Posting Region");
+                //     Clear("Inside/Outside Valley");
+                // end;
                 if "Deputation on" = "Deputation on"::Department then
                     ValidateDeputationOn()
                 else begin
@@ -1371,6 +1371,10 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 "Temporary Address" := ReturnAddress("Temporary VDC", "Temporary Ward No", "Temporary Locality", "Temporary District", "Temporary Province");
             end;
+        }
+        field(50169; Community; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
         }
 
     }

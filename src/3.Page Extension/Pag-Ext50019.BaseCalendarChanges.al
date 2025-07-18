@@ -39,6 +39,10 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
             }
+            field(Community; Rec.Community)
+            {
+                ApplicationArea = all;
+            }
         }
     }
     actions

@@ -137,6 +137,11 @@ page 50032 "Payroll Attributes"
                     ToolTip = 'Specifies the value of the Irregular field.';
                     ApplicationArea = All;
                 }
+                field("Specific Attributes"; Rec."Specific Attributes")
+                {
+                    ApplicationArea = all;
+                    ToolTip = 'Specify the payroll nature in deep level. It is used to identify very specific payroll attributes such as leave encash, walefare etc';
+                }
                 field("Static GL Ledger"; Rec."Static GL Ledger")
                 {
                     ToolTip = 'Specifies the value of the Static GL Ledger field.';

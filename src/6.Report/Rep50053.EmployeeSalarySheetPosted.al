@@ -87,50 +87,7 @@ report 50053 "Employee Salary Sheet Posted"
                 column(PostingDate_PostedPayrollLine; "Posting Date") { }
                 column(DimensionSetID_PostedPayrollLine; "Dimension Set ID") { }
                 column(Reversed_PostedPayrollLine; Reversed) { }
-                // column(VariableField50490_PostedPayrollLine; "Variable Field 50490")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50491_PostedPayrollLine; "Variable Field 50491")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50492_PostedPayrollLine; "Variable Field 50492")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50493_PostedPayrollLine; "Variable Field 50493")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50494_PostedPayrollLine; "Variable Field 50494")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50495_PostedPayrollLine; "Variable Field 50495")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50496_PostedPayrollLine; "Variable Field 50496")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50497_PostedPayrollLine; "Variable Field 50497")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50498_PostedPayrollLine; "Variable Field 50498")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50499_PostedPayrollLine; "Variable Field 50499")
-                // {
-                //     IncludeCaption = true;
-                // }
-                // column(VariableField50500_PostedPayrollLine; "Variable Field 50500")
-                // {
-                //     IncludeCaption = true;
-                // }
+
                 column(VariableField50501_PostedPayrollLine; "Variable Field 50501")
                 {
                     IncludeCaption = true;
@@ -994,11 +951,8 @@ report 50053 "Employee Salary Sheet Posted"
         Field50618Visible: Boolean;
         Field50619Visible: Boolean;
         Field50620Visible: Boolean;
-
-
-        // [InDataSet]
         HourCalculationVisible: Boolean;
-        // [InDataSet]
+
         TimeSheetVisible: Boolean;
         EmployeeRec: Record Employee;
         CompanyRec: Record "Company Information";

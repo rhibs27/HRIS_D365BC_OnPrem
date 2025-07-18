@@ -1,7 +1,5 @@
 page 50041 "Payroll Subform"
 {
-    // version PRM19.01.01
-
     AutoSplitKey = true;
     PageType = ListPart;
     SourceTable = "Payroll Line";
@@ -1788,9 +1786,9 @@ page 50041 "Payroll Subform"
             action("Payroll Attributes Usage")
             {
                 Image = PaymentDays;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
                 RunObject = page "Payroll Attributes Usage";
                 RunPageLink = "Employee Code" = field("Employee No.");
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
@@ -1820,8 +1818,8 @@ page 50041 "Payroll Subform"
                 AccessByPermission = tabledata Dimension = R;
                 Caption = 'Dimensions';
                 Image = Dimensions;
-                Promoted = true;
-                PromotedCategory = Process;
+                // Promoted = true;
+                // PromotedCategory = Process;
                 ShortcutKey = 'Shift+Ctrl+D';
                 ToolTip = 'Executes the Dimensions action.';
                 ApplicationArea = All;
@@ -1835,7 +1833,7 @@ page 50041 "Payroll Subform"
             action(Attendance)
             {
                 Image = DepositLines;
-                Promoted = true;
+                // Promoted = true;
                 Visible = (not HourCalculationVisible);
                 ToolTip = 'Executes the Attendance action.';
                 ApplicationArea = All;
@@ -1848,8 +1846,8 @@ page 50041 "Payroll Subform"
             action("Timesheet Summary")
             {
                 Image = Timeline;
-                Promoted = true;
-                PromotedCategory = "Report";
+                // Promoted = true;
+                // PromotedCategory = "Report";
                 Visible = TimeSheetVisible;
                 ToolTip = 'Executes the Timesheet Summary action.';
                 ApplicationArea = All;
@@ -1880,17 +1878,6 @@ page 50041 "Payroll Subform"
 
     var
         PayrollEngine: Codeunit "Payroll Engine";
-        // Field50490Visible: Boolean;
-        // Field50491Visible: Boolean;
-        // Field50492Visible: Boolean;
-        // Field50493Visible: Boolean;
-        // Field50494Visible: Boolean;
-        // Field50495Visible: Boolean;
-        // Field50496Visible: Boolean;
-        // Field50497Visible: Boolean;
-        // Field50498Visible: Boolean;
-        // Field50499Visible: Boolean;
-        // Field50500Visible: Boolean;
         Field50501Visible: Boolean;
         Field50502Visible: Boolean;
         Field50503Visible: Boolean;
@@ -2037,17 +2024,6 @@ page 50041 "Payroll Subform"
 
     local procedure InitColumnVisibility()
     begin
-        // Field50490Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50490"));
-        // Field50491Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50491"));
-        // Field50492Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50492"));
-        // Field50493Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50493"));
-        // Field50494Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50494"));
-        // Field50495Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50495"));
-        // Field50496Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50496"));
-        // Field50497Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50497"));
-        // Field50498Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50498"));
-        // Field50499Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50499"));
-        // Field50500Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50500"));
         Field50501Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50501"));
         Field50502Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50502"));
         Field50503Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50503"));
@@ -2167,9 +2143,6 @@ page 50041 "Payroll Subform"
         Field50618Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50618"));
         Field50619Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50619"));
         Field50620Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50620"));
-        // Field50489Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50489")); //Min 9.15.2022
-        // Field50487Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50487")); //Min 12.09.2022
-        // Field50488Visible := PayrollEngine.ShowColumn(Database::"Payroll Line", Rec.FieldNo("Variable Field 50488")); //Min 9.15.2022
         HourCalculationVisible := PayrollEngine.IsHourCalculation;
         TimeSheetVisible := PayrollEngine.IsTimeSheetEnabled;
     end;

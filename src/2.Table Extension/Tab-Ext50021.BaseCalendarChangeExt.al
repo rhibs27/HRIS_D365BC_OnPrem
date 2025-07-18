@@ -37,6 +37,11 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             FieldClass = FlowFilter;
         }
+        field(50007; Community; Enum "Community Type")
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
 
     var
