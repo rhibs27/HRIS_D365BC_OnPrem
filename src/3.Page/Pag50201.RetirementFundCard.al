@@ -316,7 +316,7 @@ page 50201 "Retirement Fund Card"
                     //     // ApprovalMgt.WithDrawRequest(RecRef);
                     //     Message('Retirement request has been canceled.');
                 end;
-                end;
+
             }
             action(Cancel)
             {
