@@ -31,13 +31,16 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."From Deputation" then begin
+                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                     Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                     if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                         Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                         Employee.SetRange("Department Code", EmpRequest."Department Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end else begin
+                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -95,13 +98,16 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."From Deputation" then begin
+                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                     Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                     if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                         Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                         Employee.SetRange("Department Code", EmpRequest."Department Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end else begin
+                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -153,13 +159,16 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."From Deputation" then begin
+                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                     Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                     if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                         Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                         Employee.SetRange("Department Code", EmpRequest."Department Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end else begin
+                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
