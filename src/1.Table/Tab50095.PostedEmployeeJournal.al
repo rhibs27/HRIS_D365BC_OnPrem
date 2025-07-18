@@ -402,6 +402,11 @@ table 50095 "Posted Employee Journal"
             "Posting Date" := Today;
     end;
 
+    trigger OnDelete()
+    begin
+        Error('Cannot delete');
+    end;
+
     local procedure GetEntryNo()
     var
         PostedEmployeeJournal: Record "Posted Employee Journal";

@@ -7,6 +7,7 @@ page 50230 "Overtime Bulk List"
     SourceTable = "OverTime";
     SourceTableView = where(type = filter("Employee Activity Type"::"Overtime Bulk"));
     UsageCategory = Lists;
+    ModifyAllowed = false;
     layout
     {
         area(Content)

@@ -1,14 +1,15 @@
 page 50186 "Attendance Missed Lists"
 {
-
-
     CardPageId = "Attendance missed Card";
+    DeleteAllowed = false;
     Editable = false;
+    ModifyAllowed=false;
     PageType = List;
     SourceTable = "Attendance Missed";
     SourceTableView = WHERE(Type = CONST("Attendance Missed"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {

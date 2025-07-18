@@ -4,6 +4,7 @@ page 50066 "Transfer Card"
     // //Min 12.11.2022 -- for uneditable transfer effective date
     SourceTable = "Employee Transfer";
     ApplicationArea = All;
+    InsertAllowed=false;
 
     layout
     {

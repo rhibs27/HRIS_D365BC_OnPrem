@@ -104,11 +104,13 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Child's Gender"; Rec."Child's Gender")
                 {
                     ToolTip = 'Specifies the value of the Child''s Gender field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Pay Type"; Rec."Pay Type")
                 {
@@ -119,6 +121,7 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the Compensatory Date field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {
