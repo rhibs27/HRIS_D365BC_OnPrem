@@ -23863,6 +23863,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Action Reject - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 178691202 - Action 1118692539 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance missed Card - Action Withdraw Leave - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2513078053 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -36422,6 +36427,11 @@
           <source>Executes the Reject action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Reject - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4197598153 - Action 1118692539 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the WithDraw Request action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance Card - Action Withdraw Leave - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2977078565 - Control 3538877424 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Balancing Days field.</source>
