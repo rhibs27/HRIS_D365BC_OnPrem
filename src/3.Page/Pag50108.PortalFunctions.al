@@ -58,7 +58,7 @@ page 50108 "Portal Functions"
     local procedure "---API1.00 BEGIN"()
     begin
     end;
-    //   '","portalAttendance": "' + PortalAttendance +
+    // '","portalAttendance": "' + PortalAttendance +
     [ServiceEnabled]
     procedure checkLogin(): Text
     var
@@ -113,6 +113,7 @@ page 50108 "Portal Functions"
               '","firstLogin": "' + FirstLogin +
               '","employeeName": "' + Employee."Full Name" +
               '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
+              '","portalAttendance": "' + PortalAttendance +
               '","allowShiftAssignment": "' + AllowShiftAssignment +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
@@ -187,6 +188,7 @@ page 50108 "Portal Functions"
         // Attendance Missed check 
         AttendanceMissed2.Reset();
         AttendanceMissed2.SetRange("Employee No.", HrMgt.GetEmployeeNo());
+        AttendanceMissed2.SetRange(Type, EmployeeAct);
         AttendanceMissed2.SetRange("Start Date", startDate);
         AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
         if AttendanceMissed2.FindFirst then
@@ -239,20 +241,24 @@ page 50108 "Portal Functions"
     var
         AttendanceLogs: Record "Attendance Log";
         EmployeeCode: Code[20];
+        CurrentDateTimeUpdate: DateTime;
+        TypeHelper: Codeunit "Type Helper";
     begin
         EmployeeCode := HrMgt.GetEmployeeNo();
         Employee.Get(EmployeeCode);
         if Employee."Portal Attendance" then begin
+            CurrentDateTimeUpdate := CurrentDateTime;
             AttendanceLogs.Init();
-            AttendanceLogs.Validate("Date Time Log", CurrentDateTime);
-            AttendanceLogs.Validate("Log Time", Time);
+            AttendanceLogs.Validate("Date Time Log", CurrentDateTimeUpdate);
+            AttendanceLogs.Validate("Log Time", DT2Time(TypeHelper.GetCurrentDateTimeInUserTimeZone));
             AttendanceLogs.Validate("Employee ID", EmployeeCode);
             AttendanceLogs.Validate("Biometric Attendance", false);
             AttendanceLogs.Validate(Date, Today);
-            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(Time));
+            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(DT2Time(CurrentDateTimeUpdate)));
             AttendanceLogs.Insert();
             AttendanceMgt.DailyAttendanceUpdate(Today, Today, EmployeeCode)
-        end;
+        end else
+            Error('Portal Attendance is not Available');
     end;
 
     local procedure "------Leave API---------"()
@@ -1804,6 +1810,13 @@ page 50108 "Portal Functions"
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
+    end;
+
+    [ServiceEnabled]
+    procedure exitOvertimeClaimType(): Text
+    begin
+        AttendanceSetup.Get;
+        exit(Format(AttendanceSetup."Overtime Claim Type"));
     end;
 
     local procedure "---Appointment API----"()

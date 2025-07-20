@@ -2793,7 +2793,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure CheckDistrictName(DistrictName: Text[30])
+    procedure CheckDistrictName(DistrictName: Text)
     var
         DistrictVar: Record District;
         ErrorDistrict: Label 'District Name %1 Not found';
@@ -2804,7 +2804,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, DistrictName);
     end;
 
-    procedure CheckCountryName(CountryName: Text[30])
+    procedure CheckCountryName(CountryName: Text)
     var
         Country: Record "Country/Region";
         ErrorDistrict: Label 'Country Name %1 Not found';
@@ -2815,7 +2815,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, CountryName);
     end;
 
-    procedure LookupCountry(): Text[30]
+    procedure LookupCountry(): Text
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2829,7 +2829,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupCountryOtherThenNepalAndSAARC(): Text[30]
+    procedure LookupCountryOtherThenNepalAndSAARC(): Text
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2847,7 +2847,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupCountrySAARC(IsSAARC: Boolean): Text[30]
+    procedure LookupCountrySAARC(IsSAARC: Boolean): Text
     var
         PageCountry: Page "Countries/Regions";
         Country: Record "Country/Region";
@@ -2864,7 +2864,7 @@ codeunit 50001 "HR Mgt."
         end;
     end;
 
-    procedure LookupDistrict(ProvienceName: Text[30]; xDisTxt: Text[30]): Text[30]
+    procedure LookupDistrict(ProvienceName: Text; xDisTxt: Text): Text
     var
         PageDistrict: Page "District";
         DistrictVar: Record District;
@@ -2882,7 +2882,7 @@ codeunit 50001 "HR Mgt."
         exit(xDisTxt);
     end;
 
-    procedure LookupAllDistrict(): Text[30]
+    procedure LookupAllDistrict(): Text
     var
         PageDistrict: Page "District";
         DistrictVar: Record District;
@@ -2910,7 +2910,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorDistrict, MunicipalityName);
     end;
 
-    procedure LookupMunicipalityName(DistrictName: Text[30]; MunicipalityName: Text[30]): Text[30]
+    procedure LookupMunicipalityName(DistrictName: Text[50]; MunicipalityName: Text): Text
     var
         PageMunicipality: Page "Municipalities";
         Municipality: Record Municipality;
@@ -2928,7 +2928,7 @@ codeunit 50001 "HR Mgt."
         exit(MunicipalityName);
     end;
 
-    procedure CheckProvience(ProvienceName: Text[30])
+    procedure CheckProvience(ProvienceName: Text)
     var
         ProvienceVar: Record Province;
         ErrorProvience: Label 'Provience Name %1 not found.';
@@ -2939,7 +2939,7 @@ codeunit 50001 "HR Mgt."
             Error(ErrorProvience, ProvienceName);
     end;
 
-    procedure LookupProvience(xProvTxt: Text[30]): Text[30]
+    procedure LookupProvience(xProvTxt: Text): Text
     var
         PageProvience: Page "Provinces List";
         ProvienceZone: Record Province;

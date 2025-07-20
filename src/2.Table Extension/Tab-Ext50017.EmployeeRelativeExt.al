@@ -46,10 +46,8 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(50006; District; Text[30])
+        field(50006; District; Text[50])
         {
-            // TableRelation = District."District Name";
-            // ValidateTableRelation = false;
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
             trigger OnValidate()
@@ -63,7 +61,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 Validate("District", HRMgt.LookupAllDistrict());
             end;
         }
-        field(50007; "VDC/Municipality"; Text[30])
+        field(50007; "VDC/Municipality"; Text[50])
         {
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
@@ -100,10 +98,19 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             DataClassification = CustomerContent;
             Description = 'In Nepali   for loan';
         }
-        field(50012; "Citizenship Issued District"; Text[30])
+        field(50012; "Citizenship Issued District"; Text[50])
         {
-            TableRelation = District."District Name";
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                if (Rec."District" <> xRec."District") and ("District" <> '') then
+                    HRMgt.CheckDistrictName("District");
+            END;
+
+            trigger OnLookup()
+            begin
+                Validate("District", HRMgt.LookupAllDistrict());
+            end;
         }
         field(50013; "Citizenship Date (Nepali)"; Text[10])
         {
@@ -131,7 +138,7 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             trigger OnValidate()
             var
                 Employee: Record Employee;
-                Employeerelative: Record "Employee Relative";
+                EmployeeRelative: Record "Employee Relative";
             begin
                 //case when emergency contact is cleared
                 if (not Rec."Set Emergency Contact") and xRec."Set Emergency Contact" then begin
@@ -144,10 +151,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 end
                 else if "Set Emergency Contact" then begin
                     // no two emergency contact
-                    Employeerelative.SetRange("Employee No.", "Employee No.");
-                    Employeerelative.SetRange("Set Emergency Contact", true);
-                    Employeerelative.SetFilter("Line No.", '<>%1', "Line No.");
-                    if Employeerelative.Count() > 0 then
+                    EmployeeRelative.SetRange("Employee No.", "Employee No.");
+                    EmployeeRelative.SetRange("Set Emergency Contact", true);
+                    EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
+                    if EmployeeRelative.Count() > 0 then
                         Error('Employee can have only one emergency contact at a time');
 
                     // flow data to employee

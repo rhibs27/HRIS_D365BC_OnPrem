@@ -1998,6 +1998,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Min. minutes to be OT Eligible - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2922227932 - Field 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Setup - Field Overtime Claim Type - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2922227932 - Field 3364452882 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Per Day Late tolerance (Minutes)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23893,6 +23898,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control No. - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2513078053 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control Remarks - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2513078053 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23902,6 +23912,11 @@
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2513078053 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance missed Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Missed Lists - Control Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2724907597 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>attendanceMissedAPI</source>
@@ -24147,6 +24162,16 @@
           <source>Specifies the value of the Max Overtime In Week field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Max Overtime In Week - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 3905506067 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Overtime Claim Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Overtime Claim Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2922227932 - Control 3905506067 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime Claim Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Setup - Control Overtime Claim Type - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2922227932 - Control 557018098 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Sync Attendance From field.</source>

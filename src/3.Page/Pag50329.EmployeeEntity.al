@@ -196,6 +196,9 @@ page 50329 "Employee Entity"
                 {
                     Caption = 'Salary Level';
                 }
+                field(salaryLevelDescription; Rec."Salary Level Description")
+                {
+                }
                 field(functionalTitle; Rec."Functional Title")
                 {
                     Caption = 'Functional Title';
