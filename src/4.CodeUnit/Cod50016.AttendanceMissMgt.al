@@ -123,12 +123,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        AttendanceMissed2.Reset();
-        AttendanceMissed2.SetRange("Employee No.", AttendanceMissed."Employee No.");
-        AttendanceMissed2.SetRange("Start Date", AttendanceMissed."Start Date");
-        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
-        if AttendanceMissed2.FindFirst then
-            Error('%1 already applied on %2', AttendanceMissed.Type, AttendanceMissed."Start Date");
+        CheckAlreadyExists(AttendanceMissed);
         PayrollSetup.Get;
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
@@ -327,5 +322,18 @@ codeunit 50016 "AttendanceMiss Mgt"
                 end;
 
         end;
+    end;
+
+    procedure CheckAlreadyExists(AttendanceMissed: Record "Attendance Missed")
+    var
+        AttendanceMissed1: Record "Attendance Missed";
+    begin
+        AttendanceMissed1.Reset;
+        AttendanceMissed1.SetRange("Employee No.", AttendanceMissed."Employee No.");
+        AttendanceMissed1.SetRange(Type, AttendanceMissed.Type);
+        AttendanceMissed1.SetRange("Start Date", AttendanceMissed."Start Date");
+        AttendanceMissed1.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
+        if AttendanceMissed1.FindFirst then
+            Error('Missed Attendance already applied for date %1', AttendanceMissed1."Start Date");
     end;
 }

@@ -79,6 +79,12 @@ page 50048 "Attendance Setup"
                     ApplicationArea = All;
                     Caption = 'Check Out From(Hrs)';
                 }
+                field("Overtime Claim Type"; Rec."Overtime Claim Type")
+                {
+                    ToolTip = 'Specifies the value of the Overtime Claim Type';
+                    ApplicationArea = All;
+                    Caption = 'Overtime Claim Type';
+                }
 
             }
         }
