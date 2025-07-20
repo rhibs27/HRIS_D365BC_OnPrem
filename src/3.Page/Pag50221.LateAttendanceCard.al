@@ -181,6 +181,24 @@ page 50221 "Late Attendance Card"
                     end;
                 end;
             }
+            action("Withdraw Leave")
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Late attendance request has been withdrew.');
+                    end;
+                end;
+            }
         }
     }
     // trigger OnNewRecord(BelowxRec: Boolean)
@@ -233,4 +251,5 @@ page 50221 "Late Attendance Card"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         IsApplied: Boolean;
+        ApprovalMgt: Codeunit "Approver Mgt";
 }

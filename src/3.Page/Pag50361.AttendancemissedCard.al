@@ -1,7 +1,7 @@
 page 50361 "Attendance missed Card"
 {
     ApplicationArea = All;
-    InsertAllowed=false;
+    InsertAllowed = false;
     Caption = 'Attendance missed Card';
     PageType = Card;
     SourceTable = "Attendance Missed";
@@ -181,6 +181,24 @@ page 50361 "Attendance missed Card"
                     end;
                 end;
             }
+            action("Withdraw Leave")
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Attendance missed update request has been withdrew.');
+                    end;
+                end;
+            }
         }
     }
 
@@ -235,5 +253,6 @@ page 50361 "Attendance missed Card"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         IsApplied: Boolean;
+        ApprovalMgt: Codeunit "Approver Mgt";
 }
 

@@ -507,6 +507,7 @@ codeunit 50017 "Approver Mgt"
         TravelRequest: Record "Travel Request";
         RecRef: RecordRef;
         RetirementFund: Record "Retirement Fund";
+        AttendanceMissed: Record "Attendance Missed";
     begin
         EmpActTypeEnum := Enum::"Employee Activity Type".FromInteger(EmpActTypeEnum.Ordinals.Get(EmpActTypeEnum.Names.IndexOf(EmpActType)));
         case EmpActTypeEnum of
@@ -530,6 +531,14 @@ codeunit 50017 "Approver Mgt"
                 begin
                     if RetirementFund.Get(documentNo) then begin
                         RecRef.GetTable(RetirementFund);
+                        WithDrawRequest(RecRef);
+                    end;
+
+                end;
+            EmpActTypeEnum::"Attendance Missed", EmpActTypeEnum::"Late Attendance":
+                begin
+                    if AttendanceMissed.Get(documentNo) then begin
+                        RecRef.GetTable(AttendanceMissed);
                         WithDrawRequest(RecRef);
                     end;
 
@@ -687,5 +696,4 @@ codeunit 50017 "Approver Mgt"
         ChangesInEmployeeMgt: Codeunit "Employee Edit Mgt.";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
-
 }
