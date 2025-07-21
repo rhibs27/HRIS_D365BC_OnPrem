@@ -4,6 +4,7 @@ page 50222 "Transfer Journal"
     Caption = 'Transfer Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"HR Transfer"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout

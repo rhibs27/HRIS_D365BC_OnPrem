@@ -4,6 +4,7 @@ page 50227 "Leave Journal"
     Caption = 'Leave Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Leave Request"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout

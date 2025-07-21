@@ -4,7 +4,7 @@ page 50314 "Attendance Journal"
     Caption = 'Attendance Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
-    SourceTableView = where("Employee Act Type" = const("Attendance Journal"));
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Attendance Missed"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -79,7 +79,7 @@ page 50314 "Attendance Journal"
                     if not Confirm('Do you want to Send for Approval request?', false) then
                         exit;
 
-                    EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"Attendance Journal");
+                    EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"Attendance Missed");
 
 
                 end;
@@ -144,8 +144,8 @@ page 50314 "Attendance Journal"
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Open;
-        Rec."Employee Act Type" := Rec."Employee Act Type"::"Attendance Journal";
-        Rec.Type := Rec.Type::"Attendance Journal";
+        Rec."Employee Act Type" := Rec."Employee Act Type"::"Attendance Missed";
+        Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
     end;
 
