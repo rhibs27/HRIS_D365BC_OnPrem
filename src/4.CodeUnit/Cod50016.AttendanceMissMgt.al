@@ -123,7 +123,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        CheckAlreadyExists(AttendanceMissed);
+        CheckAlreadyExists(AttendanceMissed."Employee No.", AttendanceMissed.Type, AttendanceMissed."Start Date");
         PayrollSetup.Get;
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then
             CheckForLeaveOnAttendanceMissed(AttendanceMissed."Start Date", AttendanceMissed."End Date", AttendanceMissed."Employee No.");
@@ -324,16 +324,16 @@ codeunit 50016 "AttendanceMiss Mgt"
         end;
     end;
 
-    procedure CheckAlreadyExists(AttendanceMissed: Record "Attendance Missed")
+    procedure CheckAlreadyExists("EmployeeNo": code[20]; "type": Enum "Employee Activity Type"; "startDate": Date)
     var
-        AttendanceMissed1: Record "Attendance Missed";
+        AttendanceMissed: Record "Attendance Missed";
     begin
-        AttendanceMissed1.Reset;
-        AttendanceMissed1.SetRange("Employee No.", AttendanceMissed."Employee No.");
-        AttendanceMissed1.SetRange(Type, AttendanceMissed.Type);
-        AttendanceMissed1.SetRange("Start Date", AttendanceMissed."Start Date");
-        AttendanceMissed1.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
-        if AttendanceMissed1.FindFirst then
-            Error('Missed Attendance already applied for date %1', AttendanceMissed1."Start Date");
+        AttendanceMissed.Reset;
+        AttendanceMissed.SetRange("Employee No.", EmployeeNo);
+        AttendanceMissed.SetRange(Type, type);
+        AttendanceMissed.SetRange("Start Date", startDate);
+        AttendanceMissed.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
+        if AttendanceMissed.FindFirst then
+            Error('%1 already applied for date %2', type, AttendanceMissed."Start Date");
     end;
 }

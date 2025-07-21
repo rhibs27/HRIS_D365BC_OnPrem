@@ -365,11 +365,6 @@ page 50329 "Employee Entity"
                 {
 
                 }
-                field(salarylevelDescription; Rec."Salary Level Description")
-                {
-
-                }
-
             }
         }
     }
