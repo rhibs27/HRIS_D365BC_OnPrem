@@ -21,6 +21,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         count: Integer;
+        isHandled: Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
@@ -31,17 +32,41 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
-                    Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                    if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                        Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                        Employee.SetRange("Department Code", EmpRequest."Department Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
-                end else begin
-                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                OnInsertApprovalOnBeforeSelectApprover(Employee, isHandled);
+                if not isHandled then begin
+                    if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
+                        Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                        if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                            Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                            Employee.SetRange("Department Code", EmpRequest."Department Code")
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+                    end else begin
+                        if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
+                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+                    end;
+                end;
+                if isHandled then begin
+                    //province->branch->department
+                    //doesnt care deputation on approval setup header
+                    case ApprovalSetupLine."Deputation Type" of
+                        ApprovalSetupLine."Deputation Type"::Province:
+                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+
+                        ApprovalSetupLine."Deputation Type"::Branch:
+                            begin
+                                Employee.SetRange("Province Code", EmpRequest."Province Code");
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
+                            end;
+
+                        ApprovalSetupLine."Deputation Type"::Department, ApprovalSetupLine."Deputation Type"::Unit:
+                            begin
+                                Employee.SetRange("Province Code", EmpRequest."Province Code");
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
+                                Employee.SetRange("Department Code", EmpRequest."Department Code");
+                            end;
+                    end;
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
                 if Employee.FindFirst() then begin
@@ -682,6 +707,11 @@ codeunit 50017 "Approver Mgt"
             else
                 Error('Employee Activity Type not Found');
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertApprovalOnBeforeSelectApprover(var Employee: Record Employee; var isHandled: Boolean)
+    begin
     end;
 
     var
