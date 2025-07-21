@@ -58,7 +58,7 @@ page 50108 "Portal Functions"
     local procedure "---API1.00 BEGIN"()
     begin
     end;
-    // '","portalAttendance": "' + PortalAttendance +
+
     [ServiceEnabled]
     procedure checkLogin(): Text
     var
@@ -240,14 +240,14 @@ page 50108 "Portal Functions"
         EmployeeCode := HrMgt.GetEmployeeNo();
         Employee.Get(EmployeeCode);
         if Employee."Portal Attendance" then begin
-            CurrentDateTimeUpdate := CurrentDateTime;
+            CurrentDateTimeUpdate := TypeHelper.GetCurrentDateTimeInUserTimeZone();
             AttendanceLogs.Init();
             AttendanceLogs.Validate("Date Time Log", CurrentDateTimeUpdate);
-            AttendanceLogs.Validate("Log Time", DT2Time(TypeHelper.GetCurrentDateTimeInUserTimeZone));
+            AttendanceLogs.Validate("Log Time", DT2Time(CurrentDateTimeUpdate));
             AttendanceLogs.Validate("Employee ID", EmployeeCode);
             AttendanceLogs.Validate("Biometric Attendance", false);
             AttendanceLogs.Validate(Date, Today);
-            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(DT2Time(CurrentDateTimeUpdate)));
+            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(CurrentDateTimeUpdate));
             AttendanceLogs.Insert();
             AttendanceMgt.DailyAttendanceUpdate(Today, Today, EmployeeCode)
         end else
