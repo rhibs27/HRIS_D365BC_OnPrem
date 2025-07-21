@@ -185,14 +185,7 @@ page 50108 "Portal Functions"
     begin
         EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
-        // Attendance Missed check 
-        AttendanceMissed2.Reset();
-        AttendanceMissed2.SetRange("Employee No.", HrMgt.GetEmployeeNo());
-        AttendanceMissed2.SetRange(Type, EmployeeAct);
-        AttendanceMissed2.SetRange("Start Date", startDate);
-        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
-        if AttendanceMissed2.FindFirst then
-            Error('%1 already applied on %2', AttendanceMissed2.Type, AttendanceMissed2."Start Date");
+        AttendanceMissedMgt.CheckAlreadyExists(HrMgt.GetEmployeeNo(), EmployeeAct, startDate);//check alreday exist document
         // Check Already Present
         if EmployeeAct = AttendanceMissed.Type::"Attendance Missed" then
             AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
