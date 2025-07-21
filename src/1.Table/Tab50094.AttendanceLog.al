@@ -19,10 +19,14 @@ table 50094 "Attendance Log"
         }
         field(1; "Employee ID"; Code[20])
         {
+            TableRelation = Employee;
         }
         field(2; Date; Date) { }
         field(3; "Log Time"; Time) { }
-        field(4; "Machine Code"; Integer) { }
+        field(4; "Machine Code"; Integer)
+        {
+
+        }
         field(5; "Biometric Attendance"; Boolean)
         {
         }

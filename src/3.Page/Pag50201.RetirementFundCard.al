@@ -292,6 +292,36 @@ page 50201 "Retirement Fund Card"
                     end;
                 end;
             }
+            action(Cancel)
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                ApplicationArea = All;
+                Visible = IsApproved;
+                trigger OnAction()
+                var
+                    PortalFunctions: Page "Portal Functions";
+                    CancellationRemarks: Text;
+                    FilterPageBuilder: FilterPageBuilder;
+                    RetirementFund: Record "Retirement Fund";
+                begin
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    Clear(FilterPageBuilder);
+                    FilterPageBuilder.AddRecord('Cancel RF', RetirementFund);
+                    FilterPageBuilder.AddField('Cancel RF', RetirementFund."Remarks");
+                    if FilterPageBuilder.RunModal() then begin
+                        RetirementFund.SetView(FilterPageBuilder.GetView('cancel RF'));
+                        CancellationRemarks := RetirementFund.GetFilter(Remarks);
+                        Rec."Remarks" := CancellationRemarks;
+                        PortalFunctions.CancelApprovedRF(rec."No.", CancellationRemarks);
+                        Message('Retirement request has been canceled.');
+                    end
+                end;
+            }
         }
     }
 
@@ -299,6 +329,7 @@ page 50201 "Retirement Fund Card"
     begin
         IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
         ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
     trigger OnOpenPage()
@@ -306,6 +337,7 @@ page 50201 "Retirement Fund Card"
         IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
         ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
     var
@@ -316,4 +348,5 @@ page 50201 "Retirement Fund Card"
         ActionVisible: Boolean;
         IsPending: Boolean;
         ApprovalMgt: Codeunit "Approver Mgt";
+        IsApproved: Boolean;
 }

@@ -115,6 +115,7 @@ page 50108 "Portal Functions"
               '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
               '","portalAttendance": "' + PortalAttendance +
               '","allowShiftAssignment": "' + AllowShiftAssignment +
+              '","biometricDeviceID": "' + Format(Employee."Attendance Device ID") +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
@@ -3013,5 +3014,27 @@ page 50108 "Portal Functions"
         end;
         RecRef.GetTable(RetirementFunds);
         ApprovalMgt.ApproveRejectDocument(RecRef, isApproved);
+    end;
+
+    [ServiceEnabled]
+    procedure CancelApprovedRF(RetirementDocNo: Code[20]; CancellationRemarks: text[50])
+    var
+        RecRef: RecordRef;
+        RetirementFunds: Record "Retirement Fund";
+        EmployeeActType: Enum "Employee Activity Type";
+    begin
+        RetirementFunds.Get(RetirementDocNo);
+        RetirementFunds.TestField("Approval Status", RetirementFunds."Approval Status"::Approved);
+        RetirementFunds.Remarks := CancellationRemarks;
+        RetirementFunds.Cancelled := true;
+        RetirementFunds."Approval Status" := RetirementFunds."Approval Status"::Open;
+        RetirementFunds.Modify();
+
+        //create apporval request for cancellation
+        ApprovalMgt.InsertApproval(RetirementFunds."Employee No.",
+                                    RetirementFunds."No.",
+                                    EmployeeActType::Retirement,
+                                    RetirementFunds."Approval Status"
+                                    );
     end;
 }

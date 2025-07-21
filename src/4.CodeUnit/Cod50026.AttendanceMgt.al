@@ -9,6 +9,7 @@ codeunit 50026 "Attendance Mgt"
         Clear(AttendanceLine);
         Clear(Employee);
         Employee.get(EmpNo);
+        UpdateEmployeeIDInAttendanceLog(); // you can skip it if employee id is updated during sync.
         AttendanceLine.Reset;
         AttendanceLine.SetRange("Employee No.", EmpNo);
         AttendanceLine.SetRange("Attendance Date", InitialDate);
@@ -116,6 +117,7 @@ codeunit 50026 "Attendance Mgt"
 
         // Initialize attendance log query
         AttendanceLog.Reset;
+        AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
         AttendanceLog.SetCurrentKey("Log Time");
         AttendanceLog.SetRange("Employee ID", EmployeeNo);
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
@@ -127,6 +129,7 @@ codeunit 50026 "Attendance Mgt"
                 exit(AttendanceLog."Log Time");
             // If not found on next day, search same day after check-in
             AttendanceLog.Reset;
+            AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
             AttendanceLog.SetCurrentKey("Log Time");
             AttendanceLog.SetRange("Employee ID", EmployeeNo);
             AttendanceLog.SetRange(Date, InitialDate);
@@ -150,6 +153,26 @@ codeunit 50026 "Attendance Mgt"
         end;
     end;
 
+    procedure UpdateEmployeeIDInAttendanceLog()
+    begin
+        AttendanceLog.Reset();
+        AttendanceLog.SetRange("Employee ID", '');
+        if AttendanceLog.FindSet() then begin
+            AttendanceLog."Employee ID" := GetEmployeeIDFromBiometric(AttendanceLog."Machine Emp. Code");
+            AttendanceLog.Modify();
+        end;
+    end;
+
+    procedure GetEmployeeIDFromBiometric(BiometricID: Text): code[20]
+    var
+        Employee: Record Employee;
+    begin
+        Employee.SetLoadFields("No.", "Employee Attendance ID");
+        Employee.SetRange("Employee Attendance ID", BiometricID);
+        if Employee.FindFirst() then
+            exit(Employee."No.")
+    end;
+
     procedure DailyAttendanceUpdate(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Boolean
     var
         DailyAttendanceUpdate: Report "Daily Attendance Update";
@@ -169,4 +192,5 @@ codeunit 50026 "Attendance Mgt"
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
         AttendanceSetUp: Record "Attendance Setup";
+
 }

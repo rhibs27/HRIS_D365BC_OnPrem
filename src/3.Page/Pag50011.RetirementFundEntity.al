@@ -1,4 +1,3 @@
-#pragma implicitwith disable
 page 50011 "Retirement Fund Entity"
 {
     DelayedInsert = true;
@@ -17,63 +16,58 @@ page 50011 "Retirement Fund Entity"
         {
             repeater(General)
             {
-                ////Editable = false;
+
                 field(no; Rec."No.")
                 {
-                    // //Editable = false;
-                    // trigger OnAssistEdit()
-                    // begin
-                    //     if AssistEdit(xRec) then
-                    //         CurrPage.Update;
-                    // end;
+
                 }
                 field(employeeNo; Rec."Employee No.")
                 {
-                    // //Editable = false;
+
                 }
                 field(employeeName; Rec."Employee Name")
                 {
-                    // //Editable = false;
+
                 }
                 field(fiscalYear; Rec."Fiscal Year")
                 {
-                    // //Editable = false;
+
                 }
                 field(payrollMonth; Rec."Payroll Month")
                 {
-                    // //Editable = false;
+
                 }
                 field(annualAccessibleMonth; Rec."Annual Assessable Income")
                 {
-                    // //Editable = false;
+
                 }
                 field(rfContributionEligibleAmt; Rec."RF Contribution Eligible Amt")
                 {
-                    // //Editable = false;
+
                 }
                 field(providentFundDeposited; Rec."Provident Fund Deposited")
                 {
-                    // //Editable = false;
+
                 }
                 field(rfContributionDeposited; Rec."RF Contribution Deposited")
                 {
-                    //Editable = false;
+
                 }
                 field(providentFundProjected; Rec."Provident Fund Projected")
                 {
-                    //Editable = false;
+
                 }
                 field(actualProjectedContribution; Rec."Actual/Projected Contribution")
                 {
-                    //Editable = false;
+
                 }
                 field(additionalSpaceForRF; Rec."Additional Space for RF Cont.")
                 {
-                    //Editable = false;
+
                 }
                 field(projectionMonth; Rec."Projection Month")
                 {
-                    //Editable = false;
+
                 }
                 field(recommendedMonthlyCITRF; Rec."Recommended Monthly CIT/RF") { }
                 field(rTFAmountMonth; Rec."RTF Amount (Month)") { }
@@ -82,15 +76,15 @@ page 50011 "Retirement Fund Entity"
                 field(cITAmountLumpSum; Rec."CIT Amount( Lumpsum)") { }
                 field(totalCommittedContribution; Rec."Total Committed Contribution")
                 {
-                    //Editable = false;
+
                 }
                 field(totalDeduction; Rec."Total Deduction")
                 {
-                    //Editable = false;
+
                 }
                 field(difference; Rec.Difference)
                 {
-                    //Editable = false;
+
                 }
                 field(approvalStatus; Rec."Approval Status") { }
                 field(createdDate; Rec."Created Date") { }
@@ -107,56 +101,17 @@ page 50011 "Retirement Fund Entity"
         }
     }
 
-    actions
-    {
-        // area(Processing)
-        // {
-        //     action(Submit)
-        //     {
-        //         Image = Suggest;
-        //         Promoted = true;
-        //         PromotedCategory = Process;
-        //         PromotedIsBig = true;
-        //         Visible = ActionVisible;
-
-        //         trigger OnAction()
-        //         begin
-        //             if HRMgt.ApplyForRetirementFund(Rec) then begin
-        //                 IsApplied := true;
-        //                 CurrPage.Close;
-        //             end;
-        //         end;
-        //     }
-        //     action(Screen)
-        //     {
-        //         Image = Stages;
-        //         Promoted = true;
-        //         PromotedCategory = Process;
-        //         PromotedIsBig = true;
-
-        //         trigger OnAction()
-        //         begin
-        //             if not Confirm('Do you want to screen the document ?', false) then
-        //                 exit;
-        //             HRMgt.ScreenRF(Rec);
-
-        //             Message('Document screened successfully.');
-        //         end;
-        //     }
-        // }
-    }
-
     trigger OnNewRecord(BelowxRec: Boolean)
     begin
         Rec."Approval Status" := Rec."Approval Status"::Pending;
-        PayrollGeneralSetup.Get; //Min
+        PayrollGeneralSetup.Get;
         if PayrollGeneralSetup."Enable RF Lumpsump Plan" then
             Rec."Lumpsum Committed Contribution" := Rec."Total Committed Contribution";
     end;
 
     trigger OnOpenPage()
     begin
-        //ERROR('Retirement Fund has been disabled for this year.');
+
     end;
 
     var
@@ -165,5 +120,3 @@ page 50011 "Retirement Fund Entity"
         ActionVisible: Boolean;
         PayrollGeneralSetup: Record "Payroll General Setup";
 }
-
-#pragma implicitwith restore

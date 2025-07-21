@@ -2956,7 +2956,7 @@ codeunit 50001 "HR Mgt."
         exit(xProvTxt);
     end;
 
-    // procedure CheckSubProvience(SubProvienceName: Text[30])
+    // procedure CheckSubProvience(SubProvienceName: Text[50])
     // var
     //     // SubProvienceVar: Record "Sub Province";
     //     ErrorSubProvience: Label 'Sub-Provience Name %1 not found.';
@@ -2967,7 +2967,7 @@ codeunit 50001 "HR Mgt."
     //         Error(ErrorSubProvience, SubProvienceName);
     // end;
 
-    // procedure LookupSubProvience(ProvienceName: Text[30]; xSubProvTxt: Text[30]): Text[30]
+    // procedure LookupSubProvience(ProvienceName: Text[50]; xSubProvTxt: Text[50]): Text[50]
     // var
     //     SubProvienceVar: Record "Sub Province";
     //     PageSubProvience: Page "SubProvinceList";
@@ -10171,14 +10171,21 @@ codeunit 50001 "HR Mgt."
         PayrollAttributesUsage.SetFilter(Subtype, '%1|%2', PayrollAttributesUsage.Subtype::CIT, PayrollAttributesUsage.Subtype::RF);
         if PayrollAttributesUsage.FindSet then
             repeat
-
                 PayrollAttributesUsage.CalcFields(Subtype);
                 if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::CIT then
                     if RetirementFund."CIT Amount (Month)" <> 0 then
-                        PayrollAttributesUsage.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                        if RetirementFund.Cancelled then
+                            PayrollAttributesUsage.Validate(Amount, 0)
+                        else
+                            PayrollAttributesUsage.Validate(Amount, RetirementFund."CIT Amount (Month)");
+
+
                 if PayrollAttributesUsage.Subtype = PayrollAttributesUsage.Subtype::RF then
                     if RetirementFund."RTF Amount (Month)" <> 0 then
-                        PayrollAttributesUsage.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                        if RetirementFund.Cancelled then
+                            PayrollAttributesUsage.Validate(Amount, 0)  //reversing the changes
+                        else
+                            PayrollAttributesUsage.Validate(Amount, RetirementFund."RTF Amount (Month)");
 
                 PayrollAttributesUsage.Modify(true);
                 Employee.Modify;

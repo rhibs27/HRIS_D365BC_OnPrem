@@ -353,7 +353,7 @@ codeunit 50017 "Approver Mgt"
                                 end;
                             EmployeeActivityType::Retirement:
                                 begin
-                                    RecRef.Field(22).Validate(ApprovalStatus::Rejected);
+                                    RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatus::Rejected);
                                     RecRef.Modify();
                                 end;
                         end;
@@ -445,7 +445,6 @@ codeunit 50017 "Approver Mgt"
                             end;
                         EmployeeActivityType::Retirement:
                             begin
-                                //update payroll attribute uses
                                 RetirementFund.Get(RecRef.RecordId);
                                 HRMgt.ScreenRF(RetirementFund);
                             end;
