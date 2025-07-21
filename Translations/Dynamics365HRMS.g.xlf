@@ -56278,6 +56278,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Spouse Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 346542166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Super Approver Functional Title field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Super Approver Func Title - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3341031116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the V.loan Repay. Limit SO or less field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58848,6 +58853,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field SQL Table Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 4168225968 - Field 346542166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Super Approver Func Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Super Approver Func Title - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2056284759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Training Calendar No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -60287,11 +60297,6 @@
           <source>Allowance Assignment Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Allowance Assignment Claim - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 4154710913 - EnumValue 2653894362 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Journal</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Attendance Journal - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>
