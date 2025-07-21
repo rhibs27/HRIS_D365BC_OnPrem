@@ -115,7 +115,6 @@ page 50108 "Portal Functions"
               '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
               '","portalAttendance": "' + PortalAttendance +
               '","allowShiftAssignment": "' + AllowShiftAssignment +
-              '","biometricDeviceID": "' + Format(Employee."Attendance Device ID") +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
     end;
 
