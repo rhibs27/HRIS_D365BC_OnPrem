@@ -97,4 +97,30 @@ codeunit 50014 "Event Management"
             Resolved := true;
         end;
     end;
+
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"System Initialization", OnAfterLogin, '', false, false)]
+    // local procedure "System Initialization_OnAfterLogin"()
+    // var
+    //     ActiveSession: Record "Active Session";
+    // begin
+    //     ActiveSession.SetRange("User ID", UserId);
+    //     ActiveSession.Setfilter("Session ID", '<>%1', SessionId());
+    //     if ActiveSession.FindSet() then
+    //         repeat
+    //             StopSession(ActiveSession."Session ID");
+    //         until ActiveSession.Next() = 0;
+    // end;
+
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::LogInManagement, OnBeforeLogInEnd, '', false, false)]
+    // local procedure LogInManagement_OnBeforeLogInEnd(var LogInDate: Date; var LogInTime: Time)
+    // begin
+    // end;
+
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"User Triggers", OnAfterUserInitialization, '', false, false)]
+    // local procedure "User Triggers_OnAfterUserInitialization"()
+    // begin
+    // end;
+
+
+
 }

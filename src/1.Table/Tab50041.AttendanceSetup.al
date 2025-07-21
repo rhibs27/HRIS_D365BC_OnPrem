@@ -1,8 +1,6 @@
 table 50041 "Attendance Setup"
 {
     DataClassification = CustomerContent;
-    // version ATM19.01.01
-
     fields
     {
         field(1; "Primary Key"; Code[20]) { }
@@ -74,6 +72,10 @@ table 50041 "Attendance Setup"
             DataClassification = ToBeClassified;
         }
         field(19; "Check Out From"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(20; "Overtime Claim Type"; enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
         }

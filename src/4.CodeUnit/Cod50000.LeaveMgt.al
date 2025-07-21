@@ -771,7 +771,7 @@ codeunit 50000 "Leave Mgt."
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
         CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
-        CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type");
+        // CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type"); Remove this Condition After Bank request
         CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
         CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
         if GuiAllowed then begin

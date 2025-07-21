@@ -72,7 +72,6 @@ table 50154 "Attendance Missed"
             trigger OnValidate()
             var
                 EmpAttendanceActivity: Record "Employee Attendance & Activity";
-                AttendanceMissed1: Record "Attendance Missed";
             begin
                 EmpAttendanceActivity.Reset;
                 EmpAttendanceActivity.SetRange("Employee No.", "Employee No.");
@@ -96,21 +95,9 @@ table 50154 "Attendance Missed"
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
-                    // Validate("No. of Days", 0);
                 end;
-
-                //Min 4.26.2022 -- Check for Missed Attendance.
-                if Type = Type::"Attendance Missed" then begin
-                    AttendanceMissed.Reset;
-                    AttendanceMissed.SetRange("Employee No.", "Employee No.");
-                    AttendanceMissed.SetRange(Type, AttendanceMissed.Type::"Attendance Missed");
-                    AttendanceMissed.SetRange("Start Date", Rec."Start Date");
-                    AttendanceMissed.SetFilter("Approval Status", '<>%1', AttendanceMissed."Approval Status"::Rejected);
-                    if AttendanceMissed.FindFirst then
-                        Error('Missed Attendance already applied for date %1', Rec."Start Date");
-                end;
+                AttendanceMissedMgt.CheckAlreadyExists("Employee No.", Type, "Start Date");
                 Validate("End Date", "Start Date");
-
             end;
         }
         field(8; "End Date"; Date)
@@ -357,5 +344,5 @@ table 50154 "Attendance Missed"
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
         ApprovalEntry: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
-        AttendanceMissed: Record "Attendance Missed";
+        AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
 }

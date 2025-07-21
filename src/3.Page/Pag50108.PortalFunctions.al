@@ -53,11 +53,12 @@ page 50108 "Portal Functions"
         CheckSalaryLevel: Record "Salary Level";
         BelowSOAmt: Decimal;
         EngNepDate: Record "English-Nepali Date";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     local procedure "---API1.00 BEGIN"()
     begin
     end;
-    //   '","portalAttendance": "' + PortalAttendance +
+
     [ServiceEnabled]
     procedure checkLogin(): Text
     var
@@ -112,25 +113,9 @@ page 50108 "Portal Functions"
               '","firstLogin": "' + FirstLogin +
               '","employeeName": "' + Employee."Full Name" +
               '","allowAllowanceAssignment": "' + AllowAllowanceAssignment +
+              '","portalAttendance": "' + PortalAttendance +
               '","allowShiftAssignment": "' + AllowShiftAssignment +
               '","id" :"' + DelChr(Format(Employee."No."), '=', '{}') + '"}');
-    end;
-
-    [ServiceEnabled]
-    procedure loginSuccess(): Integer
-    var
-        Employee: Record Employee;
-        user: Record User;
-    begin
-        Employee.Reset();
-        if Employee.Get(HrMgt.GetEmployeeNo()) then begin
-            Employee.Login := true;
-            Employee.Modify();
-            user.Reset();
-            user.SetRange("User Name", UserId);
-            user.FindFirst();
-            exit(200);
-        end;
     end;
 
     // Api for getting Approval from setup << Santosh << 11-3-25
@@ -159,13 +144,16 @@ page 50108 "Portal Functions"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."From Deputation" then begin
+                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                     Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                     if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                         Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                         Employee.SetRange("Department Code", EmpRequest."Department Code")
                     else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                end else begin
+                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
                         Employee.SetRange("Province Code", EmpRequest."Province Code");
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -197,13 +185,7 @@ page 50108 "Portal Functions"
     begin
         EmployeeAct := Enum::"Employee Activity Type".FromInteger(EmployeeAct.Ordinals.Get(EmployeeAct.Names.IndexOf(Type)));
         PayrollSetup.Get();
-        // Attendance Missed check 
-        AttendanceMissed2.Reset();
-        AttendanceMissed2.SetRange("Employee No.", HrMgt.GetEmployeeNo());
-        AttendanceMissed2.SetRange("Start Date", startDate);
-        AttendanceMissed2.Setfilter("Approval Status", '<>%1', AttendanceMissed2."Approval Status"::Rejected);
-        if AttendanceMissed2.FindFirst then
-            Error('%1 already applied on %2', AttendanceMissed2.Type, AttendanceMissed2."Start Date");
+        AttendanceMissedMgt.CheckAlreadyExists(HrMgt.GetEmployeeNo(), EmployeeAct, startDate);//check alreday exist document
         // Check Already Present
         if EmployeeAct = AttendanceMissed.Type::"Attendance Missed" then
             AttendanceMissedMgt.CheckForLeaveOnAttendanceMissed(startDate, startDate, HrMgt.GetEmployeeNo());
@@ -252,19 +234,24 @@ page 50108 "Portal Functions"
     var
         AttendanceLogs: Record "Attendance Log";
         EmployeeCode: Code[20];
+        CurrentDateTimeUpdate: DateTime;
+        TypeHelper: Codeunit "Type Helper";
     begin
         EmployeeCode := HrMgt.GetEmployeeNo();
         Employee.Get(EmployeeCode);
         if Employee."Portal Attendance" then begin
+            CurrentDateTimeUpdate := TypeHelper.GetCurrentDateTimeInUserTimeZone();
             AttendanceLogs.Init();
-            AttendanceLogs.Validate("Date Time Log", CurrentDateTime);
-            AttendanceLogs.Validate("Log Time", Time);
+            AttendanceLogs.Validate("Date Time Log", CurrentDateTimeUpdate);
+            AttendanceLogs.Validate("Log Time", DT2Time(CurrentDateTimeUpdate));
             AttendanceLogs.Validate("Employee ID", EmployeeCode);
-            AttendanceLogs.Validate("Biometric Attendance", true);
+            AttendanceLogs.Validate("Biometric Attendance", false);
             AttendanceLogs.Validate(Date, Today);
-            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(Today) + Format(Time));
-            AttendanceLogs.Insert()
-        end;
+            AttendanceLogs.Validate("Emp DateTime", EmployeeCode + Format(CurrentDateTimeUpdate));
+            AttendanceLogs.Insert();
+            AttendanceMgt.DailyAttendanceUpdate(Today, Today, EmployeeCode)
+        end else
+            Error('Portal Attendance is not Available');
     end;
 
     local procedure "------Leave API---------"()
@@ -1816,6 +1803,13 @@ page 50108 "Portal Functions"
          '"MorningOTHrs" : "' + DelChr(Format(MorningOTHrs)) + '",' +
          '"EveningOTHrs" : "' + Format(EveningOTHrs) + '",' +
          '"OTAmount" : "' + DelChr(Format(OTAmount), '=', '{}') + '"}');
+    end;
+
+    [ServiceEnabled]
+    procedure exitOvertimeClaimType(): Text
+    begin
+        AttendanceSetup.Get;
+        exit(Format(AttendanceSetup."Overtime Claim Type"));
     end;
 
     local procedure "---Appointment API----"()

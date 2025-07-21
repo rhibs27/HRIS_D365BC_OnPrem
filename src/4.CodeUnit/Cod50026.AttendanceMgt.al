@@ -68,7 +68,7 @@ codeunit 50026 "Attendance Mgt"
         EngNep.SetRange("English Date", InitialDate);
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
-        AttendanceLine.Modify(false);
+        AttendanceLine.Modify();
 
         PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
     end;
@@ -150,6 +150,17 @@ codeunit 50026 "Attendance Mgt"
             // No checkout time found
             exit(0T)
         end;
+    end;
+
+    procedure DailyAttendanceUpdate(StartDate: Date; EndDate: Date; EmployeeNo: Code[20]): Boolean
+    var
+        DailyAttendanceUpdate: Report "Daily Attendance Update";
+    begin
+        // Update Daily Attendance
+        DailyAttendanceUpdate.SetRequestFilterValue(StartDate, EndDate, EmployeeNo);
+        DailyAttendanceUpdate.UseRequestPage(false);
+        DailyAttendanceUpdate.Run();
+        exit(true);
     end;
 
     var
