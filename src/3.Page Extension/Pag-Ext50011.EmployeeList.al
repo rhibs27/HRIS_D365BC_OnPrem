@@ -208,6 +208,10 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ToolTip = 'Specifies the value of the Attendance Missed On field.';
                 Visible = false;
             }
+            field("Approver Role"; Rec."Approver Role")
+            {
+                Editable = false;
+            }
         }
     }
     actions
