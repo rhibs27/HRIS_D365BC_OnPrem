@@ -9,8 +9,10 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
             Var
                 Qualification: Record Qualification;
             begin
-                if Qualification.get("Qualification Code") then
+                if Qualification.get("Qualification Code") then begin
                     Validate("Qualification Type", Qualification."Qualification Type");
+                    Validate(Rank, Qualification.Rank);
+                end;
             end;
         }
         modify("From Date")
