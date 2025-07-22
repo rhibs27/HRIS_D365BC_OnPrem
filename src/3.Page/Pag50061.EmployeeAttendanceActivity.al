@@ -1,7 +1,5 @@
 page 50061 "Employee Attendance & Activity"
 {
-    // version ATM.19.01.01
-
     DeleteAllowed = false;
     Editable = false;
     InsertAllowed = false;
@@ -10,7 +8,6 @@ page 50061 "Employee Attendance & Activity"
     SourceTable = "Employee Attendance & Activity";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -42,15 +39,9 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
-                field("Punch out Remarks"; Rec."Punch out Remarks")
+                field(Week; Rec.Week)
                 {
-                    ToolTip = 'Specifies the value of the Punch out Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Late Remarks"; Rec."Late Remarks")
-                {
-                    Caption = 'Remarks';
-                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ToolTip = 'Specifies the value of the Week field.';
                     ApplicationArea = All;
                 }
                 field("Day Type"; Rec."Day Type")
@@ -289,11 +280,13 @@ page 50061 "Employee Attendance & Activity"
                 {
                     ToolTip = 'Specifies the value of the Punch Out Reviewer field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Punch Out Check Reviewer"; Rec."Punch Out Check Reviewer")
                 {
                     ToolTip = 'Specifies the value of the Punch Out Check Reviewer field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Overtime Disbursed"; Rec."Overtime Disbursed")
                 {
@@ -323,11 +316,6 @@ page 50061 "Employee Attendance & Activity"
                 field("Salary Grade"; Rec."Salary Grade")
                 {
                     ToolTip = 'Specifies the value of the Salary Grade field.';
-                    ApplicationArea = All;
-                }
-                field(Week; Rec.Week)
-                {
-                    ToolTip = 'Specifies the value of the Week field.';
                     ApplicationArea = All;
                 }
             }

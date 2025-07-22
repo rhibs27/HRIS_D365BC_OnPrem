@@ -26568,11 +26568,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Punch Out Check Reviewer - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 251429658 - Control 1502899865 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Punch out Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Punch out Remarks - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 251429658 - Control 157350741 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Punch Out Reviewer field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -56278,11 +56273,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Spouse Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 346542166 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Super Approver Functional Title field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Super Approver Func Title - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 3341031116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the V.loan Repay. Limit SO or less field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -58852,11 +58842,6 @@
           <source>SQL Table Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field SQL Table Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 4168225968 - Field 346542166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
-          <source>Super Approver Func Title</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Super Approver Func Title - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 2056284759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Training Calendar No.</source>

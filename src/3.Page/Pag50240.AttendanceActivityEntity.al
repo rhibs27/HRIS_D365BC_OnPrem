@@ -1,7 +1,5 @@
 page 50240 "Attendance Activity Entity"
 {
-
-
     DeleteAllowed = false;
     Editable = false;
     EntityName = 'attendanceActivityEntity';
@@ -15,7 +13,6 @@ page 50240 "Attendance Activity Entity"
     APIPublisher = 'Agile';
     SourceTable = "Employee Attendance & Activity";
     UsageCategory = Lists;
-
     layout
     {
         area(Content)
@@ -32,16 +29,13 @@ page 50240 "Attendance Activity Entity"
                 field(lateRemarks; Rec."Late Remarks") { }
                 field(holidayRemarks; Rec."Holiday Remarks") { }
                 field(presentDay; Rec."Present Day") { }
-                field(weekOffDay; Rec."Week Off Day")
-                {
-                }
-                field(absentDay; Rec."Absent Day")
-                {
-                }
+                field(weekOffDay; Rec."Week Off Day") { }
+                field(absentDay; Rec."Absent Day") { }
                 field(sourceNo; Rec."Source No.") { }
                 field(leaveDay; Rec."Leave Day") { }
                 field(tourDay; Rec."Tour Day") { }
                 field(leaveDescription; Rec."Leave Description") { }
+                field(week; Rec.Week) { }
             }
         }
     }
