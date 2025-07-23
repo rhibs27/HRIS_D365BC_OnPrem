@@ -490,27 +490,13 @@ table 50075 "Employee Activity Journal"
 
         field(63; "Outgoing Branch Rep. Person"; Code[20])
         {
-            // Description = 'Transfer';
-            // TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"));
-            // trigger OnValidate()
-            // var
-            //     Employee: Record Employee;
-            // begin
-            //     if Employee.get("Outgoing Branch Rep. Person") then
-            //         "Outgoing Reporting Person Name" := Employee."Full Name";
-            // end;
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"), status = const("Employee Status"::Active));
-
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
-                if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
+                if "Outgoing Branch Rep. Person" <> '' then begin
                     EmployeeRec.Get("Outgoing Branch Rep. Person");
                     "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
-                    // if SalaryLevel.Get("Salary Level Code") then;
-                    // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                    // if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                    //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
                 end;
                 if "Outgoing Branch Rep. Person" = "Employee No." then
                     Error('Cannot Select Yourself as Outgoing Reporting person');
@@ -521,18 +507,10 @@ table 50075 "Employee Activity Journal"
         }
         field(65; "Incoming Supervisor"; Code[20])
         {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             Description = 'Transfer';
-            // TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"));
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"), status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
-                // if "Incoming Supervisor" <> '' then begin //Min 12.13.2022
-                //     EmployeeRec.Get("Incoming Supervisor");
-                //     if SalaryLevel.Get("Salary Level Code") then;
-                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //         Error('Salary level of Incoming Supervisor (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                // end;
                 if EmpVar.Get("Incoming Supervisor") then
                     Validate("Incoming Supervisor Name", EmpVar."Full Name")
                 else
