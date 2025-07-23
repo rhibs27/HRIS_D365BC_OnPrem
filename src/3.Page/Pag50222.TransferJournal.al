@@ -18,6 +18,9 @@ page 50222 "Transfer Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
@@ -66,7 +69,6 @@ page 50222 "Transfer Journal"
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
-                    Editable = false;
                     Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)

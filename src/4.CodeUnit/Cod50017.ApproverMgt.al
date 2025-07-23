@@ -563,7 +563,6 @@ codeunit 50017 "Approver Mgt"
                 exit(true)
         end;
     end;
-
     procedure UpdateFirstApproverStatus(DocNo: Code[20]): Boolean
     var
         Approver: Record "Approval HRMS";
@@ -576,7 +575,6 @@ codeunit 50017 "Approver Mgt"
             Approver.Modify();
         end;
     end;
-
     //>> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveJournalDocument(EmpActNo: Code[20]; Approved: Boolean)
     var

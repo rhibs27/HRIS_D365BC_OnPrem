@@ -17,6 +17,9 @@ page 50227 "Leave Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ToolTip = 'Specifies the value of the Leave Code field.';
