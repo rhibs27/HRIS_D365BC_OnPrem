@@ -97,7 +97,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
                 else
                     "Date of Birth (B.S.)" := '';
+                "Age Text" := HRMgt.GetAge("Birth Date", Today);
             end;
+
         }
         modify(Address)
         {
@@ -145,7 +147,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnAfterValidate()
             begin
-                "Termination Date Nepali" := EngNepDate.getNepaliDate("Termination Date");
+                "Termination Date (B.S.)" := EngNepDate.getNepaliDate("Termination Date");
             end;
         }
 
@@ -463,7 +465,7 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                "Promotion Date Nepali" := EngNepDate.getNepaliDate("Promotion Date");
+                "Promotion Date (B.S.)" := EngNepDate.getNepaliDate("Promotion Date");
             end;
         }
         field(50025; "CIT No."; Code[20])
@@ -594,6 +596,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50044; "Citizen Number"; Code[30])
         {
+            caption = 'Citizenship Number';
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
@@ -642,6 +645,12 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             Editable = false;
+            trigger OnValidate()
+            begin
+                "Birth Date" := EngNepDate.getEngDate("Date of Birth (B.S.)");
+                "Age Text" := HRMgt.GetAge("Birth Date", Today);
+            end;
+
         }
         field(50055; "Citizenship Issue Place"; Text[30])
         {
@@ -655,12 +664,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Citizenship Issue Date" > Today then
                     Error('Citizenship Issue Date Cannot be in Future Date');
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Citizenship Issue Date");
-                if EngNepDate.FindFirst then
-                    "Citizenship Date(Nepali)" := EngNepDate."Nepali Date"
-                else
-                    "Citizenship Date(Nepali)" := '';
+                "Citizenship Date (B.S.)" := EngNepDate.getNepaliDate("Citizenship Issue Date");
             end;
 
 
@@ -1011,7 +1015,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Confirmation Date" < "Employment Date" then
                     Error('Confirmation date cannot be less than employment date');
-                "Confirmation Date Nepali" := EngNepDate.getNepaliDate("Confirmation Date");
+                "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
 
@@ -1153,6 +1157,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50119; "Resignation Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Resignation Date (B.S.)" := EngNepDate.getNepaliDate("Resignation Date");
+            end;
         }
         // field(50120; "Selection committee"; Boolean)
         // {
@@ -1173,11 +1181,15 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(50124; "Citizenship Date(Nepali)"; Text[10])
+        field(50124; "Citizenship Date (B.S.)"; Text[10])
         {
             DataClassification = CustomerContent;
             Description = 'In nepali';
-            Editable = false;
+            trigger OnValidate()
+            begin
+                "Citizenship Issue Date" := EngNepDate.getEngDate("Citizenship Date (B.S.)");
+            end;
+
         }
         field(50125; "Portal Attendance"; Boolean)
         {
@@ -1391,31 +1403,57 @@ tableextension 50013 "Employee Ext" extends Employee
         {
 
         }
-        field(50171; "Promotion Date Nepali"; Code[20])
+        field(50171; "Promotion Date (B.S.)"; Code[20])
         {
             trigger OnValidate()
             begin
-                "Promotion Date" := EngNepDate.getEngDate("Promotion Date Nepali");
+                "Promotion Date" := EngNepDate.getEngDate("Promotion Date (B.S.)");
             end;
         }
-        field(50172; "Confirmation Date Nepali"; Code[20])
+        field(50172; "Confirmation Date (B.S.)"; Code[20])
         {
             trigger OnValidate()
             begin
-                "Confirmation Date" := EngNepDate.getEngDate("Confirmation Date Nepali");
+                "Confirmation Date" := EngNepDate.getEngDate("Confirmation Date (B.S.)");
             end;
         }
-        field(50173; "Termination Date Nepali"; Code[20])
+        field(50173; "Termination Date (B.S.)"; Code[20])
         {
             trigger OnValidate()
             begin
-                "Termination Date" := EngNepDate.getEngDate("Termination Date Nepali");
+                "Termination Date" := EngNepDate.getEngDate("Termination Date (B.S.)");
             end;
         }
         field(50174; "Gratuity Number"; Code[20])
         {
 
         }
+        field(50175; "Resignation Date (B.S.)"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                "Resignation Date" := EngNepDate.getEngDate("Resignation Date (B.S.)")
+            end;
+        }
+        field(50176; "Employment Date (B.S.)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Employment Date" := EngNepDate.getEngDate("Employment Date (B.S.)")
+            end;
+
+        }
+        field(50177; "Age Text"; Text[30])
+        {
+
+        }
+        field(50178; "Digital Signature"; Blob)
+        {
+            SubType = Bitmap;
+            Caption = 'Digital Signature';
+        }
+
     }
     keys
     {

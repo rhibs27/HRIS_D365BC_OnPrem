@@ -170,6 +170,15 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Editable = false;
 
             }
+            field("Age Text"; Rec."Age Text")
+            {
+                Caption = 'Age';
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Age Text field.';
+                Editable = false;
+
+
+            }
             field("CIF ID"; Rec."CIF ID")
             {
                 ApplicationArea = All;
@@ -252,9 +261,9 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter(General)
         {
-            group("Document Information")
+            group("Identification Deails")
             {
-                group("Citizonship Details")
+                group("Citizenship Details")
                 {
                     field("Citizen Number"; Rec."Citizen Number")
                     {
@@ -309,6 +318,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             ApplicationArea = All;
                             ToolTip = 'Specifies the value of the Driving License Number field.';
                         }
+                        field("Digital Signature"; Rec."Digital Signature")
+                        {
+                            ApplicationArea = All;
+                        }
+
                     }
                 }
 
@@ -652,10 +666,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Promotion Date field.';
 
                 }
+                field("Promotion Date (B.S.)"; Rec."Promotion Date (B.S.)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Promotion Date (B.S) field.';
+
+                }
                 field("Resignation Date"; Rec."Resignation Date")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Date field.';
+
+                }
+                field("Resignation Date (B.S.)"; Rec."Resignation Date (B.S.)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resignation Date (B.S.) field.';
 
                 }
                 field("Sol Id"; Rec."Sol Id")
@@ -730,11 +756,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
                 }
-                field("Citizenship Issue Date(Nepali)"; Rec."Citizenship Date(Nepali)")
+                field("Citizenship Issue Date(B.S.)"; Rec."Citizenship Date (B.S.)")
                 {
-                    Caption = 'Citizenship Issue Date(Nepali)';
+                    Caption = 'Citizenship Issue Date(B.S.)';
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Date(Nepali) field.';
+                    ToolTip = 'Specifies the value of the Citizenship Issue Date(B.S.) field.';
                 }
 
             }
@@ -776,6 +802,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Confirmation Date field.';
 
+            }
+            field("Confirmation Date (B.S.)"; Rec."Confirmation Date (B.S.)")
+            {
+                ApplicationArea = All;
             }
             field("Bank No."; Rec."Bank No.")
             {
@@ -1046,7 +1076,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter("Employment Date")
         {
-            field("Service Period Text"; rec."Service Period Text")
+            field("Employment Date (B.S.)"; Rec."Employment Date (B.S.)")
+            {
+                ApplicationArea = All;
+            }
+            field("Service Period Text"; Rec."Service Period Text")
             {
                 caption = 'Service Period';
                 ApplicationArea = all;

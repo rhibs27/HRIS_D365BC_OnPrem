@@ -52573,6 +52573,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Age - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4222108266 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Age Text field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Age Text - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4222108266 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Age</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Age Text - Property Caption</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Blood Group field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -52848,15 +52858,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Temporary Ward No - Property Caption</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 1017125425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Citizenship Issue Date(Nepali) field.</source>
+        <trans-unit id="PageExtension 866835530 - Control 3659681075 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Citizenship Issue Date(B.S.) field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(Nepali) - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(B.S.) - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 1017125425 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Citizenship Issue Date(Nepali)</source>
+        <trans-unit id="PageExtension 866835530 - Control 3659681075 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Citizenship Issue Date(B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(Nepali) - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Citizenship Issue Date(B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2996711879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Citizenship No. (Nepali) field.</source>
@@ -52988,6 +52998,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Promotion Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4144060017 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Promotion Date (B.S) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Promotion Date (B.S.) - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Province Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53002,6 +53017,11 @@
           <source>Specifies the value of the Resignation Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Resignation Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4209954143 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Resignation Date (B.S.) field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Resignation Date (B.S.) - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 3370741491 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Salary Grade field.</source>
@@ -54623,6 +54643,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Age - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4222108266 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Age Text</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Age Text - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 333147355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Approver Role</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54694,14 +54719,14 @@
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field CIT No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3845515103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Citizen Number</source>
+          <source>Citizenship Number</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Citizen Number - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 4006482202 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Citizenship Date(Nepali)</source>
+        <trans-unit id="TableExtension 1028528413 - Field 2116209492 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Citizenship Date (B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Citizenship Date(Nepali) - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Citizenship Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3376960483 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Citizenship Issue Date</source>
@@ -54733,10 +54758,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Confirmation Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 1811267280 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Confirmation Date Nepali</source>
+        <trans-unit id="TableExtension 1028528413 - Field 3142359605 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Confirmation Date (B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Confirmation Date Nepali - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Confirmation Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 4133302435 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Contract Expiry Date</source>
@@ -54793,6 +54818,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Deputation On Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 1684821634 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Digital Signature</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Digital Signature - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 1493862997 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Disable Punch in</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54847,6 +54877,11 @@
           <source>Employee Work Shift</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Employee Work Shift - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 1712861688 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Employment Date (B.S.)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Employment Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 4003090428 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Employment Type</source>
@@ -55173,10 +55208,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Promotion Date - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 1343373396 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Promotion Date Nepali</source>
+        <trans-unit id="TableExtension 1028528413 - Field 4144060017 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Promotion Date (B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Promotion Date Nepali - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Promotion Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Province Code</source>
@@ -55222,6 +55257,11 @@
           <source>Resignation Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Resignation Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 4209954143 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Resignation Date (B.S.)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Resignation Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 2164653393 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Restrict Leave Earn</source>
@@ -55343,10 +55383,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Temporary Ward No - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1028528413 - Field 670092913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
-          <source>Termination Date Nepali</source>
+        <trans-unit id="TableExtension 1028528413 - Field 1162079748 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Termination Date (B.S.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Termination Date Nepali - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Termination Date (B.S.) - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 1496857583 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Third Party Payroll Emp Code</source>
