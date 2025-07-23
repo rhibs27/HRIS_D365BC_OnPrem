@@ -169,7 +169,7 @@ report 50129 "Current Date Transfer Update"
             Clear(LeaveEarn);
             LeaveEarn.Init;
             LeaveEarn.Validate("Leave Code", 'COMPENSATORY');
-            LeaveEarn.Validate(EmpNo, Employee."No.");
+            LeaveEarn.Validate("Employee No.", Employee."No.");
             LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
             LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
             LeaveEarn.Validate("Posted Date", Today);

@@ -1796,7 +1796,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     RunObject = Page "Leave Earn";
-                    RunPageLink = "EmpNo" = FIELD("No.");
+                    RunPageLink = "Employee No." = FIELD("No.");
                     Promoted = true;
                     PromotedIsBig = true;
                     Image = AbsenceCategory;
@@ -2393,7 +2393,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LeaveEarn: Record "Leave Earn";
     BEGIN
         LeaveEarn.RESET;
-        LeaveEarn.SETRANGE(EmpNo, Rec."No.");
+        LeaveEarn.SETRANGE("Employee No.", Rec."No.");
         IF LeaveEarn.FINDFIRST THEN
             EXIT(TRUE);
     END;

@@ -37,7 +37,7 @@ table 50066 "Leave Type Setup"
         field(10; "Remaining Days"; Decimal)
         {
             CalcFormula = sum("Leave Earn"."Balancing Days" where("Leave Code" = field(Code),
-                                                                   EmpNo = field("Employee No. Filter"),
+                                                                   "Employee No." = field("Employee No. Filter"),
                                                                    Closed = const(false)));
             FieldClass = FlowField;
         }
@@ -142,6 +142,61 @@ table 50066 "Leave Type Setup"
         {
             DataClassification = ToBeClassified;
         }
+
+
+
+        field(100; "Credit Method"; Option)
+        {
+            OptionMembers = " ",Attendance,Automatic,"On Approval";
+            Caption = 'Credit Method';
+        }
+        field(101; "Credit Limit"; Decimal)
+        {
+            Caption = 'Credit Limit';
+        }
+
+        field(102; "Min. Service Years"; Decimal)
+        {
+            Caption = 'Min. Service Years';
+        }
+        field(103; "Max. Eligible Age"; Decimal)
+        {
+            Caption = 'Max. Eligible Age';
+        }
+        field(104; "Credit Frequency"; Option)
+        {
+            OptionMembers = Annual,Monthly,Occasional;
+        }
+        field(105; "Credit Limit Type"; Option)
+        {
+            OptionMembers = Annual,Monthly,Occasional;
+        }
+        field(106; "Credit At"; Option)
+        {
+            OptionMembers = Beginning,"End";
+        }
+        field(107; "Display in Portal"; Boolean) { }
+
+        field(108; "Back Date Allowed UpTo"; DateFormula) { }
+
+        field(500; Blocked; Boolean) { }
+
+        field(502; "Used Days"; Decimal)
+        {
+            Caption = 'Used Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Used), "Posted Date" = field("Date Filter")));
+            Editable = false;
+        }
+        field(503; "Earned Days"; Decimal)
+        {
+            Caption = 'Earned Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Earned), "Posted Date" = field("Date Filter")));
+            Editable = false;
+        }
+        field(504; "Encash Date"; Date) { }
+        field(505; "Encash Remarks"; Text[100]) { }
 
     }
 

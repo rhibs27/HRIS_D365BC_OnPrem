@@ -268,7 +268,7 @@ codeunit 50010 "Payroll-Post"
                             LeaveType.FindFirst;
 
                             LeaveEarn.Reset;
-                            LeaveEarn.SetRange(EmpNo, PayrollLine."Employee No.");
+                            LeaveEarn.SetRange("Employee No.", PayrollLine."Employee No.");
                             LeaveEarn.SetRange("Leave Code", LeaveType.Code);
                             LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
                             if LeaveEarn.FindSet() then begin

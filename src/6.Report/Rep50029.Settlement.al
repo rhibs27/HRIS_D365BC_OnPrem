@@ -63,7 +63,7 @@ report 50029 Settlement
                     GivenNoticePeriod := "Supervisor Proposed Date" - "Requested Date";
 
                 LeaveEarn.Reset;
-                LeaveEarn.SetRange(EmpNo, "Employee No.");
+                LeaveEarn.SetRange("Employee No.", "Employee No.");
                 LeaveEarn.SetFilter("Fiscal year", '<>%1', FiscalYear);
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                 if LeaveEarn.FindFirst then
@@ -75,7 +75,7 @@ report 50029 Settlement
                     until LeaveEarn.Next = 0;
 
                 LeaveEarn.Reset;
-                LeaveEarn.SetRange(EmpNo, "Employee No.");
+                LeaveEarn.SetRange("Employee No.", "Employee No.");
                 LeaveEarn.SetRange("Fiscal year", FiscalYear);
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                 if LeaveEarn.FindFirst then
@@ -87,7 +87,7 @@ report 50029 Settlement
                     until LeaveEarn.Next = 0;
 
                 LeaveEarn.Reset;
-                LeaveEarn.SetRange(EmpNo, "Employee Activity"."Employee No.");
+                LeaveEarn.SetRange("Employee No.", "Employee Activity"."Employee No.");
                 LeaveEarn.SetRange("Fiscal year", FiscalYear);
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
                 if LeaveEarn.FindFirst then

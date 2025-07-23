@@ -46,7 +46,7 @@ report 50121 ApproveAllpendingLeave
     begin
         Clear(BalanceDays);
         LeaveEarn.Reset();
-        LeaveEarn.SetRange(EmpNo, Employee."No.");
+        LeaveEarn.SetRange("Employee No.", Employee."No.");
         LeaveEarn.SetRange(Type, LeaveEarn.Type::"Balance via Fiscal Year");
         LeaveEarn.CalcSums("Balancing Days");
         BalanceDays := Abs(LeaveEarn."Balancing Days");

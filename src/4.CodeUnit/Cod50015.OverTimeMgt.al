@@ -448,7 +448,7 @@ codeunit 50015 "OverTime Mgt"
             Error('Leave Type not found for Compensatory leave.');
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", leaveTypeSetup."Code");
-        LeaveEarn.Validate(EmpNo, OverTime."Employee No.");
+        LeaveEarn.Validate("Employee No.", OverTime."Employee No.");
         LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
         LeaveEarn.Validate("Fiscal year", OverTime."Fiscal Year");
         LeaveEarn.Validate("Posted Date", Today);

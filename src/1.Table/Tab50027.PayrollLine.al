@@ -2407,7 +2407,7 @@ table 50027 "Payroll Line"
             if LeaveTypeSetup.FindFirst then begin
                 Clear(UsedDays);
                 LeaveEarn.Reset;
-                LeaveEarn.SetRange(EmpNo, "Employee No.");
+                LeaveEarn.SetRange("Employee No.", "Employee No.");
                 LeaveEarn.SetRange("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
                 LeaveEarn.SetRange("Fiscal year", EngNep."Fiscal Year");

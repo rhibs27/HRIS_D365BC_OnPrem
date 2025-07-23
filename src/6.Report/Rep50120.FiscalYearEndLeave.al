@@ -95,7 +95,7 @@ report 50120 FiscalYearEndLeave
                 leavetypeSetup2.CalcFields("Remaining Days");
 
                 LeaveEarn.Init;
-                LeaveEarn.Validate(EmpNo, Employee."No.");
+                LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.Validate("Posted Date", Today);
                 if leavetypeSetup2."Remaining Days" >= AbsentDays then begin
@@ -144,14 +144,14 @@ report 50120 FiscalYearEndLeave
             repeat
                 Clear(LeaveEarn);
                 LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
-                LeaveEarn.SetRange(EmpNo, Employee."No.");
+                LeaveEarn.SetRange("Employee No.", Employee."No.");
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                 if not LeavetypSetup."Services Period" then
                     LeaveEarn.SetRange("Fiscal year", EngNep."Fiscal Year");
                 if not LeaveEarn.FindFirst then begin
                     LeaveEarn.Init;
                     LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
-                    LeaveEarn.Validate(EmpNo, Employee."No.");
+                    LeaveEarn.Validate("Employee No.", Employee."No.");
                     LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
                     LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
                     LeaveEarn.Validate("Posted Date", Today + 1);
@@ -207,7 +207,7 @@ report 50120 FiscalYearEndLeave
                 if leavetypeSetup2."Remaining Days" < 0 then
                     break;
                 LeaveEarn.Init;
-                LeaveEarn.Validate(EmpNo, Employee."No.");
+                LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.Validate("Posted Date", Today);
                 LeaveEarn.Validate("Balancing Days", -leavetypeSetup2."Remaining Days");

@@ -2125,7 +2125,7 @@ codeunit 50008 "Payroll Engine"
                     AdjustedLeave -= AdjustedLeave;
                     if (ToPost) and ((VarLeaveDays - AdjustedLeave) > 0) then begin
                         LeaveEarn.Init;
-                        LeaveEarn.Validate(EmpNo, EmpNo);
+                        LeaveEarn.Validate("Employee No.", EmpNo);
                         LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                         LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
                         LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
@@ -2161,7 +2161,7 @@ codeunit 50008 "Payroll Engine"
 
             LocalLeaveTypeSetup.CalcFields("Remaining Days");
             LeaveEarn.Reset;
-            LeaveEarn.SetRange(EmpNo, EmpNo);
+            LeaveEarn.SetRange("Employee No.", EmpNo);
             LeaveEarn.SetRange("Leave Code", LocalLeaveTypeSetup.Code);
             LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
             LeaveEarn.SetRange("Fiscal year", EngNep."Fiscal Year");
@@ -4086,7 +4086,7 @@ codeunit 50008 "Payroll Engine"
         LeaveEarn.SetRange("Leave Code", TempLeaveCode);
         if LeaveEarn.FindSet() then
             repeat
-                EmployeeNo := LeaveEarn.EmpNo;
+                EmployeeNo := LeaveEarn."Employee No.";
                 LeaveDays := LeaveEarn."Balancing Days";
                 if TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays) then
                     TotalAnnualLeaveByEmployee.Set(EmployeeNo, LeaveDays + LeaveEarn."Balancing Days")

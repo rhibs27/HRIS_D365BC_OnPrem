@@ -3540,7 +3540,7 @@ codeunit 50001 "HR Mgt."
                 EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
-                LeaveEarn.Validate(EmpNo, EmpAct."Employee No.");
+                LeaveEarn.Validate("Employee No.", EmpAct."Employee No.");
                 LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
                 LeaveEarn.Validate("Fiscal year", EmpAct."Fiscal Year");
                 LeaveEarn.Validate("Posted Date", Today);
@@ -3696,7 +3696,7 @@ codeunit 50001 "HR Mgt."
                 EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
-                LeaveEarn.Validate(EmpNo, EmpAct."Employee No.");
+                LeaveEarn.Validate("Employee No.", EmpAct."Employee No.");
                 LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
                 LeaveEarn.Validate("Fiscal year", EmpAct."Fiscal Year");
                 LeaveEarn.Validate("Posted Date", Today);
