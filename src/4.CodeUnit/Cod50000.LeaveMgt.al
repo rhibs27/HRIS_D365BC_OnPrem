@@ -1036,11 +1036,9 @@ codeunit 50000 "Leave Mgt."
         // Update Daily Attendance
         if leave."Start Date" <= Today then begin
             if leave."End Date" > Today then
-                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", Today, leave."Employee No.")//For Ongoing Leave
+                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", Today, leave."Employee No.")//For Ongoing Leave
             else
-                DailyAttendanceUpdate.SetRequestFilterValue(leave."Start Date", leave."End Date", leave."Employee No.");// For COmpleted Leave
-            DailyAttendanceUpdate.UseRequestPage(false);
-            DailyAttendanceUpdate.Run();
+                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", leave."End Date", leave."Employee No.") // For Completed Leave
         end;
     end;
 
@@ -1090,37 +1088,10 @@ codeunit 50000 "Leave Mgt."
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
                 if CancelDocument."End Date" > Today then
-                    DailyAttendanceUpdate.SetRequestFilterValue(CancelDocument."Start Date", Today, CancelDocument."Employee No.")//For Ongoing Leave
+                    AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", Today, CancelDocument."Employee No.")//For Ongoing Leave
                 else
-                    DailyAttendanceUpdate.SetRequestFilterValue(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");// For COmpleted Leave
-                DailyAttendanceUpdate.UseRequestPage(false);
-                DailyAttendanceUpdate.Run();
+                    AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.")// For Completed Leave
             end;
-
-            // EmpAttendActivity.Reset;
-            // EmpAttendActivity.SetRange("Employee No.", CancelDocument."Employee No.");
-            // EmpAttendActivity.SetRange("Attendance Date", CancelDocument."Start Date", CancelDocument."End Date");
-            // if EmpAttendActivity.Find('-') then
-            //     repeat
-            //         if EmpAttendActivity."Check In Time" <> 0T then begin
-            //             EmpAttendActivity."Absent Day" := 0;
-            //             EmpAttendActivity."Present Day" := 1;
-            //         end else begin
-            //             EmpAttendActivity."Present Day" := 0;
-            //             EmpAttendActivity."Absent Day" := 1;
-            //         end;
-            //         if GetNonWorkingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
-            //             EmpAttendActivity."Absent Day" := 0;
-            //         end;
-            //         EmpAttendActivity."Leave Day" := 0;
-            //         //EmpAttendActivity."Week Off Day" := 0;
-            //         EmpAttendActivity."Tour Day" := 0;
-            //         EmpAttendActivity."Source No." := CancelDocument."No.";
-            //         EmpAttendActivity."Employee Activity Found" := true;
-            //         EmpAttendActivity."Leave Description" := '';
-            //         EmpAttendActivity."Created Datetime" := CurrentDateTime;
-            //         EmpAttendActivity.Modify;
-            //     until EmpAttendActivity.Next = 0;
         end;
     end;
 
@@ -1188,4 +1159,5 @@ codeunit 50000 "Leave Mgt."
         ApproverMgt: Codeunit "Approver Mgt";
         DailyAttendanceUpdate: Report "Daily Attendance Update";
         LeaveTypeSetup: Record "Leave Type Setup";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 }

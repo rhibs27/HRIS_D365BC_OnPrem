@@ -1623,8 +1623,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.RFRequest;
                     end;
                 }
-
-
             }
         }
         addafter("Request Appraisal")
