@@ -124,9 +124,9 @@ page 50217 "Employee Edit Entity"
                 field(qualificationCode; Rec."Qualification Code")
                 {
                 }
-                // field(qualificationType; rec."Qualification Type")
-                // {
-                // }
+                field(qualificationType; rec."Qualification Type")
+                {
+                }
                 field(description; Rec.Description)
                 {
                 }
