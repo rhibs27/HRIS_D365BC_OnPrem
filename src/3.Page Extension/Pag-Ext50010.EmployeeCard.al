@@ -254,45 +254,62 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             group("Document Information")
             {
-                field("Citizen Number"; Rec."Citizen Number")
+                group("Citizonship Details")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizen Number field.';
+                    field("Citizen Number"; Rec."Citizen Number")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizen Number field.';
 
-                }
-                field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
+                    }
+                    field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
 
-                }
-                field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
+                    }
+                    field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
 
-                }
-                field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
+                    }
+                    field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
 
+                    }
                 }
-                field("Passport Number"; Rec."Passport Number")
+                group(cardcontrol001)
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Passport Number field.';
+                    ShowCaption = false;
+                    group("Passport Details")
+                    {
+                        field("Passport Number"; Rec."Passport Number")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the Passport Number field.';
 
-                }
-                field("NID No"; Rec."NID No")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the National Identity Number field.';
-                }
-                field("Driving License No."; Rec."Driving License No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Driving License Number field.';
+                        }
+                        field("Passport Validity Date"; Rec."Passport Validity Date")
+                        {
+                            ApplicationArea = all;
+                        }
+                    }
+                    group(Others)
+                    {
+                        field("NID No"; Rec."NID No")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the National Identity Number field.';
+                        }
+                        field("Driving License No."; Rec."Driving License No.")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the Driving License Number field.';
+                        }
+                    }
                 }
 
             }
@@ -658,6 +675,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Gratuity Eligibility field.';
 
+                }
+                field("Gratuity Number"; Rec."Gratuity Number")
+                {
+                    ApplicationArea = all;
                 }
                 field("Last Placement Date"; Rec."Last Placement Date")
                 {

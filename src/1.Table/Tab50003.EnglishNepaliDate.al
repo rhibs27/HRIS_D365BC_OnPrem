@@ -60,6 +60,7 @@ table 50003 "English-Nepali Date"
         EnglishNepaliDate: Record "English-Nepali Date";
     begin
         EnglishNepaliDate.Reset;
+        EnglishNepaliDate.SetLoadFields("English Date", "Nepali Date");
         EnglishNepaliDate.SetRange("English Date", EngDate);
         if EnglishNepaliDate.Find('-') then
             exit(EnglishNepaliDate."Nepali Date");
@@ -70,6 +71,7 @@ table 50003 "English-Nepali Date"
         EnglishNepaliDate: Record "English-Nepali Date";
     begin
         EnglishNepaliDate.Reset;
+        EnglishNepaliDate.SetLoadFields("English Date", "Nepali Month");
         EnglishNepaliDate.SetRange("English Date", EngDate);
         if EnglishNepaliDate.Find('-') then
             exit(Format(EnglishNepaliDate."Nepali Month"));
@@ -80,6 +82,7 @@ table 50003 "English-Nepali Date"
         EnglishNepaliDate: Record "English-Nepali Date";
     begin
         EnglishNepaliDate.Reset;
+        EnglishNepaliDate.SetLoadFields("English Date", "Nepali Year");
         EnglishNepaliDate.SetRange("English Date", EngDate);
         if EnglishNepaliDate.Find('-') then
             exit(EnglishNepaliDate."Nepali Year");
@@ -90,6 +93,7 @@ table 50003 "English-Nepali Date"
         EnglishNepaliDate: Record "English-Nepali Date";
     begin
         EnglishNepaliDate.Reset;
+        EnglishNepaliDate.SetLoadFields("Nepali Date", "English Date");
         EnglishNepaliDate.SetRange("Nepali Date", NepDate);
         if EnglishNepaliDate.Find('-') then
             exit(EnglishNepaliDate."English Date");

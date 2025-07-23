@@ -8,7 +8,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "No." = '' then
                     Error('No. must have value.');
-                "New Employee" := true; //Min
+                "New Employee" := true;
             end;
         }
         modify("First Name")
@@ -60,7 +60,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
                 if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
                     Error('Phone No Validation Error');
-                if StrLen("Mobile Phone No.") > 15 then //Min
+                if StrLen("Mobile Phone No.") > 15 then
                     Error(Text009);
             end;
         }
@@ -75,14 +75,14 @@ tableextension 50013 "Employee Ext" extends Employee
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
                 if "Mobile Phone No." <> '' then begin
-                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
+                    EmployeeRec.Reset;
                     EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
                     EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                     EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
                     if EmployeeRec.FindFirst then
                         Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
                 end;
-                if StrLen("Mobile Phone No.") > 15 then //Min
+                if StrLen("Mobile Phone No.") > 15 then
                     Error(Text009);
             end;
         }
@@ -131,16 +131,21 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnAfterValidate()
             begin
-                // TestField("CIF ID");
+
                 if "Bank Account No." <> '' then begin
                     EmployeeRec.Reset;
-                    // TestField("CIF ID");s
-                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
                     EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
                     if EmployeeRec.FindFirst then
                         Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
                 end;
+            end;
+        }
+        modify("Termination Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Termination Date Nepali" := EngNepDate.getNepaliDate("Termination Date");
             end;
         }
 
@@ -178,6 +183,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50128; "Deputation on"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
+            ValuesAllowed = " ", Province, Branch, "Head Office";
             trigger OnValidate()
             begin
                 if xRec."Deputation on" <> "Deputation on" then
@@ -455,6 +461,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50024; "Promotion Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Promotion Date Nepali" := EngNepDate.getNepaliDate("Promotion Date");
+            end;
         }
         field(50025; "CIT No."; Code[20])
         {
@@ -1001,6 +1011,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Confirmation Date" < "Employment Date" then
                     Error('Confirmation date cannot be less than employment date');
+                "Confirmation Date Nepali" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
 
@@ -1376,7 +1387,35 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = ToBeClassified;
         }
+        field(50170; "Passport Validity Date"; Date)
+        {
 
+        }
+        field(50171; "Promotion Date Nepali"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Promotion Date" := EngNepDate.getEngDate("Promotion Date Nepali");
+            end;
+        }
+        field(50172; "Confirmation Date Nepali"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Confirmation Date" := EngNepDate.getEngDate("Confirmation Date Nepali");
+            end;
+        }
+        field(50173; "Termination Date Nepali"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Termination Date" := EngNepDate.getEngDate("Termination Date Nepali");
+            end;
+        }
+        field(50174; "Gratuity Number"; Code[20])
+        {
+
+        }
     }
     keys
     {
