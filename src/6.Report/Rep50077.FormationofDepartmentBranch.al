@@ -3,9 +3,7 @@ report 50077 "Formation of Department/Branch"
     ProcessingOnly = true;
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-
     dataset { }
-
     requestpage
     {
         layout
@@ -87,6 +85,20 @@ report 50077 "Formation of Department/Branch"
                     {
                         ToolTip = 'Specifies the value of the DeputationOnTo field.';
                         ApplicationArea = All;
+                        trigger OnValidate()
+                        begin
+                            if DeputationOnTo <> DeputationOnTo::Branch then
+                                Clear(ProvinceCode);
+                        end;
+                    }
+                    field(ProvinceCode; ProvinceCode)
+                    {
+                        Editable = DeputationOnTo = DeputationOnTo::Branch;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                        end;
                     }
                     field("Deputation Code"; DeputationCodeTo)
                     {
@@ -161,8 +173,7 @@ report 50077 "Formation of Department/Branch"
             // if BlockedDeputationFrom then
             // IfBlockDeputationCode;
         end else begin
-            if (FunctionalTitle = '') or (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or
-              (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
+            if (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
                 Error('Please fill all the values');
             if EmploymentType = EmploymentType::Contract then
                 if ContractExpiryMonth = ContractExpiryMonth::" " then
@@ -207,6 +218,7 @@ report 50077 "Formation of Department/Branch"
         DeputationCodeFrom: Code[20];
         DeputationCodeTo: Code[20];
         Province: Record Province;
+        ProvinceCode: Code[20];
         PageProvince: Page "Provinces List";
         // SubProvince: Record "Sub Province";
         // PageSubProvince: Page SubProvinceList;
@@ -352,8 +364,11 @@ report 50077 "Formation of Department/Branch"
             //     Employee.Validate("Sub Province Code", DeputationCodeTo);
 
             DeputationOnTo::Branch:
-                // Employee.Validate("Global Dimension 1 Code", DeputationCodeTo);
-                Employee.Validate("Branch Code", DeputationCodeTo);
+                begin
+                    // Employee.Validate("Global Dimension 1 Code", DeputationCodeTo);
+                    Employee.Validate("Province Code", ProvinceCode);
+                    Employee.Validate("Branch Code", DeputationCodeTo);
+                end;
 
             DeputationOnTo::Department:
                 Employee.Validate("Department Code", DeputationCodeTo);

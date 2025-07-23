@@ -94,7 +94,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate("Line No.", 10000);
         EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
         EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
-        // EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
+        EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
         EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Education);
         EmployeeQualification.Validate(Stream, EmployeeEdit.Stream);
         EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
