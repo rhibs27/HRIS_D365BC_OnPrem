@@ -162,7 +162,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Date of Birth (B.S.) field.';
 
             }
-
             field(Age; Rec.Age)
             {
                 ApplicationArea = All;
@@ -490,14 +489,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Contract Renew Date field.';
-
+                }
+                field("Contract Expiry Date"; Rec."Contract Expiry Date")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Contract Expiry Date field.';
                 }
                 field("Contract Expiry Month"; Rec."Contract Expiry Month")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    Editable = Rec."Employment Type" = rec."Employment Type"::Contract;
                     ToolTip = 'Specifies the value of the Contract Expiry Month field.';
-
                 }
                 field("Deputation on"; Rec."Deputation on")
                 {

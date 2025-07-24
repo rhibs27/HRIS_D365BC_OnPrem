@@ -22,6 +22,10 @@ codeunit 50023 EmployeeActivityMgt
                         begin
                             ConfirmTransferJournalDetails(EmpActJnl1);
                         end;
+                    DocumentType::"Attendance Missed":
+                        begin
+                            ConfirmAttendanceJournalDetails(EmpActJnl1);
+                        end;
                 end;
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
@@ -54,6 +58,14 @@ codeunit 50023 EmployeeActivityMgt
         EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
         EmployeeACTJnl.TestField("Approver Role (TO)");
         EmployeeACTJnl.TestField("Transfer Effective Date");
+    end;
+
+    procedure ConfirmAttendanceJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    begin
+        EmployeeACTJnl.TestField("Employee No.");
+        EmployeeACTJnl.TestField("Start Date");
+        EmployeeACTJnl.TestField("CheckIn Time");
+        EmployeeACTJnl.TestField("CheckOut Time");
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -184,6 +196,44 @@ codeunit 50023 EmployeeActivityMgt
                 PostedLeaveJournal.Insert(true);
                 leaveJournal.Delete();
             until leaveJournal.next() = 0
+        else
+            Error('There is no Document to post');
+        Message('Leave is posted');
+    end;
+
+    procedure PostAttendanceJournal(EmpActNo: Code[20])
+    var
+        AttendanceMissed: Record "Attendance Missed";
+        AttendanceMissedJournal: Record "Employee Activity Journal";
+        PostedAttendanceJournal: Record "Posted Employee Journal";
+        AttendanceMgn: Codeunit "AttendanceMiss Mgt";
+    begin
+        AttendanceMissedJournal.Reset();
+        AttendanceMissedJournal.SetRange("Emp Act. No", EmpActNo);
+        AttendanceMissedJournal.setrange("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
+        if AttendanceMissedJournal.FindSet() then
+            repeat
+                AttendanceMissed.Reset();
+                AttendanceMissed.Init();
+                AttendanceMissed.Validate("Employee No.", AttendanceMissedJournal."Employee No.");
+                AttendanceMissed.Validate("Start Date", AttendanceMissedJournal."Start Date");
+                AttendanceMissed.Validate("Check In Time", AttendanceMissedJournal."CheckIn Time");
+                AttendanceMissed.Validate("Check Out Time", AttendanceMissedJournal."CheckOut Time");
+                AttendanceMissed.Validate(Remarks, AttendanceMissedJournal.Remarks);
+                AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
+                AttendanceMissed.Validate("Approved Date", Today);
+                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Leave Request");
+                AttendanceMissed.Validate("From Journal", true);
+                AttendanceMissed.Insert(true);
+                PostedAttendanceJournal.Init();
+                PostedAttendanceJournal.TransferFields(AttendanceMissedJournal);
+                PostedAttendanceJournal.Validate("Document No", AttendanceMissed."No.");
+                AttendanceMgn.AttendanceMissedApproved(AttendanceMissed."No.");
+
+                PostedAttendanceJournal.Validate(Posted, true);
+                PostedAttendanceJournal.Insert(true);
+                AttendanceMissedJournal.Delete();
+            until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
         Message('Leave is posted');

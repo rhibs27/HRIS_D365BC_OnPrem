@@ -387,6 +387,14 @@ table 50095 "Posted Employee Journal"
         field(103; "Approver Role"; code[20])
         {
         }
+        field(108; "CheckIn Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(109; "CheckOut Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {

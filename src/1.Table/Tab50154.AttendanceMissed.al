@@ -280,6 +280,9 @@ table 50154 "Attendance Missed"
         field(100; Status; text[20])
         {
         }
+        field(101; "From Journal"; Boolean)
+        {
+        }
 
     }
     keys

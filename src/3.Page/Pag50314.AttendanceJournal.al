@@ -18,26 +18,30 @@ page 50314 "Attendance Journal"
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
                 }
-
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                    Editable = IsOpen;
+                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
-                field("End Date"; Rec."End Date")
+                field("CheckIn Time"; Rec."CheckIn Time")
                 {
-                    ToolTip = 'Specifies the value of the End Date field.';
+                    Caption = 'Check-In Time';
+                    ToolTip = 'Specifies the value of the CheckIn Time field.';
                     ApplicationArea = All;
                     Editable = IsOpen;
                 }
-                field("No. of Days"; Rec."No. of Days")
+                field("CheckOut Time"; Rec."CheckOut Time")
                 {
-                    Caption = 'Late Days';
-                    ToolTip = 'Specifies the value of the No. of Days field.';
+                    Caption = 'Check-Out Time';
+                    ToolTip = 'Specifies the value of the CheckIn Time field.';
                     ApplicationArea = All;
                     Editable = IsOpen;
-
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -80,8 +84,6 @@ page 50314 "Attendance Journal"
                         exit;
 
                     EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"Attendance Missed");
-
-
                 end;
             }
             action("Approve")
@@ -97,8 +99,6 @@ page 50314 "Attendance Journal"
                         exit;
 
                     ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
-
-
                 end;
             }
 
@@ -113,12 +113,8 @@ page 50314 "Attendance Journal"
                 begin
                     if not Confirm('Do you want to Post Attendance Journal?', false) then
                         exit;
-
-
-                    EmpActMgt.PostLeaveJournal(Rec."Emp Act. No");
-
+                    EmpActMgt.PostAttendanceJournal(Rec."Emp Act. No");
                     CurrPage.Close();
-
                 end;
             }
             action(Reject)
@@ -132,11 +128,7 @@ page 50314 "Attendance Journal"
                 begin
                     if not Confirm('Do you want to Reject Attendance Journal?', false) then
                         exit;
-
-
                     EmpActMgt.RejectJournal(Rec, true);
-
-
                 end;
             }
         }
