@@ -712,8 +712,10 @@ codeunit 50005 "Transfer Mgt."
     var
         TransferClaim: Record "Employee Transfer";
         ServiceHistory: Record "Employee Service History";
+        IsHandled: Boolean;
     begin
         TransferClaim.Get(transferClaimNo);
+        OnAfterTransferClaimApproval(TransferClaim, IsHandled);
         if TransferClaim."Outstation/Discomfort Allow." <> 0 then begin
             ServiceHistory.Reset;
             ServiceHistory.SetRange("Document No.", TransferClaim."Transfer Request No");
@@ -1247,6 +1249,11 @@ codeunit 50005 "Transfer Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeSubmitClaimRequest(Var TransferClaim: Record "Employee Transfer"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterTransferClaimApproval(var TransferClaim: Record "Employee Transfer"; var IsHandled: Boolean)
     begin
     end;
 
