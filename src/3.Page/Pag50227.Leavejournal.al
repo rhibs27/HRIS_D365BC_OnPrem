@@ -4,6 +4,7 @@ page 50227 "Leave Journal"
     Caption = 'Leave Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"Leave Request"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -16,6 +17,9 @@ page 50227 "Leave Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
                 }
                 field("Leave Code"; Rec."Leave Code")
                 {

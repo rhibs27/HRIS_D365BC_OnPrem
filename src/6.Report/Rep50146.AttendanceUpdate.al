@@ -124,6 +124,7 @@ report 50146 "Attendance Update"
         end;
 
         AttendanceLog.Reset;
+        AttendanceLog.SetLoadFields(Date, "Employee ID", "Log Time");
         AttendanceLog.SetRange(Date, Today);
         AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
         if AttendanceLog.FindFirst then begin

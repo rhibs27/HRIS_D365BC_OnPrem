@@ -4,6 +4,7 @@ page 50222 "Transfer Journal"
     Caption = 'Transfer Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"HR Transfer"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -17,6 +18,9 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Editable = IsOpen;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
                 }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
@@ -66,7 +70,6 @@ page 50222 "Transfer Journal"
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
-                    Editable = false;
                     Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)

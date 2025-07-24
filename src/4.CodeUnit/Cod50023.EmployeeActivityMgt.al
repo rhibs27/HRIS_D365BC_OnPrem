@@ -11,14 +11,49 @@ codeunit 50023 EmployeeActivityMgt
         EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Open);
         if EmpActJnl1.FindSet() then begin
             repeat
-                if DocumentType = DocumentType::"Leave Request" then
-                    CheckLeaveDetails(EmpActJnl1);
+                case DocumentType of
+                    //for leave
+                    DocumentType::"Leave Request":
+                        begin
+                            CheckLeaveDetails(EmpActJnl1);
+                        end;
+                    // For HR Transfer
+                    DocumentType::"HR Transfer":
+                        begin
+                            ConfirmTransferJournalDetails(EmpActJnl1);
+                        end;
+                end;
                 EmpActJnl1.Validate("Approval Status", EmpActJnl1."Approval Status"::Pending);
                 EmpActJnl1.Modify();
             until EmpActJnl1.Next() = 0;
             ApproverMgt.UpdateFirstApproverStatus(DocumentNo);
         end else
             Error('Record not found in Status Open');
+    end;
+
+    procedure ConfirmTransferJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+
+    begin
+        EmployeeACTJnl.TestField("Employee No.");
+        EmployeeACTJnl.TestField("Transfer Type");
+        EmployeeACTJnl.TestField("Transfer Category");
+        EmployeeACTJnl.TestField("Deputation On (To)");
+        case EmployeeACTJnl."Deputation On (To)" of
+            EmployeeACTJnl."Deputation On (To)"::Branch:
+                EmployeeACTJnl.TestField("To Branch");
+            EmployeeACTJnl."Deputation On (To)"::Department:
+                EmployeeACTJnl.TestField("Department Code (To)");
+            EmployeeACTJnl."Deputation On (To)"::"Extension Counter":
+                EmployeeACTJnl.TestField("Extension Counter (To)");
+            EmployeeACTJnl."Deputation On (To)"::Province:
+                EmployeeACTJnl.TestField("Province Code (To)");
+            EmployeeACTJnl."Deputation On (To)"::Unit:
+                EmployeeACTJnl.TestField("Unit (To)");
+        end;
+        EmployeeACTJnl.TestField("Incoming Supervisor");
+        EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
+        EmployeeACTJnl.TestField("Transfer Effective Date");
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -91,10 +126,12 @@ codeunit 50023 EmployeeActivityMgt
                 PostedEmployeeTransfer.Validate(Posted, true);
                 PostedEmployeeTransfer.Validate("Document No", TransferRequest."No.");
                 PostedEmployeeTransfer.Insert(true);
+                OnAfterTransferJournalPost(TransferEmployeeJournal, TransferRequest);
             until TransferEmployeeJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Transfer is posted')
+
+        Message('Transfer Journal is posted')
 
     end;
 
@@ -226,6 +263,7 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure CheckLeaveDetails(EmployeeACTJnl: Record "Employee Activity Journal")
     begin
+        EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Leave Code");
         EmployeeACTJnl.TestField("No. of Days");
         if EmployeeACTJnl."Adjustment Type" = EmployeeACTJnl."Adjustment Type"::Used then begin
@@ -252,6 +290,11 @@ codeunit 50023 EmployeeActivityMgt
                 if not ((EmpActJnl."Emp Act. No" = EmployeeACTJnl."Emp Act. No") and (EmpActJnl."Line No" = EmployeeACTJnl."Line No")) then
                     Error('Leave has already been Assign between %1 to %2 in %3 and Line No %4', EmployeeACTJnl."Start Date", EmployeeACTJnl."End Date", EmpActJnl."Emp Act. No", EmpActJnl."Line No");
             until EmpActJnl.Next() = 0;
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
+    begin
     end;
 
     var

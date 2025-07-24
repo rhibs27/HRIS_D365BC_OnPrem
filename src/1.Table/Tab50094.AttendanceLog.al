@@ -1,11 +1,5 @@
 table 50094 "Attendance Log"
 {
-    // version AMS6.1.0
-    // * Machine Emp. Code
-    // * Employee Name
-    // - Two fields Added
-    // validation of employee code will bring Employee code and Name in the record.
-
     Caption = 'Attendance Log';
     DataClassification = CustomerContent;
 
@@ -19,10 +13,14 @@ table 50094 "Attendance Log"
         }
         field(1; "Employee ID"; Code[20])
         {
+            TableRelation = Employee;
         }
         field(2; Date; Date) { }
         field(3; "Log Time"; Time) { }
-        field(4; "Machine Code"; Integer) { }
+        field(4; "Machine Code"; Integer)
+        {
+
+        }
         field(5; "Biometric Attendance"; Boolean)
         {
         }
@@ -36,7 +34,4 @@ table 50094 "Attendance Log"
     {
         key(Key1; "Emp DateTime") { }
     }
-    var
-        Employee: Record Employee;
-        HRSetup: Record "Human Resources Setup";
 }

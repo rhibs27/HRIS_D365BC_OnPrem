@@ -666,8 +666,7 @@ table 50140 "Employee Transfer"
         field(77; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"), status = const("Employee Status"::Active));
-
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
                 if "Outgoing Branch Rep. Person" <> '' then begin //Min 12.13.2022
@@ -675,10 +674,6 @@ table 50140 "Employee Transfer"
                     "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
                 end else
                     Clear("Outgoing Reporting Person Name");
-                // if SalaryLevel.Get("Salary Level Code") then;
-                // if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                // if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //     Error('Salary level of Outgoing Branch Person (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
                 if "Outgoing Branch Rep. Person" = "Employee No." then
                     Error('Cannot Select Yourself as Outgoing Reporting person');
             end;
@@ -728,16 +723,10 @@ table 50140 "Employee Transfer"
         field(84; "Incoming Supervisior"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"), status = const("Employee Status"::Active));
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
             begin
-                // if "Incoming Supervisior" <> '' then begin //Min 12.13.2022
-                //     EmployeeRec.Get("Incoming Supervisior");
-                //     if SalaryLevel.Get("Salary Level Code") then;
-                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //         Error('Salary level of Incoming Supervisior (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                // end;
+
                 if EmpVar.Get("Incoming Supervisior") then
                     Validate("Incoming Supervisior Name", EmpVar."Full Name")
                 else
