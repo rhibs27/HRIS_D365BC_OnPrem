@@ -829,7 +829,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50082; "Permanent Province"; Text[50])
         {
             DataClassification = CustomerContent;
-            Description = 'Permanent Provience address';
+            Description = 'Permanent Province address';
             trigger OnValidate()
             begin
                 if (Rec."Permanent Province" <> xRec."Permanent Province") and ("Permanent Province" <> '') then begin
@@ -1755,7 +1755,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Sol Id");
     end;
 
-    local procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
+    procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
     begin
         Clear(ReturnText);
         ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ',' + DistrictVara + ', ' + Prov;

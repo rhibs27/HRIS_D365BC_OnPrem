@@ -321,6 +321,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         field("Digital Signature"; Rec."Digital Signature")
                         {
                             ApplicationArea = All;
+                            visible = false;
                         }
 
                     }
