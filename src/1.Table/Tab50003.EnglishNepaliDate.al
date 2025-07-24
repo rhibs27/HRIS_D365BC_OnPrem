@@ -1,11 +1,8 @@
 table 50003 "English-Nepali Date"
 {
-    // version IRD19.00/KPI1.00
-
     Caption = 'English-Nepali Date';
     DataPerCompany = false;
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "English Year"; Integer)
@@ -17,19 +14,13 @@ table 50003 "English-Nepali Date"
         field(3; "English Day"; Integer)
         {
         }
-        field(4; Week; Enum Week)
-        {
-
-        }
+        field(4; Week; Enum Week) { }
         field(5; "English Date"; Date) { }
         field(6; "Week Integer"; Integer) { }
         field(7; "Day Off"; Boolean) { }
         field(8; "Nepali Date"; Code[20]) { }
         field(9; "Nepali Year"; Integer) { }
-        field(10; "Nepali Month"; Enum "Nepali Month")
-        {
-
-        }
+        field(10; "Nepali Month"; Enum "Nepali Month") { }
         field(11; "Nepali Day"; Integer) { }
         field(12; "Fiscal Year"; Code[20]) { }
         field(13; "Floating Holiday"; Boolean) { }

@@ -1,13 +1,10 @@
 page 50025 "Salary Levels"
 {
-    // version PRM19.01.01
-
     PageType = List;
     SourceTable = "Salary Level";
     UsageCategory = Lists;
     ApplicationArea = All;
     Caption = 'Designations';
-
     layout
     {
         area(Content)

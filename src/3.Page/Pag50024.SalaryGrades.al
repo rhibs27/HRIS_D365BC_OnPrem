@@ -1,7 +1,5 @@
 page 50024 "Salary Grades"
 {
-    // version PRM19.01.01
-
     PageType = List;
     SourceTable = "Salary Grade";
     UsageCategory = Lists;

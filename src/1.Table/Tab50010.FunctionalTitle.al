@@ -3,7 +3,6 @@ table 50010 "Functional Title"
     DrillDownPageId = "Functional Title List";
     LookupPageId = "Functional Title List";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Code"; Code[20]) { }

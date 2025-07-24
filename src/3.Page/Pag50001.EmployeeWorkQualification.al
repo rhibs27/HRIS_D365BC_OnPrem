@@ -1,10 +1,8 @@
 page 50001 "Employee Work Qualification"
 {
-    // Pradhan modification
     AutoSplitKey = true;
     PageType = List;
     SourceTable = "Employee Qualification";
-    // SourceTableView = where("Emp Qualification Type" = const(Work));
     ApplicationArea = All;
     layout
     {
@@ -103,28 +101,6 @@ page 50001 "Employee Work Qualification"
     {
         area(Processing)
         {
-            // action("Preview Attachment")
-            // {
-            //     Image = PrintCover;
-            //     Promoted = true;
-            //     PromotedCategory = Category4;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     ToolTip = 'Executes the Preview Attachment action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         DocuAttach.Reset;
-            //         DocuAttach.SetRange("Table ID", Database::Employee);
-            //         DocuAttach.SetRange("No.", Rec."Employee No.");
-            //         DocuAttach.SetRange("Qualification Doc. Type", Rec."Emp Qualification Type");
-            //         DocuAttach.SetRange("Qualification Level", Rec."Qualification Type");
-            //         DocuAttach.SetRange("Qualification Doc. No.", Rec."Qualification Code");
-            //         if DocuAttach.FindFirst then
-            //             DocuAttach.Export(true);
-            //     end;
-            // }
         }
     }
 
