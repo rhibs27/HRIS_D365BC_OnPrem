@@ -2464,7 +2464,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         Rec."Temporary House" := rec."Permanent House";
     end;
 
-    local procedure ClearTemporaryAddress()
+    procedure ClearTemporaryAddress()
     begin
         Rec."Temporary Province" := '';
         Rec."Temporary District" := '';
