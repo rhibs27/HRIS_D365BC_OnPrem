@@ -1758,7 +1758,7 @@ tableextension 50013 "Employee Ext" extends Employee
     procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
     begin
         Clear(ReturnText);
-        ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ',' + DistrictVara + ', ' + Prov;
+        ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ', ' + DistrictVara + ', ' + Prov;
     end;
 
     procedure RFRequest();
