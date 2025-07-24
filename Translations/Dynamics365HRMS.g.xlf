@@ -10823,11 +10823,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Back Date Allowed UpTo - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 310427152 - Field 3488259325 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Bereavement Leave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Bereavement Leave - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 310427152 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Blocked</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10923,6 +10918,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Employment Limit - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 619291327 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emplymt. Contract Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Emplymt. Contract Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 3776061618 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Encash Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10963,6 +10963,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Leave at Once - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 4204176933 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Category</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Leave Category - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 3165294974 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Leave For Employee Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10977,11 +10982,6 @@
           <source>Marital Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Marital Status - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 310427152 - Field 816119915 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Maternity/Paternity Leave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maternity/Paternity Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 4015446328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Max. Eligible Age</source>
@@ -11042,11 +11042,6 @@
           <source>Services Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Services Period - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 310427152 - Field 3354304363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sick Leave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Sick Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3892240171 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Skip Balance Check</source>
@@ -35318,11 +35313,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control AML Eligible - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 310427152 - Control 3488259325 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Bereavement Leave field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Bereavement Leave - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 310427152 - Control 932744881 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Calculate Proratawise field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35418,6 +35408,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Leave at Once - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 310427152 - Control 4204176933 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the special nature of leave.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Leave Category - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 310427152 - Control 3165294974 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Leave For Employee Type field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35432,11 +35427,6 @@
           <source>Specifies the value of the Marital Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Marital Status - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 310427152 - Control 816119915 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Maternity/Paternity Leave field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Maternity/Paternity Leave - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 1830355459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Maximum Leave at once field.</source>
@@ -35472,11 +35462,6 @@
           <source>Specifies the value of the Services Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Services Period - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 310427152 - Control 3354304363 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Sick Leave field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Sick Leave - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 3892240171 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Skip Balance Check field.</source>
@@ -59052,6 +59037,41 @@
           <source>5</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Language Rating - EnumValue 5 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 455075381 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Age Wise</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Age Wise - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3488259325 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bereavement Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Bereavement Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3254799098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Maternity Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Maternity Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 1325339661 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Paternity Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Paternity Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3150607916 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Service Period Wise</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Service Period Wise - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4204176933 - EnumValue 3354304363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sick Leave</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Sick Leave - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3331069 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source></source>

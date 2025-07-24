@@ -2101,7 +2101,7 @@ codeunit 50008 "Payroll Engine"
                     AdjustedLeave -= VarLeaveDays;
                     AdjustedLeave := Abs(AdjustedLeave);
                     UsedLeave := Abs(UsedLeave);
-                    if LeaveTypeSetup."Sick Leave" then begin
+                    if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Sick Leave" then begin
                         UsedSick := UsedLeave + VarLeaveDays;
                         CarryForwardSick := CarryForwardLeave;
                         ProrataSick := ProrataLeave;
@@ -2111,7 +2111,7 @@ codeunit 50008 "Payroll Engine"
                         ProrataAnnual := ProrataLeave;
                     end;
                 end else begin
-                    if LeaveTypeSetup."Sick Leave" then begin
+                    if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Sick Leave" then begin
                         SickLeave := VarLeaveDays - AdjustedLeave;
                         UsedSick := UsedLeave + AdjustedLeave;
                         CarryForwardSick := CarryForwardLeave;

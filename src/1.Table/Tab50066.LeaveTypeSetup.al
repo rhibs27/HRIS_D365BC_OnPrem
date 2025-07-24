@@ -93,9 +93,9 @@ table 50066 "Leave Type Setup"
         }
         field(24; Compensatory; Boolean) { }
         field(25; "Needed HR Permission"; Boolean) { }
-        field(26; "Bereavement Leave"; Boolean) { }
-        field(27; "Maternity/Paternity Leave"; Boolean) { }
-        field(28; "Sick Leave"; Boolean) { }
+        // field(26; "Bereavement Leave"; Boolean) { }  
+        // field(27; "Maternity/Paternity Leave"; Boolean) { }
+        // field(28; "Sick Leave"; Boolean) { }
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
         {
@@ -166,7 +166,11 @@ table 50066 "Leave Type Setup"
         field(107; "Display in Portal"; Boolean) { }
 
         field(108; "Back Date Allowed UpTo"; DateFormula) { }
-
+        field(109; "Leave Category"; Enum "Leave Category") { }
+        field(110; "Emplymt. Contract Code"; Code[200])
+        {
+            // TableRelation = "Employment Contract";
+        }
         field(500; Blocked; Boolean) { }
 
         field(502; "Used Days"; Decimal)

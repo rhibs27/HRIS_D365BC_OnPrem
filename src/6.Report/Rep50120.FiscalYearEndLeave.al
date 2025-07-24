@@ -78,9 +78,9 @@ report 50120 FiscalYearEndLeave
             exit;
 
         LeaveTypeSetup.Reset;
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
         LeaveTypeSetup.SetRange(Compensatory, false);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
@@ -185,10 +185,10 @@ report 50120 FiscalYearEndLeave
         leavetypeSetup2: Record "Leave Type Setup";
     begin
         LeaveTypeSetup.Reset;
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
         LeaveTypeSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveTypeSetup.Gender::" ");
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
         LeaveTypeSetup.SetRange(Compensatory, false);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);

@@ -189,14 +189,6 @@ codeunit 50000 "Leave Mgt."
                     ((EndDate > leave."Start Date") and (EndDate < leave."End Date")) then
                     Error('Leave has already been request between %1 to %2', StartDate, EndDate);
             until leave.Next = 0;
-        // EmpAttendanceActivity.Reset; //Min 4.11.2022
-        // EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
-        // EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
-        // if EmpAttendanceActivity.FindFirst then
-        //     repeat
-        //         if EmpAttendanceActivity."Present Day" = 1 then
-        //             Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-        //     until EmpAttendanceActivity.Next = 0;
     end;
 
     procedure CheckForLeaveCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20]; NoofDays: Decimal)
@@ -361,7 +353,7 @@ codeunit 50000 "Leave Mgt."
         if LeavetypSetup.Find('-') then
             repeat
                 LeavetypSetup.CalcFields("Remaining Days");
-                HRSetup.Get; //Min 7.11.2022
+                HRSetup.Get;
                 if LeavetypSetup."Remaining Days" > 0 then begin
                     if not LeavetypSetup."Carry Forwardable" then begin
                         LeaveEarn.Init;
@@ -790,7 +782,7 @@ codeunit 50000 "Leave Mgt."
 
         //Bereavement Leave
         if GuiAllowed then
-            if LeaveTypeSetup."Bereavement Leave" then
+            if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Bereavement Leave" then
                 Leave.TestField("For Death Of");
         if Leave."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
@@ -913,42 +905,6 @@ codeunit 50000 "Leave Mgt."
         exit(EmpAttendActivity.Count);
     end;
 
-    // procedure GenerateSickLeaveAttachment(var Leave: Record leave)
-    // var
-    //     TempIncomingDoc: Record "Incoming Document";
-    //     AttachmentSetup: Record "Attachment Setup";
-    // begin
-    //     TempIncomingDoc.Reset;
-    //     TempIncomingDoc.SetRange("Employee Code", Leave."Employee No.");
-    //     TempIncomingDoc.SetRange(Type, TempIncomingDoc.Type::" ");
-    //     TempIncomingDoc.SETRANGE("Leave Type Code", Leave."Leave Code");
-    //     TempIncomingDoc.SetRange("No.", '');
-    //     if TempIncomingDoc.Find('-') then
-    //         repeat
-    //             if TempIncomingDoc."File Name" <> '' then
-    //                 Clear(TempIncomingDoc."File Name");
-    //         until TempIncomingDoc.Next = 0;
-    //     TempIncomingDoc.DeleteAll;
-    //     Leave.TestField("Leave Code");
-    //     //IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
-    //     AttachmentSetup.Reset;
-    //     AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
-    //     AttachmentSetup.SetRange("Leave Type Code", Leave."Leave Code");
-    //     if AttachmentSetup.Find('-') then
-    //         repeat
-    //             TempIncomingDoc.Reset;
-    //             TempIncomingDoc.Init;
-    //             TempIncomingDoc.Validate(Type, TempIncomingDoc.Type::" ");
-    //             TempIncomingDoc.Validate("No.", Leave."No.");
-    //             TempIncomingDoc.Validate("Attachment Code", AttachmentSetup."Attachment Code");
-    //             TempIncomingDoc.Validate(Description, Format(Leave.Type) + ': ' + Leave."Leave Description");
-    //             TempIncomingDoc.Validate("Employee Code", Leave."Employee No.");
-    //             TempIncomingDoc.Validate("Leave Type Code", Leave."Leave Code");
-    //             TempIncomingDoc.Validate("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::"Leave Request");
-    //             TempIncomingDoc.Insert(true);
-    //         until AttachmentSetup.Next = 0;
-    //     //END;
-    // end;
 
     procedure GenerateLeaveAttachment(var leave: Record Leave)
     var
@@ -1155,6 +1111,7 @@ codeunit 50000 "Leave Mgt."
         LastEntryNo := GetNextLeaveLedgerEntryNo();
         LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
         LeaveYearEndDate := LeavePeriod.GetCurrentLeaveYearEndDate();
+
         EmpVar.Reset();
         if EmpCode <> '' then
             EmpVar.SetRange("No.", EmpCode);
@@ -1163,6 +1120,8 @@ codeunit 50000 "Leave Mgt."
         EmpVar.SetFilter("Employment Date", '<>%1', 0D);
         if EmpVar.FindSet() then begin
             repeat
+                UpdatePreviousYearleave;  //from old code
+
                 if EmpVar."Employment Date" < LeaveYearStartDate then
                     CreditPeriodStartDate := LeaveYearStartDate
                 else
@@ -1174,65 +1133,12 @@ codeunit 50000 "Leave Mgt."
                 if (EmpVar."Termination Date" <> 0D) and (EmpVar."Termination Date" < CreditPeriodEndDate) then
                     CreditPeriodEndDate := EmpVar."Termination Date";
                 ServiceYears := CalculateYearsBetweenDates(EmpVar."Employment Date", Today);
+
                 LeaveTypeSetup.Reset();
-                LeaveTypeSetup.SetRange("Calculate Proratawise", false);
-                LeaveTypeSetup.SetRange("Credit Method", LeaveTypeSetup."Credit Method"::Automatic);
-                LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
-                LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
-                LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
-                LeaveTypeSetup.SetFilter(gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
-                LeaveTypeSetup.SetFilter("Min. Service Years", '0|<=%1', ServiceYears);
-                if LeaveTypeSetup.FindFirst() then
-                    repeat
-                        if LeaveTypeSetup."Days Earned Per Year" <> 0 then begin
-
-                            AnnualCreditLimit := LeaveTypeSetup."Days Earned Per Year";
-                            if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Monthly then begin
-
-                                LeavePeriod.Reset();
-                                LeavePeriod.SetFilter("Starting Date", '>=%1&<=%2', CreditPeriodStartDate, CreditPeriodEndDate);
-                                NoOfCreditPeriods := LeavePeriod.Count;
-
-                                if LeavePeriod.FindFirst() then
-                                    if LeavePeriod."Starting Date" > CreditPeriodStartDate then
-                                        NoOfCreditPeriods += 1;
-
-                                if LeaveTypeSetup."Credit At" = LeaveTypeSetup."Credit At"::"End" then
-                                    if LeavePeriod.FindLast() then begin
-                                        LeavePeriod1.Reset();
-                                        LeavePeriod1.SetFilter("Starting Date", '>%1', LeavePeriod."Starting Date");
-                                        LeavePeriod1.FindFirst();
-                                        if (LeavePeriod1."Starting Date" - 1) > CreditPeriodEndDate then
-                                            NoOfCreditPeriods -= 1;
-                                    end;
-                                ActualCreditLimit := AnnualCreditLimit / 12 * NoOfCreditPeriods;
-                            end
-                            else
-                                if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Annual then
-                                    ActualCreditLimit := AnnualCreditLimit
-                                else
-                                    ActualCreditLimit := 0;
-                            LeaveLedgerEntry.Reset();
-                            LeaveLedgerEntry.SetRange("Leave Code", LeaveTypeSetup.Code);
-                            LeaveLedgerEntry.SetRange(Type, LeaveLedgerEntry.Type::Earned);
-                            LeaveLedgerEntry.SetRange("Employee No.", EmpVar."No.");
-                            LeaveLedgerEntry.SetRange("Posted Date", LeaveYearStartDate, LeaveYearEndDate);
-                            LeaveLedgerEntry.CalcSums("Balancing Days");
-                            if LeaveLedgerEntry."Balancing Days" < ActualCreditLimit then
-                                LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", 0.5, '<')
-                            else
-                                LeaveDaysToCredit := 0;
-                            if LeaveDaysToCredit > 0 then
-                                EarnMinimumLeave(EmpVar."No.", LeaveTypeSetup, LeaveDaysToCredit, CreditPeriodEndDate, LastEntryNo);
-                        end;
-                    until LeaveTypeSetup.Next() = 0;
-
-                //calculate leave on increment basis
-                LeaveTypeSetup.Reset();
-                LeaveTypeSetup.SetRange("Calculate Proratawise", true);
                 LeaveTypeSetup.SetFilter("Credit Method", '%1|%2', LeaveTypeSetup."Credit Method"::Automatic, LeaveTypeSetup."Credit Method"::Attendance);
                 LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
-                LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
+                if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then
+                    LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
                 LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
                 LeaveTypeSetup.SetFilter(Gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
                 LeaveTypeSetup.SetFilter("Min. Service Years", '0|<=%1', ServiceYears);
@@ -1412,7 +1318,6 @@ codeunit 50000 "Leave Mgt."
         leaveLedger.Validate("Leave Request No", ExtDocumentNo);
         leaveLedger."Fiscal Year" := EngNep."Fiscal Year";
         leaveLedger.Remarks := Remarks;
-        // leaveLedger.Office := Office;
         leaveLedger.Insert(true);
         entryNo += 1;
     end;

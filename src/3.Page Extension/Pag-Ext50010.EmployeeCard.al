@@ -1565,10 +1565,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Generate Leave Balance action.';
                     trigger OnAction()
+                    var
+                        LeaveMgt: Codeunit "Leave Mgt.";
                     begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                        // Employee.RESET;
+                        // Employee.SETRANGE("No.", Rec."No.");
+                        // REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                        LeaveMgt.GenerateLeave(Rec."No.");
                     end;
                 }
                 action("Confirmation Employee")
