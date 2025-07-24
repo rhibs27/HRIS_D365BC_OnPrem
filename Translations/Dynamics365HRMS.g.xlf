@@ -10728,10 +10728,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Employee Full Name - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 2977078565 - Field 4110287731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>EmpNo</source>
+        <trans-unit id="Table 2977078565 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field EmpNo - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Earn - Field Employee No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2977078565 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry No.</source>
@@ -10818,10 +10818,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Approved - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3267479251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Back Date Allowed UpTo</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Back Date Allowed UpTo - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 3488259325 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bereavement Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Bereavement Leave - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3543129988 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Blocked</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Blocked - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 932744881 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Calculate Proratawise</source>
@@ -10848,6 +10858,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Compensatory - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3710813836 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Credit At</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Credit At - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3968945555 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Credit Frequency</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Credit Frequency - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 225574798 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Credit Method</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Credit Method - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 995090288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Date Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10873,6 +10898,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Disable Multiple Leave Request - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 4244802115 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Display in Portal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Display in Portal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 1704817850 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Earned Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Earned Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 1285973296 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Email</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -10887,6 +10922,16 @@
           <source>Employment Limit</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Employment Limit - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 3776061618 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encash Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Encash Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 2312426701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Encash Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Encash Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 2772041935 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Encashable Limit</source>
@@ -10938,10 +10983,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maternity/Paternity Leave - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 310427152 - Field 4015446328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Max. Eligible Age</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Max. Eligible Age - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 310427152 - Field 1830355459 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Maximum Leave at once</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maximum Leave at once - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 1193335799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Min. Service Years</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Min. Service Years - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3770206729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Minimum Leave at once</source>
@@ -11002,6 +11057,11 @@
           <source>Times Per Service Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Times Per Service Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 1970272980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Used Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Used Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3400942707 - NamedType 2476940767" size-unit="char" translate="yes" xml:space="preserve">
           <source>Rename not allowed. Please delete and create new line.</source>
@@ -34998,6 +35058,41 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Journal - Control Start Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1218146754 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 3960453234 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify whether a leave year is closed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Leave Year Closed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 2906764345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nepali Month for the period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Nepali Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 2242708900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify the start of a leave year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control New Leave Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Control 460889064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Starting date of the period.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Control Starting Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Action 1561111662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Closes the leave periods of the first open year.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Action Close Leave Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1218146754 - Action 3585886388 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Closes the leave periods of the first open year.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Period - Action Lapse Leave - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3584713366 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -35252,6 +35347,21 @@
           <source>Specifies the value of the Compensatory field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Compensatory Leave - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3710813836 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Credit At field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Credit At - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 3968945555 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Credit Frequency field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Credit Frequency - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 225574798 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Credit Method field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Credit Method - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 528966730 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Days Earned Per Year field.</source>
@@ -53638,11 +53748,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control KRA Setup No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 3276375336 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Leave Earn No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Leave Earn No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 1597351041 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Leave No. Series field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54302,6 +54407,21 @@
           <source>Can Update Budget</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension UserSetup - Control Update Budget - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 3960453234 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>Leave Year Closed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Leave Year Closed - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 2906764345 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>Nepali Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field Nepali Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 1937631775 - Field 2242708900 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 2327360480">
+          <source>New Leave Year</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field New Leave Year - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Community</source>

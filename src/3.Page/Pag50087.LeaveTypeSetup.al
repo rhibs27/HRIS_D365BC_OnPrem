@@ -20,6 +20,18 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Credit Method"; Rec."Credit Method")
+                {
+                    ToolTip = 'Specifies the value of the Credit Method field.', Comment = '%';
+                }
+                field("Credit Frequency"; Rec."Credit Frequency")
+                {
+                    ToolTip = 'Specifies the value of the Credit Frequency field.', Comment = '%';
+                }
+                field("Credit At"; Rec."Credit At")
+                {
+                    ToolTip = 'Specifies the value of the Credit At field.', Comment = '%';
+                }
                 field("Days Earned Per Year"; Rec."Days Earned Per Year")
                 {
                     ToolTip = 'Specifies the value of the Days Earned Per Year field.';

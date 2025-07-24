@@ -142,19 +142,11 @@ table 50066 "Leave Type Setup"
         {
             DataClassification = ToBeClassified;
         }
-
-
-
         field(100; "Credit Method"; Option)
         {
             OptionMembers = " ",Attendance,Automatic,"On Approval";
             Caption = 'Credit Method';
         }
-        field(101; "Credit Limit"; Decimal)
-        {
-            Caption = 'Credit Limit';
-        }
-
         field(102; "Min. Service Years"; Decimal)
         {
             Caption = 'Min. Service Years';
@@ -164,10 +156,6 @@ table 50066 "Leave Type Setup"
             Caption = 'Max. Eligible Age';
         }
         field(104; "Credit Frequency"; Option)
-        {
-            OptionMembers = Annual,Monthly,Occasional;
-        }
-        field(105; "Credit Limit Type"; Option)
         {
             OptionMembers = Annual,Monthly,Occasional;
         }
@@ -209,7 +197,6 @@ table 50066 "Leave Type Setup"
 
     trigger OnDelete()
     begin
-        // Error('Cannot delete.');
     end;
 
     var

@@ -49,11 +49,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Appointment Letter Sent field.';
             }
-            field("Leave Earn No."; Rec."Leave Earn No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Leave Earn No. field.';
-            }
             field("Travel Request No."; Rec."Travel Request No.")
             {
                 ApplicationArea = All;
