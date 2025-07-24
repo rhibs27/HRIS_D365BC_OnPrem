@@ -1,10 +1,5 @@
 page 50175 "Employee Training API"
 {
-
-    //The property 'EntityName' can only be set if the property 'PageType' is set to 'API'
-    //EntityName = 'employeeTrainingEntity';
-    //The property 'EntitySetName' can only be set if the property 'PageType' is set to 'API'
-    //EntitySetName = 'employeeTrainingEntities';
     PageType = ListPart;
     SourceTable = "Employee Feedback";
     ApplicationArea = All;

@@ -1099,15 +1099,17 @@ codeunit 50005 "Transfer Mgt."
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin //Min -- For Enable Punchin
             EmployeeRec.Validate("Disable Punch in", false);
             EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
-            EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
             EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+            EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
             EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
             EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
-            EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
-            EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
+            EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
+            if EmpHrTransfer."Deputation On (To)" = EmpHrTransfer."Deputation On (To)"::Department then
+                EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
             EmployeeRec.Modify;
         end;
+        OnAfterTransferAcknowledge(EmpHrTransfer);
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, '', EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", 0);
         /*IF "Transfer Category" IN ["Transfer Category"::Officiating, "Transfer Category"::"Temporary"] THEN BEGIN
@@ -1207,7 +1209,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField(Handover, true);
         if (EmpHrTransfer."Outgoing Branch Rep. Person") <> (HRMgt.GetEmployeeNo) then
-            Error('You arenot Eligible')
+            Error('You are not Eligible')
         else begin
             EmpHrTransfer.Validate(Takeover, true);
             EmpHrTransfer.Modify();
@@ -1247,6 +1249,11 @@ codeunit 50005 "Transfer Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeSubmitClaimRequest(Var TransferClaim: Record "Employee Transfer"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer")
     begin
     end;
 

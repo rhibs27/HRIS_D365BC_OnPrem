@@ -46,35 +46,43 @@ codeunit 50021 "Employee Edit Mgt."
     begin
         if EmployeeEdit."Changes In Employee Type" = EmployeeEdit."Changes In Employee Type"::Details then begin
             if Employee.Get(EmployeeEdit."Employee No.") then begin
-                Employee.Validate("Mobile Phone No.", EmployeeEdit."Mobile No.");
-                Employee.Validate("Marital Status", EmployeeEdit."Marital Status");
-                Employee.Validate("E-Mail", EmployeeEdit."Email (Personal)");
+                if EmployeeEdit."Mobile No." <> '' then
+                    Employee.Validate("Mobile Phone No.", EmployeeEdit."Mobile No.");
+                if EmployeeEdit."Marital Status" <> EmployeeEdit."Marital Status"::" " then
+                    Employee.Validate("Marital Status", EmployeeEdit."Marital Status");
+                if EmployeeEdit."Email (Personal)" <> '' then
+                    Employee.Validate("E-Mail", EmployeeEdit."Email (Personal)");
                 Employee.Validate(Disabled, EmployeeEdit."Differently Able");
-                Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
-                Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
-                Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
-                Employee.Validate("Temporary VDC", EmployeeEdit.VDC);
-                Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
-                Employee.Validate("Temporary House", EmployeeEdit.House);
-                Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
-                Employee.Validate("Emergency Contact Name", EmployeeEdit."Emergency Contact Name");
-                Employee.Validate("Emergency Contact Email", EmployeeEdit."Emergency Contact Email");
-                Employee.Validate("Emergency Mobile No.", EmployeeEdit."Emergency Mobile No");
-                Employee.Validate(Religion, EmployeeEdit.Religion);
-                Employee.Validate(Image, EmployeeEdit.Attachment);
+                if EmployeeEdit."Vehicle Type" <> EmployeeEdit."Vehicle Type"::" " then
+                    Employee.Validate("Vehicle Type", EmployeeEdit."Vehicle Type");
+                if EmployeeEdit."Temporary Province" <> '' then
+                    Employee.Validate("Temporary Province", EmployeeEdit."Temporary Province");
+                if EmployeeEdit."Temporary District" <> '' then
+                    Employee.Validate("Temporary District", EmployeeEdit."Temporary District");
+                if EmployeeEdit.VDC <> '' then
+                    Employee.Validate("Temporary VDC", EmployeeEdit.VDC);
+                if EmployeeEdit."Ward No." <> 0 then
+                    Employee.Validate("Temporary Ward No", EmployeeEdit."Ward No.");
+                if EmployeeEdit.House <> '' then
+                    Employee.Validate("Temporary House", EmployeeEdit.House);
+                if EmployeeEdit."Blood Group" <> EmployeeEdit."Blood Group"::" " then
+                    Employee.Validate("Blood Group", EmployeeEdit."Blood Group");
+                if EmployeeEdit.Religion <> EmployeeEdit.Religion::" " then
+                    Employee.Validate(Religion, EmployeeEdit.Religion);
+                if EmployeeEdit.Attachment.HasValue() then
+                    Employee.Validate(Image, EmployeeEdit.Attachment);
 
                 //Official document
-                Employee.Validate("Passport Number", EmployeeEdit."Passport No.");
-                Employee.Validate("Citizen Number", EmployeeEdit."CitizenShip No.");
-                Employee.Validate("Citizenship Issue Date", EmployeeEdit."CitizenShip Issue Date");
-                Employee.Validate("NID No", EmployeeEdit."NID No.");
-                Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
-                Employee.Modify();
-            end;
-        end
-        else begin
-            if Employee.Get(EmployeeEdit."Employee No.") then begin
-
+                if EmployeeEdit."Passport No." <> '' then
+                    Employee.Validate("Passport Number", EmployeeEdit."Passport No.");
+                if EmployeeEdit."CitizenShip No." <> '' then
+                    Employee.Validate("Citizen Number", EmployeeEdit."CitizenShip No.");
+                if EmployeeEdit."CitizenShip Issue Date" <> 0D then
+                    Employee.Validate("Citizenship Issue Date", EmployeeEdit."CitizenShip Issue Date");
+                if EmployeeEdit."NID No." <> '' then
+                    Employee.Validate("NID No", EmployeeEdit."NID No.");
+                if EmployeeEdit."Driving License No." <> '' then
+                    Employee.Validate("Driving License No.", EmployeeEdit."Driving License No.");
                 Employee.Modify();
             end;
         end;
