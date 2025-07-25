@@ -1105,8 +1105,6 @@ codeunit 50000 "Leave Mgt."
         EmpVar.SetFilter("Employment Date", '<>%1', 0D);
         if EmpVar.FindSet() then begin
             repeat
-                UpdatePreviousYearleave;  //from old code
-
                 if EmpVar."Employment Date" < LeaveYearStartDate then
                     CreditPeriodStartDate := LeaveYearStartDate
                 else

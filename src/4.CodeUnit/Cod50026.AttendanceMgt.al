@@ -196,18 +196,20 @@ codeunit 50026 "Attendance Mgt"
         EmpAtt.Reset();
         EmpAtt.SetRange("Employee No.", EmpCode);
         EmpAtt.SetRange("Attendance Date", PStartDate, PEndDate);
-        if EmpAtt.FindSet() then
-            repeat
-                Clear(PresentDay);
-                if AttendanceDate <> EmpAtt."Attendance Date" then begin
-                    if EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day" > 0 then begin
-                        actualPresentDays += 1;
-                        PresentDay := 1;
-                    end;
-                    if PresentDay > 0 then
-                        AttendanceDate := EmpAtt."Attendance Date";
-                end;
-            until EmpAtt.Next() = 0;
+        EmpAtt.CalcSums("Present Day", "Week Off Day", "Tour Day", "Training Day", "Leave Day");
+        // if EmpAtt.FindSet() then
+        //     repeat
+        //         Clear(PresentDay);
+        //         if AttendanceDate <> EmpAtt."Attendance Date" then begin
+        //             if EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day" > 0 then begin
+        //                 actualPresentDays += 1;
+        //                 PresentDay := 1;
+        //             end;
+        //             if PresentDay > 0 then
+        //                 AttendanceDate := EmpAtt."Attendance Date";
+        //         end;
+        //     until EmpAtt.Next() = 0;
+        actualPresentDays := EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day";
         exit(actualPresentDays);
     end;
 

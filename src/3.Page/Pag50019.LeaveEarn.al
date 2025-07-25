@@ -1,6 +1,6 @@
 page 50019 "Leave Earn"
 {
-    Editable = false;
+    // Editable = false;
     PageType = List;
     SourceTable = "Leave Earn";
     UsageCategory = Lists;
