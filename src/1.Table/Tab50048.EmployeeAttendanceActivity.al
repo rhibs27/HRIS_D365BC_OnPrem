@@ -240,6 +240,11 @@ table 50048 "Employee Attendance & Activity"
         {
             Description = 'Late Deduction';
         }
+        field(106; "Leave Code"; Code[20])
+        {
+            Caption = 'Leave Code';
+            TableRelation = "Leave Type Setup";
+        }
 
     }
 

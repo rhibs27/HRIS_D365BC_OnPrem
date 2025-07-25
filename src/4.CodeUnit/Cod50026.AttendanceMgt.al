@@ -25,7 +25,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Department Code" := Employee."Department Code";
             AttendanceLine."Department Name" := Employee."Department Name";
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
-            AttendanceLine.Insert(false);
+            AttendanceLine.Insert();
         end;
         ShiftLine.Reset(); //Check for Approved WorkShift
         ShiftLine.SetRange("Roster Date", InitialDate);
@@ -65,7 +65,8 @@ codeunit 50026 "Attendance Mgt"
         end else
             Clear(AttendanceLine."Check Out Time");
 
-        EngNep.Reset; //Min 1.25.2023
+        EngNep.Reset;
+        EngNep.SetLoadFields("English Date", Week);
         EngNep.SetRange("English Date", InitialDate);
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;
@@ -182,6 +183,64 @@ codeunit 50026 "Attendance Mgt"
         DailyAttendanceUpdate.UseRequestPage(false);
         DailyAttendanceUpdate.Run();
         exit(true);
+    end;
+
+    procedure GetPresentDays(EmpCode: Code[20]; PStartDate: Date; PEndDate: Date): Decimal
+    var
+        EmpAtt: Record "Employee Attendance & Activity";
+        actualPresentDays, PresentDay : Decimal;
+        AttendanceDate: Date;
+    begin
+        actualPresentDays := 0;
+        Clear(AttendanceDate);
+        EmpAtt.Reset();
+        EmpAtt.SetRange("Employee No.", EmpCode);
+        EmpAtt.SetRange("Attendance Date", PStartDate, PEndDate);
+        if EmpAtt.FindSet() then
+            repeat
+                Clear(PresentDay);
+                if AttendanceDate <> EmpAtt."Attendance Date" then begin
+                    if EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day" > 0 then begin
+                        actualPresentDays += 1;
+                        PresentDay := 1;
+                    end;
+                    if PresentDay > 0 then
+                        AttendanceDate := EmpAtt."Attendance Date";
+                end;
+            until EmpAtt.Next() = 0;
+        exit(actualPresentDays);
+    end;
+
+    procedure GetLeaveDays(EmpCode: Code[20]; LeaveCodeFilter: Code[150]; PStartDate: Date; PEndDate: Date): Decimal
+    var
+        EmpAtt, EmpAtt1 : Record "Employee Attendance & Activity";
+        LeaveDays: Decimal;
+        AttendanceDate: Date;
+    begin
+        Clear(LeaveDays);
+        Clear(AttendanceDate);
+        //unlock this code if leave can't earn in some specific leave
+        // EmpAtt.Reset();   
+        // EmpAtt.SetRange("Employee No.", EmpCode);
+        // EmpAtt.SetRange("Attendance Date", PStartDate, PEndDate);
+        // EmpAtt.SetFilter("Leave Code", LeaveCodeFilter);
+        // EmpAtt.SetRange("Attendance Status 2", EmpAtt."Attendance Status 2"::LEAVE);
+        // EmpAtt.SetRange("Present Day", 0);
+        // if EmpAtt.FindSet() then
+        //     repeat
+        //         if AttendanceDate <> EmpAtt."Attendance Date" then
+        //             LeaveDays += 1;
+        //         AttendanceDate := EmpAtt."Attendance Date";
+
+        //         EmpAtt1.Reset();
+        //         EmpAtt1.SetRange("Employee No.", EmpAtt."Employee No.");
+        //         EmpAtt1.SetRange("Attendance Date", EmpAtt."Attendance Date");
+        //         EmpAtt1.SetRange("Leave Code", EmpAtt."Leave Code");
+        //         EmpAtt1.SetRange("Present Day", 1);
+        //         if EmpAtt1.FindFirst() then
+        //             LeaveDays -= 1;
+        //     until EmpAtt.Next() = 0;
+        // exit(LeaveDays);
     end;
 
     var

@@ -69,7 +69,6 @@ codeunit 50000 "Leave Mgt."
         Gender: Enum "Employee Gender";
         ProviencesVar: Record Province;
         CalendarDate: Record Date;
-        CalendarMgmt: Codeunit "Calendar Management";
         Counter: Integer;
         AlreadyAdded: Boolean;
         BaseCalendar: Record "Base Calendar";
@@ -156,7 +155,6 @@ codeunit 50000 "Leave Mgt."
     var
         leave: Record Leave;
         NoOfRecrod: Integer;
-        EmpAttendanceActivity: Record "Employee Attendance & Activity";
     begin
         //check for leave conflict..
         leave.Reset;
@@ -340,7 +338,6 @@ codeunit 50000 "Leave Mgt."
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
         EnglishNepaliDate: Record "English-Nepali Date";
-        DocNo: Code[20];
     begin
         EnglishNepaliDate.Reset;
         EnglishNepaliDate.SetRange("English Date", CalcDate('-1Y+1M', Today));
@@ -384,7 +381,6 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
-        HRSetup: Record "Human Resources Setup";
         SalaryLevel: Record "Salary Level";
         EmployeeRec: Record Employee;
     begin
@@ -435,15 +431,13 @@ codeunit 50000 "Leave Mgt."
 
     procedure CalculateProDataLeave(LeaveCode: Code[20]; JoiningDate: Date): Decimal
     var
-        TotalRemainingMonth: Decimal;
         LeaveTypeSetup: Record "Leave Type Setup";
-        PayorllSetup: Record "Payroll General Setup";
+        LeavePeriod: Record "Accounting Period";
     begin
-        PayrollSetup.Get;
         LeaveTypeSetup.Get(LeaveCode);
-        if JoiningDate > PayrollSetup."Payroll Fiscal Year Start Date" then begin
+        if JoiningDate > LeavePeriod.GetCurrentLeaveYearStartDate() then begin
             //TotalRemainingMonth:=ROUND((PayrollSetup."Payroll Fiscal Year End Date"-JoiningDate)/30.5,0.01,'=');
-            exit(Round((PayrollSetup."Payroll Fiscal Year End Date" - JoiningDate + 1) / 365 * LeaveTypeSetup."Days Earned Per Year", 1, '<'));
+            exit(Round((LeavePeriod.GetCurrentLeaveYearEndDate() - JoiningDate + 1) / 365 * LeaveTypeSetup."Days Earned Per Year", 1, '<'));
         end else
             exit(LeaveTypeSetup."Days Earned Per Year");
     end;
@@ -483,7 +477,6 @@ codeunit 50000 "Leave Mgt."
     procedure CheckForLimitDays(LeaveCode: Code[20]; NoOfDays: Decimal)
     var
         LeaveTypeSetup: Record "Leave Type Setup";
-        LeaveReq: Record Leave;
     begin
         LeaveTypeSetup.Get(LeaveCode);
         if LeaveTypeSetup."Limit Max. Leave at Once" then
@@ -573,7 +566,6 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveType: Record "Leave Type Setup";
         ErrorNoOfDays: Label 'No. days must be 1.';
-        ErrorNonWokDays: Label 'There wasn''t a holiday on %1.';
         EmpAttendActivity: Record "Employee Attendance & Activity";
         ErrorPresent: Label 'Cannot apply compenstory leave for %1.';
         EmpActivity: Record "Employee Activity";
@@ -748,12 +740,9 @@ codeunit 50000 "Leave Mgt."
 
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
-        Approval: record "Approval HRMS";
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeaveTypeSetup: Record "Leave Type Setup";
-        LeaveTable: Record "Leave";
-        LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
@@ -817,7 +806,6 @@ codeunit 50000 "Leave Mgt."
     procedure CreateLeaveEarnContract(Employee: Record Employee)
     var
         TempLeaveEarn: Record "Leave Earn" temporary;
-        LeaveEarn: Record "Leave Earn";
     begin
         Employee.TestField("Employment Type", Employee."Employment Type"::Contract);
         Employee.TestField("Employment Date");
@@ -955,7 +943,6 @@ codeunit 50000 "Leave Mgt."
     var
         leaveEarn: Record "Leave Earn";
         leave: Record Leave;
-        EmpAttendActivity: Record "Employee Attendance & Activity";
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
@@ -1019,7 +1006,6 @@ codeunit 50000 "Leave Mgt."
     procedure ApproveCancelledLeave(CancelLeaveCode: Code[20])
     var
         LeaveEarn: Record "Leave Earn";
-        EmpAttendActivity: Record "Employee Attendance & Activity";
         CancelDocument: Record "Cancel Document";
     begin
         CancelDocument.Get(CancelLeaveCode);
@@ -1100,9 +1086,9 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
         EmpVar: Record Employee;
-        // AttendanceMgt: Codeunit "Attendance Mgt.";
+        AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo, NoOfCreditPeriods : Integer;
-        AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, AttendanceDays, ServiceYears : Decimal;
+        AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays : Decimal;
         ProRataStartDate, ProRataEndDate, CreditPeriodStartDate, CreditPeriodEndDate, LeaveYearStartDate, LeaveYearEndDate : Date;
     begin
         Clear(LastEntryNo);
@@ -1214,13 +1200,12 @@ codeunit 50000 "Leave Mgt."
                         end
                         else
                             if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::Attendance then begin
-                                // AttendanceDays := AttendanceMgt.GetPresentDays(EmpVar."No.", CreditPeriodStartDate, CreditPeriodEndDate);
+                                AttendanceDays := AttendanceMgt.GetPresentDays(EmpVar."No.", CreditPeriodStartDate, CreditPeriodEndDate);
                                 // AttendanceDays += AttendanceMgt.GetLeaveDays(EmpVar."No.", LeaveTypeSetup."Leaves Counted In Attendance", CreditPeriodStartDate, CreditPeriodEndDate);
-                                // if LeaveTypeSetup."Attendance Days" = 0 then
-                                //     ActualCreditLimit := Round(((AnnualCreditLimit / (LeaveYearEndDate - LeaveYearStartDate + 1)) * AttendanceDays), 0.5, '<')
-                                // else
-                                //     ActualCreditLimit := Round((AttendanceDays / LeaveTypeSetup."Attendance Days"), 0.5, '<');
-                                //get attendance days using new logic
+                                if LeaveTypeSetup."Attendance Days" = 0 then
+                                    ActualCreditLimit := Round(((AnnualCreditLimit / (LeaveYearEndDate - LeaveYearStartDate + 1)) * AttendanceDays), 0.5, '<')
+                                else
+                                    ActualCreditLimit := Round((AttendanceDays / LeaveTypeSetup."Attendance Days"), 0.5, '<');
 
                                 if LeaveTypeSetup."Days Earned Per Year" <> 0 then
                                     if ActualCreditLimit > LeaveTypeSetup."Days Earned Per Year" then
@@ -1260,20 +1245,6 @@ codeunit 50000 "Leave Mgt."
         exit(StartYearValue + MiddleYearsValue + EndYearValue);
     end;
 
-    // local procedure CalculateProDataLeave(LeaveCode: Code[20]; JoiningDate: Date): Decimal
-    // var
-    //     PayrollSetup: Record "Payroll General Setup";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     TotalRemainingMonth: Decimal;
-    // begin
-    //     PayrollSetup.Get;
-    //     LeaveTypeSetup.Get(LeaveCode);
-    //     if JoiningDate > PayrollSetup."Payroll Fiscal Year Start Date" then begin
-    //         TotalRemainingMonth := Round((PayrollSetup."Payroll Fiscal Year End Date" - JoiningDate) / 30, 1, '=');
-    //         exit(Round(TotalRemainingMonth / 12 * LeaveTypeSetup."Days Earned Per Year", 1, '='));
-    //     end else
-    //         exit(LeaveTypeSetup."Days Earned Per Year");
-    // end;
 
     procedure EarnMinimumLeave(EmpCode: Code[20]; LeaveTypeSetup: Record "Leave Type Setup"; EarnLeave: Decimal; EarnDate: Date; var LastEntryNo: Integer)
     var
@@ -1347,9 +1318,7 @@ codeunit 50000 "Leave Mgt."
         PayrollSetup: Record "Payroll General Setup";
         CalendarDescription: Text;
         HRSetup: Record "Human Resources Setup";
-        AttendanceSetup: Record "Attendance Setup";
         ApproverMgt: Codeunit "Approver Mgt";
-        DailyAttendanceUpdate: Report "Daily Attendance Update";
         LeaveTypeSetup: Record "Leave Type Setup";
         AttendanceMgt: Codeunit "Attendance Mgt";
 }

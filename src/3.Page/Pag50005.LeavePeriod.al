@@ -23,7 +23,7 @@ page 50005 "Leave Period"
                 field("Nepali Month"; Rec."Nepali Month")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    // Editable = false;
                     ToolTip = 'Nepali Month for the period';
                 }
                 field("New Leave Year"; Rec."New Leave Year")

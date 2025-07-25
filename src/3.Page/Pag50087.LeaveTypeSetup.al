@@ -37,6 +37,12 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Days Earned Per Year field.';
                     ApplicationArea = All;
                 }
+                field("Attendance Days"; Rec."Attendance Days")
+                {
+                    ToolTip = 'Specifies the value of the Attendance Days field.', Comment = '%';
+                    ApplicationArea = all;
+                }
+
                 field("Limit Max. Leave at Once"; Rec."Limit Max. Leave at Once")
                 {
                     ToolTip = 'Specifies the value of the Limit Max. Leave at Once field.';
@@ -68,21 +74,7 @@ page 50087 "Leave Type Setup"
                     ApplicationArea = all;
                     ToolTip = 'Specifies the special nature of leave.', Comment = '%';
                 }
-                // field("Bereavement Leave"; Rec."Bereavement Leave")
-                // {
-                //     ToolTip = 'Specifies the value of the Bereavement Leave field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Sick Leave"; Rec."Sick Leave")
-                // {
-                //     ToolTip = 'Specifies the value of the Sick Leave field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Maternity/Paternity Leave"; Rec."Maternity/Paternity Leave")
-                // {
-                //     ToolTip = 'Specifies the value of the Maternity/Paternity Leave field.';
-                //     ApplicationArea = All;
-                // }
+
                 field("Services Period"; Rec."Services Period")
                 {
                     ToolTip = 'Specifies the value of the Services Period field.';

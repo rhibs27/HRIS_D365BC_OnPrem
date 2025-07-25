@@ -171,6 +171,7 @@ table 50066 "Leave Type Setup"
         {
             // TableRelation = "Employment Contract";
         }
+        field(111; "Attendance Days"; Decimal) { }
         field(500; Blocked; Boolean) { }
 
         field(502; "Used Days"; Decimal)
