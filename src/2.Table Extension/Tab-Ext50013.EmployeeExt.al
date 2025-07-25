@@ -185,7 +185,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50128; "Deputation on"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
-            ValuesAllowed = " ", Province, Branch, "Head Office";
+            // ValuesAllowed = " ", Province, Branch, "Head Office";
             trigger OnValidate()
             begin
                 if xRec."Deputation on" <> "Deputation on" then
