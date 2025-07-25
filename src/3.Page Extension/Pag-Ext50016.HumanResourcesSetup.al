@@ -225,6 +225,11 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Cancel Document Allowed Upto Days field.';
             }
+            field("Calculate Age using Nepali C."; Rec."Calculate Age using Nepali C.")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Calculate Age using Nepali Calender field.', Comment = '%';
+            }
         }
         addafter(Numbering)
         {

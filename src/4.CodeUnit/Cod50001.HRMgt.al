@@ -20,21 +20,7 @@ codeunit 50001 "HR Mgt."
         texttest: BigText;
         Candidate: Record Candidate;
     begin
-        //CreateHR;
-        //ValidatePayrollcomponent;
-        //ClearComponent;
-        //UpdateDimension;
-        //updatedaymonth;
-        //printsalaryslipweb(5,FALSE,'EMP00002',texttest);
-        //GetEmployeePictureweb('EMP00001',texttest);
-        //MESSAGE(FORMAT(texttest));
-        //InsertWorkflowCategory(VacancyDocCategoryTxt,CustVacancyCategoryDescTxt);
-        //InsertVacancyApprovalWorkflowTemplate;
-        //InsertWorkflowCategory(TrainingDocCategoryTxt,CustTrainingCategoryDescTxt);
-        //InsertTrainingApprovalWorkflowTemplate
-        //InsertWorkflowCategory(FacilitatorDocCategoryTxt,CustFacilitatorCategoryDescTxt);
-        //InsertFacilitatorApprovalWorkflowTemplate;
-        //CheckOvertimeEligibility(TODAY,'EMP-008',TRUE,FALSE);
+
     end;
 
     var
@@ -11518,10 +11504,19 @@ codeunit 50001 "HR Mgt."
     begin
         if Employee."Employment Date" <> 0D then begin
             NewEmploymentDate := GetAdjustedEmploymentDate(Employee);
-            if Employee."Termination Date" <> 0D then
-                Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
-            else
-                Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
+            HRSetup.Get();
+            if HRSetup."Calculate Age using Nepali C." then begin
+                if Employee."Termination Date" <> 0D then
+                    Employee."Service Period text" := GetAgeBs(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Employee."Termination Date"))
+                else
+                    Employee."Service Period text" := GetAgeBS(EngNep.getNepaliDate(NewEmploymentDate), EngNep.getNepaliDate(Today));
+            end
+            else begin
+                if Employee."Termination Date" <> 0D then
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, Employee."Termination Date")
+                else
+                    Employee."Service Period text" := GetAge(NewEmploymentDate, Today);
+            end;
         end;
     end;
 
@@ -11636,5 +11631,72 @@ codeunit 50001 "HR Mgt."
         exit(NextEntryNo + 1);
     end;
 
+    procedure GetAgeBS(BirthDate: Code[20]; ToDate: Code[20]) Age: Text
+    var
+
+        Year, Month, Days : Integer;
+        YearText, MonthText, DayText, ReturnValue : Text;
+    begin
+        GetAgeIntegerBS(BirthDate, ToDate, Year, Month, Days);
+        if Year = 1 then
+            YearText := ' year'
+        else
+            YearText := ' years';
+
+        if Month = 1 then
+            MonthText := ' month'
+        else
+            MonthText := ' months';
+
+        if Days = 1 then
+            DayText := ' day'
+        else
+            DayText := ' days';
+
+        Clear(ReturnValue);
+        if Year > 0 then
+            ReturnValue := Format(Year) + YearText + ' ';
+        if Month > 0 then
+            ReturnValue += Format(Month) + MonthText + ' ';
+        if Days > 0 then
+            ReturnValue += Format(Days) + DayText;
+        exit(ReturnValue);
+    end;
+
+    procedure GetAgeIntegerBS(BirthDate: Code[20]; ToDate: Code[20]; var year: Integer; var Month: Integer; var Days: Integer)
+    var
+        EngNep: Record "English-Nepali Date";
+        EngNep2: Record "English-Nepali Date";
+    begin
+        EngNep.SetRange("Nepali Date", BirthDate);
+        if EngNep.FindFirst() then begin
+            EngNep2.SetRange("Nepali Date", ToDate);
+            if EngNep2.FindFirst() then begin
+
+                year := EngNep2."Nepali year" - EngNep."Nepali Year";
+                Month := EngNep2."Nepali Month" - EngNep."Nepali Month";
+                Days := EngNep2."Nepali Day" - EngNep."Nepali Day" + 1;
+            end;
+        end;
+        if Days < 0 then begin
+            Month := Month - 1;
+            Days := GetMonthEndDayNepali(year, Month) - Abs(Days);
+        end;
+
+        if Month < 0 then begin
+            year := year - 1;
+            Month := 12 - Abs(Month);
+        end;
+    end;
+
+    procedure GetMonthEndDayNepali(NepaliYear: Integer; NepaliMonth: Integer): Integer
+    var
+        EngNep2: Record "English-Nepali Date";
+    begin
+        EngNep2.SetRange("Nepali Year", NepaliYear);
+        EngNep2.SetRange("Nepali Month", NepaliMonth);
+        if EngNep2.findlast() then
+            exit(EngNep2."Nepali Day");
+    end;
 }
 
