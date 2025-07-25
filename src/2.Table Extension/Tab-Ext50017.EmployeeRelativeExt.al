@@ -141,34 +141,44 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
                 EmployeeRelative: Record "Employee Relative";
             begin
                 //case when emergency contact is cleared
-                if (not Rec."Set Emergency Contact") and xRec."Set Emergency Contact" then begin
-                    Employee.Get("Employee No.");
-                    Employee."Relation With Emergency Cont" := '';
-                    Employee."Emergency Contact Name" := '';
-                    Employee."Emergency Contact Email" := '';
-                    Employee."Emergency Mobile No." := '';
-                    Employee.Modify();
+                if GuiAllowed then begin
+                    if (not Rec."Set Emergency Contact") and xRec."Set Emergency Contact" then begin
+                        Employee.Get("Employee No.");
+                        Employee."Relation With Emergency Cont" := '';
+                        Employee."Emergency Contact Name" := '';
+                        Employee."Emergency Contact Email" := '';
+                        Employee."Emergency Mobile No." := '';
+                        Employee.Modify();
+                    end
+                    else if "Set Emergency Contact" then begin
+                        // no two emergency contact
+                        EmployeeRelative.SetRange("Employee No.", "Employee No.");
+                        EmployeeRelative.SetRange("Set Emergency Contact", true);
+                        EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
+                        if EmployeeRelative.Count() > 0 then
+                            Error('Employee can have only one emergency contact at a time');
+
+                        // flow data to employee
+                        TestField("Relative Code");
+                        TestField("Full Name");
+                        TestField("Phone No.");
+                        Employee.Get("Employee No.");
+                        Employee."Relation With Emergency Cont" := "Relative Code";
+                        Employee."Emergency Contact Name" := "Full Name";
+                        Employee."Emergency Contact Email" := "E-mail";
+                        Employee."Emergency Mobile No." := "Phone No.";
+                        Employee.Modify();
+
+                        Message('Emergency contact details updated sucessfully!');
+                    end;
                 end
                 else if "Set Emergency Contact" then begin
-                    // no two emergency contact
-                    EmployeeRelative.SetRange("Employee No.", "Employee No.");
-                    EmployeeRelative.SetRange("Set Emergency Contact", true);
-                    EmployeeRelative.SetFilter("Line No.", '<>%1', "Line No.");
-                    if EmployeeRelative.Count() > 0 then
-                        Error('Employee can have only one emergency contact at a time');
-
-                    // flow data to employee
-                    TestField("Relative Code");
-                    TestField("Full Name");
-                    TestField("Phone No.");
                     Employee.Get("Employee No.");
                     Employee."Relation With Emergency Cont" := "Relative Code";
                     Employee."Emergency Contact Name" := "Full Name";
                     Employee."Emergency Contact Email" := "E-mail";
                     Employee."Emergency Mobile No." := "Phone No.";
                     Employee.Modify();
-
-                    Message('Emergency contact details updated sucessfully!');
                 end;
 
             end;

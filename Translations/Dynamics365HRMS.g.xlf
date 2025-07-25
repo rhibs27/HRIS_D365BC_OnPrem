@@ -1708,6 +1708,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Fiscal Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 3024960129 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Journal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field From Journal - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3549385734 - Field 3975378601 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4832,6 +4837,16 @@
           <source>Cancelled Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field Cancelled Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 354043904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckIn Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field CheckIn Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3589989410 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Activity Journal - Field CheckOut Time - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3589989410 - Field 3997337331 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Child's Gender</source>
@@ -15523,6 +15538,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field Cancelled Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 504766950 - Field 354043904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckIn Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field CheckIn Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 504766950 - Field 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>CheckOut Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Employee Journal - Field CheckOut Time - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 504766950 - Field 3997337331 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Child's Gender</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -23513,25 +23538,35 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Approval Status - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 354043904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CheckIn Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckIn Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 354043904 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-In Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckIn Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 815150303 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CheckIn Time field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 815150303 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-Out Time</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control CheckOut Time - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 2653894362 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Employee No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2653894362 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the End Date field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control End Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2653894362 - Control 2701430011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the No. of Days field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control No. of Days - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2653894362 - Control 2701430011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Late Days</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control No. of Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2653894362 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
@@ -53003,6 +53038,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Branch Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 4133302435 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Contract Expiry Date field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Contract Expiry Date - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2006462231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Contract Expiry Month field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53512,6 +53552,11 @@
           <source>Specifies the value of the Salary Grade field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee List - Control Salary Grade - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 272934828 - Control 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 272934828">
+          <source>Job Position</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee List - Control Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 272934828 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 272934828">
           <source>Specifies the value of the Status field.</source>

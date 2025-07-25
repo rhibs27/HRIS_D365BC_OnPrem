@@ -174,10 +174,10 @@ page 50135 "Employee Edit Card"
                 {
                     CaptionClass = WorkExperience;
                 }
-                // field("Qualification Type"; rec."Qualification Type")
-                // {
-                //     Visible = QualificationChanges;
-                // }
+                field("Qualification Type"; rec."Qualification Type")
+                {
+                    Visible = QualificationChanges;
+                }
                 field(Description; Rec.Description)
                 {
                 }
@@ -233,6 +233,12 @@ page 50135 "Employee Edit Card"
                 {
                 }
                 field("Relative Phone No."; Rec."Relative Phone No.")
+                {
+                }
+                field("Relative Mail"; Rec."Relative Mail")
+                {
+                }
+                field("Set Emergency Contact"; Rec."Set Emergency Contact")
                 {
                 }
                 field("Employee Relative In Bank"; rec."Employee Relative In Bank")
@@ -350,20 +356,11 @@ page 50135 "Employee Edit Card"
     end;
 
     var
-        IsPending: Boolean;
-        IsApproved: Boolean;
-        IsRejected: Boolean;
-        StatusView: Boolean;
-        ApprovalStatusView: Boolean;
+        IsPending, IsRejected, IsApproved : Boolean;
+        StatusView, ApprovalStatusView : Boolean;
         RecRef: RecordRef;
-        DetailsChanges: Boolean;
-        Relative: Boolean;
-        LanguageChange: Boolean;
-        QualificationChanges: Boolean;
-        WorkExperienceChanges: Boolean;
-        AchievementChanges: Boolean;
-        WorkExperience: text;
-        GroupCaption: text;
+        DetailsChanges, Relative, LanguageChange, QualificationChanges, WorkExperienceChanges, AchievementChanges : Boolean;
+        WorkExperience, GroupCaption : text;
         ApprovalMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
 

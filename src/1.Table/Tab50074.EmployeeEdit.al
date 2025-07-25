@@ -106,22 +106,6 @@ table 50074 "Employee Edit"
             Caption = 'Religion';
             DataClassification = CustomerContent;
         }
-        field(61; "Emergency Mobile No"; Text[15])
-        {
-            Caption = 'Emergency Mobile No';
-            DataClassification = CustomerContent;
-        }
-        field(62; "Emergency Contact Name"; text[20])
-        {
-            Caption = 'Emergency Contact Name';
-            DataClassification = CustomerContent;
-        }
-
-        field(63; "Emergency Contact Email"; Text[80])
-        {
-            Caption = 'Emergency Contact Email';
-            DataClassification = CustomerContent;
-        }
         field(16; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
@@ -411,6 +395,20 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
+        }
+        field(64; "Set Emergency Contact"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(65; "Relative Mail"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Relative Mail");
+            end;
         }
     }
     keys
