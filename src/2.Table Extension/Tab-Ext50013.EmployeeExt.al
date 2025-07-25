@@ -1453,6 +1453,14 @@ tableextension 50013 "Employee Ext" extends Employee
             SubType = Bitmap;
             Caption = 'Digital Signature';
         }
+        field(50179; "Trainee Period"; DateFormula)
+        {
+            Caption = 'Trainee Period';
+        }
+        field(50180; "Trainee/Probation End date"; Date)
+        {
+            Caption = 'Trainee/Probation End Date';
+        }
 
     }
     keys

@@ -703,6 +703,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Gratuity Eligibility field.';
 
                 }
+                field("Trainee Period"; Rec."Trainee Period")
+                {
+                    ApplicationArea = All;
+                }
+                field("Trainee/Probation End date"; Rec."Trainee/Probation End date")
+                {
+                    ApplicationArea = All;
+                }
                 field("Gratuity Number"; Rec."Gratuity Number")
                 {
                     ApplicationArea = all;
