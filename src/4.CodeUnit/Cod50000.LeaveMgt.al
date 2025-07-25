@@ -220,7 +220,6 @@ codeunit 50000 "Leave Mgt."
                 Error('You cannot apply for %1 leave anymore.', LeaveTypeSetup.Description);
         end;
 
-
         if not (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::" ") then begin
             if LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent then
                 Employee.TestField("Employment Type", Employee."Employment Type"::Permanent);

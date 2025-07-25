@@ -63,23 +63,14 @@ table 50141 OverTime
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
-                    /*VALIDATE("Compensatory Days", EmpVar."Reporting Line 1");
-                    VALIDATE("Reporting Line 2 Code", EmpVar."Reporting Line 2");*/
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
                     Validate("Province Name", EmpVar."Province Name");
-                    // Validate(Ecosystem, EmpVar."Eco-System");
-                    // Validate("Office Code", EmpVar.Office);
-                    //OTAmountCalculate();
-                    // "Bank Account No." := EmpVar."Bank Account No.";
-                    // "Contact No." := EmpVar."Mobile Phone No.";
-                    // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
                     Validate("Shortcut Dimension 1 Code", '');
                     Validate(Department, '');
-                    // Validate("Auth. Account No.", '');
                     Validate("Salary Level Code", '');
                 end;
                 HRSetup.Get();
@@ -146,12 +137,10 @@ table 50141 OverTime
         }
         field(8; "Check In Time"; Time)
         {
-            // DataClassification = ToBeClassified;
             Editable = false;
         }
         field(9; "Check Out Time"; Time)
         {
-            // DataClassification = ToBeClassified;
             Editable = false;
         }
         field(22; "End Date"; Date)
@@ -204,10 +193,6 @@ table 50141 OverTime
         }
         field(14; Remarks; Text[100])
         {
-            // trigger OnLookup()
-            // begin
-            // PAGE.Run(PAGE::"Employee List");
-            // end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -236,17 +221,6 @@ table 50141 OverTime
         field(18; Department; Code[20])
         {
             Editable = false;
-            // TableRelation = Department;
-
-            // trigger OnValidate()
-            // var
-            //     DeptVar: Record Department;
-            // begin
-            //     if DeptVar.Get(Department) then
-            //         Validate("Department Name", DeptVar.Name)
-            //     else
-            //         Clear("Department Name");
-            // end;
         }
         field(19; "Branch Name"; Text[50])
         {
@@ -261,83 +235,6 @@ table 50141 OverTime
             Editable = false;
             TableRelation = "Functional Title";
         }
-        // field(22; "Recommender Code"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
-
-        //     trigger OnLookup()
-        //     begin
-        //         EmpVar.Reset;
-        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-        //             if StrPos("Recommender Code", EmpVar."No.") = 0 then
-        //                 Validate("Recommender Code", EmpVar."No.");
-        //     end;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if "Recommender Code" = "Employee No." then
-        //             Error('You cannot choose your own Employee ID as Recommender.');
-        //         HRMgt.GetEmployeeName("Recommender Code", "Recommender Name");
-        //         if "Recommender Code" = '' then
-        //             Validate("Approver Type", "Approver Type"::Direct)
-        //         else
-        //             Validate("Approver Type", "Approver Type"::"With Recommendation");
-        //         //requirement not fixed
-        //         if "Recommender Code" <> '' then begin
-        //             if Type <> Type::Overtime then //Min 8.25.2022
-        //                 if "Recommender Code" = "Approver Code" then
-        //                     Error('Recommender and Approver cannot be same person.');
-        //             EmployeeRec.Get("Recommender Code");
-        //             if SalaryLevel.Get("Salary Level Code") then;
-        //             if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-        //             if SalaryLevel.Rank >= SalaryLevel1.Rank then
-        //                 Error('Salary level of recommender (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-        //         end;
-        //     end;
-        // }
-        // field(23; "Approver Code"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //     ValidateTableRelation = false;
-
-        //     trigger OnLookup()
-        //     begin
-        //         EmpVar.Reset;
-        //         if PAGE.RunModal(0, EmpVar) = ACTION::LookupOK then
-        //             if StrPos("Approver Code", EmpVar."No.") = 0 then
-        //                 Validate("Approver Code", EmpVar."No.");
-        //     end;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if "Approver Code" = "Employee No." then
-        //             Error('You cannot choose your own Employee ID as Approver.');
-        //         //requirement not fixed
-        //         HRMgt.GetEmployeeName("Approver Code", "Approver Name");
-        //         if "Approver Code" <> '' then begin
-        //             HRSetup.Get;
-        //             if EmployeeRec.Get("Recommender Code") then;
-        //             if Type = Type::Resignation then begin
-        //                 if not (EmployeeRec."Functional Title" = HRSetup."HR Head Functional Title") then
-        //                     if "Recommender Code" = "Approver Code" then
-        //                         Error('Recommender and Approver cannot be same person.');
-        //             end else
-        //                 if Type <> Type::Overtime then //Min 8.25.2022
-        //                     if "Recommender Code" = "Approver Code" then
-        //                         Error('Recommender and Approver cannot be same person.');
-
-        //             EmployeeRec.Get("Approver Code");
-        //             HRSetup.Get;
-        //             if EmployeeRec."Functional Title" <> HRSetup."HR Head Functional Title" then begin
-        //                 if SalaryLevel.Get("Salary Level Code") then;
-        //                 if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-        //                 if SalaryLevel.Rank >= SalaryLevel1.Rank then
-        //                     Error('Salary level of approver (%1) must be greater than salary level of employee (%2).', EmployeeRec."Full Name", "Employee Name");
-        //             end;
-        //         end;
-        //     end;
-        // }
         field(23; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
@@ -386,18 +283,9 @@ table 50141 OverTime
             Editable = false;
             TableRelation = "Salary Level";
         }
-        // field(26; "Recommender Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
-        // field(27; "Approver Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
         field(28; "Extension Counter Code"; Code[20])
         {
             Editable = false;
-            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST("Extension Counter"));
         }
         field(29; "Province Name"; Code[50])
         {
@@ -410,7 +298,6 @@ table 50141 OverTime
         field(31; "Unit Code"; Code[20])
         {
             Editable = false;
-            // TableRelation = "Employee Hierarchy Master".Code WHERE(Type = CONST(Unit));
         }
         field(32; "Compensatory Days"; Decimal)
         {
@@ -420,74 +307,23 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        // field(34; Ecosystem; Code[20])
-        // {
-        // }
-        // field(35; "Office Code"; Code[20])
-        // {
-        // }
         field(36; "Rejection Remarks"; Text[100])
         {
         }
         field(37; "Approved Date"; Date)
         {
         }
-        // field(38; "Approver Type"; Enum "Approver Type")
-        // {
-        //     Editable = false;
-        // }
         field(39; Cancelled; Boolean)
         {
         }
-        // field(40; "Cancelled No."; Code[20])
-        // {
-        // }
-        // field(41; "Cancelled Document No."; Code[20])
-        // {
-        //     Editable = false;
-        //  }
-        // field(42; "Screener ID"; Code[20])
-        // {
-        //     Editable = false;
+        field(40; "Cancelled No."; Code[20])
+        {
+        }
+        field(41; "Cancelled Document No."; Code[20])
+        {
+            Editable = false;
+        }
 
-        //     trigger OnValidate()
-        //     begin
-        //         if EmployeeRec.Get("Screener ID") then
-        //             Validate("Screener Name", EmployeeRec."Full Name")
-        //         else
-        //             Clear("Screener Name");
-        //     end;
-        // }
-        // field(43; "Screener Date"; Date)
-        // {
-        //     Editable = false;
-        // }
-        // field(44; "Screener Name"; Text[50])
-        // {
-        //     Editable = false;
-        // }
-        // field(45; "Final Approver"; Code[20])
-        // {
-        //     Editable = false;
-        //     TableRelation = Employee;
-
-        //     trigger OnValidate()
-        //     begin
-        //         if EmployeeRec.Get("Final Approver") then
-        //             Validate("Final Approver Name", EmployeeRec."Full Name")
-        //         else
-        //             Clear("Final Approver Name");
-        //     end;
-        // }
-        // field(46; "Final Approver Name"; Text[50])
-        // {
-        //     Description = 'S';
-        //     Editable = false;
-        // }
-        // field(47; "Final Approver Date"; Date)
-        // {
-        //     Editable = false;
-        // }
         // field(48; "Reason Code"; Code[20])
         // {
         //     TableRelation = "Standard Text" WHERE("Employee Activity Type" = FIELD(Type));
@@ -501,9 +337,6 @@ table 50141 OverTime
         //     end;
         // }
         // field(49; "Reason Description"; Text[50])
-        // {
-        // }
-        // field(50; "Screener Remarks"; Text[100])
         // {
         // }
         field(106; "Time Duration"; Duration) { }
@@ -521,10 +354,6 @@ table 50141 OverTime
                         Error('You cannot submit overtime less than %1 hour(s).', HRSetup."OT eligible hour");
             end;
         }
-        // field(53; "HR Proposed Date"; Date)
-        // {
-        //     Description = 'Resignation';
-        // }
         field(54; "Encashment Code"; Code[30])
         {
             TableRelation = "OT Encashment Setup";
@@ -701,33 +530,6 @@ table 50141 OverTime
             OverTimeLine.DeleteAll();
         end;
     end;
-    // local procedure InsertAttendanceMissedAttachment()
-    // var
-    //     AttachmentMandatory: Record "Attachment Setup";
-    //     IncomingDocument: Record "Incoming Document";
-    // begin
-    //     AttachmentMandatory.Reset;
-    //     AttachmentMandatory.SetRange(Type, AttachmentMandatory.Type::"Attendance Missed");
-    //     if AttachmentMandatory.FindFirst then
-    //         repeat
-    //             Clear(IncomingDocument);
-    //             IncomingDocument.Reset;
-    //             IncomingDocument.SetRange("Table ID", DATABASE::"Employee Activity");
-    //             IncomingDocument.SetRange("No.", "No.");
-    //             IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
-    //             if not IncomingDocument.FindFirst then begin
-    //                 IncomingDocument.Reset;
-    //                 IncomingDocument.Init;
-    //                 IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
-    //                 IncomingDocument.Description := Rec.TableName;
-    //                 IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
-    //                 IncomingDocument."No." := "No.";
-    //                 IncomingDocument."Employee Code" := "Employee No.";
-    //                 IncomingDocument."Table ID" := DATABASE::"Employee Activity";
-    //                 IncomingDocument.Insert(true);
-    //             end;
-    //         until AttachmentMandatory.Next = 0;
-    ///end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeOTAmountCalculate(Var Overtime: Record OverTime; var IsHandled: Boolean)

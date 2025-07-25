@@ -22,6 +22,10 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
+        modify("Job Title")
+        {
+            Visible = false;
+        }
         addafter("No.")
         {
             field("Full Name"; Rec."Full Name")
@@ -176,6 +180,10 @@ pageextension 50011 "Employee List" extends "Employee List"
             field("Approver Role"; Rec."Approver Role")
             {
                 Editable = false;
+            }
+            field("Salary Level"; Rec."Salary Level")
+            {
+                Caption = 'Job Position';
             }
         }
     }

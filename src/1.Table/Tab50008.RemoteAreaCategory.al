@@ -1,8 +1,6 @@
 table 50008 "Remote Area Category"
 {
     DataClassification = CustomerContent;
-    // version KPI1.00
-
     fields
     {
         field(1; Category; Code[20]) { }

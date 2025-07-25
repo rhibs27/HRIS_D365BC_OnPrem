@@ -189,6 +189,8 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate(District, EmployeeEdit."Relative District");
         EmployeeRelative.Validate("VDC/Municipality", EmployeeEdit.VDC);
         EmployeeRelative.Validate("Ward No", EmployeeEdit."Ward No.");
+        EmployeeRelative.Validate("E-mail", EmployeeEdit."Relative Mail");
+        EmployeeRelative.Validate("Set Emergency Contact", EmployeeEdit."Set Emergency Contact");
         EmployeeRelative.Insert();
     end;
 

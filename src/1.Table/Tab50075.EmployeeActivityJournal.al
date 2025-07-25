@@ -657,6 +657,14 @@ table 50075 "Employee Activity Journal"
         {
             TableRelation = "Approval Role";
         }
+        field(108; "CheckIn Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(109; "CheckOut Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
     keys
     {
