@@ -44,6 +44,13 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
 
             }
         }
+        addbefore("Full Name")
+        {
+            field("Lt."; Rec."Lt.")
+            {
+                ApplicationArea = all;
+            }
+        }
         moveafter("Relative Code"; "Phone No.")
         addafter("Relative's Employee No.")
         {
@@ -69,6 +76,7 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
                 ToolTip = 'Specifies the value of the Fathers Name(Nepali) field.';
                 Visible = false;
             }
+
             field("GrandFather Name(Nepali)"; Rec."GrandFather Name(Nepali)")
             {
                 ApplicationArea = All;
