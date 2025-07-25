@@ -121,4 +121,5 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
     begin
         Rec.Validate("Master Type", Rec."Master Type"::Employee);
     end;
+
 }

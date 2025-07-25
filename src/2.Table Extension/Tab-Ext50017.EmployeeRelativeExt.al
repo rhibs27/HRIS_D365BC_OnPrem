@@ -187,6 +187,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
+        field(50019; "Lt."; Boolean)
+        {
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
