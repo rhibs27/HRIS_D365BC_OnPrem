@@ -14,7 +14,7 @@ report 50040 "Personal Loan Deed"
             RequestFilterFields = "No.";
             column(EmployeeCode; "Employee Code") { }
             column(EmployeeName; EmpVar."Full Name (Nepali)") { }
-            column(CitizenShipIssueDate; EmpVar."Citizenship Date(Nepali)") { }
+            column(CitizenShipIssueDate; EmpVar."Citizenship Date (B.S.)") { }
             column(Age; EmpVar.Age) { }
             column(AppliedLoanAdvance; "Applied Loan/Advance") { }
             column(CurrentYear; Format(CurrentYear)) { }

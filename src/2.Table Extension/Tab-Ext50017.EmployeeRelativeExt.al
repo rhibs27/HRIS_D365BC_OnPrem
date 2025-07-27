@@ -23,10 +23,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         {
             DataClassification = CustomerContent;
         }
-        field(50001; Relation; Text[30])
-        {
-            DataClassification = CustomerContent;
-        }
+        // field(50001; Relation; Text[30])
+        // {
+        //     DataClassification = CustomerContent;
+        // }
         field(50002; "Master Type"; Enum EmployeeCandidate)
         {
             DataClassification = CustomerContent;
@@ -184,6 +184,10 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             end;
         }
         field(50018; "E-mail"; text[30])
+        {
+            DataClassification = CustomerContent;
+        }
+        field(50019; "Lt."; Boolean)
         {
             DataClassification = CustomerContent;
         }

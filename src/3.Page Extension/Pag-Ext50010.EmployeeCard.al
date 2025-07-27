@@ -169,6 +169,15 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Editable = false;
 
             }
+            field("Age Text"; Rec."Age Text")
+            {
+                Caption = 'Age';
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Age Text field.';
+                Editable = false;
+
+
+            }
             field("CIF ID"; Rec."CIF ID")
             {
                 ApplicationArea = All;
@@ -251,47 +260,70 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter(General)
         {
-            group("Document Information")
+            group("Identification Deails")
             {
-                field("Citizen Number"; Rec."Citizen Number")
+                group("Citizenship Details")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizen Number field.';
+                    field("Citizen Number"; Rec."Citizen Number")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizen Number field.';
 
-                }
-                field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
+                    }
+                    field("Citizenship Issue Place Code"; Rec."Citizenship Issue Place Code")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Place Code field.';
 
-                }
-                field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
+                    }
+                    field("Citizenship Issue Place"; Rec."Citizenship Issue Place")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Place field.';
 
-                }
-                field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
+                    }
+                    field("Citizenship Issue Date"; Rec."Citizenship Issue Date")
+                    {
+                        ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the Citizenship Issue Date field.';
 
+                    }
                 }
-                field("Passport Number"; Rec."Passport Number")
+                group(cardcontrol001)
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Passport Number field.';
+                    ShowCaption = false;
+                    group("Passport Details")
+                    {
+                        field("Passport Number"; Rec."Passport Number")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the Passport Number field.';
 
-                }
-                field("NID No"; Rec."NID No")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the National Identity Number field.';
-                }
-                field("Driving License No."; Rec."Driving License No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Driving License Number field.';
+                        }
+                        field("Passport Validity Date"; Rec."Passport Validity Date")
+                        {
+                            ApplicationArea = all;
+                        }
+                    }
+                    group(Others)
+                    {
+                        field("NID No"; Rec."NID No")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the National Identity Number field.';
+                        }
+                        field("Driving License No."; Rec."Driving License No.")
+                        {
+                            ApplicationArea = All;
+                            ToolTip = 'Specifies the value of the Driving License Number field.';
+                        }
+                        field("Digital Signature"; Rec."Digital Signature")
+                        {
+                            ApplicationArea = All;
+                            visible = false;
+                        }
+
+                    }
                 }
 
             }
@@ -638,10 +670,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Promotion Date field.';
 
                 }
+                field("Promotion Date (B.S.)"; Rec."Promotion Date (B.S.)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Promotion Date (B.S) field.';
+
+                }
                 field("Resignation Date"; Rec."Resignation Date")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Date field.';
+
+                }
+                field("Resignation Date (B.S.)"; Rec."Resignation Date (B.S.)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resignation Date (B.S.) field.';
 
                 }
                 field("Sol Id"; Rec."Sol Id")
@@ -661,6 +705,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Gratuity Eligibility field.';
 
+                }
+                field("Trainee Period"; Rec."Trainee Period")
+                {
+                    ApplicationArea = All;
+                }
+                field("Trainee/Probation End date"; Rec."Trainee/Probation End date")
+                {
+                    ApplicationArea = All;
+                }
+                field("Gratuity Number"; Rec."Gratuity Number")
+                {
+                    ApplicationArea = all;
                 }
                 field("Last Placement Date"; Rec."Last Placement Date")
                 {
@@ -712,11 +768,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the VDC/Municipality (Nepali) field.';
                 }
-                field("Citizenship Issue Date(Nepali)"; Rec."Citizenship Date(Nepali)")
+                field("Citizenship Issue Date(B.S.)"; Rec."Citizenship Date (B.S.)")
                 {
-                    Caption = 'Citizenship Issue Date(Nepali)';
+                    Caption = 'Citizenship Issue Date(B.S.)';
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Citizenship Issue Date(Nepali) field.';
+                    ToolTip = 'Specifies the value of the Citizenship Issue Date(B.S.) field.';
                 }
 
             }
@@ -758,6 +814,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Confirmation Date field.';
 
+            }
+            field("Confirmation Date (B.S.)"; Rec."Confirmation Date (B.S.)")
+            {
+                ApplicationArea = All;
             }
             field("Bank No."; Rec."Bank No.")
             {
@@ -1028,7 +1088,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         }
         addafter("Employment Date")
         {
-            field("Service Period Text"; rec."Service Period Text")
+            field("Employment Date (B.S.)"; Rec."Employment Date (B.S.)")
+            {
+                ApplicationArea = All;
+            }
+            field("Service Period Text"; Rec."Service Period Text")
             {
                 caption = 'Service Period';
                 ApplicationArea = all;
@@ -2414,7 +2478,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         Rec."Temporary House" := rec."Permanent House";
     end;
 
-    local procedure ClearTemporaryAddress()
+    procedure ClearTemporaryAddress()
     begin
         Rec."Temporary Province" := '';
         Rec."Temporary District" := '';

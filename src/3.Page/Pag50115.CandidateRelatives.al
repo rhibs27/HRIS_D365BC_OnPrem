@@ -45,11 +45,11 @@ page 50115 "Candidate Relatives"
                     ApplicationArea = BasicHR;
                     ToolTip = 'Specifies the relative''s telephone number.';
                 }
-                field(Relation; Rec.Relation)
-                {
-                    ToolTip = 'Specifies the value of the Relation field.';
-                    ApplicationArea = All;
-                }
+                // field(Relation; Rec.Relation)
+                // {
+                //     ToolTip = 'Specifies the value of the Relation field.';
+                //     ApplicationArea = All;
+                // }
                 field(Address; Rec.Address)
                 {
                     ToolTip = 'Specifies the value of the Address field.';

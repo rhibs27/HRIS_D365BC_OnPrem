@@ -22,6 +22,10 @@ enum 50038 "Employee Type"
     {
         Caption = 'Temporary';
     }
+    value(5; Outsource)
+    {
+        caption = 'Outsource';
+    }
     // value(5; ALL)
     // {
     //     Caption = 'All';
