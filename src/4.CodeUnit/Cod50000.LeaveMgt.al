@@ -6,7 +6,7 @@ codeunit 50000 "Leave Mgt."
         Approval: Record "Approval HRMS";
     begin
         Clear(Employee);
-        // Clear Approval line 
+        // Clear blank Approval line 
         Approval.Reset();
         Approval.SetRange("Document No.", '');
         Approval.setRange("Document Type", Approval."Document Type"::"Leave Request");
@@ -225,10 +225,8 @@ codeunit 50000 "Leave Mgt."
         if LeaveTypeSetup."Leave at Once" then begin
             LeaveEarn.Reset;
             LeaveEarn.SetRange("Leave Code", LeaveTypeSetup.Code);
-            LeaveEarn.SetRange("Fiscal year", HRMgt.ReturnFiscalYear(StartDate));
             LeaveEarn.SetRange("Employee No.", Employee."No.");
-            LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
-            if LeaveEarn.FindLast then;
+            LeaveEarn.CalcSums("Balancing Days");
             if not (LeaveEarn."Balancing Days" = NoofDays) then
                 Error('Please select correct date as requested days must be equal to leave balance. Requested Days : %1 and Balance Days : %2', NoofDays, LeaveEarn."Balancing Days");
         end;
@@ -1103,6 +1101,7 @@ codeunit 50000 "Leave Mgt."
         EmpVar.SetRange(Status, EmpVar.Status::Active);
         EmpVar.SetFilter("Termination Date", '%1|>=%2', 0D, LeaveYearStartDate);
         EmpVar.SetFilter("Employment Date", '<>%1', 0D);
+        OnGenerateLeaveOnAfterSelectEmployee(Employee);   //if further filter is required
         if EmpVar.FindSet() then begin
             repeat
                 if EmpVar."Employment Date" < LeaveYearStartDate then
@@ -1120,11 +1119,13 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.Reset();
                 LeaveTypeSetup.SetFilter("Credit Method", '%1|%2', LeaveTypeSetup."Credit Method"::Automatic, LeaveTypeSetup."Credit Method"::Attendance);
                 LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
-                if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then
-                    LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
+                //if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then  //handled through integration event
+                LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
                 LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
                 LeaveTypeSetup.SetFilter(Gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
                 LeaveTypeSetup.SetFilter("Min. Service Years", '0|<=%1', ServiceYears);
+                OnGenerateLeaveOnSelectLeaveTypeSetup(LeaveTypeSetup, EmpVar);  //if further filter is required
+
                 if LeaveTypeSetup.FindFirst() then
                     repeat
                         AnnualCreditLimit := LeaveTypeSetup."Days Earned Per Year";
@@ -1301,9 +1302,61 @@ codeunit 50000 "Leave Mgt."
             exit(1);
     end;
 
+    procedure LeaveEncash(EmpCode: Code[20])
+    var
+        EmpVar: Record Employee;
+        LeaveTypeSetup: Record "Leave Type Setup";
+        entryNo: Integer;
+        ExtendedEncashLimit: Decimal;
+    begin
+        EmpVar.Reset();
+        if EmpCode <> '' then
+            EmpVar.SetRange("No.", EmpCode);
+        if EmpVar.FindSet() then
+            repeat
+                LeaveTypeSetup.Reset();
+                LeaveTypeSetup.SetRange(Encashable, true);
+                LeaveTypeSetup.SetFilter("Encashable Limit", '<>%1', 0);
+                LeaveTypeSetup.SetFilter("Employee No. Filter", EmpVar."No.");
+                LeaveTypeSetup.SetFilter("Remaining Days", '<>%1', 0);
+                if LeaveTypeSetup.FindSet() then
+                    repeat
+                        entryNo := GetNextLeaveLedgerEntryNo();
+                        ExtendedEncashLimit := LeaveTypeSetup."Encashable Limit";
+                        OnLeaveEncashOnbeforeCheckEncashLimit(LeaveTypeSetup, EmpVar, ExtendedEncashLimit);  //use it if employee has different encash limit.
+                        if LeaveTypeSetup."Remaining Days" > ExtendedEncashLimit then
+                            CreateLeaveLedger(EmpCode,
+                                                LeaveTypeSetup.Code,
+                                                WorkDate(),
+                                                "Leave Earn Type"::Encashed,
+                                                LeaveTypeSetup."Remaining Days" - ExtendedEncashLimit,
+                                                entryNo,
+                                                '',
+                                                'Leave Encashed',
+                                                '');
+                    until LeaveTypeSetup.Next() = 0;
+            until EmpVar.Next() = 0;
+
+    end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGenerateLeaveOnAfterSelectEmployee(var Employee: Record Employee)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnGenerateLeaveOnSelectLeaveTypeSetup(var LeaveTypeSetup: Record "Leave Type Setup"; var EmpVar: Record Employee)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnLeaveEncashOnbeforeCheckEncashLimit(var LeaveTypeSetup: Record "Leave Type Setup";
+                                                            var EmpVar: record Employee; var ExtendedEncashLimit: Decimal)
     begin
     end;
 

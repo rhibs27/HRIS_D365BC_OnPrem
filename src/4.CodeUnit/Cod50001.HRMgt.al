@@ -11674,7 +11674,7 @@ codeunit 50001 "HR Mgt."
             if EngNep2.FindFirst() then begin
 
                 year := EngNep2."Nepali year" - EngNep."Nepali Year";
-                Month := EngNep2."Nepali Month" - EngNep."Nepali Month";
+                Month := EngNep2."Nepali Month".AsInteger() - EngNep."Nepali Month".AsInteger();
                 Days := EngNep2."Nepali Day" - EngNep."Nepali Day" + 1;
             end;
         end;

@@ -1390,10 +1390,6 @@ codeunit 50008 "Payroll Engine"
             exit(DefaultDimension."Dimension Value Code" <> '');
     end;
 
-    local procedure "--Navigation"()
-    begin
-    end;
-
     procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
     begin
         if PostedPayrollHeader.ReadPermission then begin
@@ -1447,10 +1443,6 @@ codeunit 50008 "Payroll Engine"
             Database::"Detailed Employee Ledg. En PRM":
                 Page.Run(0, DetailedEmployeeLedgEntry);
         end;
-    end;
-
-    local procedure "--Getting--Attendance"()
-    begin
     end;
 
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)

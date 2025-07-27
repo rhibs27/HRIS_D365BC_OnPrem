@@ -116,6 +116,12 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Compensatory field.';
                     ApplicationArea = All;
                 }
+                field(Encashable; Rec.Encashable)
+                {
+                    ToolTip = 'Specifies the value of the Encashable field.', Comment = '%';
+                    ApplicationArea = all;
+                }
+
                 field("Encashable Limit"; Rec."Encashable Limit")
                 {
                     ToolTip = 'Specifies the value of the Encashable Limit field.';

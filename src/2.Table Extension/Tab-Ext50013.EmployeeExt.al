@@ -89,6 +89,8 @@ tableextension 50013 "Employee Ext" extends Employee
         modify("Birth Date")
         {
             trigger OnAfterValidate()
+            var
+                HrSetup: Record "Human Resources Setup";
             begin
                 Age := (Today - "Birth Date") div 365;
                 EngNepDate.Reset;
@@ -97,7 +99,12 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
                 else
                     "Date of Birth (B.S.)" := '';
-                "Age Text" := HRMgt.GetAge("Birth Date", Today);
+                HrSetup.Get();
+                if HrSetup."Calculate Age using Nepali C." then
+                    "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
+                else
+                    "Age Text" := HRMgt.GetAge("Birth Date", Today);
+
             end;
 
         }
