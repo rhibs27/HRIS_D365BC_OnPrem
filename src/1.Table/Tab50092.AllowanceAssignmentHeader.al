@@ -28,10 +28,10 @@ table 50092 "Allowance Assignment Header"
         field(13; "Code"; Code[20])
         {
             NotBlank = true;
-            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"))
-            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Department), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure list"::Department), Code = field("Department Code"), "Reporting Type" = filter("Organization Structure list"::Unit));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
+            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
 
             trigger OnValidate()
             begin

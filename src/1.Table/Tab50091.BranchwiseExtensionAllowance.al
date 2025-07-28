@@ -9,10 +9,10 @@ table 50091 "Branchwise/Extension Allowance"
     {
         field(1; "Code"; Code[20])
         {
-            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Department")) "Organization Structure List".Code where(Type = filter("Organization Structure list"::"Department"), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Unit")) "Organization Structure List".Code where(Type = filter("Organization Structure list"::"Unit"), Blocked = filter(false));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = filter("Deputation Type"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = filter("Deputation Type"::"Extension Counter"), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Department")) "Organization Structure List".Code where(Type = filter("Deputation Type"::"Department"), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Unit")) "Organization Structure List".Code where(Type = filter("Deputation Type"::"Unit"), Blocked = filter(false));
             trigger OnValidate()
             begin
                 Clear(Name);
