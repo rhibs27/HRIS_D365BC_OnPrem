@@ -62,10 +62,12 @@ codeunit 50023 EmployeeActivityMgt
 
     procedure ConfirmAttendanceJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
     begin
+        if EmployeeACTJnl."Start Date" > Today then
+            Error('Attendance missed date cannot be future date');
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
-        EmployeeACTJnl.TestField("CheckIn Time");
-        EmployeeACTJnl.TestField("CheckOut Time");
+        // EmployeeACTJnl.TestField("CheckIn Time");
+        // EmployeeACTJnl.TestField("CheckOut Time");
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
