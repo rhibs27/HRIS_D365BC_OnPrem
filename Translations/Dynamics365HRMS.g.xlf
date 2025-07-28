@@ -6088,21 +6088,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Email (Personal) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 1824478759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Contact Email</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Email - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 512055010 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Contact Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 3436918612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Mobile No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Mobile No - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6238,6 +6223,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative District - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1398100151 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Relative Mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative Mail - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 363174193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Phone No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6272,6 +6262,11 @@
           <source>Requested Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Requested Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 691569405 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Emergency Contact</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Set Emergency Contact - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 300412064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Speaking</source>
@@ -11747,6 +11742,16 @@
           <source>Cancelled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 1556068829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 1285698168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2648433944 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Check In Time</source>
@@ -23522,6 +23527,11 @@
           <source>Specifies the value of the Start Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2653894362 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Missed Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Journal - Control Start Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2135744328 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
@@ -41283,6 +41293,16 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control Cancelled Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 504766950 - Control 354043904 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the check in time field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control CheckIn Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 504766950 - Control 815150303 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the check in time field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Posted Employee Journal - Control CheckOut Time - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 504766950 - Control 3997337331 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Child's Gender field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -49142,6 +49162,51 @@
           <source>Specifies the value of the UpdateEmployee field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Approval Report - Control Update Employee Table - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - NamedType 3040577680" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Attendance Report</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - NamedType ReportTitleLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control Options - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 140103378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select to include employees on leave in the report.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeLeaveEmployees - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 140103378 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include Leave Employees</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control IncludeLeaveEmployees - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 3787164932 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select to show only absent employees.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ShowAbsentOnly - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 3787164932 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Absent Employees Only</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ShowAbsentOnly - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 2398964584 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select to show only present employees.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ShowPresentOnly - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 2398964584 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Present Employees Only</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ShowPresentOnly - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 3276795145 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Leave Balance</source>

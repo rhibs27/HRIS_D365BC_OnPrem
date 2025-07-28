@@ -25,6 +25,7 @@ page 50314 "Attendance Journal"
                 }
                 field("Start Date"; Rec."Start Date")
                 {
+                    Caption = 'Attendance Missed Date';
                     ToolTip = 'Specifies the value of the Start Date field.';
                     ApplicationArea = All;
                     Editable = IsOpen;

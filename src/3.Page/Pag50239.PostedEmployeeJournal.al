@@ -107,6 +107,14 @@ page 50239 "Posted Employee Journal"
                 {
                     ToolTip = 'Specifies the value of the Employee Work Shift field.', Comment = '%';
                 }
+                field("CheckIn Time"; Rec."CheckIn Time")
+                {
+                    ToolTip = 'Specifies the value of the check in time field.', Comment = '%';
+                }
+                field("CheckOut Time"; Rec."CheckOut Time")
+                {
+                    ToolTip = 'Specifies the value of the check in time field.', Comment = '%';
+                }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.', Comment = '%';
