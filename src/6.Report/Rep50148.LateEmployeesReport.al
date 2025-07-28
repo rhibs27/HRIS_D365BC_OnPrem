@@ -205,10 +205,6 @@ report 50148 "Late Employees Report"
                 if SummaryLateCount = 0 then
                     CurrReport.Skip();
             end;
-
-
-
-
         }
     }
 

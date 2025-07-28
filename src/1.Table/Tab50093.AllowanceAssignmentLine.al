@@ -26,8 +26,10 @@ table 50093 "Allowance Assignment Line"
             //             Validate(Name, EmpHie.Description);
             //     end;
             // end;
-            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Deputation Type"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Department), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Unit), Blocked = filter(false));
             trigger OnValidate()
             begin
                 Clear(Name);
@@ -37,7 +39,13 @@ table 50093 "Allowance Assignment Line"
                 end else if Type = Type::"Extension Counter" then begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
                         Name := OrganizationStructureList.Name;
-                end;
+                end else if Type = Type::Department then begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Code) then
+                        Name := OrganizationStructureList.Name;
+                end else if Type = Type::Unit then begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Code) then
+                        Name := OrganizationStructureList.Name;
+                end
             end;
         }
         field(4; Name; Text[100])
@@ -47,7 +55,9 @@ table 50093 "Allowance Assignment Line"
         field(5; "Employee Code"; Code[20])
         {
             TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
-            else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code));
+            else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code))
+            else if (Type = const("Department")) Employee."No." where("Department Code" = field(Code))
+            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code));
 
             trigger OnValidate()
             begin
@@ -82,7 +92,7 @@ table 50093 "Allowance Assignment Line"
                 //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::Pending;
+                //     "Approval Status" := "Approval Status"::"Pending Approval";
 
                 // ValidateAllowanceType();
 
@@ -158,7 +168,7 @@ table 50093 "Allowance Assignment Line"
         // {
         //     TableRelation = Employee;
         //}
-        field(19; "Approval Status"; Enum "Approval Status")
+        field(19; "Approval Status"; Enum "Attendance Status")
         {
             Editable = false;
         }
@@ -225,7 +235,7 @@ table 50093 "Allowance Assignment Line"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        Validate("Approval Status", "Approval Status"::Open);
+        "Approval Status" := "Approval Status"::Open;
 
         if "Line No." = 0 then
             GetLineNo();
@@ -361,7 +371,7 @@ table 50093 "Allowance Assignment Line"
             'FESTIVAL':
                 begin
                     if (BaseCalenderChange."Holiday Type" = BaseCalenderChange."Holiday Type"::Festival)
-                      and (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                      and (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);
@@ -381,7 +391,7 @@ table 50093 "Allowance Assignment Line"
                 end;
             'HOLIDAY COUNTER':
                 begin
-                    if (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                    if (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);
