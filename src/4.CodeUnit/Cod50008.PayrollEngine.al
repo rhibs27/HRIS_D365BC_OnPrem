@@ -1653,8 +1653,10 @@ codeunit 50008 "Payroll Engine"
         CheckOutLateMinutes: Duration;
         TempRemarks: Text[100];
         Community: Enum "Community Type";
+        EmpVar: Record Employee;
     begin
         AttendanceSetup.Get;
+        EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
         if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outside Valley", Employee."Posting Region", Employee."Global Dimension 1 Code", Community) then begin
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
@@ -1662,46 +1664,48 @@ codeunit 50008 "Payroll Engine"
                     EmployeeAttendanceActivity."OT Day" := 1;
             end;
         end else begin
-            if (EmployeeAttendanceActivity."Shift Start Time" <> 0T) and (EmployeeAttendanceActivity."Check In Time" <> 0T) then
-                EmployeeAttendanceActivity."Check In Difference" := EmployeeAttendanceActivity."Shift Start Time" - EmployeeAttendanceActivity."Check In Time";
-            if (EmployeeAttendanceActivity."Check Out Time" <> 0T) and (EmployeeAttendanceActivity."Shift End Time" <> 0T) then
-                EmployeeAttendanceActivity."Check Out Difference" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Shift End Time";
-            if EmployeeAttendanceActivity."Check In Difference" < 0 then
-                EmployeeAttendanceActivity."Late Check In Day" := 1;
-            if EmployeeAttendanceActivity."Check Out Difference" < 0 then
-                EmployeeAttendanceActivity."Early Check Out Day" := 1;
-
-            if AttendanceSetup."Per Day Late Tolerance" <> 0 then begin
+            if not EmpVar."Automatic Attendance" then begin
+                if (EmployeeAttendanceActivity."Shift Start Time" <> 0T) and (EmployeeAttendanceActivity."Check In Time" <> 0T) then
+                    EmployeeAttendanceActivity."Check In Difference" := EmployeeAttendanceActivity."Shift Start Time" - EmployeeAttendanceActivity."Check In Time";
+                if (EmployeeAttendanceActivity."Check Out Time" <> 0T) and (EmployeeAttendanceActivity."Shift End Time" <> 0T) then
+                    EmployeeAttendanceActivity."Check Out Difference" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Shift End Time";
                 if EmployeeAttendanceActivity."Check In Difference" < 0 then
-                    CheckInLateMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    EmployeeAttendanceActivity."Late Check In Day" := 1;
                 if EmployeeAttendanceActivity."Check Out Difference" < 0 then
-                    CheckOutEarlyMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
-                if (Abs(CheckInLateMinutes) > AttendanceSetup."Per Day Late Tolerance") or
-                    ((Abs(CheckOutEarlyMinutes) > AttendanceSetup."Per Day Late Tolerance")) then begin
-                    if EmployeeAttendanceActivity."Leave Day" = 0 then begin
-                        EmployeeAttendanceActivity."Present Day" := 0.5;
-                        EmployeeAttendanceActivity."Absent Day" := 0.5;
-                        EmployeeAttendanceActivity."Half Day" := 0.5;
+                    EmployeeAttendanceActivity."Early Check Out Day" := 1;
+
+                if AttendanceSetup."Per Day Late Tolerance" <> 0 then begin
+                    if EmployeeAttendanceActivity."Check In Difference" < 0 then
+                        CheckInLateMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    if EmployeeAttendanceActivity."Check Out Difference" < 0 then
+                        CheckOutEarlyMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
+                    if (Abs(CheckInLateMinutes) > AttendanceSetup."Per Day Late Tolerance") or
+                        ((Abs(CheckOutEarlyMinutes) > AttendanceSetup."Per Day Late Tolerance")) then begin
+                        if EmployeeAttendanceActivity."Leave Day" = 0 then begin
+                            EmployeeAttendanceActivity."Present Day" := 0.5;
+                            EmployeeAttendanceActivity."Absent Day" := 0.5;
+                            EmployeeAttendanceActivity."Half Day" := 0.5;
+                        end;
                     end;
                 end;
-            end;
 
-            if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
-                if EmployeeAttendanceActivity."Check In Difference" > 0 then
-                    CheckInEarlyMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
-                if EmployeeAttendanceActivity."Check Out Difference" > 0 then
-                    CheckOutLateMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
+                if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
+                    if EmployeeAttendanceActivity."Check In Difference" > 0 then
+                        CheckInEarlyMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    if EmployeeAttendanceActivity."Check Out Difference" > 0 then
+                        CheckOutLateMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
 
-                if CheckInEarlyMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
-                    EmployeeAttendanceActivity."OT Hrs" := Round(CheckInEarlyMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
-                if CheckOutLateMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
-                    EmployeeAttendanceActivity."OT Hrs" += Round(CheckOutLateMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
-                if EmployeeAttendanceActivity."OT Hrs" > 0 then
-                    EmployeeAttendanceActivity."OT Day" := 1;
+                    if CheckInEarlyMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
+                        EmployeeAttendanceActivity."OT Hrs" := Round(CheckInEarlyMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
+                    if CheckOutLateMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
+                        EmployeeAttendanceActivity."OT Hrs" += Round(CheckOutLateMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
+                    if EmployeeAttendanceActivity."OT Hrs" > 0 then
+                        EmployeeAttendanceActivity."OT Day" := 1;
+                end;
+                if (EmployeeAttendanceActivity."Check In Time" <> 0T) and (EmployeeAttendanceActivity."Check Out Time" <> 0T) then
+                    EmployeeAttendanceActivity."Actual Work Time" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time";
+                EmployeeAttendanceActivity."Work Time Difference" := EmployeeAttendanceActivity."Actual Work Time" - EmployeeAttendanceActivity."Standard Work Time";
             end;
-            if (EmployeeAttendanceActivity."Check In Time" <> 0T) and (EmployeeAttendanceActivity."Check Out Time" <> 0T) then
-                EmployeeAttendanceActivity."Actual Work Time" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time";
-            EmployeeAttendanceActivity."Work Time Difference" := EmployeeAttendanceActivity."Actual Work Time" - EmployeeAttendanceActivity."Standard Work Time";
         end;
     end;
 

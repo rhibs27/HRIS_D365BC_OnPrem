@@ -478,6 +478,7 @@ codeunit 50017 "Approver Mgt"
         EmpActType: Enum "Employee Activity Type";
         StatusMaster: Record "Status Master";
         RetirementFund: Record "Retirement Fund";
+        DocNo: Code[20];
     begin
         // Get the fields dynamically using FieldRef
         case RecRef.Number() of
@@ -495,19 +496,19 @@ codeunit 50017 "Approver Mgt"
         end;
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
             CheckRequester(RecRef.Field(1).Value);
+            DocNo := RecRef.Field(1).Value;
+            if EmpActType = EmpActType::Retirement then
+                DocNo := RecRef.Field(RetirementFund.FieldNo("No.")).Value;
+
             Approver.Reset();
-            Approver.SetRange("Document No.", RecRef.Field(1).Value);
-            Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
-            Approver.SetRange("Approval Sequence", 1);
-            if Approver.Findfirst() then begin
+            Approver.SetRange("Document Type", EmpActType);
+            Approver.SetRange("Document No.", DocNo);
+            if Approver.FindSet() then begin
                 if EmpActType = EmpActType::Retirement then
                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatusEnum::Withdrawn)
                 else
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
                 RecRef.Modify();
-                Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
-                Approver.Modify();
-
                 // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
@@ -518,6 +519,12 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     Error('withdraw Status not Found On Status Master Setup');
+
+                repeat
+                    Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
+                    Approver.Modify();
+                until Approver.Next() = 0;
+
             end else
                 Error('Document is approved by 1 or more Approver');
         end else

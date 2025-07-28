@@ -256,6 +256,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = all;
             }
+            field("Automatic Attendance"; Rec."Automatic Attendance")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Automatic Attendance field.', Comment = '%';
+            }
 
         }
         addafter(General)

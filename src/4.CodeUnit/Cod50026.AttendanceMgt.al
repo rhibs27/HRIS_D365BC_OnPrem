@@ -65,6 +65,11 @@ codeunit 50026 "Attendance Mgt"
         end else
             Clear(AttendanceLine."Check Out Time");
 
+        if Employee."Automatic Attendance" and (AttendanceLine."Day Type" = AttendanceLine."Day Type"::"Working Day") then begin
+            AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
+            AttendanceLine.Validate("Present Day", 1);
+        end;
+
         EngNep.Reset;
         EngNep.SetLoadFields("English Date", Week);
         EngNep.SetRange("English Date", InitialDate);
