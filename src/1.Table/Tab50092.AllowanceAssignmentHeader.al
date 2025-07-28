@@ -29,7 +29,9 @@ table 50092 "Allowance Assignment Header"
         {
             NotBlank = true;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"));
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"))
+            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Department), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure list"::Department), Code = field("Department Code"), "Reporting Type" = filter("Organization Structure list"::Unit));
 
             trigger OnValidate()
             begin
@@ -49,6 +51,16 @@ table 50092 "Allowance Assignment Header"
                     if Code <> '' then
                         // TestField(Code, Employee."Extension Counter Code");
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
+                            Name := OrganizationStructureList.Name;
+                end else if Type = Type::Department then begin
+                    if Code <> '' then
+                        TestField(Code, Employee."Department Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Code) then
+                        Name := OrganizationStructureList.Name;
+                end else if Type = Type::Unit then begin
+                    if Code <> '' then
+                        //TestField(Code, Employee."Unit Code");
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Code) then
                             Name := OrganizationStructureList.Name;
                 end;
                 //GetApprover();
@@ -193,7 +205,10 @@ table 50092 "Allowance Assignment Header"
                 Employee: Record Employee;
             begin
                 if Employee.Get("Employee No.") then begin
-                    "Branch Code" := Employee."Branch Code";
+                    if Employee."Deputation on" = Employee."Deputation on"::Branch then
+                        "Branch Code" := Employee."Branch Code"
+                    else if Employee."Deputation on" = Employee."Deputation on"::Department then
+                        "Department Code" := "Department Code";
                     "Employee Name" := Employee."Full Name";
                 end;
 
@@ -218,6 +233,11 @@ table 50092 "Allowance Assignment Header"
         }
         field(23; "Rejection Remarks"; Text[100])
         {
+            DataClassification = ToBeClassified;
+        }
+        field(25; "Department Code"; Code[20])
+        {
+            Editable = false;
             DataClassification = ToBeClassified;
         }
         // field(22; "Requested Date"; Date) { }

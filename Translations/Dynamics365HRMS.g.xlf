@@ -133,6 +133,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Created Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Employee Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -20542,6 +20552,11 @@
           <source>Specifies the value of the Created Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments - Control Created Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3388401372 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments - Control Employee Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3388401372 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the English Year field.</source>
@@ -55718,10 +55733,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Branch - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 3328927806 - EnumValue 1651921640 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Department - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 3328927806 - EnumValue 1130600895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Extension Counter</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Extension Counter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3328927806 - EnumValue 1354222690 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Branchwise/Extension Type - EnumValue Unit - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3401129687 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

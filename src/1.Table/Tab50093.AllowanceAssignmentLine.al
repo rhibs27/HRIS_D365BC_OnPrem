@@ -27,7 +27,9 @@ table 50093 "Allowance Assignment Line"
             //     end;
             // end;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Department), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Unit), Blocked = filter(false));
             trigger OnValidate()
             begin
                 Clear(Name);
@@ -37,7 +39,13 @@ table 50093 "Allowance Assignment Line"
                 end else if Type = Type::"Extension Counter" then begin
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Code) then
                         Name := OrganizationStructureList.Name;
-                end;
+                end else if Type = Type::Department then begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, Code) then
+                        Name := OrganizationStructureList.Name;
+                end else if Type = Type::Unit then begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Code) then
+                        Name := OrganizationStructureList.Name;
+                end
             end;
         }
         field(4; Name; Text[100])
@@ -46,8 +54,10 @@ table 50093 "Allowance Assignment Line"
         }
         field(5; "Employee Code"; Code[20])
         {
-            TableRelation = if (Type = const(Branch)) Employee."No." where("Global Dimension 1 Code" = field(Code))
-            else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code));
+            TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
+            else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code))
+            else if (Type = const("Department")) Employee."No." where("Department Code" = field(Code))
+            else if (Type = const("Unit")) Employee."No." where("Unit Code" = field(Code));
 
             trigger OnValidate()
             begin
