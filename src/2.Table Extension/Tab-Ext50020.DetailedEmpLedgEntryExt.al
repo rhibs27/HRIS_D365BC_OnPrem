@@ -29,12 +29,12 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
             TableRelation = "Payroll Attributes";
             DataClassification = ToBeClassified;
         }
-        field(50005; "Pay Cycle Code"; Code[10])
+        field(50005; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
             DataClassification = ToBeClassified;
         }
-        field(50006; "Pay Cycle Term"; Code[10])
+        field(50006; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Period"."Pay Cycle Term" where("Pay Cycle Code" = field("Pay Cycle Code"));
             DataClassification = ToBeClassified;
@@ -58,7 +58,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
             DataClassification = ToBeClassified;
 
         }
-        field(50011; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(50011; "Attribute Sub Type"; Enum "Payroll SubType")
         {
             DataClassification = ToBeClassified;
         }
@@ -157,7 +157,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         {
             DataClassification = ToBeClassified;
         }
-        field(50030; "Fiscal Year"; Code[10])
+        field(50030; "Fiscal Year"; Code[20])
         {
             DataClassification = ToBeClassified;
             Editable = false;
@@ -231,22 +231,22 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
                     begin
                         if PayrollAttributes."Static GL Ledger" then begin
                             PayrollAttributes.TestField("Static GL Ledger Account");
-                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code for Region");
+                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS Expense Code");
                         end else
-                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."GL Code for Region");
+                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
                     end else begin
                     if PayrollAttributes."Static GL Ledger" then begin
                         PayrollAttributes.TestField("Static GL Ledger Account");
-                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code For Branch");
+                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code");
                     end else
-                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."GL Code For Branch");
+                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code");
                 end;
             end;
         end else begin
             if PayrollAttributes."Static GL Ledger" then
-                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."GL Code For Branch")
+                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code")
             else
-                Validate("Finacle GL No", PayrollAttributes."GL Code For Branch")
+                Validate("Finacle GL No", PayrollAttributes."CBS GL Code")
         end;
         if PayrollAttributes."Finacle GL Name" <> '' then
             Validate("Finacle GL Name", StrSubstNo('%1 %2-%3', PayrollAttributes."Finacle GL Name", EngNepDate."Nepali Year", EngNepDate."Nepali Month"))

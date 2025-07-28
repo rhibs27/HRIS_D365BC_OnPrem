@@ -109,7 +109,7 @@ table 50066 "Leave Type Setup"
         {
             CalcFormula = count("Employee Activity" where("Leave Code" = field(Code),
                                                            Type = filter("Leave Request"),
-                                                           "Approval Status" = filter("Pending Approval"),
+                                                           "Approval Status" = filter(Pending),
                                                            "Start Date" = field("Date Filter")));
             FieldClass = FlowField;
         }
@@ -135,10 +135,14 @@ table 50066 "Leave Type Setup"
         field(38; "Half Leave Allowed"; Boolean)
         {
         }
-        field(39; "Substitute Leave"; Boolean)
+        field(40; "Minimum Leave at once"; Decimal)
+        {
+        }
+        field(41; "Exclude in Service Period"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
+
     }
 
     keys

@@ -32,6 +32,16 @@ codeunit 50011 "Payroll Reversal-Post"
         Rec.DeleteAll;
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"Reversal Entry", 'OnBeforeCheckGLEntry', '', false, false)]
+    local procedure OnBeforeCheckGLEntry(ReversalEntry: Record "Reversal Entry"; GLEntry: Record "G/L Entry"; var IsHandled: Boolean)
+    var
+        SourcCodeSetup: Record "Source Code Setup";
+    begin
+        SourcCodeSetup.Get();
+        if SourcCodeSetup."Payroll Journal" = GLEntry."Source Code" then
+            IsHandled := true;
+    end;
+
     var
         Text006: Label 'There is nothing to reverse.';
         Text008: Label 'Changes have been made to posted entries after the window was opened.\Close and reopen the window to continue.';

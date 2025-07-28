@@ -92,7 +92,7 @@ tableextension 50002 "Gen. Journal Line Ext" extends "Gen. Journal Line"
         {
             DataClassification = CustomerContent;
         }
-        field(50013; "Fiscal Year"; Code[10])
+        field(50013; "Fiscal Year"; Code[20])
         {
             DataClassification = CustomerContent;
         }

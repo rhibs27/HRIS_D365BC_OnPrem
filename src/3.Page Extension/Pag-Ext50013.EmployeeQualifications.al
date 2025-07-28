@@ -56,6 +56,12 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Year field.';
             }
+            field(Rank; Rec.Rank)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Year field.';
+            }
+
             field("Emp Qualification Type"; Rec."Emp Qualification Type")
             {
                 ApplicationArea = All;

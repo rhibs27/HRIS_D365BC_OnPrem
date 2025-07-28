@@ -1,8 +1,7 @@
 page 50136 "Transfer Claim Form"
 {
     PageType = Card;
-    SourceTable = "Employee/HR Transfer";
-    // SourceTableView = WHERE(Type = FILTER("Employee Transfer" | "HR Transfer"));
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
 
     layout
@@ -67,34 +66,47 @@ page 50136 "Transfer Claim Form"
                     ApplicationArea = All;
                 }
             }
-            group(Allowance)
+            // group(Allowance)
+            // {
+            //     Editable = false;
+            //     field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the BM Accomodation Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Remote Area Allow."; Rec."Remote Area Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Remote Area Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Relocation Allow."; Rec."Relocation Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Relocation Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            //     field("Officiating Allow."; Rec."Officiating Allow.")
+            //     {
+            //         ToolTip = 'Specifies the value of the Officiating Allow. field.';
+            //         ApplicationArea = All;
+            //     }
+            // }
+            //anupam
+            part("transfer claim details attachment"; "Transfer Claim Details Subform")
             {
-                Editable = false;
-                field("Outstation/Discomfort Allow."; Rec."Outstation/Discomfort Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Outstation/Discomfort Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("BM Accomodation Allow."; Rec."BM Accomodation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the BM Accomodation Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Remote Area Allow."; Rec."Remote Area Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Remote Area Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Relocation Allow."; Rec."Relocation Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Relocation Allow. field.';
-                    ApplicationArea = All;
-                }
-                field("Officiating Allow."; Rec."Officiating Allow.")
-                {
-                    ToolTip = 'Specifies the value of the Officiating Allow. field.';
-                    ApplicationArea = All;
-                }
+                SubPageLink = "Transfer No" = field("No.");
+                ApplicationArea = All;
+                Editable = IsOpen;
+            }
+            part(Attachment; "Attachment Subform")
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+                Editable = IsOpen;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {
@@ -221,7 +233,6 @@ page 50136 "Transfer Claim Form"
                 Visible = IsOpen;
                 ToolTip = 'Executes the Request Allowance Claim action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
                     TransferMgt.RequestTransferAllowanceClaim(Rec);
@@ -252,7 +263,7 @@ page 50136 "Transfer Claim Form"
                     //     Error('Cannot approve this document.');
                     if Confirm('Do you want to approve the request?', false) then begin
                         ApproverMgt.ApproveRejectDocument(RecRef, true);
-                        Message('Leave is Approved by %1', HRMgt.GetEmpName());
+                        Message('Transfer Allowance is Approved by %1', HRMgt.GetEmpName());
                     end;
                     // end;
                 end;
@@ -283,7 +294,7 @@ page 50136 "Transfer Claim Form"
                             Error('Rejection Remarks is Empty')
                         else begin
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
-                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                            Message('Transfer Claim is Rejected by %1', HRMgt.GetEmpName());
                         end;
                     end;
                 end;
@@ -293,8 +304,8 @@ page 50136 "Transfer Claim Form"
     trigger OnOpenPage()
     begin
         SetLayout();
-        if IsOpen then
-            ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim", Rec."Approval Status");
+        // if IsOpen then
+        //     ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Transfer Claim", Rec."Approval Status");
     end;
 
     trigger OnAfterGetRecord()
@@ -319,19 +330,19 @@ page 50136 "Transfer Claim Form"
         // end;
     end;
 
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        if not IsApplied and IsOpen then
-            if not Confirm('The data will be erased. Do you want to continue?', true) then
-                Error('')
-            else begin
-                Approval.Reset();
-                Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
-                Approval.SetRange("Document No.", '');
-                Approval.SetRange("Employee No", Rec."Employee No.");
-                Approval.DeleteAll();
-            end;
-    end;
+    // trigger OnQueryClosePage(CloseAction: Action): Boolean
+    // begin
+    //     if not IsApplied and IsOpen then
+    //         if not Confirm('The data will be erased. Do you want to continue?', true) then
+    //             Error('')
+    //         else begin
+    //             Approval.Reset();
+    //             Approval.setRange("Document Type", Approval."Document Type"::"Transfer Claim");
+    //             Approval.SetRange("Document No.", '');
+    //             Approval.SetRange("Employee No", Rec."Employee No.");
+    //             Approval.DeleteAll();
+    //         end;
+    // end;
 
     var
         Employee: Record Employee;

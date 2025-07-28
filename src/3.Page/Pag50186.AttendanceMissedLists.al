@@ -1,14 +1,15 @@
 page 50186 "Attendance Missed Lists"
 {
-
-
     CardPageId = "Attendance missed Card";
+    DeleteAllowed = false;
     Editable = false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = "Attendance Missed";
     SourceTableView = WHERE(Type = CONST("Attendance Missed"));
     UsageCategory = Lists;
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {
@@ -31,19 +32,31 @@ page 50186 "Attendance Missed Lists"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("Approval Status"; Rec."Approval Status")
-                {
-                    ToolTip = 'Specifies the value of the Approval Status field.';
-                    ApplicationArea = All;
-                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Start Date field.';
+                    ApplicationArea = All;
+                    Caption = 'Attendance missed Date';
+                }
+                field("Requested Date"; Rec."Requested Date")
+                {
+                    ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
                 }
                 field("End Date"; Rec."End Date")
                 {
                     ToolTip = 'Specifies the value of the End Date field.';
+                    ApplicationArea = All;
+                    Visible = false;
+                }
+                field(Remarks; Rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
                 }
                 // field("No. of Days"; Rec."No. of Days")
@@ -51,11 +64,6 @@ page 50186 "Attendance Missed Lists"
                 //     ToolTip = 'Specifies the value of the No. of Days field.';
                 //     ApplicationArea = All;
                 // }
-                field("Requested Date"; Rec."Requested Date")
-                {
-                    ToolTip = 'Specifies the value of the Requested Date field.';
-                    ApplicationArea = All;
-                }
                 // field("Approver Type"; Rec."Approver Type")
                 // {
                 //     ToolTip = 'Specifies the value of the Approver Type field.';

@@ -3,9 +3,7 @@ report 50077 "Formation of Department/Branch"
     ProcessingOnly = true;
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
-
     dataset { }
-
     requestpage
     {
         layout
@@ -87,6 +85,20 @@ report 50077 "Formation of Department/Branch"
                     {
                         ToolTip = 'Specifies the value of the DeputationOnTo field.';
                         ApplicationArea = All;
+                        trigger OnValidate()
+                        begin
+                            if DeputationOnTo <> DeputationOnTo::Branch then
+                                Clear(ProvinceCode);
+                        end;
+                    }
+                    field(ProvinceCode; ProvinceCode)
+                    {
+                        Editable = DeputationOnTo = DeputationOnTo::Branch;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                        end;
                     }
                     field("Deputation Code"; DeputationCodeTo)
                     {
@@ -95,7 +107,7 @@ report 50077 "Formation of Department/Branch"
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            // DeputationCodeTo := GetDeputation(DeputationOnTo);
+                            DeputationCodeTo := GetDeputation(DeputationOnTo);
                         end;
                     }
                     field(RemarksVar; Remarks)
@@ -161,8 +173,7 @@ report 50077 "Formation of Department/Branch"
             // if BlockedDeputationFrom then
             // IfBlockDeputationCode;
         end else begin
-            if (FunctionalTitle = '') or (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or
-              (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
+            if (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
                 Error('Please fill all the values');
             if EmploymentType = EmploymentType::Contract then
                 if ContractExpiryMonth = ContractExpiryMonth::" " then
@@ -207,6 +218,7 @@ report 50077 "Formation of Department/Branch"
         DeputationCodeFrom: Code[20];
         DeputationCodeTo: Code[20];
         Province: Record Province;
+        ProvinceCode: Code[20];
         PageProvince: Page "Provinces List";
         // SubProvince: Record "Sub Province";
         // PageSubProvince: Page SubProvinceList;
@@ -237,98 +249,85 @@ report 50077 "Formation of Department/Branch"
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Option " ","6 Month","12 Month";
 
-    // local procedure GetDeputation(Deputation: Option " ",Branch,"Extension Counter","Sub Province",Province,Unit,Department): Code[20]
-    // begin
-    //     case Deputation of
-    //         Deputation::Province:
-    //             begin
-    //                 Province.Reset;
-    //                 Province.SetRange(Blocked, false);//Min
-    //                 Clear(PageProvince);
-    //                 PageProvince.LookupMode(true);
-    //                 PageProvince.SetRecord(Province);
-    //                 PageProvince.SetTableView(Province);
-    //                 if PageProvince.RunModal = Action::LookupOK then begin
-    //                     PageProvince.GetRecord(Province);
-    //                     exit(Province.Code);
-    //                 end;
-    //             end;
+    local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
+    var
+        OrgStructureList: Record "Organization Structure List";
+        OrgStructureListPage: Page "Organization Structure list";
+    begin
+        case Deputation of
+            Deputation::Province:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Province);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
 
-    //         // Deputation::"Sub Province":
-    //         //     begin
-    //         //         SubProvince.Reset;
-    //         //         SubProvince.SetRange(Blocked, false);//Min
-    //         //         Clear(PageSubProvince);
-    //         //         PageSubProvince.LookupMode(true);
-    //         //         PageSubProvince.SetRecord(SubProvince);
-    //         //         PageSubProvince.SetTableView(SubProvince);
-    //         //         if PageSubProvince.RunModal = Action::LookupOK then begin
-    //         //             PageSubProvince.GetRecord(SubProvince);
-    //         //             exit(SubProvince.Code);
-    //         //         end;
-    //         //     end;
 
-    //         Deputation::Branch:
-    //             begin
-    //                 GLSetup.Get;
-    //                 DimValue.Reset;
-    //                 DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-    //                 DimValue.SetRange(Blocked, false);//Min
-    //                 Clear(PageDimValue);
-    //                 PageDimValue.LookupMode(true);
-    //                 PageDimValue.SetRecord(DimValue);
-    //                 PageDimValue.SetTableView(DimValue);
-    //                 if PageDimValue.RunModal = Action::LookupOK then begin
-    //                     PageDimValue.GetRecord(DimValue);
-    //                     exit(DimValue.Code);
-    //                 end;
-    //             end;
+            Deputation::Branch:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
 
-    //         Deputation::Department:
-    //             begin
-    //                 Depart.Reset;
-    //                 Depart.SetRange(Blocked, false);//Min
-    //                 Clear(PageDepart);
-    //                 PageDepart.LookupMode(true);
-    //                 PageDepart.SetRecord(Depart);
-    //                 PageDepart.SetTableView(Depart);
-    //                 if PageDepart.RunModal = Action::LookupOK then begin
-    //                     PageDepart.GetRecord(Depart);
-    //                     exit(Depart.Code);
-    //                 end;
-    //             end;
+                end;
 
-    //         Deputation::"Extension Counter":
-    //             begin
-    //                 EmpHie.Reset;
-    //                 EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-    //                 EmpHie.SetRange(Blocked, false);//Min
-    //                 Clear(PageEmpHie);
-    //                 PageEmpHie.LookupMode(true);
-    //                 PageEmpHie.SetRecord(EmpHie);
-    //                 PageEmpHie.SetTableView(EmpHie);
-    //                 if PageEmpHie.RunModal = Action::LookupOK then begin
-    //                     PageEmpHie.GetRecord(EmpHie);
-    //                     exit(EmpHie.Code);
-    //                 end;
-    //             end;
+            Deputation::Department:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Department);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
 
-    //         Deputation::Unit:
-    //             begin
-    //                 EmpHie.Reset;
-    //                 EmpHie.SetRange(Type, EmpHie.Type::Unit);
-    //                 EmpHie.SetRange(Blocked, false);//Min
-    //                 Clear(PageEmpHie);
-    //                 PageEmpHie.LookupMode(true);
-    //                 PageEmpHie.SetRecord(EmpHie);
-    //                 PageEmpHie.SetTableView(EmpHie);
-    //                 if PageEmpHie.RunModal = Action::LookupOK then begin
-    //                     PageEmpHie.GetRecord(EmpHie);
-    //                     exit(EmpHie.Code);
-    //                 end;
-    //             end;
-    //     end;
-    // end;
+            Deputation::"Extension Counter":
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::"Extension Counter");
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+
+            Deputation::Unit:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Unit);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+        end;
+    end;
 
     local procedure FilterDeputationOnFrom()
     begin
@@ -340,7 +339,8 @@ report 50077 "Formation of Department/Branch"
             //     Employee.SetRange("Sub Province Code", DeputationCodeFrom);
 
             DeputationOnFrom::Branch:
-                Employee.SetRange("Global Dimension 1 Code", DeputationCodeFrom);
+                // Employee.SetRange("Global Dimension 1 Code", DeputationCodeFrom);
+                Employee.SetRange("Branch Code", DeputationCodeFrom);
 
             DeputationOnFrom::Department:
                 Employee.SetRange("Department Code", DeputationCodeFrom);
@@ -364,7 +364,11 @@ report 50077 "Formation of Department/Branch"
             //     Employee.Validate("Sub Province Code", DeputationCodeTo);
 
             DeputationOnTo::Branch:
-                Employee.Validate("Global Dimension 1 Code", DeputationCodeTo);
+                begin
+                    // Employee.Validate("Global Dimension 1 Code", DeputationCodeTo);
+                    Employee.Validate("Province Code", ProvinceCode);
+                    Employee.Validate("Branch Code", DeputationCodeTo);
+                end;
 
             DeputationOnTo::Department:
                 Employee.Validate("Department Code", DeputationCodeTo);

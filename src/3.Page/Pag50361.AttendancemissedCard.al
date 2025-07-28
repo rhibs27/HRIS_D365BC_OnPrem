@@ -1,6 +1,7 @@
 page 50361 "Attendance missed Card"
 {
     ApplicationArea = All;
+    InsertAllowed = false;
     Caption = 'Attendance missed Card';
     PageType = Card;
     SourceTable = "Attendance Missed";
@@ -35,6 +36,16 @@ page 50361 "Attendance missed Card"
                     ApplicationArea = All;
                     Caption = 'Attendance Missed Date';
                 }
+                field("Previous Check In Time"; Rec."Previous Check In Time")
+                {
+                    ToolTip = 'Specifies the value of the Previous Check In Time field.';
+                    ApplicationArea = All;
+                }
+                field("Previous Check Out Time"; Rec."Previous Check Out Time")
+                {
+                    ToolTip = 'Specifies the value of the Previous Check Out Time field.';
+                    ApplicationArea = All;
+                }
                 field("Check In Time"; Rec."Check In Time")
                 {
                     Editable = IsOpen;
@@ -64,18 +75,8 @@ page 50361 "Attendance missed Card"
                 {
                     ToolTip = 'Specifies the value of the Start Date (BS) field.';
                     ApplicationArea = All;
+                    Caption = 'Attendance Missed Date (BS)';
                 }
-                // field("Reason Code"; Rec."Reason Code")
-                // {
-                //     Editable = false;
-                //     ToolTip = 'Specifies the value of the Reason Code field.';
-                //     ApplicationArea = All;
-                // }
-                // field("Reason Description"; Rec."Reason Description")
-                // {
-                //     ToolTip = 'Specifies the value of the Reason Description field.';
-                //     ApplicationArea = All;
-                // }
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
@@ -131,10 +132,11 @@ page 50361 "Attendance missed Card"
 
                 trigger OnAction()
                 begin
-                    DocCancelMgt.ApplyAttendanceMissed(Rec);
-                    Message('Applied');
-                    IsApplied := true;
-                    CurrPage.Close;
+                    if DocCancelMgt.ApplyAttendanceMissed(Rec) <> '' then begin
+                        IsApplied := true;
+                        Message('Attendance Missed has been sent for approval.');
+                        CurrPage.Close;
+                    end;
                 end;
             }
             action(Approve)
@@ -176,6 +178,24 @@ page 50361 "Attendance missed Card"
                             ApproverMgt.ApproveRejectDocument(RecRef, false);
                             Message('Document is Rejected by %1', HRMgt.GetEmpName());
                         end;
+                    end;
+                end;
+            }
+            action("Withdraw Leave")
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Attendance missed update request has been withdrew.');
                     end;
                 end;
             }
@@ -233,5 +253,6 @@ page 50361 "Attendance missed Card"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         IsApplied: Boolean;
+        ApprovalMgt: Codeunit "Approver Mgt";
 }
 

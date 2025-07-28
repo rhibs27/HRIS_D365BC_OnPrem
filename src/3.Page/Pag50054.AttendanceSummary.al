@@ -54,6 +54,11 @@ page 50054 "Attendance Summary"
                     ToolTip = 'Specifies the value of the Tour Day field.';
                     ApplicationArea = All;
                 }
+                field("Late Day"; Rec."Late Check In Day")
+                {
+                    ToolTip = 'Specifies the value of the Late Day field.';
+                    ApplicationArea = All;
+                }
                 field("OT Days"; Rec."OT Days")
                 {
                     ToolTip = 'Specifies the value of the OT Days field.';

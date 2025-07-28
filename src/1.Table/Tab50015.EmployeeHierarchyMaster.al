@@ -33,11 +33,11 @@
 //             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
 //         }
 //         field(6; "Sol ID"; Code[20]) { }
-//         field(7; "Department Code"; Code[10])
+//         field(7; "Department Code"; Code[20])
 //         {
 //             TableRelation = "Organization Structure List".Code where("Type" = filter("Organization Structure list"::Department));
 //         }
-//         field(8; "Reporting Category"; Code[10])
+//         field(8; "Reporting Category"; Code[20])
 //         {
 //             TableRelation = "Reporting Category";
 //         }

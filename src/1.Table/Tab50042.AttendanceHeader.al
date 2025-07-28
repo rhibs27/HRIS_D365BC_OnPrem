@@ -11,7 +11,7 @@ table 50042 "Attendance Header"
             begin
                 if "No." <> xRec."No." then begin
                     AttendanceSetup.Get;
-                    NoSeriesMngt.TestManual(AttendanceSetup."Attendance Document No. Series");
+                    NoSeriesCodeunit.TestManual(AttendanceSetup."Attendance Document No. Series");
                     "No. Series" := '';
                 end;
             end;
@@ -27,7 +27,7 @@ table 50042 "Attendance Header"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";
@@ -70,11 +70,11 @@ table 50042 "Attendance Header"
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Responsibility Center"; Code[10])
+        field(8; "Responsibility Center"; Code[20])
         {
             TableRelation = "Responsibility Center";
         }
-        field(9; "No. Series"; Code[10])
+        field(9; "No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
@@ -87,7 +87,7 @@ table 50042 "Attendance Header"
                     Error(Text006, "From Date", "To Date");
             end;
         }
-        field(12; Status; Enum "Attendance Status")
+        field(12; Status; enum "Approval Status")
         {
             Editable = false;
 
@@ -98,11 +98,11 @@ table 50042 "Attendance Header"
             Editable = false;
             TableRelation = "User Setup";
         }
-        field(15; "From Date (B.S)"; Code[10])
+        field(15; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(16; "To Date (B.S)"; Code[10])
+        field(16; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -114,7 +114,7 @@ table 50042 "Attendance Header"
         {
             Editable = false;
         }
-        field(19; "Pay Cycle Code"; Code[10])
+        field(19; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -128,7 +128,7 @@ table 50042 "Attendance Header"
                 DeleteSummary;
             end;
         }
-        field(20; "Pay Cycle Term"; Code[10])
+        field(20; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
 
@@ -168,7 +168,7 @@ table 50042 "Attendance Header"
         field(23; "Posted By"; Code[50])
         {
         }
-        field(24; Type; Enum Employee)
+        field(24; Type; Enum "Employee Type")
         {
 
         }
@@ -194,7 +194,7 @@ table 50042 "Attendance Header"
         AttendanceSetup.Get;
         if "No." = '' then begin
             TestNoSeries;
-            NoSeriesMngt.InitSeries(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
+            HrMgt.InitNoSeriesNew(GetNoSeries, xRec."No. Series", 0D, "No.", "No. Series");
         end;
         InitRecord;
         "Assigned User ID" := UserId;
@@ -213,7 +213,8 @@ table 50042 "Attendance Header"
     end;
 
     var
-        NoSeriesMngt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
         AttendanceSetup: Record "Attendance Setup";
         AttendanceSummary: Record "Attendance Summary";
         UserMgt: Codeunit "User Setup Management";
@@ -234,9 +235,9 @@ table 50042 "Attendance Header"
     begin
         AttendanceSetup.Get;
         TestNoSeries;
-        if NoSeriesMngt.SelectSeries(GetNoSeries, xAttendanceHeader."No. Series", "No. Series") then begin
+        if NoSeriesCodeunit.LookupRelatedNoSeries(GetNoSeries, xAttendanceHeader."No. Series", "No. Series") then begin
             TestNoSeries;
-            NoSeriesMngt.SetSeries("No.");
+            NoSeriesCodeunit.GetNextNo("No.");
             exit(true);
         end;
     end;
@@ -335,7 +336,7 @@ table 50042 "Attendance Header"
         end;
     end;
 
-    local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: Enum "Attendance Status")
+    local procedure ChangeStatus(DocumentNo: Code[20]; NewStatus: enum "Approval Status")
     var
         AttendanceSummary: Record "Attendance Summary";
         AttendanceLine: Record "Attendance Line";

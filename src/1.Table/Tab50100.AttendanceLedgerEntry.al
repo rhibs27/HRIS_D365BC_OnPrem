@@ -5,11 +5,11 @@ table 50100 "Attendance Ledger Entry"
 
     fields
     {
-        field(1; "Journal Template Name"; Code[10])
+        field(1; "Journal Template Name"; Code[20])
         {
             TableRelation = "Employee Service History";
         }
-        field(2; "Journal Batch Name"; Code[10])
+        field(2; "Journal Batch Name"; Code[20])
         {
             TableRelation = "HR Budget Plan";
         }

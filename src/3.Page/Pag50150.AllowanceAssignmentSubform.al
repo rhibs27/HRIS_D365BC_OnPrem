@@ -13,7 +13,7 @@ page 50150 "Allowance Assignment Subform"
         {
             repeater(Group)
             {
-                Editable = FormEditable;
+                Editable = FormEditable and not AllowanceClaim;
                 field("No."; Rec."No.")
                 {
                     Visible = false;
@@ -199,7 +199,7 @@ page 50150 "Allowance Assignment Subform"
                     AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                     AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
                     AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
@@ -218,7 +218,7 @@ page 50150 "Allowance Assignment Subform"
                     AllowanceLine1: Record "Allowance Assignment Line";
                 begin
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
-                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                    Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                     if AllowanceLine1.Get(Rec."No.", Rec."Substitute of Line No.") then begin
                         AllowanceLine1."Substitute Type" := Rec."Substitute Type"::" ";
@@ -245,7 +245,7 @@ page 50150 "Allowance Assignment Subform"
                     // ApproverHrms.FindFirst()
                     // if 
                     if Confirm('Do you want reject the request?', false) then begin
-                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending Approval");
+                        Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
                         rec.Modify();
                         Message('Allowance Claim is Rejected');
@@ -257,6 +257,11 @@ page 50150 "Allowance Assignment Subform"
 
 
     trigger OnAfterGetRecord()
+    begin
+        SetLayout();
+    end;
+
+    trigger OnAfterGetCurrRecord()
     begin
         SetLayout();
     end;
@@ -320,7 +325,8 @@ page 50150 "Allowance Assignment Subform"
         if AllowanceClaim then
             CurrPage.Caption('Allowance Assignment Claim Subform');
 
-        FormEditable := (Rec."Approval Status" = Rec."Approval Status"::open) and (rec."Emp Act Type" <> rec."Emp Act Type"::"Allowance Assignment claim");
+        FormEditable := DocumentOpen;
+        // FormEditable := (Rec."Approval Status" = Rec."Approval Status"::open) and (Rec."Emp Act Type" <> Rec."Emp Act Type"::"Allowance Assignment Claim");
         /*
 
         BaseCalendarChange.RESET;

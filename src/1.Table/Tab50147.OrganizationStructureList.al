@@ -5,7 +5,7 @@ table 50147 "Organization Structure List"
 
     fields
     {
-        field(1; "Type"; Enum "Organization Structure list")
+        field(1; "Type"; Enum "Deputation Type")
         {
             Caption = 'Type';
         }
@@ -21,7 +21,7 @@ table 50147 "Organization Structure List"
         {
             Editable = false;
         }
-        field(5; "Province Code"; text[10])
+        field(5; "Province Code"; text[20])
         {
             Editable = false;
             DataClassification = ToBeClassified;
@@ -36,16 +36,15 @@ table 50147 "Organization Structure List"
             Editable = false;
             DataClassification = ToBeClassified;
         }
-        field(8; "District Name"; Text[50])
+        field(8; "District code"; Code[20])
         {
-            TableRelation = District."District Name";
+            TableRelation = District."District Code";
             trigger OnValidate()
             var
                 District: Record District;
             begin
-                District.Reset();
-                District.SetRange("District Name", "District Name");
-                if District.FindFirst() then begin
+                if District.Get("District code") then begin
+                    Validate("District Name", District."District Name");
                     Validate("Province Code", District.Province);
                     Validate("Province Name", District."Province Name");
                     Validate("Region", District.Region);
@@ -58,23 +57,48 @@ table 50147 "Organization Structure List"
                 end;
             end;
         }
-        field(9; "Municipality"; text[50])
+        field(9; "Municipality Code"; Code[20])
         {
-            TableRelation = "Municipality"."Municipality Name" where("District Name" = field("District Name"));
+            TableRelation = "Municipality" where("District Name" = field("District Name"));
             DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                Municipality: Record "Municipality";
+            begin
+                if Municipality.Get("Municipality Code") then begin
+                    Validate("Municipality Name", Municipality."Municipality Name");
+                end else begin
+                    Clear("Municipality Name");
+                end;
+            end;
         }
         field(10; "Remote Area Category"; Code[20])
         {
             TableRelation = "Remote Area Category";
             DataClassification = CustomerContent;
         }
-        field(11; "Remote Area Reduction"; Code[10])
+        field(11; "Remote Area Reduction"; Code[20])
         {
             TableRelation = "Remote Area Category";
             DataClassification = CustomerContent;
         }
         field(12; "Blocked"; Boolean)
         {
+        }
+        field(13; "District Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(15; "Municipality Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(16; "Sol ID"; Code[20])
+        {
+            Caption = 'Sol ID';
+            DataClassification = CustomerContent;
         }
     }
     keys

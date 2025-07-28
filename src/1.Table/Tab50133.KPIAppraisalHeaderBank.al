@@ -59,7 +59,7 @@ table 50133 "KPI Appraisal Header Bank"
         field(5; Department; Code[20])
         {
             Editable = true;
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
 
             trigger OnValidate()
             begin

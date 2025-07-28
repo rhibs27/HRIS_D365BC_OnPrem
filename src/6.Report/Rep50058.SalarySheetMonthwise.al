@@ -147,8 +147,8 @@ report 50058 "Salary Sheet Monthwise"
     var
         Amount: Decimal;
         DetaliedEmpLedgerPRM: Record "Detailed Employee Ledger Entry";
-        PayCycleTerm: Code[10];
-        EmployeeFilter: Code[10];
+        PayCycleTerm: Code[20];
+        EmployeeFilter: Code[20];
         EmpVar: Record Employee;
         CompanyInfo: Record "Company Information";
         TypeHelper: Codeunit "Type Helper";
@@ -162,7 +162,7 @@ report 50058 "Salary Sheet Monthwise"
         MultipleEmloyee: Boolean;
         FilterText: Text;
 
-    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[10])
+    procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
     begin
         EmployeeFilter := empCode;
         PayCycleTerm := FiscalYear;

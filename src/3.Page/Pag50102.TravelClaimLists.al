@@ -308,6 +308,7 @@ page 50102 "Travel Claim Lists"
                 PromotedCategory = "Report";
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                Visible = true;
                 ToolTip = 'Executes the Print Travel Claim action.';
                 ApplicationArea = All;
 

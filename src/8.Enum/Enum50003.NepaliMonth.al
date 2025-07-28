@@ -18,9 +18,9 @@ enum 50003 "Nepali Month"
     {
         Caption = 'Asar';
     }
-    value(4; Shrawn)
+    value(4; Shrawan)
     {
-        Caption = 'Shrawn';
+        Caption = 'Shrawan';
     }
     value(5; Bhadra)
     {

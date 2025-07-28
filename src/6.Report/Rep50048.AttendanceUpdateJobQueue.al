@@ -23,7 +23,7 @@ report 50048 "Attendance Update Job Queue"
                     if UpdateDailyAttendance then begin
                         if "Employment Date" = 0D then    // skip blank employment date employee oman
                             CurrReport.Skip;
-                        InsertAttendanceLine;
+                        AttendanceMgt.InsertAttendanceLine(Employee."No.", InitialDate, DocNo);
                         if Employee."Employment Type" = Employee."Employment Type"::Contract then
                             StatusInactiveForExpiredContractEmployee;
                     end;
@@ -47,31 +47,31 @@ report 50048 "Attendance Update Job Queue"
                             Validate("Attendance Missed Count", HRMgt.ReturnLeaveCount("No.", "Attendance Missed On"));
                         Modify;
                     end;
-                    if NightShiftAttendanceUpdate then begin
-                        AttendanceLogRec.Reset;
-                        AttendanceLogRec.SetRange(Date, InitialDate);
-                        AttendanceLogRec.SetFilter("Night Shift Check Out Time", '<>%1', 0T);
-                        AttendanceLogRec.SetRange("Employee ID", Employee."No.");
-                        if AttendanceLogRec.FindFirst then begin
-                            AttendLine.Reset;
-                            AttendLine.SetRange("Employee No.", AttendanceLogRec."Employee ID");
-                            AttendLine.SetRange("Attendance Date", AttendanceLogRec.Date);
-                            if AttendLine.FindFirst then begin
-                                AttendLine."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
-                                AttendLine."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
-                                AttendLine."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
-                                AttendLine."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
-                                AttendLine.Modify;
-                            end;
-                            if EmpAttenActRec.Get(AttendanceLogRec."Employee ID", AttendanceLogRec.Date) then begin
-                                EmpAttenActRec."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
-                                EmpAttenActRec."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
-                                EmpAttenActRec."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
-                                EmpAttenActRec."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
-                                EmpAttenActRec.Modify;
-                            end;
-                        end;
-                    end;
+                    // if NightShiftAttendanceUpdate then begin
+                    //     AttendanceLogRec.Reset;
+                    //     AttendanceLogRec.SetRange(Date, InitialDate);
+                    //     AttendanceLogRec.SetFilter("Night Shift Check Out Time", '<>%1', 0T);
+                    //     AttendanceLogRec.SetRange("Employee ID", Employee."No.");
+                    //     if AttendanceLogRec.FindFirst then begin
+                    //         AttendLine.Reset;
+                    //         AttendLine.SetRange("Employee No.", AttendanceLogRec."Employee ID");
+                    //         AttendLine.SetRange("Attendance Date", AttendanceLogRec.Date);
+                    //         if AttendLine.FindFirst then begin
+                    //             AttendLine."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
+                    //             AttendLine."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
+                    //             AttendLine."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
+                    //             AttendLine."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
+                    //             AttendLine.Modify;
+                    //         end;
+                    //         if EmpAttenActRec.Get(AttendanceLogRec."Employee ID", AttendanceLogRec.Date) then begin
+                    //             EmpAttenActRec."Punch Out Reviewer" := AttendanceLogRec."Punch Out Reviewer";
+                    //             EmpAttenActRec."Punch Out Check Reviewer" := AttendanceLogRec."Punch Out Check Reviewer";
+                    //             EmpAttenActRec."Punch out Remarks" := AttendanceLogRec."Punch out Remarks";
+                    //             EmpAttenActRec."Night Shift Punch Out Time" := AttendanceLogRec."Night Shift Check Out Time";
+                    //             EmpAttenActRec.Modify;
+                    //         end;
+                    //     end;
+                    // end;
                 end;
 
                 trigger OnPreDataItem()
@@ -225,7 +225,7 @@ report 50048 "Attendance Update Job Queue"
         HRSetup: Record "Human Resources Setup";
         PRSetup: Record "Payroll General Setup";
         //EmployeeActivity: Record "Employee Activity";
-        Transfer: Record "Employee/HR Transfer";
+        Transfer: Record "Employee Transfer";
         RejectionRemarks: Text;
         [InDataSet]
         ReinstateTransfer: Boolean;
@@ -233,7 +233,7 @@ report 50048 "Attendance Update Job Queue"
         SyncEmployees: Boolean;
         GeneralTransferUpdate: Boolean;
         //EmployeeActivityRec: Record "Employee Activity";
-        TransferRec: Record "Employee/HR Transfer";
+        TransferRec: Record "Employee Transfer";
         EmployeeServiceHistory: Record "Employee Service History";
         SalaryLevelGradeUpdate: Boolean;
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
@@ -242,74 +242,12 @@ report 50048 "Attendance Update Job Queue"
         AttendanceLogRec: Record "Attendance Log";
         NightShiftAttendanceUpdate: Boolean;
         EmpAttenActRec: Record "Employee Attendance & Activity";
+        AttendanceMgt: Codeunit "Attendance Mgt";
         AttendLine: Record "Attendance Line";
         EngNep: Record "English-Nepali Date";
 
-    local procedure InsertAttendanceLine()
-    var
-        PayrollEngine: Codeunit "Payroll Engine";
-    begin
-        Clear(AttendanceLine);
-        AttendanceLine.Reset;
-        AttendanceLine.SetRange("Employee No.", Employee."No.");
-        AttendanceLine.SetRange("Attendance Date", InitialDate);
-        if not AttendanceLine.FindFirst then begin
-            AttendanceLine.Init;
-            AttendanceLine."Document No." := DocNo;
-            AttendanceLine."Employee No." := Employee."No.";
-            AttendanceLine.Validate("Employee Working Shift", Employee."Employee Work Shift");
-            AttendanceLine."Attendance Date" := InitialDate;
-            //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
-            AttendanceLine.Insert(false);
-        end;
 
-        if IsHoliday(InitialDate, AttendanceLine.Remarks) then begin
-            AttendanceLine."Day Type" := AttendanceLine."Day Type"::Holiday;
-            AttendanceLine."Week Off Day" := 1;
-            AttendanceLine."Holiday Remarks" := CalendarDescription;
-        end else begin
-            AttendanceLine."Day Type" := AttendanceLine."Day Type"::"Working Day";
-            AttendanceLine."Holiday Remarks" := '';
-            AttendanceLine."Week Off Day" := 0;
-        end;
-        AttendanceLog.Reset;
-        AttendanceLog.SetRange(Date, InitialDate);
-        AttendanceLog.SetRange("Employee ID", AttendanceLine."Employee No.");
-        if AttendanceLog.FindFirst then begin
-            AttendanceLine.Validate("Check In Time", AttendanceLog."Check In Time");
-            AttendanceLine.Validate("Check Out Time", AttendanceLog."Check Out Time");
-            AttendanceLine.Validate("Punch Out Reviewer", AttendanceLog."Punch Out Reviewer"); //Min 8.25.2022
-            AttendanceLine.Validate("Punch Out Check Reviewer", AttendanceLog."Punch Out Check Reviewer"); //Min 8.25.2022
-            AttendanceLine.Validate("Punch out Remarks", AttendanceLog."Punch out Remarks"); //Min 8.29.2022
-            AttendanceLine.Validate("Night Shift Punch Out Time", AttendanceLog."Night Shift Check Out Time"); //Min 12.05.2022
-            if (AttendanceLine."Check In Time" <> 0T) then begin
-                AttendanceLine."Entry Type" := AttendanceLine."Entry Type"::Present;
-                AttendanceLine.Validate("Present Day", 1);
-            end;
-        end;
-        EngNep.Reset; //Min 1.25.2023
-        EngNep.SetRange("English Date", InitialDate);
-        if EngNep.FindFirst then
-            AttendanceLine.Week := EngNep.Week;
-        AttendanceLine.Modify(false);
 
-        PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
-
-        ChangeStatusToApproveFromHold;
-    end;
-
-    local procedure IsHoliday(Date: Date; Remarks: Text[100]): Boolean
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        LeaveMgt: Codeunit "Leave Mgt.";
-        RetrunBool: Boolean;
-    begin
-        RetrunBool := false;
-        Clear(CalendarDescription);
-        RetrunBool := LeaveMgt.GetNonWokingDays(InitialDate, InitialDate, Employee."No.") <> 0;
-        CalendarDescription := HRMgt.ReturnCalendarDescription;
-        exit(RetrunBool);
-    end;
 
     local procedure ScreenOvertime()
     var
@@ -459,7 +397,7 @@ report 50048 "Attendance Update Job Queue"
                         end;
                     PRSetup."Vault Key":
                         begin
-                            if LeaveMgt.GetNonWokingDays(AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."Employee Code") = 0 then
+                            if LeaveMgt.GetNonWorkingDays(AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."From Date", AllowanceAssignmentLine."Employee Code") = 0 then
                                 //EmployeeAttendanceActivity.SETFILTER("Check In Time",'<>%1',0T);
                                 EmployeeAttendanceActivity.SetRange("Present Day", 1);
                             RejectionRemarks := 'No Check In found.'
@@ -523,7 +461,7 @@ report 50048 "Attendance Update Job Queue"
         ServiceHistory: Record "Employee Service History";
         ServiceCode: Code[20];
         //EmpActivity: Record "Employee Activity";
-        EmployeeTransfer: Record "Employee/HR Transfer";
+        EmployeeTransfer: Record "Employee Transfer";
         PreviousServiceHistory: Record "Employee Service History";
     begin
         Transfer.Reset;

@@ -936,7 +936,7 @@
 //     local procedure SetVisibility()
 //     begin
 //         case Rec."Approval Status" of
-//             Rec."Approval Status"::"Pending Approval":
+//             Rec."Approval Status"::Pending:
 //                 begin
 //                     ForRecommend := true;
 //                     ForReject := true;

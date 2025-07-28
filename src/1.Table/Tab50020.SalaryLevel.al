@@ -6,7 +6,7 @@ table 50020 "Salary Level"
 
     fields
     {
-        field(1; "Code"; Code[10]) { }
+        field(1; "Code"; Code[20]) { }
         field(2; Description; Text[50]) { }
         field(3; Rank; Integer) { }
         field(4; "Basic Salary"; Decimal)
@@ -95,6 +95,13 @@ table 50020 "Salary Level"
         field(40; "Out of Pocket Expense(Other)"; Decimal)
         {
         }
+        field(41; "Leave Fare Allowance"; Decimal)
+        {
+        }
+        field(42; "Staff Level"; Enum "Staff Type")
+        {
+        }
+
     }
 
     keys

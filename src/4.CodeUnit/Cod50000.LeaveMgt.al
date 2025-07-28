@@ -2,11 +2,8 @@ codeunit 50000 "Leave Mgt."
 {
     procedure OpenLeaveRequest(EmpCode: Code[20])
     var
-        // EmpAct: Record "Employee Activity" temporary;
-        leaveRequest: record leave;
-        LeaveRequest2: Record Leave;
+        leaveRequest, LeaveRequest2 : record leave;
         Approval: Record "Approval HRMS";
-    //EmployeeActivity: Record "Employee Activity";
     begin
         Clear(Employee);
         // Clear Approval line 
@@ -23,22 +20,6 @@ codeunit 50000 "Leave Mgt."
         if leaveRequest.Findfirst() then begin
             Message('This Employee Already has open Leave Request.Click Ok to Open');
             PAGE.Run(PAGE::"Leave Request", leaveRequest)
-            // else begin
-            //     LeaveRequest2.Init;
-            //     LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
-            //     LeaveRequest2.Validate("Employee No.", EmpCode);
-            //     LeaveRequest2.Validate(Type, LeaveRequest2.Type::"Leave Request");
-            //     LeaveRequest2.Validate("Fiscal Year", HRMgt.ReturnFiscalYear(Today));
-            //     LeaveRequest2.Validate("Approval Status", LeaveRequest2."Approval Status"::Open);
-            //     LeaveRequest2.Validate("Employee Work Shift", Employee."Employee Work Shift");
-            //     LeaveRequest2.Validate("Leave Type", LeaveRequest2."Leave Type"::"Full Day");
-            //     LeaveRequest2.Validate("Requested Date", Today);
-            //     LeaveRequest2.Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
-            //     LeaveRequest2.Validate(Department, Employee."Department Code");
-            //     LeaveRequest2.Insert(true);
-            //     if GuiAllowed then //NICASIA SM for Web Portal
-            //         PAGE.Run(PAGE::"Leave Request", LeaveRequest2);
-            // end;
         end else begin
             LeaveRequest2.Init;
             LeaveRequest2.Validate("Functional Title", Employee."Functional Title");
@@ -67,24 +48,25 @@ codeunit 50000 "Leave Mgt."
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
         if Type = Type::"Leave Request" then begin
-            LeaveTypeSetup.Get(LeaveCode);
-            if LeaveType = LeaveType::"Full Day" then
-                Difference := 1
-            else
-                Difference := 0.5;
-            if LeaveTypeSetup."Exclude Non Working Days" then
-                exit(EndDate - StartDate + Difference - GetNonWokingDays(StartDate, EndDate, Empcode))
-            else
-                exit(EndDate - StartDate + Difference);
+            if LeaveTypeSetup.Get(LeaveCode) then begin
+                if LeaveType = LeaveType::"Full Day" then
+                    Difference := 1
+                else
+                    Difference := 0.5;
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                else
+                    exit(EndDate - StartDate + Difference);
+            end;
         end else
             exit(EndDate - StartDate + 1);
     end;
 
-    procedure GetNonWokingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
+    procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     var
         Description: Text;
         Proviences: Text;
-        Gender: Option " ",Female,Male;
+        Gender: Enum "Employee Gender";
         ProviencesVar: Record Province;
         CalendarDate: Record Date;
         CalendarMgmt: Codeunit "Calendar Management";
@@ -96,7 +78,7 @@ codeunit 50000 "Leave Mgt."
         Branch: Text;
         DimValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
-    // AttendanceMgt: Codeunit "Attendance Management";
+        Community: Enum "Community Type";
     begin
         Counter := 0;
         PayrollSetup.Get;
@@ -108,9 +90,9 @@ codeunit 50000 "Leave Mgt."
         if CalendarDate.Find('-') then
             repeat
                 Clear(AlreadyAdded);
-                if HRMgt.CheckDateStatus(BaseCalendar.Code, CalendarDate."Period Start", Description, Proviences, Gender, InOutValley, PostingRegion, Branch) then begin
+                if HRMgt.CheckDateStatus(BaseCalendar.Code, CalendarDate."Period Start", Description, Proviences, Gender, InOutValley, PostingRegion, Branch, Community) then begin
                     CalendarDescription := Description;
-                    if (Proviences = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') then
+                    if (Proviences = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") then
                         Counter += 1
                     else begin
                         if Proviences <> '' then begin
@@ -157,6 +139,11 @@ codeunit 50000 "Leave Mgt."
                             AlreadyAdded := true;
                         end;
 
+                        if Community = Employee.Community then begin
+                            Counter += 1;
+                            AlreadyAdded := true
+                        end;
+
                     end;
 
                 end;
@@ -167,7 +154,6 @@ codeunit 50000 "Leave Mgt."
 
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
-        //EmpAct: Record "Employee Activity";
         leave: Record Leave;
         NoOfRecrod: Integer;
         EmpAttendanceActivity: Record "Employee Attendance & Activity";
@@ -175,9 +161,8 @@ codeunit 50000 "Leave Mgt."
         //check for leave conflict..
         leave.Reset;
         leave.SetRange("Employee No.", EmpCode);
-        //EmpAct.SETRANGE(Type,EmpAct.Type::"Leave Request");
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
-        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Pending, leave."Approval Status"::Approved);
+        leave.SetFilter("Approval Status", '%1|%2', leave."Approval Status"::Pending, leave."Approval Status"::Approved);
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
         leave.FilterGroup(-1);
@@ -194,26 +179,24 @@ codeunit 50000 "Leave Mgt."
 
         leave.Reset;
         leave.SetRange("Employee No.", EmpCode);
-        //EmpAct.SETRANGE(Type,EmpAct.Type::"Leave Request");
         leave.SetFilter(Type, '%1|%2', leave.Type::"Leave Request", leave.Type::"Attendance Missed");
-        leave.SetRange("Fiscal Year", EngNep."Fiscal Year");
         leave.SetRange("Cancelled No.", '');
         leave.SetRange(Cancelled, false);
-        leave.SetFilter("Approval Status", '%1&%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
-        if leave.Find('-') then
+        leave.SetFilter("Approval Status", '%1|%2', leave."Approval Status"::Approved, leave."Approval Status"::Pending);
+        if leave.FindSet() then
             repeat
                 if ((StartDate > leave."Start Date") and (StartDate < leave."End Date")) or
                     ((EndDate > leave."Start Date") and (EndDate < leave."End Date")) then
                     Error('Leave has already been request between %1 to %2', StartDate, EndDate);
             until leave.Next = 0;
-        EmpAttendanceActivity.Reset; //Min 4.11.2022
-        EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
-        EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
-        if EmpAttendanceActivity.FindFirst then
-            repeat
-                if EmpAttendanceActivity."Present Day" = 1 then
-                    Error(LeaveError, EmpAttendanceActivity."Attendance Date");
-            until EmpAttendanceActivity.Next = 0;
+        // EmpAttendanceActivity.Reset; //Min 4.11.2022
+        // EmpAttendanceActivity.SetRange("Employee No.", EmpCode);
+        // EmpAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
+        // if EmpAttendanceActivity.FindFirst then
+        //     repeat
+        //         if EmpAttendanceActivity."Present Day" = 1 then
+        //             Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+        //     until EmpAttendanceActivity.Next = 0;
     end;
 
     procedure CheckForLeaveCriteria(LeaveCode: Code[20]; StartDate: Date; EndDate: Date; EmpCode: Code[20]; NoofDays: Decimal)
@@ -236,7 +219,6 @@ codeunit 50000 "Leave Mgt."
             if Leave.Count >= LeaveTypeSetup."Times Per Service Period" then
                 Error('You cannot apply for %1 leave anymore.', LeaveTypeSetup.Description);
         end;
-
 
         if not (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::" ") then begin
             if LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::Permanent then
@@ -267,7 +249,7 @@ codeunit 50000 "Leave Mgt."
             LeaveTypeSetup.CalcFields("Remaining Days");
         if (not LeaveTypeSetup.Compensatory) and (not LeaveTypeSetup."Skip Balance Check") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
-                Error(NoLeaveDaysError + EmpCode);
+                Error(NoLeaveDaysError);
     end;
 
     procedure CheckForMulipleRequest(LeaveCode: Code[20]; EmpCode: Code[20]; StartDate: Date; EndDate: Date; NoOfDays: Decimal)
@@ -303,7 +285,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Option " ",Permanent,Probation,Contract; Gender: Option " ",Female,Male; MaritalStatus: Option)
+    procedure UpdateLeaveEmployee(EmpCode: Code[20]; JoiningDate: Date; EmployeeType: Enum "Employee Type"; Gender: enum "Employee Gender"; MaritalStatus: Enum "Marital Status")
     var
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
@@ -320,11 +302,11 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
-        LeavetypSetup.SetFilter("Marital Status", '%1', MaritalStatus);
+        LeavetypSetup.SetFilter("Marital Status", '%1|%2', MaritalStatus, LeavetypSetup."Marital Status"::" ");
         LeavetypSetup.SetRange(Compensatory, false);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
-        if LeavetypSetup.Find('-') then
+        if LeavetypSetup.FindSet() then
             repeat
                 Clear(LeaveEarn);
                 LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
@@ -392,14 +374,14 @@ codeunit 50000 "Leave Mgt."
                         DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", Today, true);
                         LeaveEarn.Validate("Entry No.", DocNo);
                         LeaveEarn.Insert();
-                    end else if LeavetypSetup."Encashable Limit" <= LeavetypSetup."Remaining Days" then begin
+                    end else if LeavetypSetup."Encashable Limit" < LeavetypSetup."Remaining Days" then begin
                         LeaveEarn.Init;
                         LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
                         LeaveEarn.Validate(EmpNo, Employee."No.");
                         LeaveEarn.Validate(Type, LeaveEarn.Type::Encashed);
                         LeaveEarn.Validate("Fiscal year", EnglishNepaliDate."Fiscal Year");
                         LeaveEarn.Validate("Posted Date", Today);
-                        LeaveEarn.Validate("Balancing Days", -LeavetypSetup."Encashable Limit");
+                        LeaveEarn.Validate("Balancing Days", -(LeavetypSetup."Remaining Days" - LeavetypSetup."Encashable Limit"));
                         DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", Today, true);
                         LeaveEarn.Validate("Entry No.", DocNo);
                         LeaveEarn.Insert();
@@ -511,11 +493,14 @@ codeunit 50000 "Leave Mgt."
     procedure CheckForLimitDays(LeaveCode: Code[20]; NoOfDays: Decimal)
     var
         LeaveTypeSetup: Record "Leave Type Setup";
+        LeaveReq: Record Leave;
     begin
         LeaveTypeSetup.Get(LeaveCode);
         if LeaveTypeSetup."Limit Max. Leave at Once" then
             if NoOfDays > LeaveTypeSetup."Maximum Leave at once" then
                 Error('Applied Leave Days for %1 cannot exceed %2.', LeaveTypeSetup.Description, LeaveTypeSetup."Maximum Leave at once");
+        If (NoOfDays < LeaveTypeSetup."Minimum Leave at once") then
+            Error('Applied Leave Days for %1 must be between %2 and %3.', LeaveTypeSetup.Description, LeaveTypeSetup."Minimum Leave at once", LeaveTypeSetup."Maximum Leave at once");
     end;
 
     procedure LookupDependability(LeaveCode: Code[20]): Text[100]
@@ -581,7 +566,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    procedure CalculateRemainingDays(EmpCode: Code[20]; LeaveTypecode: Code[20]; PostDate: Date): Decimal
+    procedure CalculateRemainingDays(EmpCode: Code[20]; LeaveTypeCode: Code[20]; PostDate: Date): Decimal
     var
         LeaveEarn: Record "Leave Earn";
     begin
@@ -610,7 +595,7 @@ codeunit 50000 "Leave Mgt."
                 Error(ErrorNoOfDays);
             if not (CompensatoryDate in [PayrollSetup."Payroll Fiscal Year Start Date" .. PayrollSetup."Payroll Fiscal Year End Date"]) then
                 Error('Cannot apply for previous fiscal year');
-            //IF GetNonWokingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
+            //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
             //ERROR(ErrorNonWokDays,CompensatoryDate);
             //check for compensatory
             EmpActivity.Reset;
@@ -758,9 +743,22 @@ codeunit 50000 "Leave Mgt."
             until TempIncomingDoc.Next = 0;
     end;
 
+    procedure CheckLeaveApproved(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date)
+    var
+        Leave: Record "Leave";
+    begin
+        Leave.Reset();
+        Leave.SetRange("Employee No.", EmployeeCode);
+        Leave.SetRange("Start Date", StartDate, EndDate);
+        Leave.SetRange("End Date", StartDate, EndDate);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Leave.SetRange(Cancelled, false);
+        if leave.FindFirst() then
+            Error('Leave for %1 is already approved on this date range', Leave."Employee Name");
+    end;
+
     procedure ApplyForLeave(var Leave: Record "Leave"): Code[20]
     var
-        //Leavevar: Record "Leave";
         Approval: record "Approval HRMS";
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
@@ -769,23 +767,24 @@ codeunit 50000 "Leave Mgt."
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
-        // CheckPendingLeave(leave."Leave Code", Leave."Employee No.");
+        CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
+        CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
+        CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
+        // CheckEmployeeAttendance(leave."Employee No.", leave."Start Date", Leave."End Date", leave."Leave Type"); Remove this Condition After Bank request
+        CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
+        CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
         if GuiAllowed then begin
             if not Confirm(ConfirmLeave, false) then
                 exit;
-            // end else begin
-            // CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
-            // if not LeaveTypeSetup.Compensatory then
-            //     CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
-            // CheckForLeaveCriteria(Leave."Leave Code", Leave."Start Date", Leave."End Date", Leave."Employee No.", Leave."No. of Days");
-            // CheckForMulipleRequest(Leave."Leave Code", Leave."Employee No.", Leave."Start Date", Leave."End Date", Leave."No. of Days");
-            //     if Leave."No. of Days" >= LeaveTypeSetup."No. of Days for Attachment" then
-            //         GenerateLeaveAttachment(leave);
+        end else begin
+            CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
+            CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         end;
 
         Leave.TestField("Start Date");
         Leave.TestField("End Date");
         Leave.TestField(Remarks);
+        Leave.TestField("Leave Code");
         PayrollSetup.Get;
         //check for fisal year start date
         if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
@@ -796,45 +795,14 @@ codeunit 50000 "Leave Mgt."
         if GuiAllowed then
             if LeaveTypeSetup."Bereavement Leave" then
                 Leave.TestField("For Death Of");
-        //maternity and paternity leave`
-        // IF GuiAllowed Then
-        //     if LeaveTypeSetup."Maternity/Paternity Leave" then
-        // Leave.TestField("Child's Gender");
         if Leave."No. of Days" <= 0 then
             Error(ErrorNoOfDays);
-        Leave.TestField("Leave Code");
-
-        //IF NOT CheckForCompensatory(TempEmpAct."Leave Code",TempEmpAct."Employee No.",TempEmpAct."Compensatory Date",TempEmpAct."No. of Days") THEN //Min 12.19.2022 -- Commented,Compensatory Leave route through OT Lines.
         CheckRemainingLeaveDays(Leave."Leave Code", Leave."Employee No.", Leave."No. of Days");
-
         CheckDependability(Leave."Leave Code", Leave."Employee No.");
         CheckForEmployeeLimit(Leave."Leave Code", Leave."Employee No.");
-        if GuiAllowed then
-            Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
-        if GuiAllowed then
-            AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
-        // Leavevar.Init;
-        // Leavevar.TransferFields(Leave);
-        //Leavevar.TestField("Approver Code");
-        // if Leavevar."Recommender Code" <> '' then
-        //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::"Pending Approval")
-        // else
-        //     Leavevar.Validate("Approval Status", Leavevar."Approval Status"::Recommended);
-        //For Approval 
-        //if Guiallowed then
-        // InsertLeaveApproval(leave);
-        // if HRSetup."Approval From Setup" then begin
-        //     Approval.Reset();
-        //     Approval.SetRange("Document No.", leave."No.");
-        //     if Approval.Findset() then
-        //         repeat
-        //             Approval.Validate("Approval Status", Approval."Approval Status"::"Pending Approval");
-        //             Approval.Modify()
-        //         until approval.Next() = 0
-        //     else
-        //         Error('Approver line Not Found');
-        // end;
         if GuiAllowed then begin
+            Leave.Validate("Approval Status", Leave."Approval Status"::Pending);
+            AddLeaveAttachment(Leave."No.", Leave."Employee No.", leave."Leave Code");
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
@@ -842,46 +810,7 @@ codeunit 50000 "Leave Mgt."
         exit(Leave."No.");
     end;
 
-    // procedure InsertLeaveApproval(var Leave: Record leave)
-    // var
-    //     Approval: record "Approval HRMS";
-    // begin
-    //     if not HRSetup."Approval From Setup" then begin
-    //         Approval.Reset();
-    //         Approval.SetRange("Document No.", leave."No.");
-    //         Approval.SetFilter("Approver Name", '%1', '');
-    //         Approval.Deleteall();
-    //         Approval.Reset();
-    //         Approval.SetRange("Document No.", leave."No.");
-    //         if Approval.Findset() then
-    //             repeat
-    //                 Approval.TestField("Approval Sequence");
-    //                 Approval.Validate("Document Type", leave.type);
-    //                 Approval.Validate("Employee No", leave."Employee No.");
-    //                 Approval.Validate("Approval Status", Approval."Approval Status"::"Pending Approval");
-    //                 Approval.Modify()
-    //             until approval.Next() = 0
-    //         else
-    //             Error('Approver Not Found');
-    //         if Approval.Count = 1 then begin
-    //             Leave.Validate(Leave."Approver Type", Leave."Approver Type"::Direct);
-    //             Leave.Validate("Approval Status", leave."Approval Status"::Recommended);
-    //             Approval.Validate("Approval Sequence", 2);
-    //             Approval.Validate("Approval Status", Approval."Approval Status"::Recommended);
-    //         end
-    //         else begin
-    //             Leave.Validate("Approver Type", Leave."Approver Type"::"With Recommendation");
-    //             Leave.Validate("Approval Status", Leave."Approval Status"::"Pending Approval");
-    //         end;
-    //         Approval.TestField("Approver No");
-    //         approval.Modify();
-    //         AddLeaveAttachment(Leave."No.", Leave."Employee No.", Leave."Leave Code");
-    //     end else begin
-    //         Leave.Validate("Approval Status", Leave."Approval Status"::"Pending Approval");
-    //     end;
-    // end;
-
-    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: code[20])
+    procedure CheckPendingLeave(leaveRequestNo: Code[20]; LeaveCode: Code[20]; EmployeeNo: Code[20])
     var
         LeaveTable: Record "Leave";
         LeaveRequestError: Label 'Your leave request no. %1 of code %2 has not been approved. Please make sure it is approved';
@@ -916,8 +845,7 @@ codeunit 50000 "Leave Mgt."
         TempLeaveEarn.Init;
         TempLeaveEarn.Validate(EmpNo, Employee."No.");
         TempLeaveEarn.Insert;
-        PAGE.RunModal(60238, TempLeaveEarn);
-
+        PAGE.RunModal(Page::"Leave Earn", TempLeaveEarn);
     end;
 
     procedure OpenCancelEmpActivity(Leave: Record Leave)
@@ -958,567 +886,6 @@ codeunit 50000 "Leave Mgt."
         TempCancelDocument.Insert;
         PAGE.Run(PAGE::"Cancel Document", TempCancelDocument)
     end;
-
-    // procedure RecommendEmployeeLeave(EmpActCode: Code[20])
-    // var
-    //     //EmpAct: Record "Employee Activity";
-    //     leave: Record Leave;
-    //     Approver: record "Approval HRMS";
-    //     Approver2: Record "Approval HRMS";
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    // begin
-    //     leave.Get(EmpActCode);
-    //     leave.TestField("Approval Status", leave."Approval Status"::"Pending Approval");
-    //     //CheckEmployeeLeaveApproval(leave);
-    //     Employee.Reset;
-    //     Employee.SetRange("NAV Login ID", UserId);
-    //     Employee.FindFirst;
-    //     Approver.Reset();
-    //     approver.SetRange("Document No.", leave."No.");
-    //     approver.SetRange("Approval Sequence", 1);
-    //     Approver.SetRange("Approver No", Employee."No.");
-    //     if Approver.Findfirst() then begin
-    //         Approver2.Reset();
-    //         Approver2.SetRange("Document No.", leave."No.");
-    //         Approver2.SetRange("Approval Sequence", 1);
-    //         if Approver2.FindSet() then
-    //             repeat
-    //                 Approver2."Approval Status" := Approver."Approval Status"::Recommended;
-    //                 Approver2."Recommended By" := HRMgt.GetEmpName();
-    //                 ;
-    //                 Approver2.Modify();
-    //             until Approver2.Next() = 0;
-    //         leave.Validate("Approval Status", leave."Approval Status"::Recommended);
-    //         leave.Modify;
-    //         Message('The document has been recommended.');
-    //     end else begin
-    //         Clear(leave."Rejection Remarks");
-    //         Error(RecommendNotEligibleError);
-    //     end;
-    // end;
-
-    // procedure RecommendEmployeeLeaveAPI(EmpActCode: Code[20]; ApproverCode: Code[20])
-    // var
-    //     //EmpAct: Record "Employee Activity";
-    //     leave: Record Leave;
-    //     Approver: record "Approval HRMS";
-    //     Approver2: Record "Approval HRMS";
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    // begin
-    //     leave.Get(EmpActCode);
-    //     leave.TestField("Approval Status", leave."Approval Status"::"Pending Approval");
-    //     //CheckEmployeeLeaveApprovalAPI(leave, ApproverCode);
-    //     Employee.Reset;
-    //     Employee.SetRange("NAV Login ID", UserId);
-    //     Employee.FindFirst;
-    //     Approver.Reset();
-    //     approver.SetRange("Document No.", leave."No.");
-    //     approver.SetRange("Approval Sequence", 1);
-    //     Approver.SetRange("Approver No", Employee."No.");
-    //     if Approver.Findfirst() then begin
-    //         Approver2.Reset();
-    //         Approver2.SetRange("Document No.", leave."No.");
-    //         Approver2.SetRange("Approval Sequence", 1);
-    //         if Approver2.FindSet() then
-    //             repeat
-    //                 Approver2."Approval Status" := Approver."Approval Status"::Recommended;
-    //                 Approver2."Modify By" := UserId;
-    //                 Approver2.Modify();
-    //             until Approver2.Next() = 0;
-    //         leave.Validate("Approval Status", leave."Approval Status"::Recommended);
-    //         leave.Modify;
-    //         Message('The document has been recommended.');
-    //     end else
-    //         Error(RecommendNotEligibleError);
-    // end;
-
-    // local procedure CheckEmployeeLeaveApproval(var leave: Record Leave; Approved: boolean)
-    // var
-    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    //     Approver: Record "Approval HRMS";
-    //     Approver2: Record "Approval HRMS";
-    // begin
-    //     Employee.Reset;
-    //     Employee.SetRange("NAV Login ID", UserId);
-    //     Employee.FindFirst;
-    //     Approver.Reset();
-    //     approver.SetRange("Document No.", leave."No.");
-    //     if leave."Approver Type" = leave."Approver Type"::Direct then begin
-    //         if not Approver.FindFirst() then
-    //             Error('Approver not found')
-    //         else begin
-    //             Approver."Approval Status" := leave."Approval Status"::Approved;
-    //             Approver."Approved By" := HRMgt.GetEmpName();
-    //         end;
-    //         if StrPos(approver."Approver No", Employee."No.") = 0 then begin
-    //             Clear(leave."Rejection Remarks");
-    //             leave.Modify();
-    //             Error(ApproveNotEligibleError);
-    //         end;
-    //         Approver.Modify();
-    //     end else if leave."Approval Status" = leave."Approval Status"::open then begin
-    //         approver.SetRange("Approval Sequence", 1);
-    //         if not Approver.FindFirst() then begin
-    //             Approver.SetRange("Approval Sequence");
-    //             Approver.SetRange("Approval Sequence", 2);
-    //             Approver.SetRange("Approver No", Employee."No.");
-    //             if Approver.Findfirst() then begin
-    //                 Approver2.Reset();
-    //                 Approver2.SetRange("Document No.", leave."No.");
-    //                 Approver2.SetRange("Approval Sequence", 2);
-    //                 if Approver2.FindSet() then
-    //                     repeat
-    //                         Approver2."Approval Status" := Approver."Approval Status"::Approved;
-    //                         Approver2."Approved By" := HRMgt.GetEmpName();
-    //                         Approver2.Modify();
-    //                     until Approver2.Next() = 0
-    //             end
-    //             else begin
-    //                 Clear(leave."Rejection Remarks");
-    //                 leave.Modify();
-    //                 Error(ApproveNotEligibleError);
-    //             end;
-    //         end else begin
-    //             if not Approved then begin
-    //                 Approver2.Reset();
-    //                 Approver2.SetRange("Document No.", leave."No.");
-    //                 Approver2.SetRange("Approver No", Employee."No.");
-    //                 if Approver2.FindSet() then
-    //                     repeat
-    //                         Approver2."Approval Status" := Approver2."Approval Status"::Rejected;
-    //                         Approver2."Rejected By" := HRMgt.GetEmpName();
-    //                     until Approver2.Next() = 0;
-    //             end
-    //             else begin
-    //                 Clear(leave."Rejection Remarks");
-    //                 leave.Modify();
-    //                 Error(ApproveNotEligibleError);
-    //             end;
-    //         end;
-    // end else if (leave."Approval Status" = leave."Approval Status"::Recommended) then begin
-    //     Approver.SetRange("Approval Sequence", 2);
-    //     if not Approver.FindFirst() then
-    //         Error('Approver not found');
-    //     if StrPos(approver."Approver No", Employee."No.") = 0 then begin
-    //         Clear(leave."Rejection Remarks");
-    //         leave.Modify();
-    //         Error(ApproveNotEligibleError);
-    //     end;
-    //     end;
-    // end;
-
-    // local procedure CheckEmployeeLeaveApprovalAPI(leave: Record Leave; ApproverCode: Code[20])
-    // var
-    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    //     AcknowledgeError: Label 'You are not Eligible to acknowledge this document.';
-    //     Approver: Record "Approval HRMS";
-    // begin
-    //     approver.SetRange("Document No.", leave."No.");
-    //     Employee.Reset;
-    //     Employee.SetRange("NAV Login ID", UserId);
-    //     Employee.FindFirst;
-    //     if leave."Approver Type" = leave."Approver Type"::Direct then begin
-    //         if not Approver.FindFirst() then
-    //             Error('Approver not found')
-    //         else
-    //             Approver."Approval Status" := leave."Approval Status"::Recommended;
-    //         if StrPos(approver."Approver No", Employee."No.") = 0 then
-    //             Error(ApproveNotEligibleError);
-    //     end else if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then begin
-    //         approver.SetRange("Approval Sequence", 1);
-    //         if not Approver.FindFirst() then
-    //             Error('Approver not found');
-    //         if StrPos(approver."Approver No", Employee."No.") = 0 then
-    //             Error(RecommendNotEligibleError);
-    //     end else if (leave."Approval Status" = leave."Approval Status"::Recommended) then begin
-    //         Approver.SetRange("Approval Sequence", 2);
-    //         if not Approver.FindFirst() then
-    //             Error('Approver not found');
-    //         if StrPos(approver."Approver No", Employee."No.") = 0 then
-    //             Error(ApproveNotEligibleError);
-    //     end;
-    //     Approver.Modify()
-    // end;
-
-    // procedure ApprovedRejectLeaveApproval(Approved: Boolean; LeaveCode: Code[20])
-    // var
-
-    //     //EmpAct: Record "Employee Activity";
-    //     leave: Record Leave;
-    //     LeaveEarn: Record "Leave Earn";
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-    //     EmpAttendActivity: Record "Employee Attendance & Activity";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     Approver: record "Approval HRMS";
-    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-    // //EmpAct2: Record "Employee Activity";
-    // begin
-    //     Employee.Reset;
-    //     Employee.SetRange("NAV Login ID", UserId);
-    //     Employee.FindFirst;
-    //     leave.Get(LeaveCode);
-    //     if leave.Type = leave.Type::"Leave Request" then begin
-    //         if Approved then begin
-    //             CheckForLeaveCriteria(leave."Leave Code", leave."Start Date", leave."End Date", leave."Employee No.", leave."No. of Days");
-    //             leave.TestField("Approval Status", leave."Approval Status"::Open);
-    //             Approver.reset();
-    //             Approver.SetRange("Document No.", leave."No.");
-
-    //             //CheckEmployeeleaveApproval(leave, Approved);
-    //             ApproverMgt.CheckApprover(leave."No.");
-
-    //             leave.Validate("Approval Status", leave."Approval Status"::Approved);
-
-    //             if leave."Approval Status" = leave."Approval Status"::Approved then begin
-    //                 Approver.SetRange("Approval Sequence", 2);
-    //                 if Approver.FindSet() then
-    //                     repeat
-    //                         Approver."Approval Status" := Approver."Approval Status"::Approved;
-    //                         Approver."Approved By" := HRMgt.GetEmpName();
-    //                         Approver.Modify();
-    //                     until Approver.Next() = 0
-    //                 else
-    //                     Error('Approver not Found');
-    //             end;
-    //             LeaveEarn.Init;
-    //             LeaveEarn.Validate("Leave Code", leave."Leave Code");
-    //             LeaveEarn.Validate(EmpNo, leave."Employee No.");
-    //             LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-    //             LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-    //             LeaveEarn.Validate("Posted Date", Today);
-    //             LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-    //             LeaveEarn.Validate("Leave Request No", leave."No.");
-    //             LeaveEarn.Insert(true);
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     LeaveTypeSetup.Get(leave."Leave Code");
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 0;
-    //                     if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-    //                         if not LeaveTypeSetup."Exclude Non Working Days" then begin
-    //                             EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-    //                             EmpAttendActivity."Week Off Day" := 0;
-    //                             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                                 EmpAttendActivity."Present Day" := 1;
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                             end else begin
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                                 EmpAttendActivity."Absent Day" := 1;
-    //                             end;
-    //                             EmpAttendActivity."Leave Day" := 1;
-    //                         end;
-    //                     end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-    //                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                             EmpAttendActivity."Present Day" := 1;
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                         end else begin
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                             EmpAttendActivity."Absent Day" := 1;
-    //                         end;
-    //                         EmpAttendActivity."Leave Day" := 1;
-    //                     end;
-    //                     EmpAttendActivity."Tour Day" := 0;
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Source No." := leave."No.";
-    //                     EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             AttendanceSetup.Get;
-    //             Employee.Get(leave."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-    //             Message('The leave request has been Approved.');
-    //             HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', Approver."Approved By", leave."No.", 0);   //For email
-    //         end else begin
-    //             leave.TestField("Rejection Remarks");
-    //             if not (leave."Approval Status" in [leave."Approval Status"::Open]) then
-    //                 Error(ApprovalStatusError, leave."Approval Status"::Open);
-    //             // if not (leave."Approval Status" in [leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval"]) then
-    //             //     Error(ApprovalStatusError, leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval");
-    //             CheckEmployeeLeaveApproval(leave, Approved);
-    //             if leave."Approval Status" = leave."Approval Status"::Open then
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', userid, leave."No.", 0)   //For email
-    //             else
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', UserID, leave."No.", 0);   //For email
-    //             leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //             //For Status in line
-    //             Approver.reset();
-    //             Approver.SetRange("Document No.", leave."No.");
-    //             if Approver.Findset() then
-    //                 repeat
-    //                     Approver."Approval Status" := Approver."Approval Status"::Rejected;
-    //                     approver."Rejected By" := HRMgt.GetEmpName();
-    //                     Approver.Modify();
-    //                 until Approver.Next() = 0
-    //             else
-    //                 Error('Approver not Found');
-    //             Message('The leave request has been rejected.');
-    //         end;
-    //     end;
-    // else begin
-    //     if Approved then begin
-    //         leave.TestField("Approval Status", leave."Approval Status"::Recommended);
-    //         CheckEmployeeLeaveApproval(leave, Approved);
-    //         leave.Validate("Approval Status", leave."Approval Status"::Approved);
-    //         //For Status in line
-    //         Approver.reset();
-    //         Approver.SetRange("Document No.", leave."No.");
-    //         if Approver.FindSet() then
-    //             repeat
-    //                 Approver."Approval Status" := Approver."Approval Status"::Rejected;
-    //                 Approver.Modify();
-    //             until Approver.Next() = 0
-    //         else
-    //             Error('Approver not Found');
-    //         if leave.Type = leave.Type::"Travel Request" then begin
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 1;
-    //                     EmpAttendActivity."Tour Day" := 1;
-    //                     EmpAttendActivity."Leave Day" := 0;
-    //                     EmpAttendActivity."Source No." := leave."No.";
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             Employee.Get(leave."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             AttendanceSetup.Get;
-    //             Employee.Get(leave."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-    //         end;
-
-    //         HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Approved, '', leave."Approver Code", leave."No.", 0);   //For email
-    //         Message('The document has been approved.');
-    //     end else
-    //         if (leave."Approval Status" in [leave."Approval Status"::"Pending Approval", leave."Approval Status"::Recommended]) then begin
-    //             leave.TestField("Rejection Remarks");
-    //             // if leave.Type = EmpAct.Type::"Travel Claim" then begin
-    //             //     EmpAct.TestField("Travel Order No.");
-    //             //     EmpAct2.Get(EmpAct."Travel Order No.");
-    //             //     EmpAct2.Validate("Travel Claimed", false);
-    //             //     EmpAct2.Modify;
-    //             // end; commented by santosh
-    //             CheckEmployeeLeaveApproval(leave, Approved);
-    //             if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Recommender Code", leave."No.", 0)  //For email
-    //             else
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
-    //             leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //             Message('The document has been rejected.');
-    //         end else
-    //             Error('Cannot reject the document.');
-    // end;
-    //     leave.Posted := true;
-    //     leave."Approved Date" := Today;
-    //     leave.Modify;
-    // end;
-
-    // procedure ApprovedRejectLeaveApprovalAPI(Approved: Boolean; LeaveCode: Code[20]; ApproverCode: Code[20])
-    // var
-
-    //     //EmpAct: Record "Employee Activity";
-    //     leave: Record Leave;
-    //     LeaveEarn: Record "Leave Earn";
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-    //     EmpAttendActivity: Record "Employee Attendance & Activity";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     Approval: record "Approval HRMS";
-    // //EmpAct2: Record "Employee Activity";
-    // begin
-    //     leave.Get(LeaveCode);
-    //     if leave.Type = leave.Type::"Leave Request" then begin
-    //         if Approved then begin
-    //             CheckForLeaveCriteria(leave."Leave Code", leave."Start Date", leave."End Date", leave."Employee No.", leave."No. of Days");
-    //             leave.TestField("Approval Status", leave."Approval Status"::Recommended);
-    //             CheckEmployeeleaveApprovalAPI(leave, ApproverCode);
-    //             leave.Validate("Approval Status", leave."Approval Status"::Approved);
-    //             //For Approval subform
-    //             Approval.Reset();
-    //             Approval.SetRange("Document No.", leave."No.");
-    //             if Approval.findset() then
-    //                 repeat
-    //                     Approval."Approval Status" := leave."Approval Status"::Approved;
-    //                     Approval.Modify();
-    //                 until Approval.Next() = 0;
-    //             LeaveEarn.Init;
-    //             LeaveEarn.Validate("Leave Code", leave."Leave Code");
-    //             LeaveEarn.Validate(EmpNo, leave."Employee No.");
-    //             LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-    //             LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-    //             LeaveEarn.Validate("Posted Date", Today);
-    //             LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-    //             LeaveEarn.Validate("Leave Request No", leave."No.");
-    //             LeaveEarn.Insert(true);
-
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     LeaveTypeSetup.Get(leave."Leave Code");
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 0;
-    //                     if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-    //                         if not LeaveTypeSetup."Exclude Non Working Days" then begin
-    //                             EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-    //                             EmpAttendActivity."Week Off Day" := 0;
-    //                             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                                 EmpAttendActivity."Present Day" := 1;
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                             end else begin
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                                 EmpAttendActivity."Absent Day" := 1;
-    //                             end;
-    //                             EmpAttendActivity."Leave Day" := 1;
-    //                         end;
-    //                     end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-    //                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                             EmpAttendActivity."Present Day" := 1;
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                         end else begin
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                             EmpAttendActivity."Absent Day" := 1;
-    //                         end;
-    //                         EmpAttendActivity."Leave Day" := 1;
-    //                     end;
-    //                     EmpAttendActivity."Tour Day" := 0;
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Source No." := leave."No.";
-    //                     EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             AttendanceSetup.Get;
-    //             Employee.Get(leave."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-
-    //             HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', leave."Approver Code", leave."No.", 0);   //For email
-    //         end else begin
-    //             leave.TestField("Rejection Remarks");
-    //             if not (leave."Approval Status" in [leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval"]) then
-    //                 Error(ApprovalStatusError, leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval");
-    //             CheckEmployeeLeaveApprovalAPI(leave, ApproverCode);
-    //             if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Recommender Code", leave."No.", 0)   //For email
-    //             else
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
-    //             leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //             leave.TestField("Rejection Remarks");
-    //             //For Status in line
-    //             Approval.reset();
-    //             Approval.SetRange("Document No.", leave."No.");
-    //             if Approval.FindSet() then
-    //                 repeat
-    //                     Approval."Approval Status" := Approval."Approval Status"::Rejected;
-    //                     Approval.Modify();
-    //                 until Approval.Next() = 0
-    //             else
-    //                 Error('Approver not Found');
-    //             Message('The leave request has been rejected.');
-    //         end;
-    //     end else begin
-    //         if Approved then begin
-    //             leave.TestField("Approval Status", leave."Approval Status"::Recommended);
-    //             CheckEmployeeLeaveApprovalAPI(leave, ApproverCode);
-    //             leave.Validate("Approval Status", leave."Approval Status"::Approved);
-    //             if leave.Type = leave.Type::"Travel Request" then begin
-    //                 //changes in employee attendance and activity
-    //                 EmpAttendActivity.Reset;
-    //                 EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //                 EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //                 if EmpAttendActivity.Find('-') then
-    //                     repeat
-    //                         EmpAttendActivity."Absent Day" := 0;
-    //                         EmpAttendActivity."Present Day" := 1;
-    //                         EmpAttendActivity."Tour Day" := 1;
-    //                         EmpAttendActivity."Leave Day" := 0;
-    //                         EmpAttendActivity."Source No." := leave."No.";
-    //                         EmpAttendActivity."Employee Activity Found" := true;
-    //                         EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-    //                         EmpAttendActivity.Modify;
-    //                     until EmpAttendActivity.Next = 0;
-    //                 Employee.Get(leave."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 AttendanceSetup.Get;
-    //                 Employee.Get(leave."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                     else
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 end else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 Employee.Modify;
-    //             end;
-
-    //             HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Approved, '', leave."Approver Code", leave."No.", 0);   //For email
-    //             Message('The document has been approved.');
-    //         end else
-    //             if (leave."Approval Status" in [leave."Approval Status"::"Pending Approval", leave."Approval Status"::Recommended]) then begin
-    //                 leave.TestField("Rejection Remarks");
-    //                 // if leave.Type = EmpAct.Type::"Travel Claim" then begin
-    //                 //     EmpAct.TestField("Travel Order No.");
-    //                 //     EmpAct2.Get(EmpAct."Travel Order No.");
-    //                 //     EmpAct2.Validate("Travel Claimed", false);
-    //                 //     EmpAct2.Modify;
-    //                 // end; commented by santosh
-    //                 CheckEmployeeLeaveApprovalAPI(leave, ApproverCode);
-    //                 if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then
-    //                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Recommender Code", leave."No.", 0)  //For email
-    //                 else
-    //                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
-    //                 leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //                 Message('The document has been rejected.');
-    //             end else
-    //                 Error('Cannot reject the document.');
-    //     end;
-    //     leave.Posted := true;
-    //     leave."Approved Date" := Today;
-    //     leave.Modify;
-    // end;
 
     procedure CheckLeaveCount(EmployeeNo: Code[20]) CountStartDate: Date
     var
@@ -1631,357 +998,16 @@ codeunit 50000 "Leave Mgt."
         END;
     end;
 
-
-    // procedure ApprovedRejectLeaveApprovalALL(Approved: Boolean; LeaveCode: Code[20])
-    // var
-
-    //     //EmpAct: Record "Employee Activity";
-    //     leave: Record Leave;
-    //     LeaveEarn: Record "Leave Earn";
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-    //     EmpAttendActivity: Record "Employee Attendance & Activity";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     EmpAct2: Record "Employee Activity";
-    // begin
-    //     leave.Get(LeaveCode);
-    //     if leave.Type = leave.Type::"Leave Request" then begin
-    //         if Approved then begin
-    //             CheckForLeaveCriteria(leave."Leave Code", leave."Start Date", leave."End Date", leave."Employee No.", leave."No. of Days");
-    //             leave.TestField("Approval Status", leave."Approval Status"::Recommended);
-    //             //CheckEmployeeleaveApproval(leave);
-    //             leave.Validate("Approval Status", leave."Approval Status"::Approved);
-    //             LeaveEarn.Init;
-    //             LeaveEarn.Validate("Leave Code", leave."Leave Code");
-    //             LeaveEarn.Validate(EmpNo, leave."Employee No.");
-    //             LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-    //             LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-    //             LeaveEarn.Validate("Posted Date", Today);
-    //             LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-    //             LeaveEarn.Validate("Leave Request No", leave."No.");
-    //             LeaveEarn.Insert(true);
-
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     LeaveTypeSetup.Get(leave."Leave Code");
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 0;
-    //                     if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-    //                         if not LeaveTypeSetup."Exclude Non Working Days" then begin
-    //                             EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-    //                             EmpAttendActivity."Week Off Day" := 0;
-    //                             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                                 EmpAttendActivity."Present Day" := 1;
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                             end else begin
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                                 EmpAttendActivity."Absent Day" := 1;
-    //                             end;
-    //                             EmpAttendActivity."Leave Day" := 1;
-    //                         end;
-    //                     end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-    //                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                             EmpAttendActivity."Present Day" := 1;
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                         end else begin
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                             EmpAttendActivity."Absent Day" := 1;
-    //                         end;
-    //                         EmpAttendActivity."Leave Day" := 1;
-    //                     end;
-    //                     EmpAttendActivity."Tour Day" := 0;
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Source No." := leave."No.";
-    //                     EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             AttendanceSetup.Get;
-    //             Employee.Get(leave."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-
-    //             HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', leave."Approver Code", leave."No.", 0);   //For email
-    //         end else begin
-    //             leave.TestField("Rejection Remarks");
-    //             if not (leave."Approval Status" in [leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval"]) then
-    //                 Error(ApprovalStatusError, leave."Approval Status"::Recommended, leave."Approval Status"::"Pending Approval");
-    //             //CheckEmployeeLeaveApproval(leave);
-    //             if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Recommender Code", leave."No.", 0)   //For email
-    //             else
-    //                 HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
-    //             leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //             leave.TestField("Rejection Remarks");
-    //             Message('The leave request has been rejected.');
-    //         end;
-    //     end else begin
-    //         if Approved then begin
-    //             leave.TestField("Approval Status", leave."Approval Status"::Recommended);
-    //             //CheckEmployeeLeaveApproval(leave);
-    //             leave.Validate("Approval Status", leave."Approval Status"::Approved);
-    //             if leave.Type = leave.Type::"Travel Request" then begin
-    //                 //changes in employee attendance and activity
-    //                 EmpAttendActivity.Reset;
-    //                 EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-    //                 EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-    //                 if EmpAttendActivity.Find('-') then
-    //                     repeat
-    //                         EmpAttendActivity."Absent Day" := 0;
-    //                         EmpAttendActivity."Present Day" := 1;
-    //                         EmpAttendActivity."Tour Day" := 1;
-    //                         EmpAttendActivity."Leave Day" := 0;
-    //                         EmpAttendActivity."Source No." := leave."No.";
-    //                         EmpAttendActivity."Employee Activity Found" := true;
-    //                         EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-    //                         EmpAttendActivity.Modify;
-    //                     until EmpAttendActivity.Next = 0;
-    //                 Employee.Get(leave."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 AttendanceSetup.Get;
-    //                 Employee.Get(leave."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                     else
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 end else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 Employee.Modify;
-    //             end;
-
-    //             HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Approved, '', leave."Approver Code", leave."No.", 0);   //For email
-    //             Message('The document has been approved.');
-    //         end else
-    //             if (leave."Approval Status" in [leave."Approval Status"::"Pending Approval", leave."Approval Status"::Recommended]) then begin
-    //                 leave.TestField("Rejection Remarks");
-    //                 // if leave.Type = EmpAct.Type::"Travel Claim" then begin
-    //                 //     EmpAct.TestField("Travel Order No.");
-    //                 //     EmpAct2.Get(EmpAct."Travel Order No.");
-    //                 //     EmpAct2.Validate("Travel Claimed", false);
-    //                 //     EmpAct2.Modify;
-    //                 // end; commented by santosh
-    //                 //CheckEmployeeLeaveApproval(leave);
-    //                 if leave."Approval Status" = leave."Approval Status"::"Pending Approval" then
-    //                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Recommender Code", leave."No.", 0)  //For email
-    //                 else
-    //                     HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type, leave."Approval Status"::Rejected, '', leave."Approver Code", leave."No.", 0);   //For email
-    //                 leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-    //                 Message('The document has been rejected.');
-    //             end else
-    //                 Error('Cannot reject the document.');
-    //     end;
-    //     leave.Posted := true;
-    //     leave."Approved Date" := Today;
-    //     leave.Modify;
-    // end;
-
-    // procedure ApplyCancelEmployeeActivity(Var leave: Record Leave)
-    // var
-    //     CancelDocument1: Record "Cancel Document";
-    //     //EmployeeActivity: Record "Employee Activity";
-    //     //CancelDocument2: Record "Cancel Document";
-    //     //EmployeeActivity2: Record "Employee Activity";
-    //     // leave: Record Leave;
-    //     //EmpAct: Record "Employee Activity";
-    //     LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
-    // begin
-    //     if GuiAllowed then
-    //         if not Confirm('Do you want to apply the document?', false) then
-    //             exit;
-    //     if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin //Min 10.13.2022
-    //         leave.Reset;
-    //         leave.SetRange("Cancelled Document No.", CancelDocument."Cancelled Document No.");
-    //         leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
-    //         if leave.FindFirst then
-    //             Error(LeaveCancelError, leave."No.", leave."Leave Code");
-    //     end;
-    //     PayrollSetup.Get;
-    //     if CancelDocument.Type = CancelDocument.Type::"Attendance Missed" then
-    //         CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
-    //     if CancelDocument."No." = '' then begin
-    //         CancelDocument.TestField("Start Date");
-    //         if (CancelDocument."Start Date" >= Today) or (CancelDocument."End Date" >= Today) then
-    //             Error('Cannot apply for future date.Please check the date.');
-    //         if CancelDocument."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-    //             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
-    //         CancelDocument.TestField("End Date");
-    //         CancelDocument.TestField(Remarks);
-    //         CancelDocument1.Init;
-    //         CancelDocument1.TransferFields(CancelDocument);
-    //         if CancelDocument."Recommender Code" <> '' then
-    //             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
-    //         else
-    //             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-
-    //         CancelDocument1."Cancelled No." := '';
-    //         CancelDocument1.Insert(true);
-    //     end else begin
-    //         CancelDocument1.Get(CancelDocument."No.");
-    //         if CancelDocument1."Recommender Code" <> '' then
-    //             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::"Pending Approval")
-    //         else
-    //             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-    //         CancelDocument1.Modify(true);
-    //     end;
-
-
-    // if CancelDocument1.Type = CancelDocument1.Type::"Leave Request" then begin
-    //     Clear(CancelDocument2);
-    //     CancelDocument2.Get(CancelDocument."Cancelled Document No.");
-    //     CancelDocument2."Cancelled No." := CancelDocument1."No.";
-    //     CancelDocument2.Modify;
-
-    //     if (CancelDocument1."Start Date" < CancelDocument2."Start Date") or (CancelDocument1."End Date" < CancelDocument2."Start Date") then
-    //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-    //     if (CancelDocument1."Start Date" > CancelDocument2."End Date") or (CancelDocument1."End Date" > CancelDocument2."End Date") then
-    //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-    // end;
-    // end;
-    procedure RecommendEmployeeLeave(EmpActCode: Code[20]; Approved: boolean)
-    var
-        CheckUpdate: Boolean;
-        leave: Record Leave;
-        Approver: record "Approval HRMS";
-        Approver2: Record "Approval HRMS";
-        RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    begin
-        CheckUpdate := false;
-        leave.Get(EmpActCode);
-        if leave."Approval Status" = leave."Approval Status"::Approved then
-            Error('Document Id already approved');
-        leave.TestField("Approval Status", leave."Approval Status"::Open);
-        ApproverMgt.CheckApprover(leave."No.");
-        Approver.Reset();
-        approver.SetRange("Document No.", leave."No.");
-        Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
-        if Approver.Findset() then begin
-            if Approved then begin
-                Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
-                Approver.Validate("Approved By", HRMgt.GetEmpName());
-                leave.Validate("Status", Approver2."Status");
-                if not CheckUpdate then begin
-                    Approver2.Reset();
-                    Approver2.SetRange("Document No.", leave."No.");
-                    Approver2.SetRange("Approval Sequence", Approver."Approval Sequence" + 1);
-                    if Approver2.FindSet() then
-                        repeat
-                            Approver2.Validate("Approval Status", Approver."Approval Status"::Open);
-                            Approver2.Modify();
-                            CheckUpdate := true;
-                        until Approver2.Next() = 0
-                    else begin
-                        leave.Validate("Approval Status", leave."Approval Status"::Approved);
-                    end;
-                end;
-            end
-            else begin
-                Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-                Approver.Validate("Rejected By", HRMgt.GetEmpName());
-                leave.Validate("Approval Status", leave."Approval Status"::Rejected);
-            end;
-            leave.Modify;
-            Message('The document has been recommended.');
-            Approver.Modify();
-        end;
-    end;
-
-    // procedure RecommendDocument(var RecRef: RecordRef; Approved: Boolean)
-    // var
-    //     CheckUpdate: Boolean;
-    //     Approver: Record "Approval HRMS";
-    //     Approver2: Record "Approval HRMS";
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    //     // ApprovalStatusRef: FieldRef;
-    //     //DocNoField: FieldRef;
-    //     ApprovalStatusfield: text;
-    //     EmployeeActType: Enum "Employee Activity Type";
-    //     //Status: FieldRef;
-    //     ApprovalstatusEnum: Enum "Approval Status";
-    //     EmpActType: Enum "Employee Activity Type";
-    // begin
-    //     CheckUpdate := false;
-    //     // Get the fields dynamically using FieldRef
-    //     ApprovalStatusfield := Format((RecRef.Field(16)));
-    //     EmployeeActType := RecRef.Field(2).Value;
-    //     // DocNoField := (RecRef.Field(1));
-    //     // ApprovalStatusRef := (RecRef.Field(16));
-    //     // Status := (RecRef.Field(100));
-
-    //     // Check the Approval Status (assuming Approval Status is a field on all document types)
-    //     if ApprovalStatusfield = Format(ApprovalstatusEnum::Approved) then
-    //         Error('Document Id already approved');
-    //     if ApprovalStatusfield = Format(ApprovalstatusEnum::Open) then begin
-    //         // Assume CheckApprover is a function that works based on document type
-    //         ApproverMgt.CheckApprover(RecRef.Field(1).Value);
-    //         // Reset Approver record and set filters
-    //         Approver.Reset();
-    //         Approver.SetRange("Document No.", RecRef.Field(1).Value);
-    //         Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
-    //         if Approver.FindSet() then begin
-    //             if Approved then begin
-    //                 Approver.Validate("Approval Status", Approver."Approval Status"::Approved);
-    //                 Approver.Validate("Approved By", HRMgt.GetEmpName());
-    //                 RecRef.Field(100).Validate(Approver.Status);
-    //                 if not CheckUpdate then begin
-    //                     // Find next approval step
-    //                     Approver2.Reset();
-    //                     Approver2.SetRange("Document No.", (RecRef.Field(1).Value));
-    //                     Approver2.SetRange("Approval Sequence", Approver."Approval Sequence" + 1);
-    //                     if Approver2.FindSet() then
-    //                         repeat
-    //                             Approver2."Approval Status" := Approver."Approval Status"::Open;
-    //                             Approver2.Modify();
-    //                             CheckUpdate := true;
-    //                         until Approver2.Next() = 0
-    //                     else begin
-    //                         RecRef.Field(16).Validate(ApprovalstatusEnum::Approved);
-    //                         case EmployeeActType of
-    //                             //for leave
-    //                             EmpActType::"Leave Request":
-    //                                 begin
-    //                                     LeaveApproved(RecRef.Field(1).Value);
-    //                                 end;
-    //                         end;
-    //                     end;
-    //                 end;
-    //             end
-    //             else begin
-    //                 Approver.Validate("Approval Status", Approver."Approval Status"::Rejected);
-    //                 Approver.Validate("Rejected By", HRMgt.GetEmpName());
-    //                 RecRef.Field(16).Validate(ApprovalstatusEnum::Rejected);
-    //             end;
-    //             RecRef.Modify();  // Modify the record dynamically
-    //             Message('The document has been recommended.');
-    //             Approver.Modify();
-    //         end;
-    //     end;
-    // end;
-
-    procedure LeaveApproved(leavecode: Code[20])
+    procedure LeaveApproved(leaveNo: Code[20])
     var
         leaveEarn: Record "Leave Earn";
         leave: Record Leave;
         EmpAttendActivity: Record "Employee Attendance & Activity";
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
+        ServiceInactivity: Record "Service Inactivity Ledger";
     begin
-        leave.Get(leavecode);
+        leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
             LeaveEarn.Init;
@@ -1994,57 +1020,47 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate("Leave Request No", leave."No.");
             LeaveEarn.Insert(true);
         end;
-        //changes in employee attendance and activity
-        EmpAttendActivity.Reset;
-        EmpAttendActivity.SetRange("Employee No.", leave."Employee No.");
-        EmpAttendActivity.SetRange("Attendance Date", leave."Start Date", leave."End Date");
-        if EmpAttendActivity.Find('-') then
-            repeat
-                LeaveTypeSetup.Get(leave."Leave Code");
-                EmpAttendActivity."Absent Day" := 0;
-                EmpAttendActivity."Present Day" := 0;
-                if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-                    if not LeaveTypeSetup."Exclude Non Working Days" then begin
-                        EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-                        EmpAttendActivity."Week Off Day" := 0;
-                        if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-                            EmpAttendActivity."Present Day" := 1;
-                            EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-                        end else begin
-                            EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-                            EmpAttendActivity."Absent Day" := 1;
-                        end;
-                        EmpAttendActivity."Leave Day" := 1;
-                    end;
-                end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-                    if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-                        EmpAttendActivity."Present Day" := 1;
-                        EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-                    end else begin
-                        EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-                        EmpAttendActivity."Absent Day" := 1;
-                    end;
-                    EmpAttendActivity."Leave Day" := 1;
-                end;
-                EmpAttendActivity."Tour Day" := 0;
-                EmpAttendActivity."Employee Activity Found" := true;
-                EmpAttendActivity."Source No." := leave."No.";
-                EmpAttendActivity.Validate("Leave Description", leave."Leave Description");
-                EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                EmpAttendActivity.Modify;
-            until EmpAttendActivity.Next = 0;
-        AttendanceSetup.Get;
-        Employee.Get(leave."Employee No.");
-        Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-        if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-            if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-                Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
+        LeaveTypeSetup.get(leave."Leave Code");
+        if LeaveTypeSetup."Exclude in Service Period" then begin
+            //Create Service inactivity line
+            clear(ServiceInactivity);
+            ServiceInactivity.Init();
+            ServiceInactivity."Entry No." := hrmgt.GetNextEntryNo(Database::"Service Inactivity Ledger");
+            ServiceInactivity.Validate("Employee No.", leave."Employee No.");
+            ServiceInactivity.Validate("Start Date", leave."Start Date");
+            ServiceInactivity.Validate("End Date", leave."End Date");
+            ServiceInactivity.Insert(true);
+        end;
+        Commit();
+        // Update Daily Attendance
+        if leave."Start Date" <= Today then begin
+            if leave."End Date" > Today then
+                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", Today, leave."Employee No.")//For Ongoing Leave
             else
-                Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-        end else
-            Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-        Employee.Modify;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, leave.Type::"Leave Request", leave."Approval Status"::Approved, '', hrmgt.GetEmpName(), leave."No.", 0);   //For email
+                AttendanceMgt.DailyAttendanceUpdate(leave."Start Date", leave."End Date", leave."Employee No.") // For Completed Leave
+        end;
+    end;
+
+    procedure InsertLeaveEarnfromJournal(
+        LeaveCode: Code[20];
+        EmpNo: Code[20];
+        EarnType: Enum "Leave Earn Type";
+        Days: Decimal;
+        DocumentNo: Code[20];
+        RequestedDate: Date)
+    var
+        LeaveEarn: Record "Leave Earn";
+        HRMgt: Codeunit "HR Mgt.";
+    begin
+        LeaveEarn.Init;
+        LeaveEarn.Validate("Leave Code", LeaveCode);
+        LeaveEarn.Validate(EmpNo, EmpNo);
+        LeaveEarn.Validate(Type, EarnType);
+        LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(RequestedDate));
+        LeaveEarn.Validate("Posted Date", Today);
+        LeaveEarn.Validate("Balancing Days", Days);
+        LeaveEarn.Validate("Leave Request No", DocumentNo);
+        LeaveEarn.Insert(true);
     end;
 
     procedure ApproveCancelledLeave(CancelLeaveCode: Code[20])
@@ -2068,30 +1084,13 @@ codeunit 50000 "Leave Mgt."
             LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
             LeaveEarn.Insert(true);
 
-            EmpAttendActivity.Reset;
-            EmpAttendActivity.SetRange("Employee No.", CancelDocument."Employee No.");
-            EmpAttendActivity.SetRange("Attendance Date", CancelDocument."Start Date", CancelDocument."End Date");
-            if EmpAttendActivity.Find('-') then
-                repeat
-                    if EmpAttendActivity."Check In Time" <> 0T then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                        EmpAttendActivity."Present Day" := 1;
-                    end else begin
-                        EmpAttendActivity."Present Day" := 0;
-                        EmpAttendActivity."Absent Day" := 1;
-                    end;
-                    if GetNonWokingDays(EmpAttendActivity."Attendance Date", EmpAttendActivity."Attendance Date", EmpAttendActivity."Employee No.") <> 0 then begin
-                        EmpAttendActivity."Absent Day" := 0;
-                    end;
-                    EmpAttendActivity."Leave Day" := 0;
-                    //EmpAttendActivity."Week Off Day" := 0;
-                    EmpAttendActivity."Tour Day" := 0;
-                    EmpAttendActivity."Source No." := CancelDocument."No.";
-                    EmpAttendActivity."Employee Activity Found" := true;
-                    EmpAttendActivity."Leave Description" := '';
-                    EmpAttendActivity."Created Datetime" := CurrentDateTime;
-                    EmpAttendActivity.Modify;
-                until EmpAttendActivity.Next = 0;
+            // Update Daily Attendance
+            if CancelDocument."Start Date" <= Today then begin
+                if CancelDocument."End Date" > Today then
+                    AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", Today, CancelDocument."Employee No.")//For Ongoing Leave
+                else
+                    AttendanceMgt.DailyAttendanceUpdate(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.")// For Completed Leave
+            end;
         end;
     end;
 
@@ -2109,7 +1108,38 @@ codeunit 50000 "Leave Mgt."
             Error('Leave request no. %1 not found.', CancelledDocument."Cancelled Document No.");
     end;
 
+    procedure CheckEmployeeAttendance(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; LeaveType: Enum "Leave Type")
+    var
+        EmpAttendanceActivity: Record "Employee Attendance & Activity";
+    begin
+        if LeaveType <> LeaveType::"Full Day" then
+            exit; //No need to check attendance for Half Day
+        EmpAttendanceActivity.Reset;
+        EmpAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+        EmpAttendanceActivity.SetFilter("Attendance Date", '%1..%2', StartDate, EndDate);
+        if EmpAttendanceActivity.FindSet then
+            repeat
+                if EmpAttendanceActivity."Present Day" = 1 then
+                    Error(LeaveError, EmpAttendanceActivity."Attendance Date");
+            until EmpAttendanceActivity.Next = 0;
+    end;
 
+    procedure CheckHalfLeave(StartDate: date; EndDate: date; LeaveType: Enum "Leave Type"; LeaveCode: Code[20])
+    var
+        HalfLeaveError: Label 'Half Leaves cannot be applied in multiple days.';
+    begin
+        if LeaveType in [LeaveType::"First Half", LeaveType::"Second Half"] then
+            if StartDate <> EndDate then
+                Error(HalfLeaveError);
+        if LeaveTypeSetup.Get(LeaveCode) then begin
+            If LeaveType <> LeaveType::"Full Day" then
+                if LeaveTypeSetup."Half Leave Allowed" then begin
+                    If HrMgt.IsFriday(StartDate) then
+                        Error('Half Leave is not allowed on Fridays')
+                end else
+                    Error('Half Leave is not allowed in %1', LeaveTypeSetup.Description);
+        end;
+    end;
 
     [IntegrationEvent(false, false)]
     procedure OnBeforeLeaveApproved(leave: Record Leave; var IsHandled: Boolean)
@@ -2126,4 +1156,7 @@ codeunit 50000 "Leave Mgt."
         HRSetup: Record "Human Resources Setup";
         AttendanceSetup: Record "Attendance Setup";
         ApproverMgt: Codeunit "Approver Mgt";
+        DailyAttendanceUpdate: Report "Daily Attendance Update";
+        LeaveTypeSetup: Record "Leave Type Setup";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 }

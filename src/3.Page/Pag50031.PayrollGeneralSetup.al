@@ -103,6 +103,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Total Days From field.';
                     ApplicationArea = All;
                 }
+                field("LFA Source"; Rec."LFA Source")
+                {
+                    ToolTip = 'Specifies the value of the LFA Source field.';
+                    ApplicationArea = All;
+                }
                 field("Parking Account No."; Rec."Parking Account No.")
                 {
                     ToolTip = 'Specifies the value of the Parking Account No. field.';
@@ -244,7 +249,6 @@ page 50031 "Payroll General Setup"
                 {
                     ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
                     ApplicationArea = All;
-                    Visible = false;
                 }
                 field("Faciliator Allowance"; Rec."Faciliator Allowance")
                 {
@@ -328,9 +332,9 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Relocation Allowance field.';
                     ApplicationArea = All;
                 }
-                field("LFA Alowance"; Rec."LFA Alowance")
+                field("Leave Fare Allowance"; Rec."Leave Fare Allowance")
                 {
-                    ToolTip = 'Specifies the value of the LFA Alowance field.';
+                    ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
                     ApplicationArea = All;
                 }
                 field("BM Functional Title"; Rec."BM Functional Title")
@@ -521,6 +525,16 @@ page 50031 "Payroll General Setup"
                 field("Posted Payroll Adj No. Series"; Rec."Posted Payroll Adj No. Series")
                 {
                     ToolTip = 'Specifies the value of the Posted Payroll Adj No. Series field.';
+                    ApplicationArea = All;
+                }
+                field("Resignation Plan No. Series"; Rec."Resigned Plan No. Series")
+                {
+                    ToolTip = 'Specifies the value of the Resignation Plan No. Series field.';
+                    ApplicationArea = All;
+                }
+                field("Posted Resignation Plan No. Series"; Rec."Posted ResignedPlan No. Series")
+                {
+                    ToolTip = 'Specifies the value of the Posted Resignation Plan No. Series field.';
                     ApplicationArea = All;
                 }
             }

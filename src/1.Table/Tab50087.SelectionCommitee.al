@@ -48,7 +48,7 @@ table 50087 "Selection Commitee"
         SelectionCommitee: Record "Selection Commitee";
         EmailTemplate: Record "Email Template";
         CompanyInfo: Record "Company Information";
-        EmailMessage: Record "Agile Email Message";
+        EmailMessage: Record "Email Template Message";
         SendmailTo: Text;
         CodeunitEmailMessage: Codeunit "Email Message";
         Email: Codeunit Email;

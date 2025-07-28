@@ -163,10 +163,12 @@ page 50180 "Cancel Document"
 
                 trigger OnAction()
                 begin
-                    DocCancelMgt.ApplyCancelEmployeeActivity(Rec);
-                    IsApplied := true;
-                    Message('Applied');
-                    CurrPage.Close;
+                    if Confirm('Do you want to Send for Approval Request?', false) then begin
+                        DocCancelMgt.ApplyCancelEmployeeActivity(Rec);
+                        IsApplied := true;
+                        Message('Applied');
+                        CurrPage.Close;
+                    end;
                 end;
             }
             action(Approve)

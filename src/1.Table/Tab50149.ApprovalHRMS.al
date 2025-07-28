@@ -7,12 +7,10 @@ table 50149 "Approval HRMS"
         field(1; "Document No."; Code[20])
         {
             Caption = 'Document No.';
-            Editable = false;
         }
         field(2; "Document Type"; Enum "Employee Activity Type")
         {
             Caption = 'Document Type';
-            Editable = false;
         }
         field(3; "Approver No"; Code[20])
         {
@@ -31,12 +29,10 @@ table 50149 "Approval HRMS"
         field(4; "Approver Name"; Text[100])
         {
             Caption = 'Approver Name';
-            Editable = false;
         }
         field(5; "Approval Status"; Enum "Approval Status")
         {
             Caption = 'Approval Status';
-            Editable = false;
         }
         field(6; "Approval Sequence"; Integer)
         {
@@ -50,27 +46,18 @@ table 50149 "Approval HRMS"
         {
             DataClassification = ToBeClassified;
             TableRelation = Employee;
-            Editable = false;
             trigger OnValidate()
             var
                 ApprovalEmployee: Record Employee;
                 Employee: Record Employee;
-                ApprovalSalaryLevel: Record "Salary Level";
-                SalaryLevel: Record "Salary Level";
             begin
                 Employee.Reset();
                 ApprovalEmployee.Reset();
-                SalaryLevel.Reset();
-                ApprovalSalaryLevel.Reset();
                 if "Approver No" = "Employee No" then
                     Error('You cannot choose your own Employee ID as Recommender.');
                 if Employee.Get("Employee No") then;
                 if not ApprovalEmployee.Get("Approver No") then
                     Error('Approver Not Found');
-                if SalaryLevel.Get(Employee."Salary Level") then;
-                if ApprovalSalaryLevel.Get(ApprovalEmployee."Salary Level") then;
-                if SalaryLevel.Rank >= ApprovalSalaryLevel.Rank then
-                    Error('Salary level of Approver (%1) must be greater than salary level of employee (%2)', ApprovalEmployee."Full Name", Employee."Full Name")
             end;
         }
         field(9; "Loan Type"; Enum "Loan Type")

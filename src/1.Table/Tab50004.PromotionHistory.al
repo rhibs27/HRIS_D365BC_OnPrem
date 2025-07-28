@@ -29,7 +29,7 @@ table 50004 "Promotion History"
         {
             Editable = false;
         }
-        field(4; "Previous Salary Level Code"; Code[10])
+        field(4; "Previous Salary Level Code"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Level";
@@ -42,7 +42,7 @@ table 50004 "Promotion History"
                     Clear("Previous Salary Level Desc.");
             end;
         }
-        field(5; "Previous Salary Grade"; Code[10])
+        field(5; "Previous Salary Grade"; Code[20])
         {
             Editable = false;
             TableRelation = "Salary Grade";
@@ -63,7 +63,7 @@ table 50004 "Promotion History"
         {
             Editable = false;
         }
-        field(8; "Promoted Salary Level Code"; Code[10])
+        field(8; "Promoted Salary Level Code"; Code[20])
         {
             TableRelation = "Salary Level";
 
@@ -75,7 +75,7 @@ table 50004 "Promotion History"
                     Clear("Promoted Salary Level Desc.");
             end;
         }
-        field(9; "Promoted Salary Grade"; Code[10])
+        field(9; "Promoted Salary Grade"; Code[20])
         {
             TableRelation = "Salary Grade";
 

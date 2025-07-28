@@ -106,26 +106,8 @@ table 50136 "Travel Request"
                     Clear("Out of Pocket Expense");
                 end;
                 //AT Travel Req Control
-                if Type = Type::"Travel Request" then begin
-                    TravelRequest.Reset;
-                    TravelRequest.SetRange("Employee No.", "Employee No.");
-                    TravelRequest.SetRange(Type, TravelRequest.Type::"Travel Request");
-                    TravelRequest.SetFilter("No.", '<>%1', "No.");
-                    TravelRequest.SetFilter("Approval Status", '<>%1 &<>%2&<>%3', TravelRequest."Approval Status"::Rejected, TravelRequest."Approval Status"::Open, TravelRequest."Approval Status"::Withdrawn);
-                    TravelRequest.SetRange("Start Date", "Start Date");
-                    if TravelRequest.FindFirst then
-                        Error('Travel Request for Start Date = %1 already exists for %2', "Start Date", "Employee Name");
-                end;
-                //Min 4.26.2022 -- Check for Missed Attendance.
-                // if Type = Type::"Attendance Missed" then begin
-                //     EmpActivityRec.Reset;
-                //     EmpActivityRec.SetRange("Employee No.", "Employee No.");
-                //     EmpActivityRec.SetRange(Type, EmpActivityRec.Type::"Attendance Missed");
-                //     EmpActivityRec.SetRange("Start Date", Rec."Start Date");
-                //     EmpActivityRec.SetFilter("Approval Status", '<>%1', EmpActivityRec."Approval Status"::Rejected);
-                //     if EmpActivityRec.FindFirst then
-                //         Error('Missed Attendance already applied for date %1', Rec."Start Date");
-                // end;
+                if Type = Type::"Travel Request" then
+                    TravelMgt.ValidateTravelRequestOverlap(Rec);
             end;
         }
         field(8; "End Date"; Date)
@@ -147,6 +129,8 @@ table 50136 "Travel Request"
                 if Type = Type::"Travel Claim" then begin
                     Clear("Out of Pocket Expense");
                 end;
+                if Type = Type::"Travel Request" then
+                    TravelMgt.ValidateTravelRequestOverlap(Rec);
             end;
         }
         field(9; "No. of Days"; Decimal)
@@ -221,7 +205,7 @@ table 50136 "Travel Request"
                         end;
                     end;
                 end;
-                if (Type = Type::"Travel Claim") and GuiAllowed then begin
+                if Type in [Type::"Travel Claim", Type::"Travel Request"] then begin
                     OnBeforeOutOfPocketValidate(Rec, IsHandled);
                 end;
 
@@ -404,7 +388,7 @@ table 50136 "Travel Request"
         //         end;
         //     end;
         // }
-        field(24; "Employee Work Shift"; Code[10])
+        field(24; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -429,7 +413,6 @@ table 50136 "Travel Request"
 
         field(30; "Province Code"; Code[20])
         {
-            TableRelation = Province;
         }
         field(31; "Unit Code"; Code[20])
         {
@@ -553,6 +536,7 @@ table 50136 "Travel Request"
                 if "Travel Countries" = "Travel Countries"::Nepal then begin
                     if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                         HRMgt.CheckDistrictName("Destination");
+                    Validate("No. of Days");
                 end else if "Travel Countries" = "Travel Countries"::"Other Countries" then
                         if (Rec."Destination" <> xRec."Destination") and ("Destination" <> '') then
                             HRMgt.CheckCountryName("Destination");
@@ -671,7 +655,7 @@ table 50136 "Travel Request"
             trigger OnLookup()
             begin
                 if TravelRequest.Get("Travel Order No.") then
-                    PAGE.Run(50093, TravelRequest);
+                    PAGE.Run(Page::"Travel Form", TravelRequest);
             end;
         }
         field(66; "Total No. of Days"; Decimal)
@@ -700,11 +684,21 @@ table 50136 "Travel Request"
                 end;
                 if ("Travel Countries" <> xRec."Travel Countries") and ("Travel Countries" <> "Travel Countries"::India) then
                     Clear(Destination);
+                //anupam
+                if "Travel Countries" = "Travel Countries"::Nepal then begin
+                    clear("Currency Code");
+                    GLSetup.get();
+                    if GLSetup."LCY Code" = '' then
+                        Error('Local currency in GL setup is empty');
+                    "Currency Code" := GLSetup."LCY Code";
+                end;
             end;
         }
-        field(68; "Currency Code"; Code[10])
+        field(68; "Currency Code"; Code[20])
         {
             TableRelation = Currency;
+
+
         }
         field(69; "Exchange Rate"; Decimal)
         {
@@ -915,6 +909,7 @@ table 50136 "Travel Request"
         {
             Editable = false;
         }
+
         field(100; Status; Text[20])
         {
             DataClassification = ToBeClassified;

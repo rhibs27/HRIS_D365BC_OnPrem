@@ -1,13 +1,10 @@
 page 50040 "Payroll Plan"
 {
-    // version PRM19.01.01
-
-    // //Min 11.29.2022 -- For Import Update OverTime Employees,Amount,Disbursement in payroll adjustment.
 
     PageType = Card;
     SourceTable = "Payroll Header";
     ApplicationArea = All;
-
+    Caption = 'Payroll Plan';
     layout
     {
         area(Content)
@@ -33,13 +30,11 @@ page 50040 "Payroll Plan"
                 }
                 field("Pay Cycle Term"; Rec."Pay Cycle Term")
                 {
-                    Visible = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Term field.';
                     ApplicationArea = All;
                 }
                 field("Pay Cycle Period"; Rec."Pay Cycle Period")
                 {
-                    Editable = false;
                     ToolTip = 'Specifies the value of the Pay Cycle Period field.';
                     ApplicationArea = All;
                 }
@@ -235,8 +230,7 @@ page 50040 "Payroll Plan"
                     var
                         PayrollHeader: Record "Payroll Header";
                     begin
-                        /*CurrPage.SETSELECTIONFILTER(PayrollHeader);
-                        GetDetails(PayrollHeader);*/
+
                         PayrollHeader.Reset;
                         PayrollHeader.SetRange("No.", Rec."No.");
                         if PayrollHeader.FindFirst then begin
@@ -343,20 +337,34 @@ page 50040 "Payroll Plan"
                         Rec.OpenBalancingAccount;
                     end;
                 }
-                action("Salary Statement Preview")
+                // action("Salary Statement Preview")
+                // {
+                //     Image = "Report";
+                //     Promoted = true;
+                //     PromotedCategory = "Report";
+                //     PromotedIsBig = true;
+                //     ToolTip = 'Executes the Salary Statement Preview action.';
+                //     ApplicationArea = All;
+
+                //     trigger OnAction()
+                //     begin
+                //         PayrollHeaderRec.Reset;
+                //         PayrollHeaderRec.SetRange("No.", Rec."No.");
+                //         Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
+                //     end;
+                // }  //replace with open in excel
+                action(OpenInExcel)
                 {
-                    Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    ToolTip = 'Executes the Salary Statement Preview action.';
                     ApplicationArea = All;
+                    Caption = 'Open in Excel';
+                    Image = Excel;
+                    ToolTip = 'Open the data in Excel for analysis or editing';
 
                     trigger OnAction()
+                    var
+                        EditInExcel: Codeunit "Edit in Excel";
                     begin
-                        PayrollHeaderRec.Reset;
-                        PayrollHeaderRec.SetRange("No.", Rec."No.");
-                        Report.Run(Report::"Employee Salary Sheet Preview", true, true, PayrollHeaderRec);
+                        EditInExcel.EditPageInExcel('Payroll Plan' + Rec."No.", Page::"Payroll Plan");
                     end;
                 }
                 action("Employee Adjustment")
@@ -377,7 +385,10 @@ page 50040 "Payroll Plan"
                         PayrollAdj.FilterGroup(2);
                         PayrollAdj.SetRange("Payroll Document No.", Rec."No.");
                         PayrollAdj.FilterGroup(0);
-                        Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj);
+                        if Status = Rec.Status::Open then
+                            Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj)
+                        else
+                            Error('Re-Open the document to make adjustments.');
                     end;
                 }
                 action("Export Employee Payroll")
@@ -455,7 +466,7 @@ page 50040 "Payroll Plan"
 
     trigger OnAfterGetRecord()
     begin
-        UserSetup.Get(UserId); //Min
+        UserSetup.Get(UserId);
         if UserSetup."Allow Previous Year Payroll" then
             PrevYearPayroll := true
         else
@@ -471,6 +482,8 @@ page 50040 "Payroll Plan"
             Rec.Validate(Type, Rec.Type::Payroll)
         else if TypeFilter = Format(Rec.Type::Resignation) then
             Rec.Validate(Type, Rec.Type::Resignation)
+        else if TypeFilter = Format(Rec.Type::Settlement) then
+            Rec.Validate(Type, Rec.Type::Settlement)
         else begin
             Rec.Validate(Type, Rec.Type::Adjustment);
             Rec.Validate(Irregular, true);
@@ -480,8 +493,12 @@ page 50040 "Payroll Plan"
 
     trigger OnOpenPage()
     begin
-        if Rec.Type = Rec.Type::Adjustment then
+        if Rec.Type = Rec.Type::Adjustment then begin
             AjustmentVisible := true;
+            CurrPage.Caption := 'Adjustment Plan';
+        end;
+        if Rec.Type = Rec.Type::Resignation then
+            CurrPage.Caption := 'Resignation Payroll Plan';
         if Rec.Type in [Rec.Type::Adjustment, Rec.Type::Resignation] then
             VisiblePrevYearPayroll := true
         else
@@ -492,7 +509,6 @@ page 50040 "Payroll Plan"
         PayrollHeaderRec: Record "Payroll Header";
         TypeFilter: Text;
         PayrollAdj: Record "Employee Payroll Adjustment";
-        [InDataSet]
         AjustmentVisible: Boolean;
         PayrollLine: Record "Payroll Line";
         PayrollEngine: Codeunit "Payroll Engine";
@@ -501,4 +517,5 @@ page 50040 "Payroll Plan"
         VisiblePrevYearPayroll: Boolean;
         Text001: Label 'Do you want to import employees in Employee Payroll Adjustment? Existing lines will be deleted.';
         Text002: Label 'Either Encashment Code or Encashment Period must have a value.';
+        PageName: Text[50];
 }

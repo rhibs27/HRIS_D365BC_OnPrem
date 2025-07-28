@@ -26,7 +26,7 @@ table 50110 "Document Approver"
                 UpdateApprovalStatus();
             end;
         }
-        field(6; "Approval Status"; Enum "Attendance Status")
+        field(6; "Approval Status"; enum "Approval Status")
         {
 
 

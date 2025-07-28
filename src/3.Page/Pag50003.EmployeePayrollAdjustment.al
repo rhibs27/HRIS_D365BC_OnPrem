@@ -66,11 +66,37 @@ page 50003 "Employee Payroll Adjustment"
                     EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
                     EmployeePayrollAdjustment.DeleteAll;
 
-                    PayrollEngine.LoadDashainBonus(EmployeeType::Regular, PayrollDocNo);
+                    PayrollEngine.LoadDashainBonus(EmployeeType::Permanent, PayrollDocNo);
                     PayrollEngine.LoadDashainBonus(EmployeeType::Contract, PayrollDocNo);
                     CurrPage.Update(true);
 
                     Message('Dashain bonus calculated successfully.');
+                end;
+            }
+            action("Load Leave Fare Allowance")
+            {
+                Image = Holiday;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ToolTip = 'Executes the Load Leave Fare Allowance action.';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    EmpType: Enum "Employee Type";
+                begin
+                    if not Confirm('Do you want to generate leave fare allowance ?', false) then
+                        exit;
+
+                    EmployeePayrollAdjustment.Reset;
+                    EmployeePayrollAdjustment.SetRange("Payroll Document No.", PayrollDocNo);
+                    EmployeePayrollAdjustment.DeleteAll;
+
+                    PayrollEngine.LoadLeaveFareAllowance(EmpType::Permanent, PayrollDocNo);
+                    CurrPage.Update(true);
+
+                    Message('Leave fare allowances loaded successfully.');
                 end;
             }
         }
@@ -126,7 +152,7 @@ page 50003 "Employee Payroll Adjustment"
             until PayrollAdj.Next = 0;
         CalculateFormulaeAttributes;
         PayrollHeader.Get(PayrollDocNo);
-        PayrollHeader.Validate(Status, PayrollHeader.Status::"Pending Approval");
+        PayrollHeader.Validate(Status, PayrollHeader.Status::Pending);
         PayrollHeader.Modify;
     end;
 
@@ -146,8 +172,9 @@ page 50003 "Employee Payroll Adjustment"
         PGSetup: Record "Payroll General Setup";
         PayrollHeader: Record "Payroll Header";
         PayrollEngine: Codeunit "Payroll Engine";
-        EmployeeType: Enum "Employee";
+        EmployeeType: enum "Employee Type";
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+
 
     local procedure ValidatePayrollLineAmt()
     begin
@@ -217,7 +244,7 @@ page 50003 "Employee Payroll Adjustment"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -225,7 +252,7 @@ page 50003 "Employee Payroll Adjustment"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -341,7 +368,7 @@ page 50003 "Employee Payroll Adjustment"
                     EmpPayrollAdj.SetRange("Attribute Code", PayrollAttributes.Code);
                     EmpPayrollAdj.SetRange("Employee No.", Employee."No.");
                     if EmpPayrollAdj.FindFirst then begin
-                        //IF EmpPayrollAdj.Amount <> 0 THEN          //pradhan
+                        //IF EmpPayrollAdj.Amount <> 0 THEN           
                         if EmpPayrollAdj.Amount < 0 then begin
                             Length := StrLen(Expression);
                             if StrPosition - 2 < 1 then
@@ -364,7 +391,7 @@ page 50003 "Employee Payroll Adjustment"
         until StrLength = 0;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -373,7 +400,7 @@ page 50003 "Employee Payroll Adjustment"
         exit(0);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':

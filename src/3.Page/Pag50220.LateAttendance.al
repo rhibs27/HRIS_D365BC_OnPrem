@@ -8,6 +8,7 @@ page 50220 "Late Attendance"
     SourceTableView = WHERE(Type = CONST("Late Attendance"));
     CardPageId = "Late Attendance Card";
     InsertAllowed = false;
+    ModifyAllowed=false;
 
     layout
     {

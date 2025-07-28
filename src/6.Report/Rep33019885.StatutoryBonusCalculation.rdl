@@ -1345,12 +1345,6 @@ End Function
         <Field Name="AvgMonthlyEarnFormat">
           <DataField>AvgMonthlyEarnFormat</DataField>
         </Field>
-        <Field Name="eligiblebonus">
-          <DataField>eligiblebonus</DataField>
-        </Field>
-        <Field Name="eligiblebonusFormat">
-          <DataField>eligiblebonusFormat</DataField>
-        </Field>
         <Field Name="eligibleDays">
           <DataField>eligibleDays</DataField>
         </Field>

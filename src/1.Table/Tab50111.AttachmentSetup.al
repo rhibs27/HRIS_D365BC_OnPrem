@@ -53,13 +53,17 @@ table 50111 "Attachment Setup"
             trigger OnValidate()
             begin
                 if "Transfer Category" <> xRec."Transfer Category" then
-                    TestField(Type, Type::Transfer);
+                    TestField(Type, Type::"Employee Transfer");
             end;
         }
         field(12; "Max File Size"; Integer)
         {
-
         }
+        field(13; "Transfer Claim Attributes"; Code[20])
+        {
+            TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
+        }
+
     }
 
     keys
@@ -108,7 +112,7 @@ table 50111 "Attachment Setup"
         end;
     end;
 
-    local procedure InsertNewAttachments(LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan")
+    local procedure InsertNewAttachments(LoanType: Enum "Loan Type")
     var
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         IncomingDocument: Record "Incoming Document";

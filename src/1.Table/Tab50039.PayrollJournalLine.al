@@ -6,7 +6,7 @@ table 50039 "Payroll Journal Line"
 
     fields
     {
-        field(1; "Journal Template Name"; Code[10])
+        field(1; "Journal Template Name"; Code[20])
         {
             Caption = 'Journal Template Name';
         }
@@ -89,7 +89,7 @@ table 50039 "Payroll Journal Line"
                 end;
             end;
         }
-        field(10; "Currency Code"; Code[10])
+        field(10; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             TableRelation = Currency;
@@ -163,13 +163,13 @@ table 50039 "Payroll Journal Line"
                 ValidateShortcutDimCode(2, "Shortcut Dimension 2 Code");
             end;
         }
-        field(17; "Source Code"; Code[10])
+        field(17; "Source Code"; Code[20])
         {
             Caption = 'Source Code';
             Editable = false;
             TableRelation = "Source Code";
         }
-        field(18; "Journal Batch Name"; Code[10])
+        field(18; "Journal Batch Name"; Code[20])
         {
             Caption = 'Journal Batch Name';
             TableRelation = "Payroll Journal Batch";
@@ -202,7 +202,7 @@ table 50039 "Payroll Journal Line"
                     if "From Date" >= "To Date" then
                         Error(Text000, FieldCaption("From Date"), FieldCaption("To Date"), 'greater');
                 if "From Date" <> 0D then
-                    Month := Date2DMY("From Date", 2);
+                    Month := Enum::"English Month".FromInteger(Date2DMY("From Date", 2));
 
                 "From Date (B.S)" := EngNep.getNepaliDate("From Date");
                 "Nepali Month" := "Nepali Month"::" ";
@@ -231,11 +231,11 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(26; "From Date (B.S)"; Code[10])
+        field(26; "From Date (B.S)"; Code[20])
         {
             Editable = false;
         }
-        field(27; "To Date (B.S)"; Code[10])
+        field(27; "To Date (B.S)"; Code[20])
         {
             Editable = false;
         }
@@ -247,7 +247,7 @@ table 50039 "Payroll Journal Line"
         {
             Editable = false;
         }
-        field(30; "Pay Cycle Code"; Code[10])
+        field(30; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
 
@@ -259,7 +259,7 @@ table 50039 "Payroll Journal Line"
                 "Nepali Year" := 0;
             end;
         }
-        field(31; "Pay Cycle Term"; Code[10])
+        field(31; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term WHERE("Pay Cycle Code" = FIELD("Pay Cycle Code"));
 
@@ -294,7 +294,7 @@ table 50039 "Payroll Journal Line"
         {
 
         }
-        field(34; "Attribute Sub Type"; Enum "Attribute Sub Type")
+        field(34; "Attribute Sub Type"; Enum "Payroll SubType")
         {
 
         }
@@ -529,7 +529,7 @@ table 50039 "Payroll Journal Line"
         field(72; "Sol ID"; Code[20])
         {
         }
-        field(73; "Fiscal Year"; Code[10])
+        field(73; "Fiscal Year"; Code[20])
         {
         }
         field(74; Type; Enum "Payroll Header Type")
@@ -570,7 +570,7 @@ table 50039 "Payroll Journal Line"
         PayrollAttributes: Record "Payroll Attributes";
         SourceCodeSetup: Record "Source Code Setup";
         Employee: Record Employee;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         PayrollEngine: Codeunit "Payroll Engine";
         HideValidationDialog: Boolean;
@@ -620,8 +620,8 @@ table 50039 "Payroll Journal Line"
             "Posting Date" := WorkDate;
             "Document Date" := WorkDate;
             if GenJnlBatch."No. Series" <> '' then begin
-                Clear(NoSeriesMgt);
-                "Document No." := NoSeriesMgt.TryGetNextNo(GenJnlBatch."No. Series", "Posting Date");
+                Clear(NoSeriesCodeunit);
+                "Document No." := NoSeriesCodeunit.PeekNextNo(GenJnlBatch."No. Series", "Posting Date");
             end;
         end;
         "Account Type" := LastPayrollJournalLine."Account Type";
@@ -781,41 +781,42 @@ table 50039 "Payroll Journal Line"
             PayrollAttributes.Type::Benefits:
                 PayrollJournalLine."Attribute Type" := PayrollJournalLine."Attribute Type"::"Other Earnings";
         end;
+        PayrollJournalLine."Attribute Sub Type" := PayrollAttributes.Subtype;
         case PayrollAttributes.Subtype of
-            PayrollAttributes.Subtype::" ":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::" ";
-            PayrollAttributes.Subtype::Advance:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Advance;
-            PayrollAttributes.Subtype::CIT:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::CIT;
-            PayrollAttributes.Subtype::Donation:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Donation;
-            PayrollAttributes.Subtype::"Employee Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employee Contribution";
-            PayrollAttributes.Subtype::"Employer Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employer Contribution";
-            PayrollAttributes.Subtype::Loan:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Loan;
-            PayrollAttributes.Subtype::Medical:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Medical;
-            PayrollAttributes.Subtype::"Tax on Remuneration & Benefits":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Remuneration & Benefits";
-            PayrollAttributes.Subtype::"Tax on Interest":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Interest";
-            PayrollAttributes.Subtype::"Lump Sum Contribution":
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Lump Sum Contribution";
-            PayrollAttributes.Subtype::RF:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::RF;
-            PayrollAttributes.Subtype::Gratuity:
-                PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Gratuity;
-            PayrollAttributes.Subtype::"Social Security Tax":
-                begin
-                    PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Social Security Tax";
-                end;
+            // PayrollAttributes.Subtype::" ":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::" ";
+            // PayrollAttributes.Subtype::Advance:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Advance;
+            // PayrollAttributes.Subtype::CIT:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::CIT;
+            // PayrollAttributes.Subtype::Donation:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Donation;
+            // PayrollAttributes.Subtype::"Employee Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employee Contribution";
+            // PayrollAttributes.Subtype::"Employer Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Employer Contribution";
+            // PayrollAttributes.Subtype::Loan:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Loan;
+            // PayrollAttributes.Subtype::Medical:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Medical;
+            // PayrollAttributes.Subtype::"Tax on Remuneration & Benefits":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Remuneration & Benefits";
+            // PayrollAttributes.Subtype::"Tax on Interest":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Tax on Interest";
+            // PayrollAttributes.Subtype::"Lump Sum Contribution":
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Lump Sum Contribution";
+            // PayrollAttributes.Subtype::RF:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::RF;
+            // PayrollAttributes.Subtype::Gratuity:
+            //     PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Gratuity;
+            // PayrollAttributes.Subtype::"Social Security Tax":
+            //     begin
+            //         PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::"Social Security Tax";
+            //     end;
             PayrollAttributes.Subtype::Basic:
                 begin
                     PayrollJournalLine."Attribute Type" := PayrollJournalLine."Attribute Type"::"Basic Earning";
-                    PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Basic;
+                    // PayrollJournalLine."Attribute Sub Type" := PayrollJournalLine."Attribute Sub Type"::Basic;
                 end;
         end;
     end;
@@ -842,13 +843,13 @@ table 50039 "Payroll Journal Line"
         IsChanged := OldDimSetID <> "Dimension Set ID";
     end;
 
-    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit NoSeriesManagement)
+    procedure CheckDocNoBasedOnNoSeries(LastDocNo: Code[20]; NoSeriesCode: Code[20]; var NoSeriesMgtInstance: Codeunit "No. Series")
     begin
         if NoSeriesCode = '' then
             exit;
 
         if (LastDocNo = '') or ("Document No." <> LastDocNo) then
-            TestField("Document No.", NoSeriesMgtInstance.GetNextNo(NoSeriesCode, "Posting Date", false));
+            TestField("Document No.", NoSeriesMgtInstance.PeekNextNo(NoSeriesCode, "Posting Date"));
     end;
 
     local procedure GetGLAccount()

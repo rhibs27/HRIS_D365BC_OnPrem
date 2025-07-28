@@ -44,6 +44,7 @@ table 50075 "Employee Activity Journal"
                     Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Deputation On Code", EmpVar."Deputation On Code");
+                    Validate("Approver Role", EmpVar."Approver Role");
                     // ValidateTransfer();
                 end else begin
                     Clear("Employee Name");
@@ -88,7 +89,7 @@ table 50075 "Employee Activity Journal"
                 if "Start Date" <> xRec."Start Date" then begin
                     Clear("End Date");
                     Clear("End Date (BS)");
-                    Validate("No. of Days", 0);
+                    Clear("No. of Days");
                 end;
 
             end;
@@ -99,15 +100,22 @@ table 50075 "Employee Activity Journal"
             trigger OnValidate()
             var
                 TravelMgt: Codeunit "Travel Mgt.";
+                LeaveMgt: Codeunit "Leave Mgt.";
             begin
+                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
+                    if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
+                        Error('Leave code and leave type cannot be blank')
+                end;
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
                 if EngNepDate.FindFirst then
                     Validate("End Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("End Date (BS)");
-                if "End Date" <> 0D then
-                    Validate("No. of Days", TravelMgt.CalculateNoOfDaysTravel("Start Date", "End Date"))
+                if "End Date" <> 0D then begin
+                    if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
+                        Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
+                end
                 else begin
                     Clear("End Date (BS)");
                     Clear("No. of Days");
@@ -116,8 +124,22 @@ table 50075 "Employee Activity Journal"
         }
         field(9; "No. of Days"; Decimal)
         {
-            Editable = false;
-
+            trigger OnValidate()
+            begin
+                if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Used) then begin
+                    EmployeeActMgt.CheckLeaveInSameDay(Rec);
+                    LeaveMgt.CheckPendingLeave('', "Leave Code", "Employee No.");
+                    LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days");
+                    LeaveMgt.CheckForEmployeeLimit("Leave Code", "Employee No.");
+                    LeaveMgt.CheckLeaveApproved("Employee No.", "Start Date", "End Date");
+                    LeaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
+                    LeaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
+                    LeaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
+                    LeaveMgt.CheckHalfLeave("Start Date", "End Date", "Leave Type", "Leave Code");
+                end
+                // else if ("Employee Act Type" = "Employee Act Type"::"Leave Request") and ("Adjustment Type" = "Adjustment Type"::Adjustment) then
+                //         LeaveMgt.CheckRemainingLeaveDays("Leave Code", "Employee No.", "No. of Days")
+            end;
         }
         field(10; "Requested Date"; Date)
         {
@@ -145,11 +167,6 @@ table 50075 "Employee Activity Journal"
         }
         field(14; Remarks; Text[100])
         {
-
-            trigger OnLookup()
-            begin
-                // PAGE.Run(PAGE::"Employee List");
-            end;
         }
         field(15; "User ID"; Text[50])
         {
@@ -158,21 +175,12 @@ table 50075 "Employee Activity Journal"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
+            Editable = False;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,2,1';
             Editable = false;
-            // TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
-
-            // trigger OnValidate()
-            // begin
-            //     GLSetup.Get;
-            //     if DimValue.Get(GLSetup."Global Dimension 1 Code", "Shortcut Dimension 1 Code") then
-            //         Validate("Branch Name", DimValue.Name)
-            //     else
-            //         Validate("Branch Name", '');
-            // end;
         }
         field(18; Department; Code[20])
         {
@@ -195,7 +203,7 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(23; "Employee Work Shift"; Code[10])
+        field(23; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -267,11 +275,7 @@ table 50075 "Employee Activity Journal"
                     end;
                     Clear("Compensatory Date");
                     Clear("Child's Gender");
-                    // Clear("Contact No."); //nilesh
                 end;
-                /*IF "Leave Code" = 'COMPENSATORY' THEN //Min 8.7.2022
-                  ERROR(Text002);*/
-
             end;
         }
         field(41; "Leave Description"; Text[50])
@@ -310,7 +314,6 @@ table 50075 "Employee Activity Journal"
                     Clear("End Date");
                     Clear("No. of Days");
                 end;
-
                 if "End Date" <> 0D then
                     "No. of Days" := leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No.");
             end;
@@ -379,7 +382,7 @@ table 50075 "Employee Activity Journal"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             var
                 OrganizationStructureList: Record "Organization Structure List";
@@ -398,7 +401,7 @@ table 50075 "Employee Activity Journal"
         field(54; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
                 ValidateDeputationOnTo
@@ -407,7 +410,7 @@ table 50075 "Employee Activity Journal"
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code (To)"), "Reporting Type" = filter("Deputation Type"::unit));
             trigger OnValidate()
             begin
                 if "Unit (To)" <> xRec."Unit (To)" then begin
@@ -417,7 +420,7 @@ table 50075 "Employee Activity Journal"
         field(56; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
 
             trigger OnValidate()
             var
@@ -429,9 +432,9 @@ table 50075 "Employee Activity Journal"
                         "Unit (To)" := '';
                         "Shortcut Dimension 1 Code (To)" := '';
                         "Extension Counter (To)" := '';
-                        ValidateDeputationOnTo
                     end;
                 end;
+                ValidateDeputationOnTo
             end;
         }
         field(57; "Travel Order No"; Code[20])
@@ -440,7 +443,7 @@ table 50075 "Employee Activity Journal"
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("To Branch"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
 
             trigger OnValidate()
             var
@@ -488,13 +491,15 @@ table 50075 "Employee Activity Journal"
         field(63; "Outgoing Branch Rep. Person"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code"));
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             trigger OnValidate()
-            var
-                Employee: Record Employee;
             begin
-                if Employee.get("Outgoing Branch Rep. Person") then
-                    "Outgoing Reporting Person Name" := Employee."Full Name";
+                if "Outgoing Branch Rep. Person" <> '' then begin
+                    EmployeeRec.Get("Outgoing Branch Rep. Person");
+                    "Outgoing Reporting Person Name" := EmployeeRec."Full Name";
+                end;
+                if "Outgoing Branch Rep. Person" = "Employee No." then
+                    Error('Cannot Select Yourself as Outgoing Reporting person');
             end;
         }
         field(64; "Outgoing Reporting Person Name"; Text[50])
@@ -502,18 +507,10 @@ table 50075 "Employee Activity Journal"
         }
         field(65; "Incoming Supervisor"; Code[20])
         {
+            TableRelation = Employee."No." where(status = const("Employee Status"::Active));
             Description = 'Transfer';
-            TableRelation = Employee."No." where("Deputation On Code" = field("Deputation on Code To"));
-
             trigger OnValidate()
             begin
-                // if "Incoming Supervisor" <> '' then begin //Min 12.13.2022
-                //     EmployeeRec.Get("Incoming Supervisor");
-                //     if SalaryLevel.Get("Salary Level Code") then;
-                //     if SalaryLevel1.Get(EmployeeRec."Salary Level") then;
-                //     if SalaryLevel.Rank >= SalaryLevel1.Rank then
-                //         Error('Salary level of Incoming Supervisor (%1) must be greater than salary level of employee (%2)', EmployeeRec."Full Name", "Employee Name");
-                // end;
                 if EmpVar.Get("Incoming Supervisor") then
                     Validate("Incoming Supervisor Name", EmpVar."Full Name")
                 else
@@ -580,12 +577,12 @@ table 50075 "Employee Activity Journal"
         field(77; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(78; "To Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
                 ValidateDeputationOnTo
@@ -604,49 +601,12 @@ table 50075 "Employee Activity Journal"
         field(90; "Overtime Claim Type"; Enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
-            trigger OnValidate()
-            begin
-                TestField("Start Date");
-                if "Overtime Claim Type" <> xRec."Overtime Claim Type" then begin
-                    Clear("Compensatory Days");
-                    Clear("OT Amount");
-                end;
-                AttendanceSetup.Get();
-                AttendanceSetup.TestField("Full Substitute Leave Hrs");
-                AttendanceSetup.TestField("Half Substitute Leave Hrs");
-                if "Overtime Claim Type" = "Overtime Claim Type"::"Substitute Leave" then begin
-                    OverTimeMgt.GetOvertimeDetails(Rec);
-                    if ("Actual OT Hours" < AttendanceSetup."Full Substitute Leave Hrs") and ("Actual OT Hours" >= AttendanceSetup."Half Substitute Leave Hrs") then
-                        "Compensatory Days" := 0.5
-                    else if "Actual OT Hours" >= AttendanceSetup."Full Substitute Leave Hrs" then
-                        "Compensatory Days" := 1
-                    else if "Actual OT Hours" < AttendanceSetup."Half Substitute Leave Hrs" then
-                        "Compensatory Days" := 0;
-                    Clear("OT Amount");
-                end else if "Overtime Claim Type" = "Overtime Claim Type"::Encashment then begin
-                    // OnBeforeOTAmountCalculate(Rec, IsHandled);
-                    // if not IsHandled then
-                    //     if Type in [Type::Overtime, Type::"Out of Office", Type::"Bulk Cash"] then begin
-                    //         if "Start Date" >= Today then
-                    //             Error('You cannot apply OverTime in current and future date.');
-                    //         Validate("OT Amount", OverTimeMgt.OTAmountCalculate("Employee No.", "Start Date", "Encashment Code", "Actual OT Hours")); //Calculate OverTime amount << Santosh << 3/17/2025/
-                    //     end;
-                    // Clear("Compensatory Days");
-                end;
-            end;
         }
         field(91; "Estimated Hours"; Decimal)
         {
         }
         field(92; "Actual OT Hours"; Decimal)
         {
-            trigger OnValidate()
-            begin
-                HRSetup.Get;
-                if "Estimated Hours" <> 0 then
-                    if "Estimated Hours" < HRSetup."OT eligible hour" then
-                        Error('You cannot submit overtime less than %1 hour(s).', HRSetup."OT eligible hour");
-            end;
         }
         field(93; "OT Amount"; Decimal)
         {
@@ -668,10 +628,42 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
+        field(98; "Adjustment Type"; Enum "Leave Earn Type")
+        {
+            ValuesAllowed = Used, Adjustment;
+            InitValue = Used;
+            trigger OnValidate()
+            begin
+                if "Adjustment Type" = "Adjustment Type"::Adjustment then begin
+                    Clear("Start Date");
+                    Clear("End Date");
+                    Clear("Start Date (BS)");
+                    Clear("End Date (BS)");
+                end;
+            end;
+        }
         field(100; Status; text[20])
         {
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
+            Editable = false;
+        }
+        field(102; "Approver Role"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(103; "Approver Role (TO)"; Code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(108; "CheckIn Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(109; "CheckOut Time"; Time)
+        {
+            DataClassification = ToBeClassified;
         }
     }
     keys
@@ -686,6 +678,12 @@ table 50075 "Employee Activity Journal"
         "User ID" := UserId;
         "Requester Employee" := HrMgt.GetEmployeeNo();
         "Requested Date" := Today;
+    end;
+
+    trigger OnDelete()
+    begin
+        if not ("Approval Status" in ["Approval Status"::Open]) then
+            Error('Only Open records can be deleted. Current status: %1', "Approval Status");
     end;
 
     procedure SetUpNewLine(LastActJnlLine: Record "Employee Activity Journal")
@@ -717,6 +715,7 @@ table 50075 "Employee Activity Journal"
             if not CurrDocumentNo then begin
                 HRSetup.Get();
                 "Posting Date" := WorkDate();
+                HRSetup.TestField("Employee Act. Journal Series");
                 "No. Series" := HRSetup."Employee Act. Journal Series";
                 "Emp Act. No" := NoSeriesMgt.GetNextNo("No. Series", "Posting Date", true);
                 ApprovalHRMS.Reset();
@@ -764,11 +763,9 @@ table 50075 "Employee Activity Journal"
         ApproverMgt: Codeunit "Approver Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
+        EmployeeActMgt: Codeunit EmployeeActivityMgt;
         SalaryLevel: Record "Salary Level";
         AttendanceSetup: Record "Attendance Setup";
-        // GLSetup: Record "General Ledger Setup";
-        // DimValue: Record "Dimension Value";
-        // "Employee Tranfer": Record "Employee/HR Transfer";
         SalaryLevel1: Record "Salary Level";
         EmployeeRec: Record Employee;
         ApprovalHRMS: Record "Approval HRMS";

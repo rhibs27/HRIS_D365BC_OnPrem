@@ -1,8 +1,6 @@
 table 50008 "Remote Area Category"
 {
     DataClassification = CustomerContent;
-    // version KPI1.00
-
     fields
     {
         field(1; Category; Code[20]) { }
@@ -21,5 +19,10 @@ table 50008 "Remote Area Category"
         key(Key1; Category) { }
     }
 
-    fieldgroups { }
+    fieldgroups
+    {
+        fieldgroup(DropDown; Category, "Remote allowance Percentage", "Remote Allowance Amount", "BM Accomodation Amount", "Remote Area Deduction")
+        {
+        }
+    }
 }

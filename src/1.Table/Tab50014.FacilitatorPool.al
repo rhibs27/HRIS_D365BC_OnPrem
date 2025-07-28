@@ -67,7 +67,7 @@ table 50014 "Facilitator Pool"
         field(12; "Appointed Date"; Date)
         {
         }
-        field(13; "Approval Status"; Enum "Attendance Status")
+        field(13; "Approval Status"; enum "Approval Status")
         {
             Editable = false;
         }
@@ -86,7 +86,7 @@ table 50014 "Facilitator Pool"
     begin
         Faciliator1.Reset;
         Faciliator1.SetRange("Fiscal Year", "Fiscal Year");
-        Faciliator1.SetRange("Approval Status", "Approval Status"::"pending approval");
+        Faciliator1.SetRange("Approval Status", "Approval Status"::Pending);
         if Faciliator1.FindFirst then
             Error(ErrorCancel, "Fiscal Year");
     end;
@@ -107,7 +107,7 @@ table 50014 "Facilitator Pool"
     begin
     end;
 
-    procedure UpdateApprovalStatus(var Facilitator: Record "Facilitator Pool"; ApprovalStatus: enum "Attendance Status")
+    procedure UpdateApprovalStatus(var Facilitator: Record "Facilitator Pool"; ApprovalStatus: enum "Approval Status")
     begin
         Faciliator1.Reset;
         Faciliator1.SetRange("Fiscal Year", Facilitator."Fiscal Year");

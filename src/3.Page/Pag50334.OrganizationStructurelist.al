@@ -24,6 +24,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Name field.', Comment = '%';
                 }
+                field("Sol ID"; Rec."Sol ID")
+                {
+                    ToolTip = 'Specifies the value of the Sol ID field.', Comment = '%';
+                }
                 field(Province; Rec."Province Name")
                 {
                     ToolTip = 'Specifies the value of the Province field.', Comment = '%';
@@ -36,11 +40,19 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the InsideOutside Valley field.', Comment = '%';
                 }
+                field("District code"; Rec."District code")
+                {
+                    ToolTip = 'Specifies the value of the District code field.', Comment = '%';
+                }
                 field("District Name"; Rec."District Name")
                 {
                     ToolTip = 'Specifies the value of the District Name field.', Comment = '%';
                 }
-                field("Municipality"; Rec."Municipality")
+                field("Municipality Code"; Rec."Municipality Code")
+                {
+                    ToolTip = 'Specifies the value of the Municipality field.', Comment = '%';
+                }
+                field("Municipality Name"; Rec."Municipality Name")
                 {
                     ToolTip = 'Specifies the value of the Municipality field.', Comment = '%';
                 }

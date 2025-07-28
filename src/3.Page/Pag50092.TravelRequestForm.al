@@ -117,6 +117,8 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Travel Country field.';
                     ApplicationArea = All;
 
+
+
                     trigger OnValidate()
                     begin
                         EstimatedFieldEditable := Rec."Travel Countries" = Rec."Travel Countries"::"Other Countries";
@@ -193,6 +195,15 @@ page 50092 "Travel Request Form"
                     ToolTip = 'Specifies the value of the Other Estimated Cost field.';
                     ApplicationArea = All;
                 }
+                field("Currency Code"; Rec."Currency Code")
+                {
+                    ToolTip = 'Specifies the currency Code';
+                    ApplicationArea = All;
+                    //anupam
+                    Editable = ((Rec."Approval Status" = Rec."Approval Status"::Open) and (rec."Travel Countries" <> rec."Travel Countries"::Nepal));
+
+                }
+
                 field("Advance Cash Required"; Rec."Advance Cash Required")
                 {
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';

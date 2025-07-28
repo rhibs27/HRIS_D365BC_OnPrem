@@ -35,7 +35,7 @@ page 50141 "Email Templates"
                     ToolTip = 'Specifies the value of the Document Type field.';
                     ApplicationArea = All;
                 }
-                field(Type; Rec.Type)
+                field(Type; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;

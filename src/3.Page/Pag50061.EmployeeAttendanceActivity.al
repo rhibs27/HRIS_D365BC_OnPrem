@@ -1,16 +1,13 @@
 page 50061 "Employee Attendance & Activity"
 {
-    // version ATM.19.01.01
-
-    //DeleteAllowed = false;
-    //Editable = false;
-    //InsertAllowed = false;
-    //ModifyAllowed = false;
+    DeleteAllowed = false;
+    Editable = false;
+    InsertAllowed = false;
+    ModifyAllowed = false;
     PageType = List;
     SourceTable = "Employee Attendance & Activity";
     UsageCategory = Lists;
     ApplicationArea = All;
-
     layout
     {
         area(Content)
@@ -42,15 +39,9 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Check Out Time field.';
                     ApplicationArea = All;
                 }
-                field("Punch out Remarks"; Rec."Punch out Remarks")
+                field(Week; Rec.Week)
                 {
-                    ToolTip = 'Specifies the value of the Punch out Remarks field.';
-                    ApplicationArea = All;
-                }
-                field("Late Remarks"; Rec."Late Remarks")
-                {
-                    Caption = 'Remarks';
-                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ToolTip = 'Specifies the value of the Week field.';
                     ApplicationArea = All;
                 }
                 field("Day Type"; Rec."Day Type")
@@ -63,6 +54,12 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Employee Working Shift field.';
                     ApplicationArea = All;
                 }
+                field("Late Deduction"; Rec."Late Deduction")
+                {
+                    ToolTip = 'Specifies the value of the Late Deduction field.';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
                 field("Shift Start Time"; Rec."Shift Start Time")
                 {
                     ToolTip = 'Specifies the value of the Shift Start Time field.';
@@ -71,6 +68,36 @@ page 50061 "Employee Attendance & Activity"
                 field("Shift End Time"; Rec."Shift End Time")
                 {
                     ToolTip = 'Specifies the value of the Shift End Time field.';
+                    ApplicationArea = All;
+                }
+                field("Province Code"; Rec."Province Code")
+                {
+                    ToolTip = 'Specified the value of Province Code field';
+                    ApplicationArea = All;
+                }
+                field("Province Name"; Rec."Province Name")
+                {
+                    ToolTip = 'Specified the value of Province Name field';
+                    ApplicationArea = All;
+                }
+                field("Branch Code"; Rec."Branch Code")
+                {
+                    ToolTip = 'Specified the value of Branch Code field';
+                    ApplicationArea = All;
+                }
+                field("Branch Name"; Rec."Branch Name")
+                {
+                    ToolTip = 'Specified the value of Branch Name field';
+                    ApplicationArea = All;
+                }
+                field("Department Code"; Rec."Department Code")
+                {
+                    ToolTip = 'Specified the value of Department Code field';
+                    ApplicationArea = All;
+                }
+                field("Department Name"; Rec."Department Name")
+                {
+                    ToolTip = 'Specified the value of Department Name field';
                     ApplicationArea = All;
                 }
                 field("Check In Difference"; Rec."Check In Difference")
@@ -253,11 +280,13 @@ page 50061 "Employee Attendance & Activity"
                 {
                     ToolTip = 'Specifies the value of the Punch Out Reviewer field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Punch Out Check Reviewer"; Rec."Punch Out Check Reviewer")
                 {
                     ToolTip = 'Specifies the value of the Punch Out Check Reviewer field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Overtime Disbursed"; Rec."Overtime Disbursed")
                 {
@@ -289,11 +318,6 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Salary Grade field.';
                     ApplicationArea = All;
                 }
-                field(Week; Rec.Week)
-                {
-                    ToolTip = 'Specifies the value of the Week field.';
-                    ApplicationArea = All;
-                }
             }
         }
     }
@@ -311,6 +335,7 @@ page 50061 "Employee Attendance & Activity"
                     PromotedCategory = Process;
                     PromotedIsBig = true;
                     PromotedOnly = true;
+                    Visible = false;
                     ToolTip = 'Executes the Change Reviewer/ Check Reviewer action.';
                     ApplicationArea = All;
 

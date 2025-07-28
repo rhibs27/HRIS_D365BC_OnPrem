@@ -24,14 +24,14 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine: Record "Payroll Journal Line";
         PayrollJnlBatch: Record "Payroll Journal Batch";
         GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-        NoSeriesMgt2: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
+        NoSeries2: Codeunit "No. Series";
         NoSeries: Record "No. Series";
         EmpLedgCreated: Boolean;
         GLEntryNo: Integer;
         Text001: Label 'Do you want to post the Journal %1?';
-        TemplateCode: Code[10];
-        BatchCode: Code[10];
+        TemplateCode: Code[20];
+        BatchCode: Code[20];
         Text002: Label 'Payroll Journal Posted Successfully.';
         Window: Dialog;
         TotalCount: Integer;
@@ -46,6 +46,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         HRMgt: Codeunit "HR Mgt.";
         DebitAmount: Decimal;
         CreditAmount: Decimal;
+        NoSeriesBatch: Codeunit "No. Series - Batch";
 
     procedure RunWithCheck(var PayrollJournalLine2: Record "Payroll Journal Line"): Integer
     var
@@ -98,7 +99,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         if GLEntryNo <> 0 then begin
             UpdateAndDeleteLines;
             if PayrollJnlBatch."No. Series" <> '' then
-                NoSeriesMgt.SaveNoSeries;
+                NoSeriesBatch.SaveState();
             Message(Text002);
             Commit;
         end;
@@ -407,7 +408,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         PayrollJournalLine.TestField("Employee No.");
         PayrollJournalLine.TestField("Assigned User ID");
 
-        PayrollJournalLine.CheckDocNoBasedOnNoSeries(LastDocNo, PayrollJnlBatch."No. Series", NoSeriesMgt);
+        PayrollJournalLine.CheckDocNoBasedOnNoSeries(LastDocNo, PayrollJnlBatch."No. Series", NoSeriesCodeunit);
         if PayrollJournalLine."Posting No. Series" <> '' then
             PayrollJournalLine.TestField("Posting No. Series", PayrollJnlBatch."Posting No. Series");
     end;
@@ -418,7 +419,7 @@ codeunit 50009 "Payroll Jnl.-Post Line"
         LastDocNo := PayrollJournalLine."Document No.";
         if PostingNo = '' then begin
             PostingNo :=
-              NoSeriesMgt2.GetNextNo(PayrollJournalLine."Posting No. Series", PayrollJournalLine."Posting Date", true);
+              NoSeries2.GetNextNo(PayrollJournalLine."Posting No. Series", PayrollJournalLine."Posting Date", true);
         end;
         PayrollJournalLine."Posting No." := PostingNo;
         PayrollJournalLine.Modify;

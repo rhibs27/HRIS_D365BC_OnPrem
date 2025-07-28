@@ -14,7 +14,7 @@ table 50076 Candidate
             begin
                 if "No." <> xRec."No." then begin
                     HumanResSetup.Get;
-                    NoSeriesMgt.TestManual(HumanResSetup."Candidate Nos.");
+                    NoSeriesCodeunit.TestManual(HumanResSetup."Candidate Nos.");
                     "No. Series" := '';
                 end;
                 // HRMgt.InsertAttachmentLines("No.", 'CV');
@@ -145,13 +145,13 @@ table 50076 Candidate
             FieldClass = FlowFilter;
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(21; "Cause of Absence Filter"; Code[10])
+        field(21; "Cause of Absence Filter"; Code[20])
         {
             Caption = 'Cause of Absence Filter';
             FieldClass = FlowFilter;
             TableRelation = "Cause of Absence";
         }
-        field(22; "No. Series"; Code[10])
+        field(22; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             Editable = false;
@@ -170,7 +170,7 @@ table 50076 Candidate
         field(26; "User Id"; Code[50])
         {
         }
-        field(27; "Third Party Payroll Emp Code"; Code[10])
+        field(27; "Third Party Payroll Emp Code"; Code[20])
         {
         }
         field(28; "Job Position Type"; Enum "Job Position Type")
@@ -440,7 +440,7 @@ table 50076 Candidate
         if "No." = '' then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.InitSeries(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."Candidate Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
     end;
 
@@ -465,7 +465,7 @@ table 50076 Candidate
         Employee: Record Employee;
         EmployeeQualification: Record "Employee Qualification";
         Relative: Record "Employee Relative";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCodeunit: Codeunit "No. Series";
         DimMgt: Codeunit DimensionManagement;
         Text000: Label 'Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
         Candidate: Record Candidate;
@@ -485,10 +485,10 @@ table 50076 Candidate
         Candidate := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Candidate Nos."); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Candidate Nos.", OldCandidate."No. Series", Candidate."No. Series") then begin
+        if NoSeriesCodeunit.LookupRelatedNoSeries(HumanResSetup."Candidate Nos.", OldCandidate."No. Series", Candidate."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Candidate Nos.");
-            NoSeriesMgt.SetSeries(Candidate."No.");
+            NoSeriesCodeunit.GetNextNo(Candidate."No.");
             Rec := Candidate;
             exit(true);
         end;

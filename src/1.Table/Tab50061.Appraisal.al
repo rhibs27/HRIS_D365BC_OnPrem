@@ -58,7 +58,7 @@ table 50061 Appraisal
                     Validate(Rating, RatingSetup.Remarks);
             end;
         }
-        field(7; "Final Grade"; Code[10]) { }
+        field(7; "Final Grade"; Code[20]) { }
         field(8; Reviewer; Code[20])
         {
             TableRelation = Employee;
@@ -78,7 +78,7 @@ table 50061 Appraisal
         field(15; Department; Code[20])
         {
             Editable = false;
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
         field(16; "Functional Title"; Code[20])
         {
@@ -213,7 +213,7 @@ table 50061 Appraisal
         {
 
         }
-        field(62; Province; Code[10])
+        field(62; Province; Code[20])
         {
             Editable = false;
         }
@@ -249,7 +249,7 @@ table 50061 Appraisal
         {
             Editable = false;
         }
-        field(71; "Fiscal Year"; Code[10])
+        field(71; "Fiscal Year"; Code[20])
         {
             Editable = true;
         }
@@ -303,7 +303,7 @@ table 50061 Appraisal
         Validate("Requested Date", Today);
         if "Appraisal Code" = '' then begin
             HumanResSetup.TestField("Appraisal No.");
-            NoSeriesMgt.InitSeries(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
+            HRMgt.InitNoSeriesNew(HumanResSetup."Appraisal No.", xRec."No. Series", 0D, "Appraisal Code", "No. Series");
         end;
         HumanResSetup.TestField("HR Head Functional Title");
         EmployeeVar.Reset;
@@ -334,7 +334,7 @@ table 50061 Appraisal
         Appraisal: Record Appraisal;
         KRASubform: Record "KRA Subform List";
         HumanResSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         EngNepDate: Record "English-Nepali Date";
         RatingSetup: Record "Rating Setup";
         KRAMasterSetupRec: Record "KRA Master Setup";
@@ -368,7 +368,7 @@ table 50061 Appraisal
           */
     end;
 
-    procedure DeleteAllSubFormKRA("code": Code[10])
+    procedure DeleteAllSubFormKRA("code": Code[20])
     begin
         KRASubform.Reset;
         KRASubform.SetRange("Key Result Area", code);
@@ -383,10 +383,10 @@ table 50061 Appraisal
         Appraisal := Rec;
         HumanResSetup.Get;
         HumanResSetup.TestField("Appraisal No."); /* candidate nos not present in HRsetup table*/
-        if NoSeriesMgt.SelectSeries(HumanResSetup."Appraisal No.", OldAppraisal."No. Series", Appraisal."No. Series") then begin
+        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Appraisal No.", OldAppraisal."No. Series", Appraisal."No. Series") then begin
             HumanResSetup.Get;
             HumanResSetup.TestField("Appraisal No.");
-            NoSeriesMgt.SetSeries(Appraisal."Appraisal Code");
+            NoSeriesMgt.GetNextNo(Appraisal."Appraisal Code");
             Rec := Appraisal;
             exit(true);
         end;

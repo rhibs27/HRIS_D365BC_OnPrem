@@ -226,6 +226,12 @@ page 50101 "Travel Form"
                     ToolTip = 'Specifies the value of the Advance Cash Required field.';
                     ApplicationArea = All;
                 }
+                field("Currency Code"; rec."Currency Code")
+                {
+                    Editable = IsOpen and (rec."Travel Countries" <> rec."Travel Countries"::Nepal);
+                    ToolTip = 'Specifies the Currency Code';
+                    ApplicationArea = All;
+                }
                 field("Total Estimated Cost"; Rec."Total Estimated Cost")
                 {
                     ToolTip = 'Specifies the value of the Total Estimated Cost field.';
@@ -240,6 +246,7 @@ page 50101 "Travel Form"
                 }
                 field("Auth. Account No."; Rec."Auth. Account No.")
                 {
+                    Caption = 'Bank Account No';
                     ToolTip = 'Specifies the value of the Auth. Account No. field.';
                     ApplicationArea = All;
                     Editable = false;
@@ -490,7 +497,7 @@ page 50101 "Travel Form"
                 trigger OnAction()
                 begin
                     // if Confirm(CofirmApprover) then begin //Min -- for change Travel Approver.
-                    //     if Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Recommended] then
+                    //     if Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Recommended] then
                     //         HRMgt.PopUpChangingTravelApprover(Rec)
                     //     else
                     //         Error(ApproverMessage, Rec."Approval Status");
@@ -511,7 +518,7 @@ page 50101 "Travel Form"
                 trigger OnAction()
                 begin
                     // if Confirm(ConfirmRecommender) then begin //Min -- for change Travel Recommender.
-                    //     if Rec."Approval Status" = Rec."Approval Status"::"Pending Approval" then
+                    //     if Rec."Approval Status" = Rec."Approval Status"::Pending then
                     //         HRMgt.PopUpChangingTravelRecommender(Rec)
                     //     else
                     //         Error(RecommenderMessage, Rec."Approval Status");
@@ -530,7 +537,7 @@ page 50101 "Travel Form"
                 PromotedOnly = true;
                 ToolTip = 'Executes the Print Report action.';
                 ApplicationArea = All;
-
+                Visible = false;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);

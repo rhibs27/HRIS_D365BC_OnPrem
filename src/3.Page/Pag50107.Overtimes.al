@@ -148,12 +148,12 @@ page 50107 Overtimes
 
     actions
     {
-        area(Navigation)
+        area(Processing)
         {
             action(Open)
             {
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Open action.';
                 ApplicationArea = All;
@@ -187,7 +187,7 @@ page 50107 Overtimes
             {
                 Image = PendingApproval;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Pending Approval action.';
                 ApplicationArea = All;
@@ -221,7 +221,7 @@ page 50107 Overtimes
             {
                 Image = Approve;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Approved action.';
                 ApplicationArea = All;
@@ -238,7 +238,7 @@ page 50107 Overtimes
             {
                 Image = DeleteQtyToHandle;
                 Promoted = true;
-                PromotedCategory = Category4;
+                PromotedCategory = Process;
                 PromotedIsBig = true;
                 ToolTip = 'Executes the Rejected action.';
                 ApplicationArea = All;

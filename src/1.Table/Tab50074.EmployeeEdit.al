@@ -81,7 +81,7 @@ table 50074 "Employee Edit"
             Caption = 'Temporary Province';
             DataClassification = CustomerContent;
         }
-        field(12; VDC; Text[30])
+        field(12; VDC; Text[50])
         {
             Caption = 'VDC';
             DataClassification = CustomerContent;
@@ -104,22 +104,6 @@ table 50074 "Employee Edit"
         field(60; "Religion"; Enum Religion)
         {
             Caption = 'Religion';
-            DataClassification = CustomerContent;
-        }
-        field(61; "Emergency Mobile No"; Text[15])
-        {
-            Caption = 'Emergency Mobile No';
-            DataClassification = CustomerContent;
-        }
-        field(62; "Emergency Contact Name"; text[20])
-        {
-            Caption = 'Emergency Contact Name';
-            DataClassification = CustomerContent;
-        }
-
-        field(63; "Emergency Contact Email"; Text[80])
-        {
-            Caption = 'Emergency Contact Email';
             DataClassification = CustomerContent;
         }
         field(16; "Approval Status"; Enum "Approval Status")
@@ -170,7 +154,7 @@ table 50074 "Employee Edit"
             DataClassification = ToBeClassified;
         }
         //Employee Qualification and work experience << santosh 3.28.2025
-        field(23; "Qualification Code"; Code[10])
+        field(23; "Qualification Code"; Code[20])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
@@ -218,14 +202,14 @@ table 50074 "Employee Edit"
         { DataClassification = CustomerContent; }
         field(32; "Contact Number"; Text[30])
         { DataClassification = CustomerContent; }
-        field(33; Remarks; Text[30])
+        field(33; Remarks; Text[50])
         { DataClassification = CustomerContent; }
         field(34; Rank; Integer)
         { DataClassification = CustomerContent; }
-        // field(35; "Qualification Type"; Enum "Qualification Type")
-        // {
-        //     DataClassification = CustomerContent;
-        // }
+        field(35; "Qualification Type"; Enum "Qualification Type")
+        {
+            DataClassification = CustomerContent;
+        }
         field(36; CGPA; Decimal)
         {
             DataClassification = CustomerContent;
@@ -281,7 +265,7 @@ table 50074 "Employee Edit"
             DataClassification = CustomerContent;
         }
         //Changes In relative 
-        field(45; "Relative Code"; Code[20])
+        field(45; "Relative Code"; Code[10])
         {
             Caption = 'Relative Code';
             Description = 'Employee Relative';
@@ -381,7 +365,51 @@ table 50074 "Employee Edit"
         {
             Editable = false;
         }
+        field(101; "Functional Title"; Code[20])
+        {
+            TableRelation = "Functional Title";
+        }
+        field(102; "Deputation on"; Enum "Deputation Type")
+        {
 
+        }
+        field(103; "Province Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+        }
+
+        field(104; "Branch Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
+        }
+        field(105; "Department Code"; Code[20])
+        {
+            TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+        }
+        field(106; "Extension Counter Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Branch), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"));
+        }
+        field(107; "Unit Code"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            TableRelation = "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::unit));
+        }
+        field(64; "Set Emergency Contact"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(65; "Relative Mail"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Relative Mail");
+            end;
+        }
     }
     keys
     {

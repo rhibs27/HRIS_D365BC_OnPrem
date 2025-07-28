@@ -25,7 +25,7 @@ table 50025 "Payroll Attributes"
         {
             TableRelation = "G/L Account";
         }
-        field(6; "Column Name"; Code[10])
+        field(6; "Column Name"; Code[20])
         {
             Editable = false;
         }
@@ -70,11 +70,11 @@ table 50025 "Payroll Attributes"
         field(15; "Posting Method"; enum "Payroll Posting Method")
         {
         }
-        field(16; "Pay Cycle Code"; Code[10])
+        field(16; "Pay Cycle Code"; Code[20])
         {
             TableRelation = "Pay Cycle";
         }
-        field(17; "Pay Cycle Term"; Code[10])
+        field(17; "Pay Cycle Term"; Code[20])
         {
             TableRelation = "Pay Cycle Term".Term where("Pay Cycle Code" = field("Pay Cycle Code"));
         }
@@ -127,10 +127,10 @@ table 50025 "Payroll Attributes"
         field(29; "Mutually Exclusive"; Boolean)
         {
         }
-        field(30; "GL Code For Branch"; Code[20])
+        field(30; "CBS GL Code"; Code[20])
         {
         }
-        field(31; "GL Code for Region"; Code[20])
+        field(31; "CBS Expense Code"; Code[20])
         {
         }
         field(32; "Tax at once"; Boolean)
@@ -163,7 +163,17 @@ table 50025 "Payroll Attributes"
                     Clear("Static GL Ledger Account");
             end;
         }
-        field(38; "Static GL Ledger Account"; Code[10]) { }
+        field(38; "Static GL Ledger Account"; Code[20]) { }
+
+        field(39; "Activity Type"; enum "Employee Activity Type")
+        {
+            ValuesAllowed = " ", "Transfer Claim";  //include it in spefiific attribute
+        }
+        field(40; "Transfer Claim Flexible"; Boolean) { }
+        field(41; "Specific Attributes"; Enum "Specific Payroll Attributes")
+        {
+
+        }
     }
 
     keys
@@ -184,7 +194,7 @@ table 50025 "Payroll Attributes"
     trigger OnInsert()
     var
         PayComp: Record "Payroll Attributes";
-        LastColumnName: Code[10];
+        LastColumnName: Code[20];
     begin
         PayComp.Reset;
         PayComp.SetCurrentKey("Column No.");

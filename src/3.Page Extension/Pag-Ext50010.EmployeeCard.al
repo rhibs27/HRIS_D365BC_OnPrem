@@ -121,7 +121,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Temporary Address field.';
             }
-            field("Distance between Residence and Office"; Rec."Distance betn Res and Office")
+            field("Distance between Residence and Office"; Rec."Distance betwn Res and Office")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Distance between Residence and Office field.';
@@ -162,17 +162,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Specifies the value of the Date of Birth (B.S.) field.';
 
             }
-
             field(Age; Rec.Age)
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Age field.';
+                Editable = false;
 
             }
             field("CIF ID"; Rec."CIF ID")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CIF ID field.';
+                Visible = false;
 
             }
             field("Marital Status"; Rec."Marital Status")
@@ -242,6 +243,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Religion field.';
             }
+            field(Community; Rec.Community)
+            {
+                ApplicationArea = all;
+            }
 
         }
         addafter(General)
@@ -298,12 +303,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 field("Permanent Province"; Rec."Permanent Province")
                 {
+                    Caption = 'Province';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent Province field.';
 
                 }
                 field("Permanent District"; Rec."Permanent District")
                 {
+                    Caption = 'District';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent District field.';
 
@@ -311,17 +318,26 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
                 field("Permanent VDC"; Rec."Permanent VDC")
                 {
+                    Caption = 'VDC (Rural-Municipality)/ Municipality/ Metropolitan city';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent VDC field.';
 
                 }
+                field("Permanent Locality"; Rec."Permanent Locality")
+                {
+                    Caption = 'Locality';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Permanent Locality.';
+
+                }
                 field("Permanent House"; Rec."Permanent House")
                 {
+                    Caption = 'House No.';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Permanent House field.';
 
                 }
-                field("Ward No"; Rec."Ward No")
+                field("Ward No"; Rec."Permanent Ward No")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Ward No field.';
@@ -344,6 +360,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Province"; Rec."Temporary Province")
                 {
+                    Caption = 'Province';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Province field.';
@@ -351,6 +368,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary District"; Rec."Temporary District")
                 {
+                    Caption = 'District';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary District field.';
@@ -358,13 +376,23 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary VDC"; Rec."Temporary VDC")
                 {
+                    Caption = 'VDC (Rural-Municipality)/ Municipality/ Metropolitan city';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary VDC field.';
 
                 }
+                field("Temporary Locality"; Rec."Temporary Locality")
+                {
+                    Caption = 'Locality';
+                    Editable = not SameAsPermanent;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Temporary Locality.';
+
+                }
                 field("Temporary House"; Rec."Temporary House")
                 {
+                    Caption = 'House No.';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary House field.';
@@ -372,6 +400,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Temporary Ward No"; Rec."Temporary Ward No")
                 {
+                    Caption = 'Ward No.';
                     Editable = not SameAsPermanent;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Temporary Ward No field.';
@@ -379,25 +408,30 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
 
             }
-            group("Emergency Contact")
+            group("Emergency Contact Details")
             {
+                Editable = false;
                 field("Relation With Emergency Cont"; Rec."Relation With Emergency Cont")
                 {
+                    Caption = 'Relation';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont field.';
                 }
                 field("Emergency Cont. Name"; Rec."Emergency Contact Name")
                 {
+                    Caption = 'Name';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Name field.';
                 }
                 field("Emergency Mobile No."; Rec."Emergency Mobile No.")
                 {
+                    Caption = 'Mobile No.';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Emergency Mobile No. field.';
                 }
                 field("Emergency Cont. Email"; Rec."Emergency Contact Email")
                 {
+                    Caption = 'E-mail';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Relation With Emergency Cont. Email field.';
                 }
@@ -438,7 +472,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Employment Type field.';
 
                 }
-                field("Staff Type"; Rec."Staff Type")
+                field("Staff Type"; Rec."Staff level")
                 {
                     ApplicationArea = All;
                     Editable = true;
@@ -455,14 +489,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Contract Renew Date field.';
-
+                }
+                field("Contract Expiry Date"; Rec."Contract Expiry Date")
+                {
+                    ApplicationArea = All;
+                    Editable = false;
+                    ToolTip = 'Specifies the value of the Contract Expiry Date field.';
                 }
                 field("Contract Expiry Month"; Rec."Contract Expiry Month")
                 {
                     ApplicationArea = All;
-                    Editable = false;
+                    Editable = Rec."Employment Type" = rec."Employment Type"::Contract;
                     ToolTip = 'Specifies the value of the Contract Expiry Month field.';
-
                 }
                 field("Deputation on"; Rec."Deputation on")
                 {
@@ -482,15 +520,15 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Province Code"; Rec."Province Code")
                 {
-                    Editable = ProvinceEdit;
-                    Visible = ProvinceVisible;
+                    // Editable = ProvinceEdit;
+                    // Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Code field.';
 
                 }
                 field("Province Name"; Rec."Province Name")
                 {
-                    Visible = ProvinceVisible;
+                    Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Name field.';
 
@@ -499,8 +537,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Branch Code"; Rec."Branch Code")
                 {
                     ApplicationArea = All;
-                    Editable = BranchEdit;
-                    Enabled = BranchVisible;
+                    // Editable = BranchEdit;
+                    // Enabled = BranchVisible;
                     // Enabled = false;
                     ToolTip = 'Specifies the value of the Branch Code field.';
 
@@ -515,8 +553,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Extension Counter Code"; Rec."Extension Counter Code")
                 {
                     ApplicationArea = All;
-                    Editable = ExtensionCounterEdit;
-                    Enabled = ExtensionCounterVisible;
+                    // Editable = ExtensionCounterEdit;
+                    // Enabled = ExtensionCounterVisible;
                     ToolTip = 'Specifies the value of the Extension Counter Code field.';
 
                 }
@@ -528,20 +566,22 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Sub Unit Code"; Rec."Sub Unit Code")
                 {
-                    Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
+                    //Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sub Unit Code field.';
+                    Visible = false;
                 }
                 field("Sub Unit Name"; Rec."Sub Unit Name")
                 {
                     Enabled = Rec."Deputation on" = Rec."Deputation on"::Branch;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Sub Unit Name field.';
+                    Visible = false;
                 }
                 field("Department Code"; Rec."Department Code")
                 {
-                    Editable = DepartmentEdit;
-                    Enabled = DepartmentVisible;
+                    // Editable = DepartmentEdit;
+                    // Enabled = DepartmentVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Department Code field.';
 
@@ -555,8 +595,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Unit Code"; Rec."Unit Code")
                 {
-                    Editable = UnitEdit;
-                    Enabled = UnitVisible;
+                    // Editable = UnitEdit;
+                    // Enabled = UnitVisible;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Unit Code field.';
 
@@ -687,29 +727,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Disable Punch in field.';
                 }
-                // field(Screener; Rec.Screener)
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Screener field.';
+                field("Portal Attendance"; Rec."Portal Attendance")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Portal Attendance field.';
 
-                // }
+                }
                 field("Resignation Approver"; Rec."Resignation Approver")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Resignation Approver field.';
                 }
-                // field("Selection committee"; Rec."Selection committee")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Selection committee field.';
-
-                // // }
-                // field("System Owner"; Rec."System Owner")
-                // {
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the System Owner field.';
-
-                // }
                 field("Attendance Device ID"; Rec."Attendance Device ID")
                 {
                     ApplicationArea = All;
@@ -870,12 +898,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Premium Property Insurance field.', Comment = '%';
                 }
-                // field("Assigned User ID"; Rec."Assigned User ID")
-                // {
-                //     Visible = false;
-                //     ApplicationArea = All;
-                //     ToolTip = 'Specifies the value of the Assigned User ID field.', Comment = '%';
-                // }
                 field("Contract Salary Amount"; Rec."Contract Salary Amount")
                 {
                     ApplicationArea = All;
@@ -1004,6 +1026,15 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 SubPageLink = "Employee No. Filter" = FIELD("No.");
             }
         }
+        addafter("Employment Date")
+        {
+            field("Service Period Text"; rec."Service Period Text")
+            {
+                caption = 'Service Period';
+                ApplicationArea = all;
+                Editable = false;
+            }
+        }
 
     }
     actions
@@ -1085,6 +1116,27 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
         addafter("Co&nfidential Info. Overview")
         {
+            action("Employee Bank Account")
+            {
+                ApplicationArea = all;
+                ToolTip = 'view Employee Bank account list';
+                RunObject = page "Employee Bank Account Lists";
+                RunPageLink = "Employee No." = FIELD("No.");
+                Promoted = true;
+                Image = Bank;
+                PromotedCategory = Process;
+
+            }
+            action("Service Inactivity Details")
+            {
+                ApplicationArea = all;
+                Tooltip = 'view Service Inactivity Details';
+                RunObject = page "Service Inactivity Details";
+                RunPageLink = "Employee No." = Field("No.");
+                promoted = true;
+                image = ServiceLedger;
+                PromotedCategory = Process;
+            }
             action("Pay Employee")
             {
                 ApplicationArea = All;
@@ -1287,6 +1339,20 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         AllowanceAssignmentMgt.OpenAllowanceClaimRequest(Rec."No.");
                     end;
                 }
+                action("Shift Assignment")
+                {
+                    Image = ApplicationWorksheet;
+                    Promoted = true;
+                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the Shift Assignment action.';
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        ShiftAssignmentMgt.OpenShiftRequest(Rec."No.");
+                    end;
+                }
                 action("Request Attendance Missed")
                 {
                     ApplicationArea = All;
@@ -1329,7 +1395,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE
                     end;
                 }
-                action("Medical insurance")
+                action("Medical insurance Claim")
                 {
                     ApplicationArea = All;
                     Promoted = true;
@@ -1340,7 +1406,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Medical insurance action.';
                     trigger OnAction()
                     begin
-                        MedicalInsuranceMgt.OpenMedicalInsuranePage(Rec."No.");
+                        InsuranceMgt.OpenMedicalInsurancePage(Rec."No.");
                     end;
                 }
                 action("Employee Insurance")
@@ -1351,10 +1417,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = List;
                     PromotedCategory = Category4;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Medical insurance action.';
+                    ToolTip = 'Executes the insurance action.';
                     trigger OnAction()
                     begin
-                        //                        MedicalInsuranceMgt.OpenEmployeeInsurance(Rec."No.");
+                        InsuranceMgt.OpenEmployeeInsurance(Rec."No.");
                     end;
                 }
                 action("Bulk Cash")
@@ -1384,6 +1450,23 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     begin
                         Rec.OTRequest;
+                        CurrPage.CLOSE;
+                    end;
+                }
+                action("OT Bulk")
+                {
+                    ApplicationArea = All;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    Image = PhysicalInventory;
+                    PromotedCategory = Category4;
+                    PromotedOnly = true;
+                    ToolTip = 'Executes the OT Form action.';
+                    trigger OnAction()
+                    var
+                        OvertimeMgt: Codeunit "OverTime Mgt";
+                    begin
+                        OvertimeMgt.OpenOTBulk(Rec."No.");
                         CurrPage.CLOSE;
                     end;
                 }
@@ -1522,8 +1605,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.RFRequest;
                     end;
                 }
-
-
             }
         }
         addafter("Request Appraisal")
@@ -1680,17 +1761,18 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     trigger OnAction()
                     var
                         PageTransferHistory: Page "Employee Transfer Requests";
+                        EmployeeTransfer: Record "Employee Transfer";
                     begin
-                        EmployeeAct.RESET;
-                        Rec.FILTERGROUP(2);
-                        EmployeeAct.SETFILTER(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
-                        EmployeeAct.SETRANGE("Employee No.", Rec."No.");
-                        EmployeeAct.SETFILTER("Approval Status", '%1|%2', EmployeeAct."Approval Status"::Acknowledged, EmployeeAct."Approval Status"::Approved); //Min -- Approved filter added.
-                        Rec.FILTERGROUP(0);
+                        EmployeeTransfer.RESET;
+                        Rec.FilterGroup(2);
+                        EmployeeTransfer.SETRANGE("Employee No.", Rec."No.");
+                        EmployeeTransfer.SETFILTER(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
+                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved); //Min -- Approved filter added.
+                        Rec.FilterGroup(0);
                         CLEAR(PageTransferHistory);
                         PageTransferHistory.ForHistoryPage;
-                        PageTransferHistory.SETTABLEVIEW(EmployeeAct);
-                        PageTransferHistory.SETRECORD(EmployeeAct);
+                        PageTransferHistory.SETTABLEVIEW(EmployeeTransfer);
+                        PageTransferHistory.SETRECORD(EmployeeTransfer);
                         PageTransferHistory.RUN;
                     end;
                 }
@@ -1803,10 +1885,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Image = AddWatch;
                     PromotedCategory = Category7;
                     PromotedOnly = true;
-                    ToolTip = 'Executes the Assign Job Function action.';
+                    ToolTip = 'Executes the Assign Job Function action. Which updates info based on deputation';
+
                     trigger OnAction()
                     begin
-                        IF CONFIRM('Do you want to assign job function?', FALSE) THEN
+                        IF CONFIRM('Do you want to assign job function?', false) THEN
                             ServiceHistoryMgt.PopUpForJobAssignment(Rec);
                     end;
                 }
@@ -2056,14 +2139,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         EmployeeAct: Record "Employee Activity";
         TransferCard: Page "Transfer Card";
         LoanMgt: Codeunit "Loan Mgt.";
-        Type: Option ,"Salary Advance","Personal Loan","Home Loan","Vehicle Loan";
+        Type: Enum "Loan Type";
         AppraisalRec: Record Appraisal;
         FieldVisible: Boolean;
         FieldVisible1: Boolean;
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
-        MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        InsuranceMgt: Codeunit "Insurance Mgt";
         ServiceHistoryMgt: Codeunit "Service History Mgt";
         ExtensionCounterEdit: Boolean;
         BranchEdit: Boolean;
@@ -2081,6 +2164,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         TransferMgt: Codeunit "Transfer Mgt.";
         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
+        ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
 
 
     trigger OnOpenPage()
@@ -2174,11 +2258,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         CASE Rec."Deputation on" OF
             Rec."Deputation on"::Branch:
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := true;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2190,8 +2274,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ProvinceEdit := true;
                     BranchEdit := false;
                     ExtensionCounterEdit := false;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := false;
                     BranchVisible := false;
                     ProvinceVisible := true;
@@ -2226,11 +2310,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 END;
             Rec."Deputation on"::"Extension Counter":
                 BEGIN
-                    ProvinceEdit := false;
+                    ProvinceEdit := true;
                     BranchEdit := true;
                     ExtensionCounterEdit := TRUE;
-                    DepartmentEdit := FALSE;
-                    UnitEdit := FALSE;
+                    DepartmentEdit := false;
+                    UnitEdit := false;
                     ExtensionCounterVisible := true;
                     BranchVisible := true;
                     ProvinceVisible := true;
@@ -2322,7 +2406,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         rec."Temporary Province" := rec."Permanent Province";
         rec."Temporary District" := rec."Permanent District";
         rec."Temporary VDC" := rec."Permanent VDC";
-        rec.Validate("Temporary Ward No", rec."Ward No");
+        rec."Temporary Locality" := rec."Permanent Locality";
+        rec.Validate("Temporary Ward No", rec."Permanent Ward No");
         Rec."Temporary House" := rec."Permanent House";
     end;
 
@@ -2331,6 +2416,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         Rec."Temporary Province" := '';
         Rec."Temporary District" := '';
         Rec."Temporary VDC" := '';
+        rec."Temporary Locality" := '';
         Rec."Temporary Ward No" := 0;
         Rec."Temporary House" := '';
         rec."Temporary Address" := '';

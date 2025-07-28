@@ -40,11 +40,6 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Department Name field.';
                     ApplicationArea = All;
                 }
-                // field("Sub Province Code"; Rec."Sub Province Code")
-                // {
-                //     ToolTip = 'Specifies the value of the Sub Province Code field.';
-                //     ApplicationArea = All;
-                // }
                 field("Province Code"; Rec."Province Code")
                 {
                     ToolTip = 'Specifies the value of the Province Code field.';
@@ -56,14 +51,49 @@ page 50206 "Medical Insurance Claim"
                     ToolTip = 'Specifies the value of the Job Title field.';
                     ApplicationArea = All;
                 }
+                field("Approval Status"; Rec."Approval Status")
+                {
+                    Editable = false;
+                    Visible = ApprovalStatusView;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field("Status"; Rec."Status")
+                {
+                    Editable = false;
+                    Visible = StatusView;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                }
+                field(Remarks; Rec.Remarks)
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Remarks field.';
+                    ApplicationArea = All;
+                }
+                field("Rejection Remarks"; Rec."Rejection Remarks")
+                {
+                    Editable = IsPending;
+                    Visible = IsPending or IsRejected;
+                    ToolTip = 'Specifies the value of the Approval Status field.';
+                    ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                        RecRef.GetTable(Rec);
+                    end;
+                }
+
                 field("Insurance Status"; Rec."Insurance Status")
                 {
                     ToolTip = 'Specifies the value of the Insurance Status field.';
                     ApplicationArea = All;
+                    Visible = IsApproved;
                 }
             }
             group("Insurance Details")
             {
+                Editable = IsOpen;
                 field("Insurance Claim"; Rec."Insurance Claim")
                 {
                     ToolTip = 'Specifies the value of the Insurance Claim field.';
@@ -105,6 +135,18 @@ page 50206 "Medical Insurance Claim"
                     ApplicationArea = All;
                 }
             }
+            part(Attachment; "Attachment Subform")
+            {
+                Editable = IsOpen;
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                Editable = false;
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
+            }
         }
     }
 
@@ -112,60 +154,100 @@ page 50206 "Medical Insurance Claim"
     {
         area(Creation)
         {
-            action("Send Request to DTMD")
+            action("Send Approve Request")
             {
                 Image = SendApprovalRequest;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = ApprovalSent;
+                Visible = IsOpen;
                 ToolTip = 'Executes the Send Request to DTMD action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    Rec.Validate("Insurance Status", Rec."Insurance Status"::"Request to DTMD");
+                    InsuranceMgt.SendMedicalInsuranceApproval(Rec);
+                    Message('Medical Insurance Claim request has been sent.');
                     CurrPage.Close();
                 end;
             }
-            action(Screen)
+            action("Approve Request")
             {
                 Image = Approve;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                Visible = Screen;
-                ToolTip = 'Executes the Screen action.';
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Message('Medical Insurance Claim is Approved by %1', HRMgt.GetEmpName());
+                    end;
+                end;
+            }
+            action("Reject Request")
+            {
+                Image = Reject;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ScreenMedicalInsurance(Rec);
-                    CurrPage.Close();
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Medical Insurance Claim is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
                 end;
             }
+            // action(Screen)
+            // {
+            //     Image = Approve;
+            //     Promoted = true;
+            //     PromotedCategory = Process;
+            //     PromotedIsBig = true;
+            //     PromotedOnly = true;
+            //     Visible = false;
+            //     ToolTip = 'Executes the Screen action.';
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     begin
+            //         InsuranceMgt.ScreenMedicalInsurance(Rec);
+            //         CurrPage.Close();
+            //     end;
+            // }
             action("Send to Insurance Company")
             {
                 Image = SendApprovalRequest;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                Visible = Screened;
+                Visible = IsApproved and not ApproveReject;
                 ToolTip = 'Executes the Send to Insurance Company action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 var
                     HRMgt: Codeunit "HR Mgt.";
                     EmpAct: Record "Employee Activity";
-                    ApprovalRequestSent: Label 'Insurance Claim email to company has been sent.';
+                    ApprovalRequestSent: Label 'Insurance Claim to company has been sent.';
                 begin
-                    if Rec."Insurance Status" = Rec."Insurance Status"::Screened then begin
-                        HRMgt.SendMailFromTemplate(Database::"Employee Activity", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
-                        Message(ApprovalRequestSent);
+                    if Rec."Approval Status" = Rec."Approval Status"::Approved then begin
+                        // HRMgt.SendMailFromTemplate(Database::"Medical Insurance Claim", EmpAct.Type::"Medical Insurance Claim", EmpAct."Approval Status"::Rejected, '', EmpAct."Employee No.", EmpAct."No.", 0);   //For email
                         Rec.Validate("Insurance Status", Rec."Insurance Status"::"Forwarded to Insurance Co.");
                         Rec.Modify;
+                        Message(ApprovalRequestSent);
                     end;
                     CurrPage.Close();
                 end;
@@ -183,7 +265,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ApproveRejectMedicalInsurance(true, Rec);
+                    InsuranceMgt.ApproveRejectMedicalInsurance(true, Rec);
                 end;
             }
             action("Rejected by Insurance Company")
@@ -199,7 +281,7 @@ page 50206 "Medical Insurance Claim"
 
                 trigger OnAction()
                 begin
-                    MedicalInsuranceMgt.ApproveRejectMedicalInsurance(false, Rec);
+                    InsuranceMgt.ApproveRejectMedicalInsurance(false, Rec);
                 end;
             }
         }
@@ -210,19 +292,38 @@ page 50206 "Medical Insurance Claim"
         SetLayout();
     end;
 
+    trigger OnOpenPage()
+
+    begin
+        SetLayout();
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
-        MedicalInsuranceMgt: Codeunit "MedicalInsurance Mgt";
+        InsuranceMgt: Codeunit "Insurance Mgt";
+        ApprovalMgt: Codeunit "Approver Mgt";
         ApprovalSent: Boolean;
-        Screen: Boolean;
-        Screened: Boolean;
         ApproveReject: Boolean;
+        IsOpen: Boolean;
+        IsPending: Boolean;
+        IsApproved: Boolean;
+        StatusView: Boolean;
+        IsRejected: Boolean;
+        ApprovalStatusView: Boolean;
+        RecRef: RecordRef;
 
     procedure SetLayout()
     begin
-        ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
-        Screen := Rec."Insurance Status" = Rec."Insurance Status"::"Request to DTMD";
-        Screened := Rec."Insurance Status" = Rec."Insurance Status"::Screened;
+        IsPending := rec."Approval Status" = rec."Approval Status"::"Pending";
+        IsOpen := Rec."Approval Status" = rec."Approval Status"::Open;
+        IsApproved := rec."Approval Status" = rec."Approval Status"::Approved;
+        IsRejected := rec."Approval Status" = rec."Approval Status"::Rejected;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        RecRef.GetTable(Rec);
+        // ApprovalSent := Rec."Insurance Status" in [Rec."Insurance Status"::" ", Rec."Insurance Status"::"Request to DTMD"];
         ApproveReject := Rec."Insurance Status" = Rec."Insurance Status"::"Forwarded to Insurance Co.";
     end;
 }

@@ -41,6 +41,11 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Maximum Leave at once field.';
                     ApplicationArea = All;
                 }
+                field("Minimum Leave at once"; Rec."Minimum Leave at once")
+                {
+                    ToolTip = 'Specifies the value of the Minimum Leave at once field.';
+                    ApplicationArea = All;
+                }
                 field("Exclude Non Working Days"; Rec."Exclude Non Working Days")
                 {
                     ToolTip = 'Specifies the value of the Exclude Non Working Days field.';
@@ -54,11 +59,6 @@ page 50087 "Leave Type Setup"
                 field("Sick Leave"; Rec."Sick Leave")
                 {
                     ToolTip = 'Specifies the value of the Sick Leave field.';
-                    ApplicationArea = All;
-                }
-                field("Substitute Leave"; rec."Substitute Leave")
-                {
-                    ToolTip = 'Specifies the value of the Substitute Leave field.';
                     ApplicationArea = All;
                 }
                 field("Maternity/Paternity Leave"; Rec."Maternity/Paternity Leave")
@@ -170,6 +170,11 @@ page 50087 "Leave Type Setup"
                 field("Adjustment Sequence"; Rec."Adjustment Sequence")
                 {
                     ToolTip = 'Leave Ajusted sequentially for absent days in Settlement';
+                    ApplicationArea = All;
+                }
+                field("Exclude in Service Period"; Rec."Exclude in Service Period")
+                {
+                    ToolTip = 'If checked leave taken will not be counted in service period';
                     ApplicationArea = All;
                 }
             }

@@ -134,7 +134,7 @@ report 50134 "Extra Working Hour Report"
 
     var
         DateFilter: Date;
-        ProvinceCode: Code[10];
+        ProvinceCode: Code[20];
         SubProvinceCode: Code[20];
         BranchFilter: Code[20];
         PayrollGeneralSetup: Record "Payroll General Setup";
@@ -143,7 +143,7 @@ report 50134 "Extra Working Hour Report"
         TotalCount: Integer;
         LatePunchOut: Integer;
         EarlyPunchIn: Integer;
-        DepartmentCode: Code[10];
+        DepartmentCode: Code[20];
         EcoSystemCode: Code[20];
         // Department: Record Department;
         EcoSystemDescription: Text[100];
@@ -153,7 +153,7 @@ report 50134 "Extra Working Hour Report"
         BranchCode := branchCod;
     end;
 
-    procedure PassProvinceEmailSend(provinceCod: Code[10])
+    procedure PassProvinceEmailSend(provinceCod: Code[20])
     begin
         ProvinceCode := provinceCod;
     end;
@@ -163,7 +163,7 @@ report 50134 "Extra Working Hour Report"
         SubProvinceCode := subProvinceCod;
     end;
 
-    procedure PassDepartmentEmailSend(departmentCod: Code[10])
+    procedure PassDepartmentEmailSend(departmentCod: Code[20])
     begin
         DepartmentCode := departmentCod;
     end;

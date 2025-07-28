@@ -181,10 +181,10 @@ codeunit 50008 "Payroll Engine"
         Employee.FindFirst;
         Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
                          "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax",
-                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");//pradhan
+                         "PF Contribution", "PF Contribution (Office)", "RF Deposit", "Lump Sum CIT", "Non-Payment");
         //Check Employee Status
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
         TaxSetupHeader.Get(Employee."Tax Code");
@@ -215,7 +215,7 @@ codeunit 50008 "Payroll Engine"
                 RemainingMonth := 0;
         if (PayrollHeader.Type <> PayrollHeader.Type::Adjustment) or (PayrollHeader."Gross Payment") then
             CalcCurrentEarning;
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then begin
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
             CalcProjectionEarning();
             EmployeeLumpsum := Employee."Lumpsum CIT (Not Actual)" + Employee."Lumpsum RF (Not Actual)";
         end else
@@ -224,7 +224,7 @@ codeunit 50008 "Payroll Engine"
         TotalAnnualEarning := CurrentEarning + ProjectionEarning + Employee."Total Earning" + EmpPayOpen."Total Benefit Opening" + Employee."Non-Payment" + CurrentNonPaymentBenefits + ProjectedNonPaymentBenefit;     // +  TaxOldEmployeeTotalEarning(Employee."No.")  //>>pradhan
 
         //Retirement
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then begin
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
             CalcProjectionRetirementFund; //SUMAN
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
@@ -255,6 +255,7 @@ codeunit 50008 "Payroll Engine"
         LoanOutstanding.SetRange("Scheme Code", '');
         if LoanOutstanding.FindFirst then
             HLInsAmt := LoanOutstanding.EMI * 12;
+        Employee.CalcFields("Premium of Life Insurance", "Premium of Health Insurance", "Premium Property Insurance");
         InsuranceAmount := Employee."Premium of Life Insurance" + HLInsAmt;
         InsuranceLimit1 := PGSetup."Tax Ex. Life Insurance Amt.";
         if InsuranceAmount > InsuranceLimit1 then
@@ -348,7 +349,7 @@ codeunit 50008 "Payroll Engine"
             if PayrollHeader.Type = PayrollHeader.Type::Adjustment then
                 MonthlyTax := TaxAtOnceAnnualTax - AnnualTax
             else
-                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);    //pradhan
+                MonthlyTax := MonthlyTax + (TaxAtOnceAnnualTax - AnnualTax);
         end;
         PayrollLine.RoundAmount(MonthlyTax);
 
@@ -415,7 +416,7 @@ codeunit 50008 "Payroll Engine"
         CurrentEarning := 0;
         CurrentNonPaymentBenefits := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 100 do begin //Min 9.16.2022
+        for FieldID := 61 to 220 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -427,12 +428,11 @@ codeunit 50008 "Payroll Engine"
                 Evaluate(FieldValue, Format(FieldRef.Value));
                 FieldValue := Round(FieldValue, 0.01, '=');
                 PayrollAttributes.TestField(Status, PayrollAttributes.Status::Active);
-                if not PayrollAttributes."Tax at once" then begin               //pradhan
-                                                                                // Current Earning/Donation
+                if not PayrollAttributes."Tax at once" then begin
                     if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                         if PayrollAttributes."Non-Taxable" = false then begin
                             if FieldValue <> 0 then begin
-                                if (PayrollHeader.Type = PayrollHeader.Type::Resignation) and
+                                if (PayrollHeader.Type = PayrollHeader.Type::Settlement) and
                                    ((PGSetup.Gratuity = PayrollAttributes.Code) or (PGSetup."Leave Encashment" = PayrollAttributes.Code)) then
                                     SettlementAmount += FieldValue
                                 else
@@ -468,7 +468,7 @@ codeunit 50008 "Payroll Engine"
                       (PayrollAttributes.Code = PGSetup."Insurance Recover") then
                         InsuranceRecovery := FieldValue;
                     if (PayrollAttributes.Type = PayrollAttributes.Type::Deduction) and
-                      (PayrollAttributes.Subtype in [PayrollAttributes.Subtype::"Employee Contribution", //SUMAN
+                      (PayrollAttributes.Subtype in [PayrollAttributes.Subtype::"Employee Contribution",
                                                      PayrollAttributes.Subtype::"Employer Contribution",
                                                      PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF, PayrollAttributes.Subtype::"Lump Sum Contribution"]) then begin
                         if FieldValue <> 0 then begin
@@ -481,10 +481,10 @@ codeunit 50008 "Payroll Engine"
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
                                 RF := FieldValue
                             else if PayrollAttributes.Subtype = PayrollAttributes.Subtype::"Lump Sum Contribution" then
-                                LumpSumCIT += FieldValue; // bhuwan
+                                LumpSumCIT += FieldValue;
                         end;
                     end;
-                end;                //pradhan
+                end;
             end;
         end;
         RecRef.Close;
@@ -520,13 +520,13 @@ codeunit 50008 "Payroll Engine"
                             FieldRefs := RecRefs.Field(PayrollColumnConfiguration."Field No.");
                             Evaluate(UsageAmount, Format(FieldRefs.Value));
                             UsageAmount := Round(UsageAmount, 0.01, '=');
-                            if not PayrollAttributes."Tax at once" then begin         //pradhan
+                            if not PayrollAttributes."Tax at once" then begin
                                 if PayrollAttributes."Apply Every Month" then
                                     ProjectionEarning += UsageAmount * RemainingMonth
                                 else begin
                                     ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                                 end;
-                            end;      //pradhan
+                            end;
                         end;
                     end;
                 end;
@@ -542,7 +542,7 @@ codeunit 50008 "Payroll Engine"
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
-                        (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")   //pradhan
+                        (PayrollAttributes."Non-Taxable" = false) and (not PayrollAttributes."Tax at once")
                        then begin
                         if PayrollAttributesUsage.Amount <> 0 then
                             UsageAmount := PayrollAttributesUsage.Amount
@@ -587,7 +587,7 @@ codeunit 50008 "Payroll Engine"
                 PayrollAttributesUsage.CalcFields("Formula Exists");
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
-                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin      //pradhan
+                    if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and (not PayrollAttributes."Tax at once") then begin
                         if PayrollAttributesUsage.Amount <> 0 then
                             UsageAmount := PayrollAttributesUsage.Amount
                         else if PayrollAttributesUsage."Formula Exists" then
@@ -634,7 +634,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -642,7 +642,7 @@ codeunit 50008 "Payroll Engine"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -731,7 +731,7 @@ codeunit 50008 "Payroll Engine"
         exit(NumberStack[NsNo]);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -745,7 +745,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -821,7 +821,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN          //pradhan
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
                         Expression := InsStr(Expression, Format(PayrollAttributesUsage.Amount), StrPosition)
                     else
                         Expression := InsStr(Expression, Format(0), StrPosition);
@@ -914,7 +914,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure PayrollCaptionClassTranslate(Language: Integer; CaptionRef: Text[80]): Text[30]
     var
-        LanguageCode: Code[10];
+        LanguageCode: Code[20];
         LanguageRec: Record Language;
         TableID: Integer;
         FieldNo: Integer;
@@ -936,7 +936,7 @@ codeunit 50008 "Payroll Engine"
         exit(GetPayrollCaption(TableID, FieldNo, LanguageCode));
     end;
 
-    procedure GetPayrollCaption(TableNo: Integer; FieldNo: Integer; LanguageCode: Code[10]): Text[30]
+    procedure GetPayrollCaption(TableNo: Integer; FieldNo: Integer; LanguageCode: Code[20]): Text[30]
     var
         PayColumnConfig: Record "Payroll Column Configuration";
         PayAttribute: Record "Payroll Attributes";
@@ -1003,7 +1003,7 @@ codeunit 50008 "Payroll Engine"
             EndDate := PCP."End Date";
     end;
 
-    local procedure CreateDocuments()
+    local procedure CreateDocuments()  //?
     var
         PGSetup: Record "Payroll General Setup";
         PayCyclePeriod: Record "Pay Cycle Period";
@@ -1258,7 +1258,7 @@ codeunit 50008 "Payroll Engine"
     begin
     end;
 
-    procedure SetName(CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure SetName(CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     begin
         PayrollJournalLine.FilterGroup := 2;
         PayrollJournalLine.SetRange("Journal Batch Name", CurrentJnlBatchName);
@@ -1296,7 +1296,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure OpenJnl(var CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure OpenJnl(var CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     begin
         CheckTemplateName(CurrentJnlBatchName);
         PayrollJournalLine.FilterGroup := 2;
@@ -1304,7 +1304,7 @@ codeunit 50008 "Payroll Engine"
         PayrollJournalLine.FilterGroup := 0;
     end;
 
-    local procedure CheckTemplateName(var CurrentJnlBatchName: Code[10])
+    local procedure CheckTemplateName(var CurrentJnlBatchName: Code[20])
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
@@ -1320,14 +1320,14 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure CheckName(CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure CheckName(CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
         PayrollJournalBatch.Get(CurrentJnlBatchName);
     end;
 
-    procedure LookupName(var CurrentJnlBatchName: Code[10]; var PayrollJournalLine: Record "Payroll Journal Line")
+    procedure LookupName(var CurrentJnlBatchName: Code[20]; var PayrollJournalLine: Record "Payroll Journal Line")
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
     begin
@@ -1346,7 +1346,7 @@ codeunit 50008 "Payroll Engine"
     procedure GetGenJnlDocumentNo(var PayrollJournalLine: Record "Payroll Journal Line"; PostingDate: Date; CreateError: Boolean): Code[20]
     var
         PayrollJournalBatch: Record "Payroll Journal Batch";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         DocumentNo: Code[20];
     begin
         PayrollJournalBatch.Get(PayrollJournalLine."Journal Batch Name");
@@ -1438,7 +1438,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Option; DocTableName: Text[1024]; DocNoOfRecords: Integer)
+    local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
     begin
         if DocNoOfRecords = 0 then
             exit;
@@ -1470,9 +1470,13 @@ codeunit 50008 "Payroll Engine"
     procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        EmployeeActivity: Record "Employee Activity";
+        Leave: Record Leave;
+        Travel: Record "Travel Request";
+        OverTime: Record OverTime;
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
         AttendanceLine: Record "Attendance Line";
         TrainingAttend: Record "Training Attendance";
+        AllowanceAssignMgt: Codeunit "Allowance Assignment Mgt";
     begin
         EmployeeAttendanceActivity.Reset;
         EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
@@ -1483,10 +1487,10 @@ codeunit 50008 "Payroll Engine"
         AttendanceLine.SetCurrentKey("Employee No.", "Attendance Date");
         AttendanceLine.SetRange("Employee No.", EmployeeCode);
         AttendanceLine.SetRange("Attendance Date", StartDate, EndDate);
-        //IF PreparationBeforePosting THEN
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Open)
-        //ELSE
-        //AttendanceLine.SETRANGE(Status,AttendanceLine.Status::Released);
+        // IF PreparationBeforePosting THEN
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Open)
+        // ELSE
+        //     AttendanceLine.SETRANGE(Status, AttendanceLine.Status::Released);
         if AttendanceLine.FindSet then
             repeat
                 Clear(EmployeeAttendanceActivity);
@@ -1495,20 +1499,75 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity.Insert;
             until AttendanceLine.Next = 0;
 
-        EmployeeActivity.Reset;
-        EmployeeActivity.SetCurrentKey("Employee No.", "Start Date", "End Date");
-        EmployeeActivity.SetFilter(Type, '%1|%2|%3', EmployeeActivity.Type::"Leave Request", EmployeeActivity.Type::"Travel Request",
-                                                    EmployeeActivity.Type::"Attendance Missed"); //Min 8.21.2022
-        EmployeeActivity.SetRange("Employee No.", EmployeeCode);
-        EmployeeActivity.SetFilter("Start Date", '<=%1', StartDate);
-        EmployeeActivity.SetFilter("End Date", '>=%1', StartDate);
-        EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
-        EmployeeActivity.SetFilter("Cancelled No.", '%1', '');
-        EmployeeActivity.SetRange(Cancelled, false);
-        if EmployeeActivity.FindSet then
+        // EmployeeActivity.Reset;
+        // EmployeeActivity.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        // EmployeeActivity.SetFilter(Type, '%1|%2|%3', EmployeeActivity.Type::"Leave Request", EmployeeActivity.Type::"Travel Request",
+        //                                             EmployeeActivity.Type::"Attendance Missed"); //Min 8.21.2022
+        // EmployeeActivity.SetRange("Employee No.", EmployeeCode);
+        // EmployeeActivity.SetFilter("Start Date", '<=%1', StartDate);
+        // EmployeeActivity.SetFilter("End Date", '>=%1', StartDate);
+        // EmployeeActivity.SetRange("Approval Status", EmployeeActivity."Approval Status"::Approved);
+        // EmployeeActivity.SetFilter("Cancelled No.", '%1', '');
+        // EmployeeActivity.SetRange(Cancelled, false);
+        // if EmployeeActivity.FindSet then
+        //     repeat
+        //         CorrectAttendanceActivity(EmployeeActivity, StartDate);
+        //     until EmployeeActivity.Next = 0;
+
+        // for Approved leave Request
+        Leave.Reset;
+        Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Leave.SetRange(Type, Leave.Type::"Leave Request"); //Min 8.21.2022
+        Leave.SetRange("Employee No.", EmployeeCode);
+        Leave.SetFilter("Start Date", '<=%1', StartDate);
+        Leave.SetFilter("End Date", '>=%1', StartDate);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Leave.SetFilter("Cancelled No.", '%1', '');
+        Leave.SetRange(Cancelled, false);
+        if Leave.FindSet then
             repeat
-                CorrectAttendanceActivity(EmployeeActivity, StartDate);
-            until EmployeeActivity.Next = 0;
+                CorrectAttendanceActivity(Leave.Type, Leave."No.", StartDate, EmployeeCode);
+            until Leave.Next = 0;
+
+        // for Approved Travel Request
+        Travel.Reset;
+        Travel.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Travel.SetRange(Type, Leave.Type::"Travel Request"); //Min 8.21.2022
+        Travel.SetRange("Employee No.", EmployeeCode);
+        Travel.SetFilter("Start Date", '<=%1', StartDate);
+        Travel.SetFilter("End Date", '>=%1', StartDate);
+        Travel.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Travel.SetFilter("Cancelled No.", '%1', '');
+        Travel.SetRange(Cancelled, false);
+        if Travel.FindSet then
+            repeat
+                CorrectAttendanceActivity(Travel.Type, Travel."No.", StartDate, EmployeeCode);
+            until Travel.Next = 0;
+
+        // for Approved OverTime Request
+        OverTime.Reset;
+        OverTime.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        OverTime.SetRange(Type, OverTime.Type::Overtime); //Min 8.21.2022
+        OverTime.SetRange("Employee No.", EmployeeCode);
+        OverTime.SetFilter("Start Date", '<=%1', StartDate);
+        OverTime.SetFilter("End Date", '>=%1', StartDate);
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+        OverTime.SetRange(Cancelled, false);
+        if OverTime.FindSet then
+            repeat
+                CorrectAttendanceActivity(OverTime.Type, OverTime."No.", StartDate, EmployeeCode);
+            until OverTime.Next = 0;
+        // for Approved AllowanceAssignmentLine Request
+        AllowanceAssignmentLine.Reset;
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment"); //Min 8.21.2022
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetFilter("From Date", '<=%1', StartDate);
+        AllowanceAssignmentLine.SetFilter("To Date", '>=%1', StartDate);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        if AllowanceAssignmentLine.Findset then
+            repeat
+                AllowanceAssignMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine);
+            until AllowanceAssignmentLine.Next = 0;
 
         TrainingAttend.Reset;
         TrainingAttend.SetRange("Employee No.", EmployeeCode);
@@ -1530,27 +1589,30 @@ codeunit 50008 "Payroll Engine"
         EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
         EmployeeAttendanceActivity.SetRange("Attendance Date", StartDate);
         if EmployeeAttendanceActivity.FindFirst then begin
-            if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Absent Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
+            if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
                 EmployeeAttendanceActivity.Validate("Absent Day", 1);
                 EmployeeAttendanceActivity.Modify;
             end;
         end;
     end;
 
-    local procedure CorrectAttendanceActivity(EmployeeActivity: Record "Employee Activity"; AttendanceDate: Date)
+    local procedure CorrectAttendanceActivity(EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20]; AttendanceDate: Date; EmpNo: Code[20])
     var
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        Leave: Record Leave;
+        PRSetup: Record "Payroll General Setup";
     begin
         EmployeeAttendanceActivity.Reset;
-        EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeActivity."Employee No.");
+        EmployeeAttendanceActivity.SetRange("Employee No.", EmpNo);
         EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceDate);
         if EmployeeAttendanceActivity.FindFirst then begin
-            case EmployeeActivity.Type of
-                EmployeeActivity.Type::"Leave Request":
+            case EmployeeActType of
+                EmployeeActType::"Leave Request":
                     begin
                         //EmployeeAttendanceActivity."Check In Time" := 0T;
                         //EmployeeAttendanceActivity."Check Out Time" := 0T;
-                        LeaveTypeSetup.Get(EmployeeActivity."Leave Code");
+                        Leave.Get(EmpActNo);
+                        LeaveTypeSetup.Get(Leave."Leave Code");
                         if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
                             if not LeaveTypeSetup."Exclude Non Working Days" then begin
                                 EmployeeAttendanceActivity."Day Type" := EmployeeAttendanceActivity."Day Type"::"Working Day";
@@ -1558,12 +1620,16 @@ codeunit 50008 "Payroll Engine"
                             end;
                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
                             EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Paid;
-                            EmployeeAttendanceActivity.Validate("Present Day", 1);
                         end else begin
                             EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
-                            EmployeeAttendanceActivity.Validate("Absent Day", 1);
                         end;
-                        EmployeeAttendanceActivity."Leave Day" := 1;
+                        if leave."Leave Type" = Leave."Leave Type"::"Full Day" then begin
+                            EmployeeAttendanceActivity."Leave Day" := 1;
+                            EmployeeAttendanceActivity."Present Day" := 0;
+                        end else begin
+                            EmployeeAttendanceActivity."Leave Day" := 0.5;
+                            EmployeeAttendanceActivity."Present Day" := 0.5;
+                        end;
                         EmployeeAttendanceActivity."Tour Day" := 0;
                         EmployeeAttendanceActivity."Half Day" := 0;
                         EmployeeAttendanceActivity."OT Hrs" := 0;
@@ -1571,9 +1637,10 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Late Day" := 0;
                         EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
                         EmployeeAttendanceActivity."Training Day" := 0;
+                        EmployeeAttendanceActivity.Validate("Leave Description", Leave."Leave Description");
                     end;
 
-                EmployeeActivity.Type::"Travel Request":
+                EmployeeActType::"Travel Request":
                     begin
                         EmployeeAttendanceActivity."Leave Day" := 0;
                         //EmployeeAttendanceActivity."Check In Time" := 0T; //Min 10.17.2022
@@ -1588,39 +1655,19 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
                         EmployeeAttendanceActivity."Training Day" := 0;
                     end;
-                EmployeeActivity.Type::"Attendance Missed":
-                    begin
-                        EmployeeAttendanceActivity."Leave Day" := 0;
-                        //EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";//Min 1.5.2023 Comment as per Santosh Paudel Req.
-                        //EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
-                        EmployeeAttendanceActivity.Validate("Present Day", 1);
-                        EmployeeAttendanceActivity."Absent Day" := 0;
-                        if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
-                            EmployeeAttendanceActivity."Week Off Day" := 1
-                        else
-                            EmployeeAttendanceActivity."Week Off Day" := 0;
-                        EmployeeAttendanceActivity."Tour Day" := 0;
-                        EmployeeAttendanceActivity."Half Day" := 0;
-                        EmployeeAttendanceActivity."OT Hrs" := 0;
-                        EmployeeAttendanceActivity."OT Day" := 0;
-                        EmployeeAttendanceActivity."Late Day" := 0;
-                        EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
-                        EmployeeAttendanceActivity."Training Day" := 0;
-                    end;
+            end;
+
             /*EmployeeActivity.Type::Overtime : BEGIN //Min 8.21.2022
               EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";
               EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
               //EmployeeAttendanceActivity."OT Day" := 1;
             END;*/
-            end;
-            EmployeeAttendanceActivity."Employee Activity Found" := true;
-            EmployeeAttendanceActivity."Source No." := EmployeeActivity."No.";
-            if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then
-                EmployeeAttendanceActivity.Validate("Leave Description", EmployeeActivity."Leave Description");
-            EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
-            CalcAttendance(EmployeeAttendanceActivity);
-            EmployeeAttendanceActivity.Modify;
         end;
+        EmployeeAttendanceActivity."Employee Activity Found" := true;
+        EmployeeAttendanceActivity."Source No." := EmpActNo;
+        EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+        CalcAttendance(EmployeeAttendanceActivity);
+        EmployeeAttendanceActivity.Modify;
     end;
 
     local procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
@@ -1631,9 +1678,10 @@ codeunit 50008 "Payroll Engine"
         CheckInEarlyMinutes: Duration;
         CheckOutLateMinutes: Duration;
         TempRemarks: Text[100];
+        Community: Enum "Community Type";
     begin
         AttendanceSetup.Get;
-        if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outside Valley", Employee."Posting Region", Employee."Global Dimension 1 Code") then begin
+        if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outside Valley", Employee."Posting Region", Employee."Global Dimension 1 Code", Community) then begin
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
                 if EmployeeAttendanceActivity."OT Hrs" > 0 then
@@ -1683,11 +1731,11 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure IsHoliday(BaseCalendar: Code[10]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley"; PostingRegion: Option; Branch: Text): Boolean
+    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley"; PostingRegion: Option; Branch: Text; Community: Enum "Community Type"): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch));   //pradhan
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community));
     end;
 
     local procedure GetDailyFoodAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AttendanceSetup: Record "Attendance Setup"; CheckInLateMinutes: Duration; CheckOutEarlyMinutes: Duration): Decimal
@@ -1798,6 +1846,7 @@ codeunit 50008 "Payroll Engine"
         ProrataSick: Decimal;
         ProrataAnnual: Decimal;
         ResignAbsentDays: Decimal;
+        DaysAfterResignationDate: Decimal;
     begin
         Clear(AbsentDays);
         Clear(LeaveDays);
@@ -1808,7 +1857,8 @@ codeunit 50008 "Payroll Engine"
         Clear(SettlementStartDate);
         Clear(SickLeave);
         Clear(AnnualLeave);
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+        Clear(DaysAfterResignationDate);
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
             GetSettlementAttendance(PayrollLine, PayrollHeader);
             exit;
         end;
@@ -1822,18 +1872,18 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.Reset;
         AttendanceSummary.SetCurrentKey("Employee No.", "From Date", "To Date");
         AttendanceSummary.SetRange("Employee No.", PayrollLine."Employee No.");
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+        if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
+            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
                 AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayCyclePeriod."Pay Date" - 1)
             else
                 AttendanceSummary.SetRange("Date Filter", PayrollHeader."From Date", PayrollHeader."To Date");
 
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then begin
-                if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
-                    LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
-                else
-                    LatterPresentDays := PayrollHeader."To Date" - PayCyclePeriod."Pay Date" + 1;
-            end;
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::" " then begin
+            if Employee."Employment Date" > PayCyclePeriod."Pay Date" then
+                LatterPresentDays := PayrollHeader."To Date" - Employee."Employment Date" + 1
+            else
+                LatterPresentDays := PayrollHeader."To Date" - PayCyclePeriod."Pay Date";
+            //end;
         end else begin
             EmployeeLedgerEntry.Reset;
             EmployeeLedgerEntry.SetRange("Employee No.", PayrollLine."Employee No.");
@@ -1851,12 +1901,14 @@ codeunit 50008 "Payroll Engine"
         EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
         EmployeeAttendActivity.SetRange("Present Day", 0);
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+            if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
                 EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date" - 1)
             else
                 EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollHeader."To Date");
 
-        end else
+        end else if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PayrollLine."Resignation Date")
+        else
             EmployeeAttendActivity.SetRange("Attendance Date", SettlementStartDate, PayrollLine."Resignation Date");
 
         EmployeeAttendActivity.CalcSums("Absent Day");
@@ -1869,7 +1921,7 @@ codeunit 50008 "Payroll Engine"
         if PreviousPayCyclePeriod."Pay Date" <> 0D then begin
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", PayrollHeader."From Date" - 1)
             else if EmployeeLedgerEntry."Pay Period End Date" <> 0D then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", EmployeeLedgerEntry."Pay Period End Date")
@@ -1879,7 +1931,7 @@ codeunit 50008 "Payroll Engine"
             EmployeeAttendActivity.CalcSums("Absent Day");
             PriorLWPDays := EmployeeAttendActivity."Absent Day";
 
-            if (PayrollHeader.Type = PayrollHeader.Type::Payroll) and (PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular) then begin
+            if (PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation]) and (PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent) then begin
                 if (Employee."Employment Date" >= PreviousPayCyclePeriod."Pay Date") and (Employee."Employment Date" <= PayrollHeader."From Date" - 1) then begin
                     EmployeeAttendActivity.Reset;
                     EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
@@ -1899,7 +1951,7 @@ codeunit 50008 "Payroll Engine"
 
             EmployeeAttendActivity.Reset;
             EmployeeAttendActivity.SetRange("Employee No.", PayrollLine."Employee No.");
-            if PayrollHeader.Type = PayrollHeader.Type::Payroll then
+            if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", PayrollHeader."From Date" - 1)
             else if EmployeeLedgerEntry."Pay Period End Date" <> 0D then
                 EmployeeAttendActivity.SetRange("Attendance Date", PreviousPayCyclePeriod."Pay Date", EmployeeLedgerEntry."Pay Period End Date")
@@ -1930,16 +1982,18 @@ codeunit 50008 "Payroll Engine"
 
         AttendanceSummary.SetRange(Status, AttendanceSummary.Status::Released);
         AttendanceSummary.SetAutoCalcFields("Present Day", "Week Off Day", "Leave Day", "Absent Day",
-            "Total Days", "Tour Day", "OT Hrs", "OT Days");
+            "Total Days", "Tour Day", "OT Hrs", "OT Days", "Late Check In Day");
         if AttendanceSummary.FindLast then begin
-            PayrollLine.Validate("Present Days", AttendanceSummary."Present Day" + LatterPresentDays);
+            PayrollLine.Validate("Present Days", AttendanceSummary."Present Day");
+            PayrollLine.Validate("Post Payroll Days", LatterPresentDays);
+            PayrollLine.Validate("Late Days", AttendanceSummary."Late Check In Day");
             if LeaveDays > AttendanceSummary."Absent Day" then begin
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + AttendanceSummary."Absent Day");
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then;
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", AttendanceSummary."Absent Day");
 
                 PayrollLine.Validate("Absent Days", AbsentDays + LWPDays);
-                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then begin
+                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then begin
                     if EmployeeAttendActivity."Absent Day" > (LeaveDays - AttendanceSummary."Absent Day") then
                         PayrollLine.Validate("Prior Absent Days", EmployeeAttendActivity."Absent Day" - (LeaveDays - AttendanceSummary."Absent Day") + PriorLWPDays)
                     else
@@ -1948,9 +2002,9 @@ codeunit 50008 "Payroll Engine"
             end else begin
                 PayrollLine.Validate("Absent Days", AttendanceSummary."Absent Day" - LeaveDays + AbsentDays);
                 PayrollLine.Validate("Leave Days", AttendanceSummary."Leave Day" + LeaveDays);
-                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
+                if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
                     PayrollLine.Validate("Prior Absent Days", PriorLWPDays);
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then;
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then;
                 PayrollLine.Validate("Total Adjusted Leave Days", LeaveDays);
             end;
             PayrollLine.Validate("Prior Present Days", PriorPresentDays);
@@ -1959,8 +2013,10 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Half Days", AttendanceSummary."Half Day");
             PayrollLine.Validate("OT Hrs", AttendanceSummary."OT Hrs");
             PayrollLine.Validate("OT Days", AttendanceSummary."OT Days");
-            PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays);
-            if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
+            if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                PayrollLine.Validate("Post Resignation Days", PayrollHeader."To Date" - PayrollLine."Resignation Date");
+            PayrollLine.Validate("LWP Days", LWPDays + PriorLWPDays + PayrollLine."Post Resignation Days");
+            if PayrollHeader.Type = PayrollHeader.Type::Settlement then begin
                 EmployeeAttendActivity.Reset();
                 EmployeeAttendActivity.SetRange("Attendance Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
                 EmployeeAttendActivity.SetRange("Absent Day", 1);
@@ -2137,7 +2193,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then
@@ -2176,7 +2232,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2230,7 +2286,7 @@ codeunit 50008 "Payroll Engine"
         IncomeTaxAttrib1: Code[20];
         IncomeTaxAttrib2: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
         DocumentNo1: Code[20];
     begin
@@ -2273,7 +2329,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2342,7 +2398,7 @@ codeunit 50008 "Payroll Engine"
         FieldValue: Decimal;
         PayrollAttribCode: Code[20];
         DocumentNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlBatch: Record "Gen. Journal Batch";
     begin
         if PostedPayrollPlan.Reversed then
@@ -2381,7 +2437,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2515,7 +2571,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 48 to 101 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin //Min 9.16.2022
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2927,11 +2983,10 @@ codeunit 50008 "Payroll Engine"
         FieldRef: FieldRef;
         FieldValue: Decimal;
     begin
-        //pradhan>>
         TaxAtOnceCurrentEarning := 0;
         TaxatOnceCurrentNonPayments := 0;
         RecRef.Open(Database::"Payroll Line");
-        for FieldID := 47 to 100 do begin //Min 9.16.2022
+        for FieldID := 61 to 220 do begin
             if PayrollColumnConfiguration.Get(Database::"Payroll Line", FieldID) then begin
                 PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code");
                 FieldRef := RecRef.Field(1);
@@ -2947,7 +3002,7 @@ codeunit 50008 "Payroll Engine"
                 if PayrollAttributes.Type = PayrollAttributes.Type::Benefits then begin
                     if PayrollAttributes."Non-Taxable" = false then begin
                         if FieldValue <> 0 then begin
-                            if not ((PayrollHeader.Type = PayrollHeader.Type::Resignation) and
+                            if not ((PayrollHeader.Type = PayrollHeader.Type::Settlement) and
                                  ((PGSetup.Gratuity = PayrollAttributes.Code) or (PGSetup."Leave Encashment" = PayrollAttributes.Code))) then
                                 TaxAtOnceCurrentEarning += FieldValue;
                         end;
@@ -3158,8 +3213,7 @@ codeunit 50008 "Payroll Engine"
         PriorAmount: Decimal;
         PriorRemoteAll: Decimal;
         RemoteAll: Decimal;
-        // TransferEmpActivity: Record "Employee Activity";
-        EmployeeTranfer: Record "Employee/HR Transfer";
+        EmployeeTranfer: Record "Employee Transfer";
         PromotionHistory: Record "Promotion History";
         ServiceHistory: Record "Employee Service History";
         InitialDate: Date;
@@ -3171,6 +3225,7 @@ codeunit 50008 "Payroll Engine"
         SalaryAdvance: Record "Employee Loan/Advance";
         // OtEmployeeActivity: Record "Employee Activity";
         OverTime: Record OverTime;
+        IsHandled: Boolean;
     begin
         GLSetup.Get;
         GrossSalary := 0;
@@ -3191,6 +3246,9 @@ codeunit 50008 "Payroll Engine"
                 end;
             PGSetup."Outstn/Discomfort Allowance":
                 begin
+                    OnBeforeInsertOutstationAllowance(Employee."No.", PayCyclePeriod, IsHandled, Amount);
+                    if IsHandled then
+                        exit(Amount);
                     /*TransferEmpActivity.RESET;
                     TransferEmpActivity.SETRANGE("Employee No.",Employee."No.");
                     TransferEmpActivity.SETFILTER("Date of Joining Of Transfer",'<%1',PayCyclePeriod."Start Date");
@@ -3249,6 +3307,8 @@ codeunit 50008 "Payroll Engine"
                             if OutstationEligible then
                                 Amount += GrossSalary;
                         end;
+
+
                     end;
                     if OutstationEligible and (Amount = 0) then
                         Amount := LevelWiseAttributes."Total Basic Salary" * 0.25;
@@ -3642,7 +3702,7 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Leave Encashment":
                 begin
-                    if PayrollHeader.Type = PayrollHeader.Type::Resignation then //settlement
+                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then //settlement
                         exit(Round((LevelWiseAttributes."Total Basic Salary" + LevelWiseAttributes.Allowance) / HRMgt.GetNoDaysInMonth * PayrollLineVar."Annual Leave Days"
                                      + LevelWiseAttributes."Total Basic Salary" / HRMgt.GetNoDaysInMonth * PayrollLineVar."Sick Leave Days", 0.01, '='));
                 end;
@@ -3705,12 +3765,13 @@ codeunit 50008 "Payroll Engine"
                 /*PayrollAttributesUsage.SETRANGE("Employee Code",Employee."No.");
                 PayrollAttributesUsage.DELETEALL;*/
                 PayrollAttributes.Reset;
-                if Employee."Employment Type" = Employee."Employment Type"::Contract then
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
-                else if Employee."Employment Type" = Employee."Employment Type"::Probation then
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
-                else
-                    PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
+                // if Employee."Employment Type" = Employee."Employment Type"::Contract then
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Contract)
+                // else if Employee."Employment Type" = Employee."Employment Type"::Probation then
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::"Except Contract")
+                // else
+                //     PayrollAttributes.SetFilter("Employee Type", '%1|%2|%3', PayrollAttributes."Employee Type"::All, PayrollAttributes."Employee Type"::Permanent, PayrollAttributes."Employee Type"::"Except Contract");
+                PayrollAttributes.SetFilter("Employee Type", '%1|%2', PayrollAttributes."Employee Type"::" ", Employee."Employment Type");
                 if PayrollAttributes.Find('-') then
                     repeat
                         Clear(PayrollAttributesUsage);
@@ -3769,6 +3830,8 @@ codeunit 50008 "Payroll Engine"
                 PayrollLine."30% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
             5:
                 PayrollLine."36% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
+            6:
+                PayrollLine."39% Slab" := (SlabAmount * TaxSetupLine."Tax Rate" / 100.0);//   /(12-FirstPayCyclePeriod +1);
         end;
     end;
 
@@ -3902,7 +3965,7 @@ codeunit 50008 "Payroll Engine"
         //MESSAGE(FORMAT(RemoteAreaDeduction));
     end;
 
-    procedure LoadDashainBonus(EmployeeType: Enum "Employee"; PayrollDocNo: Code[20])
+    procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20])
     var
         Employee: Record Employee;
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
@@ -3917,7 +3980,7 @@ codeunit 50008 "Payroll Engine"
             Error('Please update Dashain Start Date for current fiscal year.');
 
         case EmployeeType of
-            EmployeeType::Regular:
+            EmployeeType::Permanent:
                 begin
                     Employee.Reset;
                     Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type"::Probation, Employee."Employment Type"::Permanent);
@@ -3995,6 +4058,80 @@ codeunit 50008 "Payroll Engine"
             exit(TotalGrossSalary)
         else
             exit((DashainDays + 1) / 183 * TotalGrossSalary);
+    end;
+
+
+
+    procedure LoadLeaveFareAllowance(EmpType: Enum "Employee Type"; PayrollDocumentNo: Code[20])
+    var
+        Employee: Record Employee;
+        LeaveEarn: Record "Leave Earn";
+        TotalAnnualLeaveByEmployee: Dictionary of [Code[20], Decimal];
+        TempLeaveCode: Code[20];
+        EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
+        EmployeeNo: Code[20];
+        LeaveDays: Decimal;
+    begin
+        LeaveTypeSetup.Reset();
+        LeaveTypeSetup.SetRange("AML Eligible", true);
+        LeaveTypeSetup.SetRange("Leave For Employee Type", EmpType);
+        if not LeaveTypeSetup.FindFirst() then
+            exit;
+        TempLeaveCode := LeaveTypeSetup.Code;
+        PGSetup.Get();
+        LeaveEarn.Reset();
+        LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        LeaveEarn.SetRange(Type, LeaveEarn.Type::Used);
+        LeaveEarn.SetRange("Payroll Posted", false);
+        LeaveEarn.SetRange("Leave Code", TempLeaveCode);
+        if LeaveEarn.FindSet() then
+            repeat
+                EmployeeNo := LeaveEarn.EmpNo;
+                LeaveDays := LeaveEarn."Balancing Days";
+                if TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays) then
+                    TotalAnnualLeaveByEmployee.Set(EmployeeNo, LeaveDays + LeaveEarn."Balancing Days")
+                else
+                    TotalAnnualLeaveByEmployee.Add(EmployeeNo, LeaveDays);
+            until LeaveEarn.Next() = 0;
+        foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
+            LeaveTypeSetup.get(TempLeaveCode);
+            if LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
+                EmployeePayrollAdjustment.Init();
+                EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
+                EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
+                EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Leave Fare Allowance");
+                EmployeePayrollAdjustment.Validate(Amount, GetLFAAmount(EmployeeNo, PayrollDocumentNo));
+                OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
+                if EmployeePayrollAdjustment.Amount <> 0 then
+                    EmployeePayrollAdjustment.Insert(true);
+
+            end
+        end;
+    end;
+
+    local procedure GetLFAAmount(EmpNo: Code[20]; PayrollDocNo: Code[20]): Decimal
+    var
+        PayrollAttributesUsage: Record "Payroll Attributes Usage";
+        SalaryLevel: Record "Salary Level";
+    begin
+        PGSetup.Get();
+        if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Basic Salary" then begin
+            PayrollAttributesUsage.Reset();
+            PayrollAttributesUsage.SetRange("Employee Code", EmpNo);
+            PayrollAttributesUsage.SetRange(Subtype, PayrollAttributesUsage.Subtype::Basic);
+            if PayrollAttributesUsage.FindFirst() then
+                exit(Round(PayrollAttributesUsage.Amount, 0.01, '='))
+        end
+        else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
+            Employee.Reset();
+            Employee.SetRange("No.", EmpNo);
+            if Employee.FindFirst() then begin
+                SalaryLevel.Get(Employee."Salary Level");
+                exit(Round(SalaryLevel."Leave Fare Allowance", 0.01, '='))
+            end;
+
+        end;
+
     end;
 
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
@@ -4468,7 +4605,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure PayrollCaptionClassTranslate(CaptionRef: Text[80]): Text[30]
     var
-        LanguageCode: Code[10];
+        LanguageCode: Code[20];
         LanguageRec: Record Language;
         TableID: Integer;
         FieldNo: Integer;
@@ -4549,5 +4686,85 @@ codeunit 50008 "Payroll Engine"
                     until EmpVar.Next() = 0;
             until PayrollAttr.Next = 0;
     end;
+
+    //no in use
+    procedure ProcessRetirementFundsDoc(var RetirementFund: Record "Retirement Fund")
+    var
+        PayrollAttributesUses: Record "Payroll Attributes Usage";
+        PayrollAttributes: Record "Payroll Attributes";
+        Employee: Record Employee;
+    begin
+
+        Employee.Get(RetirementFund."Employee No.");
+        PayrollAttributes.SetFilter(Subtype, '%1|%2', PayrollAttributesUses.Subtype::CIT, PayrollAttributesUses.Subtype::RF);
+        if PayrollAttributes.FindSet() then
+            repeat
+                if not PayrollAttributesUses.Get(PayrollAttributes.Code, RetirementFund."Employee No.") then begin
+                    Clear(PayrollAttributesUses);
+                    PayrollAttributesUses.Init();
+                    PayrollAttributesUses.Validate("Employee Code", RetirementFund."Employee No.");
+                    PayrollAttributesUses.Validate(Code, PayrollAttributes.Code);
+                    PayrollAttributesUses.Validate(Subtype, PayrollAttributes.Subtype);
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                    PayrollAttributesUses.Insert(true);
+                end
+                else begin
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::CIT then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."CIT Amount (Month)");
+                    if PayrollAttributes.Subtype = PayrollAttributes.Subtype::RF then
+                        PayrollAttributesUses.Validate(Amount, RetirementFund."RTF Amount (Month)");
+                    PayrollAttributesUses.Modify(true);
+                end;
+            until PayrollAttributes.Next() = 0;
+
+        if RetirementFund."Lumpsum Committed Contribution" <> 0 then begin
+            //
+        end;
+    end;
+
+    procedure RFGetTotalAnnualEarning(var Employee: Record Employee; var RFTotalEarning: Decimal; RFprojectMonth: Integer)
+    var
+        EmployeePayrollOpening: Record "Employee Payroll Opening";
+        PayrollgeneralSetup: Record "Payroll General Setup";
+        paycycleperiod: Record "Pay Cycle Period";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+        PayAttribute: Record "Payroll Attributes";
+    begin
+        PayrollgeneralSetup.Get();
+        paycycleperiod.SetRange("Start Date", PayrollgeneralSetup."Payroll Fiscal Year Start Date", PayrollgeneralSetup."Payroll Fiscal Year End Date");
+        paycycleperiod.FindFirst();
+        EmployeePayrollOpening.SetRange("Fiscal Year", paycycleperiod."Pay Cycle Term");
+        if EmployeePayrollOpening.FindFirst() then
+            RFTotalEarning += EmployeePayrollOpening."Total Benefit Opening";
+
+        PayrollAttrUses.SetRange("Employee Code", Employee."No.");
+        PayrollAttrUses.SetRange(Type, PayrollAttrUses.Type::Benefits);
+        if PayrollAttrUses.FindSet() then
+            repeat
+                PayAttribute.get(PayrollAttrUses.code);
+            // if PayAttribute."Apply Every Month" then
+
+            until PayrollAttrUses.Next() = 0;
+
+
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnBeforeInsertEmployeePayrollAdjustment(var EmployeePayrollAdjustment: Record "Employee Payroll Adjustment")
+    begin
+        // This event can be used to modify EmployeePayrollAdjustment before it is inserted.
+        // You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertOutstationAllowance(EmployeeNo: Code[20]; PayCyclePeriod: Record "Pay Cycle Period"; var IsHandled: Boolean; var Amount: Decimal)
+    begin
+        //This event can be used to perform get the outstation allowance for the employee before exiting the process.
+        //You can add custom logic here if needed.
+    end;
+
 
 }

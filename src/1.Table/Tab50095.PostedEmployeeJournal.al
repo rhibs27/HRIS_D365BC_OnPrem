@@ -4,7 +4,7 @@ table 50095 "Posted Employee Journal"
     DataClassification = ToBeClassified;
     fields
     {
-        field(1; "Entry No"; Integer)
+        field(1; "Emp Act. No"; Code[20])
         {
         }
         field(2; Type; Enum "Employee Activity Type")
@@ -101,7 +101,7 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
-        field(23; "Employee Work Shift"; Code[10])
+        field(23; "Employee Work Shift"; Code[20])
         {
             Editable = false;
             TableRelation = "Employee Work Shift";
@@ -111,10 +111,10 @@ table 50095 "Posted Employee Journal"
             Editable = false;
             TableRelation = "Salary Level";
         }
-        field(25; "Employee Act Type"; Enum "Employee Activity Type")
-        {
-            Editable = false;
-        }
+        // field(25; "Employee Act Type"; Enum "Employee Activity Type")
+        // {
+        //     Editable = false;
+        // }
         field(26; "Posting Date"; Date)
         {
             Editable = false;
@@ -195,12 +195,12 @@ table 50095 "Posted Employee Journal"
         {
             CaptionClass = '1,2,1';
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(54; "Province Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Province), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Province), Blocked = filter(false));
             trigger OnValidate()
             begin
             end;
@@ -208,12 +208,12 @@ table 50095 "Posted Employee Journal"
         field(55; "Unit (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Unit), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Unit), Blocked = filter(false));
         }
         field(56; "Department Code (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
         field(57; "Travel Order No"; Code[20])
         {
@@ -221,7 +221,7 @@ table 50095 "Posted Employee Journal"
         field(58; "Extension Counter (To)"; Code[20])
         {
             Description = 'Transfer';
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::"Extension Counter"), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::"Extension Counter"), Blocked = filter(false));
         }
         field(59; "Transfer Effective Date"; Date)
         {
@@ -320,12 +320,12 @@ table 50095 "Posted Employee Journal"
         field(77; "From Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(78; "To Branch"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Organization Structure list"::Branch), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
         }
         field(79; "Deputation On Code"; Code[20])
         {
@@ -367,10 +367,33 @@ table 50095 "Posted Employee Journal"
         {
             Editable = false;
         }
+        field(98; "Adjustment Type"; Enum "Leave Earn Type")
+        {
+            ValuesAllowed = Used, Adjustment;
+        }
         field(100; Status; text[20])
         {
             DataClassification = ToBeClassified;
             TableRelation = "Status Master";
+        }
+        field(101; "Entry No"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(102; "Approver Role (TO)"; code[20])
+        {
+            TableRelation = "Approval Role";
+        }
+        field(103; "Approver Role"; code[20])
+        {
+        }
+        field(108; "CheckIn Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(109; "CheckOut Time"; Time)
+        {
+            DataClassification = ToBeClassified;
         }
     }
     keys
@@ -383,8 +406,13 @@ table 50095 "Posted Employee Journal"
     trigger OnInsert()
     begin
         GetEntryNo;
-        if "Requested Date" = 0D then
-            "Requested Date" := Today;
+        if "Posting Date" = 0D then
+            "Posting Date" := Today;
+    end;
+
+    trigger OnDelete()
+    begin
+        Error('Cannot delete');
     end;
 
     local procedure GetEntryNo()

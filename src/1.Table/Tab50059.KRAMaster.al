@@ -12,7 +12,7 @@ table 50059 "KRA Master"
 
                 if "KRA Category" <> xRec."KRA Category" then begin
                     HRSetup.Get;
-                    NoMgmt.TestManual(HRSetup."KPI No. Series");
+                    NoSeries.TestManual(HRSetup."KPI No. Series");
                     "No. Series" := '';
                 end;
             end;
@@ -50,7 +50,7 @@ table 50059 "KRA Master"
         field(6; "Code"; Code[20])
         {
             TableRelation = if (Type = const("Functional Title")) "Functional Title".Code
-            else if (Type = const(Department)) "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department));
+            else if (Type = const(Department)) "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
         }
         field(7; "Weightage (%)"; Integer)
         {
@@ -97,14 +97,15 @@ table 50059 "KRA Master"
         if "KRA Category" = '' then begin
             HRSetup.Get;
             HRSetup.TestField("KPI No. Series");
-            NoMgmt.InitSeries(HRSetup."KPI No. Series", xRec."No. Series", 0D, "KRA Category", "No. Series");
+            HrMgt.InitNoSeriesNew(HRSetup."KPI No. Series", xRec."No. Series", 0D, "KRA Category", "No. Series");
         end;
     end;
 
     var
         HRSetup: Record "Human Resources Setup";
-        NoMgmt: Codeunit NoSeriesManagement;
-        EmployeewiseVar: Record "Employee Activity Second";
+        NoSeries: Codeunit "No. Series";
+        HrMgt: Codeunit "HR Mgt.";
+        EmployeewiseVar: Record "Employee Activity";
         SubjQuestion: Record "Employee Question Setup";
         AppraisalSetup: Record "KRA Master Setup";
         Weightage: Integer;
@@ -116,8 +117,8 @@ table 50059 "KRA Master"
         if "KRA Category" = '' then begin
             HRSetup.Get;
             HRSetup.TestField("KPI No. Series");
-            if NoMgmt.SelectSeries(HRSetup."KPI No. Series", xRec."No. Series", "No. Series") then begin
-                NoMgmt.SetSeries("KRA Category");
+            if NoSeries.LookupRelatedNoSeries(HRSetup."KPI No. Series", xRec."No. Series", "No. Series") then begin
+                NoSeries.GetNextNo("KRA Category");
                 exit(true);
             end;
         end;

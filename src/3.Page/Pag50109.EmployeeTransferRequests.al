@@ -6,7 +6,7 @@ page 50109 "Employee Transfer Requests"
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     UsageCategory = Lists;
     ApplicationArea = All;
 
@@ -49,6 +49,11 @@ page 50109 "Employee Transfer Requests"
                 field("Is Transfer Details Added"; Rec."Is Transfer Details Added")
                 {
                     ToolTip = 'Confirm By Human resource department';
+                    ApplicationArea = All;
+                }
+                field("Is Claimed"; Rec."Transfer Claim")
+                {
+                    ToolTip = 'Is Transfer Claimed';
                     ApplicationArea = All;
                 }
             }
@@ -133,8 +138,9 @@ page 50109 "Employee Transfer Requests"
         if not IsHistory then begin
             Rec.FilterGroup(2);
             Rec.SetRange(Type, Rec.Type::"Employee Transfer");
-            Rec.FilterGroup(0);
-        end;
+            Rec.FilterGroup(0)
+        end else
+            CurrPage.Caption('Employee Transfer History');
     end;
 
     var

@@ -92,7 +92,7 @@ table 50093 "Allowance Assignment Line"
                 //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
 
                 // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::"Pending Approval";
+                //     "Approval Status" := "Approval Status"::Pending;
 
                 // ValidateAllowanceType();
 
@@ -168,7 +168,7 @@ table 50093 "Allowance Assignment Line"
         // {
         //     TableRelation = Employee;
         //}
-        field(19; "Approval Status"; Enum "Attendance Status")
+        field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
         }
@@ -235,7 +235,7 @@ table 50093 "Allowance Assignment Line"
     begin
         "Created By" := UserId;
         "Created Date" := Today;
-        "Approval Status" := "Approval Status"::Open;
+        Validate("Approval Status", "Approval Status"::Open);
 
         if "Line No." = 0 then
             GetLineNo();
@@ -371,7 +371,7 @@ table 50093 "Allowance Assignment Line"
             'FESTIVAL':
                 begin
                     if (BaseCalenderChange."Holiday Type" = BaseCalenderChange."Holiday Type"::Festival)
-                      and (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                      and (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);
@@ -391,7 +391,7 @@ table 50093 "Allowance Assignment Line"
                 end;
             'HOLIDAY COUNTER':
                 begin
-                    if (LeaveMgt.GetNonWokingDays("From Date", "From Date", "Employee Code") = 1) then begin
+                    if (LeaveMgt.GetNonWorkingDays("From Date", "From Date", "Employee Code") = 1) then begin
                         "To Date" := "From Date";
                         "No. of Days" := 1;
                         exit(true);

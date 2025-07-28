@@ -23,6 +23,14 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Deputation Type"; Rec."Deputation Type")
+                {
+                    ApplicationArea = All;
+                }
+                field("Deputation Code"; Rec."Deputation Code")
+                {
+                    ApplicationArea = All;
+                }
                 field("Start Time"; Rec."Start Time")
                 {
                     ToolTip = 'Specifies the value of the Start Time field.';
@@ -33,9 +41,26 @@ page 50049 "Employee Work Shift"
                     ToolTip = 'Specifies the value of the End Time field.';
                     ApplicationArea = All;
                 }
-                field("Working Hour"; Rec."Working Hour")
+                field("Working Time"; Rec."Work Time")
                 {
-                    ToolTip = 'Specifies the value of the Working Hour field.';
+                    ToolTip = 'Specifies the value of the Working Time field.';
+                    ApplicationArea = All;
+                }
+                field("Check In From"; Rec."Check In From")
+                {
+                    ToolTip = 'Specifies the value of the Check In From field.';
+                    ApplicationArea = All;
+                    Caption = 'Check In from (Hrs)';
+                }
+                field("Check Out From"; Rec."Check Out From")
+                {
+                    ToolTip = 'Specifies the value of the Check Out From field.';
+                    ApplicationArea = All;
+                    Caption = 'Check Out from (Hrs)';
+                }
+                field(OverNight; rec.OverNight)
+                {
+                    ToolTip = 'Specifies the value of the Overnight From field.';
                     ApplicationArea = All;
                 }
                 field("Lunch Start"; Rec."Lunch Start")

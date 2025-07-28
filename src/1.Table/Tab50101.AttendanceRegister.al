@@ -5,11 +5,11 @@ table 50101 "Attendance Register"
 
     fields
     {
-        field(1; "Journal Template Name"; Code[10])
+        field(1; "Journal Template Name"; Code[20])
         {
             TableRelation = "Employee Service History";
         }
-        field(2; "Journal Batch Name"; Code[10])
+        field(2; "Journal Batch Name"; Code[20])
         {
             TableRelation = "HR Budget Plan";
         }
@@ -74,13 +74,13 @@ table 50101 "Attendance Register"
             Caption = 'Posting Date';
             ClosingDates = true;
         }
-        field(18; "Source Code"; Code[10])
+        field(18; "Source Code"; Code[20])
         {
             Caption = 'Source Code';
             Editable = false;
             TableRelation = "Source Code";
         }
-        field(19; "Posting No. Series"; Code[10])
+        field(19; "Posting No. Series"; Code[20])
         {
             Caption = 'Posting No. Series';
             TableRelation = "No. Series";

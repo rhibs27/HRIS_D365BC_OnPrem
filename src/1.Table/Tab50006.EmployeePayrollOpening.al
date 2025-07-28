@@ -27,7 +27,10 @@ table 50006 "Employee Payroll Opening"
         {
             Editable = false;
         }
-        field(4; "Fiscal Year"; Code[10]) { }
+        field(4; "Fiscal Year"; Code[20])
+        {
+            TableRelation = "Pay Cycle Term".Term;
+        }
         field(5; "Total Benefit Opening"; Decimal) { }
         field(6; "Total RF Opening"; Decimal) { }
         field(7; "Total Social Security Opening"; Decimal) { }

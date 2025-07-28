@@ -39,7 +39,7 @@ report 50124 "Employee Profile Details"
             column(TemporaryHouse_Employee; Employee."Temporary House") { }
             column(EmploymentDate_Employee; Format(Employee."Employment Date")) { }
             column(MaritalStatus_Employee; Employee."Marital Status") { }
-            column(WardNo_Employee; Employee."Ward No") { }
+            column(WardNo_Employee; Employee."Permanent Ward No") { }
             column(TemporaryAddress_Employee; Employee."Address 2") { }
             column(DepartmentName_Employee; Employee."Department Name") { }
             column(SalaryLevel_Employee; Employee."Salary Level") { }

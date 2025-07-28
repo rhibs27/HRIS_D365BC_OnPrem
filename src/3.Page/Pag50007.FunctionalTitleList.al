@@ -46,6 +46,13 @@ page 50007 "Functional Title List"
                 field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
                 {
                     ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
+                    Caption = 'PH/ DPH Allowance';
+                    ApplicationArea = All;
+                }
+                field("BM Alllowance"; Rec."BM Allowance")
+                {
+                    ToolTip = 'Specifies the value of the BM Allowance field';
+                    Caption = 'BM Allowance';
                     ApplicationArea = All;
                 }
                 field(Locationwise; Rec.Locationwise)
@@ -104,9 +111,9 @@ page 50007 "Functional Title List"
                     ToolTip = 'Specifies the value of the Allowance Reminder Mail field.';
                     ApplicationArea = All;
                 }
-                field("Is Allowance Approval"; Rec."Is Allowance Approval")
+                field("Allow AllowanceAssignment"; Rec."Allow AllowanceAssignment")
                 {
-                    ToolTip = 'Specifies the value of the Is Allowance Approval field.';
+                    ToolTip = 'Specifies the value of the Is Allow AllowanceAssignment field.';
                     ApplicationArea = All;
                 }
                 field("EM/ECM Identifier"; Rec."EM/ECM Identifier")

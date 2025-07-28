@@ -3,7 +3,7 @@ table 50024 "Payroll General Setup"
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "Primary Key"; Code[10]) { }
+        field(1; "Primary Key"; Code[20]) { }
         field(2; "Tax Ex. Amt. (%) on Retirement"; Decimal) { }
         field(3; "Tax Ex. Amt. not Exceeding"; Decimal) { }
         field(4; "Tax Ex. Life Insurance Amt."; Decimal) { }
@@ -39,7 +39,6 @@ table 50024 "Payroll General Setup"
         }
         field(12; "Tax Calculation Type"; Enum "Tax Calculation Type Time")
         {
-
         }
         field(13; "Late Deduction Component"; Code[20])
         {
@@ -62,7 +61,7 @@ table 50024 "Payroll General Setup"
         {
             Caption = 'Tax Ex. Amt. not Exeed on Medical Reimbursment';
         }
-        field(19; "Payment Method Code"; Code[10])
+        field(19; "Payment Method Code"; Code[20])
         {
             Caption = 'Payment Method Code';
             TableRelation = "Payment Method";
@@ -143,11 +142,11 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Payroll Attributes" where(Type = const(Deduction));
         }
-        field(31; "Payroll Journal Template"; Code[10])
+        field(31; "Payroll Journal Template"; Code[20])
         {
             TableRelation = "Gen. Journal Template";
         }
-        field(32; "Payroll Journal Batch"; Code[10])
+        field(32; "Payroll Journal Batch"; Code[20])
         {
             TableRelation = "Gen. Journal Batch".Name where("Journal Template Name" = field("Payroll Journal Template"));
         }
@@ -259,11 +258,11 @@ table 50024 "Payroll General Setup"
         {
             TableRelation = "Functional Title";
         }
-        field(68; "LFA Alowance"; Code[20])
+        field(68; "Leave Fare Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
-        field(69; "Base Calendar"; Code[10])
+        field(69; "Base Calendar"; Code[20])
         {
             TableRelation = "Base Calendar";
         }
@@ -351,7 +350,7 @@ table 50024 "Payroll General Setup"
             TableRelation = "Payroll Attributes".Code;
         }
         field(97; "Allowance Email Days"; Integer) { }
-        field(98; "Default Work Shift"; Code[10])
+        field(98; "Default Work Shift"; Code[20])
         {
             TableRelation = "Employee Work Shift";
         }
@@ -422,7 +421,7 @@ table 50024 "Payroll General Setup"
         }
         field(125; "Next Fiscal Year Start Date"; Date) { }
         field(126; "Next Fiscal Year End Date"; Date) { }
-        field(127; "Head Teller Allowance"; code[20])
+        field(127; "Head Teller Allowance"; Code[20])
         {
             TableRelation = "Payroll Attributes";
         }
@@ -444,6 +443,19 @@ table 50024 "Payroll General Setup"
         field(136; "Total Days From"; Enum MonthYear)
         {
         }
+        field(137; "Resigned Plan No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(138; "Posted ResignedPlan No. Series"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+        field(139; "LFA Source"; Enum "LFA Source")
+        {
+            Caption = 'LFA Source';
+            Description = 'Source of LFA calculation';
+        }
 
     }
 
@@ -460,7 +472,7 @@ table 50024 "Payroll General Setup"
     procedure ValidateHRMSMonth()
     begin
         if Rec."HRMS Month" <> xRec."HRMS Month" then begin
-            if CheckSalaryAtMongth("HRMS Month") then
+            if CheckSalaryAtMonth("HRMS Month") then
                 Error('Month end has already performed for %1', "HRMS Month");
             //IF FORMAT("HRMS Month") <>  EngToNepaliDate.getNepaliMonth(TODAY) THEN
             //ERROR('Hrms month must be %1',EngToNepaliDate.getNepaliMonth(TODAY));
@@ -468,7 +480,7 @@ table 50024 "Payroll General Setup"
         //<<ratan 1.21.2021
     end;
 
-    local procedure CheckSalaryAtMongth(HRMSMonth: Enum "Nepali Month"): Boolean
+    local procedure CheckSalaryAtMonth(HRMSMonth: Enum "Nepali Month"): Boolean
     var
         PostedPayrollheader: Record "Posted Payroll Header";
     begin

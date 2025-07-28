@@ -3,6 +3,7 @@ page 50201 "Retirement Fund Card"
     PageType = Card;
     SourceTable = "Retirement Fund";
     ApplicationArea = All;
+    InsertAllowed = false;
 
     layout
     {
@@ -19,7 +20,7 @@ page 50201 "Retirement Fund Card"
 
                     trigger OnAssistEdit()
                     begin
-                        if AssistEdit(xRec) then
+                        if Rec.AssistEdit(xRec) then
                             CurrPage.Update;
                     end;
                 }
@@ -43,67 +44,62 @@ page 50201 "Retirement Fund Card"
                     ToolTip = 'Specifies the value of the Payroll Month field.';
                     ApplicationArea = All;
                 }
-                field(Remarks; Remarks)
-                {
-                    ToolTip = 'Specifies the value of the Remarks field.';
-                    ApplicationArea = All;
-                }
+
             }
-            group("Past Details")
+            group("Annual Income Details")
             {
-                Caption = 'Past Details';
                 Editable = false;
-                field("Annual Accessible Income"; Rec."Annual Accessible Income")
+                field("Annual Accessible Income"; Rec."Annual Assessable Income")
                 {
                     ToolTip = 'Specifies the value of the Annual Accessible Income field.';
                     ApplicationArea = All;
                 }
-                field("RF Contribution Eligible Amt"; "RF Contribution Eligible Amt")
+                field("RF Contribution Eligible Amt"; Rec."RF Contribution Eligible Amt")
                 {
                     ToolTip = 'Specifies the value of the RF Contribution Eligible Amt field.';
                     ApplicationArea = All;
                 }
-                field("Provident Fund Deposited"; "Provident Fund Deposited")
+                field("Provident Fund Deposited"; Rec."Provident Fund Deposited")
                 {
                     ToolTip = 'Specifies the value of the Provident Fund Deposited field.';
                     ApplicationArea = All;
                 }
-                field("RF Contribution Deposited"; "RF Contribution Deposited")
+                field("RF Contribution Deposited"; Rec."RF Contribution Deposited")
                 {
                     ToolTip = 'Specifies the value of the RF Contribution Deposited field.';
                     ApplicationArea = All;
                 }
-                field("Provident Fund Projected"; "Provident Fund Projected")
+                field("Provident Fund Projected"; Rec."Provident Fund Projected")
                 {
                     ToolTip = 'Specifies the value of the Provident Fund Projected field.';
                     ApplicationArea = All;
                 }
-                field("Actual/Projected Contribution"; "Actual/Projected Contribution")
+                field("Actual/Projected Contribution"; Rec."Actual/Projected Contribution")
                 {
                     ToolTip = 'Specifies the value of the Actual/Projected Contribution field.';
                     ApplicationArea = All;
                 }
-                field("Additional Space for RF Cont."; "Additional Space for RF Cont.")
+                field("Additional Space for RF Cont."; Rec."Additional Space for RF Cont.")
                 {
                     ToolTip = 'Specifies the value of the Additional Space for RF Cont. field.';
                     ApplicationArea = All;
                 }
-                field("Projection Month"; "Projection Month")
+                field("Projection Month"; Rec."Projection Month")
                 {
                     ToolTip = 'Specifies the value of the Projection Month field.';
                     ApplicationArea = All;
                 }
-                field("Actual Lumpsump CIT"; "Actual Lumpsump CIT")
+                field("Actual Lumpsump CIT"; Rec."Actual Lumpsump CIT")
                 {
                     ToolTip = 'Specifies the value of the Actual Lumpsump CIT field.';
                     ApplicationArea = All;
                 }
-                field("Actual Lumpsump RTF"; "Actual Lumpsump RTF")
+                field("Actual Lumpsump RTF"; Rec."Actual Lumpsump RTF")
                 {
                     ToolTip = 'Specifies the value of the Actual Lumpsump RTF field.';
                     ApplicationArea = All;
                 }
-                field("Lumpsum Committed Contribution"; "Lumpsum Committed Contribution")
+                field("Lumpsum Committed Contribution"; Rec."Lumpsum Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Lumpsum Committed Contribution field.';
                     ApplicationArea = All;
@@ -112,17 +108,22 @@ page 50201 "Retirement Fund Card"
             group("Current Details")
             {
                 Caption = 'Current Details';
-                Editable = not IsScreened;
+                Editable = ActionVisible;
                 group(Monthly)
                 {
                     Caption = 'Monthly';
-                    field("RTF Amount (Month)"; "RTF Amount (Month)")
+                    field("Recommended Monthly CIT/RF"; Rec."Recommended Monthly CIT/RF")
+                    {
+                        Editable = false;
+                        ToolTip = 'Optimal monthly retirement deposit to minimize TAX';
+                    }
+                    field("RTF Amount (Month)"; Rec."RTF Amount (Month)")
                     {
                         Caption = 'RTF';
                         ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
-                    field("CIT Amount (Month)"; "CIT Amount (Month)")
+                    field("CIT Amount (Month)"; Rec."CIT Amount (Month)")
                     {
                         Caption = 'CIT';
                         ToolTip = 'Specifies the value of the CIT field.';
@@ -132,13 +133,13 @@ page 50201 "Retirement Fund Card"
                 group(Lumpsum)
                 {
                     Caption = 'Lumpsum';
-                    field("RTF Amount (Lumpsum)"; "RTF Amount (Lumpsum)")
+                    field("RTF Amount (Lumpsum)"; Rec."RTF Amount (Lumpsum)")
                     {
                         Caption = 'RTF';
                         ToolTip = 'Specifies the value of the RTF field.';
                         ApplicationArea = All;
                     }
-                    field("CIT Amount( Lumpsum)"; "CIT Amount( Lumpsum)")
+                    field("CIT Amount( Lumpsum)"; Rec."CIT Amount( Lumpsum)")
                     {
                         Caption = 'CIT';
                         ToolTip = 'Specifies the value of the CIT field.';
@@ -150,17 +151,17 @@ page 50201 "Retirement Fund Card"
             {
                 Caption = 'Result';
                 Editable = false;
-                field("Total Committed Contribution"; "Total Committed Contribution")
+                field("Total Committed Contribution"; Rec."Total Committed Contribution")
                 {
                     ToolTip = 'Specifies the value of the Total Committed Contribution field.';
                     ApplicationArea = All;
                 }
-                field("Total Deduction"; "Total Deduction")
+                field("Total Deduction"; Rec."Total Deduction")
                 {
                     ToolTip = 'Specifies the value of the Total Deduction field.';
                     ApplicationArea = All;
                 }
-                field(Difference; Difference)
+                field(Difference; Rec.Difference)
                 {
                     ToolTip = 'Specifies the value of the Difference field.';
                     ApplicationArea = All;
@@ -169,32 +170,39 @@ page 50201 "Retirement Fund Card"
             group(Approval)
             {
                 Caption = 'Approval';
-                Editable = false;
-                field("Approval Status"; "Approval Status")
+
+                field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                field("Created Date"; "Created Date")
+                field("Created Date"; Rec."Created Date")
                 {
                     ToolTip = 'Specifies the value of the Created Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                field("Requested Date"; "Requested Date")
+                field("Requested Date"; Rec."Requested Date")
                 {
                     ToolTip = 'Specifies the value of the Requested Date field.';
                     ApplicationArea = All;
+                    Editable = false;
                 }
-                field("Screened Date"; "Screened Date")
+
+                field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
-                    ToolTip = 'Specifies the value of the Screened Date field.';
+                    ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
+                    Visible = IsPending;
                 }
-                field("Screened By"; "Screened By")
-                {
-                    ToolTip = 'Specifies the value of the Screened By field.';
-                    ApplicationArea = All;
-                }
+            }
+            part("Approval Subform"; "HRMS Approval Entry")
+            {
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
+                Editable = false;
+
             }
         }
     }
@@ -203,7 +211,7 @@ page 50201 "Retirement Fund Card"
     {
         area(Processing)
         {
-            action(Submit)
+            action("Submit for Approval")
             {
                 Image = Suggest;
                 Promoted = true;
@@ -221,69 +229,124 @@ page 50201 "Retirement Fund Card"
                     end;
                 end;
             }
-            action(Screen)
-            {
-                Image = Stages;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to screen the document ?', false) then
-                        exit;
-                    HRMgt.ScreenRF(Rec);
-
-                    Message('Document screened successfully.');
-                end;
-            }
-            action(Reopen)
+            action(Approve)
             {
-                Image = ReOpen;
+                Image = Approve;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
-                ToolTip = 'Executes the Reopen action.';
+                Visible = IsPending;
+                ToolTip = 'Executes the Approve Request action.';
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    if not Confirm('Do you want to repoen the document ?', false) then
-                        exit;
-                    Rec.TestField("Approval Status", "Approval Status"::"Pending Approval");
-                    "Approval Status" := "Approval Status"::Open;
-                    Rec.Modify;
-                    Message('Document open successfully.');
+                    if Confirm('Do you want to approve the request?', false) then begin
+                        RecRef.GetTable(Rec);
+                        ApprovalMgt.ApproveRejectDocument(RecRef, true);
+                        Rec."Rejection Remarks" := '';
+                        Message('Retirement fund is Approved by %1', HRMgt.GetEmpName());
+                    end;
                 end;
+            }
+            action("Reject Request")
+            {
+                Image = Reject;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Reject Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want reject the request?', false) then begin
+                        IF REC."Rejection Remarks" = '' then
+                            Error('Rejection Remarks is Empty')
+                        else begin
+                            RecRef.GetTable(Rec);
+                            ApprovalMgt.ApproveRejectDocument(RecRef, false);
+                            Message('Leave is Rejected by %1', HRMgt.GetEmpName());
+                        end;
+                    end;
+                end;
+            }
+            action(Withdraw)
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the WithDraw Request action.';
+                ApplicationArea = All;
+                Visible = IsPending;
+                trigger OnAction()
+                begin
+                    if Confirm('Do you want WithDraw the request?', false) then begin
+                        RecRef.GetTable(Rec);
+                        ApprovalMgt.WithDrawRequest(RecRef);
+                        Message('Retirement request has been withdrew.');
+                    end;
+                end;
+            }
+            action(Cancel)
+            {
+                Image = CancelLine;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                ApplicationArea = All;
+                Visible = IsApproved;
+                // trigger OnAction()
+                // var
+                //     PortalFunctions: Page "Portal Functions";
+                //     CancellationRemarks: Text;
+                //     FilterPageBuilder: FilterPageBuilder;
+                //     RetirementFund: Record "Retirement Fund";
+                // begin
+                //     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                //     Clear(FilterPageBuilder);
+                //     FilterPageBuilder.AddRecord('Cancel RF', RetirementFund);
+                //     FilterPageBuilder.AddField('Cancel RF', RetirementFund."Remarks");
+                //     if FilterPageBuilder.RunModal() then begin
+                //         RetirementFund.SetView(FilterPageBuilder.GetView('cancel RF'));
+                //         CancellationRemarks := RetirementFund.GetFilter(Remarks);
+                //         Rec."Remarks" := CancellationRemarks;
+                //         PortalFunctions.CancelApprovedRF(rec."No.", CancellationRemarks);
+                //         Message('Retirement request has been canceled.');
+                //     end
+                // end;
             }
         }
     }
 
     trigger OnAfterGetRecord()
     begin
-        IsScreened := "Approval Status" = "Approval Status"::Screened;
-        ActionVisible := "Approval Status" in ["Approval Status"::Open, "Approval Status"::" "];
+        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
+        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
     trigger OnOpenPage()
     begin
-        IsScreened := "Approval Status" = "Approval Status"::Screened;
-        ActionVisible := "Approval Status" in ["Approval Status"::Open, "Approval Status"::" "];
-    end;
-
-    trigger OnQueryClosePage(CloseAction: Action): Boolean
-    begin
-        //IF NOT IsApplied THEN
-        //IF NOT CONFIRM('The data will be erased. Do you want to continue?',TRUE) THEN
-        //ERROR('');
+        IsScreened := Rec."Approval Status" = Rec."Approval Status"::Screened;
+        ActionVisible := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::" "];
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = rec."Approval Status"::Approved;
     end;
 
     var
+        RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
         IsApplied: Boolean;
         IsScreened: Boolean;
         ActionVisible: Boolean;
+        IsPending: Boolean;
+        ApprovalMgt: Codeunit "Approver Mgt";
+        IsApproved: Boolean;
 }

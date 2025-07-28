@@ -22,6 +22,10 @@ pageextension 50011 "Employee List" extends "Employee List"
         {
             Visible = false;
         }
+        modify("Job Title")
+        {
+            Visible = false;
+        }
         addafter("No.")
         {
             field("Full Name"; Rec."Full Name")
@@ -73,24 +77,6 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ToolTip = 'Specifies the value of the Province Name field.';
                 Visible = false;
             }
-            // field("Eco-System"; Rec."Eco-System")
-            // {
-            //     ApplicationArea = All;
-            //     ToolTip = 'Specifies the value of the Eco-System field.';
-            //     Visible = false;
-            // }
-            // field(Cluster; Rec.Cluster)
-            // {
-            //     ApplicationArea = All;
-            //     ToolTip = 'Specifies the value of the Cluster field.';
-            //     Visible = false;
-            // }
-            field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Global Dimension 1 Code field.';
-                Visible = false;
-            }
             field("Branch Name"; Rec."Branch Name")
             {
                 ApplicationArea = All;
@@ -105,12 +91,6 @@ pageextension 50011 "Employee List" extends "Employee List"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Functional Title Desc field.';
-            }
-            field("Salary Level"; Rec."Salary Level")
-            {
-                ApplicationArea = All;
-                Visible = false;
-                ToolTip = 'Specifies the value of the Salary Level field.';
             }
             field("Employment Date"; Rec."Employment Date")
             {
@@ -197,16 +177,13 @@ pageextension 50011 "Employee List" extends "Employee List"
                 ToolTip = 'Specifies the value of the Marital Status field.';
                 Visible = false;
             }
-            field("Attendance Missed Count"; Rec."Attendance Missed Count")
+            field("Approver Role"; Rec."Approver Role")
             {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Attendance Missed Count field.';
+                Editable = false;
             }
-            field("Attendance Missed On"; Rec."Attendance Missed On")
+            field("Salary Level"; Rec."Salary Level")
             {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Attendance Missed On field.';
-                Visible = false;
+                Caption = 'Job Position';
             }
         }
     }

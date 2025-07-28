@@ -1,9 +1,8 @@
 table 50027 "Payroll Line"
 {
+    //regular payroll attributes 120 (field 61 to 180)
+    //other payroll field 40. which can be incremented as per need
     DataClassification = CustomerContent;
-
-    // //Min 3.20.2022 -- IsValidComponent,function commented because, data filter does not match according condition applied on these function.
-
     fields
     {
         field(1; "Document No."; Code[20]) { }
@@ -25,7 +24,7 @@ table 50027 "Payroll Line"
                 Employee.TestField("Salary Level");
                 Employee.TestField("Employment Date");
                 Employee.TestField(Settled, false);
-                if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+                if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
                     Employee.TestField(Status, Employee.Status::Active);
                 Employee.TestField("Tax Code");
                 //Employee.TESTFIELD("Employee Designation"); UTS commented
@@ -33,15 +32,19 @@ table 50027 "Payroll Line"
                 if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
                     if Employee."Resignation Date" <> 0D then
                         Error('Employee %1 has resigned.', Employee."Full Name");
-                    case PayrollHeader."Employee Type" of
-                        PayrollHeader."Employee Type"::Contract:
-                            if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                                Error('Employment type of employee %1 must be contract', Employee."Full Name");
+                    // case PayrollHeader."Employee Type" of
+                    //     PayrollHeader."Employee Type"::Contract:
+                    //         if Employee."Employment Type" <> Employee."Employment Type"::Contract then
+                    //             Error('Employment type of employee %1 must be contract', Employee."Full Name");
 
-                        PayrollHeader."Employee Type"::Regular:
-                            if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
-                                Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
-                    end;
+                    //     PayrollHeader."Employee Type"::Permanent:
+                    //         if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
+                    //             Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
+                    // end;
+                    if PayrollHeader."Employee Type" <> PayrollHeader."Employee Type"::" " then
+                        if Employee."Employment Type" <> PayrollHeader."Employee Type" then
+                            Error('Employment type of employee %1 must be %2', Employee."Full Name", PayrollHeader."Employee Type".Names());
+
                     if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then begin
                         if Employee."Employment Date" = PayCyclePeriod."Pay Date" then //Min
                             Error('You Cannot Insert Employee of Employement Date %1', PayCyclePeriod."Pay Date");
@@ -69,7 +72,7 @@ table 50027 "Payroll Line"
                 "Bank Name" := Employee."Bank Name";
                 //ValidateShortcutDimCode(GetDimensionNo(HRSetup."Employee Dimension"),DefaultDimension."Dimension Value Code");
 
-                if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                     ValidateSettlementFields;
                 PayrollLine.Reset;
                 PayrollLine.SetRange("Document No.", "Document No.");
@@ -170,14 +173,7 @@ table 50027 "Payroll Line"
                 GetTotalDays;
             end;
         }
-        field(168; "Absent Days Before Promotion"; Decimal)
-        {
-            Description = 'A';
-        }
-        field(169; "Absent Days After Promotion"; Decimal)
-        {
-            Description = 'A';
-        }
+
         field(16; "Absent Days"; Decimal)
         {
             Description = 'A';
@@ -319,7 +315,7 @@ table 50027 "Payroll Line"
         {
             Editable = false;
         }
-        field(44; "Currency Code"; Code[10])
+        field(44; "Currency Code"; Code[20])
         {
             Caption = 'Currency Code';
             Editable = false;
@@ -331,93 +327,9 @@ table 50027 "Payroll Line"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
-        field(46; "Source Code"; Code[10])
+        field(46; "Source Code"; Code[20])
         {
             Description = 'Pranisha';
-        }
-        field(47; "Variable Field 50487"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,47';
-            Description = 'added for bank';
-        }
-        field(48; "Variable Field 50488"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,48';
-            Description = 'added for bank';
-        }
-        field(49; "Variable Field 50489"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,60024,49';
-            Description = 'added for bank';
-        }
-        field(50; "Variable Field 50490"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,50';
-            Description = 'added for bank';
-        }
-        field(51; "Variable Field 50491"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,51';
-            Description = 'added for bank';
-        }
-        field(52; "Variable Field 50492"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,52';
-            Description = 'added for bank';
-        }
-        field(53; "Variable Field 50493"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,53';
-            Description = 'added for bank';
-        }
-        field(54; "Variable Field 50494"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,54';
-            Description = 'added for bank';
-        }
-        field(55; "Variable Field 50495"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,55';
-            Description = 'added for bank';
-        }
-        field(56; "Variable Field 50496"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,56';
-            Description = 'added for bank';
-        }
-        field(57; "Variable Field 50497"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,57';
-            Description = 'added for bank';
-        }
-        field(58; "Variable Field 50498"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,58';
-            Description = 'added for bank';
-        }
-        field(59; "Variable Field 50499"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,59';
-            Description = 'added for bank';
-        }
-        field(60; "Variable Field 50500"; Decimal)
-        {
-            AutoFormatExpression = "Currency Code";
-            CaptionClass = '8,50027,60';
-            Description = 'added for bank';
         }
         field(61; "Variable Field 50501"; Decimal)
         {
@@ -659,165 +571,891 @@ table 50027 "Payroll Line"
             AutoFormatType = 1;
             CaptionClass = '8,50027,100';
         }
-        field(101; "Bank Name"; Text[50])
+        field(101; "Variable Field 50541"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,101';
         }
-        field(102; "Evening Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(103; "Holiday Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(104; "Bulk Cash Transfer Days"; Decimal) { }
-        field(105; "Cash Risk Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(106; "Friday Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(107; "Festival Counter Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(108; "Vault Key Days"; Decimal)
-        {
-            Description = 'allowance assignment';
-        }
-        field(109; "Faciliating Hours"; Decimal)
-        {
-        }
-        field(110; "Gratuity Years"; Decimal)
-        {
-        }
-        field(111; "Document Type"; Enum "Payroll Document Type")
-        {
 
-        }
-        field(112; "Resignation Date"; Date) { }
-        field(113; "Annual Leave Days"; Decimal) { }
-        field(114; "Sick Leave Days"; Decimal) { }
-        field(115; "Total Adjusted Leave Days"; Decimal) { }
-        field(116; "Total Insurance Claim Amount"; Decimal) { }
-        field(117; LFA; Decimal) { }
-        field(118; "Morning Counter Days"; Decimal)
+        field(102; "Variable Field 50542"; Decimal)
         {
-            Description = 'allowance assignment';
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,102';
         }
-        field(119; "Prior Absent Days"; Decimal) { }
-        field(120; "Prior Present Days"; Decimal) { }
-        field(121; "Salary Advance No."; Code[20]) { }
-        field(122; "Projected Benefit"; Decimal)
+
+        field(103; "Variable Field 50543"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,103';
         }
-        field(123; "Past Benefit"; Decimal)
+
+        field(104; "Variable Field 50544"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,104';
         }
-        field(124; "Assessable Income"; Decimal)
+
+        field(105; "Variable Field 50545"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,105';
         }
-        field(125; "Past Retirement Fund"; Decimal)
+
+        field(106; "Variable Field 50546"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,106';
         }
-        field(126; "Projected Retirement Fund"; Decimal)
+
+        field(107; "Variable Field 50547"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,107';
         }
-        field(127; "Actual RF Contribution"; Decimal)
+
+        field(108; "Variable Field 50548"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,108';
         }
-        field(128; "1/3 of Assessable Income"; Decimal)
+
+        field(109; "Variable Field 50549"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,109';
         }
-        field(129; "Eligible RF Deduction"; Decimal)
+
+        field(110; "Variable Field 50550"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,110';
         }
-        field(130; "Life Insurance Premium"; Decimal)
+
+        field(111; "Variable Field 50551"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,111';
         }
-        field(131; "Health Insurance Premium"; Decimal)
+
+        field(112; "Variable Field 50552"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,112';
         }
-        field(132; "Taxable Income"; Decimal)
+
+        field(113; "Variable Field 50553"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,113';
         }
-        field(133; "Disable Person Reduction"; Decimal)
+
+        field(114; "Variable Field 50554"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,114';
         }
-        field(134; "Female Tax Credit"; Decimal)
+
+        field(115; "Variable Field 50555"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,115';
         }
-        field(135; "Total Tax Liability"; Decimal)
+
+        field(116; "Variable Field 50556"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,116';
         }
-        field(136; "Payable Tax Liability"; Decimal)
+
+        field(117; "Variable Field 50557"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,117';
         }
-        field(137; "Net Tax Liability"; Decimal)
+
+        field(118; "Variable Field 50558"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,118';
         }
-        field(138; "Social Security Tax(Annual)"; Decimal)
+
+        field(119; "Variable Field 50559"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,119';
         }
-        field(139; "Tax on Remuneration(Annual)"; Decimal)
+
+        field(120; "Variable Field 50560"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,120';
         }
-        field(140; "Total Tax Paid"; Decimal)
+
+        field(121; "Variable Field 50561"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,121';
         }
-        field(141; "Carry Forwarded Sick"; Decimal)
+
+        field(122; "Variable Field 50562"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,122';
         }
-        field(142; "Carry Forward Annual"; Decimal)
+
+        field(123; "Variable Field 50563"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,123';
         }
-        field(143; "Prorata Sick"; Decimal)
+
+        field(124; "Variable Field 50564"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,124';
         }
-        field(144; "Prorata Annual"; Decimal)
+
+        field(125; "Variable Field 50565"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,125';
         }
-        field(145; "Used Leave Sick"; Decimal)
+
+        field(126; "Variable Field 50566"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,126';
         }
-        field(146; "Used Leave Annual"; Decimal)
+
+        field(127; "Variable Field 50567"; Decimal)
         {
-            Editable = false;
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,127';
         }
-        field(147; "Gratuity & leave Encash Tax"; Decimal)
+
+        field(128; "Variable Field 50568"; Decimal)
         {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,128';
         }
-        field(148; "Projection Month"; Decimal)
+
+        field(129; "Variable Field 50569"; Decimal)
         {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,129';
         }
-        field(149; "Deputation On"; Enum "Deputation Type")
+
+        field(130; "Variable Field 50570"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,130';
+        }
+        field(131; "Variable Field 50571"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,131';
+        }
+
+        field(132; "Variable Field 50572"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,132';
+        }
+
+        field(133; "Variable Field 50573"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,133';
+        }
+
+        field(134; "Variable Field 50574"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,134';
+        }
+
+        field(135; "Variable Field 50575"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,135';
+        }
+
+        field(136; "Variable Field 50576"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,136';
+        }
+
+        field(137; "Variable Field 50577"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,137';
+        }
+
+        field(138; "Variable Field 50578"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,138';
+        }
+
+        field(139; "Variable Field 50579"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,139';
+        }
+
+        field(140; "Variable Field 50580"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,140';
+        }
+
+        field(141; "Variable Field 50581"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,141';
+        }
+
+        field(142; "Variable Field 50582"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,142';
+        }
+
+        field(143; "Variable Field 50583"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,143';
+        }
+
+        field(144; "Variable Field 50584"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,144';
+        }
+
+        field(145; "Variable Field 50585"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,145';
+        }
+
+        field(146; "Variable Field 50586"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,146';
+        }
+
+        field(147; "Variable Field 50587"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,147';
+        }
+
+        field(148; "Variable Field 50588"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,148';
+        }
+
+        field(149; "Variable Field 50589"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,149';
+        }
+
+        field(150; "Variable Field 50590"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,150';
+        }
+
+        field(151; "Variable Field 50591"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,151';
+        }
+
+        field(152; "Variable Field 50592"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,152';
+        }
+
+        field(153; "Variable Field 50593"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,153';
+        }
+
+        field(154; "Variable Field 50594"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,154';
+        }
+
+        field(155; "Variable Field 50595"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,155';
+        }
+
+        field(156; "Variable Field 50596"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,156';
+        }
+
+        field(157; "Variable Field 50597"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,157';
+        }
+
+        field(158; "Variable Field 50598"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,158';
+        }
+
+        field(159; "Variable Field 50599"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,159';
+        }
+
+        field(160; "Variable Field 50600"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,160';
+        }
+
+        field(161; "Variable Field 50601"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,161';
+        }
+
+        field(162; "Variable Field 50602"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,162';
+        }
+
+        field(163; "Variable Field 50603"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,163';
+        }
+
+        field(164; "Variable Field 50604"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,164';
+        }
+
+        field(165; "Variable Field 50605"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,165';
+        }
+
+        field(166; "Variable Field 50606"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,166';
+        }
+
+        field(167; "Variable Field 50607"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,167';
+        }
+
+        field(168; "Variable Field 50608"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,168';
+        }
+
+        field(169; "Variable Field 50609"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,169';
+        }
+
+        field(170; "Variable Field 50610"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,170';
+        }
+
+        field(171; "Variable Field 50611"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,171';
+        }
+
+        field(172; "Variable Field 50612"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,172';
+        }
+
+        field(173; "Variable Field 50613"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,173';
+        }
+
+        field(174; "Variable Field 50614"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,174';
+        }
+
+        field(175; "Variable Field 50615"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,175';
+        }
+
+        field(176; "Variable Field 50616"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,176';
+        }
+
+        field(177; "Variable Field 50617"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,177';
+        }
+
+        field(178; "Variable Field 50618"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,178';
+        }
+
+        field(179; "Variable Field 50619"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,179';
+        }
+
+        field(180; "Variable Field 50620"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,180';
+        }
+        field(181; "Variable Field 50621"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,181';
+        }
+
+        field(182; "Variable Field 50622"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,182';
+        }
+
+        field(183; "Variable Field 50623"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,183';
+        }
+
+        field(184; "Variable Field 50624"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,184';
+        }
+
+        field(185; "Variable Field 50625"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,185';
+        }
+
+        field(186; "Variable Field 50626"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,186';
+        }
+
+        field(187; "Variable Field 50627"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,187';
+        }
+
+        field(188; "Variable Field 50628"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,188';
+        }
+
+        field(189; "Variable Field 50629"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,189';
+        }
+
+        field(190; "Variable Field 50630"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,190';
+        }
+
+        field(191; "Variable Field 50631"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,191';
+        }
+
+        field(192; "Variable Field 50632"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,192';
+        }
+
+        field(193; "Variable Field 50633"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,193';
+        }
+
+        field(194; "Variable Field 50634"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,194';
+        }
+
+        field(195; "Variable Field 50635"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,195';
+        }
+
+        field(196; "Variable Field 50636"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,196';
+        }
+
+        field(197; "Variable Field 50637"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,197';
+        }
+
+        field(198; "Variable Field 50638"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,198';
+        }
+
+        field(199; "Variable Field 50639"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,199';
+        }
+
+        field(200; "Variable Field 50640"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,200';
+        }
+
+        field(201; "Variable Field 50641"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,201';
+        }
+
+        field(202; "Variable Field 50642"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,202';
+        }
+
+        field(203; "Variable Field 50643"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,203';
+        }
+
+        field(204; "Variable Field 50644"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,204';
+        }
+
+        field(205; "Variable Field 50645"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,205';
+        }
+
+        field(206; "Variable Field 50646"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,206';
+        }
+
+        field(207; "Variable Field 50647"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,207';
+        }
+
+        field(208; "Variable Field 50648"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,208';
+        }
+
+        field(209; "Variable Field 50649"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,209';
+        }
+
+        field(210; "Variable Field 50650"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,210';
+        }
+
+        field(211; "Variable Field 50651"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,211';
+        }
+
+        field(212; "Variable Field 50652"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,212';
+        }
+
+        field(213; "Variable Field 50653"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,213';
+        }
+
+        field(214; "Variable Field 50654"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,214';
+        }
+
+        field(215; "Variable Field 50655"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,215';
+        }
+
+        field(216; "Variable Field 50656"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,216';
+        }
+
+        field(217; "Variable Field 50657"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,217';
+        }
+
+        field(218; "Variable Field 50658"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,218';
+        }
+
+        field(219; "Variable Field 50659"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,219';
+        }
+        field(220; "Variable Field 50660"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            CaptionClass = '8,50027,220';
+        }
+        field(1000; "Bank Name"; Text[50]) { Editable = false; }
+        field(1001; "Evening Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1002; "Holiday Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1003; "Bulk Cash Transfer Days"; Decimal) { }
+        field(1004; "Cash Risk Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1005; "Friday Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1006; "Festival Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1007; "Vault Key Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1008; "Faciliating Hours"; Decimal) { }
+        field(1009; "Gratuity Years"; Decimal) { }
+        // field(1010; "Document Type"; Enum "Payroll Document Type") { }
+        field(1011; "Resignation Date"; Date) { }
+        field(1012; "Annual Leave Days"; Decimal) { }
+        field(1013; "Sick Leave Days"; Decimal) { }
+        field(1014; "Total Adjusted Leave Days"; Decimal) { }
+        field(1015; "Total Insurance Claim Amount"; Decimal) { }
+        field(1016; LFA; Decimal) { }
+        field(1017; "Morning Counter Days"; Decimal) { Description = 'allowance assignment'; }
+        field(1018; "Prior Absent Days"; Decimal) { }
+        field(1019; "Prior Present Days"; Decimal) { }
+        field(1020; "Salary Advance No."; Code[20]) { }
+        field(1021; "Projected Benefit"; Decimal) { Editable = false; }
+        field(1022; "Past Benefit"; Decimal) { Editable = false; }
+        field(1023; "Assessable Income"; Decimal) { Editable = false; }
+        field(1024; "Past Retirement Fund"; Decimal) { Editable = false; }
+        field(1025; "Projected Retirement Fund"; Decimal) { Editable = false; }
+        field(1026; "Actual RF Contribution"; Decimal) { Editable = false; }
+        field(1027; "1/3 of Assessable Income"; Decimal) { Editable = false; }
+        field(1028; "Eligible RF Deduction"; Decimal) { Editable = false; }
+        field(1029; "Life Insurance Premium"; Decimal) { Editable = false; }
+        field(1030; "Health Insurance Premium"; Decimal) { Editable = false; }
+        field(1031; "Taxable Income"; Decimal) { Editable = false; }
+        field(1032; "Disable Person Reduction"; Decimal) { Editable = false; }
+        field(1033; "Female Tax Credit"; Decimal) { Editable = false; }
+        field(1034; "Total Tax Liability"; Decimal) { Editable = false; }
+        field(1035; "Payable Tax Liability"; Decimal) { Editable = false; }
+        field(1036; "Net Tax Liability"; Decimal) { Editable = false; }
+        field(1037; "Social Security Tax(Annual)"; Decimal) { Editable = false; }
+        field(1038; "Tax on Remuneration(Annual)"; Decimal) { Editable = false; }
+        field(1039; "Total Tax Paid"; Decimal) { Editable = false; }
+        field(1040; "Carry Forwarded Sick"; Decimal) { Editable = false; }
+        field(1041; "Carry Forward Annual"; Decimal) { Editable = false; }
+        field(1042; "Prorata Sick"; Decimal) { Editable = false; }
+        field(1043; "Prorata Annual"; Decimal) { Editable = false; }
+        field(1044; "Used Leave Sick"; Decimal) { Editable = false; }
+        field(1045; "Used Leave Annual"; Decimal) { Editable = false; }
+        field(1046; "Gratuity & leave Encash Tax"; Decimal) { }
+        field(1047; "Projection Month"; Decimal) { }
+        field(1048; "Deputation On"; Enum "Deputation Type")
         {
             Editable = false;
             trigger OnValidate()
@@ -825,62 +1463,50 @@ table 50027 "Payroll Line"
                 Validate("Deputation Value", ExitTransferDeputationWise("Deputation On"));
             end;
         }
-        field(150; "Deputation Value"; Code[20])
-        {
-        }
-        field(151; "Sol ID"; Code[20])
-        {
-            Editable = false;
-        }
-        field(152; "1% Slab"; Decimal)
-        {
-        }
-        field(153; "10% Slab"; Decimal)
-        {
-        }
-        field(154; "20% Slab"; Decimal)
-        {
-        }
-        field(155; "30% Slab"; Decimal)
-        {
-        }
-        field(156; "36% Slab"; Decimal)
-        {
-        }
-        field(157; Type; Enum "Payroll Header Type")
-        {
-
-        }
-        field(158; "Remote Area Deduction"; Decimal)
-        {
-        }
-        field(159; Gender; Enum "Employee Gender")
+        field(1049; "Deputation Value"; Code[20]) { }
+        field(1050; "Sol ID"; Code[20]) { Editable = false; }
+        field(1051; "1% Slab"; Decimal) { }
+        field(1052; "10% Slab"; Decimal) { }
+        field(1053; "20% Slab"; Decimal) { }
+        field(1054; "30% Slab"; Decimal) { }
+        field(1055; "36% Slab"; Decimal) { }
+        field(1056; Type; Enum "Payroll Header Type") { }
+        field(1057; "Remote Area Deduction"; Decimal) { }
+        field(1058; Gender; Enum "Employee Gender")
         {
             Caption = 'Gender';
             Editable = false;
         }
-        field(160; "Marital Status"; enum "Marital Status")
+        field(1059; "Marital Status"; enum "Marital Status") { Editable = false; }
+        field(1060; "Total SST Paid"; Decimal) { }
+        field(1061; "Total Tax Remuneration Paid"; Decimal) { }
+        field(1062; "LWP Days"; Decimal) { }
+        field(1063; "Prior Leave Days"; Decimal) { }
+        field(1064; "Property Insurance Premium"; Decimal) { }
+        field(1065; Selected; Boolean) { }
+        field(1066; "Current Non-Payments"; Decimal) { Editable = false; }
+        field(1067; "Projected Non-Payments"; Decimal) { Editable = false; }
+        field(1068; "Past Non-Payments"; Decimal) { Editable = false; }
+        field(1069; "39% Slab"; Decimal) { }
+        field(1070; "Post Resignation Days"; Decimal) { }
+        field(1071; "Post Payroll Days"; Decimal)
         {
+            Description = 'Post Payroll Days';
             Editable = false;
+            trigger OnValidate()
+            begin
+                GetTotalDays;
+            end;
         }
-        field(161; "Total SST Paid"; Decimal) { }
-        field(162; "Total Tax Remuneration Paid"; Decimal) { }
-        field(163; "LWP Days"; Decimal) { }
-        field(164; "Prior Leave Days"; Decimal) { }
-        field(165; "Property Insurance Premium"; Decimal) { }
-        field(166; Selected; Boolean) { }
-        field(167; "Current Non-Payments"; Decimal)
+        field(1072; "Absent Days Before Promotion"; Decimal)
         {
-            Editable = false;
+            Description = 'A';
         }
-        field(170; "Projected Non-Payments"; Decimal)
+        field(1073; "Absent Days After Promotion"; Decimal)
         {
-            Editable = false;
+            Description = 'A';
         }
-        field(171; "Past Non-Payments"; Decimal)
-        {
-            Editable = false;
-        }
+
     }
 
     keys
@@ -888,6 +1514,10 @@ table 50027 "Payroll Line"
         key(Key1; "Document No.", "Line No.")
         {
             SumIndexFields = "Net Pay";
+        }
+        key(Key2; "Salary Level", "Salary Grade")
+        {
+
         }
     }
 
@@ -925,7 +1555,11 @@ table 50027 "Payroll Line"
         CheckDuplicateEmployee;
         PGSetup.Get;
         AttendanceSetup.Get;
-
+        Employee.Get("Employee No.");
+        if Type = Type::Resignation then begin
+            Employee.TestField("Resignation Date");
+            Validate("Resignation Date", Employee."Resignation Date");
+        end;
         if AttendanceSetup."Type of Integration" = AttendanceSetup."Type of Integration"::Attendance then begin
             PayrollEngine.GetAttendanceForPayroll(Rec, PayrollHeader);
         end
@@ -984,7 +1618,7 @@ table 50027 "Payroll Line"
 
     procedure GetTotalDays()
     begin
-        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days";
+        "Total Days" := "Present Days" + "Week off Days" + "Leave Days" + "Absent Days" + "Post Payroll Days" + "Post Resignation Days";
         //"OT Hrs (30MIN)" := "OT Days" * 30/60;
     end;
 
@@ -1019,7 +1653,7 @@ table 50027 "Payroll Line"
         PayPeriodDays := PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1;
         PayPeriodHours := PayPeriodDays * AttendanceSetup."Working Hour per day";
 
-        if not (PayrollHeader.Irregular or (PayrollHeader.Type = PayrollHeader.Type::Resignation)) then begin
+        if not (PayrollHeader.Irregular or (PayrollHeader.Type = PayrollHeader.Type::Settlement)) then begin
             if PayPeriodDays <> "Total Days" then
                 Error(Text000, PayPeriodDays, "Employee No.");
         end;
@@ -1032,27 +1666,19 @@ table 50027 "Payroll Line"
     procedure ValidateEmployee()
     begin
         GetPayrollHeader;
+
         Employee.Get("Employee No.");
-        Employee.TestField("Salary Grade");
-        Employee.TestField("Salary Level");
         Employee.TestField("Employment Date");
-        if not (PayrollHeader.Type = PayrollHeader.Type::Resignation) then
+        if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
             Employee.TestField(Status, Employee.Status::Active);
         Employee.TestField("Tax Code");
+        Employee.TestField("Bank Account No.");
+
         HRSetup.Get;
-        //HRSetup.TESTFIELD("Employee Dimension");
-        HRSetup.TestField("Base Interest Rate");
         AttendanceSetup.Get;
-        /*DefaultDimension.RESET;
-        DefaultDimension.SETRANGE("Table ID",DATABASE::Employee);
-        DefaultDimension.SETRANGE("No.",Employee."No.");
-        DefaultDimension.SETRANGE("Dimension Code",HRSetup."Employee Dimension");
-        IF NOT DefaultDimension.FINDFIRST THEN
-          ERROR(Text001,Employee."No.");*/
-        BasicSalarywithGrade.Get(Employee."Salary Grade", Employee."Salary Level");
+        if BasicSalarywithGrade.Get(Employee."Salary Grade", Employee."Salary Level") then;
         if not PayrollHeader.Irregular then begin
             TestTotalDays(PayrollHeader);
-            //TESTFIELD("Present Days");
         end;
         if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Hour then
             TestField("Paid Hours");
@@ -1060,7 +1686,11 @@ table 50027 "Payroll Line"
         Validate("Global Dimension 2 Code", Employee."Global Dimension 2 Code");
         "Bank Account No." := Employee."Bank Account No.";
         "Bank Name" := Employee."Bank Name";
-        //ValidateShortcutDimCode(GetDimensionNo(HRSetup."Employee Dimension"),DefaultDimension."Dimension Value Code");
+
+        OnValidateEmployeeOnBeforeModifyLine(Rec);  //use it to check all the necessary validation before processing
+                                                    // HRSetup.TestField("Base Interest Rate");  again not every company has such setup
+                                                    // Employee.TestField("Salary Grade");  //not every company can have salary level and grade used
+                                                    // Employee.TestField("Salary Level");
         Modify;
         GetPayrollAttributes;
     end;
@@ -1115,84 +1745,56 @@ table 50027 "Payroll Line"
     begin
         GetPayrollHeader;
         if not PayrollHeader.Irregular then
-            /*IF "Present Days" = 0 THEN
-              EXIT;*/
-        PGSetup.Get;
+            PGSetup.Get;
         PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period");
+
         AbsentDeductionAmount := 0;
         BasicSalaryAfterDeduction := GetBasicSalaryAfterDeduction;
-        "Late Rate" := Round("Basic Salary" / 30 / 3, 1, '=');
+        if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
+            "Late Rate" := Round("Basic Salary" / PGSetup."Total Days" * 12, 1, '=') //For NIMB
+        else
+            "Late Rate" := Round("Basic Salary" / "Total Days", 1, '='); // For base
+
         Clear(SettlementRecovery);
         Clear(PromotionFound);
-        EmpSalAdv.Reset;
-        EmpSalAdv.SetRange("Employee Code", "Employee No.");
-        EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
-        EmpSalAdv.SetRange(Settled, false);
-        EmpSalAdv.SetRange("Loan Type", EmpSalAdv."Loan Type"::"Salary Advance");
-        if EmpSalAdv.FindFirst then
-            Validate("Salary Advance No.", EmpSalAdv."No.");
         Modify;
         ResetValues;
-        Clear(PromotionHistory);
-        PromotionHistory.Reset;
-        PromotionHistory.SetRange("Employee No.", "Employee No.");
-        PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
-        if PromotionHistory.FindFirst then begin
-            PromotionFound := true;
-            //Absent Days for LWP before and after promotion
-            EmployeeAttendActivity.Reset;
-            EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
-            EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            EmployeeAttendActivity.SetRange("Present Day", 0);
-            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
-            EmployeeAttendActivity.CalcSums("Absent Day");
-            rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
 
-            // EmployeeAttendActivity.Reset;
-            // EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
-            // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
-            // EmployeeAttendActivity.SetRange("Present Day", 0);
-            //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Regular then
-            EmployeeAttendActivity.SetRange("Attendance Date");
-            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
-            EmployeeAttendActivity.CalcSums("Absent Day");
-            Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
-            // EmployeeAttendActivity.SetRange("Attendance Date");
-            // // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date",);
-            // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
-            // EmployeeAttendActivity.CalcSums("Absent Day");
-            // Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
-            Rec.Modify();
-            GetGlobalAttributes; //temporary
+        GetGlobalAttributes();
+        CalculateAbsentasimBeforeAndAfterpromotion();
+        UpdateSalaryAdvanceNo();
+        CalculateLateDeduction();
+        CalculateOTBenifit();
+        GetTotalInsurranceClaim();
 
-        end;
+
+        if PayrollHeader.Type = PayrollHeader.Type::Settlement then
+            GetSettlementRecovery();
+
         PayrollAttributesUsage.Reset;
         PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
-        //PayrollAttributesUsage.SETFILTER(Code,'PF-BENEFIT');//Min -- for Check
         if PayrollAttributesUsage.FindFirst then
             repeat
-                //IF PayrollAttributes.GET(PayrollAttributesUsage.Code) THEN BEGIN
-                PayrollAttributes.Reset;
+                PayrollAttributes.Reset;  //here reset is used instead of get to select only irregular attribute on processing irregular payroll 
+                                          //because irregular in not defined in payroll attribute uses table
                 if not PayrollHeader.Irregular then
                     PayrollAttributes.SetRange(Irregular, false)
                 else
                     PayrollAttributes.SetRange(Irregular, true);
-                //PayrollAttributes.SETRANGE("Apply Every Month",TRUE);
                 PayrollAttributes.SetRange(Code, PayrollAttributesUsage.Code);
                 if PayrollAttributes.FindFirst then begin
                     AttributeAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
-                            if PGSetup."Loan Attribute" = PayrollAttributes.Code then begin
-                                if (PayrollAttributesUsage."Is Loan EMI Applicable") then
-                                    if (PayrollAttributesUsage."Last EMI Date" = 0D) then begin
-                                        AttributeAmount := PayrollAttributesUsage.Amount;
-                                    end else
-                                        if (PayrollAttributesUsage."Last EMI Date" >= PayrollHeader."From Date") then
-                                            AttributeAmount := PayrollAttributesUsage.Amount;
-                            end else
-                                AttributeAmount := PayrollAttributesUsage.Amount;
+                            // if PGSetup."Loan Attribute" = PayrollAttributes.Code then begin  //this code will sent to seprate procedure
+                            //     if (PayrollAttributesUsage."Is Loan EMI Applicable") then
+                            //         if (PayrollAttributesUsage."Last EMI Date" = 0D) then begin
+                            //             AttributeAmount := PayrollAttributesUsage.Amount;
+                            //         end else
+                            //             if (PayrollAttributesUsage."Last EMI Date" >= PayrollHeader."From Date") then
+                            //                 AttributeAmount := PayrollAttributesUsage.Amount;
+                            // end else
+                            AttributeAmount := PayrollAttributesUsage.Amount;
                         end else
                             if PayrollAttributesUsage.Formula <> '' then
                                 AttributeAmount := EvaluateAmount(PayrollAttributesUsage.Formula, false)
@@ -1201,85 +1803,23 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
-                        if PayrollAttributes."Apply Every Month" then begin
-                            PayrollAttributesUsage.Amount := AttributeAmount;
-                            PayrollAttributesUsage.Modify;
-                        end;
-                        if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin
+                        // if PayrollAttributes."Apply Every Month" then begin  //will see
+                        //     PayrollAttributesUsage.Amount := AttributeAmount;
+                        //     PayrollAttributesUsage.Modify;
+                        // end;
+                        // if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin  //always deduct if deduct on absent is true
+                        if PayrollAttributes."Deduct on Absent" then
                             AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                        end;//temporary
-                        if PayrollAttributes."Differential Interest" then begin //calculate differential interest
-                            LoanOutstandingfromFinacle.Reset;
-                            LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
-                            LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
-                            LoanOutstandingfromFinacle.SetRange("Is Manual", false);
-                            if LoanOutstandingfromFinacle.FindSet then
-                                repeat
-                                    case LoanOutstandingfromFinacle."Loan Type" of
-                                        LoanOutstandingfromFinacle."Loan Type"::"Personal Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(2, LoanOutstandingfromFinacle."Outstanding Amount");
-                                        LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
-                                            AttributeAmount += CalculateDifferentialnterest(3, LoanOutstandingfromFinacle."Outstanding Amount");
-                                        LoanOutstandingfromFinacle."Loan Type"::"Vehicle Loan":
-                                            AttributeAmount += CalculateDifferentialnterest(4, LoanOutstandingfromFinacle."Outstanding Amount");
-                                    end;
-                                until LoanOutstandingfromFinacle.Next = 0;
-                        end;
-                        /*IF PayrollAttributes.Subtype IN [PayrollAttributes.Subtype::"Employee Contribution",PayrollAttributes.Subtype::"Employer Contribution"] THEN
-                           BasicAdjustmentPF(AttributeAmount);*/
+                        //end;//temporary
+
+                        CalculateDifferentialInterestAmount(AttributeAmount);  //will check and send the code above if possible
+
                         RoundAmount(AttributeAmount);
-                        if AttributeAmount <> 0 then //pradhan
+                        if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
                     end;
                 end;
-            //END; //Min 3.20.2022 -- Commented
             until PayrollAttributesUsage.Next = 0;
-        if PGSetup."Late Deduction Component" <> '' then begin
-            if PayrollAttributes.Get(PGSetup."Late Deduction Component") then begin
-                if PayrollAttributes.Status = PayrollAttributes.Status::Active then begin
-                    AttributeAmount := "Late Rate" * "Late Days";
-                    RoundAmount(AttributeAmount);
-                    SaveValues(AttributeAmount, PayrollAttributes.Code);
-                end;
-            end;
-        end;
-        /*
-        IF PGSetup."OT Benefit Component" <> '' THEN BEGIN
-          IF PayrollAttributes.GET(PGSetup."OT Benefit Component") THEN BEGIN
-            IF PayrollAttributes.Status = PayrollAttributes.Status::Active THEN BEGIN
-              IF PayrollAttributesUsage.GET(PayrollAttributes.Code,Employee."No.") THEN BEGIN
-                AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
-                RoundAmount(AttributeAmount);
-                SaveValues(AttributeAmount,PayrollAttributes.Code);
-              END;
-            END;
-          END;
-        END;
-        */
-        //AT >>
-        if "Total Insurance Claim Amount" > 0 then begin
-            if PGSetup."Insurance Recover" <> '' then begin
-                if PayrollAttributes.Get(PGSetup."Insurance Recover") then begin
-                    if PayrollAttributes.Status = PayrollAttributes.Status::Active then begin
-                        if PayrollAttributesUsage.Get(PayrollAttributes.Code, Employee."No.") then begin
-                            HRSetup.Get;
-                            AttributeAmount := ((HRSetup."Policy End Date" - "Resignation Date") / 365) * HRSetup."Medical Insurance Premium";
-                            RoundAmount(AttributeAmount);
-                            SaveValues(AttributeAmount, PayrollAttributes.Code);
-                        end;
-                    end;
-                end;
-            end;
-        end;
-        //AT <<
-        if PayrollHeader.Type = PayrollHeader.Type::Resignation then begin
-            if PGSetup."Settlement Recovery" <> '' then begin
-                if PayrollAttributes.Get(PGSetup."Settlement Recovery") then begin
-                    RoundAmount(SettlementRecovery);
-                    SaveValues(SettlementRecovery, PayrollAttributes.Code);
-                end;
-            end;
-        end;
     end;
 
     local procedure IsValidComponent(): Boolean
@@ -1333,7 +1873,7 @@ table 50027 "Payroll Line"
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
     var
-        OperatorStack: array[100] of Code[10];
+        OperatorStack: array[100] of Code[20];
         NumberStack: array[100] of Decimal;
         DecNumber: Decimal;
         ContiguousNumber: Boolean;
@@ -1341,7 +1881,7 @@ table 50027 "Payroll Line"
         Counter: Integer;
         Num1: Decimal;
         Num2: Decimal;
-        operat: Code[10];
+        operat: Code[20];
     begin
         ResolveColumn(Expression, BasicFromLine);
         Expression := DelChr(Expression, '=', ',');
@@ -1479,7 +2019,7 @@ table 50027 "Payroll Line"
                     PayrollAttributesUsage.SetRange(Code, PayrollAttributes.Code);
                     PayrollAttributesUsage.SetRange("Employee Code", Employee."No.");
                     if PayrollAttributesUsage.FindFirst then begin
-                        //IF PayrollAttributesUsage.Amount <> 0 THEN          //pradhan
+                        //IF PayrollAttributesUsage.Amount <> 0 THEN           
                         if PayrollAttributesUsage.Amount < 0 then begin
                             Length := StrLen(Expression);
                             Substring1 := CopyStr(Expression, 1, StrPosition - 2);
@@ -1554,7 +2094,7 @@ table 50027 "Payroll Line"
             TotalDaysInMonth := PGSetup."Total Days" / 12
         else
             TotalDaysInMonth := "Total Days";
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+        if PayrollHeader.Type in [PayrollHeader.Type::Payroll, PayrollHeader.Type::Resignation] then begin
             if not PayrollHeader.Irregular then begin
                 // if AttendanceSetup."Calculation Method" = AttendanceSetup."Calculation Method"::Day then
                 //     exit((CalculatedAmount / TotalDaysInMonth) * ("Present Days" + "Week off Days" + "Leave Days") +
@@ -1671,7 +2211,7 @@ table 50027 "Payroll Line"
         FieldRefs: FieldRef;
     begin
         RecRefs.Open(Database::"Payroll Line");
-        for FieldID := 50 to 100 do begin
+        for FieldID := 61 to 220 do begin
             FieldRefs := RecRefs.Field(1);
             FieldRefs.SetRange(PayrollHeader."No.");
             FieldRefs := RecRefs.Field(2);
@@ -1736,7 +2276,6 @@ table 50027 "Payroll Line"
             repeat
                 if PayrollAttributes.Get(PayrollColumnConfiguration."Variable Field Code") then begin
                     AttributeAmount := 0;
-                    //IF IsValidComponent THEN BEGIN //Min 3.20.2022 -- Commented
                     FieldRefs := RecRefs.Field(1);
                     FieldRefs.SetRange(Employee."Salary Grade");
                     FieldRefs := RecRefs.Field(2);
@@ -1760,17 +2299,14 @@ table 50027 "Payroll Line"
                         PriorPromotionAmt := PriorPromotionAmt / "Total Days" * (PromotionHistory."Promoted Date" - PayCyclePeriod."Start Date");
                         AttributeAmount := AttributeAmount + PriorPromotionAmt + PrevAttributeAmt - CurrentAttributeAmtAbsent;
                     end;
-                    /*IF PayrollAttributes."Deduct on Absent" THEN BEGIN //pradhan -- calculating of after dedcution
-                        AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                    END;*/
+
                     RoundAmount(AttributeAmount);
-                    if PayrollHeader.Type = PayrollHeader.Type::Resignation then
+                    if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                         DeductForRecovery(AttributeAmount);
                     if (not PayrollHeader.Irregular) then
                         SaveValues(AttributeAmount, PayrollAttributes.Code);
                     PayrollAttributesUsageModify(PayrollAttributes.Code, AttributeAmount);
                 end;
-            //END; //Min 3.20.2022 -- Commented
             until PayrollColumnConfiguration.Next = 0;
         end;
 
@@ -1798,7 +2334,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[10]): Decimal
+    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -1812,7 +2348,7 @@ table 50027 "Payroll Line"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[10]): Integer
+    local procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -1834,7 +2370,7 @@ table 50027 "Payroll Line"
             Error('Resignation not approved yet.');
 
         PostedPayrollHeader.Reset;
-        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Resignation);
+        PostedPayrollHeader.SetRange(Type, PostedPayrollHeader.Type::Settlement);
         if PostedPayrollHeader.FindFirst then
             repeat
                 PostedPayrollline.Reset;
@@ -2127,5 +2663,157 @@ table 50027 "Payroll Line"
 
         "Tax Exempted Insurance Premium" := FinalLifeInsAmount + FinalHealthInsAmt + FinalPropertyInsAmt;
         */
+    end;
+
+    procedure CalculateAbsentasimBeforeAndAfterpromotion()
+    var
+        EmployeeAttendActivity: Record "Employee Attendance & Activity";
+    begin
+        Clear(PromotionHistory);
+        PromotionHistory.Reset;
+        PromotionHistory.SetRange("Employee No.", "Employee No.");
+        PromotionHistory.SetRange("Promoted Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
+        if PromotionHistory.FindFirst then begin
+            PromotionFound := true;
+            //Absent Days for LWP before and after promotion
+            EmployeeAttendActivity.Reset;
+            EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            EmployeeAttendActivity.SetRange("Present Day", 0);
+            EmployeeAttendActivity.SetRange("Attendance Date", PayrollHeader."From Date", PromotionHistory."Promoted Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            rec."Absent Days Before Promotion" := EmployeeAttendActivity."Absent Day";
+
+            // EmployeeAttendActivity.Reset;
+            // EmployeeAttendActivity.SetRange("Employee No.", Rec."Employee No.");
+            // EmployeeAttendActivity.SetRange("Pay Type", EmployeeAttendActivity."Pay Type"::Unpaid);
+            // EmployeeAttendActivity.SetRange("Present Day", 0);
+            //if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
+            //if PayrollHeader."Employee Type" = PayrollHeader."Employee Type"::Permanent then
+            EmployeeAttendActivity.SetRange("Attendance Date");
+            EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            EmployeeAttendActivity.CalcSums("Absent Day");
+            Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            // EmployeeAttendActivity.SetRange("Attendance Date");
+            // // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date",);
+            // EmployeeAttendActivity.SetRange("Attendance Date", PromotionHistory."Promoted Date", PayCyclePeriod."Pay Date" - 1);
+            // EmployeeAttendActivity.CalcSums("Absent Day");
+            // Rec."Absent Days After Promotion" := EmployeeAttendActivity."Absent Day";
+            Rec.Modify();
+            GetGlobalAttributes; //temporary
+
+        end;
+    end;
+
+    procedure UpdateSalaryAdvanceNo()
+    var
+        EmpSalAdv: Record "Employee Loan/Advance";
+    begin
+        EmpSalAdv.Reset;
+        EmpSalAdv.SetRange("Employee Code", "Employee No.");
+        EmpSalAdv.SetRange("Approval Status", EmpSalAdv."Approval Status"::Approved);
+        EmpSalAdv.SetRange(Settled, false);
+        EmpSalAdv.SetRange("Loan Type", EmpSalAdv."Loan Type"::"Salary Advance");
+        if EmpSalAdv.FindFirst then
+            Validate("Salary Advance No.", EmpSalAdv."No.");
+    end;
+
+    procedure CalculateLatededuction()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Late Deduction");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                PayrollAttrUses.Amount := "Late Rate" * "Late Days";
+                PayrollAttrUses.Modify();
+            end;
+        end;
+    end;
+
+    procedure CalculateOTBenifit()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"OverTime Salary");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                AttributeAmount := ("Basic Salary" / "Total Days" / AttendanceSetup."Working Hour per day" * "OT Hrs");
+                RoundAmount(AttributeAmount);
+                PayrollAttrUses.Amount := AttributeAmount;
+                PayrollAttrUses.Modify();
+            end;
+        end;
+
+    end;
+
+    procedure GetTotalInsurranceClaim()
+    var
+        AttributeAmount: Decimal;
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        if "Total Insurance Claim Amount" > 0 then begin
+            PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Insurance Recover");
+            PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+            if PayrollAttr.FindFirst() then begin
+                if PayrollAttrUses.Get(PayrollAttr.Code, "Employee No.") then begin
+                    HRSetup.Get;
+                    AttributeAmount := ((HRSetup."Policy End Date" - "Resignation Date") / 365) * HRSetup."Medical Insurance Premium";
+                    RoundAmount(AttributeAmount);
+                    PayrollAttrUses.Modify();
+                end
+            end;
+        end;
+
+    end;
+
+    procedure GetSettlementRecovery()
+    var
+        PayrollAttr: Record "Payroll Attributes";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        PayrollAttr.SetRange("Specific Attributes", PayrollAttr."Specific Attributes"::"Insurance Recover");
+        PayrollAttr.SetRange(Status, PayrollAttr.Status::Active);
+        if PayrollAttr.FindFirst() then begin
+            if PayrollAttrUses.Get("Employee No.", PayrollAttr.Code) then begin
+                RoundAmount(SettlementRecovery);
+                PayrollAttrUses.Amount := SettlementRecovery;
+                PayrollAttrUses.Modify();
+            end;
+        end;
+    end;
+
+    local procedure CalculateDifferentialInterestAmount(var AttributeAmount: Decimal)
+    var
+        LoanOutstandingfromFinacle: Record "Loan Outstanding from Finacle";
+    begin
+        if PayrollAttributes."Differential Interest" then begin //calculate differential interest
+            LoanOutstandingfromFinacle.Reset;
+            LoanOutstandingfromFinacle.SetRange("Employee No.", Employee."No.");
+            LoanOutstandingfromFinacle.SetFilter("Outstanding Amount", '<>0');
+            LoanOutstandingfromFinacle.SetFilter("Loan Type", '<>%1|<>%2', LoanOutstandingfromFinacle."Loan Type"::" ", LoanOutstandingfromFinacle."Loan Type"::"Salary Advance");
+            LoanOutstandingfromFinacle.SetRange("Is Manual", false);
+            if LoanOutstandingfromFinacle.FindSet then
+                repeat
+                    case LoanOutstandingfromFinacle."Loan Type" of
+                        LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Loan Type"::"Home Loan Insurance Tieup":
+                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type"::"Home Loan", LoanOutstandingfromFinacle."Outstanding Amount");
+                        else
+                            AttributeAmount += CalculateDifferentialnterest(LoanOutstandingfromFinacle."Loan Type", LoanOutstandingfromFinacle."Outstanding Amount");
+                    end;
+                until LoanOutstandingfromFinacle.Next = 0;
+        end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnValidateEmployeeOnBeforeModifyLine(var PayrollLine: Record "Payroll Line")
+    begin
     end;
 }

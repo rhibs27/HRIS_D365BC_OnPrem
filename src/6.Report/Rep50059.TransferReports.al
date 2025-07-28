@@ -8,7 +8,7 @@ report 50059 "Transfer Reports"
 
     dataset
     {
-        dataitem("Employee/HR Transfer"; "Employee/HR Transfer")
+        dataitem("Employee Transfer"; "Employee Transfer")
         {
             DataItemTableView = where(Type = filter("Employee Transfer" | "HR Transfer"), "Employee No." = filter(<> ''));
             column(EmployeeNo_; "Employee No.") { }
@@ -38,7 +38,7 @@ report 50059 "Transfer Reports"
             // column(ApproverCode_; "Approver Code") { }
             // column(ScreenerID_; "Screener ID") { }
             // column(ScreenerDate_; "Screener Date") { }
-            column(IncomingSupervisiorName_EmployeeActivity; "Employee/HR Transfer"."Incoming Supervisior Name") { }
+            column(IncomingSupervisiorName_EmployeeActivity; "Employee Transfer"."Incoming Supervisior Name") { }
 
             trigger OnAfterGetRecord()
             begin
@@ -48,8 +48,8 @@ report 50059 "Transfer Reports"
                 if SalaryLevel.Get("Salary Level Code") then;
                 if FromFunctionTitle.Get("Functional Title") then;
                 if ToFunctionalTitle.Get("Functional Title (To)") then
-                    TransferFrom := ExitTransferDeputationWise("Employee/HR Transfer"."Deputation On", true);
-                TransferTo := ExitTransferDeputationWise("Employee/HR Transfer"."Deputation On (To)", false);
+                    TransferFrom := ExitTransferDeputationWise("Employee Transfer"."Deputation On", true);
+                TransferTo := ExitTransferDeputationWise("Employee Transfer"."Deputation On (To)", false);
             end;
 
             trigger OnPreDataItem()
@@ -118,14 +118,14 @@ report 50059 "Transfer Reports"
                             if TransferCategory <> TransferCategory::" " then
                                 SetRange("Transfer Category", TransferCategory);
                             if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                                "Employee/HR Transfer".SetRange("Deputation On (To)", DeputOn)
+                                "Employee Transfer".SetRange("Deputation On (To)", DeputOn)
                             else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                                "Employee/HR Transfer".SetRange("Deputation On", DeputOn)
+                                "Employee Transfer".SetRange("Deputation On", DeputOn)
                             else begin
-                                "Employee/HR Transfer".FilterGroup(-1);
-                                "Employee/HR Transfer".SetRange("Deputation On", DeputOn);
-                                "Employee/HR Transfer".SetRange("Deputation On (To)", DeputOn);
-                                "Employee/HR Transfer".FilterGroup(0);
+                                "Employee Transfer".FilterGroup(-1);
+                                "Employee Transfer".SetRange("Deputation On", DeputOn);
+                                "Employee Transfer".SetRange("Deputation On (To)", DeputOn);
+                                "Employee Transfer".FilterGroup(0);
                             end;
                             FilterCaption := 'Date filter: ' + Format(EffectiveStartDate) + ' To ' + Format(EffectiveEndDate);
                             if TransferCategory <> TransferCategory::" " then
@@ -417,20 +417,20 @@ report 50059 "Transfer Reports"
             DeputationOn::Branch:
                 begin
                     if OutGoing then begin
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Employee/HR Transfer"."Shortcut Dimension 1 Code") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Employee Transfer"."Shortcut Dimension 1 Code") then
                             exit(OrganizationStructureList.Name);
                     end else
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Employee/HR Transfer"."Shortcut Dimension 1 Code (To)") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, "Employee Transfer"."Shortcut Dimension 1 Code (To)") then
                             exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOn::Department:
                 begin
                     if OutGoing then begin
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee/HR Transfer".Department) then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee Transfer".Department) then
                             exit(OrganizationStructureList.Name);
                     end else
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee/HR Transfer"."Department Code (To)") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee Transfer"."Department Code (To)") then
                             exit(OrganizationStructureList.Name);
                 end;
 
@@ -439,16 +439,16 @@ report 50059 "Transfer Reports"
                     // EmpHie.Reset;
                     // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
                     // if OutGoing then
-                    //     OrganizationStructureList.(Code, "Employee/HR Transfer"."Extension Counter Code")
+                    //     OrganizationStructureList.(Code, "Employee Transfer"."Extension Counter Code")
                     // else
-                    //     EmpHie.SetRange(Code, "Employee/HR Transfer"."Extension Counter (To)");
+                    //     EmpHie.SetRange(Code, "Employee Transfer"."Extension Counter (To)");
                     // if EmpHie.FindFirst then
                     //     exit(EmpHie.Description);
                     if OutGoing then begin
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Employee/HR Transfer"."Extension Counter Code") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", "Employee Transfer"."Extension Counter Code") then
                             exit(OrganizationStructureList.Name);
                     end else
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee/HR Transfer"."Extension Counter (To)") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee Transfer"."Extension Counter (To)") then
                             exit(OrganizationStructureList.Name);
                 end;
 
@@ -456,10 +456,10 @@ report 50059 "Transfer Reports"
             //     begin
             //         if OutGoing then begin
             //             SubProvince.Reset;
-            //             SubProvince.SetRange(Code, "Employee/HR Transfer"."Sub Province Code")
+            //             SubProvince.SetRange(Code, "Employee Transfer"."Sub Province Code")
             //         end else begin
             //             SubProvince.Reset;
-            //             SubProvince.SetRange(Code, "Employee/HR Transfer"."Sub Province Code (To)");
+            //             SubProvince.SetRange(Code, "Employee Transfer"."Sub Province Code (To)");
             //         end;
             //         if SubProvince.FindFirst then
             //             exit(SubProvince.City);
@@ -470,26 +470,26 @@ report 50059 "Transfer Reports"
                     // EmpHie.Reset;
                     // EmpHie.SetRange(Type, EmpHie.Type::Unit);
                     // if OutGoing then
-                    //     EmpHie.SetRange(Code, "Employee/HR Transfer"."Extension Counter Code")
+                    //     EmpHie.SetRange(Code, "Employee Transfer"."Extension Counter Code")
                     // else
-                    //     EmpHie.SetRange(Code, "Employee/HR Transfer"."Extension Counter (To)");
+                    //     EmpHie.SetRange(Code, "Employee Transfer"."Extension Counter (To)");
                     // if EmpHie.FindFirst then
                     //     exit(EmpHie.Description);
                     if OutGoing then begin
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Employee/HR Transfer"."Unit Code") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Employee Transfer"."Unit Code") then
                             exit(OrganizationStructureList.Name);
                     end else
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Employee/HR Transfer"."Unit (To)") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, "Employee Transfer"."Unit (To)") then
                             exit(OrganizationStructureList.Name);
                 end;
 
             DeputationOn::Province:
                 begin
                     if OutGoing then begin
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Employee/HR Transfer"."Province Code") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Employee Transfer"."Province Code") then
                             exit(OrganizationStructureList.Name);
                     end else
-                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee/HR Transfer"."Province Code (To)") then
+                        if OrganizationStructureList.Get(OrganizationStructureList.Type::Department, "Employee Transfer"."Province Code (To)") then
                             exit(OrganizationStructureList.Name);
                 end;
         end;
@@ -502,84 +502,84 @@ report 50059 "Transfer Reports"
             DeputOn::Branch:
                 begin
                     if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                        "Employee/HR Transfer".SetRange("Shortcut Dimension 1 Code (To)", Filteron)
+                        "Employee Transfer".SetRange("Shortcut Dimension 1 Code (To)", Filteron)
                     else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                        "Employee/HR Transfer".SetRange("Shortcut Dimension 1 Code", Filteron)
+                        "Employee Transfer".SetRange("Shortcut Dimension 1 Code", Filteron)
                     else begin
-                        "Employee/HR Transfer".FilterGroup(-1);
-                        "Employee/HR Transfer".SetRange("Shortcut Dimension 1 Code", Filteron);
-                        "Employee/HR Transfer".SetRange("Shortcut Dimension 1 Code (To)", Filteron);
-                        "Employee/HR Transfer".FilterGroup(0);
+                        "Employee Transfer".FilterGroup(-1);
+                        "Employee Transfer".SetRange("Shortcut Dimension 1 Code", Filteron);
+                        "Employee Transfer".SetRange("Shortcut Dimension 1 Code (To)", Filteron);
+                        "Employee Transfer".FilterGroup(0);
                     end;
                 end;
 
             DeputOn::Department:
                 begin
                     if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                        "Employee/HR Transfer".SetRange("Department Code (To)", Filteron)
+                        "Employee Transfer".SetRange("Department Code (To)", Filteron)
                     else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                        "Employee/HR Transfer".SetRange(Department, Filteron)
+                        "Employee Transfer".SetRange(Department, Filteron)
                     else begin
-                        "Employee/HR Transfer".FilterGroup(-1);
-                        "Employee/HR Transfer".SetRange(Department, Filteron);
-                        "Employee/HR Transfer".SetRange("Department Code (To)", Filteron);
-                        "Employee/HR Transfer".FilterGroup(0);
+                        "Employee Transfer".FilterGroup(-1);
+                        "Employee Transfer".SetRange(Department, Filteron);
+                        "Employee Transfer".SetRange("Department Code (To)", Filteron);
+                        "Employee Transfer".FilterGroup(0);
                     end;
                 end;
 
             DeputOn::"Extension Counter":
                 begin
                     if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                        "Employee/HR Transfer".SetRange("Extension Counter (To)", Filteron)
+                        "Employee Transfer".SetRange("Extension Counter (To)", Filteron)
                     else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                        "Employee/HR Transfer".SetRange("Extension Counter Code", Filteron)
+                        "Employee Transfer".SetRange("Extension Counter Code", Filteron)
                     else begin
-                        "Employee/HR Transfer".FilterGroup(-1);
-                        "Employee/HR Transfer".SetRange("Extension Counter Code", Filteron);
-                        "Employee/HR Transfer".SetRange("Extension Counter (To)", Filteron);
-                        "Employee/HR Transfer".FilterGroup(0);
+                        "Employee Transfer".FilterGroup(-1);
+                        "Employee Transfer".SetRange("Extension Counter Code", Filteron);
+                        "Employee Transfer".SetRange("Extension Counter (To)", Filteron);
+                        "Employee Transfer".FilterGroup(0);
                     end;
                 end;
 
             DeputOn::Province:
                 begin
                     if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                        "Employee/HR Transfer".SetRange("Province Code (To)", Filteron)
+                        "Employee Transfer".SetRange("Province Code (To)", Filteron)
                     else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                        "Employee/HR Transfer".SetRange("Province Code", Filteron)
+                        "Employee Transfer".SetRange("Province Code", Filteron)
                     else begin
-                        "Employee/HR Transfer".FilterGroup(-1);
-                        "Employee/HR Transfer".SetRange("Province Code", Filteron);
-                        "Employee/HR Transfer".SetRange("Province Code (To)", Filteron);
-                        "Employee/HR Transfer".FilterGroup(0);
+                        "Employee Transfer".FilterGroup(-1);
+                        "Employee Transfer".SetRange("Province Code", Filteron);
+                        "Employee Transfer".SetRange("Province Code (To)", Filteron);
+                        "Employee Transfer".FilterGroup(0);
                     end;
                 end;
 
             // DeputOn::"Sub Province":
             //     begin
             //         if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-            //             "Employee/HR Transfer".SetRange("Sub Province Code (To)", Filteron)
+            //             "Employee Transfer".SetRange("Sub Province Code (To)", Filteron)
             //         else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-            //             "Employee/HR Transfer".SetRange("Sub Province Code", Filteron)
+            //             "Employee Transfer".SetRange("Sub Province Code", Filteron)
             //         else begin
-            //             "Employee/HR Transfer".FilterGroup(-1);
-            //             "Employee/HR Transfer".SetRange("Sub Province Code", Filteron);
-            //             "Employee/HR Transfer".SetRange("Sub Province Code (To)", Filteron);
-            //             "Employee/HR Transfer".FilterGroup(0);
+            //             "Employee Transfer".FilterGroup(-1);
+            //             "Employee Transfer".SetRange("Sub Province Code", Filteron);
+            //             "Employee Transfer".SetRange("Sub Province Code (To)", Filteron);
+            //             "Employee Transfer".FilterGroup(0);
             //         end;
             //     end;
 
             DeputOn::Unit:
                 begin
                     if "Incoming/Outgoing" = "Incoming/Outgoing"::Incoming then
-                        "Employee/HR Transfer".SetRange("Unit (To)", Filteron)
+                        "Employee Transfer".SetRange("Unit (To)", Filteron)
                     else if "Incoming/Outgoing" = "Incoming/Outgoing"::Outgoing then
-                        "Employee/HR Transfer".SetRange("Unit Code", Filteron)
+                        "Employee Transfer".SetRange("Unit Code", Filteron)
                     else begin
-                        "Employee/HR Transfer".FilterGroup(-1);
-                        "Employee/HR Transfer".SetRange("Unit (To)", Filteron);
-                        "Employee/HR Transfer".SetRange("Unit Code", Filteron);
-                        "Employee/HR Transfer".FilterGroup(0);
+                        "Employee Transfer".FilterGroup(-1);
+                        "Employee Transfer".SetRange("Unit (To)", Filteron);
+                        "Employee Transfer".SetRange("Unit Code", Filteron);
+                        "Employee Transfer".FilterGroup(0);
                     end;
                 end;
         end;

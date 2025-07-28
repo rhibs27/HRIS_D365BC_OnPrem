@@ -61,11 +61,11 @@ codeunit 50022 "Allowance Assignment Mgt"
             until AllowanceLineCheck.Next = 0;
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         AllowanceAssignment.Modify(true);
-        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending");
         // if ApproveBool then begin
         //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         //     AllowanceAssignment.Modify(true);
-        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Pending);
         //     // AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Approved);
         //     // AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Screened);
         // end else begin
@@ -112,13 +112,13 @@ codeunit 50022 "Allowance Assignment Mgt"
 
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
-        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+        AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
         if AllowanceLine.Findset() then
             repeat
                 if Approved then begin
                     if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
                         InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-                    if AllowanceLine."Approval Status" = AllowanceLine."Approval Status"::"Pending Approval" then begin
+                    if AllowanceLine."Approval Status" = AllowanceLine."Approval Status"::"Pending" then begin
                         AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
                         AllowanceLine.Validate("Approved Date", Today);
                     end;
@@ -175,7 +175,7 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     //     AllowanceLine.Reset;
     //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
     //     if Approved then
     //         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
     //     else
@@ -206,7 +206,7 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     //     AllowanceLine.Reset;
     //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending Approval");
+    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
     //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
     //     // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
     //     AllowanceLine.ModifyAll("Approved Date", Today);
@@ -722,7 +722,6 @@ codeunit 50022 "Allowance Assignment Mgt"
                         exit(Round(PGSetup."Cash Risk Percent" / 100 * Employee."Contract Salary Amount" / NoOfDays, 0.00001, '='));
                     end;
                 end;
-
             PGSetup."Friday Counter":
                 begin
                     SalaryLevel.Get(Employee."Salary Level");
@@ -745,7 +744,7 @@ codeunit 50022 "Allowance Assignment Mgt"
             AllowanceAssignmentLine2.SetView(AllowanceAssignmentPageBuilder.GetView('Reject Allowance Assignment'));
             if AllowanceAssignmentLine2.GetFilter("Rejection Remarks") = '' then
                 Error('Rejection remarks must have value');
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending Approval");
+            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::"Pending");
             AllowanceAssignmentLine.Validate("Rejection Remarks", AllowanceAssignmentLine2.GetFilter("Rejection Remarks"));
             AllowanceAssignmentLine.Validate("Approval Status", AllowanceAssignmentLine."Approval Status"::Rejected);
             AllowanceAssignmentLine.Modify;
@@ -756,7 +755,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
+    procedure InsertAllowanceLine(DocumentNo: Code[20]; AllowanceType: Code[20]; Panel: Enum Panel; EmployeeNo: Code[20]; FromDate: date; ToDate: date)
     var
         AllowanceAssignLine: Record "Allowance Assignment Line";
         AllowanceAssignHeader: Record "Allowance Assignment Header";

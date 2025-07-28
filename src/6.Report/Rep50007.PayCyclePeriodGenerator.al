@@ -1,9 +1,6 @@
 report 50007 "Pay Cycle Period Generator"
 {
-    // version PRM19.01.01
-
     Caption = 'Pay Cycle Period Generator';
-    // Permissions = TableData TableData37032300 = rim;
     ProcessingOnly = true;
     ApplicationArea = All;
 
@@ -273,13 +270,13 @@ report 50007 "Pay Cycle Period Generator"
         PayFrequency: Enum "Pay Frequency";
         GenerateFrequency: Option " ",Weekly,BiWeekly,SemiMonthly,Monthly,BiMonthly,Quarterly,SemiAnnually,"Date Formula";
         DateFormula: Text[20];
-        PayCycleCode: Code[10];
+        PayCycleCode: Code[20];
         FROMPayPeriodStart: Date;
         CurrPayPeriodStart: Date;
         CurrPayPeriodEnd: Date;
         CountPeriods: Integer;
         DefaultPayPeriods: Integer;
-        PayCycleTermCode: Code[10];
+        PayCycleTermCode: Code[20];
         PayPeriodsToGenerate: Integer;
         Day: Integer;
         WhatDay: Integer;
@@ -318,13 +315,13 @@ report 50007 "Pay Cycle Period Generator"
         Text038: Label 'A generated Start Date cannot exceed the Pay Period Start Date plus one year.';
         Text039: Label 'This report can only be run from the Pay Cycle Terms form.';
         Text040: Label 'You must enter a Generate Frequency.';
-        [InDataSet]
+
         DateFormulaEditable: Boolean;
-        [InDataSet]
+
         DefaultInsurableHoursVisible: Boolean;
-        [InDataSet]
+
         GenerateFrequencyEditable: Boolean;
-        [InDataSet]
+
         PayPeriodsToGenerateEditable: Boolean;
 
     procedure GeneratePayPeriods()
@@ -588,7 +585,7 @@ report 50007 "Pay Cycle Period Generator"
             PayPeriodsToGenerateEditable := true;
     end;
 
-    procedure OverlapCheck(NewTermStartDate: Date; NewTermEndDate: Date; PayCycleTermCode: Code[10]; PayCycleCode: Code[10])
+    procedure OverlapCheck(NewTermStartDate: Date; NewTermEndDate: Date; PayCycleTermCode: Code[20]; PayCycleCode: Code[20])
     var
         PayCycleTerm2: Record "Pay Cycle Term";
         PayCyclePeriod2: Record "Pay Cycle Period";

@@ -88,9 +88,36 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Employee Journal';
     }
-    value(22; "Allowance Assignment Claim")
+    value(22; "Overtime Bulk")
+    {
+        Caption = 'Overtime Bulk';
+    }
+    value(23; "Allowance Assignment Claim")
     {
         Caption = 'Allowance Assignment Claim';
     }
-
+    value(24; "Shift Assignment")
+    {
+        Caption = 'Shift Assignment';
+    }
+    value(25; Vacancy)
+    {
+        Caption = 'Vacancy';
+    }
+    value(26; Training)
+    {
+        Caption = 'Training';
+    }
+    value(27; "Loan Attachment")
+    {
+        Caption = 'Loan Attachment';
+    }
+    value(28; "Candiadte offer letter")
+    {
+        Caption = 'Candiadte offer letter';
+    }
+    value(29; Retirement)
+    {
+        Caption = 'Retirement';
+    }
 }

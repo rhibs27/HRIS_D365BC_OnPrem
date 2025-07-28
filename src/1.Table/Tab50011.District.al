@@ -4,9 +4,9 @@ table 50011 District
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "District Code"; Code[10]) { }
-        field(2; "District Name"; Text[30]) { }
-        field(3; Province; Code[10])
+        field(1; "District Code"; Code[20]) { }
+        field(2; "District Name"; Text[50]) { }
+        field(3; Province; Code[20])
         {
             TableRelation = Province;
             trigger OnValidate()
@@ -32,7 +32,7 @@ table 50011 District
             DataClassification = ToBeClassified;
             ValuesAllowed = Inside, Outside;
         }
-        field(7; "District Name(Nepali)"; Text[30])
+        field(7; "District Name(Nepali)"; Text[50])
         {
             Description = 'In Nepali';
         }

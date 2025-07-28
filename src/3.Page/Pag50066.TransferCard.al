@@ -2,8 +2,9 @@ page 50066 "Transfer Card"
 {
     // //Min -- Update field caption of "Shortcut Dimension 1 Code (To)" to "Branch Code (To)".
     // //Min 12.11.2022 -- for uneditable transfer effective date
-    SourceTable = "Employee/HR Transfer";
+    SourceTable = "Employee Transfer";
     ApplicationArea = All;
+    InsertAllowed=false;
 
     layout
     {
@@ -34,6 +35,12 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Salary Level Code field.';
                     ApplicationArea = All;
                 }
+                field("Salary Level Name"; Rec."Salary Level Name")
+                {
+                    ToolTip = 'Specifies the value of the Salary Level Name field.';
+                    ApplicationArea = All;
+                }
+
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.';
@@ -127,6 +134,19 @@ page 50066 "Transfer Card"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Requested Province"; Rec."Requested Province")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Province field.';
+                    ApplicationArea = All;
+                }
+                field("Requested Province Name"; Rec."Requested Province Name")
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies the value of the Requested Branch field.';
+                    ApplicationArea = All;
+                }
+
                 field("Notify to"; Rec."Notify to")
                 {
                     Visible = false;
@@ -194,6 +214,12 @@ page 50066 "Transfer Card"
                         // begin
                         //     GetTransferName;
                         // end;
+                    }
+                    field("Approver Role"; Rec."Approver Role From")
+                    {
+                        Caption = 'Approver Role From';
+                        ToolTip = 'Specifies the value of the Approver Role field.';
+                        ApplicationArea = All;
                     }
                     field("Functional Title"; Rec."Functional Title")
                     {
@@ -287,6 +313,13 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Functional Title Description(To) field.';
                         ApplicationArea = All;
                     }
+                    field("Approver Role To"; Rec."Approver Role To")
+                    {
+                        Caption = 'Approver Role (To)';
+                        ToolTip = 'Specifies the value of the Approver Role (To) field.';
+                        ApplicationArea = All;
+                    }
+
                     field("Province Code (To)"; Rec."Province Code (To)")
                     {
                         Editable = ProvinceEdit;
@@ -392,10 +425,10 @@ page 50066 "Transfer Card"
                         ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.';
                         ApplicationArea = All;
 
-                        trigger OnValidate()
-                        begin
-                            Rec.CalcFields("Outgoing Reporting Person Name");
-                        end;
+                        // trigger OnValidate()
+                        // begin
+                        //     Rec.CalcFields("Outgoing Reporting Person Name");
+                        // end;
                     }
                     field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
                     {
@@ -406,6 +439,7 @@ page 50066 "Transfer Card"
             }
             part(Attachment; "Attachment Subform")
             {
+                Editable = not IsACK;
                 SubPageLink = "No." = field("No.");
                 Visible = IsApproved and rec."Is Transfer Details Added" or IsACK or IsHold;
                 ApplicationArea = All;
@@ -524,7 +558,7 @@ page 50066 "Transfer Card"
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
+                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
@@ -818,7 +852,7 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 var
-                    EmployeeTransfer: Record "Employee/HR Transfer";
+                    EmployeeTransfer: Record "Employee Transfer";
                     PageTransferHistory: Page "Employee Transfer Requests";
                 begin
                     EmployeeTransfer.Reset;
@@ -916,7 +950,7 @@ page 50066 "Transfer Card"
         // end;
         SetLayout;
         // GetTransferName;
-        Rec.CalcFields("Outgoing Reporting Person Name");
+        // Rec.CalcFields("Outgoing Reporting Person Name");
         RecRef.GetTable(Rec);
     end;
 
@@ -1066,7 +1100,7 @@ page 50066 "Transfer Card"
 
     procedure GetTransferEditibility()
     begin
-        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General]; //Min 12.09.2022 -- General Option added;
+        TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General];
     end;
 
     // local procedure OnNewTransferRecord()

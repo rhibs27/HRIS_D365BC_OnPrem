@@ -21,9 +21,19 @@ page 50294 Municipalities
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("District Code"; Rec."District Code")
+                {
+                    ToolTip = 'Specifies the value of the District Code field.';
+                    ApplicationArea = All;
+                }
                 field("District Name "; Rec."District Name")
                 {
                     ToolTip = 'Specifies the value of the District Name field.';
+                    ApplicationArea = All;
+                }
+                field(Type; Rec.Type)
+                {
+                    ToolTip = 'Specifies the value of the Municipality Type field.';
                     ApplicationArea = All;
                 }
                 field("No of ward"; Rec."No of ward")
@@ -36,7 +46,7 @@ page 50294 Municipalities
     }
     trigger OnOpenPage()
     begin
-        Rec.SetAscending(Code, true);
+        rec.SetCurrentKey(Type);
+        Rec.SetAscending(Type, false);
     end;
-
 }

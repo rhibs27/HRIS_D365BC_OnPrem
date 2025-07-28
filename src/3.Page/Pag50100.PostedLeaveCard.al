@@ -104,11 +104,13 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the For Death Of field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Child's Gender"; Rec."Child's Gender")
                 {
                     ToolTip = 'Specifies the value of the Child''s Gender field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Pay Type"; Rec."Pay Type")
                 {
@@ -119,6 +121,7 @@ page 50100 "Posted Leave Card"
                 {
                     ToolTip = 'Specifies the value of the Compensatory Date field.';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Contact No."; Rec."Contact No.")
                 {
@@ -150,7 +153,7 @@ page 50100 "Posted Leave Card"
                 field("Rejection Remarks"; Rec."Rejection Remarks")
                 {
                     Editable = IsPending;
-                    Visible = IsPending;
+                    Visible = IsPending or IsRejected;
                     ToolTip = 'Specifies the value of the Rejection Remarks field.';
                     ApplicationArea = All;
                     trigger OnValidate()
@@ -174,36 +177,6 @@ page 50100 "Posted Leave Card"
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
-            // group(Approval)
-            // {
-            //     Caption = 'Approval';
-            //     Editable = false;
-            // field("Approver Type"; Rec."Approver Type")
-            // {
-            //     ToolTip = 'Specifies the value of the Approver Type field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Code"; Rec."Recommender Code")
-            // {
-            //     ToolTip = 'Specifies the value of the Recommender Code field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Recommender Name"; Rec."Recommender Name")
-            // {
-            //     ToolTip = 'Specifies the value of the Recommender Name field.';
-            //     ApplicationArea = All;
-            // }
-            // field("Approver Code"; Rec."Approver Code")
-            // {
-            //     ToolTip = 'Specifies the value of the Approver Code field.';
-            //     ApplicationArea = All;
-            //     }
-            //     field("Approver Name"; Rec."Approver Name")
-            //     {
-            //         ToolTip = 'Specifies the value of the Approver Name field.';
-            //         ApplicationArea = All;
-            //     }
-            // }
         }
     }
 
@@ -224,29 +197,9 @@ page 50100 "Posted Leave Card"
                 trigger OnAction()
                 begin
                     if LeaveMgt.ApplyForLeave(Rec) <> '' then begin
-                        // IsApplied := true;
                         Message('Leave has been sent for apporval.');
                         CurrPage.Close;
                     end;
-                end;
-            }
-            action("Recommend Request")
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = false;
-                ToolTip = 'Executes the Recommend Request action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // if Confirm('Do you want to recommend the request?', false) then begin
-                    //     Leavemgt.RecommendEmployeeLeave(Rec."No.");
-                    //     CurrPage.Close;
-                    // end;
                 end;
             }
             action("Approve Request")
@@ -303,8 +256,8 @@ page 50100 "Posted Leave Card"
                 trigger OnAction()
                 begin
                     if Confirm('Do you want Cancel the request?', false) then begin
-                        Leavemgt.OpenCancelEmpActivity(Rec);
-                        Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
+                        LeaveMgt.OpenCancelEmpActivity(Rec);
+                        // Message('Leave is Cancelled by %1', HRMgt.GetEmpName());
                     end;
                 end;
             }
@@ -326,21 +279,6 @@ page 50100 "Posted Leave Card"
                     end;
                 end;
             }
-            // action(Reopen)
-            // {
-            //     Image = ReOpen;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = false;
-            //     ToolTip = 'Executes the Reopen action.';
-            //     ApplicationArea = All;
-            //     trigger OnAction()
-            //     begin
-            //         Rec.ReopenDocument;
-            //     end;
-            // }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -368,22 +306,15 @@ page 50100 "Posted Leave Card"
         IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
         IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
         IsCancelled := Rec.Cancelled;
-        //IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+        IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
         RecRef.GetTable(Rec);
     end;
 
     var
         LeaveMgt: Codeunit "Leave Mgt.";
         HRMgt: Codeunit "HR Mgt.";
-
-        [InDataSet]
-        IsPending: Boolean;
-        StatusView: Boolean;
-        ApprovalStatusView: Boolean;
-        IsOpen: Boolean;
-        IsApproved: Boolean;
-        IsRejected: Boolean;
-        IsCancelled: Boolean;
+        IsOpen, IsPending, IsApproved, IsRejected, IsCancelled : Boolean;
+        StatusView, ApprovalStatusView : Boolean;
         RecRef: RecordRef;
         ApprovalMgt: Codeunit "Approver Mgt";
 }

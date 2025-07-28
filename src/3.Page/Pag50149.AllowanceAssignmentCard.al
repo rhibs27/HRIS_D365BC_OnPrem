@@ -212,6 +212,27 @@ page 50149 "Allowance Assignment Card"
                     // AllowanceMgt.ApproveRejectAllowanceAssignment(false, Rec."No.");
                 end;
             }
+            action("Allowance Assignment Summary")
+            {
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Shows Allowance Assignment Summary Report';
+                ApplicationArea = All;
+                // Visible = IsOpen;
+
+                //Visible = IsPending;
+                trigger OnAction()
+
+                begin
+
+                    Report.Run(Report::"Allowance Assignment Summary", true, false, Rec);
+
+                end;
+
+            }
             // action("Get Allowance")
             // {
             //     Image = GetLines;
@@ -300,7 +321,7 @@ page 50149 "Allowance Assignment Card"
         // Employee.SetRange("NAV Login ID", UserId);
         // if Employee.FindFirst then
         //     if Employee.Screener then
-        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::"Pending Approval", Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
+        //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Pending, Rec."Approval Status"::Open, Rec."Approval Status"::Rejected]
         //     else
         //         FormEditable := Rec."Approval Status" in [Rec."Approval Status"::Open, Rec."Approval Status"::Rejected];
     end;

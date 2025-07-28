@@ -1,12 +1,10 @@
 page 50025 "Salary Levels"
 {
-    // version PRM19.01.01
-
     PageType = List;
     SourceTable = "Salary Level";
     UsageCategory = Lists;
     ApplicationArea = All;
-
+    Caption = 'Designations';
     layout
     {
         area(Content)
@@ -37,6 +35,11 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Staff Level"; Rec."Staff Level")
+                {
+                    ToolTip = 'Specifies the value of the Staff Level field.';
+                    ApplicationArea = All;
+                }
                 field(Rank; Rec.Rank)
                 {
                     ToolTip = 'Specifies the value of the Rank field.';
@@ -52,6 +55,11 @@ page 50025 "Salary Levels"
                 field(Allowance; Rec.Allowance)
                 {
                     ToolTip = 'Specifies the value of the Allowance field.';
+                    ApplicationArea = All;
+                }
+                field("LFA Amount"; Rec."Leave Fare Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
                     ApplicationArea = All;
                 }
                 field("Nepal Fooding Allowance"; Rec."Nepal Fooding Allowance")

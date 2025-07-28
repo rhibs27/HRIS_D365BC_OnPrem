@@ -4,6 +4,7 @@ page 50222 "Transfer Journal"
     Caption = 'Transfer Journal';
     PageType = Worksheet;
     SourceTable = "Employee Activity Journal";
+    SourceTableView = where("Employee Act Type" = filter("Employee Activity Type"::"HR Transfer"));
     UsageCategory = Tasks;
     AutoSplitKey = true;
     layout
@@ -12,51 +13,63 @@ page 50222 "Transfer Journal"
         {
             repeater(General)
             {
+
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
+                    Editable = IsOpen;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
                 }
                 field("Transfer Type"; Rec."Transfer Type")
                 {
                     ToolTip = 'Specifies the value of the Transfer Type field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Transfer Category"; Rec."Transfer Category")
                 {
                     ToolTip = 'Specifies the value of the Transfer Category field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Deputation On (To)"; Rec."Deputation On (To)")
                 {
                     ToolTip = 'Specifies the value of the Deputation On (To) field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Province Code (To)"; Rec."Province Code (To)")
                 {
                     ToolTip = 'Specifies the value of the Province Code (To) field.', Comment = '%';
-                    Editable = ProvinceEdit;
+                    Editable = ProvinceEdit and IsOpen;
                 }
                 field("To Branch"; Rec."To Branch")
                 {
                     ToolTip = 'Specifies the value of the To Branch field.', Comment = '%';
-                    Editable = BranchEdit;
+                    Editable = BranchEdit and IsOpen;
                 }
                 field("Department Code (To)"; Rec."Department Code (To)")
                 {
                     ToolTip = 'Specifies the value of the Department Code (To) field.', Comment = '%';
-                    Editable = DepartmentEdit;
+                    Editable = DepartmentEdit and IsOpen;
                 }
                 field("Extension Counter (To)"; Rec."Extension Counter (To)")
                 {
                     ToolTip = 'Specifies the value of the Extension Counter (To) field.', Comment = '%';
-                    Editable = ExtensionCounterEdit;
+                    Editable = ExtensionCounterEdit and IsOpen;
                 }
                 field("Unit (To)"; Rec."Unit (To)")
                 {
                     ToolTip = 'Specifies the value of the Unit (To) field.', Comment = '%';
-                    Editable = UnitEdit;
+                    Editable = UnitEdit and IsOpen;
+                }
+                field("Approval Role (To)"; Rec."Approver Role (TO)")
+                {
+                    ToolTip = 'Specifies the value of the Approver Role (TO) field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
-                    // Editable = false;
                     Visible = ApprovalStatusView;
                 }
                 field(Status; Rec.Status)
@@ -66,31 +79,38 @@ page 50222 "Transfer Journal"
                 field("Functional Title (To)"; Rec."Functional Title (To)")
                 {
                     ToolTip = 'Specifies the value of the Functional Title (To) field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Transfer Effective Date"; Rec."Transfer Effective Date")
                 {
                     ToolTip = 'Specifies the value of the Transfer Effective Date field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Incoming Supervisor"; Rec."Incoming Supervisor")
                 {
                     ToolTip = 'Specifies the value of the Incoming Supervisor field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Incoming Supervisor Name"; Rec."Incoming Supervisor Name")
                 {
                     ToolTip = 'Specifies the value of the Incoming Supervisor Name field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Outgoing Branch Rep. Person"; Rec."Outgoing Branch Rep. Person")
                 {
                     ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person to field.', Comment = '%';
+                    Editable = IsOpen;
                 }
                 field("Outgoing Reporting Person Name"; Rec."Outgoing Reporting Person Name")
                 {
                     ToolTip = 'Specifies the value of the OOutgoing Reporting Person Name to field.', Comment = '%';
+                    Editable = IsOpen;
                 }
 
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value of the Remarks field.', Comment = '%';
+                    Editable = IsOpen;
                 }
             }
             part("Approval Subform"; "HRMS Approval Entry")
@@ -109,10 +129,12 @@ page 50222 "Transfer Journal"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
+                Visible = IsOpen;
                 Image = SendApprovalRequest;
                 trigger OnAction()
                 begin
-                    EmpActMgt.SendForApproval(Rec."Emp Act. No");
+                    if Confirm('Do you want to Send for Approval request?', false) then
+                        EmpActMgt.SendForApproval(Rec."Emp Act. No", Rec."Employee Act Type"::"HR Transfer");
                 end;
             }
             action("Approve")
@@ -121,9 +143,11 @@ page 50222 "Transfer Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Approve;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
-                    ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
+                    if Confirm('Do you want to Approve request?', false) then
+                        ApproverMgt.ApproveJournalDocument(Rec."Emp Act. No", true);
                 end;
             }
             action(Post)
@@ -132,9 +156,13 @@ page 50222 "Transfer Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Post;
+                Visible = IsApproved;
                 trigger OnAction()
                 begin
-                    EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                    if Confirm('Do you want to Post Transfer?', false) then begin
+                        EmpActMgt.PostTransferInBulk(rec."Emp Act. No");
+                        CurrPage.Close();
+                    end;
                 end;
             }
             action(Reject)
@@ -143,9 +171,11 @@ page 50222 "Transfer Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 Image = Reject;
+                Visible = IsPending;
                 trigger OnAction()
                 begin
-                    EmpActMgt.RejectJournal(Rec, true);
+                    if Confirm('Do you want to Reject Transfer?', false) then
+                        EmpActMgt.RejectJournal(Rec, true);
                 end;
             }
         }
@@ -160,15 +190,18 @@ page 50222 "Transfer Journal"
 
     trigger OnAfterGetCurrRecord()
     begin
-        SetFieldEnable
+        SetFieldEnable;
+        SetLayout();
     end;
 
     trigger OnOpenPage()
     begin
         SetFieldEnable;
+        SetLayout();
     end;
 
     var
+        IsOpen, IsPending, IsApproved, IsRejected : Boolean;
         UnitEdit: Boolean;
         DepartmentEdit: Boolean;
         ExtensionCounterEdit: Boolean;
@@ -230,4 +263,16 @@ page 50222 "Transfer Journal"
                 END;
         END;
     END;
+
+    procedure SetLayout()
+    begin
+        IsOpen := Rec."Approval Status" = Rec."Approval Status"::Open;
+        if (Rec."Approval Status" = Rec."Approval Status"::pending) and not (rec.Status = '') then
+            StatusView := true
+        else
+            ApprovalStatusView := true;
+        IsPending := Rec."Approval Status" = Rec."Approval Status"::Pending;
+        IsApproved := Rec."Approval Status" = Rec."Approval Status"::Approved;
+        IsRejected := Rec."Approval Status" = rec."Approval Status"::Rejected;
+    end;
 }

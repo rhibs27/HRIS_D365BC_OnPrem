@@ -54,7 +54,7 @@ tableextension 50001 GLEntryExt extends "G/L Entry"
         {
             DataClassification = CustomerContent;
         }
-        field(50012; "Fiscal Year"; Code[10])
+        field(50012; "Fiscal Year"; Code[20])
         {
             DataClassification = CustomerContent;
             Editable = false;

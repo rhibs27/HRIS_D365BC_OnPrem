@@ -3,7 +3,6 @@ table 50010 "Functional Title"
     DrillDownPageId = "Functional Title List";
     LookupPageId = "Functional Title List";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Code"; Code[20]) { }
@@ -20,7 +19,7 @@ table 50010 "Functional Title"
         field(12; "Evening Counter Eligible"; Boolean) { }
         field(13; "Holiday Counter Eligible"; Boolean) { }
         field(14; "Allowance Reminder Mail"; Boolean) { }
-        field(15; "Is Allowance Approval"; Boolean) { }
+        field(15; "Allow AllowanceAssignment"; Boolean) { }
         field(16; "EM/ECM Identifier"; Boolean) { }
         field(17; "BM/OBM"; Boolean) { }
         field(18; Blocked; Boolean) { }
@@ -28,10 +27,11 @@ table 50010 "Functional Title"
         field(20; "Is Specific Functional"; Boolean) { }
         field(21; "Department Code"; Code[20])
         {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Organization Structure list"::Department), Blocked = filter(false));
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department), Blocked = filter(false));
         }
+        field(22; "BM Allowance"; Decimal) { }
+        field(23; "Allow ShiftAssignment"; Boolean) { }
     }
-
     keys
     {
         key(Key1; "Code") { }

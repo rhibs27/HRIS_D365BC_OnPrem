@@ -1,20 +1,18 @@
 table 50041 "Attendance Setup"
 {
     DataClassification = CustomerContent;
-    // version ATM19.01.01
-
     fields
     {
-        field(1; "Primary Key"; Code[10]) { }
-        field(2; "Attendance Document No. Series"; Code[10])
+        field(1; "Primary Key"; Code[20]) { }
+        field(2; "Attendance Document No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(3; "Activity Document No. Series"; Code[10])
+        field(3; "Activity Document No. Series"; Code[20])
         {
             TableRelation = "No. Series";
         }
-        field(4; "Base Calender"; Code[10])
+        field(4; "Base Calender"; Code[20])
         {
             TableRelation = "Base Calendar";
         }
@@ -57,7 +55,7 @@ table 50041 "Attendance Setup"
             end;
         }
         field(14; "Activate Punch in Date"; Date) { }
-        field(15; "Sync Attendance From"; Date)
+        field(15; "Sync Attendance From"; DateFormula)
         {
             DataClassification = ToBeClassified;
         }
@@ -70,6 +68,14 @@ table 50041 "Attendance Setup"
             DataClassification = ToBeClassified;
         }
         field(18; "Max Overtime In Week"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(19; "Check Out From"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(20; "Overtime Claim Type"; enum "Overtime Claim Type")
         {
             DataClassification = ToBeClassified;
         }

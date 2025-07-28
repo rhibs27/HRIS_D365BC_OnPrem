@@ -14,4 +14,8 @@ enum 50037 "Payroll Header Type"
     {
         Caption = 'Adjustment';
     }
+    value(3; Settlement)
+    {
+        Caption = 'Settlement';
+    }
 }

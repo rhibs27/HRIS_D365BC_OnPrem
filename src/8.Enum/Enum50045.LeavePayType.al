@@ -12,7 +12,7 @@ enum 50045 "Leave Pay Type"
     }
     value(2; "Half paid")
     {
-
+        Caption = 'Half Paid';
     }
     value(3; Unpaid)
     {
