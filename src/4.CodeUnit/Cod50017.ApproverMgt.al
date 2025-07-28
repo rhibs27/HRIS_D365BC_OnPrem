@@ -587,6 +587,7 @@ codeunit 50017 "Approver Mgt"
                 exit(true)
         end;
     end;
+
     procedure UpdateFirstApproverStatus(DocNo: Code[20]): Boolean
     var
         Approver: Record "Approval HRMS";

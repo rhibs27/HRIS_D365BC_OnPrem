@@ -173,8 +173,8 @@ report 50077 "Formation of Department/Branch"
             // if BlockedDeputationFrom then
             // IfBlockDeputationCode;
         end else begin
-            if (SalaryLevel = '') or (EmploymentType = EmploymentType::" ") or (DeputationCodeTo = '') or (DeputationOnTo = DeputationOnTo::" ") then
-                Error('Please fill all the values');
+            if (EmploymentType = EmploymentType::" ") then
+                Error('Please fill Employment Type values');
             if EmploymentType = EmploymentType::Contract then
                 if ContractExpiryMonth = ContractExpiryMonth::" " then
                     Error('Contract Expiry Month must have value.');

@@ -213,8 +213,10 @@ codeunit 50023 EmployeeActivityMgt
         AttendanceMissedJournal.setrange("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
         if AttendanceMissedJournal.FindSet() then
             repeat
+                AttendanceMgn.CheckAlreadyExists(AttendanceMissedJournal."Employee No.", AttendanceMissedJournal.Type, AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Reset();
                 AttendanceMissed.Init();
+                AttendanceMissed.Validate("No.", '');
                 AttendanceMissed.Validate("Employee No.", AttendanceMissedJournal."Employee No.");
                 AttendanceMissed.Validate("Start Date", AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Validate("Check In Time", AttendanceMissedJournal."CheckIn Time");
@@ -222,7 +224,7 @@ codeunit 50023 EmployeeActivityMgt
                 AttendanceMissed.Validate(Remarks, AttendanceMissedJournal.Remarks);
                 AttendanceMissed.Validate("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
                 AttendanceMissed.Validate("Approved Date", Today);
-                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Leave Request");
+                AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
                 AttendanceMissed.Validate("From Journal", true);
                 AttendanceMissed.Insert(true);
                 PostedAttendanceJournal.Init();
@@ -236,7 +238,7 @@ codeunit 50023 EmployeeActivityMgt
             until AttendanceMissedJournal.next() = 0
         else
             Error('There is no Document to post');
-        Message('Leave is posted');
+        Message('Attendance Jounral is posted');
     end;
 
     procedure RejectJournal(var EmployeeActJournal: Record "Employee Activity Journal"; Reject: Boolean)
