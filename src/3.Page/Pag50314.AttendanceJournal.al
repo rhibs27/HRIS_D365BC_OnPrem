@@ -140,6 +140,7 @@ page 50314 "Attendance Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"Attendance Missed";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
+        CurrPage.Update();
     end;
 
     trigger OnAfterGetRecord()
