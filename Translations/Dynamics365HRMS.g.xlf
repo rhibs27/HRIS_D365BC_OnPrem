@@ -53,6 +53,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Created Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2264809808 - Field 1480804031 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Allowance Assignment Header - Field Employee Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2264809808 - Field 1964419135 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6083,21 +6093,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Email (Personal) - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 1824478759 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Contact Email</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Email - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 512055010 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Contact Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Contact Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1945176490 - Field 3436918612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Emergency Mobile No</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Emergency Mobile No - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 2222580281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emp Document Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6233,6 +6228,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative District - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 1398100151 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Relative Mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Relative Mail - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1945176490 - Field 363174193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Phone No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -6267,6 +6267,11 @@
           <source>Requested Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Requested Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1945176490 - Field 691569405 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Emergency Contact</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit - Field Set Emergency Contact - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1945176490 - Field 300412064 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Speaking</source>
@@ -11742,6 +11747,16 @@
           <source>Cancelled</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 1556068829 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled Document No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1075377117 - Field 1285698168 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cancelled No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table OverTime - Field Cancelled No. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1075377117 - Field 2648433944 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Check In Time</source>
