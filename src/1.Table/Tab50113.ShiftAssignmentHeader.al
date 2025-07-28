@@ -218,6 +218,8 @@ table 50113 "Shift Assignment Header"
         ShiftAssignment.SetRange(Type, ShiftAssignment.Type::"Shift Assignment");
         ShiftAssignment.SetRange("Fiscal Year", "Fiscal Year");
         ShiftAssignment.SetRange("Deputation Code", "Deputation Code");
+        if ShiftAssignment."Deputation Sub Type Code" <> '' then
+            ShiftAssignment.SetRange("Deputation Sub Type Code", "Deputation Sub Type Code");
         ShiftAssignment.SetFilter("Approval Status", '<>%1&<>%2', ShiftAssignment."Approval Status"::Rejected, ShiftAssignment."Approval Status"::Canceled);
         if ShiftAssignment.Findset then
             repeat

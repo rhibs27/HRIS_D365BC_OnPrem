@@ -28,10 +28,10 @@ table 50092 "Allowance Assignment Header"
         field(13; "Code"; Code[20])
         {
             NotBlank = true;
-            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Organization Structure list"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Organization Structure list"::"Extension Counter"))
-            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Organization Structure list"::Department), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Organization Structure list"::Department), Code = field("Department Code"), "Reporting Type" = filter("Organization Structure list"::Unit));
+            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
+            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
+            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
 
             trigger OnValidate()
             begin
@@ -254,16 +254,16 @@ table 50092 "Allowance Assignment Header"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-        //     Error(CannotDelete)
-        // else begin
-        AllowanceLine.Reset;
-        AllowanceLine.SetRange("No.", "No.");
-        AllowanceLine.DeleteAll(true);
-        ApprovalHrms.Reset;
-        ApprovalHrms.SetRange("Document No.", "No.");
-        ApprovalHrms.DeleteAll(true);
-        // end;
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
+        else begin
+            AllowanceLine.Reset;
+            AllowanceLine.SetRange("No.", "No.");
+            AllowanceLine.DeleteAll(true);
+            ApprovalHrms.Reset;
+            ApprovalHrms.SetRange("Document No.", "No.");
+            ApprovalHrms.DeleteAll(true);
+        end;
     end;
 
     trigger OnInsert()
