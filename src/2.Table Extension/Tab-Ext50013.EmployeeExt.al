@@ -8,7 +8,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "No." = '' then
                     Error('No. must have value.');
-                "New Employee" := true; //Min
+                "New Employee" := true;
             end;
         }
         modify("First Name")
@@ -60,7 +60,7 @@ tableextension 50013 "Employee Ext" extends Employee
 
                 if not TypeHelper.IsPhoneNumber(Rec."Phone No.") then
                     Error('Phone No Validation Error');
-                if StrLen("Mobile Phone No.") > 15 then //Min
+                if StrLen("Mobile Phone No.") > 15 then
                     Error(Text009);
             end;
         }
@@ -75,14 +75,14 @@ tableextension 50013 "Employee Ext" extends Employee
                 if not TypeHelper.IsPhoneNumber(Rec."Mobile Phone No.") then
                     Error('Phone No Validation Error');
                 if "Mobile Phone No." <> '' then begin
-                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Mobile No.
+                    EmployeeRec.Reset;
                     EmployeeRec.SetFilter("No.", '<>%1', Rec."No.");
                     EmployeeRec.SetRange("Mobile Phone No.", Rec."Mobile Phone No.");
                     EmployeeRec.SetFilter("Employment Type", '%1|%2', EmployeeRec."Employment Type"::Permanent, EmployeeRec."Employment Type"::Probation);
                     if EmployeeRec.FindFirst then
                         Error(Text010, Rec."Mobile Phone No.", EmployeeRec."No.");
                 end;
-                if StrLen("Mobile Phone No.") > 15 then //Min
+                if StrLen("Mobile Phone No.") > 15 then
                     Error(Text009);
             end;
         }
@@ -97,7 +97,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
                 else
                     "Date of Birth (B.S.)" := '';
+                "Age Text" := HRMgt.GetAge("Birth Date", Today);
             end;
+
         }
         modify(Address)
         {
@@ -131,16 +133,21 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnAfterValidate()
             begin
-                // TestField("CIF ID");
+
                 if "Bank Account No." <> '' then begin
                     EmployeeRec.Reset;
-                    // TestField("CIF ID");s
-                    EmployeeRec.Reset; //Min >> --- For add control in duplicate Bank A/C No.
                     EmployeeRec.SetRange(Status, EmployeeRec.Status::Active);
                     EmployeeRec.SetRange("Bank Account No.", Rec."Bank Account No.");
                     if EmployeeRec.FindFirst then
                         Error(Text006, Rec."Bank Account No.", EmployeeRec."No.");
                 end;
+            end;
+        }
+        modify("Termination Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Termination Date (B.S.)" := EngNepDate.getNepaliDate("Termination Date");
             end;
         }
 
@@ -178,6 +185,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50128; "Deputation on"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
+            // ValuesAllowed = " ", Province, Branch, "Head Office";
             trigger OnValidate()
             begin
                 if xRec."Deputation on" <> "Deputation on" then
@@ -455,6 +463,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50024; "Promotion Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Promotion Date (B.S.)" := EngNepDate.getNepaliDate("Promotion Date");
+            end;
         }
         field(50025; "CIT No."; Code[20])
         {
@@ -584,6 +596,7 @@ tableextension 50013 "Employee Ext" extends Employee
         }
         field(50044; "Citizen Number"; Code[30])
         {
+            caption = 'Citizenship Number';
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
@@ -632,6 +645,12 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             Editable = false;
+            trigger OnValidate()
+            begin
+                "Birth Date" := EngNepDate.getEngDate("Date of Birth (B.S.)");
+                "Age Text" := HRMgt.GetAge("Birth Date", Today);
+            end;
+
         }
         field(50055; "Citizenship Issue Place"; Text[30])
         {
@@ -645,12 +664,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Citizenship Issue Date" > Today then
                     Error('Citizenship Issue Date Cannot be in Future Date');
-                EngNepDate.Reset;
-                EngNepDate.SetRange("English Date", "Citizenship Issue Date");
-                if EngNepDate.FindFirst then
-                    "Citizenship Date(Nepali)" := EngNepDate."Nepali Date"
-                else
-                    "Citizenship Date(Nepali)" := '';
+                "Citizenship Date (B.S.)" := EngNepDate.getNepaliDate("Citizenship Issue Date");
             end;
 
 
@@ -815,7 +829,7 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50082; "Permanent Province"; Text[50])
         {
             DataClassification = CustomerContent;
-            Description = 'Permanent Provience address';
+            Description = 'Permanent Province address';
             trigger OnValidate()
             begin
                 if (Rec."Permanent Province" <> xRec."Permanent Province") and ("Permanent Province" <> '') then begin
@@ -1001,6 +1015,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if "Confirmation Date" < "Employment Date" then
                     Error('Confirmation date cannot be less than employment date');
+                "Confirmation Date (B.S.)" := EngNepDate.getNepaliDate("Confirmation Date");
             end;
         }
 
@@ -1142,6 +1157,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50119; "Resignation Date"; Date)
         {
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Resignation Date (B.S.)" := EngNepDate.getNepaliDate("Resignation Date");
+            end;
         }
         // field(50120; "Selection committee"; Boolean)
         // {
@@ -1162,11 +1181,15 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             Description = 'In Nepali';
         }
-        field(50124; "Citizenship Date(Nepali)"; Text[10])
+        field(50124; "Citizenship Date (B.S.)"; Text[10])
         {
             DataClassification = CustomerContent;
             Description = 'In nepali';
-            Editable = false;
+            trigger OnValidate()
+            begin
+                "Citizenship Issue Date" := EngNepDate.getEngDate("Citizenship Date (B.S.)");
+            end;
+
         }
         field(50125; "Portal Attendance"; Boolean)
         {
@@ -1375,6 +1398,68 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50169; Community; Enum "Community Type")
         {
             DataClassification = ToBeClassified;
+        }
+        field(50170; "Passport Validity Date"; Date)
+        {
+
+        }
+        field(50171; "Promotion Date (B.S.)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Promotion Date" := EngNepDate.getEngDate("Promotion Date (B.S.)");
+            end;
+        }
+        field(50172; "Confirmation Date (B.S.)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Confirmation Date" := EngNepDate.getEngDate("Confirmation Date (B.S.)");
+            end;
+        }
+        field(50173; "Termination Date (B.S.)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Termination Date" := EngNepDate.getEngDate("Termination Date (B.S.)");
+            end;
+        }
+        field(50174; "Gratuity Number"; Code[20])
+        {
+
+        }
+        field(50175; "Resignation Date (B.S.)"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                "Resignation Date" := EngNepDate.getEngDate("Resignation Date (B.S.)")
+            end;
+        }
+        field(50176; "Employment Date (B.S.)"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+                "Employment Date" := EngNepDate.getEngDate("Employment Date (B.S.)")
+            end;
+
+        }
+        field(50177; "Age Text"; Text[30])
+        {
+
+        }
+        field(50178; "Digital Signature"; Blob)
+        {
+            SubType = Bitmap;
+            Caption = 'Digital Signature';
+        }
+        field(50179; "Trainee Period"; DateFormula)
+        {
+            Caption = 'Trainee Period';
+        }
+        field(50180; "Trainee/Probation End date"; Date)
+        {
+            Caption = 'Trainee/Probation End Date';
         }
 
     }
@@ -1678,10 +1763,10 @@ tableextension 50013 "Employee Ext" extends Employee
         Clear("Sol Id");
     end;
 
-    local procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
+    procedure ReturnAddress(VDCVar: Text; WardNoVar: Integer; LoacalityVar: Text; DistrictVara: Text; Prov: Text) ReturnText: Text;
     begin
         Clear(ReturnText);
-        ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ',' + DistrictVara + ', ' + Prov;
+        ReturnText := VDCVar + '- ' + Format(WardNoVar) + ', ' + LoacalityVar + ', ' + DistrictVara + ', ' + Prov;
     end;
 
     procedure RFRequest();

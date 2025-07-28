@@ -2,9 +2,9 @@ enum 50014 Relation
 {
     Extensible = true;
 
-    value(0; "")
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; Father)
     {
@@ -42,6 +42,14 @@ enum 50014 Relation
     value(10; "Spouse GrandMother")
     {
         Caption = 'Spouse GrandMother';
+    }
+    value(11; Siblings)
+    {
+        Caption = 'Siblings';
+    }
+    value(12; Childrens)
+    {
+        Caption = 'Childrens';
     }
 
 }

@@ -19,7 +19,7 @@ report 50034 "Loan Deed Vehicle Loan"
             column(CurrentYear; CurrentYear) { }
             column(CurrentMonth; CurrentMonth) { }
             column(CurrentDay; CurrentDay) { }
-            column(CitizenshipDate; EmpVar."Citizenship Date(Nepali)") { }
+            column(CitizenshipDate; EmpVar."Citizenship Date (B.S.)") { }
             column(EmpName; EmpVar."Full Name (Nepali)") { }
             column(FatherName; EmpVar."Father's Name (Nepali)") { }
             column(GrandfatherName; EmpVar."GrandFather's Name (Nepali)") { }
