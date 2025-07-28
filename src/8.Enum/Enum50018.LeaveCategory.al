@@ -30,4 +30,8 @@ enum 50018 "Leave Category"
     {
         Caption = 'Age Wise';
     }
+    value(7; "Annual Leave")
+    {
+        Caption = 'Annual Leave';
+    }
 }
