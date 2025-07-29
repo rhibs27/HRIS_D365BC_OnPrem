@@ -186,6 +186,7 @@ page 50222 "Transfer Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
+        CurrPage.Update();
     end;
 
     trigger OnAfterGetCurrRecord()

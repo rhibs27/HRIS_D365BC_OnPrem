@@ -49283,10 +49283,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - NamedType ReportTitleLbl</note>
         </trans-unit>
-        <trans-unit id="Report 818810397 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Options</source>
+        <trans-unit id="Report 818810397 - Control 2837086909 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Apply Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control Options - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control DateRange - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 1546479591 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify the start date for the attendance report.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateFrom - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 1546479591 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateFrom - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 3013943140 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify the end date for the attendance report.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateTo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 3013943140 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Attendance Date To</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control AttendanceDateTo - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 818810397 - Control 140103378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Select to include employees on leave in the report.</source>
@@ -52797,11 +52817,6 @@
           <source>Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Age Text - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 2161899886 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>Specifies the value of the Automatic Attendance field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Automatic Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Blood Group field.</source>

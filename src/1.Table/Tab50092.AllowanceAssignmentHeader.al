@@ -28,10 +28,10 @@ table 50092 "Allowance Assignment Header"
         field(13; "Code"; Code[20])
         {
             NotBlank = true;
-            TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
-            else if (Type = filter("Branchwise/Extension Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
-            else if (Type = filter("Branchwise/Extension Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
+            TableRelation = if (Type = filter("Deputation Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
+            else if (Type = filter("Deputation Type"::"Extension Counter")) "Organization Structure Line"."Reporting Code" where(Type = Filter("Deputation Type"::"Branch"), Code = field("Branch Code"), "Reporting Type" = filter("Deputation Type"::"Extension Counter"))
+            else if (Type = filter("Deputation Type"::Department)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Department), Blocked = filter(false))
+            else if (Type = filter("Deputation Type"::Unit)) "Organization Structure line"."Reporting Code" where(Type = filter("Deputation Type"::Department), Code = field("Department Code"), "Reporting Type" = filter("Deputation Type"::Unit));
 
             trigger OnValidate()
             begin
@@ -206,13 +206,11 @@ table 50092 "Allowance Assignment Header"
             begin
                 if Employee.Get("Employee No.") then begin
                     if Employee."Deputation on" = Employee."Deputation on"::Branch then
-                        "Branch Code" := Employee."Branch Code"
+                        Validate("Branch Code", Employee."Branch Code")
                     else if Employee."Deputation on" = Employee."Deputation on"::Department then
-                        "Department Code" := "Department Code";
-                    "Employee Name" := Employee."Full Name";
+                        Validate("Department Code", Employee."Department Code");
+                    Validate("Employee Name", Employee."Full Name");
                 end;
-
-
             end;
         }
         field(22; "Branch Code"; Code[20])

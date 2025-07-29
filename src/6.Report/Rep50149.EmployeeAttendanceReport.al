@@ -10,7 +10,7 @@ report 50149 "Employee Attendance Report"
     {
         dataitem("Employee Attendance"; "Employee Attendance & Activity")
         {
-            RequestFilterFields = "Employee No.", "Attendance Date", "Province Code", "Branch Code", "Department Code";
+            RequestFilterFields = "Employee No.", "Province Code", "Branch Code", "Department Code";
 
             column(Employee_No_; "Employee No.")
             {
@@ -115,7 +115,7 @@ report 50149 "Employee Attendance Report"
             }
 
             // Filter Information
-            column(AttendanceDateFilter; "Employee Attendance".GetFilter("Attendance Date"))
+            column(AttendanceDateFilter; AttendanceDateFilter)
             {
             }
             column(EmployeeNoFilter; "Employee Attendance".GetFilter("Employee No."))
@@ -128,6 +128,25 @@ report 50149 "Employee Attendance Report"
             {
             }
             column(DepartmentCodeFilter; "Employee Attendance".GetFilter("Department Code"))
+            {
+            }
+            // Request Page Filter Values
+            column(AttendanceDateFrom; AttendanceDateFrom)
+            {
+            }
+            column(AttendanceDateTo; AttendanceDateTo)
+            {
+            }
+            column(ShowPresentOnly; ShowPresentOnly)
+            {
+            }
+            column(ShowAbsentOnly; ShowAbsentOnly)
+            {
+            }
+            column(IncludeLeaveEmployees; IncludeLeaveEmployees)
+            {
+            }
+            column(IncludeWeekOffEmployees; IncludeWeekOffEmployees)
             {
             }
 
@@ -159,14 +178,14 @@ report 50149 "Employee Attendance Report"
             column(TotalOvertimeHours; TotalOvertimeHours)
             {
             }
-
-            // Status Display
             column(AttendanceStatus; GetAttendanceStatus())
             {
             }
 
             trigger OnPreDataItem()
             begin
+                CompanyInfo.Get();
+
                 // Initialize counters
                 TotalEmployees := 0;
                 TotalPresent := 0;
@@ -178,25 +197,33 @@ report 50149 "Employee Attendance Report"
                 TotalEarlyCheckOut := 0;
                 TotalOvertimeHours := 0;
 
-                // Apply additional filters based on request page options
-                if AttendanceDateFrom <> 0D then
+                // Apply date range filters
+                if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then begin
+                    SetRange("Attendance Date", AttendanceDateFrom, AttendanceDateTo);
+                    AttendanceDateFilter := StrSubstNo('%1..%2', AttendanceDateFrom, AttendanceDateTo);
+                end else if AttendanceDateFrom <> 0D then begin
                     SetFilter("Attendance Date", '>=%1', AttendanceDateFrom);
-
-                if AttendanceDateTo <> 0D then
+                    AttendanceDateFilter := StrSubstNo('>=%1', AttendanceDateFrom);
+                end else if AttendanceDateTo <> 0D then begin
                     SetFilter("Attendance Date", '<=%1', AttendanceDateTo);
+                    AttendanceDateFilter := StrSubstNo('<=%1', AttendanceDateTo);
+                end else
+                    AttendanceDateFilter := '';
 
-                if ShowAbsentOnly then
-                    SetRange("Absent Day", 1);
-
-                if ShowPresentOnly then
+                // Apply attendance status filters - these are mutually exclusive
+                if ShowPresentOnly then begin
                     SetRange("Present Day", 1);
+                end else if ShowAbsentOnly then begin
+                    SetRange("Absent Day", 1);
+                end;
 
+                // Apply leave filters
                 if not IncludeLeaveEmployees then
-                    SetFilter("Leave Day", '<>%1', 1);
-
-                if not IncludeWeekOffEmployees then
-                    SetFilter("Week Off Day", '<>%1', 1);
+                    SetFilter("Leave Day", '<>%1', 1)
+                else
+                    SetRange("Leave Day", 1);
             end;
+
 
             trigger OnAfterGetRecord()
             begin
@@ -220,28 +247,52 @@ report 50149 "Employee Attendance Report"
         {
             area(Content)
             {
-                group(Options)
+                group(DateRange)
                 {
-                    Caption = 'Options';
-                    field(ShowAbsentOnly; ShowAbsentOnly)
-                    {
-                        ApplicationArea = All;
-                        Caption = 'Show Absent Employees Only';
-                        ToolTip = 'Select to show only absent employees.';
-                    }
-
+                    Caption = 'Apply Filter';
                     field(ShowPresentOnly; ShowPresentOnly)
                     {
                         ApplicationArea = All;
                         Caption = 'Show Present Employees Only';
                         ToolTip = 'Select to show only present employees.';
                     }
-
+                    field(ShowAbsentOnly; ShowAbsentOnly)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Show Absent Employees Only';
+                        ToolTip = 'Select to show only absent employees.';
+                    }
                     field(IncludeLeaveEmployees; IncludeLeaveEmployees)
                     {
                         ApplicationArea = All;
                         Caption = 'Include Leave Employees';
                         ToolTip = 'Select to include employees on leave in the report.';
+                    }
+                    field(AttendanceDateFrom; AttendanceDateFrom)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Attendance Date From';
+                        ToolTip = 'Specify the start date for the attendance report.';
+
+                        trigger OnValidate()
+                        begin
+                            if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then
+                                if AttendanceDateFrom > AttendanceDateTo then
+                                    Error('From Date cannot be later than To Date.');
+                        end;
+                    }
+                    field(AttendanceDateTo; AttendanceDateTo)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Attendance Date To';
+                        ToolTip = 'Specify the end date for the attendance report.';
+
+                        trigger OnValidate()
+                        begin
+                            if (AttendanceDateFrom <> 0D) and (AttendanceDateTo <> 0D) then
+                                if AttendanceDateTo < AttendanceDateFrom then
+                                    Error('To Date cannot be earlier than From Date.');
+                        end;
                     }
                 }
             }
@@ -275,6 +326,7 @@ report 50149 "Employee Attendance Report"
         AttendanceDateFrom: Date;
         AttendanceDateTo: Date;
 
+        AttendanceDateFilter: Text;
         ReportTitleLbl: Label 'Employee Attendance Report';
 
     local procedure GetAttendanceStatus(): Text[20]
