@@ -4,13 +4,13 @@ report 50149 "Employee Attendance Report"
     ApplicationArea = All;
     Caption = 'Employee Attendance Report';
     DefaultLayout = RDLC;
-    RDLCLayout = './Reports/EmployeeAttendanceReport.rdl';
+    RDLCLayout = './src/6.Report/EmployeeAttendanceReport.rdl';
 
     dataset
     {
         dataitem("Employee Attendance"; "Employee Attendance & Activity")
         {
-            RequestFilterFields = "Employee No.", "Province Code", "Branch Code", "Department Code";
+            RequestFilterFields = "Employee No.", "Province Code", "Branch Code", "Department Code", "Unit Code";
 
             column(Employee_No_; "Employee No.")
             {
@@ -80,6 +80,9 @@ report 50149 "Employee Attendance Report"
             column(Department_Name; "Department Name")
             {
             }
+            column(Unit_Code; "Unit Code")
+            {
+            }
             column(Employee_Working_Shift; "Employee Working Shift")
             {
             }
@@ -130,6 +133,10 @@ report 50149 "Employee Attendance Report"
             column(DepartmentCodeFilter; "Employee Attendance".GetFilter("Department Code"))
             {
             }
+            column(UnitCodeFilter; "Employee Attendance".GetFilter("Unit Code"))
+            {
+            }
+
             // Request Page Filter Values
             column(AttendanceDateFrom; AttendanceDateFrom)
             {

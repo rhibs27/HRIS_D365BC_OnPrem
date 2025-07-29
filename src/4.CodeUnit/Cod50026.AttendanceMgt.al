@@ -24,6 +24,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Branch Name" := Employee."Branch Name";
             AttendanceLine."Department Code" := Employee."Department Code";
             AttendanceLine."Department Name" := Employee."Department Name";
+            AttendanceLine."Unit Code" := Employee."Unit Code";
             //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert(false);
         end;
