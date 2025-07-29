@@ -69,9 +69,9 @@ codeunit 50025 "Shift Assignment Mgt"
         ShiftAssignLine.Validate("No.", ShiftAssignmentLine."No.");
         ShiftAssignLine.Validate("Type", ShiftAssignLine."Type"::"Shift Assignment");
         ShiftAssignLine.Validate("Approval Status", ShiftAssignLine."Approval Status"::"Pending");
-        ShiftAssignLine.Validate("Employee Work Shift", ShiftAssignmentLine."Employee Work Shift");
         ShiftAssignLine.Validate("Deputation Type", ShiftAssignmentLine."Deputation Type");
         ShiftAssignLine.Validate("Deputation Code", ShiftAssignmentLine."Deputation Code");
+        ShiftAssignLine.Validate("Employee Work Shift", ShiftAssignmentLine."Employee Work Shift");
         ShiftAssignLine.Validate("Employee No", EmployeeNo);
         ShiftAssignLine.Validate("Roster Date", ShiftAssignmentLine."Roster Date");
         ShiftAssignLine.Validate("Substitute Type", ShiftAssignmentLine."Substitute Type"::"Added as Substitute");
