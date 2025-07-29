@@ -3,15 +3,15 @@ page 50135 "Employee Edit Card"
     PageType = Card;
     ApplicationArea = All;
     SourceTable = "Employee Edit";
-    InsertAllowed = false;
-    DeleteAllowed = false;
+    // InsertAllowed = false;
+    // DeleteAllowed = false;
     layout
     {
         area(Content)
         {
             group(General)
             {
-                Editable = false;
+
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -280,11 +280,17 @@ page 50135 "Employee Edit Card"
                 {
                 }
             }
+            part("Employee Edit Line"; "Employee Edit Subform")
+            {
+                SubPageLink = "Document No." = field("No.");
+                ApplicationArea = all;
+
+            }
             part("Approval Subform"; "HRMS Approval Entry")
             {
                 Editable = false;
                 SubPageLink = "Document No." = field("No."),
-                                "Employee No" = field("Employee No."),
+                                // "Employee No" = field("Employee No."),
                                 "Document Type" = field(Type);
                 ApplicationArea = all;
             }
@@ -345,15 +351,15 @@ page 50135 "Employee Edit Card"
             }
         }
     }
-    trigger OnOpenPage()
-    begin
-        SetLayout;
-    end;
+    // trigger OnOpenPage()
+    // begin
+    //     SetLayout;
+    // end;
 
-    trigger OnAfterGetRecord()
-    begin
-        SetLayout;
-    end;
+    // trigger OnAfterGetRecord()
+    // begin
+    //     SetLayout;
+    // end;
 
     var
         IsPending, IsRejected, IsApproved : Boolean;
