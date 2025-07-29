@@ -133,8 +133,8 @@ page 50331 "Bulk Cash Card"
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to approve the request?', false) then
-                        HRMgt.ApprovedRejectApproval(true, Rec."No.");
+                    // if Confirm('Do you want to approve the request?', false) then
+                    //     HRMgt.ApprovedRejectApproval(true, Rec."No.");
                 end;
             }
             action("Reject Request")
@@ -149,8 +149,8 @@ page 50331 "Bulk Cash Card"
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want reject the request?', false) then
-                        HRMgt.ApprovedRejectApproval(false, Rec."No.");
+                    // if Confirm('Do you want reject the request?', false) then
+                    // HRMgt.ApprovedRejectApproval(false, Rec."No.");
                 end;
             }
             action("Change Recommender Approver")

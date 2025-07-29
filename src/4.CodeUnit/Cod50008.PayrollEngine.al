@@ -1566,7 +1566,7 @@ codeunit 50008 "Payroll Engine"
         AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
         if AllowanceAssignmentLine.Findset then
             repeat
-                AllowanceAssignMgt.InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine);
+                AllowanceAssignMgt.InsertHighestPriorityAllowanceInAttendance(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date");
             until AllowanceAssignmentLine.Next = 0;
 
         TrainingAttend.Reset;

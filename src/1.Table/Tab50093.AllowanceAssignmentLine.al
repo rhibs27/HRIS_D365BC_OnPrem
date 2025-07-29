@@ -8,24 +8,6 @@ table 50093 "Allowance Assignment Line"
         field(2; "Line No."; Integer) { }
         field(3; "Code"; Code[20])
         {
-            // TableRelation = if (Type = const(Branch)) "Dimension Value".Code where("Dimension Code" = const('BRANCH'),
-            //                                                                       "Dimension Value Type" = const(Standard))
-            // else if (Type = const("Extension Counter")) "Employee Hierarchy Master".Code where(Type = const("Extension Counter"));
-
-            // trigger OnValidate()
-            // begin
-            //     GLSetup.Get;
-            //     if Type = Type::Branch then begin
-            //         if DimValue.Get(GLSetup."Global Dimension 1 Code", Code) then
-            //             Validate(Name, DimValue.Name);
-            //     end else if Type = Type::"Extension Counter" then begin
-            //         EmpHie.Reset;
-            //         EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-            //         EmpHie.SetRange(Code, Code);
-            //         if EmpHie.FindFirst then
-            //             Validate(Name, EmpHie.Description);
-            //     end;
-            // end;
             TableRelation = if (Type = filter("Branchwise/Extension Type"::Branch)) "Organization Structure List".Code where(Type = Filter("Deputation Type"::Branch), Blocked = filter(false))
             else if (Type = filter("Branchwise/Extension Type"::"Extension Counter")) "Organization Structure List".Code where(Type = Filter("Deputation Type"::"Extension Counter"), Blocked = filter(false));
             trigger OnValidate()
@@ -48,14 +30,8 @@ table 50093 "Allowance Assignment Line"
         {
             TableRelation = if (Type = const(Branch)) Employee."No." where("Branch Code" = field(Code))
             else if (Type = const("Extension Counter")) Employee."No." where("Extension Counter Code" = field(Code));
-
             trigger OnValidate()
             begin
-                // TestField("From Date");
-                // if "Approval Status" = "Approval Status"::Screened then
-                // Error('Cannot substitute screened employee.');
-                // AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
-                //TESTFIELD("Allowance Type");
                 PayrollGeneralSetup.Get;
                 PayrollGeneralSetup.TestField("Risk Allowance");
                 PayrollGeneralSetup.TestField("Morning Counter");
@@ -78,14 +54,6 @@ table 50093 "Allowance Assignment Line"
                     "Employee Name" := Employee."Full Name"
                 else
                     "Employee Name" := '';
-                // if not GuiAllowed then
-                //     Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
-
-                // if xRec."Employee Code" <> "Employee Code" then
-                //     "Approval Status" := "Approval Status"::Pending;
-
-                // ValidateAllowanceType();
-
             end;
         }
         field(6; "Employee Name"; Text[100])
@@ -96,11 +64,6 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                // PayrollGeneralSetup.Get;
-                // PayrollGeneralSetup.TestField("Vault Key");
-                // if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
-                //     if Panel = Panel::" " then
-                //         Error('Please select panel.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
@@ -130,10 +93,6 @@ table 50093 "Allowance Assignment Line"
                     Clear("Allowance Amount");
                     Clear(Panel);
                 end;
-                // TestField("Employee Code", '');
-                // PGSetup.Get;
-                // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then //Min 12.20.2022
-                //     Error(TEXT003);//santosh
             end;
         }
         field(10; "Substitute Type"; Enum "Allowance Substitute")
@@ -154,10 +113,6 @@ table 50093 "Allowance Assignment Line"
         field(15; "Last Modified Date"; Date) { }
         field(16; "Last Modified By"; Code[50]) { }
         field(17; "Approved Date"; Date) { }
-        // field(18; "Approved Id"; Code[50])
-        // {
-        //     TableRelation = Employee;
-        //}
         field(19; "Approval Status"; Enum "Approval Status")
         {
             Editable = false;
@@ -217,8 +172,8 @@ table 50093 "Allowance Assignment Line"
     var
         CannotDelete: Label 'Cannot delete document.';
     begin
-        // if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
-        //     Error(CannotDelete)
+        if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
+            Error(CannotDelete)
     end;
 
     trigger OnInsert()
@@ -229,34 +184,14 @@ table 50093 "Allowance Assignment Line"
 
         if "Line No." = 0 then
             GetLineNo();
-
-        // if AllowanceHeader.Get("No.") then begin
-        //     Week := AllowanceHeader.Week;
-        // end;
-
         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Screened] then
             Error('Document is already screened.');
-
-        // TestField("Employee Code");
-        // TestField("From Date");
-
-        //for portal
-        // if not GuiAllowed then begin
-        //     ValidateDate;
-        //     ChangeHeaderApprovalStatus
-        // end;
-        // CheckForGracePeriod;
     end;
 
     trigger OnModify()
     begin
-        // if "Approval Status" in ["Approval Status"::Screened] then
-        //     Error('You cannot modify already screened entries.');
-
         "Last Modified Date" := Today;
         "Last Modified By" := UserId;
-        // if not GuiAllowed then
-        //     ChangeHeaderApprovalStatus;
     end;
 
     var
@@ -272,7 +207,6 @@ table 50093 "Allowance Assignment Line"
         HrMgt: Codeunit "HR Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
         LeaveMgt: Codeunit "Leave Mgt.";
-        // LoanMgt: Codeunit "Loan Mgt.";
         OverTimeMgt: Codeunit "OverTime Mgt";
         SalaryLevel: Record "Salary Level";
         GLSetup: Record "General Ledger Setup";
