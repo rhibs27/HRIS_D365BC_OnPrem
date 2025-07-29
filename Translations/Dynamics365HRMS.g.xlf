@@ -1503,6 +1503,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Training Check Out Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Unit Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 572629000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Week</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5562,6 +5567,11 @@
           <source>Training Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Training Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Unit Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>

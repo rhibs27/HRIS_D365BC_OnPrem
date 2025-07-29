@@ -259,9 +259,11 @@ table 50043 "Attendance Line"
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                              "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-
-
-
+        field(106; "Unit Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
+        }
     }
 
     keys

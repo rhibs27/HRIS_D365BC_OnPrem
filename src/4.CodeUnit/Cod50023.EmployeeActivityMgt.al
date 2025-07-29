@@ -61,13 +61,18 @@ codeunit 50023 EmployeeActivityMgt
     end;
 
     procedure ConfirmAttendanceJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    var
+        AttendanceMgn: Codeunit "AttendanceMiss Mgt";
     begin
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
+        AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
+        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
-        // EmployeeACTJnl.TestField("CheckIn Time");
-        // EmployeeACTJnl.TestField("CheckOut Time");
+
+        if (EmployeeACTJnl."CheckIn Time" = 0T) and (EmployeeACTJnl."CheckOut Time" = 0T) then
+            Error('Check In or check Out fields must have a Value');
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -215,7 +220,6 @@ codeunit 50023 EmployeeActivityMgt
         AttendanceMissedJournal.setrange("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
         if AttendanceMissedJournal.FindSet() then
             repeat
-                AttendanceMgn.CheckAlreadyExists(AttendanceMissedJournal."Employee No.", AttendanceMissedJournal.Type, AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Reset();
                 AttendanceMissed.Init();
                 AttendanceMissed.Validate("No.", '');
