@@ -351,15 +351,15 @@ page 50135 "Employee Edit Card"
             }
         }
     }
-    // trigger OnOpenPage()
-    // begin
-    //     SetLayout;
-    // end;
+    trigger OnOpenPage()
+    begin
+        SetLayout;
+    end;
 
-    // trigger OnAfterGetRecord()
-    // begin
-    //     SetLayout;
-    // end;
+    trigger OnAfterGetRecord()
+    begin
+        SetLayout;
+    end;
 
     var
         IsPending, IsRejected, IsApproved : Boolean;

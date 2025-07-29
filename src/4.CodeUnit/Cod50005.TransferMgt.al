@@ -715,7 +715,7 @@ codeunit 50005 "Transfer Mgt."
         IsHandled: Boolean;
     begin
         TransferClaim.Get(transferClaimNo);
-        OnAfterTransferClaimApproval(TransferClaim, IsHandled);
+        // OnAfterTransferClaimApproval(TransferClaim, IsHandled);
         if TransferClaim."Outstation/Discomfort Allow." <> 0 then begin
             ServiceHistory.Reset;
             ServiceHistory.SetRange("Document No.", TransferClaim."Transfer Request No");
@@ -1111,7 +1111,7 @@ codeunit 50005 "Transfer Mgt."
                 EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
             EmployeeRec.Modify;
         end;
-        OnAfterTransferAcknowledge(EmpHrTransfer);
+        // OnAfterTransferAcknowledge(EmpHrTransfer);
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, '', EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", 0);
         /*IF "Transfer Category" IN ["Transfer Category"::Officiating, "Transfer Category"::"Temporary"] THEN BEGIN

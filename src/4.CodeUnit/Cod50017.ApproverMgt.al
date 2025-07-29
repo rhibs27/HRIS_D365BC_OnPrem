@@ -32,6 +32,8 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetFilter("NAV Login ID", '<>%1', '');
                 OnInsertApprovalOnBeforeSelectApprover(Employee, isHandled);
                 if not isHandled then begin
                     if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin

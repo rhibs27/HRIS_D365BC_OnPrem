@@ -27758,6 +27758,46 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Year - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3426063600 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action Preview - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 14706639 - Control 3847225951 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Address of Owner field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53182,6 +53222,11 @@
           <source>Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Age Text - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2161899886 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Specifies the value of the Automatic Attendance field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Automatic Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 4042437055 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Blood Group field.</source>

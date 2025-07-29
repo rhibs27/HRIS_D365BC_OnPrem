@@ -11,6 +11,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditType: Enum "Employee Edit Type";
     begin
         EmployeeEdit.get(EmployeeEditCode);
+        EmployeeEditOnBeforeSendForApproval(EmployeeEdit);
         case EmployeeEdit."Changes In Employee Type" of
             EmployeeEditType::Details:
                 begin
@@ -133,6 +134,7 @@ codeunit 50021 "Employee Edit Mgt."
     procedure EmployeeQualificationAddFromLine(EmployeeEditLine: Record "Employee Edit Line")
     var
         EmployeeQualification: Record "Employee Qualification";
+        EmployeeNo: Code[20];
     begin
         EmployeeQualification.Init();
         EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEditLine."Employee No."));
@@ -140,7 +142,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeQualification.Validate("Qualification Code", EmployeeEditLine."Qualification Code");
 
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Qualification then begin
-            EmployeeQualification.Validate("Emp Qualification Type", EmployeeEditLine."Employee Document Type"::Education);
+            EmployeeQualification.Validate("Emp Qualification Type", EmployeeQualification."Emp Qualification Type"::Education);
             EmployeeQualification.Validate("Qualification Type", EmployeeEditLine."Qualification Type");
             EmployeeQualification.Validate(Stream, EmployeeEditLine.Stream);
             EmployeeQualification.Validate(Percentage, EmployeeEditLine.Percentage);
@@ -268,5 +270,15 @@ codeunit 50021 "Employee Edit Mgt."
         LanguageProficiency.Validate(Speaking, EmployeeEdit.Speaking);
         LanguageProficiency.Validate(Typing, EmployeeEdit.Typing);
         LanguageProficiency.Insert();
+    end;
+
+    procedure EmployeeEditOnBeforeSendForApproval(EmployeeEdit: Record "Employee Edit")
+    var
+        EmployeeEditLine: Record "Employee Edit Line";
+    begin
+        EmployeeEdit.TestField("Employee No.");
+        EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
+        if EmployeeEditLine.FindSet() then
+            EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
     end;
 }

@@ -26,6 +26,7 @@ table 50074 "Employee Edit"
         {
             Caption = 'Employee No.';
             DataClassification = CustomerContent;
+            TableRelation = Employee;
             trigger OnValidate()
             begin
                 if Employee.get("Employee No.") then begin
@@ -157,6 +158,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            TableRelation = "Employee Qualification";
         }
         field(24; Description; Code[100])
         {
