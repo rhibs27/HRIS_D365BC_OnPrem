@@ -36,12 +36,12 @@ page 50088 "Leave Request"
                             RemainingDays := LeaveMgt.CalculateRemainingDays(Rec."Employee No.", Rec."Leave Code", Rec."Requested Date");
                         LeaveType.Get(Rec."Leave Code");
                         IsCompensatory := LeaveType.Compensatory;
-                        IsBereavement := LeaveType."Bereavement Leave";
+                        IsBereavement := LeaveType."Leave Category" = LeaveType."Leave Category"::"Bereavement Leave";
                         // if IsCompensatory then
                         //     RemainingDays := 0;
                         // if Rec."Leave Code" <> xRec."Leave Code" then
                         //     GenerateAttachment;
-                        IsPaternity := LeaveType."Maternity/Paternity Leave";
+                        IsPaternity := LeaveType."Leave Category" = leavetype."Leave Category"::"Paternity Leave";
                     end;
                 }
                 field("Leave Description"; Rec."Leave Description")
@@ -249,10 +249,11 @@ page 50088 "Leave Request"
             until TempIncomingDoc.Next = 0;
         TempIncomingDoc.DeleteAll;
         Rec.TestField("Leave Code");
-        if LeaveType."Sick Leave" then
+        if LeaveType."Leave Category" = LeaveType."Leave Category"::"Sick Leave" then
             if Rec."No. of Days" < LeaveType."No. of Days for Attachment" then
                 exit;
-        IF LeaveType."Bereavement Leave" OR LeaveType."Maternity/Paternity Leave" OR LeaveType."Sick Leave" THEN BEGIN
+        IF LeaveType."Leave Category" in [LeaveType."Leave Category"::"Bereavement Leave", LeaveType."leave category"::"Maternity Leave",
+                               LeaveType."leave category"::"Paternity Leave", LeaveType."leave category"::"Sick Leave"] THEN BEGIN
             AttachmentSetup.Reset;
             AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Leave Request");
             AttachmentSetup.SetRange("Leave Type Code", LeaveType.Code);

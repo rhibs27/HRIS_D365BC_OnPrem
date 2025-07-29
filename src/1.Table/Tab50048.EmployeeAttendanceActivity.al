@@ -245,6 +245,11 @@ table 50048 "Employee Attendance & Activity"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
         }
+        field(107; "Leave Code"; Code[20])
+        {
+            Caption = 'Leave Code';
+            TableRelation = "Leave Type Setup";
+        }
 
     }
 

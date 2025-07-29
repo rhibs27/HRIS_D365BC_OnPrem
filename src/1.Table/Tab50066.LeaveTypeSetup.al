@@ -37,7 +37,7 @@ table 50066 "Leave Type Setup"
         field(10; "Remaining Days"; Decimal)
         {
             CalcFormula = sum("Leave Earn"."Balancing Days" where("Leave Code" = field(Code),
-                                                                   EmpNo = field("Employee No. Filter"),
+                                                                   "Employee No." = field("Employee No. Filter"),
                                                                    Closed = const(false)));
             FieldClass = FlowField;
         }
@@ -93,9 +93,9 @@ table 50066 "Leave Type Setup"
         }
         field(24; Compensatory; Boolean) { }
         field(25; "Needed HR Permission"; Boolean) { }
-        field(26; "Bereavement Leave"; Boolean) { }
-        field(27; "Maternity/Paternity Leave"; Boolean) { }
-        field(28; "Sick Leave"; Boolean) { }
+        // field(26; "Bereavement Leave"; Boolean) { }  
+        // field(27; "Maternity/Paternity Leave"; Boolean) { }
+        // field(28; "Sick Leave"; Boolean) { }
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
         {
@@ -142,6 +142,55 @@ table 50066 "Leave Type Setup"
         {
             DataClassification = ToBeClassified;
         }
+        field(100; "Credit Method"; Option)
+        {
+            OptionMembers = " ",Attendance,Automatic,"On Approval";
+            Caption = 'Credit Method';
+        }
+        field(102; "Min. Service Years"; Decimal)
+        {
+            Caption = 'Min. Service Years';
+        }
+        field(103; "Max. Eligible Age"; Decimal)
+        {
+            Caption = 'Max. Eligible Age';
+        }
+        field(104; "Credit Frequency"; Option)
+        {
+            OptionMembers = Annual,Monthly,Occasional;
+        }
+        field(106; "Credit At"; Option)
+        {
+            OptionMembers = Beginning,"End";
+        }
+        field(107; "Display in Portal"; Boolean) { }
+
+        field(108; "Back Date Allowed UpTo"; DateFormula) { }
+        field(109; "Leave Category"; Enum "Leave Category") { }
+        field(110; "Emplymt. Contract Code"; Code[200])
+        {
+            // TableRelation = "Employment Contract";
+        }
+        field(111; "Attendance Days"; Decimal) { }
+        field(112; Encashable; Boolean) { }
+        field(500; Blocked; Boolean) { }
+
+        field(502; "Used Days"; Decimal)
+        {
+            Caption = 'Used Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Used), "Posted Date" = field("Date Filter")));
+            Editable = false;
+        }
+        field(503; "Earned Days"; Decimal)
+        {
+            Caption = 'Earned Days';
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Earn"."Balancing Days" where("Employee No." = field("Employee No. Filter"), "Leave Code" = field(Code), Type = const(Earned), "Posted Date" = field("Date Filter")));
+            Editable = false;
+        }
+        field(504; "Encash Date"; Date) { }
+        field(505; "Encash Remarks"; Text[100]) { }
 
     }
 
@@ -154,7 +203,6 @@ table 50066 "Leave Type Setup"
 
     trigger OnDelete()
     begin
-        // Error('Cannot delete.');
     end;
 
     var

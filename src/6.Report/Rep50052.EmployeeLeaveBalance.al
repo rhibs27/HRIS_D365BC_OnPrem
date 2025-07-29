@@ -41,7 +41,7 @@ report 50052 "Employee Leave Balance"
                     Clear(UsedDays);
                     Clear(ClosingLeave);
                     LeaveEarn.Reset;
-                    LeaveEarn.SetRange(EmpNo, Employee."No.");
+                    LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", Code);
                     if Employee."Employment Type" = Employee."Employment Type"::Permanent then begin
                         LeaveEarn.SetRange("Fiscal year", FiscalYear);//LeaveEarn.SETFILTER("Posted Date",'%1..%2',0D,EngNepDate."English Date"-1);
@@ -53,7 +53,7 @@ report 50052 "Employee Leave Balance"
                     OpeningLeave := LeaveEarn."Balancing Days";
 
                     LeaveEarn.Reset;
-                    LeaveEarn.SetRange(EmpNo, Employee."No.");
+                    LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", Code);
                     LeaveEarn.SetRange("Fiscal year", FiscalYear);
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
@@ -61,7 +61,7 @@ report 50052 "Employee Leave Balance"
                     EarnedLeave := LeaveEarn."Balancing Days";
 
                     LeaveEarn.Reset;
-                    LeaveEarn.SetRange(EmpNo, Employee."No.");
+                    LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", Code);
                     LeaveEarn.SetRange("Fiscal year", FiscalYear);
                     //LeaveEarn.SETRANGE(Type,LeaveEarn.Type::Used);

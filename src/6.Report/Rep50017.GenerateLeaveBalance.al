@@ -22,9 +22,11 @@ report 50017 "Generate Leave Balance"
                     if Employee."Employment Type" = Employee."Employment Type"::Contract then
                         LeaveMgt.UpdateLeaveEmployeeContract("No.", "Employment Date", "Employment Type", Gender, "Marital Status")
                     else if Employee."Employment Type" = Employee."Employment Type"::Permanent then
-                        LeaveMgt.UpdateLeaveEmployee("No.", "Employment Date", "Employment Type", Gender, "Marital Status")
+                        //LeaveMgt.UpdateLeaveEmployee("No.", "Employment Date", "Employment Type", Gender, "Marital Status")
+                        LeaveMgt.GenerateLeave(Employee."No.")
                     else if Employee."Employment Type" = Employee."Employment Type"::Probation then
-                        LeaveMgt.UpdateLeaveEmployee("No.", "Employment Date", "Employment Type", Gender, "Marital Status")
+                        //LeaveMgt.UpdateLeaveEmployee("No.", "Employment Date", "Employment Type", Gender, "Marital Status")
+                        LeaveMgt.GenerateLeave(Employee."No.")
                 end else if Type = Type::"Employeement Type Change" then begin
                     if ConfirmationDate = 0D then
                         Error('Please fill confirmation date.');

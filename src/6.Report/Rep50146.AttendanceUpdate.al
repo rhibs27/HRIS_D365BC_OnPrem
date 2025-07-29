@@ -13,7 +13,7 @@ report 50146 "Attendance Update"
 
             trigger OnAfterGetRecord()
             begin
-                if "Employment Date" = 0D then    // skip blank employment date employee oman
+                if "Employment Date" = 0D then
                     CurrReport.Skip;
                 InsertAttendanceLine;
             end;
@@ -22,7 +22,7 @@ report 50146 "Attendance Update"
     trigger OnPreReport()
     begin
         AttendanceSetup.Get;
-        DocNo := NoSeriesMgt.GetNextNo(AttendanceSetup."Attendance Line No. Series", Today, true);
+        // DocNo := NoSeriesMgt.GetNextNo(AttendanceSetup."Attendance Line No. Series", Today, true);
     end;
 
     Var
@@ -31,7 +31,7 @@ report 50146 "Attendance Update"
         AttendanceLog: Record "Attendance Log";
         AttendanceLine: Record "Attendance Line";
         DocNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        // NoSeriesMgt: Codeunit NoSeriesManagement;
         WorkShift: Record "Employee Work Shift";
         HrMgt: Codeunit "HR Mgt.";
         StartTime, EndTime : time;
