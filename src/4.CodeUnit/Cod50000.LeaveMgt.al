@@ -44,6 +44,7 @@ codeunit 50000 "Leave Mgt."
         DateError: Label 'Start Date (%1) must be less than End Date (%2).';
         LeaveTypeSetup: Record "Leave Type Setup";
         Difference: Decimal;
+        IsHandled: Boolean;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
@@ -53,10 +54,15 @@ codeunit 50000 "Leave Mgt."
                     Difference := 1
                 else
                     Difference := 0.5;
-                if LeaveTypeSetup."Exclude Non Working Days" then
-                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
-                else
-                    exit(EndDate - StartDate + Difference);
+
+                OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
+                if not IsHandled then begin
+                    if LeaveTypeSetup."Exclude Non Working Days" then
+                        exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                    else
+                        exit(EndDate - StartDate + Difference);
+                end
+
             end;
         end else
             exit(EndDate - StartDate + 1);
@@ -1357,6 +1363,12 @@ codeunit 50000 "Leave Mgt."
     [IntegrationEvent(false, false)]
     local procedure OnLeaveEncashOnbeforeCheckEncashLimit(var LeaveTypeSetup: Record "Leave Type Setup";
                                                             var EmpVar: record Employee; var ExtendedEncashLimit: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnCalculateNoOfDaysinLeave(var LeaveTypeSetup: Record "Leave Type Setup"; var StartDate: Date; var EndDate: Date;
+                                        var Empcode: code[20]; var IsHandled: Boolean)
     begin
     end;
 
