@@ -47,7 +47,9 @@ codeunit 50017 "Approver Mgt"
                             Employee.SetRange("Province Code", EmpRequest."Province Code");
                     end else begin
                         if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+                            Employee.SetRange("Province Code", EmpRequest."Province Code")
+                        else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
+                            Employee.SetRange("Unit Code", EmpRequest."Unit Code");
                     end;
                 end;
                 if isHandled then begin
