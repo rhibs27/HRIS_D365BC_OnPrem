@@ -49638,6 +49638,36 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ShowPresentOnly - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 818810397 - Control 744363683 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee Filters</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control EmployeeFilters - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 1152617251 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control BranchCodeFilter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 1527551355 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control DepartmentCodeFilter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 125067309 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employee No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control EmployeeNoFilter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 3340385761 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control ProvinceCodeFilter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 818810397 - Control 4027832421 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Employee Attendance Report - Control UnitCodeFilter - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 3276795145 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Leave Balance</source>
           <note from="Developer" annotates="general" priority="2"></note>

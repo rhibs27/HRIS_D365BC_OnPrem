@@ -337,18 +337,19 @@ codeunit 50016 "AttendanceMiss Mgt"
             Error('%1 already applied for date %2', type::"Attendance Missed", AttendanceMissed."Start Date");
     end;
 
-    procedure CheckForLeaveDay("EmployeeNo": code[20]; "type": Enum "Employee Activity Type"; "startDate": Date)
+    procedure CheckForLeaveDay(var AttendanceJRN: Record "Employee Activity Journal")
     var
         AttendanceMissed: Record "Attendance Missed";
         leaveDay: Record Leave;
     begin
         leaveDay.Reset;
-        leaveDay.SetRange("Employee No.", EmployeeNo);
-        leaveDay.SetRange(Type, type::"Leave Request");
-        leaveDay.SetRange("Start Date", startDate);
+        leaveDay.SetRange("Employee No.", AttendanceJRN."Employee No.");
+        leaveDay.SetRange(Type, AttendanceJRN.Type::"Leave Request");
         leaveDay.SetFilter("Approval Status", '<>%1&<>%2', leaveDay."Approval Status"::Rejected, leaveDay."Approval Status"::Withdrawn);
-        if leaveDay.FindFirst then
-            Error('You were on leave on date %1', leaveDay."Start Date");
+        if leaveDay.FindSet then
+            repeat
+                if ((AttendanceJRN."Start Date" > leaveDay."Start Date") and (AttendanceJRN."Start Date" < leaveDay."End Date")) or ((AttendanceJRN."End Date" > leaveDay."Start Date") and (AttendanceJRN."End Date" < leaveDay."End Date")) then
+                    Error('%1 was on leave date %2', AttendanceJRN."Employee Name", AttendanceJRN."Start Date");
+            until leaveDay.Next = 0;
     end;
-
 }
