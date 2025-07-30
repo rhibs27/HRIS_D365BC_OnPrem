@@ -188,7 +188,7 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                OnInsertApprovaCancelledOnSelectApprover(ApprovalSetupLine, Employee, IsHandled);
+                OnInsertApprovaCancelledOnSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
                 if not IsHandled then begin
                     if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                         Employee.SetRange("Deputation On", EmpRequest."Deputation On");
@@ -729,7 +729,7 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovaCancelledOnSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
-                                                var Employee: Record Employee; var IsHandled: Boolean);
+                                                var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
     begin
     end;
 
