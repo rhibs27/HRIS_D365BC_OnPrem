@@ -159,10 +159,10 @@ page 50227 "Leave Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"Leave Request";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
-        CurrPage.Update();
+        CurrPage.Update(false);
     end;
 
-    trigger OnAfterGetRecord()
+    trigger OnAfterGetCurrRecord()
     begin
         SetLayout();
     end;
