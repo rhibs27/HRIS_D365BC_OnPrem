@@ -84,47 +84,26 @@ codeunit 50022 "Allowance Assignment Mgt"
         ApprovalLine: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
     begin
-        // PGSetup.Get;
         EmpAllowance.Get(EntryNo);
-        // // EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
-        // if CalcDate('<CM>', EmpAllowance."To date") + PGSetup."Approval Grace Period" < Today then
-        //     Error('Approval for allowance assignment has exceeded.Please contact corresponding Department.');
-        // AllowanceLine.Reset;
-        // AllowanceLine.SetRange("No.", EntryNo);
-        // AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
-        // if AllowanceLine.FindFirst then
-        //     Error('This document has an open record.Please advise your staff to delete the open records.');
-        // Employee.GET(GetEmployeeCode());
-        // EmpRec.GET(EmpAllowance."Approver ID");
-        // PGSetup.GET;
-        // PGSetup.TESTFIELD("BM Functional Title");
-        // if GetEmployeeCode() <> EmpAllowance."Approver ID" then
-        //     Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
-
-        // if Approved then
-        //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
-        // else
-        //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
-        // EmpAllowance.Posted := true;
-        // // EmpAllowance."Approver ID" := GetEmployeeCode();
-        // EmpAllowance."Approved Date" := Today;
-        // EmpAllowance.Modify(true);
-
         AllowanceLine.Reset;
         AllowanceLine.SetRange("No.", EntryNo);
         AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::"Pending");
         if AllowanceLine.Findset() then
             repeat
                 if Approved then begin
-                    if AllowanceLine."Emp Act Type" = AllowanceLine."Emp Act Type"::"Allowance Assignment Claim" then
-                        InsertAllowanceAssignmentDayInAttendance(AllowanceLine);
-                    if AllowanceLine."Approval Status" = AllowanceLine."Approval Status"::"Pending" then begin
-                        AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
-                        AllowanceLine.Validate("Approved Date", Today);
-                    end;
+                    AllowanceLine.Validate("Approval Status", AllowanceLine."Approval Status"::Approved);
+                    AllowanceLine.Validate("Approved Date", Today);
                     AllowanceLine.Modify();
                 end;
             until AllowanceLine.Next() = 0;
+        if Approved and (EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment Claim") then begin
+            AllowanceLine.Reset;
+            AllowanceLine.SetRange("No.", EntryNo);
+            AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Approved);
+            AllowanceLine.SetRange("Emp Act Type", AllowanceLine."Emp Act Type"::"Allowance Assignment Claim");
+            if AllowanceLine.FindSet() then
+                InsertHighestPriorityAllowanceInAttendance(AllowanceLine."Employee Code", AllowanceLine."From Date");
+        end;
         if not Approved then begin
             if EmpAllowance."Activity Type" = EmpAllowance."Activity Type"::"Allowance Assignment" then begin
                 AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::open);
@@ -138,79 +117,6 @@ codeunit 50022 "Allowance Assignment Mgt"
 
         end;
     end;
-
-    // procedure ApproveRejectAllowanceAssignmentAPI(Approved: Boolean; No: Code[20]; EmpNo: Code[20])
-    // var
-    //     EmpAllowance: Record "Allowance Assignment Header";
-    //     PGSetup: Record "Payroll General Setup";
-    //     EmpRec: Record Employee;
-    //     AllowanceLine: Record "Allowance Assignment Line";
-    // begin
-    //     // PGSetup.Get;
-    //     EmpAllowance.Get(No);
-    // EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
-    // if CalcDate('<CM>', EmpAllowance."To date") + PGSetup."Approval Grace Period" < Today then
-    //     Error('Approval for allowance assignment has exceeded.Please contact corresponding Department.');
-    // AllowanceLine.Reset;
-    // AllowanceLine.SetRange("No.", No);
-    // AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Open);
-
-    // if AllowanceLine.FindFirst then
-    //     Error('This document has an open record.Please advise your staff to delete the open records.');
-    //Employee.GET(GetEmployeeCode());
-    //EmpRec.GET(EmpAllowance."Approver ID");
-    //PGSetup.GET;
-    //PGSetup.TESTFIELD("BM Functional Title");
-    // if EmpNo <> EmpAllowance."Approver ID" then
-    //     Error('You are not eligible to approve or reject this doucment', EmpRec."Full Name");
-
-    // if Approved then
-    //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Approved)
-    // else
-    //     EmpAllowance.Validate("Approval Status", EmpAllowance."Approval Status"::Rejected);
-    // EmpAllowance.Posted := true;
-    // EmpAllowance."Approver ID" := EmpNo;
-    // EmpAllowance."Approved Date" := Today;
-    //     EmpAllowance.Modify(true);
-
-    //     AllowanceLine.Reset;
-    //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
-    //     if Approved then
-    //         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Approved)
-    //     else
-    //         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Rejected);
-    //     // AllowanceLine.ModifyAll("Approved Id", EmpNo);
-    //     AllowanceLine.ModifyAll("Approved Date", Today);
-    // end;
-
-    // procedure ReturnAllowanceAssignment(No: Code[20])
-    // var
-    //     EmpAllowance: Record "Allowance Assignment Header";
-    //     PGSetup: Record "Payroll General Setup";
-    //     EmpRec: Record Employee;
-    //     AllowanceLine: Record "Allowance Assignment Line";
-    // begin
-    //     EmpAllowance.Get(No);
-    //     EmpAllowance.TestField("Approval Status", EmpAllowance."Approval Status"::"Pending");
-
-
-    //     // if GetEmployeeCode <> EmpAllowance."Approver ID" then
-    //     //     Error("ERROR BM", EmpRec."Full Name");
-
-
-    //     EmpAllowance.Posted := true;
-    //     // EmpAllowance."Approver ID" := GetEmployeeCode();
-    //     EmpAllowance."Approved Date" := Today;
-    //     EmpAllowance.Modify(true);
-
-    //     AllowanceLine.Reset;
-    //     AllowanceLine.SetRange("No.", No);
-    //     AllowanceLine.SetRange("Approval Status", AllowanceLine."Approval Status"::Pending);
-    //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Open);
-    //     // AllowanceLine.ModifyAll("Approved Id", HrMgt.GetEmployeeNo());
-    //     AllowanceLine.ModifyAll("Approved Date", Today);
-    // end;
 
     procedure CheckFunctionalTitleForRiskAllowance(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
@@ -293,39 +199,6 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('Employee not eligbile for this allowance type.');
     end;
 
-    procedure ScreenAllowanceAssignment(AllowanceAssignmentLine: Record "Allowance Assignment Line"; Screen: Boolean; DateFilter: Text)
-    var
-        AllowanceHeader: Record "Allowance Assignment Header";
-    begin
-        if Screen then begin
-            if DateFilter = '' then
-                Error('Enter Month and Year before screening the documents.');
-            AllowanceAssignmentLine.Reset;
-            AllowanceAssignmentLine.SetFilter("From Date", DateFilter);
-            AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-            if AllowanceAssignmentLine.FindFirst then begin
-                repeat
-                    AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
-                    AllowanceAssignmentLine."Approval Status" := AllowanceAssignmentLine."Approval Status"::Screened;
-                    AllowanceAssignmentLine."Screened By" := UserId;
-                    AllowanceAssignmentLine."Screened Date" := CurrentDateTime;
-                    AllowanceAssignmentLine.Modify;
-                    if AllowanceHeader.Get(AllowanceAssignmentLine."No.") and
-                          (AllowanceHeader."Approval Status" <> AllowanceHeader."Approval Status"::Screened) then begin
-                        AllowanceHeader."Approval Status" := AllowanceHeader."Approval Status"::Screened;
-                        AllowanceHeader.Modify;
-                    end;
-                until AllowanceAssignmentLine.Next = 0;
-            end;
-        end else begin
-            AllowanceAssignmentLine.TestField("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-            AllowanceAssignmentLine."Approval Status" := AllowanceAssignmentLine."Approval Status"::Approved;
-            AllowanceAssignmentLine."Screened By" := '';
-            AllowanceAssignmentLine."Screened Date" := 0DT;
-            AllowanceAssignmentLine.Modify;
-        end;
-    end;
-
     procedure CheckForPanel(AllowanceAssignmentLine: Record "Allowance Assignment Line")
     var
         AllowanceAssignLine: Record "Allowance Assignment Line";
@@ -342,142 +215,97 @@ codeunit 50022 "Allowance Assignment Mgt"
             Error('%1 already exist for date %2', AllowanceAssignmentLine.Panel, AllowanceAssignmentLine."From Date");
     end;
 
-    procedure InsertAllowanceAssignmentDays()
+    // Modified procedure to insert only the highest amount allowance
+    procedure InsertHighestPriorityAllowanceInAttendance(EmployeeCode: Code[20]; AttendanceDate: Date)
     var
         AllowanceAssignmentLine: Record "Allowance Assignment Line";
         EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        FromDate: Date;
-        Todate: Date;
-        PRSetup: Record "Payroll General Setup";
-        AllowancePageBuilder: FilterPageBuilder;
-        AllowAssignLine: Record "Allowance Assignment Line";
+        HighestAmountAllowanceType: Code[20];
+        HighestAmount: Decimal;
+        CurrentAmount: Decimal;
     begin
-        PRSetup.Get;
+        HighestAmount := 0;
+        // Find all approved allowances for this employee on this date
+        AllowanceAssignmentLine.Reset;
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetRange("From Date", AttendanceDate);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment Claim");
+        if AllowanceAssignmentLine.Findset() then
+            repeat
+                CurrentAmount := GetAllowanceAmount(AllowanceAssignmentLine."Allowance Type");
+                if CurrentAmount > HighestAmount then begin
+                    HighestAmount := CurrentAmount;
+                    HighestAmountAllowanceType := AllowanceAssignmentLine."Allowance Type";
+                end;
+            until AllowanceAssignmentLine.Next() = 0;
 
-        AllowancePageBuilder.AddRecord('Update to Employee Attendance', AllowAssignLine);
-        AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."From Date");
-        AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."To Date");
-        if AllowancePageBuilder.RunModal then begin
-            AllowAssignLine.SetView(AllowancePageBuilder.GetView('Update to Employee Attendance'));
-            Evaluate(FromDate, AllowAssignLine.GetFilter("From Date"));
-            Evaluate(Todate, AllowAssignLine.GetFilter("To Date"));
-
-            AllowanceAssignmentLine.Reset;
-            AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
-            AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-            if AllowanceAssignmentLine.FindFirst then
-                repeat
-                    EmployeeAttendanceActivity.Reset;
-                    EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
-                    EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-                    if EmployeeAttendanceActivity.FindFirst then begin
-                        case AllowanceAssignmentLine."Allowance Type" of
-
-                            PRSetup."Evening Counter":
-                                EmployeeAttendanceActivity."Evening Counter Days" := 1;
-
-                            PRSetup."Morning Counter":
-                                EmployeeAttendanceActivity."Morning Counter Days" := 1;
-
-                            PRSetup."Festival Counter":
-                                EmployeeAttendanceActivity."Festival Counter Days" := 1;
-
-                            PRSetup."Holiday Counter":
-                                EmployeeAttendanceActivity."Holiday Counter Days" := 1;
-
-                            PRSetup."Friday Counter":
-                                EmployeeAttendanceActivity."Friday Counter Days" := 1;
-
-                            PRSetup."Risk Allowance":
-                                EmployeeAttendanceActivity."Cash Risk Days" := 1;
-
-                            PRSetup."Vault Key":
-                                EmployeeAttendanceActivity."Vault Key Days" := 1;
-
-                            PRSetup."Head Teller Allowance":
-                                EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
-
-                            PRSetup."Teller Allowance":
-                                EmployeeAttendanceActivity."Teller Allowance Days" := 1;
-
-                            PRSetup."ATM Custodian":
-                                EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
-                        end;
-                        EmployeeAttendanceActivity.Modify;
-                    end;
-
-                until AllowanceAssignmentLine.Next = 0;
-            Message('Update to employee attendance and activity');
-        end;
-    end;
-
-    procedure InsertAllowanceAssignmentDayInAttendance(AllowanceAssignmentLine: Record "Allowance Assignment Line")
-    var
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        // FromDate: Date;
-        // Todate: Date;
-        PRSetup: Record "Payroll General Setup";
-    // AllowancePageBuilder: FilterPageBuilder;
-    // AllowAssignLine: Record "Allowance Assignment Line";
-    begin
-        PRSetup.Get;
-
-        // AllowancePageBuilder.AddRecord('Update to Employee Attendance', AllowAssignLine);
-        // AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."From Date");
-        // AllowancePageBuilder.ADdField('Update to Employee Attendance', AllowAssignLine."To Date");
-        // if AllowancePageBuilder.RunModal then begin
-        //     AllowAssignLine.SetView(AllowancePageBuilder.GetView('Update to Employee Attendance'));
-        //     Evaluate(FromDate, AllowAssignLine.GetFilter("From Date"));
-        //     Evaluate(Todate, AllowAssignLine.GetFilter("To Date"));
-
-        // AllowanceAssignmentLine.Reset;
-        // AllowanceAssignmentLine.SetRange("From Date", FromDate, Todate);
-        // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-        // AllowanceAssignmentLine.Findfirst;
-        EmployeeAttendanceActivity.Reset;
-        EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
-        EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-        if EmployeeAttendanceActivity.FindFirst then begin
-            case AllowanceAssignmentLine."Allowance Type" of
-
-                PRSetup."Evening Counter":
-                    EmployeeAttendanceActivity."Evening Counter Days" := 1;
-
-                PRSetup."Morning Counter":
-                    EmployeeAttendanceActivity."Morning Counter Days" := 1;
-
-                PRSetup."Festival Counter":
-                    EmployeeAttendanceActivity."Festival Counter Days" := 1;
-
-                PRSetup."Holiday Counter":
-                    EmployeeAttendanceActivity."Holiday Counter Days" := 1;
-
-                PRSetup."Friday Counter":
-                    EmployeeAttendanceActivity."Friday Counter Days" := 1;
-
-                PRSetup."Risk Allowance":
-                    EmployeeAttendanceActivity."Cash Risk Days" := 1;
-
-                PRSetup."Vault Key":
-                    EmployeeAttendanceActivity."Vault Key Days" := 1;
-
-                PRSetup."Head Teller Allowance":
-                    EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
-
-                PRSetup."Teller Allowance":
-                    EmployeeAttendanceActivity."Teller Allowance Days" := 1;
-
-                PRSetup."ATM Custodian":
-                    EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+        // Update attendance with the highest amount allowance
+        if HighestAmountAllowanceType <> '' then begin
+            EmployeeAttendanceActivity.Reset;
+            EmployeeAttendanceActivity.SetRange("Attendance Date", AttendanceDate);
+            EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+            if EmployeeAttendanceActivity.FindFirst then begin
+                UpdateAttendanceWithAllowance(EmployeeAttendanceActivity, HighestAmountAllowanceType);
+                EmployeeAttendanceActivity.Modify;
             end;
-            EmployeeAttendanceActivity.Modify;
         end;
-
-        // until AllowanceAssignmentLine.Next = 0;
-        // if GuiAllowed then
-        //     Message('Update to employee attendance and activity');
     end;
-    // end;
+    // Function to get allowance amount from Payroll General Setup
+    procedure GetAllowanceAmount(AllowanceType: Code[20]): Decimal
+    begin
+        PGSetup.Get();
+        case AllowanceType of
+            PGSetup."Head Teller Allowance":
+                exit(PGSetup."Head Teller Allow. (Regular)");
+            PGSetup."Vault Key":
+                exit(PGSetup."Vault Key Allowance(Regular)");
+            PGSetup."Teller Allowance":
+                exit(PGSetup."Teller Allowance (Regular)");
+            PGSetup."ATM Custodian":
+                exit(PGSetup."ATM Custodian regular (month)");
+            PGSetup."Evening Counter":
+                exit(PGSetup."Evening Counter (Regular)");
+            PGSetup."Morning Counter":
+                exit(PGSetup."Morning Counter (Regular)");
+            PGSetup."Festival Counter":
+                exit(PGSetup."Festival Counter(Regular)");
+            PGSetup."Holiday Counter":
+                exit(PGSetup."Holiday All. Amt (Regular)");
+            PGSetup."Friday Counter":
+                exit(PGSetup."Festival Counter(Regular)");
+            else
+                exit(0);
+        end;
+    end;
+    // procedure to update attendance fields
+    procedure UpdateAttendanceWithAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AllowanceType: Code[20])
+    begin
+        PGSetup.Get();
+        case AllowanceType of
+            PGSetup."Evening Counter":
+                EmployeeAttendanceActivity."Evening Counter Days" := 1;
+            PGSetup."Morning Counter":
+                EmployeeAttendanceActivity."Morning Counter Days" := 1;
+            PGSetup."Festival Counter":
+                EmployeeAttendanceActivity."Festival Counter Days" := 1;
+            PGSetup."Holiday Counter":
+                EmployeeAttendanceActivity."Holiday Counter Days" := 1;
+            PGSetup."Friday Counter":
+                EmployeeAttendanceActivity."Friday Counter Days" := 1;
+            PGSetup."Risk Allowance":
+                EmployeeAttendanceActivity."Cash Risk Days" := 1;
+            PGSetup."Vault Key":
+                EmployeeAttendanceActivity."Vault Key Days" := 1;
+            PGSetup."Head Teller Allowance":
+                EmployeeAttendanceActivity."Head Teller Allowance Days" := 1;
+            PGSetup."Teller Allowance":
+                EmployeeAttendanceActivity."Teller Allowance Days" := 1;
+            PGSetup."ATM Custodian":
+                EmployeeAttendanceActivity."ATM Custodian Allowance days" := 1;
+        end;
+    end;
+
 
     procedure RemoveAllowanceAssignmentDayInAttendance(No: Code[20]; AllowanceAssignmentNo: Integer)
     var

@@ -2203,6 +2203,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
     }
     var
+        ServiceEvent: Enum "Service Event";
         SameAsPermanent: Boolean;
         Usersetup: Record "User Setup";
         PayrollFieldsVisible: Boolean;

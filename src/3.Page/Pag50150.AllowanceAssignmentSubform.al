@@ -135,16 +135,9 @@ page 50150 "Allowance Assignment Subform"
                         AllowanceLineTemp.Type := rec.Type;
                         AllowanceLineTemp.Code := rec.code;
                         AllowanceLineTemp.Panel := rec.Panel;
-                        // AllowanceLineTemp."Approval Status" := Rec."Approval Status"::Approved;
                         AllowanceLineTemp."From Date" := rec."From Date";
                         AllowanceLineTemp."To Date" := rec."To Date";
                         AllowanceLineTemp.Insert();
-                        /*
-                        AllowanceLineTemp."Employee Code" := "Employee Code";
-                        AllowanceLineTemp."From Date" := "From Date";
-                        AllowanceLineTemp."To Date" := "To Date";
-                        AllowanceLineTemp."Employee Name" := "Employee Name";
-                        AllowanceLineTemp.MODIFY(TRUE);*/
                     end;
                     Page.Run(Page::"Allowance Assign. Substitute", AllowanceLineTemp);
                 end;
@@ -201,8 +194,8 @@ page 50150 "Allowance Assignment Subform"
                     Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                     Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
-                    AllowanceAssignmentMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
-                    AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
+                    // AllowanceAssignmentMgt.InsertHighestPriorityAllowanceInAttendance(Rec."Employee Code", Rec."From Date");//handled in allowance claim
+                    // AllowanceAssignmentMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
                     Rec.Modify();
                     Message('Substitute Allowance is Approved');
                 end;
@@ -239,11 +232,6 @@ page 50150 "Allowance Assignment Subform"
                 var
                     ApproverHrms: Record "Approval HRMS";
                 begin
-                    // ApproverHrms.Reset();
-                    // ApproverHrms.SetRange("Document No.",ApproverHrms."Document No.");
-                    // ApproverHrms.SetRange("Approval Status",ApproverHrms."Approval Status"::Open);
-                    // ApproverHrms.FindFirst()
-                    // if 
                     if Confirm('Do you want reject the request?', false) then begin
                         Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Rejected);
@@ -285,15 +273,10 @@ page 50150 "Allowance Assignment Subform"
 
     var
         AllowanceTypeFilter: Code[20];
-        [InDataSet]
-        ToDateEditable: Boolean;
-        DocumentOpen: Boolean;
-        DocumentApproved: Boolean;
-        DocumentPending: Boolean;
-        FormEditable: Boolean;
+        ToDateEditable, FormEditable, AllowanceClaim : Boolean;
+        DocumentOpen, DocumentApproved, DocumentPending : Boolean;
         Typefilter: Text;
         AllowanceAssignmentMgt: Codeunit "Allowance Assignment Mgt";
-        AllowanceClaim: Boolean;
 
 
     procedure _SetFilter(_AllowanceTypeFilter: Code[20])
@@ -321,20 +304,10 @@ page 50150 "Allowance Assignment Subform"
         if Rec."Allowance Type" = 'FRIDAY COUNTER' then
             ToDateEditable := false;
         AllowanceClaim := AllowanceHeader."Activity Type" = AllowanceHeader."Activity Type"::"Allowance Assignment claim";
-        // CurrPage.Editable(AllowanceClaim);
         if AllowanceClaim then
             CurrPage.Caption('Allowance Assignment Claim Subform');
 
         FormEditable := DocumentOpen;
-        // FormEditable := (Rec."Approval Status" = Rec."Approval Status"::open) and (Rec."Emp Act Type" <> Rec."Emp Act Type"::"Allowance Assignment Claim");
-        /*
-
-        BaseCalendarChange.RESET;
-        BaseCalendarChange.SETRANGE(Nonworking, TRUE);
-        BaseCalendarChange.SETRANGE(Date, "From Date");
-        IF BaseCalendarChange.FINDFIRST THEN
-          ToDateEditable := FALSE;
-        */
     end;
 
     procedure GetSelectedLines(var _AllowanceLine: Record "Allowance Assignment Line")
