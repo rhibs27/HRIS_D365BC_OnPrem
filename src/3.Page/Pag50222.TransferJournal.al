@@ -36,6 +36,10 @@ page 50222 "Transfer Journal"
                 {
                     ToolTip = 'Specifies the value of the Deputation On (To) field.', Comment = '%';
                     Editable = IsOpen;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Province Code (To)"; Rec."Province Code (To)")
                 {
@@ -186,7 +190,7 @@ page 50222 "Transfer Journal"
         Rec."Employee Act Type" := Rec."Employee Act Type"::"HR Transfer";
         Rec.Type := Rec.Type::"Employee Journal";
         Rec.SetUpNewLine(xRec);
-        CurrPage.Update();
+        CurrPage.Update(false);
     end;
 
     trigger OnAfterGetCurrRecord()
