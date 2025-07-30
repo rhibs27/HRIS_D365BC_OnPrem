@@ -966,9 +966,9 @@ codeunit 50000 "Leave Mgt."
 
             NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(leave."Employee No.",
-                     LeaveTypeSetup.Code,
+                     leave."Leave Code",
                      leave."Start Date",
-                     leaveEarn.Type::Earned,
+                     leaveEarn.Type::Used,
                      -leave."No. of Days",
                      NextEntryNo,
                      leaveNo,
