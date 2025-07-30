@@ -949,19 +949,31 @@ codeunit 50000 "Leave Mgt."
         IsHandled: Boolean;
         LeaveTypeSetup: Record "Leave Type Setup";
         ServiceInactivity: Record "Service Inactivity Ledger";
+        NextEntryNo: Integer;
     begin
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
-            LeaveEarn.Init;
-            LeaveEarn.Validate("Leave Code", leave."Leave Code");
-            LeaveEarn.Validate("Employee No.", leave."Employee No.");
-            LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-            LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-            LeaveEarn.Validate("Posted Date", Today);
-            LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-            LeaveEarn.Validate("Leave Request No", leave."No.");
-            LeaveEarn.Insert(true);
+            // LeaveEarn.Init;
+            // LeaveEarn.Validate("Leave Code", leave."Leave Code");
+            // LeaveEarn.Validate("Employee No.", leave."Employee No.");
+            // LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
+            // LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
+            // LeaveEarn.Validate("Posted Date", Today);
+            // LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
+            // LeaveEarn.Validate("Leave Request No", leave."No.");
+            // LeaveEarn.Insert(true);
+
+            NextEntryNo := GetNextLeaveLedgerEntryNo();
+            CreateLeaveLedger(leave."Employee No.",
+                     LeaveTypeSetup.Code,
+                     leave."Start Date",
+                     leaveEarn.Type::Earned,
+                     -leave."No. of Days",
+                     NextEntryNo,
+                     leaveNo,
+                     leave.Remarks,
+                     '');
         end;
         LeaveTypeSetup.get(leave."Leave Code");
         if LeaveTypeSetup."Exclude in Service Period" then begin
@@ -1010,21 +1022,32 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveEarn: Record "Leave Earn";
         CancelDocument: Record "Cancel Document";
+        NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            LeaveEarn.Init;
-            LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
-            LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
-            LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
-            LeaveEarn.Validate("Employee No.", CancelDocument."Employee No.");
-            LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
-            LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
-            LeaveEarn.Validate("Posted Date", Today);
-            LeaveEarn.Validate("Balancing Days", CancelDocument."No. of Days");
-            LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
-            LeaveEarn.Insert(true);
+            // LeaveEarn.Init;
+            // LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
+            // LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
+            // LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
+            // LeaveEarn.Validate("Employee No.", CancelDocument."Employee No.");
+            // LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
+            // LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
+            // LeaveEarn.Validate("Posted Date", Today);
+            // LeaveEarn.Validate("Balancing Days", CancelDocument."No. of Days");
+            // LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
+            // LeaveEarn.Insert(true);
+            NextEntryNo := GetNextLeaveLedgerEntryNo();
+            CreateLeaveLedger(CancelDocument."Employee No.",
+                     CancelDocument."Leave Code",
+                     CancelDocument."Start Date",
+                     leaveEarn.Type::Cancelled,
+                     CancelDocument."No. of Days",
+                     NextEntryNo,
+                     CancelDocument."No.",
+                     CancelDocument.Remarks,
+                     '');
 
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
