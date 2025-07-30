@@ -330,10 +330,25 @@ codeunit 50016 "AttendanceMiss Mgt"
     begin
         AttendanceMissed.Reset;
         AttendanceMissed.SetRange("Employee No.", EmployeeNo);
-        AttendanceMissed.SetRange(Type, type);
+        AttendanceMissed.SetRange(Type, type::"Attendance Missed");
         AttendanceMissed.SetRange("Start Date", startDate);
         AttendanceMissed.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
         if AttendanceMissed.FindFirst then
-            Error('%1 already applied for date %2', type, AttendanceMissed."Start Date");
+            Error('%1 already applied for date %2', type::"Attendance Missed", AttendanceMissed."Start Date");
     end;
+
+    procedure CheckForLeaveDay("EmployeeNo": code[20]; "type": Enum "Employee Activity Type"; "startDate": Date)
+    var
+        AttendanceMissed: Record "Attendance Missed";
+        leaveDay: Record Leave;
+    begin
+        leaveDay.Reset;
+        leaveDay.SetRange("Employee No.", EmployeeNo);
+        leaveDay.SetRange(Type, type::"Leave Request");
+        leaveDay.SetRange("Start Date", startDate);
+        leaveDay.SetFilter("Approval Status", '<>%1&<>%2', leaveDay."Approval Status"::Rejected, leaveDay."Approval Status"::Withdrawn);
+        if leaveDay.FindFirst then
+            Error('You were on leave on date %1', leaveDay."Start Date");
+    end;
+
 }

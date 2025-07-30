@@ -38,8 +38,11 @@ codeunit 50017 "Approver Mgt"
                         Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                         if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                             Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                            Employee.SetRange("Department Code", EmpRequest."Department Code")
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then begin
+                            Employee.SetRange("Department Code", EmpRequest."Department Code");
+                            if EmpRequest."Unit Code" <> '' then
+                                Employee.SetRange("Unit Code", EmpRequest."Unit Code")
+                        end
                         else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
                             Employee.SetRange("Province Code", EmpRequest."Province Code");
                     end else begin

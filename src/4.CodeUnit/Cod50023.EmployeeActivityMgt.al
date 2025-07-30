@@ -36,12 +36,17 @@ codeunit 50023 EmployeeActivityMgt
     end;
 
     procedure ConfirmTransferJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
-
+    var
+        EmphrTransfer: Record "Employee Transfer";
     begin
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Transfer Type");
         EmployeeACTJnl.TestField("Transfer Category");
         EmployeeACTJnl.TestField("Deputation On (To)");
+        EmployeeACTJnl.TestField("Incoming Supervisor");
+        EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
+        EmployeeACTJnl.TestField("Approver Role (TO)");
+        EmployeeACTJnl.TestField("Transfer Effective Date");
         case EmployeeACTJnl."Deputation On (To)" of
             EmployeeACTJnl."Deputation On (To)"::Branch:
                 EmployeeACTJnl.TestField("To Branch");
@@ -54,20 +59,27 @@ codeunit 50023 EmployeeActivityMgt
             EmployeeACTJnl."Deputation On (To)"::Unit:
                 EmployeeACTJnl.TestField("Unit (To)");
         end;
-        EmployeeACTJnl.TestField("Incoming Supervisor");
-        EmployeeACTJnl.TestField("Outgoing Branch Rep. Person");
-        EmployeeACTJnl.TestField("Approver Role (TO)");
-        EmployeeACTJnl.TestField("Transfer Effective Date");
+        EmphrTransfer.Reset();
+        EmphrTransfer.SetRange("Employee No.", EmployeeACTJnl."Employee No.");
+        EmphrTransfer.SetFilter(Type, '%1|%2', EmphrTransfer.Type::"HR Transfer", EmphrTransfer.Type::"Employee Transfer");
+        EmphrTransfer.SetFilter("Approval Status", '%1|%2|%3', EmphrTransfer."Approval Status"::Pending, EmphrTransfer."Approval Status"::Approved, EmphrTransfer."Approval Status"::"On Hold");
+        if EmphrTransfer.FindFirst() then
+            Error('%1 of employee %2 is still open or pending. Please verify Transfer Document %3', EmphrTransfer.Type, EmphrTransfer."Employee Name", EmphrTransfer."No.");
     end;
 
     procedure ConfirmAttendanceJournalDetails(EmployeeACTJnl: Record "Employee Activity Journal")
+    var
+        AttendanceMgn: Codeunit "AttendanceMiss Mgt";
     begin
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
+        AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
+        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl."Employee No.", EmployeeACTJnl.type, EmployeeACTJnl."Start Date");
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
-        // EmployeeACTJnl.TestField("CheckIn Time");
-        // EmployeeACTJnl.TestField("CheckOut Time");
+
+        if (EmployeeACTJnl."CheckIn Time" = 0T) and (EmployeeACTJnl."CheckOut Time" = 0T) then
+            Error('Check In or check Out fields must have a Value');
     end;
 
     // procedure ApproveJournalPost(DocumentNo: Code[20])
@@ -105,12 +117,6 @@ codeunit 50023 EmployeeActivityMgt
         TransferEmployeeJournal.setrange("Approval Status", TransferEmployeeJournal."Approval Status"::Approved);
         if TransferEmployeeJournal.FindSet() then
             repeat
-                EmphrTransfer.Reset;
-                EmphrTransfer.SetFilter(Type, '%1|%2', EmphrTransfer.Type::"HR Transfer", EmphrTransfer.Type::"Employee Transfer");
-                EmphrTransfer.SetRange("Employee No.", TransferEmployeeJournal."Employee No.");
-                EmphrTransfer.SetFilter("Approval Status", '%1|%2|%3', EmphrTransfer."Approval Status"::Pending, EmphrTransfer."Approval Status"::Approved, EmphrTransfer."Approval Status"::"On Hold");
-                if EmphrTransfer.FindFirst then
-                    Error('Transfer card of employee %1 is still open or pending.Please verify Transfer Document %2', EmphrTransfer."Employee Name", EmphrTransfer."No.");
                 TransferRequest.Init();
                 TransferRequest.Validate("No.", '');
                 TransferRequest.Validate("Employee No.", TransferEmployeeJournal."Employee No.");
@@ -215,7 +221,6 @@ codeunit 50023 EmployeeActivityMgt
         AttendanceMissedJournal.setrange("Approval Status", AttendanceMissedJournal."Approval Status"::Approved);
         if AttendanceMissedJournal.FindSet() then
             repeat
-                AttendanceMgn.CheckAlreadyExists(AttendanceMissedJournal."Employee No.", AttendanceMissedJournal.Type, AttendanceMissedJournal."Start Date");
                 AttendanceMissed.Reset();
                 AttendanceMissed.Init();
                 AttendanceMissed.Validate("No.", '');

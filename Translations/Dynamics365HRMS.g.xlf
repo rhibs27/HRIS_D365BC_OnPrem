@@ -1503,6 +1503,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Training Check Out Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Unit Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 572629000 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Week</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5567,6 +5572,11 @@
           <source>Training Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Training Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 2951275221 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Unit Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3208628662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vault Key Days</source>
@@ -21053,26 +21063,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApplyForApprovalForms - NamedType ErrorNoOfDays</note>
         </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3730703477 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedRejectApproval - NamedType ApprovalStatusError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 3730703477 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be in %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedRejectApproval - NamedType ErrorReject</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 554475117 - NamedType 2795734317" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedRejectApprovalAPI - NamedType ApprovalStatusError</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 554475117 - NamedType 1653334593" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Approval Status must be in %1 or %2.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ApprovedRejectApprovalAPI - NamedType ErrorReject</note>
-        </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 2781101943 - NamedType 1397003111" size-unit="char" translate="yes" xml:space="preserve">
           <source>Start time cannot be greater than end time</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -21127,11 +21117,6 @@
           <source>Provience Name %1 not found.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method CheckProvience - NamedType ErrorProvience</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 3904381950 - Method 2335065094 - NamedType 3901881498" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Do you want to confirm screen this document?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method ForwardToHR - NamedType ConfirmScreen</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 3229658818 - NamedType 2425724332" size-unit="char" translate="yes" xml:space="preserve">
           <source>ENU=The approval request for the record has been canceled.</source>
@@ -22382,21 +22367,6 @@
           <source>Executes the Reject Substitute action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Reject Substitute - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Action 1382677720 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Screen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Screen - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Action 4249644753 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Unscreen action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Unscreen - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3547077343 - Action 3539936745 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Update to Employee Attendance action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments (Screen) - Action Update to Employee Attendance - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 793870126 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
@@ -49067,71 +49037,6 @@
           <source>Specifies the value of the referenceNo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Annual Salary Certificate(reg) - Control Reference No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Update Job Queue</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 3654999908 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the AttendanceMissedCountUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Attendance Missed Count Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the FromDate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control From Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 3654965184 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the GeneralTransferUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control General Transfer Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 21500662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the NightShiftAttendanceUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Night Shift Attendance Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 511664528 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the ReinstateTransfer field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Reinstate Transfer - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 1431499250 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the SalaryLevelGradeUpdate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Salary Level Grade Update - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 760065682 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Sync Employees field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Sync Employees - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 760065682 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Sync Employees</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Sync Employees - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the ToDate field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control To Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 2138556230 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateAllowanceAssignment field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Update Allowance Assignment - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 1736849778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateDailyAttendance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Update Attendance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 1882579420 - Control 2453812782 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the UpdateOvertime field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Attendance Update Job Queue - Control Update Overtime - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2348019456 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Branch Allowance Data</source>

@@ -712,6 +712,7 @@ codeunit 50005 "Transfer Mgt."
     var
         TransferClaim: Record "Employee Transfer";
         ServiceHistory: Record "Employee Service History";
+        IsHandled: Boolean;
     begin
         TransferClaim.Get(transferClaimNo);
         if TransferClaim."Outstation/Discomfort Allow." <> 0 then begin
@@ -1053,7 +1054,7 @@ codeunit 50005 "Transfer Mgt."
         if EmpHrTransfer."Date of Joining Of Transfer" > Today then
             Error('You Cannot Acknowledge Before Date of Joining');
         AttachmentSetup.Reset;
-        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Travel Request");
+        AttachmentSetup.SetRange(Type, AttachmentSetup.Type::"Employee Transfer");
         AttachmentSetup.SetRange("Transfer Category", EmpHrTransfer."Transfer Category");
         AttachmentSetup.SetRange(Mandatory, true);
         if AttachmentSetup.Find('-') then
@@ -1182,6 +1183,7 @@ codeunit 50005 "Transfer Mgt."
     procedure HandoverApprove(var EmpHrTransfer: Record "Employee Transfer")
     var
         IncomingDocument: Record "Incoming Document";
+        AttachmentSetup: Record "Attachment Setup";
     begin
         EmpHrTransfer.TestField("Approval Status", EmpHrTransfer."Approval Status"::Approved);
         EmpHrTransfer.TestField("Is Transfer Details Added", true);
@@ -1189,8 +1191,12 @@ codeunit 50005 "Transfer Mgt."
         IncomingDocument.SetRange("No.", EmpHrTransfer."No.");
         if IncomingDocument.FindSet() then
             repeat
-                if IncomingDocument."File Name" = '' then
-                    Error('Upload Attachment');
+                AttachmentSetup.Reset();
+                AttachmentSetup.SetRange("Attachment Code", IncomingDocument."Attachment Code");
+                if AttachmentSetup.FindFirst() then
+                    if AttachmentSetup.Mandatory then
+                        if IncomingDocument."File Name" = '' then
+                            Error('Upload Attachment');
             until IncomingDocument.Next() = 0;
         if (EmpHrTransfer."Employee No.") <> (HRMgt.GetEmployeeNo) then
             Error('You arenot Eligible')
@@ -1254,6 +1260,11 @@ codeunit 50005 "Transfer Mgt."
 
     [IntegrationEvent(false, false)]
     procedure OnAfterTransferAcknowledge(var transfer: Record "Employee Transfer")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterTransferJournalPost(var TransferEmployeeJournalACK: Record "Employee Activity Journal"; var TransferRequest: Record "Employee Transfer")
     begin
     end;
 

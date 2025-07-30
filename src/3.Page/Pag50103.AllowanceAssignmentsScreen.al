@@ -15,33 +15,6 @@ page 50103 "Allowance Assignments (Screen)"
     {
         area(Content)
         {
-            // group(Control27)
-            // {
-            //     ShowCaption = false;
-            //     field(EnglishMonth; EnglishMonth)
-            //     {
-            //         Caption = 'English Month';
-            //         ToolTip = 'Specifies the value of the English Month field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             GetEnglishDateFilter;
-            //         end;
-            //     }
-            //     field(EnglishYear; EnglishYear)
-            //     {
-            //         BlankZero = true;
-            //         Caption = 'English Year';
-            //         ToolTip = 'Specifies the value of the English Year field.';
-            //         ApplicationArea = All;
-
-            //         trigger OnValidate()
-            //         begin
-            //             GetEnglishDateFilter;
-            //         end;
-            //     }
-            // }
             repeater(Control2)
             {
                 Editable = false;
@@ -137,12 +110,6 @@ page 50103 "Allowance Assignments (Screen)"
                     ToolTip = 'Specifies the value of the Approved Date field.';
                     ApplicationArea = All;
                 }
-                // field("Approved Id"; Rec."Approved Id")
-                // {
-                //     Visible = false;
-                //     ToolTip = 'Specifies the value of the Approved Id field.';
-                //     ApplicationArea = All;
-                // }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.';
@@ -166,80 +133,6 @@ page 50103 "Allowance Assignments (Screen)"
     {
         area(Processing)
         {
-            action(Screen)
-            {
-                Image = StepInto;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to screen all filtered assignments?', false) then
-                        exit;
-
-                    AllowanceMgt.ScreenAllowanceAssignment(Rec, true, Rec.GetFilter("From Date"));
-
-                    Message('Updated.');
-                    CurrPage.Update;
-                end;
-            }
-            action(Unscreen)
-            {
-                Image = Stop;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Executes the Unscreen action.';
-                ApplicationArea = All;
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to unscreen the selected assignment?', false) then
-                        exit;
-
-                    AllowanceMgt.ScreenAllowanceAssignment(Rec, false, Rec.GetFilter("From Date"));
-                    Message('Updated.');
-                    CurrPage.Update;
-                end;
-            }
-            action("Update to Employee Attendance")
-            {
-                Image = UpdateDescription;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Update to Employee Attendance action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    if Confirm('Do you update to employee attendance and activity?', false) then begin
-                        AllowanceMgt.InsertAllowanceAssignmentDays;
-                    end;
-                end;
-            }
-            // action(Reject)
-            // {
-            //     Image = Reject;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     ToolTip = 'Executes the Reject action.';
-            //     ApplicationArea = All;
-            //     Visible = false;
-
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to reject this document?', false) then
-            //             AllowanceMgt.RejectAllowanceAssigment(Rec);
-            //     end;
-            // }
             action("Reject Substitute")
             {
                 Image = Approve;
@@ -278,8 +171,8 @@ page 50103 "Allowance Assignments (Screen)"
                         Rec.TestField("Substitute Type", Rec."Substitute Type"::"Added as Substitute");
                         Rec.TestField("Approval Status", Rec."Approval Status"::"Pending");
                         Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
-                        AllowanceMgt.InsertAllowanceAssignmentDayInAttendance(Rec);
-                        AllowanceMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
+                        // AllowanceMgt.InsertHighestPriorityAllowanceInAttendance(Rec."Employee Code", Rec."From Date"); handled in allowance claim
+                        // AllowanceMgt.RemoveAllowanceAssignmentDayInAttendance(Rec."No.", rec."Substitute of Line No.");
                         Rec.Modify();
                     end;
                     Message('Substitute Allowance is Approved');
@@ -288,41 +181,11 @@ page 50103 "Allowance Assignments (Screen)"
         }
     }
 
-    trigger OnOpenPage()
-    begin
-        EnglishMonth := EnglishMonth::" ";
-        EnglishYear := 0;
-    end;
 
     var
         LoanMgt: Codeunit "Loan Mgt.";
-        EnglishMonth: Enum "English Month";
-        EnglishYear: Integer;
         FromDate: Date;
         ToDate: Date;
         HRMgt: Codeunit "HR Mgt.";
         AllowanceMgt: Codeunit "Allowance Assignment Mgt";
-
-    local procedure GetEnglishDateFilter()
-    var
-        EnglishNepaliDate: Record "English-Nepali Date";
-    begin
-        if (EnglishYear <> 0) and (EnglishMonth <> EnglishMonth::" ") then begin
-            EnglishNepaliDate.Reset;
-            EnglishNepaliDate.SetRange("English Year", EnglishYear);
-            EnglishNepaliDate.SetRange("English Month", EnglishMonth);
-            EnglishNepaliDate.FindFirst;
-            FromDate := EnglishNepaliDate."English Date";
-
-            EnglishNepaliDate.FindLast;
-            ToDate := EnglishNepaliDate."English Date";
-            //FILTERGROUP(2);
-            Rec.SetFilter("From Date", '%1..%2', FromDate, ToDate);
-            //FILTERGROUP(0);
-        end else begin
-            Rec.Reset;
-        end;
-
-        CurrPage.Update(false);
-    end;
 }
