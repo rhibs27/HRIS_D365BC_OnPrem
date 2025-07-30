@@ -74,7 +74,7 @@ codeunit 50023 EmployeeActivityMgt
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
         AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
-        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl."Employee No.", EmployeeACTJnl.type, EmployeeACTJnl."Start Date");
+        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl);
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
 
