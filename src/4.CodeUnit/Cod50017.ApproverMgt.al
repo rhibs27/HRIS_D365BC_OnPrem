@@ -122,7 +122,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         count := 0;
         if ApprovalSetupLine.Findset() then
@@ -184,7 +184,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         count := 0;
         if ApprovalSetupLine.Findset() then
@@ -459,6 +459,22 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                 end;
+            end
+            else begin
+                //rejection case
+                //reject all the approval for that document
+                ApprovalHRMS.Reset();
+                ApprovalHRMS.SetRange("Document No.", DocumentNo);
+                ApprovalHRMS.SetRange("Document Type", EmployeeActivityType);
+                if ApprovalHRMS.FindSet() then
+                    repeat
+                        if ApprovalHRMS."Approval Status" in [ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open, ApprovalHRMS."Approval Status"::Pending] then begin
+                            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                            ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                            ApprovalHRMS.Modify();
+                        end;
+
+                    until ApprovalHRMS.Next() = 0;
             end;
         end else
             Error('Document Status Must be in Pending');

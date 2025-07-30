@@ -358,7 +358,7 @@ table 50043 "Attendance Line"
         if ("Shift Start Time" <> 0T) and ("Check In Time" <> 0T) then
             "Check In Difference" := "Shift Start Time" - "Check In Time";
         if ("Shift End Time" <> 0T) and ("Check Out Time" <> 0T) then
-            "Check Out Difference" := "Shift End Time" - "Check Out Time";
+            "Check Out Difference" := "Check Out Time" - "Shift End Time";
     end;
 
     local procedure CalcAcutalWorkTime(StartTime: Time; EndTime: Time)
