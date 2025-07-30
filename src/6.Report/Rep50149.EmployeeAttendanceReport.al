@@ -10,8 +10,6 @@ report 50149 "Employee Attendance Report"
     {
         dataitem("Employee Attendance"; "Employee Attendance & Activity")
         {
-            RequestFilterFields = "Employee No.", "Province Code", "Branch Code", "Department Code", "Unit Code";
-
             column(Employee_No_; "Employee No.")
             {
             }
@@ -229,6 +227,18 @@ report 50149 "Employee Attendance Report"
                     SetFilter("Leave Day", '<>%1', 1)
                 else
                     SetRange("Leave Day", 1);
+
+                if EmployeeNoFilter <> '' then
+                    SetFilter("Employee No.", EmployeeNoFilter);
+                if ProvinceCodeFilter <> '' then
+                    SetFilter("Province Code", ProvinceCodeFilter);
+                if BranchCodeFilter <> '' then
+                    SetFilter("Branch Code", BranchCodeFilter);
+                if DepartmentCodeFilter <> '' then
+                    SetFilter("Department Code", DepartmentCodeFilter);
+                if UnitCodeFilter <> '' then
+                    SetFilter("Unit Code", UnitCodeFilter);
+
             end;
 
 
@@ -302,6 +312,41 @@ report 50149 "Employee Attendance Report"
                         end;
                     }
                 }
+                group(EmployeeFilters)
+                {
+                    Caption = 'Employee Filters';
+
+                    field(EmployeeNoFilter; EmployeeNoFilter)
+                    {
+                        ApplicationArea = All;
+                        TableRelation = Employee;
+                        Caption = 'Employee No.';
+                    }
+                    field(ProvinceCodeFilter; ProvinceCodeFilter)
+                    {
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+                        ApplicationArea = All;
+                        Caption = 'Province Code';
+                    }
+                    field(BranchCodeFilter; BranchCodeFilter)
+                    {
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Branch), Blocked = filter(false));
+                        ApplicationArea = All;
+                        Caption = 'Branch Code';
+                    }
+                    field(DepartmentCodeFilter; DepartmentCodeFilter)
+                    {
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+                        ApplicationArea = All;
+                        Caption = 'Department Code';
+                    }
+                    field(UnitCodeFilter; UnitCodeFilter)
+                    {
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Unit), Blocked = filter(false));
+                        ApplicationArea = All;
+                        Caption = 'Unit Code';
+                    }
+                }
             }
         }
         trigger OnOpenPage()
@@ -310,10 +355,15 @@ report 50149 "Employee Attendance Report"
                 AttendanceDateFrom := Today;
             if AttendanceDateTo = 0D then
                 AttendanceDateTo := Today;
+            GetCurrentEmployeeDeputation;
         end;
     }
-
     var
+        EmployeeNoFilter: Code[20];
+        ProvinceCodeFilter: Code[20];
+        BranchCodeFilter: Code[20];
+        DepartmentCodeFilter: Code[20];
+        UnitCodeFilter: Code[20];
         CompanyInfo: Record "Company Information";
         TotalEmployees: Integer;
         TotalPresent: Decimal;
@@ -324,7 +374,6 @@ report 50149 "Employee Attendance Report"
         TotalLateCheckIn: Decimal;
         TotalEarlyCheckOut: Decimal;
         TotalOvertimeHours: Decimal;
-
         ShowSummaryOnly: Boolean;
         ShowAbsentOnly: Boolean;
         ShowPresentOnly: Boolean;
@@ -332,7 +381,6 @@ report 50149 "Employee Attendance Report"
         IncludeWeekOffEmployees: Boolean;
         AttendanceDateFrom: Date;
         AttendanceDateTo: Date;
-
         AttendanceDateFilter: Text;
         ReportTitleLbl: Label 'Employee Attendance Report';
 
@@ -348,4 +396,19 @@ report 50149 "Employee Attendance Report"
             exit('Week Off');
         exit('Unknown');
     end;
+
+    local procedure GetCurrentEmployeeDeputation(): Code[20]
+    var
+        Employee: Record Employee;
+        HRmgn: Codeunit "HR Mgt.";
+    begin
+        Employee.Get(HRmgn.GetEmployeeNo);
+        if (Employee."Branch Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Branch) then
+            BranchCodeFilter := employee."Branch Code";
+        if (Employee."Province Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Province) then
+            ProvinceCodeFilter := employee."Province Code";
+        if (Employee."Department Code" <> '') and (employee."Deputation on" = Employee."Deputation on"::Department) then
+            DepartmentCodeFilter := employee."Department Code";
+    end;
+
 }
