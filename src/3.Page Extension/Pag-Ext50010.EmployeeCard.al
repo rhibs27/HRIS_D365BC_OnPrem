@@ -1950,6 +1950,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category7;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Assign Job Function action. Which updates info based on deputation';
+                    Visible = false;
 
                     trigger OnAction()
                     begin
@@ -1957,7 +1958,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             ServiceHistoryMgt.PopUpForJobAssignment(Rec);
                     end;
                 }
-                action("Appointment Job Function")
+                action("Update Service Event")
                 {
                     ApplicationArea = All;
                     Promoted = true;
@@ -1968,12 +1969,12 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Appointment Job Function action.';
                     trigger OnAction()
                     var
-                        AppointmentOfEmployee: Report "Formation of Department/Branch";
+                        EmployeeEventUpdate: Report "Service Event Update";
                     begin
-                        IF CONFIRM('Do you want to appoint job function?', FALSE) THEN BEGIN
-                            CLEAR(AppointmentOfEmployee);
-                            AppointmentOfEmployee.SetAppointment(Rec."No.");
-                            AppointmentOfEmployee.RUN;
+                        IF CONFIRM('Do you want to update Employee Service event?', FALSE) THEN BEGIN
+                            CLEAR(EmployeeEventUpdate);
+                            EmployeeEventUpdate.SetAppointment(Rec."No.");
+                            EmployeeEventUpdate.RUN;
                         END;
                     end;
                 }
@@ -1986,6 +1987,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedCategory = Category7;
                     PromotedOnly = true;
                     ToolTip = 'Executes the Add Job Function action.';
+                    Visible = false;
                     trigger OnAction()
                     begin
                         IF CONFIRM('Do you want to add job function?', FALSE) THEN
@@ -2054,7 +2056,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 //         InsertAttachmentLines(Rec);
                 //     end;
                 // }
-                action("Upate Employment Date")
+                action("Update Employment Date")
                 {
                     ApplicationArea = All;
                     Promoted = true;

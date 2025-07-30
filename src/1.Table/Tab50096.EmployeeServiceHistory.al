@@ -22,8 +22,14 @@ table 50096 "Employee Service History"
 
             trigger OnValidate()
             begin
-                if Employee.Get("Employee No.") then
+                if Employee.Get("Employee No.") then begin
                     Validate("Employee Name", Employee."Full Name");
+                    Validate("Deputation On(From)", Employee."Deputation on");
+                    Validate("Deputation Code (From)", Employee."Deputation On Code");
+                    Validate("Functional Title (From)", Employee."Functional Title");
+                    Validate("Salary Level (From)", Employee."Salary Level");
+                    Validate("Salary Grade (From)", Employee."Salary Grade");
+                end;
             end;
         }
         field(3; "Employee Name"; Text[50])
@@ -72,11 +78,6 @@ table 50096 "Employee Service History"
             begin
                 if FunctionalTitle.Get("Functional Title (To)") then
                     Validate("Functional Title Desc. (To)", FunctionalTitle.Description);
-
-                // if ("Functional Title (From)" <> "Functional Title (To)") and ("Service Event" <> "Service Event"::Appointment) then begin
-                //     KPIMgt.CreateAppriasalAfterEmployeeTransfer("Employee No.");
-                //     KPIMgt.ExpireKPITarget("Functional Title (From)", "Employee No.");
-                // end;  //this code need to move to company specific
             end;
         }
         field(16; "Functional Title Desc. (To)"; Text[100]) { }
@@ -140,6 +141,5 @@ table 50096 "Employee Service History"
         FunctionalTitle: Record "Functional Title";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
-        KPIMgt: Codeunit "KPI Mgt.";
         HrMgt: Codeunit "HR Mgt.";
 }
