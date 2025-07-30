@@ -82,7 +82,7 @@ page 50145 "Daily Attendance Questions"
                 trigger OnAction()
                 begin
                     if Confirm('Do you synchronize the selected attendance questions in HRMS Portal?', false) then begin
-                        HRMgt.SyncAttendanceQuestion;
+                        // HRMgt.SyncAttendanceQuestion;
                     end;
 
                     Message('Daily attendance questions have been synced to HR Portal.');
