@@ -496,6 +496,18 @@ codeunit 50017 "Approver Mgt"
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
     end;
+
+    procedure CheckDocumentForwithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        ApprovalHRMS.SetLoadFields("Approval Status");
+        ApprovalHRMS.SetRange("Document Type", EmpActType);
+        ApprovalHRMS.SetRange("Document No.", DocNo);
+        ApprovalHRMS.SetFilter("Approval Status", '<>%1|<>2', ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open);
+        if ApprovalHRMS.Count > 0 then
+            Error('You cannot withdraw as document already in the rocess of approval');
+    end;
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequest(var RecRef: RecordRef)
     var
@@ -523,6 +535,7 @@ codeunit 50017 "Approver Mgt"
         end;
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
             CheckRequester(RecRef.Field(1).Value);
+            CheckDocumentForwithdraw(EmpActType, DocNo);
             DocNo := RecRef.Field(1).Value;
             if EmpActType = EmpActType::Retirement then
                 DocNo := RecRef.Field(RetirementFund.FieldNo("No.")).Value;

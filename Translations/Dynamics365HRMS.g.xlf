@@ -52663,6 +52663,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Action Update Holiday in Attendance Log - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 1864907812 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Disabled field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Disabled - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 482506489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Gender Filter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54917,6 +54922,11 @@
           <source>Community</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Community - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 1864907812 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Disabled</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Disabled - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 2016880846 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Employee Filter</source>

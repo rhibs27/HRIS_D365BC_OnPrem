@@ -97,6 +97,7 @@ report 50043 "Import Attendance"
         province: Text;
         Branch: Text;
         Community: Enum "Community Type";
+        Disabled: Boolean;
     begin
         gender := gender::" ";
         Community := Community::" ";
@@ -108,7 +109,8 @@ report 50043 "Import Attendance"
                                         InOutValley,
                                         PostingRegion,
                                         Branch,
-                                        Community));
+                                        Community,
+                                        Disabled));
     end;
 
     procedure SetAttendanceDocument(var NewAttendanceHeader: Record "Attendance Header")
