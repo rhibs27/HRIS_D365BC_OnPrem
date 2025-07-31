@@ -63,7 +63,6 @@ codeunit 50020 "Attachment Mgt."
 
     procedure DownloadAttachment(IncomingDocument: Record "Incoming Document")
     var
-        // File: File;
         InStream: InStream;
         FilePath: Text;
         FileName: Text;

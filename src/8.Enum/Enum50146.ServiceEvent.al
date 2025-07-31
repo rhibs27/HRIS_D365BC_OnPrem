@@ -1,10 +1,10 @@
 enum 50146 "Service Event"
 {
     Extensible = true;
-    
-    value(0; "")
+
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; Appointment)
     {

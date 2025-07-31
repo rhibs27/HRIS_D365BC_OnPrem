@@ -82,30 +82,6 @@ codeunit 50023 EmployeeActivityMgt
             Error('Check In or check Out fields must have a Value');
     end;
 
-    // procedure ApproveJournalPost(DocumentNo: Code[20])
-    // var
-    //     // HRSetup: Record "Human Resources Setup";
-    //     EmpActJnl1: Record "Employee Activity Journal";
-    //     ApprovalHRMS: Record "Approval HRMS";
-    // begin
-
-    //     EmpActJnl1.Reset();
-    //     EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
-    //     EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Pending);
-    //     if EmpActJnl1.FindSet() then begin
-    //         ApproverMgt.CheckApprover(EmpActJnl1."Emp Act. No");
-    //         EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Approved");
-    //     end else
-    //         Error('There arenot record in Status Pending');
-
-    //     ApprovalHRMS.Reset();
-    //     ApprovalHRMS.SetRange("Document No.", DocumentNo);
-    //     if ApprovalHRMS.Findset() then begin
-    //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
-    //         ApprovalHRMS.Modify();
-    //     end;
-    // end;
-
     procedure PostTransferInBulk(EmpActNo: Code[20])
     var
         TransferRequest, EmphrTransfer : Record "Employee Transfer";
