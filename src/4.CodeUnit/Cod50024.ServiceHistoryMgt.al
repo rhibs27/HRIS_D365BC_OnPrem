@@ -406,7 +406,7 @@ codeunit 50024 "Service History Mgt"
                     LeaveEarn.Reset;
                     LeaveEarn.Init;
                     LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
-                    LeaveEarn.Validate(EmpNo, EmpCode);
+                    LeaveEarn.Validate("Employee No.", EmpCode);
                     LeaveEarn.Validate("Fiscal year", HrMgt.ReturnFiscalYear(Today));
                     LeaveEarn.Validate("Posted Date", Today);
                     LeaveEarn.Validate("Balancing Days", -LeaveTypeSetup."Remaining Days");

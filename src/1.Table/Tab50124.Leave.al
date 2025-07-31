@@ -430,7 +430,7 @@ table 50124 Leave
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         LeaveTypeVar: Record "Leave Type Setup";
@@ -446,6 +446,8 @@ table 50124 Leave
         ApprovalEntry: Record "Approval HRMS";
 
     trigger OnInsert()
+    var
+        LeaveRec: Record Leave;
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -460,14 +462,19 @@ table 50124 Leave
         if "No." = '' then
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
             end else begin
                 case Type of
                     //for leave
                     Type::"Leave Request":
                         begin
                             HRSetup.TestField("Leave No. Series");
-                            NoSeriesMgt.InitSeries(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Leave No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            LeaveRec.ReadIsolation(IsolationLevel::ReadUncommitted);
+                            LeaveRec.SetLoadFields("No.");
+                            while LeaveRec.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
+
                             if "Approval Status" <> "Approval Status"::Approved then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
@@ -500,8 +507,8 @@ table 50124 Leave
         Leave := Rec;
         if Leave.Cancelled then begin
             HRSetup.TestField("Cancel Document No. Series");
-            if NoSeriesMgt.SelectSeries(HRSetup."Cancel Document No. Series", OldLeave."No. Series", Leave."No. Series") then begin
-                NoSeriesMgt.SetSeries(Leave."No.");
+            if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Cancel Document No. Series", OldLeave."No. Series", Leave."No. Series") then begin
+                NoSeriesMgt.GetNextNo(Leave."No.");
                 Rec := Leave;
                 exit(true);
             end;
@@ -511,8 +518,8 @@ table 50124 Leave
                 Leave.Type::"Leave Request":
                     begin
                         HRSetup.TestField("Leave No. Series");
-                        if NoSeriesMgt.SelectSeries(HRSetup."Leave No. Series", OldLeave."No. Series", Leave."No. Series") then begin
-                            NoSeriesMgt.SetSeries(Leave."No.");
+                        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Leave No. Series", OldLeave."No. Series", Leave."No. Series") then begin
+                            NoSeriesMgt.GetNextNo(Leave."No.");
                             Rec := Leave;
                             exit(true);
                         end;

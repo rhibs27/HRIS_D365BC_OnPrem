@@ -256,6 +256,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = all;
             }
+            field("Automatic Attendance"; Rec."Automatic Attendance")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Automatic Attendance field.', Comment = '%';
+            }
 
         }
         addafter(General)
@@ -1632,10 +1637,13 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Generate Leave Balance action.';
                     trigger OnAction()
+                    var
+                        LeaveMgt: Codeunit "Leave Mgt.";
                     begin
-                        Employee.RESET;
-                        Employee.SETRANGE("No.", Rec."No.");
-                        REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                        // Employee.RESET;
+                        // Employee.SETRANGE("No.", Rec."No.");
+                        // REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
+                        LeaveMgt.GenerateLeave(Rec."No.");
                     end;
                 }
                 action("Confirmation Employee")
@@ -1863,7 +1871,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                     RunObject = Page "Leave Earn";
-                    RunPageLink = "EmpNo" = FIELD("No.");
+                    RunPageLink = "Employee No." = FIELD("No.");
                     Promoted = true;
                     PromotedIsBig = true;
                     Image = AbsenceCategory;
@@ -2463,7 +2471,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         LeaveEarn: Record "Leave Earn";
     BEGIN
         LeaveEarn.RESET;
-        LeaveEarn.SETRANGE(EmpNo, Rec."No.");
+        LeaveEarn.SETRANGE("Employee No.", Rec."No.");
         IF LeaveEarn.FINDFIRST THEN
             EXIT(TRUE);
     END;

@@ -70,7 +70,7 @@ report 50049 "Grant Permission Needed Leave"
 
                 if LeavetypSetup."Services Period" then begin
                     LeaveEarn.Reset;
-                    LeaveEarn.SetRange(EmpNo, Employee."No.");
+                    LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                     if LeaveEarn.Count >= LeavetypSetup."Times Per Service Period" then
@@ -79,7 +79,7 @@ report 50049 "Grant Permission Needed Leave"
                 LeaveEarn.Reset;
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
-                LeaveEarn.Validate(EmpNo, Employee."No.");
+                LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
                 LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
                 LeaveEarn.Validate("Posted Date", Today);

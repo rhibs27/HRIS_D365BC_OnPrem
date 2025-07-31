@@ -1,6 +1,6 @@
 page 50019 "Leave Earn"
 {
-    Editable = false;
+    // Editable = false;
     PageType = List;
     SourceTable = "Leave Earn";
     UsageCategory = Lists;
@@ -27,7 +27,7 @@ page 50019 "Leave Earn"
                     ToolTip = 'Specifies the value of the Leave Description field.';
                     ApplicationArea = All;
                 }
-                field(EmpNo; Rec.EmpNo)
+                field(EmpNo; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the EmpNo field.';
                     ApplicationArea = All;

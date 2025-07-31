@@ -20,11 +20,29 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
+                field("Credit Method"; Rec."Credit Method")
+                {
+                    ToolTip = 'Specifies the value of the Credit Method field.', Comment = '%';
+                }
+                field("Credit Frequency"; Rec."Credit Frequency")
+                {
+                    ToolTip = 'Specifies the value of the Credit Frequency field.', Comment = '%';
+                }
+                field("Credit At"; Rec."Credit At")
+                {
+                    ToolTip = 'Specifies the value of the Credit At field.', Comment = '%';
+                }
                 field("Days Earned Per Year"; Rec."Days Earned Per Year")
                 {
                     ToolTip = 'Specifies the value of the Days Earned Per Year field.';
                     ApplicationArea = All;
                 }
+                field("Attendance Days"; Rec."Attendance Days")
+                {
+                    ToolTip = 'Specifies the value of the Attendance Days field.', Comment = '%';
+                    ApplicationArea = all;
+                }
+
                 field("Limit Max. Leave at Once"; Rec."Limit Max. Leave at Once")
                 {
                     ToolTip = 'Specifies the value of the Limit Max. Leave at Once field.';
@@ -51,21 +69,12 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Exclude Non Working Days field.';
                     ApplicationArea = All;
                 }
-                field("Bereavement Leave"; Rec."Bereavement Leave")
+                field("Leave Category"; Rec."Leave Category")
                 {
-                    ToolTip = 'Specifies the value of the Bereavement Leave field.';
-                    ApplicationArea = All;
+                    ApplicationArea = all;
+                    ToolTip = 'Specifies the special nature of leave.', Comment = '%';
                 }
-                field("Sick Leave"; Rec."Sick Leave")
-                {
-                    ToolTip = 'Specifies the value of the Sick Leave field.';
-                    ApplicationArea = All;
-                }
-                field("Maternity/Paternity Leave"; Rec."Maternity/Paternity Leave")
-                {
-                    ToolTip = 'Specifies the value of the Maternity/Paternity Leave field.';
-                    ApplicationArea = All;
-                }
+
                 field("Services Period"; Rec."Services Period")
                 {
                     ToolTip = 'Specifies the value of the Services Period field.';
@@ -107,6 +116,12 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Compensatory field.';
                     ApplicationArea = All;
                 }
+                field(Encashable; Rec.Encashable)
+                {
+                    ToolTip = 'Specifies the value of the Encashable field.', Comment = '%';
+                    ApplicationArea = all;
+                }
+
                 field("Encashable Limit"; Rec."Encashable Limit")
                 {
                     ToolTip = 'Specifies the value of the Encashable Limit field.';

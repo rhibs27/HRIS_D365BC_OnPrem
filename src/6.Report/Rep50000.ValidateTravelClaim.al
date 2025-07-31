@@ -373,7 +373,7 @@ report 50000 "Validate Travel Claim"
         LeaveEarn.Reset;
         LeaveEarn.Init;
         LeaveEarn.Validate("Leave Code", LeaveCode);
-        LeaveEarn.Validate(EmpNo, EmpCode);
+        LeaveEarn.Validate("Employee No.", EmpCode);
         LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
         LeaveEarn.Validate("Posted Date", Today);
         LeaveEarn.Validate("Balancing Days", -Abs(BalanceLeaveDays));

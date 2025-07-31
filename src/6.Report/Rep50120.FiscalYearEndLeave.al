@@ -58,7 +58,6 @@ report 50120 FiscalYearEndLeave
         LeaveMgt: Codeunit "Leave Mgt.";
         EngNep: Record "English-Nepali Date";
         DocNo: Code[20];
-        NoSeriesMgt: Codeunit NoSeriesManagement;
         HRSetup: Record "Human Resources Setup";
 
     local procedure ValidateForNonPermanentEmployee()
@@ -79,9 +78,9 @@ report 50120 FiscalYearEndLeave
             exit;
 
         LeaveTypeSetup.Reset;
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
         LeaveTypeSetup.SetRange(Compensatory, false);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
@@ -95,7 +94,7 @@ report 50120 FiscalYearEndLeave
                 leavetypeSetup2.CalcFields("Remaining Days");
 
                 LeaveEarn.Init;
-                LeaveEarn.Validate(EmpNo, Employee."No.");
+                LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.Validate("Posted Date", Today);
                 if leavetypeSetup2."Remaining Days" >= AbsentDays then begin
@@ -114,8 +113,7 @@ report 50120 FiscalYearEndLeave
                 LeaveEarn.Validate(Type, LeaveEarn.Type::"Balance via Fiscal Year");
                 LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
                 LeaveEarn.Validate(Remarks, 'Balance Fiscal Year');
-                DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", LeaveEarn."Posted Date", true);
-                LeaveEarn."Entry No." := DocNo;
+                LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
                 LeaveEarn.Insert(true);
             until LeaveTypeSetup.Next = 0;
     end;
@@ -144,14 +142,14 @@ report 50120 FiscalYearEndLeave
             repeat
                 Clear(LeaveEarn);
                 LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
-                LeaveEarn.SetRange(EmpNo, Employee."No.");
+                LeaveEarn.SetRange("Employee No.", Employee."No.");
                 LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
                 if not LeavetypSetup."Services Period" then
                     LeaveEarn.SetRange("Fiscal year", EngNep."Fiscal Year");
                 if not LeaveEarn.FindFirst then begin
                     LeaveEarn.Init;
                     LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
-                    LeaveEarn.Validate(EmpNo, Employee."No.");
+                    LeaveEarn.Validate("Employee No.", Employee."No.");
                     LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
                     LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
                     LeaveEarn.Validate("Posted Date", Today + 1);
@@ -163,8 +161,7 @@ report 50120 FiscalYearEndLeave
                             else
                                 LeaveEarn.Validate("Balancing Days", LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Confirmation Date"));
                             if LeaveEarn."Balancing Days" <> 0 then begin
-                                DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", LeaveEarn."Posted Date", true);
-                                LeaveEarn."Entry No." := DocNo;
+                                LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
                                 LeaveEarn.Insert(true);
                             end;
                         end;
@@ -174,8 +171,7 @@ report 50120 FiscalYearEndLeave
                         else
                             LeaveEarn.Validate("Balancing Days", LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Employment Date"));
                         if LeaveEarn."Balancing Days" <> 0 then begin
-                            DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", LeaveEarn."Posted Date", true);
-                            LeaveEarn."Entry No." := DocNo;
+                            LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
                             LeaveEarn.Insert(true);
                         end;
                     end;
@@ -189,10 +185,10 @@ report 50120 FiscalYearEndLeave
         leavetypeSetup2: Record "Leave Type Setup";
     begin
         LeaveTypeSetup.Reset;
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
         LeaveTypeSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveTypeSetup.Gender::" ");
-        LeaveTypeSetup.SetRange("Bereavement Leave", false);
+        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
         LeaveTypeSetup.SetRange(Compensatory, false);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
@@ -207,15 +203,14 @@ report 50120 FiscalYearEndLeave
                 if leavetypeSetup2."Remaining Days" < 0 then
                     break;
                 LeaveEarn.Init;
-                LeaveEarn.Validate(EmpNo, Employee."No.");
+                LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.Validate("Posted Date", Today);
                 LeaveEarn.Validate("Balancing Days", -leavetypeSetup2."Remaining Days");
                 LeaveEarn.Validate(Type, LeaveEarn.Type::"Balance via Fiscal Year");
                 LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
                 LeaveEarn.Validate(Remarks, 'Balance Fiscal Year Permanent Employee');
-                DocNo := NoSeriesMgt.GetNextNo(HRSetup."Leave Earn No.", LeaveEarn."Posted Date", true);
-                LeaveEarn."Entry No." := DocNo;
+                LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
                 LeaveEarn.Insert(true);
             until LeaveTypeSetup.Next = 0;
     end;

@@ -35,7 +35,7 @@ report 50104 "Leave Balance Letter"
             column(DeputationCode; Employee."Deputation on") { }
             dataitem("Leave Earn"; "Leave Earn")
             {
-                DataItemLink = EmpNo = field("No.");
+                DataItemLink = "Employee No." = field("No.");
                 DataItemTableView = sorting("Entry No.") where("Leave Code" = filter(<> 'LWP'));
                 column(leaveBal; "Leave Earn"."Balancing Days") { }
                 column(LeaveDesc; "Leave Earn"."Leave Description") { }

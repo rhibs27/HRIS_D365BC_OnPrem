@@ -175,6 +175,7 @@ codeunit 50017 "Approver Mgt"
         Employee: Record Employee;
         EmpRequest: Record Employee;
         count: Integer;
+        IsHandled: Boolean;
     begin
         EmpRequest.Reset();
         EmpRequest.Get(EmployeeNo);
@@ -186,17 +187,20 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
-                    Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                    if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                        Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                        Employee.SetRange("Department Code", EmpRequest."Department Code")
-                    else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
-                end else begin
-                    if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                        Employee.SetRange("Province Code", EmpRequest."Province Code");
+                OnInsertApprovaCancelledOnSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
+                if not IsHandled then begin
+                    if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
+                        Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                        if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                            Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                            Employee.SetRange("Department Code", EmpRequest."Department Code")
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+                    end else begin
+                        if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
+                            Employee.SetRange("Province Code", EmpRequest."Province Code");
+                    end;
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
                 if Employee.FindFirst() then begin
@@ -726,6 +730,12 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovalOnBeforeSelectApprover(var Employee: Record Employee; var isHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertApprovaCancelledOnSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
+                                                var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
     begin
     end;
 

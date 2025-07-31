@@ -3,16 +3,8 @@ table 50068 "Leave Earn"
     DataClassification = CustomerContent;
     fields
     {
-        field(1; "Entry No."; Code[20])
+        field(1; "Entry No."; Integer)
         {
-            trigger OnValidate()
-            begin
-                if "Entry No." <> xRec."No. Series" then begin
-                    HRSetup.Get;
-                    NoSeriesMgt.TestManual(HRSetup."Leave Earn No.");
-                    "No. Series" := '';
-                end;
-            end;
         }
         field(2; "Leave Code"; Code[20])
         {
@@ -27,13 +19,13 @@ table 50068 "Leave Earn"
             end;
         }
         field(3; "Leave Description"; Text[50]) { }
-        field(4; EmpNo; Code[20])
+        field(4; "Employee No."; Code[20])
         {
             TableRelation = Employee;
 
             trigger OnValidate()
             begin
-                if EmpVar.Get(EmpNo) then
+                if EmpVar.Get("Employee No.") then
                     Validate("Employee Full Name", EmpVar."Full Name")
                 else
                     Clear("Employee Full Name");
@@ -93,27 +85,16 @@ table 50068 "Leave Earn"
 
     trigger OnDelete()
     begin
-        /*IF NOT(Type = Type::Earned) THEN
-          ERROR(LeaveEarnError);
-        IF EmployeeAct.GET("Leave Request No") THEN
-          EmployeeAct.DELETE(TRUE);
-          */
     end;
 
     trigger OnInsert()
     begin
-        if "Entry No." = '' then begin
-            HRSetup.Get;
-            HRSetup.TestField("Leave Earn No.");
-            NoSeriesMgt.InitSeries(HRSetup."Leave Earn No.", xRec."No. Series", "Posted Date", "Entry No.", "No. Series");
-        end;
     end;
 
     var
         EmpVar: Record Employee;
         LeaveTypeVar: Record "Leave Type Setup";
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
         HrMgt: Codeunit "HR Mgt.";
 
     procedure PostLeaveEarn(TempLeaveEarn: Record "Leave Earn" temporary)

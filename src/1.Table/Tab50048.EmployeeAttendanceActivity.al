@@ -240,10 +240,16 @@ table 50048 "Employee Attendance & Activity"
         {
             Description = 'Late Deduction';
         }
+
         field(106; "Unit Code"; Code[20])
         {
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
+        }
+        field(107; "Leave Code"; Code[20])
+        {
+            Caption = 'Leave Code';
+            TableRelation = "Leave Type Setup";
         }
 
     }

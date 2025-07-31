@@ -695,5 +695,9 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
+        field(50148; "Calculate Age using Nepali C."; Boolean)
+        {
+            Caption = 'Calculate Age using Nepali Calender';
+        }
     }
 }

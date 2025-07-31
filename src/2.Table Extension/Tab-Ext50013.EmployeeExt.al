@@ -97,7 +97,12 @@ tableextension 50013 "Employee Ext" extends Employee
                     "Date of Birth (B.S.)" := EngNepDate."Nepali Date"
                 else
                     "Date of Birth (B.S.)" := '';
-                "Age Text" := HRMgt.GetAge("Birth Date", Today);
+                HrSetup.Get();
+                if HrSetup."Calculate Age using Nepali C." then
+                    "Age Text" := HRMgt.GetAgeBS(EngNepDate.getNepaliDate("Birth Date"), EngNepDate.getNepaliDate(Today))
+                else
+                    "Age Text" := HRMgt.GetAge("Birth Date", Today);
+
             end;
 
         }
@@ -647,8 +652,14 @@ tableextension 50013 "Employee Ext" extends Employee
             Editable = false;
             trigger OnValidate()
             begin
-                "Birth Date" := EngNepDate.getEngDate("Date of Birth (B.S.)");
-                "Age Text" := HRMgt.GetAge("Birth Date", Today);
+                if "Date of Birth (B.S.)" <> '' then begin
+                    "Birth Date" := EngNepDate.getEngDate("Date of Birth (B.S.)");
+                    "Age Text" := HRMgt.GetAge("Birth Date", Today);
+                end
+                else begin
+                    "Age Text" := '';
+                    Clear("Birth Date");
+                end;
             end;
 
         }
@@ -1440,7 +1451,15 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             trigger OnValidate()
             begin
-                "Employment Date" := EngNepDate.getEngDate("Employment Date (B.S.)")
+                if "Employment Date (B.S.)" <> '' then begin
+                    "Employment Date" := EngNepDate.getEngDate("Employment Date (B.S.)");
+                    if "Employment Date" <> 0D then
+                        HrMgt.getServicePeriodText(Rec);
+                end
+                else begin
+                    Clear("Employment Date");
+                    "Service Period Text" := ''
+                end;
             end;
 
         }
@@ -1460,6 +1479,10 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50180; "Trainee/Probation End date"; Date)
         {
             Caption = 'Trainee/Probation End Date';
+        }
+        field(20181; "Automatic Attendance"; Boolean)
+        {
+
         }
 
     }
@@ -1534,6 +1557,7 @@ tableextension 50013 "Employee Ext" extends Employee
         SpecialChars: Label '!|@|#|$|%|&|*|(|)|_|-|+|=| |?|/|\';
         Text010: Label 'Mobile No. %1 already used in Employee No. %2.';
         Text009: Label 'Mobile No. must be 15 digits.';
+        HrSetup: Record "Human Resources Setup";
 
 
     procedure GenerateNewEmployeeCard(CurrentEmployee: Record Employee);

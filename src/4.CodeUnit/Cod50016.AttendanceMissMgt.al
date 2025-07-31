@@ -166,7 +166,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
             LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
             LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
-            LeaveEarn.Validate(EmpNo, CancelDocument."Employee No.");
+            LeaveEarn.Validate("Employee No.", CancelDocument."Employee No.");
             LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
             LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
             LeaveEarn.Validate("Posted Date", Today);
