@@ -218,39 +218,28 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
     end;
 
     local procedure ValidateFincaleGL();
+    var
+        PayrollHeader: Record "Payroll Header";
+        PayrollPost: Codeunit "Payroll-Post";
+        SolID: Code[20];
+        OrgStruclist: Record "Organization Structure List";
     begin
         Employee.Get("Employee No.");
         PayrollAttributes.Get("Payroll Attribute Code");
+        PayrollHeader.Get("Document No.");
+        SolID := Employee."Sol Id";
+        if PayrollPost.CheckTransferInServiceHistory("Employee No.", PayrollHeader."From Date", PayrollHeader."To Date") then begin
+            OrgStruclist.Get(PayrollPost.GetDimensionBeforeTransfer("Employee No.", PayrollHeader."From Date", PayrollHeader."To Date"));
+            SolID := OrgStruclist."Sol ID";
+        end;
         EngNepDate.Reset;
         EngNepDate.SetRange("English Date", "Pay Period Start Date");
         if EngNepDate.FindFirst then;
 
-        if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment"] then begin
-            case Employee."Deputation on" of
-                Employee."Deputation on"::Province:
-                    begin
-                        if PayrollAttributes."Static GL Ledger" then begin
-                            PayrollAttributes.TestField("Static GL Ledger Account");
-                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS Expense Code");
-                        end else
-                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
-                    end else begin
-                    if PayrollAttributes."Static GL Ledger" then begin
-                        PayrollAttributes.TestField("Static GL Ledger Account");
-                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code");
-                    end else
-                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code");
-                end;
-            end;
-        end else begin
-            if PayrollAttributes."Static GL Ledger" then
-                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code")
-            else
-                Validate("Finacle GL No", PayrollAttributes."CBS GL Code")
-        end;
-        if PayrollAttributes."Finacle GL Name" <> '' then
-            Validate("Finacle GL Name", StrSubstNo('%1 %2-%3', PayrollAttributes."Finacle GL Name", EngNepDate."Nepali Year", EngNepDate."Nepali Month"))
-        else
-            Clear("Finacle GL Name");
+        if PayrollAttributes."Static GL Ledger" then begin
+            PayrollAttributes.TestField("Static GL Ledger Account");
+            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account");
+        end else
+            Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
     end;
 }

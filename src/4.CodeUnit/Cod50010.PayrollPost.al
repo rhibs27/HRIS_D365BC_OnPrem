@@ -494,7 +494,7 @@ codeunit 50010 "Payroll-Post"
         exit(FieldValue);
     end;
 
-    local procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
+    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
     var
         EmployeeServiceHistory: Record "Employee Service History";
     begin
@@ -517,7 +517,7 @@ codeunit 50010 "Payroll-Post"
             exit(EmployeeServiceHistory."Effective Date" - FromDate + 1)
     end;
 
-    local procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
+    procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
     var
         EmployeeServiceHistory: Record "Employee Service History";
         DimensionValue: Record "Dimension Value";
