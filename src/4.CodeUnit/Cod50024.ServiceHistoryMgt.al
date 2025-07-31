@@ -123,93 +123,52 @@ codeunit 50024 "Service History Mgt"
 
     procedure ExitTransferDeputationWiseValue(DeputationOn: Enum "Deputation Type"; EmpCode: Code[20]): Text
     var
-        // DimValue: Record "Dimension Value";
-        // Depart: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
-        // SubProvince: Record "Sub Province";
-        Province: Record Province;
-        GLSetup: Record "General Ledger Setup";
         OrganizationStructureList: Record "Organization Structure List";
     begin
-        // Clear(DimValue);
-        // Clear(Depart);
-        // Clear(EmpHie);
-        // Clear(SubProvince);
-        Clear(Province);
-        GLSetup.Get;
         Employee.Get(EmpCode);
         case DeputationOn of
+            DeputationOn::Province:
+                begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::Province, Employee."Province Code") then
+                        exit(OrganizationStructureList.Name)
+                end;
             DeputationOn::Branch:
                 begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Employee."Global Dimension 1 Code") then
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::Branch, Employee."Branch Code") then
                         exit(OrganizationStructureList.Name);
                 end;
-
             DeputationOn::Department:
                 begin
                     if OrganizationStructureList.Get(OrganizationStructureList.type::Department, Employee."Department Code") then
                         exit(OrganizationStructureList.Name);
-
                 end;
-
             DeputationOn::"Extension Counter":
                 begin
-                    // EmpHie.Reset;
-                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    // if EmpHie.FindFirst then
                     if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Employee."Extension Counter Code") then
                         exit(OrganizationStructureList.Name);
                 end;
-
-            // DeputationOn::"Sub Province":
-            //     begin
-            //         SubProvince.Reset;
-            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
-            //         if SubProvince.FindFirst then
-            //             exit(SubProvince.City);
-            //     end;
-
             DeputationOn::Unit:
                 begin
-                    // EmpHie.Reset;
-                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    // EmpHie.SetRange(Code, Employee."Unit Code");
-                    // if EmpHie.FindFirst then
-                    //     exit(EmpHie.Description);
                     if OrganizationStructureList.Get(OrganizationStructureList.type::"Extension Counter", Employee."Union Code") then
                         exit(OrganizationStructureList.Name);
-                end;
-
-            DeputationOn::Province:
-                begin
-                    if Province.Get(Employee."Province Code") then
-                        exit(Province.Description);
                 end;
         end;
     end;
 
     procedure ExitTransferDeputationWiseCode(DeputationOn: Enum "Deputation Type"; EmpCode: Code[20]): Text
     var
-        // DimValue: Record "Dimension Value";
-        // Depart: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
-        // SubProvince: Record "Sub Province";
-        Province: Record Province;
-        GLSetup: Record "General Ledger Setup";
         OrganizationStructureList: Record "Organization Structure List";
     begin
-        // Clear(DimValue);
-        // Clear(Depart);
-        // Clear(EmpHie);
-        // Clear(SubProvince);
-        Clear(Province);
-        GLSetup.Get;
         Employee.Get(EmpCode);
         case DeputationOn of
+            DeputationOn::Province:
+                begin
+                    if OrganizationStructureList.Get(OrganizationStructureList.type::Province, Employee."Province Code") then
+                        exit(OrganizationStructureList.Name)
+                end;
             DeputationOn::Branch:
                 begin
-                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
+                    if OrganizationStructureList.Get(OrganizationStructureList.Type::Branch, Employee."Branch Code") then
                         exit(OrganizationStructureList.Code);
                 end;
 
@@ -222,40 +181,15 @@ codeunit 50024 "Service History Mgt"
 
             DeputationOn::"Extension Counter":
                 begin
-                    // EmpHie.Reset;
-                    // EmpHie.SetRange(Type, EmpHie.Type::"Extension Counter");
-                    // EmpHie.SetRange(Code, Employee."Extension Counter Code");
-                    // if EmpHie.FindFirst then
-                    //     exit(EmpHie.Code);
                     OrganizationStructureList.reset();
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::"Extension Counter", Employee."Extension Counter Code") then
                         exit(OrganizationStructureList.Code);
                 end;
-
-            // DeputationOn::"Sub Province":
-            //     begin
-            //         SubProvince.Reset;
-            //         SubProvince.SetRange(Code, Employee."Sub Province Code");
-            //         if SubProvince.FindFirst then
-            //             exit(SubProvince.Code);
-            //     end;
-
             DeputationOn::Unit:
                 begin
-                    // EmpHie.Reset;
-                    // EmpHie.SetRange(Type, EmpHie.Type::Unit);
-                    // EmpHie.SetRange(Code, Employee."Unit Code");
-                    // if EmpHie.FindFirst then
-                    //     exit(EmpHie.Code);
                     OrganizationStructureList.reset();
                     if OrganizationStructureList.Get(OrganizationStructureList.Type::Unit, Employee."Unit Code") then
                         exit(OrganizationStructureList.Code);
-                end;
-
-            DeputationOn::Province:
-                begin
-                    if Province.Get(Employee."Province Code") then
-                        exit(Province.Code);
                 end;
         end;
     end;
