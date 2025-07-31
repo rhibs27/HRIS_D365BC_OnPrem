@@ -4,7 +4,7 @@ page 50066 "Transfer Card"
     // //Min 12.11.2022 -- for uneditable transfer effective date
     SourceTable = "Employee Transfer";
     ApplicationArea = All;
-    InsertAllowed=false;
+    InsertAllowed = false;
 
     layout
     {
@@ -609,42 +609,6 @@ page 50066 "Transfer Card"
                     end;
                 end;
             }
-            action(Review)
-            {
-                Image = Register;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                Visible = false;
-                ToolTip = 'Executes the Review action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to review this document?', false) then begin
-                        TransferMgt.ReviewTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
-            action(Screen)
-            {
-                Image = "Action";
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                // Visible = ForScreenButton;
-                visible = false;
-                ToolTip = 'Executes the Screen action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to screen this document?', false) then begin
-                        TransferMgt.ScreenTransfer(Rec);
-                        CurrPage.Close;
-                    end;
-                end;
-            }
             action("Approve Request")
             {
                 Image = Approve;
@@ -791,32 +755,12 @@ page 50066 "Transfer Card"
                     TransferMgt.TakeoverApprove(Rec);
                 end;
             }
-            // action("Access Control")
-            // {
-            //     Image = Register;
-            //     Promoted = true;
-            //     PromotedCategory = Process;
-            //     PromotedIsBig = true;
-            //     PromotedOnly = true;
-            //     Visible = false;
-            //     ToolTip = 'Executes the Access Control action.';
-            //     ApplicationArea = All;
-
-            //     trigger OnAction()
-            //     begin
-            //         if Confirm('Do you want to open access control card?', false) then
-            //             HRMgt.OpenGrantAccessControlFromTransfer(Rec."No.");
-            //     end;
-            // }
             action("Transfer Claim")
             {
                 Image = CreateForm;
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedIsBig = true;
-                // RunObject = page "Transfer Claim Form";
-                // RunPageLink = "No." = field("No.");
-                // RunPageView = where(Type = filter("Employee Transfer" | "HR Transfer"));
                 Visible = IsACK;
                 ToolTip = 'Executes the Transfer Claim action.';
                 ApplicationArea = All;
@@ -826,18 +770,6 @@ page 50066 "Transfer Card"
                         TransferMgt.OpenTransferClaim(Rec."Employee No.", Rec."No.")
                     else
                         Error('Transfer is already claimed');
-                end;
-            }
-            action("Return Transfer")
-            {
-                ToolTip = 'Executes the Return Transfer action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to return this document?', false) then begin
-                        TransferMgt.ReturnTransfer(Rec);
-                    end;
                 end;
             }
             action("Transfer History")
@@ -868,89 +800,19 @@ page 50066 "Transfer Card"
                     PageTransferHistory.Run;
                 end;
             }
-            action("Attendance Missed")
-            {
-                Image = AddWatch;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Attendance Missed action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    TempEmpActivity.DeleteAll;
-                    TempEmpActivity.Init;
-                    TempEmpActivity.Validate("Employee No.", Rec."Employee No.");
-                    TempEmpActivity.Validate(Type, EmployeeActivity.Type::"Attendance Missed");
-                    TempEmpActivity.Insert;
-                    Page.Run(Page::"Cancel Document", TempEmpActivity);
-                end;
-            }
-            action("Change Approver")
-            {
-                Image = Change;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                // Visible = Rec."Approval Status" = Rec."Approval Status"::Screened;
-                Visible = false;
-                ToolTip = 'Executes the Change Approver action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    // if Confirm('Do you want to modify approver?') then begin
-                    //     TransferMgt.PopUpChangingTransferApprover(Rec);
-                    // end;
-                end;
-            }
-            action("Update Missed Transfer")
-            {
-                Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                Visible = false;
-                ToolTip = 'Executes the Update Missed Transfer action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    if Confirm('Do you want to Update this document?', false) then begin
-                        //HRMgt.UpdateMissedTransfer(Rec); //Min
-                    end;
-                end;
-            }
         }
     }
 
     trigger OnAfterGetRecord()
     begin
         SetLayout;
-        // GetTransferName;
         GetTransferEditibility;
     end;
 
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        // OnNewTransferRecord;
-    end;
 
     trigger OnOpenPage()
     begin
-        // case rec.Type of
-        //     rec.Type::"Attendance Missed":
-        //         begin
-        //             ApproverMgt.InsertApproval(Rec."Employee No.", '', Rec.Type::"Employee Transfer");
-        //         end;
-        // end;
         SetLayout;
-        // GetTransferName;
-        // Rec.CalcFields("Outgoing Reporting Person Name");
         RecRef.GetTable(Rec);
     end;
 
@@ -979,42 +841,17 @@ page 50066 "Transfer Card"
         Approval: Record "Approval HRMS";
 
         ProvinceEdit: Boolean;
-        [InDataSet]
         DepartEdit: Boolean;
-        [InDataSet]
         UnitEdit: Boolean;
-        [InDataSet]
         BranchEdit: Boolean;
-        [InDataSet]
         FunctionalEdit: Boolean;
-        [InDataSet]
         ForAck: Boolean;
         TypeFilter: Text;
-        [InDataSet]
-        // ForScreenButton: Boolean;
-        // BranchNameTo: Text;
-        // DepartmentNameTo: Text;
-        // ProvinceNameTo: Text;
-        // SubProvinceNameTo: Text;
-        // ExtensionNameTo: Text;
         UnitNameTo: Text;
-        // BranchName: Text;
-        // DepartmentName: Text;
-        // ProvinceName: Text;
-        // SubProvinceName: Text;
-        // ExtensionName: Text;
-        // UnitName: Text;
-        [InDataSet]
-        // // SubProvinceEdit := false;: Boolean;
-        [InDataSet]
         ExtensionCounterEdit: Boolean;
-        TempEmpActivity: Record "Employee Activity" temporary;
-        [InDataSet]
         TransferCategoryEditable: Boolean;
         HRSetup: Record "Human Resources Setup";
         FunctionalTitle: Record "Functional Title";
-        // FunctionalDescFrom: Text;
-        // FunctionalDescTo: Text;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;
         IsPending: Boolean;
@@ -1102,26 +939,4 @@ page 50066 "Transfer Card"
     begin
         TransferCategoryEditable := Rec."Transfer Category" in [Rec."Transfer Category"::Officiating, Rec."Transfer Category"::"Temporary", Rec."Transfer Category"::General];
     end;
-
-    // local procedure OnNewTransferRecord()
-    // begin
-    //     Rec.FilterGroup(2);
-    //     TypeFilter := Rec.GetFilter(Type);
-    //     Rec.FilterGroup(0);
-    //     case TypeFilter of
-    //         Format(Rec.Type::"Employee Transfer"):
-    //             Rec.Type := Rec.Type::"Employee Transfer";
-
-    //         Format(Rec.Type::"HR Transfer"):
-    //             Rec.Type := Rec.Type::"HR Transfer";
-    //     end;
-    //     Rec."Approval Status" := Rec."Approval Status"::Open;
-    //     HRSetup.Get;
-    //     Employee.Reset;
-    //     Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-    //     Employee.SetRange("Department Code", HRSetup."HR Department Code");
-    //     Employee.SetRange(Status, Employee.Status::Active); //Min
-    //     if Employee.FindFirst then
-    //         Rec.Validate("Approver Code", Employee."No.");
-    // end;
 }

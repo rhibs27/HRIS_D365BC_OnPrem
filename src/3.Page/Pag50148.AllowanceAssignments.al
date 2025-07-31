@@ -90,32 +90,4 @@ page 50148 "Allowance Assignments"
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action("Create Allowance Header")
-            {
-                Image = CreateBins;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Create Allowance Header action.';
-                ApplicationArea = All;
-                Visible = false;
-                trigger OnAction()
-                begin
-                    if not Confirm('Do you want to created allowance header for all branch and extension counter?') then
-                        exit;
-                    AllowanceMgt.InsertAllowanceHeader();
-                end;
-            }
-        }
-    }
-
-    var
-        LoanMgt: Codeunit "Loan Mgt.";
-        AllowanceMgt: Codeunit "Allowance Assignment Mgt";
 }

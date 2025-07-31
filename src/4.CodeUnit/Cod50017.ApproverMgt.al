@@ -40,11 +40,8 @@ codeunit 50017 "Approver Mgt"
                         Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                         if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
                             Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
-                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then begin
-                            Employee.SetRange("Department Code", EmpRequest."Department Code");
-                            if EmpRequest."Unit Code" <> '' then
-                                Employee.SetRange("Unit Code", EmpRequest."Unit Code")
-                        end
+                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                            Employee.SetRange("Department Code", EmpRequest."Department Code")
                         else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
                             Employee.SetRange("Province Code", EmpRequest."Province Code");
                     end else begin
@@ -498,7 +495,7 @@ codeunit 50017 "Approver Mgt"
         EmpActType: Enum "Employee Activity Type";
         StatusMaster: Record "Status Master";
         RetirementFund: Record "Retirement Fund";
-        DocNo: Code[20];
+        DocNumber: code[20];
     begin
         // Get the fields dynamically using FieldRef
         case RecRef.Number() of
@@ -506,48 +503,41 @@ codeunit 50017 "Approver Mgt"
                 begin
                     ApprovalStatusField := Format((RecRef.Field(RetirementFund.FieldNo("Approval Status"))));
                     EmpActType := EmpActType::Retirement;
+                    DocNumber := RecRef.Field(RetirementFund.FieldNo("No.")).Value;
                 end;
             else begin
                 //old code
                 ApprovalStatusField := Format((RecRef.Field(16)));
                 EmpActType := RecRef.Field(2).Value;
-
+                DocNumber := RecRef.Field(1).Value;
             end;
         end;
         if ApprovalStatusField = Format(ApprovalStatusEnum::Pending) then begin
-            CheckRequester(RecRef.Field(1).Value);
-            CheckDocumentForwithdraw(EmpActType, DocNo);
-            DocNo := RecRef.Field(1).Value;
-            if EmpActType = EmpActType::Retirement then
-                DocNo := RecRef.Field(RetirementFund.FieldNo("No.")).Value;
-
+            CheckRequester(DocNumber);
+            CheckFirstApproverSequence(DocNumber);
             Approver.Reset();
-            Approver.SetRange("Document Type", EmpActType);
-            Approver.SetRange("Document No.", DocNo);
-            if Approver.FindSet() then begin
+            Approver.SetRange("Document No.", DocNumber);
+            if Approver.Findset() then begin
+                repeat
+                    Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
+                    Approver.Modify();
+                until Approver.Next() = 0;
+
+                // Get the withDraw Status from Status Master
                 if EmpActType = EmpActType::Retirement then
                     RecRef.Field(RetirementFund.FieldNo("Approval Status")).Validate(ApprovalStatusEnum::Withdrawn)
                 else
                     RecRef.Field(16).Validate(ApprovalStatusEnum::Withdrawn); // Modify the record dynamically
                 RecRef.Modify();
-                // Get the withDraw Status from Status Master
                 StatusMaster.Reset();
                 StatusMaster.SetRange(withdraw, true);
                 if StatusMaster.FindFirst() then begin
                     if EmpActType <> EmpActType::Retirement then
                         RecRef.Field(100).Validate(StatusMaster.Status);
                     RecRef.Modify();
-                end
-                else
+                end else
                     Error('withdraw Status not Found On Status Master Setup');
-
-                repeat
-                    Approver.Validate("Approval Status", Approver."Approval Status"::Withdrawn);
-                    Approver.Modify();
-                until Approver.Next() = 0;
-
-            end else
-                Error('Document is approved by 1 or more Approver');
+            end;
         end else
             Error('Document Status Must be in Pending');
     end;
@@ -616,6 +606,18 @@ codeunit 50017 "Approver Mgt"
         end;
     end;
 
+    procedure CheckFirstApproverSequence(DocNo: Code[20]): Boolean
+    var
+        Approver: Record "Approval HRMS";
+    begin
+        Approver.Reset();
+        Approver.SetRange("Document No.", DocNo);
+        Approver.SetRange("Approval Status", Approver."Approval Status"::Open);
+        Approver.SetRange("Approval Sequence", 1);
+        if not Approver.FindFirst() then
+            Error('Document is approved by 1 or more Approver');
+    end;
+
     procedure UpdateFirstApproverStatus(DocNo: Code[20]): Boolean
     var
         Approver: Record "Approval HRMS";
@@ -623,10 +625,11 @@ codeunit 50017 "Approver Mgt"
         Approver.Reset();
         Approver.SetRange("Document No.", DocNo);
         Approver.SetRange("Approval Sequence", 1);
-        if Approver.FindFirst() then begin
-            Approver.Validate("Approval Status", Approver."Approval Status"::Open);
-            Approver.Modify();
-        end;
+        if Approver.FindSet() then
+            repeat
+                Approver.Validate("Approval Status", Approver."Approval Status"::Open);
+                Approver.Modify();
+            until Approver.Next() = 0;
     end;
     //>> Approve Reject Document Dynamically using RecRef>> Santosh 2025-03-04 >>
     procedure ApproveJournalDocument(EmpActNo: Code[20]; Approved: Boolean)

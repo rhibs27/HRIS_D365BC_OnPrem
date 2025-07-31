@@ -1,0 +1,301 @@
+report 50077 "Service Event Update"
+{
+    ProcessingOnly = true;
+    UsageCategory = ReportsAndAnalysis;
+    ApplicationArea = All;
+    dataset { }
+    requestpage
+    {
+        layout
+        {
+            area(Content)
+            {
+                group("Employee Service Event")
+                {
+                    field("Service Event"; ServiceEvent)
+                    {
+                        ValuesAllowed = Appointment, Confirmation, "On The Job Training", "Contract Renew", "Expired Contract";
+                        ToolTip = 'Specifies the value of the Service Event field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Functional Title"; FunctionalTitle)
+                    {
+                        TableRelation = "Functional Title";
+                        ToolTip = 'Specifies the value of the FunctionalTitle field.';
+                        ApplicationArea = All;
+                    }
+                    field("Salary level"; SalaryLevel)
+                    {
+                        TableRelation = "Salary Level";
+                        ToolTip = 'Specifies the value of the SalaryLevel field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field(SalaryGrade; SalaryGrade)
+                    {
+                        TableRelation = "Salary Grade";
+                        ToolTip = 'Specifies the value of the SalaryGrade field.';
+                        ApplicationArea = All;
+                    }
+                    field("Deputation On"; DeputationOnTo)
+                    {
+                        ToolTip = 'Specifies the value of the DeputationOnTo field.';
+                        ApplicationArea = All;
+                        trigger OnValidate()
+                        begin
+                            if DeputationOnTo <> DeputationOnTo::Branch then
+                                Clear(ProvinceCode);
+                        end;
+                    }
+                    field(ProvinceCode; ProvinceCode)
+                    {
+                        Editable = DeputationOnTo = DeputationOnTo::Branch;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                        end;
+                    }
+                    field("Deputation Code"; DeputationCodeTo)
+                    {
+                        ToolTip = 'Specifies the value of the DeputationCodeTo field.';
+                        ApplicationArea = All;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            DeputationCodeTo := GetDeputation(DeputationOnTo);
+                        end;
+                    }
+                    field(RemarksVar; Remarks)
+                    {
+                        Caption = 'Remarks';
+                        ToolTip = 'Specifies the value of the Remarks field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Employment Type"; EmploymentType)
+                    {
+                        ToolTip = 'Specifies the value of the EmploymentType field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Effective Date"; EffectiveDate)
+                    {
+                        ToolTip = 'Specifies the value of the EffectiveDate field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("ContractExpiry Month"; ContractExpiryMonth)
+                    {
+                        ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
+                                if EmploymentType <> EmploymentType::Contract then
+                                    Error('Employment type must be contract');
+                                if EffectiveDate = 0D then
+                                    Error('Date must have value');
+                            end;
+                        end;
+                    }
+                    field(ProbationPeriod; ProbationPeriod)
+                    {
+                        Caption = 'Probation Period';
+                        ToolTip = 'Specifies the value of the Probation Period field.';
+                        ApplicationArea = All;
+                    }
+                }
+            }
+        }
+
+        actions { }
+    }
+
+    labels { }
+
+    trigger OnPostReport()
+    begin
+        Message('Success');
+    end;
+
+    trigger OnPreReport()
+    begin
+        Employee.Get(EmpNo);
+        if ServiceEvent = ServiceEvent::" " then
+            Error('Please fill Service Event field');
+        if EffectiveDate = 0D then
+            Error('Please fill Effective Date field');
+        if (EmploymentType = EmploymentType::" ") then
+            Error('Please fill Employment Type values');
+        if EmploymentType = EmploymentType::Contract then
+            if ContractExpiryMonth = ContractExpiryMonth::" " then
+                Error('Contract Expiry Month must have value.');
+        if EmploymentType = EmploymentType::Probation then
+            if ProbationPeriod = ProbationPeriod::" " then
+                Error('Probation Period must have value.')
+            else
+                Employee.Validate("Probation Period", ProbationPeriod);
+        if FunctionalTitle <> '' then
+            Employee.Validate("Functional Title", FunctionalTitle);
+        Employee.Validate("Salary Level", SalaryLevel);
+        Employee.Validate("Salary Grade", SalaryGrade);
+        if EmploymentType = EmploymentType::Permanent then
+            Employee."Confirmation Date" := EffectiveDate;
+        Employee.Validate("Employment Type", EmploymentType);
+        if ServiceEvent = ServiceEvent::Appointment then
+            Employee.Validate("Employment Date", EffectiveDate)
+        else if ServiceEvent = ServiceEvent::"Contract Renew" then
+            Employee.Validate("Contract Renew Date", EffectiveDate);
+        if EmploymentType = EmploymentType::Contract then
+            Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
+        ValidateDeputationOnCode();
+        Employee.Modify;
+        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
+        ServiceHistory.Init;
+        ServiceHistory.Validate("Employee No.", Employee."No.");
+        ServiceHistory.Validate("Effective Date", EffectiveDate);
+        ServiceHistory.Validate("Service Event", ServiceEvent);
+        ServiceHistory.Validate(Remarks, Remarks);
+        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
+        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
+        ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
+        ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
+        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
+        ServiceHistory.Insert(true);
+    end;
+
+    var
+        DeputationOnFrom, DeputationOnTo : Enum "Deputation Type";
+        ServiceEvent: Enum "Service Event";
+        DeputationCodeTo: Code[20];
+        ProvinceCode: Code[20];
+        PageProvince: Page "Provinces List";
+        GLSetup: Record "General Ledger Setup";
+        Employee: Record Employee;
+        EffectiveDate: Date;
+        HRMgt: Codeunit "HR Mgt.";
+        ServiceHistoryMgt: Codeunit "Service History Mgt";
+        Remarks: Text;
+        EmpNo: Code[20];
+        FunctionalTitle: Code[20];
+        SalaryLevel: Code[20];
+        EmploymentType: enum "Employee Type";
+        ContractExpiryMonth: Enum "Contract Expiry Date";
+        SalaryGrade: Code[20];
+        ServiceHistory: Record "Employee Service History";
+        PayrollEngine: Codeunit "Payroll Engine";
+        ProbationPeriod: Enum "Probation Period";
+
+    local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
+    var
+        OrgStructureList: Record "Organization Structure List";
+        OrgStructureListPage: Page "Organization Structure list";
+    begin
+        case Deputation of
+            Deputation::Province:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Province);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+
+
+            Deputation::Branch:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+
+                end;
+
+            Deputation::Department:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Department);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+
+            Deputation::"Extension Counter":
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::"Extension Counter");
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+
+            Deputation::Unit:
+                begin
+                    OrgStructureList.SetRange(Type, OrgStructureList.Type::Unit);
+                    OrgStructureList.SetRange(Blocked, false);
+                    Clear(OrgStructureListPage);
+                    OrgStructureListPage.LookupMode(true);
+                    OrgStructureListPage.SetTableView(OrgStructureList);
+                    OrgStructureListPage.SetRecord(OrgStructureList);
+                    if OrgStructureListPage.RunModal() = Action::LookupOK then begin
+                        OrgStructureListPage.GetRecord(OrgStructureList);
+                        exit(OrgStructureList.Code)
+                    end;
+                end;
+        end;
+    end;
+
+    local procedure ValidateDeputationOnCode()
+    begin
+        Employee.Validate("Deputation on", DeputationOnTo);
+        case DeputationOnTo of
+            DeputationOnTo::Province:
+                Employee.Validate("Province Code", DeputationCodeTo);
+
+            DeputationOnTo::Branch:
+                begin
+                    Employee.Validate("Province Code", ProvinceCode);
+                    Employee.Validate("Branch Code", DeputationCodeTo);
+                end;
+
+            DeputationOnTo::Department:
+                Employee.Validate("Department Code", DeputationCodeTo);
+
+            DeputationOnTo::"Extension Counter":
+                Employee.Validate("Extension Counter Code", DeputationCodeTo);
+
+            DeputationOnTo::Unit:
+                Employee.Validate("Unit Code", DeputationCodeTo);
+        end;
+    end;
+
+    procedure SetAppointment(EmpCode: Code[20])
+    begin
+        // IsAppointment := true;
+        EmpNo := EmpCode;
+    end;
+}
