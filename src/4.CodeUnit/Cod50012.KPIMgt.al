@@ -9,7 +9,6 @@ codeunit 50012 "KPI Mgt."
 
     var
         OrganizationStructureList: Record "Organization Structure List";
-        // DimensionValues: Record "Dimension Value";
         LocationIncentivePer: Decimal;
         RemoteAreaCategory: Record "Remote Area Category";
         CategoryIncentive: Decimal;
@@ -23,7 +22,6 @@ codeunit 50012 "KPI Mgt."
         KPIDailyScore: Record "KPI Daily Score";
         KPIDailyScore1: Record "KPI Daily Score";
         DeptCode: Code[20];
-        // Department: Record Department;
         KPIMaster: Record "KPI Master Bank";
 
     procedure DailyKPIScoreCalculationIndv(EmpCode: Code[20])

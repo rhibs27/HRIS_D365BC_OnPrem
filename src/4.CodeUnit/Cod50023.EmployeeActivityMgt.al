@@ -74,37 +74,13 @@ codeunit 50023 EmployeeActivityMgt
         if EmployeeACTJnl."Start Date" > Today then
             Error('Attendance missed date cannot be future date');
         AttendanceMgn.CheckAlreadyExists(EmployeeACTJnl."Employee No.", EmployeeACTJnl.Type, EmployeeACTJnl."Start Date");
-        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl."Employee No.", EmployeeACTJnl.type, EmployeeACTJnl."Start Date");
+        AttendanceMgn.CheckForLeaveDay(EmployeeACTJnl);
         EmployeeACTJnl.TestField("Employee No.");
         EmployeeACTJnl.TestField("Start Date");
 
         if (EmployeeACTJnl."CheckIn Time" = 0T) and (EmployeeACTJnl."CheckOut Time" = 0T) then
             Error('Check In or check Out fields must have a Value');
     end;
-
-    // procedure ApproveJournalPost(DocumentNo: Code[20])
-    // var
-    //     // HRSetup: Record "Human Resources Setup";
-    //     EmpActJnl1: Record "Employee Activity Journal";
-    //     ApprovalHRMS: Record "Approval HRMS";
-    // begin
-
-    //     EmpActJnl1.Reset();
-    //     EmpActJnl1.SetRange("Emp Act. No", DocumentNo);
-    //     EmpActJnl1.SetRange("Approval Status", EmpActJnl1."Approval Status"::Pending);
-    //     if EmpActJnl1.FindSet() then begin
-    //         ApproverMgt.CheckApprover(EmpActJnl1."Emp Act. No");
-    //         EmpActJnl1.ModifyAll("Approval Status", EmpActJnl1."Approval Status"::"Approved");
-    //     end else
-    //         Error('There arenot record in Status Pending');
-
-    //     ApprovalHRMS.Reset();
-    //     ApprovalHRMS.SetRange("Document No.", DocumentNo);
-    //     if ApprovalHRMS.Findset() then begin
-    //         ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Approved);
-    //         ApprovalHRMS.Modify();
-    //     end;
-    // end;
 
     procedure PostTransferInBulk(EmpActNo: Code[20])
     var

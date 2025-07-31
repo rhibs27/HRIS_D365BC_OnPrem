@@ -33,16 +33,10 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     procedure SendApprovalAllowanceAssignment(var AllowanceAssignment: Record "Allowance Assignment Header"; var AllowanceLine: Record "Allowance Assignment Line")
     var
-        // Confirmation: Label 'Confirm action?';
         AllowanceLineCheck: Record "Allowance Assignment Line";
         ApproverMgt: Codeunit "Approver Mgt";
         PayrollGenSetup: Record "Payroll General Setup";
     begin
-        // if GuiAllowed then
-        //     if not Confirm(Confirmation, false) then
-        //         exit;
-        // if AllowanceAssignment."Approver ID" = '' then
-        //     Error('Please select an approver.');
         PayrollGenSetup.get();
         PayrollGenSetup.TestField("Vault Key");
         PayrollGenSetup.TestField("ATM Custodian");
@@ -62,17 +56,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
         AllowanceAssignment.Modify(true);
         AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::"Pending");
-        // if ApproveBool then begin
-        //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::"Pending");
-        //     AllowanceAssignment.Modify(true);
-        //     AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Pending);
-        //     // AllowanceLine.SetFilter("Approval Status", '<>%1', AllowanceLine."Approval Status"::Approved);
-        //     // AllowanceLine.ModifyAll("Approval Status", AllowanceLine."Approval Status"::Screened);
-        // end else begin
-        //     AllowanceAssignment.Validate("Approval Status", AllowanceAssignment."Approval Status"::Open);
-        //     AllowanceAssignment.Modify(true);
-        //AllowanceLine.SETFILTER("Approval Status", '<>%1', AllowanceLine."Approval Status"::Released);
-        // end;
     end;
 
     procedure ApproveRejectAllowanceAssignment(Approved: Boolean; EntryNo: Code[20])
@@ -306,153 +289,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         end;
     end;
 
-
-    procedure RemoveAllowanceAssignmentDayInAttendance(No: Code[20]; AllowanceAssignmentNo: Integer)
-    var
-        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
-        AllowanceAssignmentLine: Record "Allowance Assignment Line";
-        PRSetup: Record "Payroll General Setup";
-    begin
-        PRSetup.Get;
-        if AllowanceAssignmentLine.Get(No, AllowanceAssignmentNo) then begin
-            EmployeeAttendanceActivity.Reset;
-            EmployeeAttendanceActivity.SetRange("Attendance Date", AllowanceAssignmentLine."From Date");
-            EmployeeAttendanceActivity.SetRange("Employee No.", AllowanceAssignmentLine."Employee Code");
-            if EmployeeAttendanceActivity.FindFirst then begin
-                case AllowanceAssignmentLine."Allowance Type" of
-                    PRSetup."Evening Counter":
-                        EmployeeAttendanceActivity."Evening Counter Days" := 0;
-
-                    PRSetup."Morning Counter":
-                        EmployeeAttendanceActivity."Morning Counter Days" := 0;
-
-                    PRSetup."Festival Counter":
-                        EmployeeAttendanceActivity."Festival Counter Days" := 0;
-
-                    PRSetup."Holiday Counter":
-                        EmployeeAttendanceActivity."Holiday Counter Days" := 0;
-
-                    PRSetup."Friday Counter":
-                        EmployeeAttendanceActivity."Friday Counter Days" := 0;
-
-                    PRSetup."Risk Allowance":
-                        EmployeeAttendanceActivity."Cash Risk Days" := 0;
-
-                    PRSetup."Vault Key":
-                        EmployeeAttendanceActivity."Vault Key Days" := 0;
-
-                    PRSetup."Head Teller Allowance":
-                        EmployeeAttendanceActivity."Head Teller Allowance Days" := 0;
-
-                    PRSetup."Teller Allowance":
-                        EmployeeAttendanceActivity."Teller Allowance Days" := 0;
-
-                    PRSetup."ATM Custodian":
-                        EmployeeAttendanceActivity."ATM Custodian Allowance days" := 0;
-                end;
-                EmployeeAttendanceActivity.Modify;
-            end;
-        end;
-    end;
-
-    procedure InsertAllowanceHeader()
-    var
-        AllowanceHeader: Record "Allowance Assignment Header";
-        AllowanceHeadFilterPage: FilterPageBuilder;
-        AllowanceHeaderText: Label 'Allowance Month';
-        AllowanceHeader1: Record "Allowance Assignment Header";
-        EnglishMonth: Enum "English Month";
-        EnglishYear: Integer;
-        counter: Integer;
-        OrganizationStructureList: Record "Organization Structure List";
-    begin
-        AllowanceHeadFilterPage.AddTable(AllowanceHeaderText, DATABASE::"Allowance Assignment Header");
-        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Month");
-        // AllowanceHeadFilterPage.ADdField(AllowanceHeaderText, AllowanceHeader."English Year");
-        if AllowanceHeadFilterPage.RunModal then begin
-            Employee.Reset;
-            Employee.SetRange("NAV Login ID", UserId);
-            Employee.FindFirst;
-            // if not Employee.Screener then
-            //     Error('You are not allowed to generate allowance.');
-            AllowanceHeader1.SetView(AllowanceHeadFilterPage.GetView(AllowanceHeaderText));
-            // Evaluate(EnglishMonth, AllowanceHeader1.GetFilter("English Month"));
-            // Evaluate(EnglishYear, AllowanceHeader1.GetFilter("English Year"));
-            // if EnglishMonth = EnglishMonth::" " then
-            //     Error('English month must have value.');
-            // if EnglishYear = 0 then
-            //     Error('English year must have value.');
-            // GLSetup.Get;
-            // branch
-            OrganizationStructureList.Reset;
-
-            // DimensionValue.SetRange("Global Dimension No.", 1);
-            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Branch);
-            OrganizationStructureList.SetRange(Blocked, false);
-            // DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-            if OrganizationStructureList.Find('-') then
-                repeat
-                    counter := 1;
-                    while counter <= 4 do begin
-                        //AllowanceHeader.RESET;
-                        Clear(AllowanceHeader);
-                        // AllowanceHeader.SetRange(Week, counter);
-                        AllowanceHeader.SetRange(Type, AllowanceHeader.Type::Branch);
-                        AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        // AllowanceHeader.SetRange("English Year", EnglishYear);
-                        if not AllowanceHeader.FindFirst then begin
-                            AllowanceHeader.Init;
-                            AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
-                            AllowanceHeader.Validate(Type, AllowanceHeader.Type::Branch);
-                            AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            // AllowanceHeader.Validate("English Year", EnglishYear);
-                            // AllowanceHeader.Week := counter;
-                            // AllowanceHeader.Validate("English Month", EnglishMonth);
-                            // AllowanceHeader.GetApprover();
-                            AllowanceHeader.Validate("Last Modified By", UserId);
-                            AllowanceHeader.Validate("Last Modified Date", Today);
-                            AllowanceHeader.Insert(true);
-                        end;
-                        counter += 1;
-                    end;
-                until OrganizationStructureList.Next = 0;
-
-            OrganizationStructureList.Reset;
-            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::"Extension Counter");
-            OrganizationStructureList.SetRange(Blocked, false);
-            if OrganizationStructureList.Find('-') then
-                repeat
-                    counter := 1;
-                    while counter <= 4 do begin
-                        //AllowanceHeader.RESET;
-                        Clear(AllowanceHeader);
-                        // AllowanceHeader.SetRange(Week, counter);
-                        AllowanceHeader.SetRange(Type, AllowanceHeader.Type::"Extension Counter");
-                        AllowanceHeader.SetRange(Code, OrganizationStructureList.Code);
-                        // AllowanceHeader.SetRange("English Month", EnglishMonth);
-                        // AllowanceHeader.SetRange("English Year", EnglishYear);
-                        // AllowanceHeader.SetRange("Fiscal Year",EnglishYear);
-                        if not AllowanceHeader.FindFirst then begin
-                            AllowanceHeader.Init;
-                            AllowanceHeader.Validate(Code, OrganizationStructureList.Code);
-                            AllowanceHeader.Validate(Type, AllowanceHeader.Type::"Extension Counter");
-                            AllowanceHeader.Validate(Name, OrganizationStructureList.Name);
-                            // AllowanceHeader.Validate("English Year", EnglishYear);
-                            // AllowanceHeader.Week := counter;
-                            // AllowanceHeader.Validate("English Month", EnglishMonth);
-                            // AllowanceHeader.GetApprover();
-                            AllowanceHeader.Validate("Last Modified By", UserId);
-                            AllowanceHeader.Validate("Last Modified Date", Today);
-                            AllowanceHeader.Insert(true);
-                        end;
-                        counter += 1;
-                    end;
-                until OrganizationStructureList.Next = 0;
-            Message('Created.');
-        end;
-    end;
-
     procedure SetAllowanceAmount(EmpNo: Code[20]; AllowanceType: Code[20]; FromDate: Date): Decimal
     var
         PayCyclePeriod: Record "Pay Cycle Period";
@@ -539,14 +375,11 @@ codeunit 50022 "Allowance Assignment Mgt"
                         PGSetup.TestField("TA Salary Level");
                         if LevelwiseAttribute.Get(Employee."Salary Grade", Employee."Salary Level") then;
                         SalaryLevel.Get(Employee."Salary Level");
-                        //IF LevelwiseAttribute."Level Code" = PGSetup."TA Salary Level" THEN //Min 12.20.2022 -- Commented
-                        if SalaryLevel.Code = PGSetup."TA Salary Level" then //Min 12.20.2022
+                        if SalaryLevel.Code = PGSetup."TA Salary Level" then
                             exit(Round(PGSetup."Cash Risk Percent" / 100 * SalaryLevel."TA OT Basic Salary" / NoOfDays, 0.00001, '='))
-                        //IF PayCyclePeriod.FINDFIRST THEN
                         else
                             exit(Round(PGSetup."Cash Risk Percent" / 100 * LevelwiseAttribute."Total Basic Salary" / NoOfDays, 0.00001, '='));
                     end else begin
-                        //IF PayCyclePeriod.FINDFIRST THEN
                         exit(Round(PGSetup."Cash Risk Percent" / 100 * Employee."Contract Salary Amount" / NoOfDays, 0.00001, '='));
                     end;
                 end;
@@ -564,8 +397,6 @@ codeunit 50022 "Allowance Assignment Mgt"
         AllowanceAssignmentLine1, AllowanceAssignmentLine2 : Record "Allowance Assignment Line";
     begin
         Employee.Get(HrMgt.GetEmployeeNo);
-        // if not Employee.Screener then
-        //     Error('You are not eligible to reject this allowance');
         AllowanceAssignmentPageBuilder.AddRecord('Reject Allowance Assignment', AllowanceAssignmentLine2);
         AllowanceAssignmentPageBuilder.ADdField('Reject Allowance Assignment', AllowanceAssignmentLine2."Rejection Remarks");
         if AllowanceAssignmentPageBuilder.RunModal then begin

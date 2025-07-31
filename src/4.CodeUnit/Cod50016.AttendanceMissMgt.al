@@ -34,8 +34,6 @@ codeunit 50016 "AttendanceMiss Mgt"
         CancelDocumentTemp.Validate("Start Date", CancelDocument."Start Date");
         CancelDocumentTemp.Validate("End Date", CancelDocument."End Date");
         CancelDocumentTemp.Validate("No. of Days", CancelDocument."No. of Days");
-        // CancelDocumentTemp.Validate("Recommender Code", CancelDocument."Recommender Code");
-        // CancelDocumentTemp.Validate("Approver Code", CancelDocument."Approver Code");
         CancelDocumentTemp."Cancelled Document No." := CancelDocument."No.";
         CancelDocumentTemp.Insert;
         if PAGE.RunModal(PAGE::"Cancel Document", CancelDocumentTemp) = ACTION::LookupOK then;
@@ -60,16 +58,12 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Open);
         AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Attendance Missed");
         AttendanceMissed.Validate("Requested Date", Today);
-        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
-        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
         AttendanceMissed.Insert;
         PAGE.Run(PAGE::"Attendance Missed card", AttendanceMissed);
     end;
 
     procedure OpenLateAttendance(EmpCode: Code[20])
     var
-        //TempEmpActivity: Record "Employee Activity" temporary;
-        //CancelDocument: Record "Cancel Document" temporary;
         AttendanceMissed: Record "Attendance Missed" temporary;
         ApprovalEntry: Record "Approval HRMS";
     begin
@@ -87,34 +81,9 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed.Validate("Approval Status", AttendanceMissed."Approval Status"::Open);
         AttendanceMissed.Validate(Type, AttendanceMissed.Type::"Late Attendance");
         AttendanceMissed.Validate("Requested Date", Today);
-        // CancelDocument.Validate("Recommender Code", Employee."KPI Deputation Value");
-        // CancelDocument.Validate("Approver Code", Employee."Approver Code");
         AttendanceMissed.Insert;
         PAGE.Run(PAGE::"Late Attendance Card", AttendanceMissed);
     end;
-
-    // procedure ApplyLateAttendance(AttendanceMissed: Record "Attendance Missed" temporary)
-    // var
-    //     AttendanceMissed1: Record "Attendance Missed";
-    // begin
-    //     if GuiAllowed then
-    //         if not Confirm('Do you want to apply the document?', false) then
-    //             exit;
-    //     PayrollSetup.Get;
-    //     if AttendanceMissed."No." = '' then begin
-    //         AttendanceMissed.TestField("Start Date");
-    //         if (AttendanceMissed."Start Date" >= Today) or (AttendanceMissed."End Date" >= Today) then
-    //             Error('Cannot apply for future date.Please check the date.');
-    //         if AttendanceMissed."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
-    //             Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
-    //         AttendanceMissed.TestField("End Date");
-    //         AttendanceMissed.TestField(Remarks);
-    //         AttendanceMissed1.Init;
-    //         AttendanceMissed1.TransferFields(AttendanceMissed);
-    //         AttendanceMissed1.Validate("Approval Status", AttendanceMissed1."Approval Status"::Pending);
-    //         AttendanceMissed1.Insert(true);
-    //     end;
-    // end;
 
     procedure ApplyAttendanceMissed(AttendanceMissed: Record "Attendance Missed" temporary): Code[20]
     var
@@ -146,17 +115,13 @@ codeunit 50016 "AttendanceMiss Mgt"
     procedure ApplyCancelEmployeeActivity(CancelDocument: Record "Cancel Document" temporary): Text
     var
         CancelDocument1: Record "Cancel Document";
-        //EmployeeActivity: Record "Employee Activity";
-        //CancelDocument2: Record "Cancel Document";
-        //EmployeeActivity2: Record "Employee Activity";
         leave: Record Leave;
-        //EmpAct: Record "Employee Activity";
         LeaveCancelError: Label 'Your leave request no. %1 of code %2 has been already cancelled.';
     begin
         if GuiAllowed then
             if not Confirm('Do you want to apply the document?', false) then
                 exit;
-        if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin //Min 10.13.2022
+        if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
             leave.Reset;
             leave.SetRange("Cancelled Document No.", CancelDocument."Cancelled Document No.");
             leave.SetFilter("Approval Status", '<>%1', leave."Approval Status"::Rejected);
@@ -168,8 +133,6 @@ codeunit 50016 "AttendanceMiss Mgt"
             CheckForLeaveOnAttendanceMissed(CancelDocument."Start Date", CancelDocument."End Date", CancelDocument."Employee No.");
         if CancelDocument."No." = '' then begin
             CancelDocument.TestField("Start Date");
-            // if (CancelDocument."Start Date" > Today) or (CancelDocument."End Date" > Today) then
-            //     Error('Cannot apply for future date.Please check the date.');
             if CancelDocument."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date" then
                 Error('Cannot apply before fiscal year start date %1.', PayrollSetup."Payroll Fiscal Year Start Date");
             CancelDocument.TestField("End Date");
@@ -177,11 +140,6 @@ codeunit 50016 "AttendanceMiss Mgt"
             CancelDocument1.Init;
             CancelDocument1.TransferFields(CancelDocument);
             CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending);
-            // if CancelDocument."Recommender Code" <> '' then
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
-            // else
-            //     CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-
             CancelDocument1."Cancelled No." := '';
             CancelDocument1.Insert(true);
             leave.Reset;
@@ -192,29 +150,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             end else
                 Error('Leave request no. %1 not found.', CancelDocument1."Cancelled Document No.");
             exit(CancelDocument1."No.");
-            // end else begin
-            //     CancelDocument1.Get(CancelDocument."No.");
-            //     if CancelDocument1."Recommender Code" <> '' then
-            //         CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Pending)
-            //     else
-            //         CancelDocument1.Validate("Approval Status", CancelDocument1."Approval Status"::Recommended);
-            //     CancelDocument1.Modify(true);
         end;
-
-
-        // if CancelDocument1.Type = CancelDocument1.Type::"Leave Request" then begin
-        //     Clear(CancelDocument2);
-        //     CancelDocument2.Get(CancelDocument."Cancelled Document No.");
-        //     CancelDocument2."Cancelled No." := CancelDocument1."No.";
-        //     CancelDocument2.Modify;
-
-        //     if (CancelDocument1."Start Date" < CancelDocument2."Start Date") or (CancelDocument1."End Date" < CancelDocument2."Start Date") then
-        //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-        //     if (CancelDocument1."Start Date" > CancelDocument2."End Date") or (CancelDocument1."End Date" > CancelDocument2."End Date") then
-        //         Error('Date must be between %1 and %2', CancelDocument2."Start Date", CancelDocument2."End Date");
-
-        // end;
     end;
 
     procedure ScreenCancelledLeave(CancelDocument: Record "Cancel Document")
@@ -225,10 +161,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         CancelDocument.TestField("Approval Status", CancelDocument."Approval Status"::Approved);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         Employee.Get(HRMgt.GetEmployeeNo);
-        // if not Employee.Screener then
-        //     Error('You are not eligible to screen this document.');
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            //LeaveEarn.RESET;
             LeaveEarn.Init;
             LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
             LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
@@ -257,7 +190,6 @@ codeunit 50016 "AttendanceMiss Mgt"
                         EmpAttendActivity."Absent Day" := 0;
                     end;
                     EmpAttendActivity."Leave Day" := 0;
-                    //EmpAttendActivity."Week Off Day" := 0;
                     EmpAttendActivity."Tour Day" := 0;
                     EmpAttendActivity."Source No." := CancelDocument."No.";
                     EmpAttendActivity."Employee Activity Found" := true;
@@ -266,8 +198,6 @@ codeunit 50016 "AttendanceMiss Mgt"
                     EmpAttendActivity.Modify;
                 until EmpAttendActivity.Next = 0;
         end;
-        // CancelDocument."Approval Status" := CancelDocument."Approval Status"::Screened;
-        // CancelDocument.Modify;
     end;
 
     procedure CheckForLeaveOnAttendanceMissed(StartDate: Date; EndDate: Date; EmpCode: Code[20])
@@ -337,18 +267,19 @@ codeunit 50016 "AttendanceMiss Mgt"
             Error('%1 already applied for date %2', type::"Attendance Missed", AttendanceMissed."Start Date");
     end;
 
-    procedure CheckForLeaveDay("EmployeeNo": code[20]; "type": Enum "Employee Activity Type"; "startDate": Date)
+    procedure CheckForLeaveDay(var AttendanceJRN: Record "Employee Activity Journal")
     var
         AttendanceMissed: Record "Attendance Missed";
         leaveDay: Record Leave;
     begin
         leaveDay.Reset;
-        leaveDay.SetRange("Employee No.", EmployeeNo);
-        leaveDay.SetRange(Type, type::"Leave Request");
-        leaveDay.SetRange("Start Date", startDate);
+        leaveDay.SetRange("Employee No.", AttendanceJRN."Employee No.");
+        leaveDay.SetRange(Type, AttendanceJRN.Type::"Leave Request");
         leaveDay.SetFilter("Approval Status", '<>%1&<>%2', leaveDay."Approval Status"::Rejected, leaveDay."Approval Status"::Withdrawn);
-        if leaveDay.FindFirst then
-            Error('You were on leave on date %1', leaveDay."Start Date");
+        if leaveDay.FindSet then
+            repeat
+                if ((AttendanceJRN."Start Date" > leaveDay."Start Date") and (AttendanceJRN."Start Date" < leaveDay."End Date")) or ((AttendanceJRN."End Date" > leaveDay."Start Date") and (AttendanceJRN."End Date" < leaveDay."End Date")) then
+                    Error('%1 was on leave date %2', AttendanceJRN."Employee Name", AttendanceJRN."Start Date");
+            until leaveDay.Next = 0;
     end;
-
 }

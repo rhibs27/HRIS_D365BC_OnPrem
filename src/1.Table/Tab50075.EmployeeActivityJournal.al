@@ -175,7 +175,7 @@ table 50075 "Employee Activity Journal"
         }
         field(16; "Approval Status"; Enum "Approval Status")
         {
-            // Editable = False;
+            Editable = False;
         }
         field(17; "Shortcut Dimension 1 Code"; Code[20])
         {
