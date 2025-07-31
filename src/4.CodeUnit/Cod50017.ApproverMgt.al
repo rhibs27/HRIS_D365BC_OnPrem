@@ -34,7 +34,7 @@ codeunit 50017 "Approver Mgt"
                 Employee.Reset();
                 Employee.SetRange(Status, Employee.Status::Active);
                 Employee.SetFilter("NAV Login ID", '<>%1', '');
-                OnInsertApprovalOnBeforeSelectApprover(Employee, isHandled);
+                OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
                 if not isHandled then begin
                     if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                         Employee.SetRange("Deputation On", EmpRequest."Deputation On");
@@ -52,27 +52,6 @@ codeunit 50017 "Approver Mgt"
                             Employee.SetRange("Province Code", EmpRequest."Province Code")
                         else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
                             Employee.SetRange("Unit Code", EmpRequest."Unit Code");
-                    end;
-                end;
-                if isHandled then begin
-                    //province->branch->department
-                    //doesnt care deputation on approval setup header
-                    case ApprovalSetupLine."Deputation Type" of
-                        ApprovalSetupLine."Deputation Type"::Province:
-                            Employee.SetRange("Province Code", EmpRequest."Province Code");
-
-                        ApprovalSetupLine."Deputation Type"::Branch:
-                            begin
-                                Employee.SetRange("Province Code", EmpRequest."Province Code");
-                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                            end;
-
-                        ApprovalSetupLine."Deputation Type"::Department, ApprovalSetupLine."Deputation Type"::Unit:
-                            begin
-                                Employee.SetRange("Province Code", EmpRequest."Province Code");
-                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                                Employee.SetRange("Department Code", EmpRequest."Department Code");
-                            end;
                     end;
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -94,7 +73,9 @@ codeunit 50017 "Approver Mgt"
                         Approval.Validate("Approval Status", "Approval Status"::Created);
                     Approval.Validate("Employee No", EmployeeNo);
                     Approval.Insert(true);
-                end;
+                end
+                else
+                    Error('Approvers not found!');
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -756,7 +737,8 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnInsertApprovalOnBeforeSelectApprover(var Employee: Record Employee; var isHandled: Boolean)
+    local procedure OnInsertApprovalOnBeforeSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
+                                                var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
     begin
     end;
 

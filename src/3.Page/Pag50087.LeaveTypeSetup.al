@@ -111,11 +111,6 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Calculate Proratawise field.';
                     ApplicationArea = All;
                 }
-                field("Compensatory Leave"; Rec.Compensatory)
-                {
-                    ToolTip = 'Specifies the value of the Compensatory field.';
-                    ApplicationArea = All;
-                }
                 field(Encashable; Rec.Encashable)
                 {
                     ToolTip = 'Specifies the value of the Encashable field.', Comment = '%';
@@ -191,6 +186,10 @@ page 50087 "Leave Type Setup"
                 {
                     ToolTip = 'If checked leave taken will not be counted in service period';
                     ApplicationArea = All;
+                }
+                field("Employment Type Fiter"; Rec."Employment Type Fiter")
+                {
+
                 }
             }
         }

@@ -246,7 +246,7 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup.SetRange(Code, LeaveCode);
         if LeaveTypeSetup.FindFirst then
             LeaveTypeSetup.CalcFields("Remaining Days");
-        if (not LeaveTypeSetup.Compensatory) and (not LeaveTypeSetup."Skip Balance Check") then
+        if (LeaveTypeSetup."Leave Category" <> LeaveTypeSetup."Leave Category"::Substitute) and (not LeaveTypeSetup."Skip Balance Check") then
             if LeaveTypeSetup."Remaining Days" < NoofDays then
                 Error(NoLeaveDaysError);
     end;
@@ -302,7 +302,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
         LeavetypSetup.SetFilter("Marital Status", '%1|%2', MaritalStatus, LeavetypSetup."Marital Status"::" ");
-        LeavetypSetup.SetRange(Compensatory, false);
+        LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
         if LeavetypSetup.FindSet() then
@@ -351,7 +351,7 @@ codeunit 50000 "Leave Mgt."
         EnglishNepaliDate.SetRange("English Date", CalcDate('-1Y+1M', Today));
         if EnglishNepaliDate.FindFirst then;
         LeavetypSetup.Reset;
-        LeavetypSetup.SetRange(Compensatory, false);
+        LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
         LeavetypSetup.SetRange("Employee No. Filter", Employee."No.");
@@ -406,7 +406,7 @@ codeunit 50000 "Leave Mgt."
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', EmployeeType, LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Gender, LeavetypSetup.Gender::" ");
         LeavetypSetup.SetFilter("Marital Status", '%1', MaritalStatus);
-        LeavetypSetup.SetRange(Compensatory, false);
+        LeavetypSetup.SetFilter("Leave Category", '<>%1', LeavetypSetup."Leave Category"::Substitute);
         LeavetypSetup.SetRange("Needed HR Permission", false);
         LeavetypSetup.SetRange("Skip Balance Check", false);
         if LeavetypSetup.Find('-') then
@@ -580,7 +580,7 @@ codeunit 50000 "Leave Mgt."
     begin
         LeaveType.Get(LeaveCode);
         PayrollSetup.Get; //Min
-        if LeaveType.Compensatory then begin
+        if LeaveType."Leave Category" = LeaveType."Leave Category"::Substitute then begin
             if NoOfDays <> 1 then
                 Error(ErrorNoOfDays);
             if not (CompensatoryDate in [PayrollSetup."Payroll Fiscal Year Start Date" .. PayrollSetup."Payroll Fiscal Year End Date"]) then
@@ -670,7 +670,7 @@ codeunit 50000 "Leave Mgt."
         LeaveType.SetFilter("Leave For Employee Type", '%1|%2', JobType, LeaveType."Leave For Employee Type"::" ");
         LeaveType.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveType.Gender::" ");
         LeaveType.SetFilter("Marital Status", '%1', Employee."Marital Status");
-        LeaveType.SetRange(Compensatory, false);
+        LeaveType.SetFilter("Leave Category", '<>%1', LeaveType."Leave Category"::Substitute);
         LeaveType.SetRange("Needed HR Permission", false);
         LeaveType.SetRange("Skip Balance Check", false);
         if LeaveType.Find('-') then
@@ -959,16 +959,6 @@ codeunit 50000 "Leave Mgt."
         leave.Get(leaveNo);
         OnBeforeLeaveApproved(leave, IsHandled);
         if not IsHandled then begin
-            // LeaveEarn.Init;
-            // LeaveEarn.Validate("Leave Code", leave."Leave Code");
-            // LeaveEarn.Validate("Employee No.", leave."Employee No.");
-            // LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-            // LeaveEarn.Validate("Fiscal year", leave."Fiscal Year");
-            // LeaveEarn.Validate("Posted Date", Today);
-            // LeaveEarn.Validate("Balancing Days", -leave."No. of Days");
-            // LeaveEarn.Validate("Leave Request No", leave."No.");
-            // LeaveEarn.Insert(true);
-
             NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(leave."Employee No.",
                      leave."Leave Code",
@@ -1032,17 +1022,6 @@ codeunit 50000 "Leave Mgt."
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
-            // LeaveEarn.Init;
-            // LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
-            // LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
-            // LeaveEarn.Validate("Leave Request No", CancelDocument."No.");
-            // LeaveEarn.Validate("Employee No.", CancelDocument."Employee No.");
-            // LeaveEarn.Validate("Employee Full Name", CancelDocument."Employee Name");
-            // LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
-            // LeaveEarn.Validate("Posted Date", Today);
-            // LeaveEarn.Validate("Balancing Days", CancelDocument."No. of Days");
-            // LeaveEarn.Validate(Type, LeaveEarn.Type::Cancelled);
-            // LeaveEarn.Insert(true);
             NextEntryNo := GetNextLeaveLedgerEntryNo();
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
@@ -1153,7 +1132,6 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.Reset();
                 LeaveTypeSetup.SetFilter("Credit Method", '%1|%2', LeaveTypeSetup."Credit Method"::Automatic, LeaveTypeSetup."Credit Method"::Attendance);
                 LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
-                //if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then  //handled through integration event
                 LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
                 LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
                 LeaveTypeSetup.SetFilter(Gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
@@ -1192,8 +1170,6 @@ codeunit 50000 "Leave Mgt."
                                     ProRataEndDate := LeavePeriod.GetCurrentLeaveYearEndDate();
                                     if EmpVar."Termination Date" <> 0D then
                                         ProRataEndDate := EmpVar."Termination Date";
-                                    // if EmpVar."Force Retirement Date" <> 0D then
-                                    //     ProRataEndDate := EmpVar."Force Retirement Date";
                                     if ProRataEndDate >= LeavePeriod.GetCurrentLeaveYearEndDate() then
                                         ProRataEndDate := LeavePeriod.GetCurrentLeaveYearEndDate();
                                     if (EmpVar."Employment Date" <= LeavePeriod.GetCurrentLeaveYearStartDate()) and (ProRataEndDate = LeavePeriod.GetCurrentLeaveYearEndDate()) then
@@ -1233,7 +1209,6 @@ codeunit 50000 "Leave Mgt."
                         else
                             if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::Attendance then begin
                                 AttendanceDays := AttendanceMgt.GetPresentDays(EmpVar."No.", CreditPeriodStartDate, CreditPeriodEndDate);
-                                // AttendanceDays += AttendanceMgt.GetLeaveDays(EmpVar."No.", LeaveTypeSetup."Leaves Counted In Attendance", CreditPeriodStartDate, CreditPeriodEndDate);
                                 if LeaveTypeSetup."Attendance Days" = 0 then
                                     ActualCreditLimit := Round(((AnnualCreditLimit / (LeaveYearEndDate - LeaveYearStartDate + 1)) * AttendanceDays), 0.5, '<')
                                 else

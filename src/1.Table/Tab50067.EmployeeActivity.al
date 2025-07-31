@@ -353,7 +353,7 @@ table 50067 "Employee Activity"
                     if (Type = Type::"Leave Request") and ("End Date" <> 0D) then begin
                         leaveMgt.CheckForLimitDays("Leave Code", "No. of Days");
                         if LeaveTypeVar.Get("Leave Code") then;
-                        if not LeaveTypeVar.Compensatory then
+                        if LeaveTypeVar."Leave Category" <> LeaveTypeVar."Leave Category"::Substitute then
                             leaveMgt.CheckLeaveConflict("Employee No.", "Start Date", "End Date");
                         leaveMgt.CheckForLeaveCriteria("Leave Code", "Start Date", "End Date", "Employee No.", "No. of Days");
                         leaveMgt.CheckForMulipleRequest("Leave Code", "Employee No.", "Start Date", "End Date", "No. of Days");

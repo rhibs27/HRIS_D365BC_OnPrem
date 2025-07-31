@@ -91,11 +91,8 @@ table 50066 "Leave Type Setup"
         {
 
         }
-        field(24; Compensatory; Boolean) { }
         field(25; "Needed HR Permission"; Boolean) { }
-        // field(26; "Bereavement Leave"; Boolean) { }  
-        // field(27; "Maternity/Paternity Leave"; Boolean) { }
-        // field(28; "Sick Leave"; Boolean) { }
+
         field(29; "No. of Days for Attachment"; Integer) { }
         field(30; Approved; Integer)
         {
@@ -191,6 +188,10 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
+        field(506; "Employment Type Fiter"; Text[200])
+        {
+
+        }
 
     }
 

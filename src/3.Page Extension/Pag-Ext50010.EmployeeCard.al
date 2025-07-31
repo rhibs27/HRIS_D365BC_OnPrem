@@ -2031,23 +2031,23 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                             PayrollEngine.InsertPayrollAttributes;
                     end;
                 }
-                action("Leave Earn (Contract)")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = EditFilter;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Leave Earn (Contract) action.';
-                    trigger OnAction()
-                    var
+                // action("Leave Earn (Contract)")
+                // {
+                //     ApplicationArea = All;
+                //     Promoted = true;
+                //     PromotedIsBig = true;
+                //     Image = EditFilter;
+                //     PromotedCategory = Category7;
+                //     PromotedOnly = true;
+                //     ToolTip = 'Executes the Leave Earn (Contract) action.';
+                //     trigger OnAction()
+                //     var
 
-                        TempLeaveEarn: Record "Leave Earn";
-                    begin
-                        LeaveMgt.CreateLeaveEarnContract(Rec);
-                    end;
-                }
+                //         TempLeaveEarn: Record "Leave Earn";
+                //     begin
+                //         LeaveMgt.CreateLeaveEarnContract(Rec);
+                //     end;
+                // }
                 // action("Insert Mandatory Attachments")
                 // {
                 //     ApplicationArea = All;

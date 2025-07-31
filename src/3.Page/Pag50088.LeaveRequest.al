@@ -35,7 +35,7 @@ page 50088 "Leave Request"
                         if Rec."Requested Date" <> 0D then
                             RemainingDays := LeaveMgt.CalculateRemainingDays(Rec."Employee No.", Rec."Leave Code", Rec."Requested Date");
                         LeaveType.Get(Rec."Leave Code");
-                        IsCompensatory := LeaveType.Compensatory;
+                        IsCompensatory := LeaveType."Leave Category" = Leavetype."Leave Category"::Substitute;
                         IsBereavement := LeaveType."Leave Category" = LeaveType."Leave Category"::"Bereavement Leave";
                         // if IsCompensatory then
                         //     RemainingDays := 0;

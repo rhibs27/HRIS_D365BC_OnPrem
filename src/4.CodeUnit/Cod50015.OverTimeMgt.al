@@ -443,7 +443,7 @@ codeunit 50015 "OverTime Mgt"
         leaveTypeSetup: Record "Leave Type Setup";
     begin
         OverTime.Get(overTimeNo);
-        leaveTypeSetup.SetRange(Compensatory, true);
+        leaveTypeSetup.SetRange("Leave Category", leaveTypeSetup."Leave Category"::Substitute);
         if not leaveTypeSetup.FindFirst() then
             Error('Leave Type not found for Compensatory leave.');
         LeaveEarn.Init;
