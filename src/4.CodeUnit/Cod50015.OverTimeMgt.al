@@ -78,30 +78,6 @@ codeunit 50015 "OverTime Mgt"
         exit(true);
     end;
 
-    // procedure AddOvertimeAttachment(EmpActNo: Code[20]; EmpNo: Code[20])
-    // var
-    //     TempIncomingDoc: Record "Incoming Document";
-    //     Employee: Record Employee;
-    //     SalaryLevel: Record "Salary Level";
-    // begin
-    //     Employee.Get(EmpNo);
-    //     SalaryLevel.Get(Employee."Salary Level");
-    //     if not SalaryLevel."OT Attachment Mandatory" then
-    //         exit;
-
-    //     TempIncomingDoc.Reset;
-    //     TempIncomingDoc.SetRange("Employee Code", EmpNo);
-    //     TempIncomingDoc.SetRange("Employee Activity Type", TempIncomingDoc."Employee Activity Type"::Overtime);
-    //     TempIncomingDoc.SetRange("No.", '');
-    //     if TempIncomingDoc.Find('-') then
-    //         repeat
-    //             if TempIncomingDoc."File Name" = '' then      //attachment mandatory for leave
-    //                 Error('Attachment must be uploaded');
-    //             TempIncomingDoc.Validate("No.", EmpActNo);
-    //             TempIncomingDoc.Modify;
-    //         until TempIncomingDoc.Next = 0;
-    // end;
-
     procedure OpenOTForms(EmpCode: Code[20])
     var
         //EmpAct: Record "Employee Activity" temporary;
@@ -132,72 +108,6 @@ codeunit 50015 "OverTime Mgt"
         PAGE.Run(PAGE::"Overtime Card", OverTime);
     end;
 
-    // procedure RecommendEmployeeOverTimeAPI(EmpOverTimeCode: Code[20]; employeeNo: Code[20])
-    // var
-    //     // EmpAct: Record "Employee Activity";
-    //     OverTime: Record OverTime;
-    // begin
-    //     OverTime.Get(EmpOverTimeCode);
-    //     OverTime.TestField("Approval Status", OverTime."Approval Status"::"Pending");
-    //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-    //     // OverTime.Validate("Approval Status", OverTime."Approval Status"::Recommended);
-    //     OverTime.Modify;
-    //     Message('The document has been recommended.');
-    // end;
-
-    // procedure ApprovedRejectOverTimeApprovalAPI(Approved: Boolean; EmpOverTimeCode: Code[20]; employeeNo: Code[20])
-    // var
-
-    //     OverTime: Record OverTime;
-
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-
-    // begin
-    //     OverTime.Get(EmpOverTimeCode);
-    // if Approved then begin
-    //     OverTime.TestField("Approval Status", OverTime."Approval Status"::Recommended);
-    //     CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-    //     OverTime.Validate("Approval Status", OverTime."Approval Status"::Approved);
-    //     HRMgt.SendMailFromTemplate(DATABASE::OverTime, OverTime.Type, OverTime."Approval Status"::Approved, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-    //     Message('The document has been approved.');
-    // end else
-    //     if (OverTime."Approval Status" in [OverTime."Approval Status"::Pending, OverTime."Approval Status"::Recommended]) then begin
-    //         OverTime.TestField("Rejection Remarks");
-    //         CheckEmployeeOverTimeApprovalAPI(OverTime, employeeNo);
-    //         if OverTime."Approval Status" = OverTime."Approval Status"::"Pending" then
-    //             HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Recommender Code", OverTime."No.", 0); //For email
-    //         // else
-    //         //     HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", OverTime.Type, OverTime."Approval Status"::Rejected, '', OverTime."Approver Code", OverTime."No.", 0);   //For email
-    //         OverTime.Validate("Approval Status", OverTime."Approval Status"::Rejected);
-    //         Message('The document has been rejected.');
-    //     end else
-    //         Error('Cannot reject the document.');
-    //     OverTime.Posted := true;
-    //     OverTime."Approved Date" := Today;
-    //     OverTime.Modify;
-    // end;
-
-    // procedure CheckEmployeeOverTimeApprovalAPI(OverTime: Record OverTime; employeeNo: Code[20])
-    // var
-    //     ApproveNotEligibleError: Label 'You are not Eligible to approve or reject this document ';
-    //     RecommendNotEligibleError: Label 'You are not Eligible to recommend or reject this document ';
-    // begin
-    // Employee.Reset;
-    // Employee.SetRange("No.", employeeNo);
-    // Employee.FindFirst;
-    // if OverTime."Approval Status" = OverTime."Approval Status"::Pending then
-    //     if StrPos(OverTime."Recommender Code", Employee."No.") = 0 then
-    //         Error(RecommendNotEligibleError);
-    // if OverTime."Approval Status" = OverTime."Approval Status"::Recommended then
-    //     if StrPos(OverTime."Approver Code", Employee."No.") = 0 then
-    //         Error(ApproveNotEligibleError);
-
-    //IF EmpAct."Approval Status" = EmpAct."Approval Status"::Approved THEN
-    //IF STRPOS(EmpAct."Incoming Branch Rep. Person", Employee."No.") = 0 THEN
-    //ERROR(AcknowledgeError);
-    // end;
-
     procedure ApplyForOverTimeApprovalForms(TempOvertime: Record "OverTime" temporary): Boolean
     var
         EmpOvertime: Record "OverTime";
@@ -213,10 +123,8 @@ codeunit 50015 "OverTime Mgt"
                 exit;
         OnBeforeApplyOvertime(TempOvertime);
         TempOvertime.TestField("Start Date");
-        // TempOvertime.TestField("End Date");
         TempOvertime.TestField("Actual OT Hours");
         TempOvertime.TestField("Overtime Claim Type");
-        //TempEmpAct.TESTFIELD(Remarks);
         PayrollSetup.Get;
         PayrollSetup.TestField("Friday Counter");
         PayrollSetup.TestField("Holiday Counter");
@@ -275,7 +183,6 @@ codeunit 50015 "OverTime Mgt"
 
     procedure OpenOutofOfficeForms(EmpCode: Code[20])
     var
-        //EmpAct: Record "Employee Activity" temporary;
         OverTime: Record OverTime temporary;
     begin
         Clear(Employee);
@@ -301,11 +208,7 @@ codeunit 50015 "OverTime Mgt"
         ActualOTHrs: Decimal;
         EmployeeWorkShift, RejectionRemarks : Text;
         ShiftLine: Record "Shift Line";
-    // SalaryLevel: Record "Salary Level";
-    // SalaryLevelTxt: Text;
     begin
-        // if not UpdateOvertime then
-        //     exit;
         ShiftLine.Reset();
         ShiftLine.SetRange("Employee No", OverTime."Employee No.");
         ShiftLine.SetRange("Roster Date", OverTime."Start Date");
@@ -328,7 +231,6 @@ codeunit 50015 "OverTime Mgt"
         StartTime := 0T;
         EndTime := 0T;
         StandardWorkingHrs := 0;
-        // SalaryLevelTxt := '';
         StartTime := WorkShift."Start Time";
 
         if HRMgt.IsWinter(OverTime."Start Date", Workshift) then begin
@@ -344,46 +246,10 @@ codeunit 50015 "OverTime Mgt"
         end;
 
         StandardWorkingHrs := (EndTime - StartTime) / 3600000;
-
-        // SalaryLevel.Reset;
-        // SalaryLevel.SetRange("OT Attachment Mandatory", true);
-        // if SalaryLevel.FindFirst then
-        //     repeat
-        //         if SalaryLevelTxt = '' then
-        //             SalaryLevelTxt := SalaryLevel.Code
-        //         else
-        //             SalaryLevelTxt += '|' + SalaryLevel.Code;
-        //     until SalaryLevel.Next = 0;
-
-        // OverTime.Reset;
-        // OverTime.SetRange(Type, OverTime.Type::Overtime);
-        // OverTime.SetRange("Start Date", InitialDate);
-        // OverTime.SetFilter("Salary Level Code", '<>%1', SalaryLevelTxt);
-        // //EmployeeActivity.SETRANGE("Employee No.",EmployeeNo);
-        // OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
-        // if OverTime.FindFirst then
-        //     repeat
         if OverTimeMgt.CheckOvertimeEligibility(OverTime, StartTime, EndTime, StandardWorkingHrs, ActualOTHrs, RejectionRemarks) then begin
             OverTime."Total OT Hours" := ActualOTHrs;
             OverTime."Actual OT Hours" := ActualOTHrs;
-            // OverTime.Validate("Approval Status", OverTime."Approval Status"::Screened); temp commented santosh
-            // OverTime.Modify;
         end;
-        // else begin
-        //     OverTime."Rejection Remarks" := RejectionRemarks;
-        //     OverTime."Approval Status" := OverTime."Approval Status"::Rejected;
-        //     OverTime.Modify;
-
-        //     EmployeeAttendanceActivity.Reset;
-        //     EmployeeAttendanceActivity.SetRange("Attendance Date", OverTime."Start Date");
-        //     EmployeeAttendanceActivity.SetRange("Employee No.", OverTime."Employee No.");
-        //     if EmployeeAttendanceActivity.FindFirst then begin
-        //         EmployeeAttendanceActivity."OT Day" := 0;
-        //         EmployeeAttendanceActivity."OT Hrs" := ActualOTHrs;
-        //         EmployeeAttendanceActivity.Modify(true);
-        //     end;
-        // end;
-        // until OverTime.Next = 0;
 
     end;
 
@@ -408,12 +274,6 @@ codeunit 50015 "OverTime Mgt"
                     else
                         OTAmount := ((ActualOTHours * PayrollSetup."Over Time Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
                 end;
-                // else begin
-                //     if EncashmentCode = PayrollSetup."Extra Mileage" then
-                //         OTAmount := ((ActualOTHours * PayrollSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                //     if EncashmentCode = PayrollSetup."Year End Encashment" then
-                //         OTAmount := ((ActualOTHours * PayrollSetup."Extra Mileage Calculation" / 100) * (SalaryLevelRec."Basic Salary" + (SalaryGrade."Grade Percentage" / 100 * SalaryLevelRec."Basic Salary")));
-                // end;
                 exit(OTAmount);
             end;
         end;

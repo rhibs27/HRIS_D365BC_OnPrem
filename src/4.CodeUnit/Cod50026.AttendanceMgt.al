@@ -66,7 +66,7 @@ codeunit 50026 "Attendance Mgt"
         end else
             Clear(AttendanceLine."Check Out Time");
 
-        EngNep.Reset; //Min 1.25.2023
+        EngNep.Reset;
         EngNep.SetRange("English Date", InitialDate);
         if EngNep.FindFirst then
             AttendanceLine.Week := EngNep.Week;

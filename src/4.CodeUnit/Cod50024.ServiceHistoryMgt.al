@@ -178,7 +178,6 @@ codeunit 50024 "Service History Mgt"
                         exit(OrganizationStructureList.Code);
 
                 end;
-
             DeputationOn::"Extension Counter":
                 begin
                     OrganizationStructureList.reset();

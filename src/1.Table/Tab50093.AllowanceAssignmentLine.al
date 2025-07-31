@@ -106,16 +106,10 @@ table 50093 "Allowance Assignment Line"
         {
             trigger OnValidate()
             begin
-                // PayrollGeneralSetup.Get;
-                // PayrollGeneralSetup.TestField("Vault Key");
-                // if PayrollGeneralSetup."Vault Key" = "Allowance Type" then
-                //     if Panel = Panel::" " then
-                //         Error('Please select panel.');
                 AllowanceMgt.CheckEmployeeAlreadyExistsforSameEmployee("No.", "Line No.", "Employee Code", "Allowance Type", "From Date");
                 ValidateDate();
                 Validate("To Date", "From Date");
                 ValidateAllowanceType;
-                // if GuiAllowed then
                 Validate("Allowance Amount", Round(AllowanceMgt.SetAllowanceAmount("Employee Code", "Allowance Type", "From Date"), 0.01, '='));
             end;
         }
