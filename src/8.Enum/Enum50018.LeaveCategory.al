@@ -22,16 +22,16 @@ enum 50018 "Leave Category"
     {
         Caption = 'Paternity Leave';
     }
-    value(5; "Service Period Wise")
+    value(5; "Casual Leave")
     {
-        Caption = 'Service Period Wise';
-    }
-    value(6; "Age Wise")
-    {
-        Caption = 'Age Wise';
+        Caption = 'Casual Leave';
     }
     value(7; "Annual Leave")
     {
         Caption = 'Annual Leave';
+    }
+    value(8; Substitute)
+    {
+        Caption = 'Substitute';
     }
 }

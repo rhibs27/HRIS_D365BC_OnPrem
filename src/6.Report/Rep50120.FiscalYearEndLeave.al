@@ -82,7 +82,7 @@ report 50120 FiscalYearEndLeave
         LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
         // LeaveTypeSetup.SetRange("Bereavement Leave", false);
         LeaveTypeSetup.SetRange("Skip Balance Check", false);
-        LeaveTypeSetup.SetRange(Compensatory, false);
+        LeaveTypeSetup.SetFilter("Leave Category", '<>%1', LeaveTypeSetup."Leave Category"::Substitute);
         LeaveTypeSetup.SetRange("Needed HR Permission", false);
         //LeaveTypeSetup.SETRANGE("Employee No. Filter",Employee."No.");
         if LeaveTypeSetup.FindFirst then
@@ -134,7 +134,7 @@ report 50120 FiscalYearEndLeave
         LeavetypSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeavetypSetup."Leave For Employee Type"::" ");
         LeavetypSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeavetypSetup.Gender::" ");
         LeavetypSetup.SetFilter("Marital Status", '%1', Employee."Marital Status");
-        LeavetypSetup.SetRange(Compensatory, false);
+        // LeavetypSetup.SetRange(Compensatory, false);
         //LeavetypSetup.SETRANGE("Needed HR Permission",FALSE);
         LeavetypSetup.SetRange("Skip Balance Check", false);
         LeavetypSetup.SetRange("AML Eligible", true);
@@ -179,39 +179,39 @@ report 50120 FiscalYearEndLeave
             until LeavetypSetup.Next = 0;
     end;
 
-    local procedure BalanceYearLeavePermanentEmployee()
-    var
-        LeaveTypeSetup: Record "Leave Type Setup";
-        leavetypeSetup2: Record "Leave Type Setup";
-    begin
-        LeaveTypeSetup.Reset;
-        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
-        LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
-        LeaveTypeSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveTypeSetup.Gender::" ");
-        // LeaveTypeSetup.SetRange("Bereavement Leave", false);
-        LeaveTypeSetup.SetRange("Skip Balance Check", false);
-        LeaveTypeSetup.SetRange(Compensatory, false);
-        LeaveTypeSetup.SetRange("Needed HR Permission", false);
-        //LeaveTypeSetup.SETRANGE("Employee No. Filter",Employee."No.");
-        if LeaveTypeSetup.FindFirst then
-            repeat
-                leavetypeSetup2.Reset;
-                leavetypeSetup2.SetRange(Code, LeaveTypeSetup.Code);
-                leavetypeSetup2.SetRange("Employee No. Filter", Employee."No.");
-                leavetypeSetup2.FindFirst;
-                leavetypeSetup2.CalcFields("Remaining Days");
-                if leavetypeSetup2."Remaining Days" < 0 then
-                    break;
-                LeaveEarn.Init;
-                LeaveEarn.Validate("Employee No.", Employee."No.");
-                LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
-                LeaveEarn.Validate("Posted Date", Today);
-                LeaveEarn.Validate("Balancing Days", -leavetypeSetup2."Remaining Days");
-                LeaveEarn.Validate(Type, LeaveEarn.Type::"Balance via Fiscal Year");
-                LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
-                LeaveEarn.Validate(Remarks, 'Balance Fiscal Year Permanent Employee');
-                LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
-                LeaveEarn.Insert(true);
-            until LeaveTypeSetup.Next = 0;
-    end;
+    // local procedure BalanceYearLeavePermanentEmployee()
+    // var
+    //     LeaveTypeSetup: Record "Leave Type Setup";
+    //     leavetypeSetup2: Record "Leave Type Setup";
+    // begin
+    //     LeaveTypeSetup.Reset;
+    //     // LeaveTypeSetup.SetRange("Bereavement Leave", false);
+    //     LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', Employee."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
+    //     LeaveTypeSetup.SetFilter(Gender, '%1|%2', Employee.Gender, LeaveTypeSetup.Gender::" ");
+    //     // LeaveTypeSetup.SetRange("Bereavement Leave", false);
+    //     LeaveTypeSetup.SetRange("Skip Balance Check", false);
+    //     LeaveTypeSetup.SetRange(Compensatory, false);
+    //     LeaveTypeSetup.SetRange("Needed HR Permission", false);
+    //     //LeaveTypeSetup.SETRANGE("Employee No. Filter",Employee."No.");
+    //     if LeaveTypeSetup.FindFirst then
+    //         repeat
+    //             leavetypeSetup2.Reset;
+    //             leavetypeSetup2.SetRange(Code, LeaveTypeSetup.Code);
+    //             leavetypeSetup2.SetRange("Employee No. Filter", Employee."No.");
+    //             leavetypeSetup2.FindFirst;
+    //             leavetypeSetup2.CalcFields("Remaining Days");
+    //             if leavetypeSetup2."Remaining Days" < 0 then
+    //                 break;
+    //             LeaveEarn.Init;
+    //             LeaveEarn.Validate("Employee No.", Employee."No.");
+    //             LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
+    //             LeaveEarn.Validate("Posted Date", Today);
+    //             LeaveEarn.Validate("Balancing Days", -leavetypeSetup2."Remaining Days");
+    //             LeaveEarn.Validate(Type, LeaveEarn.Type::"Balance via Fiscal Year");
+    //             LeaveEarn.Validate("Fiscal year", HRMgt.ReturnFiscalYear(Today));
+    //             LeaveEarn.Validate(Remarks, 'Balance Fiscal Year Permanent Employee');
+    //             LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
+    //             LeaveEarn.Insert(true);
+    //         until LeaveTypeSetup.Next = 0;
+    // end;
 }

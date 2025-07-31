@@ -32,7 +32,9 @@ codeunit 50017 "Approver Mgt"
         if ApprovalSetupLine.Findset() then
             repeat
                 Employee.Reset();
-                OnInsertApprovalOnBeforeSelectApprover(Employee, isHandled);
+                Employee.SetRange(Status, Employee.Status::Active);
+                Employee.SetFilter("NAV Login ID", '<>%1', '');
+                OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
                 if not isHandled then begin
                     if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                         Employee.SetRange("Deputation On", EmpRequest."Deputation On");
@@ -47,27 +49,6 @@ codeunit 50017 "Approver Mgt"
                             Employee.SetRange("Province Code", EmpRequest."Province Code")
                         else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
                             Employee.SetRange("Unit Code", EmpRequest."Unit Code");
-                    end;
-                end;
-                if isHandled then begin
-                    //province->branch->department
-                    //doesnt care deputation on approval setup header
-                    case ApprovalSetupLine."Deputation Type" of
-                        ApprovalSetupLine."Deputation Type"::Province:
-                            Employee.SetRange("Province Code", EmpRequest."Province Code");
-
-                        ApprovalSetupLine."Deputation Type"::Branch:
-                            begin
-                                Employee.SetRange("Province Code", EmpRequest."Province Code");
-                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                            end;
-
-                        ApprovalSetupLine."Deputation Type"::Department, ApprovalSetupLine."Deputation Type"::Unit:
-                            begin
-                                Employee.SetRange("Province Code", EmpRequest."Province Code");
-                                Employee.SetRange("Branch Code", EmpRequest."Branch Code");
-                                Employee.SetRange("Department Code", EmpRequest."Department Code");
-                            end;
                     end;
                 end;
                 Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
@@ -89,7 +70,9 @@ codeunit 50017 "Approver Mgt"
                         Approval.Validate("Approval Status", "Approval Status"::Created);
                     Approval.Validate("Employee No", EmployeeNo);
                     Approval.Insert(true);
-                end;
+                end
+                else
+                    Error('Approvers not found!');
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -119,7 +102,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         count := 0;
         if ApprovalSetupLine.Findset() then
@@ -181,7 +164,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetRange("Deputation On", EmpRequest."Deputation On");
+        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         count := 0;
         if ApprovalSetupLine.Findset() then
@@ -456,6 +439,22 @@ codeunit 50017 "Approver Mgt"
                             end;
                     end;
                 end;
+            end
+            else begin
+                //rejection case
+                //reject all the approval for that document
+                ApprovalHRMS.Reset();
+                ApprovalHRMS.SetRange("Document No.", DocumentNo);
+                ApprovalHRMS.SetRange("Document Type", EmployeeActivityType);
+                if ApprovalHRMS.FindSet() then
+                    repeat
+                        if ApprovalHRMS."Approval Status" in [ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open, ApprovalHRMS."Approval Status"::Pending] then begin
+                            ApprovalHRMS.Validate("Approval Status", ApprovalHRMS."Approval Status"::Rejected);
+                            ApprovalHRMS.Validate("Rejected By", HRMgt.GetEmpName());
+                            ApprovalHRMS.Modify();
+                        end;
+
+                    until ApprovalHRMS.Next() = 0;
             end;
         end else
             Error('Document Status Must be in Pending');
@@ -474,6 +473,18 @@ codeunit 50017 "Approver Mgt"
         ApprovalLine.SetRange("Employee No", HRMgt.GetEmployeeNo());
         if not ApprovalLine.Findfirst() then
             Error(ApproveNotEligibleError);
+    end;
+
+    procedure CheckDocumentForwithdraw(EmpActType: enum "Employee Activity Type"; DocNo: Code[20])
+    var
+        ApprovalHRMS: Record "Approval HRMS";
+    begin
+        ApprovalHRMS.SetLoadFields("Approval Status");
+        ApprovalHRMS.SetRange("Document Type", EmpActType);
+        ApprovalHRMS.SetRange("Document No.", DocNo);
+        ApprovalHRMS.SetFilter("Approval Status", '<>%1|<>2', ApprovalHRMS."Approval Status"::Created, ApprovalHRMS."Approval Status"::Open);
+        if ApprovalHRMS.Count > 0 then
+            Error('You cannot withdraw as document already in the rocess of approval');
     end;
     // >>  WithDraw Document Dynamically using RecRef>> Santosh 2025-04-21 >>
     procedure WithDrawRequest(var RecRef: RecordRef)
@@ -729,7 +740,8 @@ codeunit 50017 "Approver Mgt"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnInsertApprovalOnBeforeSelectApprover(var Employee: Record Employee; var isHandled: Boolean)
+    local procedure OnInsertApprovalOnBeforeSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
+                                                var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
     begin
     end;
 

@@ -41,7 +41,10 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
+        field(50008; Disabled; Boolean)
+        {
 
+        }
     }
 
     var
@@ -56,7 +59,6 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             exit;
 
         Employee.Reset;
-        //Employee.SETRANGE("No.",'AK4371');
         if "Province Filter" <> '' then
             Employee.SetFilter("Province Code", "Province Filter");
         if "Gender Filter" <> "Gender Filter"::" " then
@@ -67,6 +69,9 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             Employee.SetRange("Posting Region", "Posting Region");
         if "Shortcut Dimension 1 Code" <> '' then
             Employee.SetFilter("Global Dimension 1 Code", "Shortcut Dimension 1 Code");
+        if Community <> Community::" " then
+            Employee.SetRange(Community, Community);
+        Employee.SetRange(Disabled, Disabled);
         if Employee.FindFirst then
             repeat
                 EmployeeAttendanceActivity.Reset;

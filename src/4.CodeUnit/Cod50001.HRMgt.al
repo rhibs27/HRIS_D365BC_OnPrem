@@ -6019,7 +6019,8 @@ codeunit 50001 "HR Mgt."
                                 VAR InOutValley: Option;
                                 VAR PostingRegion: Option;
                                 VAR Branch: Text;
-                                var Community: Enum "Community Type"): Boolean
+                                var Community: Enum "Community Type";
+                                var Disabled: Boolean): Boolean
     var
         BaseCalChange: Record "Base Calendar Change";
     begin
@@ -6037,6 +6038,7 @@ codeunit 50001 "HR Mgt."
                             PostingRegion := BaseCalChange."Posting Region";
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             Community := BaseCalChange.Community;
+                            Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         END;
                     BaseCalChange."Recurring System"::"Weekly Recurring":
@@ -6048,6 +6050,7 @@ codeunit 50001 "HR Mgt."
                             PostingRegion := BaseCalChange."Posting Region";                  //returning gender
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             Community := BaseCalChange.Community;
+                            Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         END;
                     BaseCalChange."Recurring System"::"Annual Recurring":
@@ -6061,6 +6064,7 @@ codeunit 50001 "HR Mgt."
                             PostingRegion := BaseCalChange."Posting Region";            //returning gender
                             Branch := BaseCalChange."Shortcut Dimension 1 Code";
                             Community := BaseCalChange.Community;
+                            Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
                         END;
                 END;
@@ -6071,6 +6075,8 @@ codeunit 50001 "HR Mgt."
         clear(InOutValley);
         clear(PostingRegion);
         clear(Branch);
+        Clear(Community);
+        Clear(Disabled);
     end;
 
     procedure CheckDateStatus3(CalendarCode: Code[10];

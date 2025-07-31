@@ -26,6 +26,7 @@ table 50074 "Employee Edit"
         {
             Caption = 'Employee No.';
             DataClassification = CustomerContent;
+            TableRelation = Employee;
             trigger OnValidate()
             begin
                 if Employee.get("Employee No.") then begin
@@ -140,7 +141,6 @@ table 50074 "Employee Edit"
                         begin
                             Validate("Emp Document Type", "Emp Document Type"::Achievement);
                         end
-
                 end
             end;
 
@@ -158,6 +158,7 @@ table 50074 "Employee Edit"
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
+            TableRelation = "Employee Qualification";
         }
         field(24; Description; Code[100])
         {
@@ -417,11 +418,15 @@ table 50074 "Employee Edit"
         {
             Clustered = true;
         }
+        key(PK2; "Employee No.")
+        {
+
+        }
     }
     Var
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         ApproverMgt: Codeunit "Approver Mgt";
         HrMgt: Codeunit "HR Mgt.";
 
@@ -441,6 +446,8 @@ table 50074 "Employee Edit"
     end;
 
     trigger OnInsert()
+    var
+        EmployeeEdit: Record "Employee Edit";
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -454,7 +461,12 @@ table 50074 "Employee Edit"
                 Type::"Employee Edit":
                     begin
                         HRSetup.TestField("Employee Change No. Series");
-                        NoSeriesMgt.InitSeries(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                        HrMgt.InitNoSeriesNew(HRSetup."Employee Change No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                        EmployeeEdit.ReadIsolation(IsolationLevel::ReadUncommitted);
+                        EmployeeEdit.SetLoadFields("No.");
+                        while EmployeeEdit.Get("No.") do
+                            "No." := NoSeriesMgt.GetNextNo("No. Series");
+
                         ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;

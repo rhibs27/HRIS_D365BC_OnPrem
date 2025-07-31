@@ -11,6 +11,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeEditType: Enum "Employee Edit Type";
     begin
         EmployeeEdit.get(EmployeeEditCode);
+        EmployeeEditOnBeforeSendForApproval(EmployeeEdit);
         case EmployeeEdit."Changes In Employee Type" of
             EmployeeEditType::Details:
                 begin
@@ -91,54 +92,103 @@ codeunit 50021 "Employee Edit Mgt."
     local procedure EmployeeQualificationAdd(Var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeQualification: Record "Employee Qualification";
+        EmployeeEditLine: Record "Employee Edit Line";
+    begin
+        EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
+        if EmployeeEditLine.FindSet() then begin
+            repeat
+                EmployeeQualificationAddFromLine(EmployeeEditLine);
+            until EmployeeEditLine.Next() = 0;
+        end else begin
+            //old code will be removed 
+            EmployeeQualification.Init();
+            EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
+            EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
+            EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
+            EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
+            EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Education);
+            EmployeeQualification.Validate(Stream, EmployeeEdit.Stream);
+            EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
+            EmployeeQualification.Validate("From Date", EmployeeEdit."From Date");
+            EmployeeQualification.Validate("To Date", EmployeeEdit."To Date");
+            EmployeeQualification.Validate(Year, EmployeeEdit.Year);
+            EmployeeQualification.Validate(Percentage, EmployeeEdit.Percentage);
+            EmployeeQualification.Validate(CGPA, EmployeeEdit.CGPA);
+            EmployeeQualification.Validate(Description, EmployeeEdit.Description);
+            EmployeeQualification.Validate(Attachment, EmployeeEdit.Attachment);
+            EmployeeQualification.Insert();
+        end;
+    end;
+
+    procedure GetNextLineNoQualification(EmpNo: Code[20]): Integer
+    var
         EmployeeQualification1: Record "Employee Qualification";
     begin
-        EmployeeQualification1.Reset();
-        EmployeeQualification.Init();
-        EmployeeQualification1.SetRange("Employee No.", EmployeeEdit."Employee No.");
+        EmployeeQualification1.SetRange("Employee No.", EmpNo);
         if EmployeeQualification1.FindLast() then
-            EmployeeQualification.Validate("Line No.", EmployeeQualification1."Line No." + 10000)
+            exit(EmployeeQualification1."Line No." + 10000)
         else
-            EmployeeQualification.Validate("Line No.", 10000);
-        EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
-        EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
-        EmployeeQualification.Validate("Qualification Type", EmployeeEdit."Qualification Type");
-        EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Education);
-        EmployeeQualification.Validate(Stream, EmployeeEdit.Stream);
-        EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
-        EmployeeQualification.Validate("From Date", EmployeeEdit."From Date");
-        EmployeeQualification.Validate("To Date", EmployeeEdit."To Date");
-        EmployeeQualification.Validate(Year, EmployeeEdit.Year);
-        EmployeeQualification.Validate(Percentage, EmployeeEdit.Percentage);
-        EmployeeQualification.Validate(CGPA, EmployeeEdit.CGPA);
-        EmployeeQualification.Validate(Description, EmployeeEdit.Description);
-        EmployeeQualification.Validate(Attachment, EmployeeEdit.Attachment);
+            exit(10000);
+    end;
+
+    procedure EmployeeQualificationAddFromLine(EmployeeEditLine: Record "Employee Edit Line")
+    var
+        EmployeeQualification: Record "Employee Qualification";
+        EmployeeNo: Code[20];
+    begin
+        EmployeeQualification.Init();
+        EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEditLine."Employee No."));
+        EmployeeQualification.Validate("Employee No.", EmployeeEditLine."Employee No.");
+        EmployeeQualification.Validate("Qualification Code", EmployeeEditLine."Qualification Code");
+
+        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Qualification then begin
+            EmployeeQualification.Validate("Emp Qualification Type", EmployeeQualification."Emp Qualification Type"::Education);
+            EmployeeQualification.Validate("Qualification Type", EmployeeEditLine."Qualification Type");
+            EmployeeQualification.Validate(Stream, EmployeeEditLine.Stream);
+            EmployeeQualification.Validate(Percentage, EmployeeEditLine.Percentage);
+            EmployeeQualification.Validate(CGPA, EmployeeEditLine.CGPA);
+        end;
+
+        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Achievement then begin
+            EmployeeQualification.Validate("Emp Qualification Type", EmployeeEditLine."employee Document Type"::Achievement);
+            EmployeeQualification.Validate(Designation, EmployeeEditLine.Designation);
+            EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
+        end;
+
+        EmployeeQualification.Validate("Institution/Company", EmployeeEditLine."Institution/Company");
+        EmployeeQualification.Validate("From Date", EmployeeEditLine."From Date");
+        EmployeeQualification.Validate("To Date", EmployeeEditLine."To Date");
+        EmployeeQualification.Validate(Year, EmployeeEditLine.Year);
+        EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
+        EmployeeQualification.Validate(Attachment, EmployeeEditLine.Attachment);
         EmployeeQualification.Insert();
     end;
 
     local procedure EmployeeAchievementAdd(var EmployeeEdit: Record "Employee Edit")
     var
         EmployeeQualification: Record "Employee Qualification";
-        EmployeeQualification1: Record "Employee Qualification";
+        EmployeeEditLine: Record "Employee Edit Line";
     begin
-        EmployeeQualification1.Reset();
-        EmployeeQualification.Init();
-        EmployeeQualification1.SetRange("Employee No.", EmployeeEdit."Employee No.");
-        if EmployeeQualification1.FindLast() then
-            EmployeeQualification.Validate("Line No.", EmployeeQualification1."Line No." + 10000)
-        else
-            EmployeeQualification.Validate("Line No.", 10000);
-        EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
-        EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
-        EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Achievement);
-        EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
-        EmployeeQualification.Validate("From Date", EmployeeEdit."From Date");
-        EmployeeQualification.Validate("To Date", EmployeeEdit."To Date");
-        EmployeeQualification.Validate(Description, EmployeeEdit.Description);
-        EmployeeQualification.Validate(Designation, EmployeeEdit.Designation);
-        EmployeeQualification.Validate(Remuneration, EmployeeEdit.Remuneration);
-        EmployeeQualification.Validate(Attachment, EmployeeEdit.Attachment);
-        EmployeeQualification.Insert();
+        EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
+        if EmployeeEditLine.FindSet() then begin
+            repeat
+                EmployeeQualificationAddFromLine(EmployeeEditLine);
+            until EmployeeEditLine.Next() = 0;
+        end else begin
+            EmployeeQualification.Init();
+            EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEdit."Employee No."));
+            EmployeeQualification.Validate("Employee No.", EmployeeEdit."Employee No.");
+            EmployeeQualification.Validate("Qualification Code", EmployeeEdit."Qualification Code");
+            EmployeeQualification.Validate("Emp Qualification Type", EmployeeEdit."Emp Document Type"::Achievement);
+            EmployeeQualification.Validate("Institution/Company", EmployeeEdit."Institution/Company");
+            EmployeeQualification.Validate("From Date", EmployeeEdit."From Date");
+            EmployeeQualification.Validate("To Date", EmployeeEdit."To Date");
+            EmployeeQualification.Validate(Description, EmployeeEdit.Description);
+            EmployeeQualification.Validate(Designation, EmployeeEdit.Designation);
+            EmployeeQualification.Validate(Remuneration, EmployeeEdit.Remuneration);
+            EmployeeQualification.Validate(Attachment, EmployeeEdit.Attachment);
+            EmployeeQualification.Insert();
+        end;
     end;
 
     local procedure EmployeeWorkAdd(var EmployeeEdit: Record "Employee Edit")
@@ -220,5 +270,15 @@ codeunit 50021 "Employee Edit Mgt."
         LanguageProficiency.Validate(Speaking, EmployeeEdit.Speaking);
         LanguageProficiency.Validate(Typing, EmployeeEdit.Typing);
         LanguageProficiency.Insert();
+    end;
+
+    procedure EmployeeEditOnBeforeSendForApproval(EmployeeEdit: Record "Employee Edit")
+    var
+        EmployeeEditLine: Record "Employee Edit Line";
+    begin
+        EmployeeEdit.TestField("Employee No.");
+        EmployeeEditLine.SetRange("Document No.", EmployeeEdit."No.");
+        if EmployeeEditLine.FindSet() then
+            EmployeeEditLine.ModifyAll("Employee No.", EmployeeEdit."Employee No.", false);
     end;
 }

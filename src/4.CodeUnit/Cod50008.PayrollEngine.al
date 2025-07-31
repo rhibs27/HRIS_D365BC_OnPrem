@@ -1657,7 +1657,16 @@ codeunit 50008 "Payroll Engine"
     begin
         AttendanceSetup.Get;
         EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
-        if IsHoliday(AttendanceSetup."Base Calender", EmployeeAttendanceActivity."Attendance Date", TempRemarks, Employee."Province Code", Employee.Gender, Employee."Inside/Outside Valley", Employee."Posting Region", Employee."Global Dimension 1 Code", Community) then begin
+        if IsHoliday(AttendanceSetup."Base Calender",
+                        EmployeeAttendanceActivity."Attendance Date",
+                        TempRemarks, Employee."Province Code",
+                        Employee.Gender,
+                        Employee."Inside/Outside Valley",
+                        Employee."Posting Region",
+                        Employee."Global Dimension 1 Code",
+                        Employee.Community,
+                        Employee.Disabled) then begin
+
             if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
                 EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
                 if EmployeeAttendanceActivity."OT Hrs" > 0 then
@@ -1709,11 +1718,12 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley"; PostingRegion: Option; Branch: Text; Community: Enum "Community Type"): Boolean
+    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
+                                 PostingRegion: Option; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
-        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community));
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
     end;
 
     local procedure GetDailyFoodAllowance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; AttendanceSetup: Record "Attendance Setup"; CheckInLateMinutes: Duration; CheckOutEarlyMinutes: Duration): Decimal
