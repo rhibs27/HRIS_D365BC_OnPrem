@@ -155,6 +155,10 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
         end;
 
+        if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Achievement then begin
+
+        end;
+
         EmployeeQualification.Validate("Institution/Company", EmployeeEditLine."Institution/Company");
         EmployeeQualification.Validate("From Date", EmployeeEditLine."From Date");
         EmployeeQualification.Validate("To Date", EmployeeEditLine."To Date");

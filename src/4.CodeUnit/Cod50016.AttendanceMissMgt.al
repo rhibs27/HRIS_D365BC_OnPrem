@@ -223,12 +223,18 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceLog: Record "Attendance Log";
         AttendanceMissed: Record "Attendance Missed";
         EmpAttendActivity: Record "Employee Attendance & Activity";
+        Employee: Record Employee;
     begin
         AttendanceMissed.Get(AttendanceMissCode);
+        Employee.Get(AttendanceMissed."Employee No.");
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then begin
             if AttendanceMissed."Check In Time" <> 0T then begin
                 AttendanceLog.Init();
-                AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
+                if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
+                    AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"))
+                else
+                    AttendanceLog.Validate("Emp DateTime", Employee."Employee Attendance ID" + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
+
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
@@ -237,7 +243,10 @@ codeunit 50016 "AttendanceMiss Mgt"
             end;
             if AttendanceMissed."Check Out Time" <> 0T then begin
                 AttendanceLog.Init();
-                AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
+                if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
+                    AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"))
+                else
+                    AttendanceLog.Validate("Emp DateTime", Employee."Employee Attendance ID" + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
