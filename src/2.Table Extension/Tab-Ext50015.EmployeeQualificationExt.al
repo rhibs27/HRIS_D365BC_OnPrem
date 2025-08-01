@@ -95,6 +95,10 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         field(50013; Attachment; Media)
         {
         }
+        field(50014; Running; Boolean)
+        {
+
+        }
     }
     keys { }
     trigger OnInsert()

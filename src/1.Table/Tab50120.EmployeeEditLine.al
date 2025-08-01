@@ -197,6 +197,15 @@ table 50120 "Employee Edit Line"
             Description = 'Language Proficiency';
             DataClassification = CustomerContent;
         }
+        field(60; Running; Boolean)
+        {
+
+        }
+        field(1000; "Changed Field"; Text[1020])
+        {
+            Description = 'This field includes the name of fields that are updated from portal';
+        }
+
     }
     keys
     {

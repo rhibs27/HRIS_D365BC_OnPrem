@@ -129,7 +129,7 @@ codeunit 50008 "Payroll Engine"
     var
         TotalAnnualEarning: Decimal;
     begin
-        PGSetup.Get; //Get Setup
+        PGSetup.Get;
         PGSetup.TestField("Payroll Fiscal Year End Date");
         PGSetup.TestField("Payroll Fiscal Year Start Date");
         PayrollAttributes.Reset;
@@ -147,7 +147,7 @@ codeunit 50008 "Payroll Engine"
         PayrollHeader.TestField("Pay Cycle Code");
         PayrollHeader.TestField("Pay Cycle Term");
         PayrollHeader.TestField("Pay Cycle Period");
-        if PayrollHeader."Previous Year Payroll" then begin //Min 7.18.2022
+        if PayrollHeader."Previous Year Payroll" then begin
             PGSetup.TestField("Prev Fiscal Year End Date");
             PGSetup.TestField("Prev Fiscal Year Start Date");
         end;
@@ -159,7 +159,7 @@ codeunit 50008 "Payroll Engine"
         if EngNep.FindFirst then;
         Employee.Reset;
         Employee.SetRange("No.", PayrollLine."Employee No.");
-        if PayrollHeader."Previous Year Payroll" then //Min 7.18.2022
+        if PayrollHeader."Previous Year Payroll" then
             Employee.SetFilter("Date Filter", '%1..%2', PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
         else
             Employee.SetFilter("Date Filter", '%1..%2', PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
@@ -187,7 +187,6 @@ codeunit 50008 "Payroll Engine"
             if Employee."Employment Type" <> Employee."Employment Type"::Contract then
                 RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
             else begin
-                //Employee.TESTFIELD("Contract Expiry Date");
                 if PayrollHeader."Previous Year Payroll" then
                     RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod //Min 7.18.2022
                 else
@@ -211,11 +210,10 @@ codeunit 50008 "Payroll Engine"
 
         //Retirement
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
-            CalcProjectionRetirementFund; //SUMAN
+            CalcProjectionRetirementFund;
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
                                              EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
-        //RetirementFundLimit1 := TotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -235,7 +233,7 @@ codeunit 50008 "Payroll Engine"
         if DonationLimit2 < DonationTaxBenefit then
             DonationTaxBenefit := DonationLimit2;
         //Life Insurance
-        LoanOutstanding.Reset; //Min 6.28.2022
+        LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", Employee."No.");
         LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.SetRange("Scheme Code", '');
@@ -258,7 +256,7 @@ codeunit 50008 "Payroll Engine"
             PropertyInsuranceTaxBenefit := Employee."Premium Property Insurance"
         else
             PropertyInsuranceTaxBenefit := PGSetup."Tax Ex. Property Insurance Amt";
-        //CheckPremiumInsurance(PayrollLine."Employee No.");//Min Commented -- Calculated in above code.
+
         //Medical Tax Benefit
         TotalMedicalReimbursment := Employee."Total Medical Re-Imbursement" + CurrentMedicalReimbursment;   //>>pradhan    TaxOldEmployeeMedicalReinbursement(Employee."No.")
         MedicalReimbursmentLimit1 := TotalMedicalReimbursment * PGSetup."Tax Ex. Amt. (%) on Medical" / 100;
@@ -267,9 +265,10 @@ codeunit 50008 "Payroll Engine"
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit1
         else
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit2;
-        //Calculation for TaxAtOnce attribute payroll  >>
+
+        //Calculation for TaxAtOnce attribute payroll
         CalculateTaxAtOnce;
-        //<<Calculation for TaxAtOnce attribute payroll
+
         if PayrollHeader."Gross Payment" then begin
             PopulateGlobalAmounts;
             PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
@@ -289,8 +288,8 @@ codeunit 50008 "Payroll Engine"
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
             TaxableAmount := TaxableAmount - DisablePersonReduction;
         end;
-        //GetRemoteAreaDeduction; //Min Commented -- Remote Do not calculate for Asar 2079 Payroll.
-        TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction"; //Min 7.6.2022
+
+        TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction";
         RemainingTaxableAmount := TaxableAmount;
 
         AnnualTax := 0;
@@ -350,8 +349,8 @@ codeunit 50008 "Payroll Engine"
         end else
             SocialSecurityTax := SocialSecurityTax - TaxExempt;
 
-        if TotalSSTPaid <> SocialSecurityTax then begin     //>>pradhan     SocialSecTaxAmt
-            if SocialSecurityTax - TotalSSTPaid < 0 then begin     //>>pradhan     SocialSecTaxAmt
+        if TotalSSTPaid <> SocialSecurityTax then begin
+            if SocialSecurityTax - TotalSSTPaid < 0 then begin
                 SocialSecurityTaxAmount := 0;
                 MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
                 //SocialSecurityTaxAmount := MonthlyTax + (SocialSecurityTax - Employee."Social Security Tax" -EmpPayOpen."Total Social Security Opening");//>>pradhan     SocialSecTaxAmt

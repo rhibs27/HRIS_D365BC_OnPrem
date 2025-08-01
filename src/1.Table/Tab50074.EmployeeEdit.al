@@ -411,6 +411,10 @@ table 50074 "Employee Edit"
                 MailManagement.ValidateEmailAddressField("Relative Mail");
             end;
         }
+        field(1000; "Changed Field"; Text[1020])
+        {
+            Description = 'This field includes the name of fields that are updated from portal';
+        }
     }
     keys
     {

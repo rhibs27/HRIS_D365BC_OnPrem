@@ -73,6 +73,11 @@ pageextension 50013 "Employee Qualifications" extends "Employee Qualifications"
                     Rec."Emp Qualification Type" := Rec."Emp Qualification Type"::" ";
                 end;
             }
+            field(Running; Rec.Running)
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Running field.', Comment = '%';
+            }
         }
         addfirst(factboxes)
         {

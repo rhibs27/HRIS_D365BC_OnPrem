@@ -188,10 +188,7 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
-        field(506; "Employment Type Fiter"; Text[200])
-        {
 
-        }
 
     }
 

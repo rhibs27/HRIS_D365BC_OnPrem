@@ -187,10 +187,7 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'If checked leave taken will not be counted in service period';
                     ApplicationArea = All;
                 }
-                field("Employment Type Fiter"; Rec."Employment Type Fiter")
-                {
 
-                }
             }
         }
     }

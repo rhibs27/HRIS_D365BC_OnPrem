@@ -100,6 +100,10 @@ table 50147 "Organization Structure List"
             Caption = 'Sol ID';
             DataClassification = CustomerContent;
         }
+        field(17; "Dimension Value Code"; Code[20])
+        {
+            TableRelation = "Dimension Value".Code where("Deputation On Type" = field(Type));
+        }
     }
     keys
     {
