@@ -148,11 +148,11 @@ codeunit 50000 "Leave Mgt."
                         if Community = Employee.Community then begin
 
                         end;
-
-                        if Disabled = Employee.disabled then begin
-                            Counter += 1;
-                            AlreadyAdded := true
-                        end;
+                        if Disabled then
+                            if Disabled = Employee.disabled then begin
+                                Counter += 1;
+                                AlreadyAdded := true
+                            end;
 
                     end;
 
