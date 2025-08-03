@@ -227,6 +227,7 @@ codeunit 50010 "Payroll-Post"
         UsePayrollAttributeUsageAllocation: Boolean;
         EmployeeActivity: Record "Employee Activity";
         LeaveEarn: Record "Leave Earn";
+        DeputationType: Enum "Deputation Type";
     begin
         RecRef.Open(Database::"Payroll Line");
         FieldRef := RecRef.Field(1);
@@ -362,7 +363,7 @@ codeunit 50010 "Payroll-Post"
                                             PriorTrfAttributeAmount := Round(Round(FieldValue, 0.01, '=') / PGSetup."Total Days" * 12 * GetServiceDaysBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date"), 0.01, '=');
                                             PayrollJournalLine.Amount := PriorTrfAttributeAmount;
                                             LineBalance += PriorTrfAttributeAmount;
-                                            PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date");
+                                            PayrollJournalLine."Shortcut Dimension 1 Code" := GetDimensionBeforeTransfer(PayrollLine."Employee No.", PayrollHeader."From Date", PayrollHeader."To Date", DeputationType);
                                             PayrollJournalLine.UpdateAttribute(PayrollJournalLine, PayrollAttributes);
                                             UpdatePayrollJnl(PayrollJournalLine);
                                             PostEmployee(PayrollJournalLine);
@@ -494,7 +495,7 @@ codeunit 50010 "Payroll-Post"
         exit(FieldValue);
     end;
 
-    local procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
+    procedure CheckTransferInServiceHistory(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Boolean
     var
         EmployeeServiceHistory: Record "Employee Service History";
     begin
@@ -517,26 +518,27 @@ codeunit 50010 "Payroll-Post"
             exit(EmployeeServiceHistory."Effective Date" - FromDate + 1)
     end;
 
-    local procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date): Code[20]
+    procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
     var
         EmployeeServiceHistory: Record "Employee Service History";
-        DimensionValue: Record "Dimension Value";
+        // DimensionValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
     begin
         EmployeeServiceHistory.Reset;
         EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
         EmployeeServiceHistory.SetRange("Effective Date", FromDate, ToDate);
         EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
-        if EmployeeServiceHistory.FindFirst() then
-            if EmployeeServiceHistory."Deputation On(From)" = EmployeeServiceHistory."Deputation On(From)"::Branch then
-                exit(EmployeeServiceHistory."Deputation Code (From)")
-            else begin
-                GLSetup.Get();
-                DimensionValue.Reset();
-                DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-                DimensionValue.SetRange("Head Office", true);
-                if DimensionValue.FindFirst() then
-                    exit(DimensionValue.Code)
-            end;
+        if EmployeeServiceHistory.FindFirst() then begin
+            DeputationType := EmployeeServiceHistory."Deputation On(From)";
+            exit(EmployeeServiceHistory."Deputation Code (From)")
+        end;
+        // else begin
+        //     GLSetup.Get();
+        //     DimensionValue.Reset();
+        //     DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+        //     DimensionValue.SetRange("Head Office", true);
+        //     if DimensionValue.FindFirst() then
+        //         exit(DimensionValue.Code)
+        // end;
     end;
 }
