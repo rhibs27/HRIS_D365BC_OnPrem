@@ -45,6 +45,7 @@ report 50049 "Grant Permission Needed Leave"
         LeavetypSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
         LeaveMgt: Codeunit "Leave Mgt.";
+        DateExpr: Text;
     begin
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
@@ -81,7 +82,16 @@ report 50049 "Grant Permission Needed Leave"
                         if LeaveEarn."Balancing Days" >= LeavetypSetup."Max Earn Limit Per. Service" then
                             Error('Leave cannot be earned as earning reached its limit');
                 end;
-                LeaveEarn.Reset;
+                if LeavetypSetup."Employment Limit" <> 0 then begin
+                    DateExpr := '<' + Format(LeavetypSetup."Employment Limit") + 'Y>';
+                    if LeavetypSetup."Service Period Calc On" = LeavetypSetup."Service Period Calc On"::"Confirmation Date" then begin
+                        if Today < CalcDate(DateExpr, Employee."Confirmation Date") then
+                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeavetypSetup.Description);
+                    end else if Today < CalcDate(DateExpr, Employee."Employment Date") then
+                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeavetypSetup.Description);
+                end;
+
+                Clear(LeaveEarn);
                 LeaveEarn.Init;
                 LeaveEarn.Validate("Entry No.", LeaveMgt.GetNextLeaveLedgerEntryNo());
                 LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
@@ -94,7 +104,6 @@ report 50049 "Grant Permission Needed Leave"
                 else
                     LeaveEarn.Validate("Balancing Days", LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Employment Date"));
                 LeaveEarn.Insert(true);
-            //END;
             until LeavetypSetup.Next = 0;
     end;
 }

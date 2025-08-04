@@ -174,6 +174,10 @@ table 50066 "Leave Type Setup"
         {
             Description = 'Define max leave accumulation only for service enabled leave';
         }
+        field(114; "Service Period Calc On"; Option)
+        {
+            OptionMembers = "Employment Date","Confirmation Date";
+        }
         field(500; Blocked; Boolean) { }
 
         field(502; "Used Days"; Decimal)
