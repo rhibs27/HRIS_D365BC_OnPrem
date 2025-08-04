@@ -1475,7 +1475,7 @@ table 50035 "Posted Payroll Line"
         FieldRefs := RecRefs.Field(2);
         FieldRefs.SetRange(PostedPayrollLine."Line No.");
         RecRefs.FindFirst;
-        for FieldID := 50 to 100 do begin
+        for FieldID := 61 to 220 do begin
             FieldRefs := RecRefs.Field(FieldID);
             Evaluate(FieldValue, Format(FieldRefs.Value));
             FieldValue *= GetSign(true);

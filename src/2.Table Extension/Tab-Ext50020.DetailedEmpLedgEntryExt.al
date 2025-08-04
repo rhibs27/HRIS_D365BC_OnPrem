@@ -206,7 +206,7 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         "Shortcut Dimension 7 Code" := PayrollJournalLine."Shortcut Dimension 7 Code";
         "Shortcut Dimension 8 Code" := PayrollJournalLine."Shortcut Dimension 8 Code";
         "Salary Advance No." := PayrollJournalLine."External Document No.";
-        ValidateFincaleGL;
+        ValidateFincaleGL(PayrollJournalLine."Document No.");
     end;
 
     procedure Navigate();
@@ -217,40 +217,38 @@ tableextension 50020 "Detailed Emp. Ledg. Entry Ext" extends "Detailed Employee 
         NavigateForm.Run;
     end;
 
-    local procedure ValidateFincaleGL();
+    local procedure ValidateFincaleGL(PayrollDocNo: Code[20]);
+    var
+        PostedPayrollHeader: Record "Posted Payroll Header";
+        PayrollPost: Codeunit "Payroll-Post";
+        SolID: Code[20];
+        OrgStruclist: Record "Organization Structure List";
+        DeputationType: Enum "Deputation Type";
+        DeputationCode: Code[20];
     begin
         Employee.Get("Employee No.");
         PayrollAttributes.Get("Payroll Attribute Code");
+        if "Attribute Type" = "Attribute Type"::"Non-Payment" then
+            exit;
+        PostedPayrollHeader.Get(PayrollDocNo);
+        Employee.TestField("Sol Id");
+        SolID := Employee."Sol Id";
+        if PayrollPost.CheckTransferInServiceHistory("Employee No.", PostedPayrollHeader."From Date", PostedPayrollHeader."To Date") then begin
+            DeputationCode := PayrollPost.GetDimensionBeforeTransfer("Employee No.", PostedPayrollHeader."From Date", PostedPayrollHeader."To Date", DeputationType);
+            if OrgStruclist.Get(DeputationType, DeputationCode) then begin
+                OrgStruclist.TestField("Sol ID");
+                SolID := OrgStruclist."Sol ID";
+            end;
+        end;
         EngNepDate.Reset;
         EngNepDate.SetRange("English Date", "Pay Period Start Date");
         if EngNepDate.FindFirst then;
 
-        if PayrollAttributes.Type in [PayrollAttributes.Type::Benefits, PayrollAttributes.Type::"Non-Payment"] then begin
-            case Employee."Deputation on" of
-                Employee."Deputation on"::Province:
-                    begin
-                        if PayrollAttributes."Static GL Ledger" then begin
-                            PayrollAttributes.TestField("Static GL Ledger Account");
-                            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS Expense Code");
-                        end else
-                            Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
-                    end else begin
-                    if PayrollAttributes."Static GL Ledger" then begin
-                        PayrollAttributes.TestField("Static GL Ledger Account");
-                        Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code");
-                    end else
-                        Validate("Finacle GL No", Employee."Sol Id" + PayrollAttributes."CBS GL Code");
-                end;
-            end;
-        end else begin
-            if PayrollAttributes."Static GL Ledger" then
-                Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account" + PayrollAttributes."CBS GL Code")
-            else
-                Validate("Finacle GL No", PayrollAttributes."CBS GL Code")
-        end;
-        if PayrollAttributes."Finacle GL Name" <> '' then
-            Validate("Finacle GL Name", StrSubstNo('%1 %2-%3', PayrollAttributes."Finacle GL Name", EngNepDate."Nepali Year", EngNepDate."Nepali Month"))
-        else
-            Clear("Finacle GL Name");
+        if PayrollAttributes."Static GL Ledger" then begin
+            PayrollAttributes.TestField("Static GL Ledger Account");
+            Validate("Finacle GL No", PayrollAttributes."Static GL Ledger Account");
+        end else
+            Validate("Finacle GL No", SolID + PayrollAttributes."CBS GL Code" + PayrollAttributes."CBS Expense Code");
+        Validate("Finacle GL Name", PayrollAttributes."Finacle GL Name");
     end;
 }
