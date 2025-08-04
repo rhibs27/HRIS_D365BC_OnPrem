@@ -272,13 +272,13 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Relative's Employee No.", EmployeeEditLine."Relative's Employee No.");
         EmployeeRelative.Validate("Phone No.", EmployeeEditLine."Relative Phone No.");
         EmployeeRelative.Validate(Employee_BOD, EmployeeEditLine."Employee Relative In Bank");
-        // EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."CitizenShip No.");
+        EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."CitizenShip No.");
         EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Birth Date");
         EmployeeRelative.Validate(District, EmployeeEditLine."Relative District");
-        // EmployeeRelative.Validate("VDC/Municipality", EmployeeEditLine.VDC);
+        EmployeeRelative.Validate("VDC/Municipality", EmployeeEditLine.VDC);
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
-        // EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
-        // EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
+        EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
+        EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
         EmployeeRelative.Insert();
     end;
 
