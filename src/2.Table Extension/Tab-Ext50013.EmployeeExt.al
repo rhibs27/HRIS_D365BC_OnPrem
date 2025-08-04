@@ -1479,6 +1479,24 @@ tableextension 50013 "Employee Ext" extends Employee
         {
 
         }
+        field(50181; "Appointment Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Appointment Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Date");
+            end;
+        }
+
+        field(50182; "Appointment Date (B.S.)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Appointment Date" := EngNepDate.getEngDate("Appointment Date (B.S.)");
+            end;
+        }
+
 
     }
     keys

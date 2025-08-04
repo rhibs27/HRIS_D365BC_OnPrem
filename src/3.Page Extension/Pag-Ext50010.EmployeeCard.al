@@ -867,6 +867,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
             }
         }
+        addbefore("Employment Date")
+        {
+            field("Appointment Date"; Rec."Appointment Date")
+            {
+                ApplicationArea = all;
+            }
+            Field("Appointment Date (B.S.)"; Rec."Appointment Date (B.S.)")
+            {
+                ApplicationArea = all;
+            }
+        }
         addafter(Payments)
         {
             group(Payroll)
