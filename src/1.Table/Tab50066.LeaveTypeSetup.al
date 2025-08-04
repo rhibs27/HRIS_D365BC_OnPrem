@@ -146,7 +146,7 @@ table 50066 "Leave Type Setup"
         }
         field(102; "Min. Service Years"; Decimal)
         {
-            Caption = 'Min. Service Years';
+            Caption = 'Min. Service Years for Eligibility';
         }
         field(103; "Max. Eligible Age"; Decimal)
         {
@@ -170,6 +170,10 @@ table 50066 "Leave Type Setup"
         }
         field(111; "Attendance Days"; Decimal) { }
         field(112; Encashable; Boolean) { }
+        field(113; "Max Earn Limit Per. Service"; Decimal)
+        {
+            Description = 'Define max leave accumulation only for service enabled leave';
+        }
         field(500; Blocked; Boolean) { }
 
         field(502; "Used Days"; Decimal)

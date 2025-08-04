@@ -73,8 +73,13 @@ report 50049 "Grant Permission Needed Leave"
                     LeaveEarn.SetRange("Employee No.", Employee."No.");
                     LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
+                    LeaveEarn.CalcSums("Balancing Days");
                     if LeaveEarn.Count >= LeavetypSetup."Times Per Service Period" then
                         Error('Employee has already taken leave for more than %1 times in his service period.', LeavetypSetup."Times Per Service Period");
+
+                    if LeavetypSetup."Max Earn Limit Per. Service" <> 0 then
+                        if LeaveEarn."Balancing Days" >= LeavetypSetup."Max Earn Limit Per. Service" then
+                            Error('Leave cannot be earned as earning reached its limit');
                 end;
                 LeaveEarn.Reset;
                 LeaveEarn.Init;
