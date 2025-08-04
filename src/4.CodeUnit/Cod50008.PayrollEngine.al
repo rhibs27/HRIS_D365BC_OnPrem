@@ -2068,6 +2068,7 @@ codeunit 50008 "Payroll Engine"
         UsedLeave: Decimal;
         CarryForwardLeave: Decimal;
         ProrataLeave: Decimal;
+        leaveMgt: Codeunit "Leave Mgt.";
     begin
         LeaveTypeSetup.Reset;
         Employee.Get(EmpNo);
@@ -2112,6 +2113,7 @@ codeunit 50008 "Payroll Engine"
                     AdjustedLeave -= AdjustedLeave;
                     if (ToPost) and ((VarLeaveDays - AdjustedLeave) > 0) then begin
                         LeaveEarn.Init;
+                        LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
                         LeaveEarn.Validate("Employee No.", EmpNo);
                         LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                         LeaveEarn.Validate(Type, LeaveEarn.Type::Used);

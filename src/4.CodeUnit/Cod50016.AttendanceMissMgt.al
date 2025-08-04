@@ -163,6 +163,7 @@ codeunit 50016 "AttendanceMiss Mgt"
         Employee.Get(HRMgt.GetEmployeeNo);
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
             LeaveEarn.Init;
+            LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
             LeaveEarn.Validate("Leave Code", CancelDocument."Leave Code");
             LeaveEarn.Validate("Leave Description", CancelDocument."Leave Description");
             LeaveEarn.Validate("Leave Request No", CancelDocument."No.");

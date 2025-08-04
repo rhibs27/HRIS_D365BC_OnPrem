@@ -6313,6 +6313,9 @@ codeunit 50001 "HR Mgt."
         Year, Month, Days : Integer;
         YearText, MonthText, DayText, ReturnValue : Text;
     begin
+        if ToDate < BirthDate then
+            exit('-');
+
         GetAgeInteger(BirthDate, ToDate, Year, Month, Days);
         if Year = 1 then
             YearText := ' year'
@@ -6384,6 +6387,9 @@ codeunit 50001 "HR Mgt."
         Year, Month, Days : Integer;
         YearText, MonthText, DayText, ReturnValue : Text;
     begin
+        if EngNep.getEngDate(ToDate) < EngNep.getEngDate(BirthDate) then
+            exit('-');
+
         GetAgeIntegerBS(BirthDate, ToDate, Year, Month, Days);
         if Year = 1 then
             YearText := ' year'

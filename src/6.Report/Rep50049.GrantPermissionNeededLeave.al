@@ -78,6 +78,7 @@ report 50049 "Grant Permission Needed Leave"
                 end;
                 LeaveEarn.Reset;
                 LeaveEarn.Init;
+                LeaveEarn.Validate("Entry No.", LeaveMgt.GetNextLeaveLedgerEntryNo());
                 LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
                 LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);

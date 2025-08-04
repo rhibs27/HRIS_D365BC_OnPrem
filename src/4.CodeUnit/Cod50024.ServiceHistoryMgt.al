@@ -395,6 +395,7 @@ codeunit 50024 "Service History Mgt"
     var
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
+        LeaveMgt: Codeunit "Leave Mgt.";
     begin
         LeaveTypeSetup.Reset;
         LeaveTypeSetup.SetRange("Leave For Employee Type", LeaveTypeSetup."Leave For Employee Type"::Contract);
@@ -405,6 +406,7 @@ codeunit 50024 "Service History Mgt"
                 if LeaveTypeSetup."Remaining Days" > 0 then begin
                     LeaveEarn.Reset;
                     LeaveEarn.Init;
+                    LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
                     LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                     LeaveEarn.Validate("Employee No.", EmpCode);
                     LeaveEarn.Validate("Fiscal year", HrMgt.ReturnFiscalYear(Today));
