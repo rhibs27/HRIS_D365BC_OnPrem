@@ -183,6 +183,19 @@ table 50035 "Posted Payroll Line"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
+        field(46; "Source Code"; Code[20])
+        {
+        }
+        field(47; "ATM Custodian Days"; Decimal)
+        {
+
+        }
+        field(48; "Head Teller Days"; Decimal)
+        {
+        }
+        field(49; "Teller Days"; Decimal)
+        {
+        }
 
         field(61; "Variable Field 50501"; Decimal)
         {
