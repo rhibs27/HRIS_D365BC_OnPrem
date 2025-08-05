@@ -104,6 +104,21 @@ page 50054 "Attendance Summary"
                     ToolTip = 'Specifies the value of the Festival Counter Days field.';
                     ApplicationArea = All;
                 }
+                field("ATM Custodian Days"; Rec."ATM Custodian Days")
+                {
+                    ToolTip = 'Specifies the value of the ATM Custodian Days field.';
+                    ApplicationArea = All;
+                }
+                field("Head Teller Days"; Rec."Head Teller Days")
+                {
+                    ToolTip = 'Specifies the value of the Head Teller Days field.';
+                    ApplicationArea = All;
+                }
+                field("Teller Days"; Rec."Teller Days")
+                {
+                    ToolTip = 'Specifies the value of the Teller Days field.';
+                    ApplicationArea = All;
+                }
             }
         }
     }
