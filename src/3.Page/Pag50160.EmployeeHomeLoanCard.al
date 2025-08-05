@@ -723,11 +723,11 @@ page 50160 "Employee Home Loan Card"
         HasIncomingDocument: Boolean;
         LoanMgt: Codeunit "Loan Mgt.";
         // FormEditable: Boolean;
-        [InDataSet]
+
         ForApprove: Boolean;
-        [InDataSet]
+
         ForRecommend: Boolean;
-        [InDataSet]
+
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;

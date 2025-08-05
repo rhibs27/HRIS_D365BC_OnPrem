@@ -183,9 +183,9 @@
 //         HRMgt: Codeunit "HR Mgt.";
 //         AttendanceMissedMgt: Codeunit "AttendanceMiss Mgt";
 //         IsApplied: Boolean;
-//         [InDataSet]
+//         
 //         IsLeaveRequest: Boolean;
-//         [InDataSet]
+//         
 //         IsOpen: Boolean;
 //         TypeFilter: Text;
 //         ApproverMgt: Codeunit "Approver Mgt";

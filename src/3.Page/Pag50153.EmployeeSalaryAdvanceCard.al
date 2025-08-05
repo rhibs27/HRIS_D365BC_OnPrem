@@ -487,17 +487,17 @@ page 50153 "Employee Salary Advance Card"
         LoanMgt: Codeunit "Loan Mgt.";
         // FormEditable: Boolean;
         // FormVisible: Boolean;
-        [InDataSet]
+
         ForApprove: Boolean;
-        [InDataSet]
+
         ForRecommend: Boolean;
-        [InDataSet]
+
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;
-        [InDataSet]
+
         AfterRecommendedVisible: Boolean;
-        [InDataSet]
+
         ScreenerRemarksEditable: Boolean;
         HRSetup: Record "Human Resources Setup";
         IsOpen: Boolean;

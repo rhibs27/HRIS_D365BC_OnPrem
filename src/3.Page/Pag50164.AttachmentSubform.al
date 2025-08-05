@@ -94,9 +94,6 @@ page 50164 "Attachment Subform"
             action(Upload)
             {
                 Image = MoveUp;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Upload action.';
                 ApplicationArea = All;
                 Visible = true;
@@ -169,9 +166,6 @@ page 50164 "Attachment Subform"
             action(Download)
             {
                 Image = MoveDown;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Download action.';
                 ApplicationArea = All;
 
@@ -184,9 +178,6 @@ page 50164 "Attachment Subform"
             action(Preview)
             {
                 Image = View;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Preview action.';
                 ApplicationArea = All;
 
@@ -199,9 +190,6 @@ page 50164 "Attachment Subform"
             action(Remove)
             {
                 Image = Delete;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
                 ToolTip = 'Executes the Remove action.';
                 ApplicationArea = All;
 

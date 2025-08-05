@@ -99,7 +99,7 @@ page 50012 "Recruitment Memo List"
     end;
 
     var
-        [InDataSet]
+
         ShowAction: Boolean;
         HRMgt: Codeunit "HR Mgt.";
 }

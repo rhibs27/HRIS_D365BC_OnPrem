@@ -52,6 +52,6 @@
 //     end;
 
 //     var
-//         [InDataSet]
+//         
 //         NotGuiAllowed: Boolean;
 // }

@@ -281,9 +281,9 @@ page 50180 "Cancel Document"
         HRMgt: Codeunit "HR Mgt.";
         DocCancelMgt: Codeunit "AttendanceMiss Mgt";
         IsApplied: Boolean;
-        [InDataSet]
+
         IsLeaveRequest: Boolean;
-        [InDataSet]
+
         IsOpen: Boolean;
         TypeFilter: Text;
         ApproverMgt: Codeunit "Approver Mgt";

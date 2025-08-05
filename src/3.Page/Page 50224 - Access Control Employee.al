@@ -214,10 +214,10 @@
 //     end;
 
 //     var
-//         [InDataSet]
+//         
 //         IsOpen: Boolean;
 //         HRMgt: Codeunit "HR Mgt.";
-//         [InDataSet]
+//         
 //         ForRejected: Boolean;
 //         IsFromTransfer: Boolean;
 // }

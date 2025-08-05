@@ -1,9 +1,6 @@
 page 50199 "HR Manager Role Center"
 {
-
-
     PageType = RoleCenter;
-    PromotedActionCategories = 'New,Process,Report,Employee Activity,Employee Loan';
     ApplicationArea = All;
 
     layout
@@ -785,10 +782,6 @@ page 50199 "HR Manager Role Center"
             action("Leave Requests")
             {
                 Image = MiniForm;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Leave Requests";
                 Visible = LeaveVisibility;
                 ToolTip = 'Executes the Leave Requests action.';
@@ -797,10 +790,6 @@ page 50199 "HR Manager Role Center"
             action("Travel Requests")
             {
                 Image = Travel;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Travel Requests";
                 Visible = TravelVisibility;
                 ToolTip = 'Executes the Travel Requests action.';
@@ -809,10 +798,6 @@ page 50199 "HR Manager Role Center"
             action("Travel Claims")
             {
                 Image = Check;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Travel Claim Lists";
                 Visible = TravelVisibility;
                 ToolTip = 'Executes the Travel Claims action.';
@@ -821,10 +806,6 @@ page 50199 "HR Manager Role Center"
             action(Transfers)
             {
                 Image = TransferReceipt;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Transfer Requests";
                 Visible = TransferVisibility;
                 ToolTip = 'Executes the Transfers action.';
@@ -833,10 +814,6 @@ page 50199 "HR Manager Role Center"
             action(Overtimes)
             {
                 Image = PhysicalInventory;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page Overtimes;
                 Visible = OvertimeVisibility;
                 ToolTip = 'Executes the Overtimes action.';
@@ -845,10 +822,6 @@ page 50199 "HR Manager Role Center"
             action("Bulk Cash Transfers")
             {
                 Image = CashFlow;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Bulk Cash";
                 Visible = BulkCashVisibility;
                 ToolTip = 'Executes the Bulk Cash Transfers action.';
@@ -857,10 +830,6 @@ page 50199 "HR Manager Role Center"
             action(Resignations)
             {
                 Image = BookingsLogo;
-                Promoted = true;
-                PromotedCategory = Category4;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Resignation List";
                 Visible = Resignationvisibility;
                 ToolTip = 'Executes the Resignations action.';
@@ -869,10 +838,6 @@ page 50199 "HR Manager Role Center"
             action("Salary Advances")
             {
                 Image = Payment;
-                Promoted = true;
-                PromotedCategory = Category5;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Salary Advance List";
                 Visible = SalaryAdvVisibility;
                 ToolTip = 'Executes the Salary Advances action.';
@@ -881,10 +846,6 @@ page 50199 "HR Manager Role Center"
             action("Personal Loans")
             {
                 Image = Loaners;
-                Promoted = true;
-                PromotedCategory = Category5;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Personal Loan List";
                 Visible = SalaryAdvVisibility;
                 ToolTip = 'Executes the Personal Loans action.';
@@ -893,10 +854,6 @@ page 50199 "HR Manager Role Center"
             action("Home Loans")
             {
                 Image = AddToHome;
-                Promoted = true;
-                PromotedCategory = Category5;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Home Loan List";
                 Visible = SalaryAdvVisibility;
                 ToolTip = 'Executes the Home Loans action.';
@@ -905,10 +862,6 @@ page 50199 "HR Manager Role Center"
             action("Vehicle Loans")
             {
                 Image = CalculateShipment;
-                Promoted = true;
-                PromotedCategory = Category5;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Vehicle Loan List";
                 Visible = SalaryAdvVisibility;
                 ToolTip = 'Executes the Vehicle Loans action.';
@@ -918,10 +871,6 @@ page 50199 "HR Manager Role Center"
             {
                 Caption = 'Change Reviewer Emp Attendance';
                 Image = CalculateShipment;
-                Promoted = true;
-                PromotedCategory = Category5;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 RunObject = page "Employee Attendance & Activity";
                 ToolTip = 'Executes the Change Reviewer Emp Attendance action.';
                 ApplicationArea = All;
@@ -934,10 +883,6 @@ page 50199 "HR Manager Role Center"
                 action("Employee Leave Balance")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Employee Leave Balance";
                     ToolTip = 'Executes the Employee Leave Balance action.';
                     ApplicationArea = All;
@@ -945,10 +890,6 @@ page 50199 "HR Manager Role Center"
                 action("Transfer Reports")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Transfer Reports";
                     ToolTip = 'Executes the Transfer Reports action.';
                     ApplicationArea = All;
@@ -956,10 +897,6 @@ page 50199 "HR Manager Role Center"
                 action("HRIS Report - All Staff")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "HRIS Report - All Staff";
                     ToolTip = 'Executes the HRIS Report - All Staff action.';
                     ApplicationArea = All;
@@ -967,10 +904,6 @@ page 50199 "HR Manager Role Center"
                 action("HRIS Report - Service Period")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "HRIS Report - Service Period";
                     ToolTip = 'Executes the HRIS Report - Service Period action.';
                     ApplicationArea = All;
@@ -978,10 +911,6 @@ page 50199 "HR Manager Role Center"
                 action("Employee All Leave Balance")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Employee All Leave Balance";
                     ToolTip = 'Executes the Employee All Leave Balance action.';
                     ApplicationArea = All;
@@ -989,10 +918,6 @@ page 50199 "HR Manager Role Center"
                 action("Employee Profile Details Report")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Employee Profile Details";
                     ToolTip = 'Executes the Employee Profile Details Report action.';
                     ApplicationArea = All;
@@ -1000,10 +925,6 @@ page 50199 "HR Manager Role Center"
                 action("Employee Appraisal Report")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Appraisal Check Review Report";
                     ToolTip = 'Executes the Employee Appraisal Report action.';
                     ApplicationArea = All;
@@ -1014,10 +935,6 @@ page 50199 "HR Manager Role Center"
                 action("Salary Sheet Monthwise")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary Sheet Monthwise";
                     ToolTip = 'Executes the Salary Sheet Monthwise action.';
                     ApplicationArea = All;
@@ -1025,10 +942,6 @@ page 50199 "HR Manager Role Center"
                 action("Salary Sheet Documentwise")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary Sheet Doc Monthwise";
                     ToolTip = 'Executes the Salary Sheet Documentwise action.';
                     ApplicationArea = All;
@@ -1036,9 +949,6 @@ page 50199 "HR Manager Role Center"
                 action("Tax Deduction Info")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
                     RunObject = report "Tax Deduction Information";
                     ToolTip = 'Executes the Tax Deduction Info action.';
                     ApplicationArea = All;
@@ -1046,10 +956,6 @@ page 50199 "HR Manager Role Center"
                 action("TDS Deposit Record")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS Deposit Record";
                     ToolTip = 'Executes the TDS Deposit Record action.';
                     ApplicationArea = All;
@@ -1057,10 +963,6 @@ page 50199 "HR Manager Role Center"
                 action("Tax Audit Sheet")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Tax Audit Sheet";
                     ToolTip = 'Executes the Tax Audit Sheet action.';
                     ApplicationArea = All;
@@ -1068,10 +970,6 @@ page 50199 "HR Manager Role Center"
                 action("Employee Tax Info Details")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Employee Tax Info Detail";
                     ToolTip = 'Executes the Employee Tax Info Details action.';
                     ApplicationArea = All;
@@ -1079,10 +977,6 @@ page 50199 "HR Manager Role Center"
                 action("Payroll Details")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Payroll Details";
                     ToolTip = 'Executes the Payroll Details action.';
                     ApplicationArea = All;
@@ -1090,10 +984,6 @@ page 50199 "HR Manager Role Center"
                 action("Payroll Detail Yearly Report")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Payroll Details Yearly";
                     ToolTip = 'Executes the Payroll Detail Yearly Report action.';
                     ApplicationArea = All;
@@ -1101,10 +991,6 @@ page 50199 "HR Manager Role Center"
                 action("Tax Details For IRD monthly")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Tax Detail For IRD Monthly";
                     ToolTip = 'Executes the Tax Details For IRD monthly action.';
                     ApplicationArea = All;
@@ -1117,10 +1003,6 @@ page 50199 "HR Manager Role Center"
                 action("TDS Withholding Certificate")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS WithHolding Cert";
                     ToolTip = 'Executes the TDS Withholding Certificate action.';
                     ApplicationArea = All;
@@ -1129,10 +1011,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Income and Tax Calculation Details';
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Income Tax and Details";
                     ToolTip = 'Executes the Income and Tax Calculation Details action.';
                     ApplicationArea = All;
@@ -1140,10 +1018,6 @@ page 50199 "HR Manager Role Center"
                 action("Posted Payroll Summary")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Posted Payroll Summary";
                     ToolTip = 'Executes the Posted Payroll Summary action.';
                     ApplicationArea = All;
@@ -1154,10 +1028,6 @@ page 50199 "HR Manager Role Center"
                 action("Extra Mileage Calculation Report")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Overtime Calculation Report";
                     ToolTip = 'Executes the Extra Overtime Calculation Report action.';
                     ApplicationArea = All;
@@ -1165,10 +1035,6 @@ page 50199 "HR Manager Role Center"
                 action("Training Attendance Report")
                 {
                     Image = "Report";
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Training Attendance Report";
                     ToolTip = 'Executes the Training Attendance Report action.';
                     ApplicationArea = All;
@@ -1176,10 +1042,6 @@ page 50199 "HR Manager Role Center"
                 action("Salary Certificate Regular")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary certificate (regular)";
                     ToolTip = 'Executes the Salary Certificate Regular action.';
                     ApplicationArea = All;
@@ -1187,10 +1049,6 @@ page 50199 "HR Manager Role Center"
                 action("Salary Certificate Contract")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary certificate (contract)";
                     ToolTip = 'Executes the Salary Certificate Contract action.';
                     ApplicationArea = All;
@@ -1198,10 +1056,6 @@ page 50199 "HR Manager Role Center"
                 action("Salary Certificate Probation")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Sal Cert (Probation)";
                     ToolTip = 'Executes the Salary Certificate Probation action.';
                     ApplicationArea = All;
@@ -1209,10 +1063,6 @@ page 50199 "HR Manager Role Center"
                 action("Annual Certificate Regular")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Annual Salary Certificate(reg)";
                     ToolTip = 'Executes the Annual Certificate Regular action.';
                     ApplicationArea = All;
@@ -1220,10 +1070,6 @@ page 50199 "HR Manager Role Center"
                 action("Annual Certificate Probation")
                 {
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Annual Salary Certificate(pro)";
                     ToolTip = 'Executes the Annual Certificate Probation action.';
                     ApplicationArea = All;
@@ -1232,10 +1078,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Salary Certificate Including Vehicle Allowance';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary certi(inc vehicle allo)";
                     ToolTip = 'Executes the Salary Certificate Including Vehicle Allowance action.';
                     ApplicationArea = All;
@@ -1244,10 +1086,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Experience Letter (Regular)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Experience letter (Regular)";
                     ToolTip = 'Executes the Experience Letter (Regular) action.';
                     ApplicationArea = All;
@@ -1256,10 +1094,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Experience Letter with Functional Title Regular';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Exp letter functional title";
                     ToolTip = 'Executes the Experience Letter with Functional Title Regular action.';
                     ApplicationArea = All;
@@ -1268,10 +1102,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Experience Letter Probation';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Experience letter(prob)";
                     ToolTip = 'Executes the Experience Letter Probation action.';
                     ApplicationArea = All;
@@ -1280,10 +1110,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Experience Letter with Functional Title Probation';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Exp letter funcl title(prob)";
                     ToolTip = 'Executes the Experience Letter with Functional Title Probation action.';
                     ApplicationArea = All;
@@ -1292,10 +1118,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Expericence Letter Contract';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Exp letter work(contract)";
                     ToolTip = 'Executes the Expericence Letter Contract action.';
                     ApplicationArea = All;
@@ -1304,10 +1126,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Salary Certificate Regular Staff (ForCurr)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary certificate (reg-Forei)";
                     ToolTip = 'Executes the Salary Certificate Regular Staff (ForCurr) action.';
                     ApplicationArea = All;
@@ -1316,10 +1134,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Salary Certificate Probation Staff (ForCurr)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Salary certificate (Prob-Fore)";
                     ToolTip = 'Executes the Salary Certificate Probation Staff (ForCurr) action.';
                     ApplicationArea = All;
@@ -1328,10 +1142,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Annual Salary Cert Reg (ForCurr)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Annual Sal Cert(reg-Foreign)";
                     ToolTip = 'Executes the Annual Salary Cert Reg (ForCurr) action.';
                     ApplicationArea = All;
@@ -1340,10 +1150,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Annual Salary Cert Prob (ForCurr)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Annual Sal Cert(pro-Foreign)";
                     ToolTip = 'Executes the Annual Salary Cert Prob (ForCurr) action.';
                     ApplicationArea = All;
@@ -1352,10 +1158,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Salary Certificate Including Vehicle Allowance (ForCurr)';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Sal Cert veh Allownce(Foreign)";
                     ToolTip = 'Executes the Salary Certificate Including Vehicle Allowance (ForCurr) action.';
                     ApplicationArea = All;
@@ -1364,10 +1166,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'No Objection Letter';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "No objection letter(reg)";
                     ToolTip = 'Executes the No Objection Letter action.';
                     ApplicationArea = All;
@@ -1376,10 +1174,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'No Objection Letter Probation';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "No objection letter(pro)";
                     ToolTip = 'Executes the No Objection Letter Probation action.';
                     ApplicationArea = All;
@@ -1388,10 +1182,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'No Objection Letter Loan Used';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "No objection letter";
                     ToolTip = 'Executes the No Objection Letter Loan Used action.';
                     ApplicationArea = All;
@@ -1400,10 +1190,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Leave Approve Letter';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Leave Approve Letter";
                     ToolTip = 'Executes the Leave Approve Letter action.';
                     ApplicationArea = All;
@@ -1412,10 +1198,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'Leave balance Letter';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Leave Balance Letter";
                     ToolTip = 'Executes the Leave balance Letter action.';
                     ApplicationArea = All;
@@ -1424,10 +1206,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Regular Employee';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert reg emp";
                     ToolTip = 'Executes the TDS certificate of Regular Employee action.';
                     ApplicationArea = All;
@@ -1436,10 +1214,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Retire Regular Employee';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert Retire reg emp";
                     ToolTip = 'Executes the TDS certificate of Retire Regular Employee action.';
                     ApplicationArea = All;
@@ -1448,10 +1222,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Employee under Probation';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert Probation emp";
                     ToolTip = 'Executes the TDS certificate of Employee under Probation action.';
                     ApplicationArea = All;
@@ -1460,10 +1230,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Retire Prob Employee';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert retire probation emp";
                     ToolTip = 'Executes the TDS certificate of Retire Prob Employee action.';
                     ApplicationArea = All;
@@ -1472,10 +1238,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Contract Employee';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert Contract emp";
                     ToolTip = 'Executes the TDS certificate of Contract Employee action.';
                     ApplicationArea = All;
@@ -1484,10 +1246,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TDS certificate of Retire Contract Employee';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "TDS cert Retire Contract emp";
                     ToolTip = 'Executes the TDS certificate of Retire Contract Employee action.';
                     ApplicationArea = All;
@@ -1496,10 +1254,6 @@ page 50199 "HR Manager Role Center"
                 {
                     Caption = 'TAX Clearance Letter To IRD';
                     Image = AllLines;
-                    Promoted = true;
-                    PromotedCategory = "Report";
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
                     RunObject = report "Tax Clearance Letter";
                     ToolTip = 'Executes the TAX Clearance Letter To IRD action.';
                     ApplicationArea = All;
@@ -1518,18 +1272,18 @@ page 50199 "HR Manager Role Center"
         Resignationvisibility: Boolean;
         SalaryAdvVisibility: Boolean;
 
-    procedure Setvisibility()
-    begin
-        UserSetup.Reset;
-        UserSetup.SetRange("User ID", UserId);
-        if UserSetup.FindFirst then begin
-            LeaveVisibility := UserSetup."For Leave-Dashboard";
-            TravelVisibility := UserSetup."For Travel-Dashboard";
-            TransferVisibility := UserSetup."For Transfer-Dashboard";
-            OvertimeVisibility := UserSetup."For Overtime-Dashboard";
-            BulkCashVisibility := UserSetup."For BulkCash-Dashboard";
-            Resignationvisibility := UserSetup."For Resignation-Dashboard";
-            SalaryAdvVisibility := UserSetup."For Salary Advance";
-        end;
-    end;
+    // procedure Setvisibility()
+    // begin
+    //     UserSetup.Reset;
+    //     UserSetup.SetRange("User ID", UserId);
+    //     if UserSetup.FindFirst then begin
+    //         LeaveVisibility := UserSetup."For Leave-Dashboard";
+    //         TravelVisibility := UserSetup."For Travel-Dashboard";
+    //         TransferVisibility := UserSetup."For Transfer-Dashboard";
+    //         OvertimeVisibility := UserSetup."For Overtime-Dashboard";
+    //         BulkCashVisibility := UserSetup."For BulkCash-Dashboard";
+    //         Resignationvisibility := UserSetup."For Resignation-Dashboard";
+    //         SalaryAdvVisibility := UserSetup."For Salary Advance";
+    //     end;
+    // end;
 }

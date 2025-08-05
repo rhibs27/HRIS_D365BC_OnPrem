@@ -348,7 +348,7 @@ page 50136 "Transfer Claim Form"
         Employee: Record Employee;
         HRMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
-        [InDataSet]
+
         IsOpen: Boolean;
         ReasonCode: Record "Reason Code";
         ApproverMgt: Codeunit "Approver Mgt";

@@ -152,6 +152,6 @@ page 50016 "Facilitator Pool Lists"
     end;
 
     var
-        [InDataSet]
+
         OpenApprovalEntriesExist: Boolean;
 }

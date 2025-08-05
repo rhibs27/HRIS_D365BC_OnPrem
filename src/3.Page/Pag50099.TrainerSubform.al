@@ -99,6 +99,6 @@ page 50099 "Trainer Subform"
     end;
 
     var
-        [InDataSet]
+
         IsExternal: Boolean;
 }

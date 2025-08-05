@@ -423,45 +423,45 @@ page 50096 "Trainee Subform"
     var
         TrainingLine: Record "Training Line";
         MatrixCellData: array[20] of Boolean;
-        [InDataSet]
+
         FieldVisible1: Boolean;
-        [InDataSet]
+
         FieldVisible2: Boolean;
-        [InDataSet]
+
         FieldVisible3: Boolean;
-        [InDataSet]
+
         FieldVisible4: Boolean;
-        [InDataSet]
+
         FieldVisible5: Boolean;
-        [InDataSet]
+
         FieldVisible6: Boolean;
-        [InDataSet]
+
         FieldVisible7: Boolean;
-        [InDataSet]
+
         FieldVisible8: Boolean;
-        [InDataSet]
+
         FieldVisible9: Boolean;
-        [InDataSet]
+
         FieldVisible10: Boolean;
-        [InDataSet]
+
         FieldVisible11: Boolean;
-        [InDataSet]
+
         FieldVisible12: Boolean;
-        [InDataSet]
+
         FieldVisible13: Boolean;
-        [InDataSet]
+
         FieldVisible14: Boolean;
-        [InDataSet]
+
         FieldVisible15: Boolean;
-        [InDataSet]
+
         FieldVisible16: Boolean;
-        [InDataSet]
+
         FieldVisible17: Boolean;
-        [InDataSet]
+
         FieldVisible18: Boolean;
-        [InDataSet]
+
         FieldVisible19: Boolean;
-        [InDataSet]
+
         FieldVisible20: Boolean;
         MatrixCaption: array[20] of Text;
         MatrixColumnCount: Integer;
@@ -469,7 +469,7 @@ page 50096 "Trainee Subform"
         CalDate: Date;
         TrainingAtt: Record "Training Attendance";
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
+
         IsApproved: Boolean;
         TrainHead: Record "Training Header";
         EmpFeedback: Record "Employee Feedback";
