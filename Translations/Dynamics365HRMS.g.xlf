@@ -51548,15 +51548,40 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Salary Sheet Monthwise - Control Pay Cycle Term - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 870780615 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appointment Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Appointment Details - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2282677231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ContractExpiryMonth field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the DeputationCodeTo field.</source>
+        <trans-unit id="Report 2595309284 - Control 2282677231 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Contract Period</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Deputation Code - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Department Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Department Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Department Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 3335523416 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the DeputationOnTo field.</source>
@@ -51588,6 +51613,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProbationPeriod - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Province Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2109719288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51608,10 +51643,120 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control SalaryGrade - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1837534076 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Sub-Department Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Sub-Department Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1837534076 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Sub-Department Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2002327879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Trainee Period field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control TraineePeriod - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2002327879 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Trainee Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control TraineePeriod - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1652406271 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirmation Details</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Confirmation Details - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1218854567 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Branch Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1218854567 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 326102751 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Department Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Department Code Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 326102751 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Department Code Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2228768044 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the DeputationOnTo field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Deputation On Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2228768044 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Deputation On Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 803800197 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the FunctionalTitle field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Functional Title Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 803800197 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Functional Title Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2898501005 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Province Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2898501005 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Province Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2689212559 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Remarks Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2689212559 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Remarks Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2160198970 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SalaryLevel field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Salary level Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2160198970 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Salary level Conf - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1015735848 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Sub-Department Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Sub-Department Code Conf - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1015735848 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Department Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Sub-Department Code Conf - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 3349968947 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Service Event field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Service Event - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the DeputationCodeTo field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Deputation Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 3428219872 - NamedType 329424276" size-unit="char" translate="yes" xml:space="preserve">
           <source>Staff Allowance Details</source>
@@ -61227,6 +61372,21 @@
           <source>7 Flat</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Tax Info Report Type - EnumValue 7 Flat - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 363203055 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 363203055 - EnumValue 2116936749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>12 Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 12 Month - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 363203055 - EnumValue 3746106738 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>6 Month</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 6 Month - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4149592804 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>
