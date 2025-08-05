@@ -94,4 +94,18 @@ table 50149 "Approval HRMS"
 
         }
     }
+    procedure ShowRecord()
+    var
+        RecRef: RecordRef;
+        LeaveRequest: Record Leave;
+        PageManagement: Codeunit "Page Management";
+    begin
+        case "Document Type" of
+            "Document Type"::"Leave Request":
+                RecRef.GetTable(LeaveRequest);
+        end;
+
+        RecRef.SetRecFilter();
+        PageManagement.PageRun(RecRef);
+    end;
 }

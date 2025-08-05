@@ -61,7 +61,6 @@ page 50364 "Qualification Attachment"
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
                 Enabled = DeleteExportEnabled;
-                Image = view;
                 ToolTip = 'View the Attachment';
 
                 trigger OnAction()
