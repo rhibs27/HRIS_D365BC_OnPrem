@@ -265,7 +265,7 @@ page 50093 "Travel Requests"
 
     var
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
+
         IsPending: Boolean;
         TravelMgt: CodeUnit "Travel Mgt.";
         ApprovalMgt: Codeunit "Approver Mgt";

@@ -301,20 +301,20 @@ page 50057 "Employee Activity Card"
     end;
 
     var
-        [InDataSet]
+
         EnableLeave: Boolean;
         OpenApprovalEntriesExistForCurrUser: Boolean;
         OpenApprovalEntriesExist: Boolean;
-        [InDataSet]
+
         EnableOpeningEntry: Boolean;
-        [InDataSet]
+
         EnableOpeningEntryVisible: Boolean;
         Text000: Label 'Document %1 is %2 successfully.';
         ApproveTxt: Label 'approved';
         RejectTxt: Label 'rejected';
         ReopenTxt: Label 'reopened';
         SentForApprovalTxt: Label 'sent for approval';
-        [InDataSet]
+
         EnableOvertimeVisible: Boolean;
 
     local procedure SetControlVisibility()

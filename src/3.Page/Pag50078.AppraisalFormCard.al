@@ -667,7 +667,7 @@ page 50078 "Appraisal Form Card"
         Appraisal: Record Appraisal;
         FieldVisible: Boolean;
         Submitted: Boolean;
-        [InDataSet]
+
         DocumentEditable: Boolean;
         CheckReviewSent: Boolean;
         ReviewSent: Boolean;

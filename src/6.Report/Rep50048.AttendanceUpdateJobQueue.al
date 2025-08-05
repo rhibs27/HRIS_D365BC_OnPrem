@@ -227,7 +227,7 @@
 //         //EmployeeActivity: Record "Employee Activity";
 //         Transfer: Record "Employee Transfer";
 //         RejectionRemarks: Text;
-//         [InDataSet]
+//         
 //         ReinstateTransfer: Boolean;
 //         UserSetup: Record "User Setup";
 //         SyncEmployees: Boolean;

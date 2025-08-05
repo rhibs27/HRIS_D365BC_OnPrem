@@ -424,69 +424,69 @@ page 50064 "HR Budget Matrix Subform"
         ReqEmpInBranch: Record "Required Emp In Branch";
         MatrixColumnCount: Integer;
         MatrixCellData: array[32] of Decimal;
-        [InDataSet]
+
         FieldVisible1: Boolean;
-        [InDataSet]
+
         FieldVisible2: Boolean;
-        [InDataSet]
+
         FieldVisible3: Boolean;
-        [InDataSet]
+
         FieldVisible4: Boolean;
-        [InDataSet]
+
         FieldVisible5: Boolean;
-        [InDataSet]
+
         FieldVisible6: Boolean;
-        [InDataSet]
+
         FieldVisible7: Boolean;
-        [InDataSet]
+
         FieldVisible8: Boolean;
-        [InDataSet]
+
         FieldVisible9: Boolean;
-        [InDataSet]
+
         FieldVisible10: Boolean;
-        [InDataSet]
+
         FieldVisible11: Boolean;
-        [InDataSet]
+
         FieldVisible12: Boolean;
-        [InDataSet]
+
         FieldVisible13: Boolean;
-        [InDataSet]
+
         FieldVisible14: Boolean;
-        [InDataSet]
+
         FieldVisible15: Boolean;
-        [InDataSet]
+
         FieldVisible16: Boolean;
-        [InDataSet]
+
         FieldVisible17: Boolean;
-        [InDataSet]
+
         FieldVisible18: Boolean;
-        [InDataSet]
+
         FieldVisible19: Boolean;
-        [InDataSet]
+
         FieldVisible20: Boolean;
-        [InDataSet]
+
         FieldVisible21: Boolean;
-        [InDataSet]
+
         FieldVisible22: Boolean;
-        [InDataSet]
+
         FieldVisible23: Boolean;
-        [InDataSet]
+
         FieldVisible24: Boolean;
-        [InDataSet]
+
         FieldVisible25: Boolean;
-        [InDataSet]
+
         FieldVisible26: Boolean;
-        [InDataSet]
+
         FieldVisible27: Boolean;
-        [InDataSet]
+
         FieldVisible28: Boolean;
-        [InDataSet]
+
         FieldVisible29: Boolean;
-        [InDataSet]
+
         FieldVisible30: Boolean;
-        [InDataSet]
+
         FieldVisible31: Boolean;
-        [InDataSet]
+
         FieldVisible32: Boolean;
         MatrixCaption: array[32] of Text;
         Counter: Integer;

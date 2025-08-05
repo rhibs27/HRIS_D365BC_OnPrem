@@ -107,7 +107,7 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
             OpenPeriodEndDate := LeavePeriod."Starting Date" - 1;
         end else
             OpenPeriodEndDate := LeavePeriod."Starting Date" - 1;
-        LeaveText := 'Leave Lapsed for Leave Year Close from ' + Format(OpenPeriodStartDate) + ' to ' + Format(OpenPeriodEndDate);
+        LeaveText := 'Leave Lapsed for' + Format(OpenPeriodStartDate) + ' to ' + Format(OpenPeriodEndDate);
         if Confirm('Leave periods from %1 to %2 will be closed. Do you want to proceed?', false, OpenPeriodStartDate, OpenPeriodEndDate) then begin
             LeavePeriod.Reset();
             LeavePeriod.SetRange("Starting Date", OpenPeriodStartDate, OpenPeriodEndDate);

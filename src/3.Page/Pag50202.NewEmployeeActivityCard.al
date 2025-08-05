@@ -895,26 +895,26 @@
 //     end;
 
 //     var
-//         [InDataSet]
+//         
 //         IsLeaveVisible: Boolean;
-//         [InDataSet]
+//         
 //         IsTravelReqVisible: Boolean;
-//         [InDataSet]
+//         
 //         IsTravelClaimVisible: Boolean;
-//         [InDataSet]
+//         
 //         IsTransferVisible: Boolean;
-//         [InDataSet]
+//         
 //         IsOTVisible: Boolean;
-//         [InDataSet]
+//         
 //         IsBulkCash: Boolean;
 //         HRMgt: Codeunit "HR Mgt.";
 //         ResignationMgt: Codeunit "Resignation Mgt";
 //         TravelMgt: Codeunit "Travel Mgt.";
-//         [InDataSet]
+//         
 //         ForApprove: Boolean;
-//         [InDataSet]
+//         
 //         ForRecommend: Boolean;
-//         [InDataSet]
+//         
 //         ForReject: Boolean;
 //         IsScreeenerRemarksVisible: Boolean;
 //         ForScreen: Boolean;
@@ -930,7 +930,7 @@
 //         ExtensionName: Text;
 //         UnitName: Text;
 //         OutofPocketDays: Decimal;
-//         [InDataSet]
+//         
 //         RoadAirAmtEditable: Boolean;
 
 //     local procedure SetVisibility()

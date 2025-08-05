@@ -1916,7 +1916,7 @@
 //         NoFieldVisible: Boolean;
 //         IsCountyVisible: Boolean;
 //         Usersetup: Record "User Setup";
-//         [InDataSet]
+//         
 //         PayrollFieldsVisible: Boolean;
 //         Employee: Record Employee;
 //         EmployeeAct: Record "Employee Activity";

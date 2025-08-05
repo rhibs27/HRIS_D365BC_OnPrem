@@ -586,9 +586,9 @@ page 50123 "Posted Vacancy List"
     var
         StyleTxt: Text;
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
+
         IsGroupDiscussion: Boolean;
-        [InDataSet]
+
         IsWrittenExam: Boolean;
         Candidate: Record Candidate;
         ScheduleInterview: Report "Generate Can Schedule";

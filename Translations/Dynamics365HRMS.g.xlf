@@ -31743,11 +31743,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Cue - Control To Recommend Travel Req - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4147688656 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New,Process,Report,Employee Activity,Employee Loan</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR loan officer - Property PromotedActionCategories</note>
-        </trans-unit>
         <trans-unit id="Page 4147688656 - Control 317029363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Activities</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31792,11 +31787,6 @@
           <source>Executes the Vehicle Loans action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR loan officer - Action Vehicle Loans - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 900836314 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New,Process,Report,Employee Activity,Employee Loan</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Property PromotedActionCategories</note>
         </trans-unit>
         <trans-unit id="Page 900836314 - Control 317029363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Activities</source>
@@ -33057,11 +33047,6 @@
           <source>Contract Expiring</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Contract Expiry Employees - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1521437288 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New,Process,Report,Employee Activity,Employee Loan</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page HR Payroll Manager - Property PromotedActionCategories</note>
         </trans-unit>
         <trans-unit id="Page 1521437288 - Control 317029363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Activities</source>
@@ -40808,11 +40793,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Action Timesheet Summary - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 384581401 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New,Process,Report,Employee Activity,Employee Loan</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Personal Information Manager - Property PromotedActionCategories</note>
-        </trans-unit>
         <trans-unit id="Page 384581401 - Control 317029363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Activities</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40837,11 +40817,6 @@
           <source>Executes the Employee Attendance Activity action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Personal Information Manager - Action Employee Attendance Activity - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 384581401 - Action 4147654834 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Employee Lite action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Personal Information Manager - Action Employee Lite - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 384581401 - Action 347328507 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Executes the Employees action.</source>

@@ -381,7 +381,7 @@ codeunit 50001 "HR Mgt."
         VacaHeadaer: Record "Vacancy Header";
         RecruitmentLine: Record "Recruitement Memo Line";
         DocNo: Text;
-        NoMgt: Codeunit "NoSeriesManagement";
+        NoMgt: Codeunit "No. Series";
         VacancyLine: Record "Vacancy Line";
         SalaryLevel: Record "Salary Level";
         FunctionalTitle: Record "Functional Title";
