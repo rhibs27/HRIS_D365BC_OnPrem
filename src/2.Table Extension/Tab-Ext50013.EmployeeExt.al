@@ -1467,7 +1467,7 @@ tableextension 50013 "Employee Ext" extends Employee
             SubType = Bitmap;
             Caption = 'Digital Signature';
         }
-        field(50179; "Trainee Period"; DateFormula)
+        field(50179; "Trainee Period"; Enum "Trainee Period")
         {
             Caption = 'Trainee Period';
         }

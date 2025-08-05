@@ -86,4 +86,19 @@ enum 50146 "Service Event"
     {
         Caption = 'Officiating Arrangement';
     }
+    value(21; "Period Extend")
+    {
+        Caption = 'Period Extend';
+    }
+
+    value(22; "Change Of Employment status")
+    {
+        Caption = 'Change of Employment Status';
+    }
+
+    value(23; "Change Details")
+    {
+        Caption = 'Change Details';
+    }
+
 }
