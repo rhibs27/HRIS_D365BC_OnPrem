@@ -70,10 +70,6 @@ page 50070 "Document Approver Resignation"
             action("Return Rejected")
             {
                 Image = Return;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
                 Visible = Rec."Approval Status" = Rec."Approval Status"::Rejected;
                 ToolTip = 'Executes the Return Rejected action.';
                 ApplicationArea = All;

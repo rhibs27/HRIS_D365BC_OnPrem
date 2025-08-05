@@ -78,8 +78,8 @@ codeunit 50000 "Leave Mgt."
         Counter: Integer;
         AlreadyAdded: Boolean;
         BaseCalendar: Record "Base Calendar";
-        InOutValley: Option " ",Outside,Inside;
-        PostingRegion: Option " ",Hilly,Terai;
+        InOutValley: Enum "Outside/Inside Valley";
+        PostingRegion: Enum Region;
         Branch: Text;
         DimValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";

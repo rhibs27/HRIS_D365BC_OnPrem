@@ -1389,35 +1389,35 @@ codeunit 50008 "Payroll Engine"
             exit(DefaultDimension."Dimension Value Code" <> '');
     end;
 
-    procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
-    begin
-        if PostedPayrollHeader.ReadPermission then begin
-            PostedPayrollHeader.Reset;
-            PostedPayrollHeader.SetCurrentKey("No.");
-            PostedPayrollHeader.SetFilter("No.", DocNoFilter);
-            PostedPayrollHeader.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Posted Payroll Header", 0, PostedPayrollHeader.TableCaption, PostedPayrollHeader.Count);
-        end;
+    // procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
+    // begin
+    //     if PostedPayrollHeader.ReadPermission then begin
+    //         PostedPayrollHeader.Reset;
+    //         PostedPayrollHeader.SetCurrentKey("No.");
+    //         PostedPayrollHeader.SetFilter("No.", DocNoFilter);
+    //         PostedPayrollHeader.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Posted Payroll Header", 0, PostedPayrollHeader.TableCaption, PostedPayrollHeader.Count);
+    //     end;
 
-        if EmployeeLedgerEntry.ReadPermission then begin
-            EmployeeLedgerEntry.Reset;
-            EmployeeLedgerEntry.SetCurrentKey("Document No.");
-            EmployeeLedgerEntry.SetFilter("G/L Document No", DocNoFilter);
-            EmployeeLedgerEntry.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Employee Ledger Entry PRM", 0, EmployeeLedgerEntry.TableCaption, EmployeeLedgerEntry.Count);
-        end;
+    //     if EmployeeLedgerEntry.ReadPermission then begin
+    //         EmployeeLedgerEntry.Reset;
+    //         EmployeeLedgerEntry.SetCurrentKey("Document No.");
+    //         EmployeeLedgerEntry.SetFilter("G/L Document No", DocNoFilter);
+    //         EmployeeLedgerEntry.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Employee Ledger Entry PRM", 0, EmployeeLedgerEntry.TableCaption, EmployeeLedgerEntry.Count);
+    //     end;
 
-        if DetailedEmployeeLedgEntry.ReadPermission then begin
-            DetailedEmployeeLedgEntry.Reset;
-            DetailedEmployeeLedgEntry.SetCurrentKey("Document No.");
-            DetailedEmployeeLedgEntry.SetFilter("G/L Document No", DocNoFilter);
-            DetailedEmployeeLedgEntry.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Detailed Employee Ledg. En PRM", 0, DetailedEmployeeLedgEntry.TableCaption, DetailedEmployeeLedgEntry.Count);
-        end;
-    end;
+    //     if DetailedEmployeeLedgEntry.ReadPermission then begin
+    //         DetailedEmployeeLedgEntry.Reset;
+    //         DetailedEmployeeLedgEntry.SetCurrentKey("Document No.");
+    //         DetailedEmployeeLedgEntry.SetFilter("G/L Document No", DocNoFilter);
+    //         DetailedEmployeeLedgEntry.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Detailed Employee Ledg. En PRM", 0, DetailedEmployeeLedgEntry.TableCaption, DetailedEmployeeLedgEntry.Count);
+    //     end;
+    // end;
 
     local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
     begin
@@ -1718,7 +1718,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: Option; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+                                 PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin

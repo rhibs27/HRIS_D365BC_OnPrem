@@ -299,7 +299,7 @@ codeunit 50002 "Loan Mgt."
         case EmpLoan."Loan Type" of
             EmpLoan."Loan Type"::"Salary Advance":
                 begin
-                    if EmpLoan."Payback Months" <> 0 then
+                    if EmpLoan."Payback Months" <> EmpLoan."Payback Months"::" " then
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / EmpLoan."Payback Months".AsInteger()
                     else
                         EmpLoan.EMI := EmpLoan."Applied Loan/Advance" / 1;
@@ -504,7 +504,7 @@ codeunit 50002 "Loan Mgt."
             until AttachmentMandatory.Next = 0;
     end;
 
-    procedure GetInterestRate(StartingDate: Date; LoanType: Option " ","Salary Advance","Personal Loan","Home Loan","Vehicle Loan"): Decimal
+    procedure GetInterestRate(StartingDate: Date; LoanType: enum "Loan Type"): Decimal
     begin
         LoanInterest.Reset;
         LoanInterest.SetCurrentKey("Starting Date");

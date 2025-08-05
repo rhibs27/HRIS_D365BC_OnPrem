@@ -12,7 +12,7 @@ table 50069 "Training Header"
             begin
                 if "No." <> xRec."No." then begin
                     HRSetup.Get;
-                    NoSeriesMgt.TestManual(HRSetup."Training No.");
+                    NoSeriesMgt.GetNextNo(HRSetup."Training No.");
                     "No. Series" := '';
                 end;
             end;
@@ -508,18 +508,25 @@ table 50069 "Training Header"
     end;
 
     trigger OnInsert()
+    var
+        TrainingHeader: Record "Training Header";
     begin
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Training No.");
-            NoSeriesMgt.InitSeries(HRSetup."Training No.", xRec."No. Series", 0D, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Training No.", xRec."No. Series", 0D, "No.", "No. Series");
+
+            TrainingHeader.ReadIsolation(IsolationLevel::ReadUncommitted);
+            TrainingHeader.SetLoadFields("No.");
+            while TrainingHeader.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
         Validate("Requested Date", Today);
     end;
 
     var
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
         ProvienceVar: Record Province;
         TrainingCalendar: Record "Training Calendar";
@@ -549,8 +556,8 @@ table 50069 "Training Header"
         TrainHeader := Rec;
         HRSetup.Get;
         HRSetup.TestField("Training No.");
-        if NoSeriesMgt.SelectSeries(HRSetup."Training No.", OldRec."No. Series", TrainHeader."No. Series") then begin
-            NoSeriesMgt.SetSeries(TrainHeader."No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Training No.", OldRec."No. Series", TrainHeader."No. Series") then begin
+            NoSeriesMgt.GetNextNo(TrainHeader."No.");
             exit(true);
         end;
     end;

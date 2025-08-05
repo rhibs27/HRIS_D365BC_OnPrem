@@ -1,6 +1,5 @@
 pageextension 50010 "Employee Card" extends "Employee Card"
 {
-    PromotedActionCategoriesML = ENU = 'New,Process,Report,,Loan,History,Others';
     layout
     {
         modify("No.")
@@ -1648,13 +1647,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Generate Leave Balance action.';
                     trigger OnAction()
-                    var
-                        LeaveMgt: Codeunit "Leave Mgt.";
                     begin
-                        // Employee.RESET;
-                        // Employee.SETRANGE("No.", Rec."No.");
-                        // REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                        LeaveMgt.GenerateLeave(Rec."No.");
+                        Employee.Reset();
+                        Employee.SetRange("No.", Rec."No.");
+                        Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
                 action("Confirmation Employee")

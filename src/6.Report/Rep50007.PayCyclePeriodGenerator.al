@@ -17,13 +17,13 @@ report 50007 "Pay Cycle Period Generator"
                 PayCyclePeriod.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term");
                 PayCyclePeriod.SetRange("Pay Cycle Code", PayCycleCode);
                 PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTermCode);
-                if PayCyclePeriod.FindSet(true, true) then begin
+                if PayCyclePeriod.FindSet() then begin
                     if Confirm(Text008 + Text008a, false) then begin
                         PayCyclePeriod.DeleteAll;
                         GeneratePayPeriods;
                         PayrollLedgerEntry.SetRange("Pay Cycle Code", PayCycleCode);
                         PayrollLedgerEntry.SetRange("Pay Cycle Term", PayCycleTermCode);
-                        if PayrollLedgerEntry.FindSet(true, false) then begin
+                        if PayrollLedgerEntry.FindSet() then begin
                             repeat
                                 PayCyclePeriod.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", Period);
                                 PayCyclePeriod.SetRange("Pay Cycle Code", PayCycleCode);
@@ -595,7 +595,7 @@ report 50007 "Pay Cycle Period Generator"
         PayCycleTerm2.Reset;
         PayCycleTerm2.SetRange("Pay Cycle Code", PayCycleCode);
         PayCycleTerm2.SetFilter(Term, '<>%1', PayCycleTermCode);
-        if PayCycleTerm2.FindSet(true, true) then begin
+        if PayCycleTerm2.FindSet() then begin
             PayCyclePeriod2.Reset;
             PayCyclePeriod2.SetCurrentKey("Pay Cycle Code", "Pay Cycle Term", Period);
             PayCyclePeriod2.SetRange("Pay Cycle Code", PayCycleTerm2."Pay Cycle Code");

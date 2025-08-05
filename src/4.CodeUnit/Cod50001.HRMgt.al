@@ -6002,8 +6002,8 @@ codeunit 50001 "HR Mgt."
                                 VAR Description: Text[50];
                                 VAR Proviences: Text[150];
                                 VAR Gender: Enum "Employee Gender";
-                                VAR InOutValley: Option;
-                                VAR PostingRegion: Option;
+                                VAR InOutValley: Enum "Outside/Inside Valley";
+                                VAR PostingRegion: enum Region;
                                 VAR Branch: Text;
                                 var Community: Enum "Community Type";
                                 var Disabled: Boolean): Boolean

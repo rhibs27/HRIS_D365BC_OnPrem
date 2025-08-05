@@ -385,7 +385,7 @@ page 50040 "Payroll Plan"
                         PayrollAdj.FilterGroup(2);
                         PayrollAdj.SetRange("Payroll Document No.", Rec."No.");
                         PayrollAdj.FilterGroup(0);
-                        if Status = Rec.Status::Open then
+                        if Rec.Status = Rec.Status::Open then
                             Page.RunModal(Page::"Employee Payroll Adjustment", PayrollAdj)
                         else
                             Error('Re-Open the document to make adjustments.');
