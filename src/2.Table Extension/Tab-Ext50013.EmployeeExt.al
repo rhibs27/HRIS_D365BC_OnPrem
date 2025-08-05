@@ -30,7 +30,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             var
                 Regex: Codeunit Regex;
-                Pattern: Label '^[A-Za-z]+$';
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
                 if "Middle Name" <> '' then
                     if not Regex.IsMatch("Middle Name", Pattern) then
@@ -43,7 +43,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             var
                 Regex: Codeunit Regex;
-                Pattern: Label '^[A-Za-z]+$';
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
                 if "Middle Name" <> '' then
                     if not Regex.IsMatch("Last Name", Pattern) then

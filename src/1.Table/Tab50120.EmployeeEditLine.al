@@ -230,6 +230,10 @@ table 50120 "Employee Edit Line"
         {
             Description = 'This field includes the name of fields that are updated from portal';
         }
+        field(1001; "Original Line No."; Integer)
+        {
+
+        }
 
     }
     keys

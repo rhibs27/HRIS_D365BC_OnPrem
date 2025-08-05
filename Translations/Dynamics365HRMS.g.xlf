@@ -6468,6 +6468,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Line No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 537631876 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Original Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Original Line No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1631507388 - Field 3557664220 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Percentage</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55999,12 +56004,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change First Name - Method OnAfterValidate - NamedType Pattern</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Change 4068742839 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>^[A-Za-z]+$</source>
+          <source>^[A-Za-z .]+$</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Last Name - Method OnAfterValidate - NamedType Pattern</note>
         </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Change 1064199390 - Method 3059879501 - NamedType 3482496012" size-unit="char" translate="yes" xml:space="preserve" al-object-target="TableExtension 1028528413">
-          <source>^[A-Za-z]+$</source>
+          <source>^[A-Za-z .]+$</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Change Middle Name - Method OnAfterValidate - NamedType Pattern</note>
         </trans-unit>
