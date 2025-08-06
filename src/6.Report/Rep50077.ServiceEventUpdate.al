@@ -16,7 +16,7 @@ report 50077 "Service Event Update"
                 {
                     field("Service Event"; ServiceEvent)
                     {
-                        ValuesAllowed = Appointment, Confirmation, "On The Job Training", "Contract Renew", "Expired Contract", "Period Extend", "Change Of Employment status", "Change Details";
+                        ValuesAllowed = Appointment, "Period Extend", Confirmation, "Change Of Employment status", "Change Details";//"On The Job Training", "Contract Renew", "Expired Contract";
                         ToolTip = 'Specifies the value of the Service Event field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
@@ -24,6 +24,7 @@ report 50077 "Service Event Update"
                         trigger OnValidate()
                         begin
                             UpdateFieldVisibility();
+                            LoadAutoPopulate();
                         end;
                     }
                 }
@@ -85,7 +86,6 @@ report 50077 "Service Event Update"
                         Caption = 'Province Code';
                         ToolTip = 'Specifies the value of the Province Code field.';
                         ApplicationArea = All;
-                        // Editable = DeputationOnTo = DeputationOnTo::Branch;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
@@ -151,7 +151,8 @@ report 50077 "Service Event Update"
                         ShowCaption = false;
                         Visible = ShowTraineePeriod;
 
-                        field(TraineePeriod; ProbationPeriod)
+                        // Test : Was using ProbationPeriod instead of TraineePeriod
+                        field(TraineePeriod; TraineePeriod)
                         {
                             Caption = 'Trainee Period';
                             ToolTip = 'Specifies the value of the Trainee Period field.';
@@ -220,7 +221,6 @@ report 50077 "Service Event Update"
                         Caption = 'Province Code';
                         ToolTip = 'Specifies the value of the Province Code field.';
                         ApplicationArea = All;
-                        //Editable = DeputationOnTo = DeputationOnTo::Branch;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
@@ -273,24 +273,370 @@ report 50077 "Service Event Update"
                         ToolTip = 'Specifies the value of Confirmation Date';
                         ApplicationArea = All;
                         ShowMandatory = true;
-
                     }
                 }
+
                 group("Period Extend Fields")
                 {
                     visible = ShowPeriodExtendFields;
                     caption = 'Period Extend';
-                    field(EmploymentType; EmploymentType)
+
+                    field("Employment Type Period Extend"; EmploymentTypePeriodExtend)
                     {
                         Caption = 'Employment Type';
-                        TableRelation = Employee."Employment Type";
-                        ToolTip = '';
+                        Editable = false;
+                        ToolTip = 'Auto selected based on the Employee card.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("New Period"; NewPeriod)
+                    {
+                        Caption = 'New Period';
+                        ApplicationArea = All;
+                        ToolTip = 'Specify the new period start date.';
+                    }
+
+                    field("New Period End Date"; NewPeriodEndDate)
+                    {
+                        Caption = 'New Period End Date';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                        ToolTip = 'Specify the new period end date.';
+                    }
+
+                    field(Remarksperiodextend; Remarks)
+                    {
+                        Caption = 'Remarks';
+                        ApplicationArea = All;
+                        ToolTip = 'Additional remarks for period extension.';
+                    }
+                }
+                group("Change Of Employment Status")
+                {
+                    visible = ShowChangeOfEmploymentStatusFields;
+                    caption = 'Change Of Employment Status';
+
+                    field("Current Status"; CurrentStatus)
+                    {
+                        Caption = 'Current Status';
+                        Editable = false;
+                        ToolTip = 'Auto selected based on the Employee card.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+
+                    field("New Status"; NewStatus)
+                    {
+                        Caption = 'New Status';
+                        ToolTip = 'Select the new employment status for the employee.';
                         ApplicationArea = All;
                         ShowMandatory = true;
 
+                        trigger OnValidate()
+                        begin
+
+                            Clear(InactiveDate);
+                            Clear(CauseOfInactivity);
+                            Clear(TerminationDate);
+                            Clear(GroundsForTermination);
+
+                            case NewStatus of
+                                NewStatus::Inactive,
+                                NewStatus::Terminated:
+                                    LoadEmployeeTerminationDetails();
+                            end;
+                            UpdateFieldVisibility();
+                        end;
                     }
 
+
+                    field("Status Change Date"; EffectiveDate)
+                    {
+                        Caption = 'Effective Date';
+                        ToolTip = 'Specify the date when the status change becomes effective.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+
+                    group("Inactive Status Details")
+                    {
+                        ShowCaption = false;
+                        Visible = ShowForInactive;
+
+                        field("Inactive Date"; InactiveDate)
+                        {
+                            ApplicationArea = All;
+                            Caption = 'Inactive Date';
+                            ToolTip = 'Specify the date the employee became inactive.';
+                            ShowMandatory = true;
+                        }
+
+                        field("Cause of Inactivity"; CauseOfInactivity)
+                        {
+                            ApplicationArea = All;
+                            Caption = 'Cause of Inactivity';
+                            ToolTip = 'Specify the reason for inactivity.';
+                            ShowMandatory = true;
+                        }
+                    }
+
+                    group("Terminated Status Details")
+                    {
+                        ShowCaption = false;
+                        Visible = ShowForTerminated;
+
+                        field("Termination Date"; TerminationDate)
+                        {
+                            ApplicationArea = All;
+                            Caption = 'Termination Date';
+                            ToolTip = 'Specify the date the employee was terminated.';
+                            ShowMandatory = true;
+                        }
+
+                        field("Grounds for Termination"; GroundsForTermination)
+                        {
+                            ApplicationArea = All;
+                            Caption = 'Grounds for Termination';
+                            ToolTip = 'Specify the reason or grounds for termination.';
+                            ShowMandatory = true;
+                        }
+                    }
+
+                    field("Remarks Change Status"; Remarks)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Remarks';
+                        ToolTip = 'Any additional remarks or notes for employment status change.';
+                        ShowMandatory = true;
+                    }
                 }
+                group("Change Details")
+                {
+                    Caption = 'Change Details';
+                    Visible = ShowChangeDetailsFields;
+
+                    field("Functional Title Change"; FunctionalTitle)
+                    {
+                        Caption = 'Functional Title';
+                        TableRelation = "Functional Title";
+                        ToolTip = 'Modify the Functional Title of the employee.';
+                        ApplicationArea = All;
+                    }
+                    field("Salary Level Change"; SalaryLevel)
+                    {
+                        Caption = 'Salary Level';
+                        TableRelation = "Salary Level";
+                        ToolTip = 'Modify the Salary Level of the employee.';
+                        ApplicationArea = All;
+                    }
+                    field("Salary Grade Change"; SalaryGrade)
+                    {
+                        Caption = 'Salary Grade';
+                        TableRelation = "Salary Grade";
+                        ToolTip = 'Modify the Salary Grade of the employee.';
+                        ApplicationArea = All;
+                    }
+                    field("Employment Type Change"; EmploymentType)
+                    {
+                        Caption = 'Employment Type';
+                        ToolTip = 'Modify the Employment Type of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            UpdateFieldVisibility();
+                        end;
+                    }
+                    field("Effective Date Change"; EffectiveDate)
+                    {
+                        Caption = 'Effective Date';
+                        ToolTip = 'Specify the date when changes become effective.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Deputation On Change"; DeputationOnTo)
+                    {
+                        Caption = 'Deputation On';
+                        ToolTip = 'Modify the Deputation assignment of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            if DeputationOnTo <> DeputationOnTo::Branch then
+                                Clear(ProvinceCode);
+                        end;
+                    }
+                    field("Province Code Change"; ProvinceCode)
+                    {
+                        Caption = 'Province Code';
+                        ToolTip = 'Modify the Province Code of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                        end;
+                    }
+                    field("Branch Code Change"; BranchCode)
+                    {
+                        Caption = 'Branch Code';
+                        ToolTip = 'Modify the Branch Code of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            BranchCode := GetDeputation(DeputationOnTo::Branch);
+                        end;
+                    }
+                    field("Department Code Change"; DepartmentCode)
+                    {
+                        Caption = 'Department Code';
+                        ToolTip = 'Modify the Department Code of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            DepartmentCode := GetDeputation(DeputationOnTo::Department);
+                        end;
+                    }
+                    field("Sub-Department Code Change"; SubDepartmentCode)
+                    {
+                        Caption = 'Sub-Department Code';
+                        ToolTip = 'Modify the Sub-Department Code of the employee.';
+                        ApplicationArea = All;
+
+                        trigger OnLookup(var Text: Text): Boolean
+                        begin
+                            SubDepartmentCode := GetDeputation(DeputationOnTo::Unit);
+                        end;
+                    }
+
+                    group("Change Details - Probation")
+                    {
+                        ShowCaption = false;
+                        Visible = ShowProbationPeriod;
+
+                        field("Probation Period Change"; ProbationPeriod)
+                        {
+                            Caption = 'Probation Period';
+                            ToolTip = 'Modify the Probation Period of the employee.';
+                            ApplicationArea = All;
+                        }
+                    }
+
+                    group("Change Details - Trainee")
+                    {
+                        ShowCaption = false;
+                        Visible = ShowTraineePeriod;
+
+                        field("Trainee Period Change"; TraineePeriod)
+                        {
+                            Caption = 'Trainee Period';
+                            ToolTip = 'Modify the Trainee Period of the employee.';
+                            ApplicationArea = All;
+                        }
+                    }
+
+                    group("Change Details - Contract")
+                    {
+                        ShowCaption = false;
+                        Visible = ShowContractPeriod;
+
+                        field("Contract Period Change"; ContractExpiryMonth)
+                        {
+                            Caption = 'Contract Period';
+                            ToolTip = 'Modify the Contract Period of the employee.';
+                            ApplicationArea = All;
+
+                            trigger OnValidate()
+                            begin
+                                if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
+                                    if (EmploymentType <> EmploymentType::Contract) and (EmploymentType <> EmploymentType::Outsource) then
+                                        Error('Employment type must be contract or outsource');
+                                    if EffectiveDate = 0D then
+                                        Error('Date must have value');
+                                end;
+                            end;
+                        }
+                    }
+
+                    group("Change Details - Status")
+                    {
+                        ShowCaption = false;
+
+                        field("Status Change Details"; NewStatus)
+                        {
+                            Caption = 'Status';
+                            ToolTip = 'Modify the Status of the employee.';
+                            ApplicationArea = All;
+
+                            trigger OnValidate()
+                            begin
+                                Clear(InactiveDate);
+                                Clear(CauseOfInactivity);
+                                Clear(TerminationDate);
+                                Clear(GroundsForTermination);
+
+                                case NewStatus of
+                                    NewStatus::Inactive,
+                                    NewStatus::Terminated:
+                                        LoadEmployeeTerminationDetails();
+                                end;
+                                UpdateFieldVisibility();
+                            end;
+                        }
+
+                        group("Change Details - Inactive")
+                        {
+                            ShowCaption = false;
+                            Visible = ShowForInactive;
+
+                            field("Inactive Date Change"; InactiveDate)
+                            {
+                                ApplicationArea = All;
+                                Caption = 'Inactive Date';
+                                ToolTip = 'Modify the Inactive Date of the employee.';
+                            }
+
+                            field("Cause of Inactivity Change"; CauseOfInactivity)
+                            {
+                                ApplicationArea = All;
+                                Caption = 'Cause of Inactivity';
+                                ToolTip = 'Modify the Cause of Inactivity of the employee.';
+                            }
+                        }
+
+                        group("Change Details - Terminated")
+                        {
+                            ShowCaption = false;
+                            Visible = ShowForTerminated;
+
+                            field("Termination Date Change"; TerminationDate)
+                            {
+                                ApplicationArea = All;
+                                Caption = 'Termination Date';
+                                ToolTip = 'Modify the Termination Date of the employee.';
+                            }
+
+                            field("Grounds for Termination Change"; GroundsForTermination)
+                            {
+                                ApplicationArea = All;
+                                Caption = 'Grounds for Termination';
+                                ToolTip = 'Modify the Grounds for Termination of the employee.';
+                            }
+                        }
+                    }
+
+                    field("Remarks Change Details"; Remarks)
+                    {
+                        Caption = 'Remarks';
+                        ToolTip = 'Additional remarks for the changes made.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                }
+
+
 
                 group("Hidden Fields")
                 {
@@ -331,7 +677,6 @@ report 50077 "Service Event Update"
             Error('Please fill Service Event field');
 
         if ServiceEvent = ServiceEvent::Appointment then begin
-
             if EffectiveDate = 0D then
                 Error('Please fill Effective Date field');
             if EmploymentType = EmploymentType::" " then
@@ -388,8 +733,6 @@ report 50077 "Service Event Update"
                 Employee.Validate("Probation Period", ProbationPeriod);
             if format(TraineePeriod) <> '' then
                 Employee.validate("Trainee Period", TraineePeriod);
-
-
             if EmploymentType <> EmploymentType::" " then
                 Employee.Validate("Employment Type", EmploymentType);
             if EmploymentType = EmploymentType::Permanent then
@@ -407,11 +750,148 @@ report 50077 "Service Event Update"
         if ServiceEvent = ServiceEvent::"Contract Renew" then
             Employee.Validate("Contract Renew Date", EffectiveDate);
 
+        if ServiceEvent = ServiceEvent::"Period Extend" then begin
+            if NewPeriodEndDate = 0D then
+                Error('Please enter New Period End Date.');
+            UpdateEmployeePeriodExtend(Employee, NewPeriodEndDate);
+        end;
+
+        if ServiceEvent = ServiceEvent::"Change Of Employment status" then begin
+            if EffectiveDate = 0D then
+                Error('Please fill Effective Date for status change');
+
+            case NewStatus of
+                NewStatus::Inactive:
+                    begin
+                        if InactiveDate = 0D then
+                            Error('Please fill Inactive Date');
+                        if CauseOfInactivity = '' then
+                            Error('Please fill Cause of Inactivity');
+                        if InactiveDate > EffectiveDate then
+                            Error('Inactive Date cannot be later than Effective Date');
+
+                        Employee.Validate(Status, Employee.Status::Inactive);
+                        Employee.Validate("Inactive Date", InactiveDate);
+                        Employee.Validate("Cause of Inactivity Code", CauseOfInactivity);
+                        Clear(Employee."Termination Date");
+                        Clear(Employee."Grounds for Term. Code");
+                    end;
+
+                NewStatus::Terminated:
+                    begin
+                        if TerminationDate = 0D then
+                            Error('Please fill Termination Date');
+                        if GroundsForTermination = '' then
+                            Error('Please fill Grounds for Termination');
+                        if TerminationDate > EffectiveDate then
+                            Error('Termination Date cannot be later than Effective Date');
+
+                        Employee.Validate(Status, Employee.Status::Terminated);
+                        Employee.Validate("Termination Date", TerminationDate);
+                        Employee.Validate("Grounds for Term. Code", GroundsForTermination);
+                        Clear(Employee."Inactive Date");
+                        Clear(Employee."Cause of Inactivity Code");
+                    end;
+
+                NewStatus::Active:
+                    begin
+                        Employee.Validate(Status, Employee.Status::Active);
+                        Clear(Employee."Inactive Date");
+                        Clear(Employee."Cause of Inactivity Code");
+                        Clear(Employee."Termination Date");
+                        Clear(Employee."Grounds for Term. Code");
+                    end;
+            end;
+            if NewStatus = NewStatus::Active then
+                Employee.Validate("Employment Date", EffectiveDate);
+        end;
+
+        if ServiceEvent = ServiceEvent::"Change Details" then begin
+            if EffectiveDate = 0D then
+                Error('Please fill Effective Date for change details');
+            if FunctionalTitle <> '' then
+                Employee.Validate("Functional Title", FunctionalTitle);
+            if SalaryLevel <> '' then
+                Employee.Validate("Salary Level", SalaryLevel);
+            if SalaryGrade <> '' then
+                Employee.Validate("Salary Grade", SalaryGrade);
+            if EmploymentType <> EmploymentType::" " then
+                Employee.Validate("Employment Type", EmploymentType);
+            if DeputationOnTo <> DeputationOnTo::" " then
+                Employee.Validate("Deputation on", DeputationOnTo);
+            if ProvinceCode <> '' then
+                Employee.Validate("Province Code", ProvinceCode);
+            if BranchCode <> '' then
+                Employee.Validate("Branch Code", BranchCode);
+            if DepartmentCode <> '' then
+                Employee.Validate("Department Code", DepartmentCode);
+            if SubDepartmentCode <> '' then
+                Employee.Validate("Unit Code", SubDepartmentCode);
+
+            if EmploymentType = EmploymentType::Probation then
+                if ProbationPeriod <> ProbationPeriod::" " then begin
+                    Employee.Validate("Probation Period", ProbationPeriod);
+                    if ProbationPeriod = ProbationPeriod::"6 Month" then
+                        ProbationFormula := '6M';
+                    if ProbationPeriod = ProbationPeriod::"12 Month" then
+                        ProbationFormula := '1Y';
+                    ProbationEndDate := CalcDate(ProbationFormula, EffectiveDate);
+                    Employee.Validate("Trainee/Probation End date", ProbationEndDate);
+                end;
+
+            if EmploymentType = EmploymentType::Temporary then
+                if format(TraineePeriod) <> '' then begin
+                    Employee.Validate("Trainee Period", TraineePeriod);
+                    if TraineePeriod = TraineePeriod::"6 Month" then
+                        TraineeFormula := '6M';
+                    if TraineePeriod = TraineePeriod::"12 Month" then
+                        TraineeFormula := '1Y';
+                    TraineeEndDate := CalcDate(TraineeFormula, EffectiveDate);
+                    Employee.Validate("Trainee/Probation End date", TraineeEndDate);
+                end;
+
+            if EmploymentType in [EmploymentType::Contract, EmploymentType::Outsource] then
+                if ContractExpiryMonth <> ContractExpiryMonth::" " then
+                    Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
+
+
+            case NewStatus of
+                NewStatus::Active:
+                    begin
+                        Employee.Validate(Status, Employee.Status::Active);
+                        Clear(Employee."Inactive Date");
+                        Clear(Employee."Cause of Inactivity Code");
+                        Clear(Employee."Termination Date");
+                        Clear(Employee."Grounds for Term. Code");
+                    end;
+                NewStatus::Inactive:
+                    begin
+                        Employee.Validate(Status, Employee.Status::Inactive);
+                        if InactiveDate <> 0D then
+                            Employee.Validate("Inactive Date", InactiveDate);
+                        if CauseOfInactivity <> '' then
+                            Employee.Validate("Cause of Inactivity Code", CauseOfInactivity);
+                        Clear(Employee."Termination Date");
+                        Clear(Employee."Grounds for Term. Code");
+                    end;
+                NewStatus::Terminated:
+                    begin
+                        Employee.Validate(Status, Employee.Status::Terminated);
+                        if TerminationDate <> 0D then
+                            Employee.Validate("Termination Date", TerminationDate);
+                        if GroundsForTermination <> '' then
+                            Employee.Validate("Grounds for Term. Code", GroundsForTermination);
+                        Clear(Employee."Inactive Date");
+                        Clear(Employee."Cause of Inactivity Code");
+                    end;
+            end;
+            Employee.Validate("Employment Date", EffectiveDate);
+        end;
+
         ValidateDeputationOnCode();
 
         Employee.Modify;
         PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
-
         ServiceHistory.Init;
         ServiceHistory.Validate("Employee No.", Employee."No.");
         ServiceHistory.Validate("Effective Date", EffectiveDate);
@@ -449,21 +929,33 @@ report 50077 "Service Event Update"
         FunctionalTitle: Code[20];
         SalaryLevel: Code[20];
         EmploymentType: enum "Employee Type";
+        EmploymentTypePeriodExtend: Enum "Employee Type";
         ContractExpiryMonth: Enum "Contract Expiry Date";
         SalaryGrade: Code[20];
         ServiceHistory: Record "Employee Service History";
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Enum "Probation Period";
         TraineePeriod: Enum "Trainee Period";
-
+        NewPeriod: Date;
+        NewPeriodEndDate: Date;
+        CurrentStatus: enum "Employee Status";
+        NewStatus: enum "New Status";
+        InactiveDate: Date;
+        CauseOfInactivity: Code[10];
+        TerminationDate: Date;
+        GroundsForTermination: Code[10];
 
         // Visibility Controls
         ShowAppointmentFields: Boolean;
         ShowConfirmationFields: Boolean;
         ShowProbationPeriod: Boolean;
+        ShowForInactive: Boolean;
+        ShowForTerminated: Boolean;
+        ShowChangeOfEmploymentStatusFields: Boolean;
         ShowTraineePeriod: Boolean;
         ShowContractPeriod: Boolean;
         ShowPeriodExtendFields: Boolean;
+        ShowChangeDetailsFields: Boolean;
 
     local procedure UpdateFieldVisibility()
     begin
@@ -473,6 +965,10 @@ report 50077 "Service Event Update"
         ShowTraineePeriod := false;
         ShowContractPeriod := false;
         ShowPeriodExtendFields := false;
+        ShowChangeOfEmploymentStatusFields := false;
+        ShowForInactive := false;
+        ShowForTerminated := false;
+        ShowChangeDetailsFields := false;
 
         case ServiceEvent of
             ServiceEvent::Appointment:
@@ -481,6 +977,10 @@ report 50077 "Service Event Update"
                 ShowConfirmationFields := true;
             ServiceEvent::"Period Extend":
                 ShowPeriodExtendFields := true;
+            ServiceEvent::"Change Of Employment status":
+                ShowChangeOfEmploymentStatusFields := true;
+            ServiceEvent::"Change Details":
+                ShowChangeDetailsFields := true;
         end;
 
         case EmploymentType of
@@ -490,6 +990,13 @@ report 50077 "Service Event Update"
                 ShowTraineePeriod := true;
             EmploymentType::Contract, EmploymentType::Outsource:
                 ShowContractPeriod := true;
+        end;
+
+        case NewStatus of
+            NewStatus::Inactive:
+                ShowForInactive := true;
+            NewStatus::Terminated:
+                ShowForTerminated := true;
         end;
     end;
 
@@ -535,6 +1042,57 @@ report 50077 "Service Event Update"
         EmpNo := EmpCode;
     end;
 
+    local procedure UpdateEmployeePeriodExtend(Employee: Record Employee; NewDate: Date)
+    begin
+        case Employee."Employment Type" of
+            Employee."Employment Type"::Probation,
+            Employee."Employment Type"::Temporary:
+                begin
+                    Employee.Validate("Trainee/Probation End Date", NewDate);
+                    Employee.Modify();
+                end;
+
+            Employee."Employment Type"::Contract,
+            Employee."Employment Type"::Outsource:
+                begin
+                    Employee.Validate("Contract Renew Date", NewDate);
+                    Employee.Modify();
+                end;
+        end;
+    end;
 
 
+    local procedure LoadAutoPopulate()
+    var
+        EmployeeRec: Record Employee;
+    begin
+        if EmployeeRec.Get(EmpNo) then begin
+            EmploymentTypePeriodExtend := EmployeeRec."Employment Type";
+            CurrentStatus := EmployeeRec.Status;
+            case EmployeeRec.Status of
+                EmployeeRec.Status::Inactive:
+                    begin
+                        InactiveDate := EmployeeRec."Inactive Date";
+                        CauseOfInactivity := EmployeeRec."Cause of Inactivity Code";
+                    end;
+                EmployeeRec.Status::Terminated:
+                    begin
+                        TerminationDate := EmployeeRec."Termination Date";
+                        GroundsForTermination := EmployeeRec."Grounds for Term. Code";
+                    end;
+            end;
+        end;
+    end;
+
+    local procedure LoadEmployeeTerminationDetails()
+    var
+        EmployeeRec: Record Employee;
+    begin
+        if EmployeeRec.Get(EmpNo) then begin
+            InactiveDate := EmployeeRec."Inactive Date";
+            CauseOfInactivity := EmployeeRec."Cause of Inactivity Code";
+            TerminationDate := EmployeeRec."Termination Date";
+            GroundsForTermination := EmployeeRec."Grounds for Term. Code";
+        end;
+    end;
 }

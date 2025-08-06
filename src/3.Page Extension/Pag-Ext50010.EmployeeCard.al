@@ -1987,6 +1987,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     var
                         EmployeeEventUpdate: Report "Service Event Update";
                     begin
+                        rec.TestField(Gender);
                         IF CONFIRM('Do you want to update Employee Service event?', FALSE) THEN BEGIN
                             CLEAR(EmployeeEventUpdate);
                             EmployeeEventUpdate.SetAppointment(Rec."No.");
