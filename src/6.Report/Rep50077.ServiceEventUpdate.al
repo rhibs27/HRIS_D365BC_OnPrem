@@ -26,6 +26,7 @@ report 50077 "Service Event Update"
                             UpdateFieldVisibility();
                             LoadAutoPopulate();
                         end;
+
                     }
                 }
 
@@ -39,6 +40,7 @@ report 50077 "Service Event Update"
                         TableRelation = "Functional Title";
                         ToolTip = 'Specifies the value of the FunctionalTitle field.';
                         ApplicationArea = All;
+
                     }
                     field("Salary level"; SalaryLevel)
                     {
@@ -58,6 +60,7 @@ report 50077 "Service Event Update"
                         ToolTip = 'Specifies the value of the EmploymentType field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
+
 
                         trigger OnValidate()
                         begin
@@ -596,6 +599,7 @@ report 50077 "Service Event Update"
                                 ApplicationArea = All;
                                 Caption = 'Inactive Date';
                                 ToolTip = 'Modify the Inactive Date of the employee.';
+                                TableRelation = Employee."Inactive Date";
                             }
 
                             field("Cause of Inactivity Change"; CauseOfInactivity)
@@ -603,6 +607,7 @@ report 50077 "Service Event Update"
                                 ApplicationArea = All;
                                 Caption = 'Cause of Inactivity';
                                 ToolTip = 'Modify the Cause of Inactivity of the employee.';
+                                TableRelation = Employee."Cause of Inactivity Code";
                             }
                         }
 
@@ -616,6 +621,7 @@ report 50077 "Service Event Update"
                                 ApplicationArea = All;
                                 Caption = 'Termination Date';
                                 ToolTip = 'Modify the Termination Date of the employee.';
+                                TableRelation = Employee."Termination Date";
                             }
 
                             field("Grounds for Termination Change"; GroundsForTermination)
@@ -623,6 +629,7 @@ report 50077 "Service Event Update"
                                 ApplicationArea = All;
                                 Caption = 'Grounds for Termination';
                                 ToolTip = 'Modify the Grounds for Termination of the employee.';
+                                TableRelation = Employee."Grounds for Term. Code";
                             }
                         }
                     }
