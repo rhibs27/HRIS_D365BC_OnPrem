@@ -649,6 +649,11 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the ATM cust. Allow. (comtract) field.';
                     ApplicationArea = All;
                 }
+                field("Allowance Claim Limit (days)"; Rec."Allowance Claim Limit (days)")
+                {
+                    ToolTip = 'Specifies the limit to create Allowance claim document from Allowance End date';
+                    ApplicationArea = All;
+                }
 
             }
             group(Settlement)

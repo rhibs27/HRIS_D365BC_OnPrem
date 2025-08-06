@@ -3083,6 +3083,7 @@ codeunit 50001 "HR Mgt."
         format: ReportFormat;
         Email: Codeunit Email;
         CodeunitEmailMessage: Codeunit "Email Message";
+        Leave: Record Leave;
     begin
         Clear(EmailReceipientText);
         Clear(InStr);
@@ -3435,6 +3436,18 @@ codeunit 50001 "HR Mgt."
                             end; //document type case end
                         end; //document no end
                     end; //employee activity end
+                DATABASE::Leave:
+                    begin
+                        if DocumentType = DocumentType::"Leave Request" then begin
+                            Leave.Get(DocumentNo);
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Employee No.") + Colon + Format(Leave."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Leave Type") + Colon + Format(Leave."Leave Description") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("Start Date") + Colon + Format(Leave."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("End Date") + Colon + Format(Leave."End Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption("No. of Days") + Colon + Format(Leave."No. of Days") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(Leave.FieldCaption(Remarks) + Colon + Format(Leave.Remarks) + '<br>');
+                        end;
+                    end;
 
                 DATABASE::"Employee Loan/Advance":
                     begin

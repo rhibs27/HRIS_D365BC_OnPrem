@@ -86,4 +86,12 @@ enum 50146 "Service Event"
     {
         Caption = 'Officiating Arrangement';
     }
+    value(21; "Retirement")
+    {
+        Caption = 'Retirement';
+    }
+    value(22; "Re Appointment")
+    {
+        Caption = 'Re Appointment';
+    }
 }

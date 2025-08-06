@@ -153,8 +153,7 @@ table 50043 "Attendance Line"
 
         field(49; "Employee Name"; Text[50])
         {
-            CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
-            FieldClass = FlowField;
+            Editable = false;
         }
         field(50; "Salary Level Code"; Code[20])
         {

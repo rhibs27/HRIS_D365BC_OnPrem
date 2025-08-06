@@ -223,24 +223,30 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceLog: Record "Attendance Log";
         AttendanceMissed: Record "Attendance Missed";
         EmpAttendActivity: Record "Employee Attendance & Activity";
+        LogDateTime: DateTime;
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         if AttendanceMissed.Type = AttendanceMissed.Type::"Attendance Missed" then begin
             if AttendanceMissed."Check In Time" <> 0T then begin
                 AttendanceLog.Init();
+                Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
                 AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
+                AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
                 AttendanceLog.Insert();
             end;
             if AttendanceMissed."Check Out Time" <> 0T then begin
                 AttendanceLog.Init();
+                Clear(LogDateTime);
+                Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
                 AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
+                AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
                 AttendanceLog.Insert();
             end;

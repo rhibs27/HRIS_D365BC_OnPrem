@@ -461,6 +461,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         BranchType: Enum "Branchwise/Extension Type";
     begin
         Clear(Employee);
+        PGSetup.Get();
         // Clear Approval line 
         Approval.Reset();
         Approval.SetRange("Document No.", '');
@@ -473,7 +474,7 @@ codeunit 50022 "Allowance Assignment Mgt"
         if PayCyclePeriod.FindFirst() then begin
         end else
             Error('Payroll PayCyclePeriod Not found');
-        if not ((PayCyclePeriod."Allowance End Date" <= Today) and (Today > PayCyclePeriod."Pay Date" - 1)) then
+        if ((Today <= PayCyclePeriod."Allowance End Date") or (Today > (PayCyclePeriod."Allowance End Date" + PGSetup."Allowance Claim Limit (days)"))) then
             Error('You can not Create Allowance claim before %1 and After %2', PayCyclePeriod."Allowance End Date", PayCyclePeriod."Pay Date" - 1);
         Employee.Get(EmpCode);
         AllowanceAssignment.Reset();

@@ -438,22 +438,36 @@ codeunit 50005 "Transfer Mgt."
                 if IncomingDoc.FindFirst then
                     Error('Attachment file not Uploaded for attachment %1', AttachmentSetup."Attachment Code");
             until AttachmentSetup.Next = 0;
-
-
         EmpHrTransfer.Validate("Approval Status", EmpHrTransfer."Approval Status"::Acknowledged);
         EmpHrTransfer.Modify;
 
         if EmployeeRec.Get(EmpHrTransfer."Employee No.") then begin
-            EmployeeRec.Validate("Disable Punch in", false);
-            EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
-            EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
-            EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
-            EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
-            EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
+            case EmpHrTransfer."Deputation On (To)" of
+                EmpHrTransfer."Deputation On (To)"::Branch:
+                    begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."To Branch");
+                        EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+                        EmployeeRec.Validate("Branch Code", EmpHrTransfer."To Branch");
+                        if EmpHrTransfer."Extension Counter (To)" <> '' then
+                            EmployeeRec.Validate("Extension Counter Code", EmpHrTransfer."Extension Counter (To)");
+                    end;
+                EmpHrTransfer."Deputation On (To)"::Department:
+                    begin
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."Department Code (To)");
+                        EmployeeRec.Validate("Department Code", EmpHrTransfer."Department Code (To)");
+                        if EmpHrTransfer."Unit (To)" <> '' then
+                            EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
+                    end;
+                EmpHrTransfer."Deputation On (To)"::Province:
+                    begin
+                        EmployeeRec.Validate("Deputation on", EmpHrTransfer."Deputation On (To)");
+                        EmployeeRec.Validate("Deputation On Code", EmpHrTransfer."Province Code (To)");
+                        EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
+                    end;
+            end;
             EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
-            if EmpHrTransfer."Deputation On (To)" = EmpHrTransfer."Deputation On (To)"::Department then
-                EmployeeRec.Validate("Unit Code", EmpHrTransfer."Unit (To)");
             EmployeeRec.Modify;
         end;
         // OnAfterTransferAcknowledge(EmpHrTransfer);

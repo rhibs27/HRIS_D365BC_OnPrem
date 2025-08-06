@@ -324,27 +324,33 @@ page 50061 "Employee Attendance & Activity"
 
     actions
     {
-        area(Navigation)
+        area(Processing)
         {
-            group(ActionGroup48)
+            action("Update Emp Name")
             {
-                action("Change Reviewer/ Check Reviewer")
-                {
-                    Image = ReOpen;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
-                    PromotedOnly = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Change Reviewer/ Check Reviewer action.';
-                    ApplicationArea = All;
-
-                    trigger OnAction()
-                    begin
-                        Rec.updateReviewerCheckReviewer; //Min 12.16.2022
-                    end;
-                }
+                Image = ReOpen;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ToolTip = 'Executes the Change Reviewer/ Check Reviewer action.';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    EmployeeAttendnce: Record "Employee Attendance & Activity";
+                    Employee: Record Employee;
+                begin
+                    EmployeeAttendnce.Reset();
+                    if EmployeeAttendnce.FindSet() then
+                        repeat
+                            if Employee.Get(EmployeeAttendnce."Employee No.") then begin
+                                EmployeeAttendnce."Employee Name" := Employee."Full Name";
+                                EmployeeAttendnce.Modify();
+                            end;
+                        until EmployeeAttendnce.Next() = 0;
+                end;
             }
+
         }
     }
 }

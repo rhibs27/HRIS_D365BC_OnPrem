@@ -1,6 +1,5 @@
 table 50048 "Employee Attendance & Activity"
 {
-    // version ATM19.01.01
     DrillDownPageId = "Employee Attendance & Activity";
     LookupPageId = "Employee Attendance & Activity";
     DataClassification = CustomerContent;
@@ -172,9 +171,7 @@ table 50048 "Employee Attendance & Activity"
 
         field(49; "Employee Name"; Text[50])
         {
-            CalcFormula = lookup(Employee."Full Name" where("No." = field("Employee No.")));
             Editable = false;
-            FieldClass = FlowField;
         }
         field(50; "Salary Level Code"; Code[20])
         {
@@ -263,6 +260,8 @@ table 50048 "Employee Attendance & Activity"
     trigger OnInsert()
     begin
         "Created Datetime" := CurrentDateTime;
+        if Employee.Get("Employee No.") then
+            Validate("Employee Name", Employee."Full Name");
     end;
 
     trigger OnModify()
@@ -271,46 +270,5 @@ table 50048 "Employee Attendance & Activity"
     end;
 
     var
-        EmpAttAct: Record "Employee Attendance & Activity";
-
-    procedure updateReviewerCheckReviewer()
-    var
-        EmpAttendanceFilterPageBuilder: FilterPageBuilder;
-        EmployeeNo: Code[20];
-        AttendanceDate: Date;
-        PunchoutReviewer: Code[20];
-        PunchoutCheckReviewer: Code[20];
-        PunchoutReviewerMsg: Label 'Reviewer of %1 on %2 has been Updated Sucessfully.';
-        PunchoutCheckReviewerMsg: Label 'Check Reviewer of %1 on %2 has been Updated Sucessfully.';
-        ErrorMsg1: Label 'Please Select Either Reviewer or Check Reviewer.';
-        ErrorMsg2: Label 'Attendance Date must have a Value, to Change either Reviewer and Check Reviewer.';
-    begin
-        EmpAttendanceFilterPageBuilder.AddRecord('Employee Attendance & Activity', Rec);
-        EmpAttendanceFilterPageBuilder.AddField('Employee Attendance & Activity', "Employee No.");
-        EmpAttendanceFilterPageBuilder.AddField('Employee Attendance & Activity', "Attendance Date");
-        EmpAttendanceFilterPageBuilder.AddField('Employee Attendance & Activity', "Punch Out Reviewer");
-        EmpAttendanceFilterPageBuilder.AddField('Employee Attendance & Activity', "Punch Out Check Reviewer");
-        EmpAttendanceFilterPageBuilder.RunModal;
-        EmpAttAct.SetView(EmpAttendanceFilterPageBuilder.GetView('Employee Attendance & Activity'));
-        EmployeeNo := EmpAttAct.GetFilter("Employee No.");
-        Evaluate(AttendanceDate, EmpAttAct.GetFilter("Attendance Date"));
-        PunchoutReviewer := EmpAttAct.GetFilter("Punch Out Reviewer");
-        PunchoutCheckReviewer := EmpAttAct.GetFilter("Punch Out Check Reviewer");
-
-        if (EmployeeNo <> '') and (AttendanceDate = 0D) then
-            Error(ErrorMsg2);
-        if (EmployeeNo <> '') and (AttendanceDate <> 0D) then
-            if (PunchoutReviewer = '') and (PunchoutCheckReviewer = '') then
-                Error(ErrorMsg1);
-        if PunchoutReviewer <> '' then begin
-            Validate("Punch Out Reviewer", PunchoutReviewer);
-            Modify;
-            Message(PunchoutReviewerMsg, EmployeeNo, AttendanceDate);
-        end;
-        if PunchoutCheckReviewer <> '' then begin
-            Validate("Punch Out Check Reviewer", PunchoutCheckReviewer);
-            Modify;
-            Message(PunchoutCheckReviewerMsg, EmployeeNo, AttendanceDate);
-        end;
-    end;
+        Employee: Record Employee;
 }
