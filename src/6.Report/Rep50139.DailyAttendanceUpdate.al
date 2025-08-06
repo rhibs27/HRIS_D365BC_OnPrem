@@ -28,7 +28,6 @@ report 50139 "Daily Attendance Update"
                     SetRange(Status, Employee.Status::Active);
                 end;
             }
-            //Date 
             trigger OnAfterGetRecord()
             begin
                 Clear(InitialDate);
@@ -68,10 +67,8 @@ report 50139 "Daily Attendance Update"
             }
         }
 
-        actions { }
     }
 
-    labels { }
     trigger OnPreReport()
     begin
         AttendanceSetup.Get;
@@ -85,15 +82,15 @@ report 50139 "Daily Attendance Update"
         if FromDate > ToDate then
             Error('From Date %1 must be to date %2.', FromDate, ToDate);
 
-        if GuiAllowed then begin
-            UserSetup.Get(UserId);
-            if not UserSetup."Run Back Date Daily Attend." then
-                if FromDate < Today - 1 then
-                    Error('You are not eligible to run back date daily attendance.');
+        // if GuiAllowed then begin
+        //     UserSetup.Get(UserId);
+        //     if not UserSetup."Run Back Date Daily Attend." then
+        //         if FromDate < Today - 1 then
+        //             Error('You are not eligible to run back date daily attendance.');
 
-            if (FromDate > Today) or (ToDate > Today) then
-                Error('Cannot run attendance of future date. Please check the date.');
-        end;
+        //     if (FromDate > Today) or (ToDate > Today) then
+        //         Error('Cannot run attendance of future date. Please check the date.');
+        // end;
     end;
 
     var

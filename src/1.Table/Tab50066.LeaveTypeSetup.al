@@ -144,10 +144,7 @@ table 50066 "Leave Type Setup"
             OptionMembers = " ",Attendance,Automatic,"On Approval";
             Caption = 'Credit Method';
         }
-        field(102; "Min. Service Years"; Decimal)
-        {
-            Caption = 'Min. Service Years for Eligibility';
-        }
+
         field(103; "Max. Eligible Age"; Decimal)
         {
             Caption = 'Max. Eligible Age';
@@ -170,10 +167,6 @@ table 50066 "Leave Type Setup"
         }
         field(111; "Attendance Days"; Decimal) { }
         field(112; Encashable; Boolean) { }
-        field(113; "Max Earn Limit Per. Service"; Decimal)
-        {
-            Description = 'Define max leave accumulation only for service enabled leave';
-        }
         field(114; "Service Period Calc On"; Option)
         {
             OptionMembers = "Employment Date","Confirmation Date";

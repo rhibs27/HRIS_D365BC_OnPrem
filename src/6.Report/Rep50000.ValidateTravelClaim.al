@@ -381,6 +381,7 @@ report 50000 "Validate Travel Claim"
         LeaveEarn.Validate(Remarks, 'Leave Collapsed.');
         LeaveEarn.Validate(Type, LeaveEarn.Type::Collapsed);
         LeaveEarn.Insert(true);
+
     end;
 
     local procedure ValidateFiscalYear()

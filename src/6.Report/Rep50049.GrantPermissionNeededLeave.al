@@ -46,13 +46,13 @@ report 50049 "Grant Permission Needed Leave"
         LeaveEarn: Record "Leave Earn";
         LeaveMgt: Codeunit "Leave Mgt.";
         DateExpr: Text;
+        EarnDays: Decimal;
     begin
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
         if EngNep.FindFirst then;
         LeavetypSetup.Reset;
         LeavetypSetup.SetFilter(Code, LeaveCodeFilter);
-
         LeavetypSetup.SetRange("Needed HR Permission", true);
         if LeavetypSetup.Find('-') then
             repeat
@@ -78,9 +78,7 @@ report 50049 "Grant Permission Needed Leave"
                     if LeaveEarn.Count >= LeavetypSetup."Times Per Service Period" then
                         Error('Employee has already taken leave for more than %1 times in his service period.', LeavetypSetup."Times Per Service Period");
 
-                    if LeavetypSetup."Max Earn Limit Per. Service" <> 0 then
-                        if LeaveEarn."Balancing Days" >= LeavetypSetup."Max Earn Limit Per. Service" then
-                            Error('Leave cannot be earned as earning reached its limit');
+
                 end;
                 if LeavetypSetup."Employment Limit" <> 0 then begin
                     DateExpr := '<' + Format(LeavetypSetup."Employment Limit") + 'Y>';
@@ -92,18 +90,20 @@ report 50049 "Grant Permission Needed Leave"
                 end;
 
                 Clear(LeaveEarn);
-                LeaveEarn.Init;
-                LeaveEarn.Validate("Entry No.", LeaveMgt.GetNextLeaveLedgerEntryNo());
-                LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
-                LeaveEarn.Validate("Employee No.", Employee."No.");
-                LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
-                LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
-                LeaveEarn.Validate("Posted Date", Today);
                 if not LeavetypSetup."Calculate Proratawise" then
-                    LeaveEarn.Validate("Balancing Days", LeavetypSetup."Days Earned Per Year")
+                    EarnDays := LeavetypSetup."Days Earned Per Year"
                 else
-                    LeaveEarn.Validate("Balancing Days", LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Employment Date"));
-                LeaveEarn.Insert(true);
+                    EarnDays := LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Employment Date");
+
+                LeaveMgt.CreateLeaveLedger(Employee."No.",
+                                        LeaveTypSetup.Code,
+                                        Today,
+                                        Enum::"Leave Earn Type"::Earned,
+                                        EarnDays,
+                                        LeaveMgt.GetNextLeaveLedgerEntryNo(),
+                                        '',
+                                        '',
+                                        '');
             until LeavetypSetup.Next = 0;
     end;
 }

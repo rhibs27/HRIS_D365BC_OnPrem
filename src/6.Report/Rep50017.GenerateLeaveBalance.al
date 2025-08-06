@@ -15,6 +15,7 @@ report 50017 "Generate Leave Balance"
             begin
                 TestField("Employment Type");
                 TestField(Gender);
+                TestField("Employment Date");
                 if Employee."Employment Type" = Employee."Employment Type"::Permanent then
                     Employee.TestField("Confirmation Date");
                 LeaveMgt.GenerateLeave(Employee."No.");

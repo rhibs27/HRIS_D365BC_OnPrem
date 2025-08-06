@@ -11263,11 +11263,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Marital Status - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 310427152 - Field 3792418879 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Max Earn Limit Per. Service</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Max Earn Limit Per. Service - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 310427152 - Field 4015446328 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Max. Eligible Age</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11277,11 +11272,6 @@
           <source>Maximum Leave at once</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maximum Leave at once - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 310427152 - Field 1193335799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Min. Service Years for Eligibility</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Min. Service Years - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3770206729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Minimum Leave at once</source>
@@ -35868,20 +35858,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Marital Status - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 310427152 - Control 3792418879 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Max Earn Limit Per. Service field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Max Earn Limit Per. Service - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 310427152 - Control 1830355459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Maximum Leave at once field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Maximum Leave at once - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 310427152 - Control 1193335799 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Min. Service Years for Eligibility field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Min. Service Years - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 3770206729 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Minimum Leave at once field.</source>
@@ -54103,6 +54083,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Control 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>PF ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property Caption</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2122517253 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Portal Attendance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54688,11 +54673,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control KRA Setup No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 520017643 - Control 1597351041 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
-          <source>Specifies the value of the Leave No. Series field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Leave No. Series - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 491801281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Loan Disbursement Email field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54887,6 +54867,16 @@
           <source>Specifies the value of the Gratuity Rate for Level 4 field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Gratuity Rate for Level 4 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 1597351041 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Leave No. Series field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Leave No. Series - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 520017643 - Control 2710349169 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
+          <source>Specifies the value of the Leave Rounding Precision field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Human Resources Setup - Control Leave Rounding Precision - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 520017643 - Control 342618115 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 520017643">
           <source>Specifies the value of the Base Interest Rate field.</source>
@@ -57353,20 +57343,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field KRA Setup No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 4168225968 - Field 3276375336 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
-          <source>Leave Earn No.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Leave Earn No. - Property Caption</note>
-        </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 1597351041 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Leave No. Series</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Leave No. Series - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 4168225968 - Field 2440224215 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
-          <source>Leave Request No.</source>
+        <trans-unit id="TableExtension 4168225968 - Field 2710349169 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
+          <source>Leave Rounding Precision</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Leave Request No. - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension HR Setup Ext - Field Leave Rounding Precision - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 4168225968 - Field 491801281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 520017643">
           <source>Loan Disbursement Email</source>
@@ -59898,10 +59883,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Status - EnumValue Screened - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 3046439657 - EnumValue 18652612 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source></source>
+        <trans-unit id="Enum 3046439657 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Insurance Tieup - EnumValue   - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 3046439657 - EnumValue 4225200084 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>LIC Nepal</source>

@@ -93,7 +93,7 @@ report 50043 "Import Attendance"
         AttMgt: Codeunit "HR Mgt.";
         gender: Enum "Employee Gender";
         InOutValley: Enum "Outside/Inside Valley";
-        PostingRegion: Option;
+        PostingRegion: Enum Region;
         province: Text;
         Branch: Text;
         Community: Enum "Community Type";

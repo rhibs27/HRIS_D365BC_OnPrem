@@ -805,6 +805,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
                 field("Employee Attendance ID"; Rec."Employee Attendance ID")
                 {
+                    Caption = 'PF ID';
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Employee Attendance ID field.';
 
