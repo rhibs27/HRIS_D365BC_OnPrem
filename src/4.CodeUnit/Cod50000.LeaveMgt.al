@@ -1171,7 +1171,7 @@ codeunit 50000 "Leave Mgt."
                                             NoOfCreditPeriods -= 1;
                                     end;
                                     //check for month middle join
-                                    OnAfterCalculateLeaveCreditPeriods(NoOfCreditPeriods, EmpVar."Employment Date");
+                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
 
                                     ActualCreditLimit := AnnualCreditLimit / 12 * NoOfCreditPeriods;
                                 end else
@@ -1374,7 +1374,7 @@ codeunit 50000 "Leave Mgt."
 
     end;
 
-    procedure OnAfterCalculateLeaveCreditPeriods(var LeaveCreditPeriods: Decimal; EmployementDate: Date)
+    procedure CalculateProrataLeavePeriod(var LeaveCreditPeriods: Decimal; EmployementDate: Date)
     var
         LeavePeriod, LeavePeriod2 : Record "Accounting Period";
         LeaveYearStartDate, EmployementMonthStartDate, EmployementMonthEndDate : Date;
