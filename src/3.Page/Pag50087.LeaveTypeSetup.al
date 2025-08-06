@@ -86,16 +86,6 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Times Per Service Period field.';
                     ApplicationArea = All;
                 }
-                field("Min. Service Years"; Rec."Min. Service Years")
-                {
-                    Editable = Rec."Services Period";
-                    ToolTip = 'Specifies the value of the Min. Service Years for Eligibility field.', Comment = '%';
-                }
-                field("Max Earn Limit Per. Service"; Rec."Max Earn Limit Per. Service")
-                {
-                    Editable = Rec."Services Period";
-                    ToolTip = 'Specifies the value of the Max Earn Limit Per. Service field.', Comment = '%';
-                }
                 field("Carry Forwardable"; Rec."Carry Forwardable")
                 {
                     ToolTip = 'Specifies the value of the Carry Forwardable field.';

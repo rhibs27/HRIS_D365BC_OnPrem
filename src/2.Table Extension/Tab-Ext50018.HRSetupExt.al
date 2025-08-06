@@ -380,12 +380,12 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50078; "Leave Request No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-            Description = 'not in use';
-        }
+        // field(50078; "Leave Request No."; Code[20])
+        // {
+        //     TableRelation = "No. Series";
+        //     DataClassification = CustomerContent;
+        //     Description = 'not in use';
+        // }
         field(50079; "Grace Period"; Time)
         {
             DataClassification = CustomerContent;
@@ -452,11 +452,11 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
 
         }
-        field(50094; "Leave Earn No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
+        // field(50094; "Leave Earn No."; Code[20])
+        // {
+        //     TableRelation = "No. Series";
+        //     DataClassification = CustomerContent;
+        // }
         field(50095; "EmpActivity No."; Code[20])
         {
             TableRelation = "No. Series";
@@ -699,5 +699,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             Caption = 'Calculate Age using Nepali Calender';
         }
+        field(50149; "Leave Rounding Precision"; Decimal)
+        {
+
+        }
+
     }
 }

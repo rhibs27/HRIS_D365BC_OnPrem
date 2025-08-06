@@ -136,10 +136,17 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeQualification: Record "Employee Qualification";
         EmployeeNo: Code[20];
     begin
-        EmployeeQualification.Init();
-        EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEditLine."Employee No."));
-        EmployeeQualification.Validate("Employee No.", EmployeeEditLine."Employee No.");
+        if EmployeeEditLine."Original Line No." = 0 then begin
+            EmployeeQualification.Init();
+            EmployeeQualification.Validate("Line No.", GetNextLineNoQualification(EmployeeEditLine."Employee No."));
+        end
+        else begin
+            EmployeeQualification.SetRange("Employee No.", EmployeeEditLine."Employee No.");
+            EmployeeQualification.SetRange("Line No.", EmployeeEditLine."Original Line No.");
+            EmployeeQualification.FindFirst();
+        end;
 
+        EmployeeQualification.Validate("Employee No.", EmployeeEditLine."Employee No.");
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Qualification then begin
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeQualification."Emp Qualification Type"::Education);
             EmployeeQualification.Validate("Qualification Type", EmployeeEditLine."Qualification Type");
@@ -168,7 +175,10 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate(Year, EmployeeEditLine.Year);
         EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
         EmployeeQualification.Validate(Attachment, EmployeeEditLine.Attachment);
-        EmployeeQualification.Insert();
+        if EmployeeEditLine."Original Line No." = 0 then
+            EmployeeQualification.Insert()
+        else
+            EmployeeQualification.Modify();
     end;
 
     local procedure EmployeeAchievementAdd(var EmployeeEdit: Record "Employee Edit")
@@ -264,8 +274,14 @@ codeunit 50021 "Employee Edit Mgt."
     var
         EmployeeRelative: Record "Employee Relative";
     begin
-        EmployeeRelative.Init();
-        EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEditLine."Employee No."));
+        if EmployeeEditLine."Original Line No." = 0 then begin
+            EmployeeRelative.Init();
+            EmployeeRelative.Validate("Line No.", GetNextLineNoRelative(EmployeeEditLine."Employee No."));
+        end else begin
+            EmployeeRelative.SetRange("Employee No.", EmployeeEditLine."Employee No.");
+            EmployeeRelative.SetRange("Line No.", EmployeeEditLine."Original Line No.");
+            EmployeeRelative.FindFirst();
+        end;
         EmployeeRelative.Validate("Employee No.", EmployeeEditLine."Employee No.");
         EmployeeRelative.Validate("Relative Code", EmployeeEditLine."Relative Code");
         EmployeeRelative.Validate("Full Name", EmployeeEditLine."Full Name");
@@ -279,7 +295,10 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
         EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
         EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
-        EmployeeRelative.Insert();
+        if EmployeeEditLine."Original Line No." = 0 then
+            EmployeeRelative.Insert()
+        else
+            EmployeeRelative.Modify();
     end;
 
     procedure GetNextLineNoRelative(EmpNo: Code[20]): Integer
@@ -308,15 +327,24 @@ codeunit 50021 "Employee Edit Mgt."
     var
         LanguageProficiency: Record "Language Proficiency";
     begin
-        LanguageProficiency.init();
-        LanguageProficiency.Validate("Line No.", GetNextLineNoLanguageProficency(EmployeeEditLine."Employee No."));
+        if EmployeeEditLine."Original Line No." = 0 then begin
+            LanguageProficiency.init();
+            LanguageProficiency.Validate("Line No.", GetNextLineNoLanguageProficency(EmployeeEditLine."Employee No."));
+        end else begin
+            LanguageProficiency.SetRange("Employee Code", EmployeeEditLine."Employee No.");
+            LanguageProficiency.SetRange("Line No.", EmployeeEditLine."Original Line No.");
+            LanguageProficiency.FindFirst();
+        end;
         LanguageProficiency.Validate("Employee Code", EmployeeEditLine."Employee No.");
         LanguageProficiency.Validate(Language, EmployeeEditLine.Language);
         LanguageProficiency.Validate(Reading, EmployeeEditLine.Reading);
         LanguageProficiency.Validate(Writing, EmployeeEditLine.Writing);
         LanguageProficiency.Validate(Speaking, EmployeeEditLine.Speaking);
         LanguageProficiency.Validate(Typing, EmployeeEditLine.Typing);
-        LanguageProficiency.Insert();
+        if EmployeeEditLine."Original Line No." = 0 then
+            LanguageProficiency.Insert()
+        else
+            LanguageProficiency.Modify();
     end;
 
     local procedure EmployeeLanguageAdd(var EmployeeEdit: Record "Employee Edit")
@@ -331,6 +359,7 @@ codeunit 50021 "Employee Edit Mgt."
                 AddEmployeeLanguageproficifromLine(EmployeeEditLine);
             until EmployeeEditLine.Next() = 0;
         end else begin
+            //old code will removed
             //Check same Language Code
             LanguageProficiency1.Reset();
             LanguageProficiency1.SetRange("Employee Code", EmployeeEdit."Employee No.");

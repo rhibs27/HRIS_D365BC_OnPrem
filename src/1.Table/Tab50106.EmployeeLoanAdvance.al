@@ -1,8 +1,5 @@
 table 50106 "Employee Loan/Advance"
 {
-    // //Min 10.24.2022 -- cannot apply before 4 month of previous salary advance approved date.
-    // //Min 11.2.2022 -- Cannot apply Salary Advance more than 2 times in a Fiscal Year.
-
     DataCaptionFields = "No.", "Employee Code", "Employee Name";
     DataClassification = CustomerContent;
 
@@ -272,7 +269,7 @@ table 50106 "Employee Loan/Advance"
             var
                 InsurancePremiumSetup: Record "Insurance Premium Setup";
             begin
-                if "Insurance Tieup" <> 0 then begin
+                if "Insurance Tieup" <> "Insurance Tieup"::" " then begin
                     InsurancePremiumSetup.Reset;
                     //InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
                     InsurancePremiumSetup.SetRange(Age, Age);
@@ -548,6 +545,8 @@ table 50106 "Employee Loan/Advance"
     end;
 
     trigger OnInsert()
+    var
+        EmployeeAdvanceLoan: Record "Employee Loan/Advance";
     begin
         Validate("Requested Loan Date", Today);
         Validate(Type, Rec.Type::Loan);
@@ -557,26 +556,31 @@ table 50106 "Employee Loan/Advance"
                 "Loan Type"::"Salary Advance":
                     begin
                         HRSetup.TestField("Salary Advance No.");
-                        NoSeriesMgt.InitSeries(HRSetup."Salary Advance No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
-                        SalaryAdvanceControl(); //Min 10.24.2022
-                        SalaryAdvanceFiscalYearControl(); //Min 11.2.2022
+                        HRMgt.InitNoSeriesNew(HRSetup."Salary Advance No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                        SalaryAdvanceControl();
+                        SalaryAdvanceFiscalYearControl();
                     end;
                 "Loan Type"::"Personal Loan":
                     begin
                         HRSetup.TestField("Personal Loan No.");
-                        NoSeriesMgt.InitSeries(HRSetup."Personal Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Personal Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
                 "Loan Type"::"Home Loan":
                     begin
                         HRSetup.TestField("Home Loan No.");
-                        NoSeriesMgt.InitSeries(HRSetup."Home Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Home Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
                 "Loan Type"::"Vehicle Loan":
                     begin
                         HRSetup.TestField("Vehicle Loan No.");
-                        NoSeriesMgt.InitSeries(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
+                        HRMgt.InitNoSeriesNew(HRSetup."Vehicle Loan No.", xRec."No. Series", "Requested Loan Date", "No.", "No. Series");
                     end;
             end;
+        EmployeeAdvanceLoan.ReadIsolation(IsolationLevel::ReadUncommitted);
+        EmployeeAdvanceLoan.SetLoadFields("No.");
+        while EmployeeAdvanceLoan.Get("No.") do
+            "No." := NoSeriesMgt.GetNextNo("No. Series");
+
         ApproverMgt.InsertApproval("Employee Code", "No.", Type, "Loan Type");
         Validate("Approval Status", "Approval Status"::Open);
         LoanMgt.CalculateFields(Rec);
@@ -595,7 +599,7 @@ table 50106 "Employee Loan/Advance"
         Employee: Record Employee;
         CannotDelete: Label 'Cannot delete document.';
         HRSetup: Record "Human Resources Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         Text2: Label 'Invalid format of %1 for %2.';
         SalaryLevel: Record "Salary Level";
         SalaryLevel1: Record "Salary Level";

@@ -2115,15 +2115,16 @@ codeunit 50008 "Payroll Engine"
                     end;
                     AdjustedLeave -= AdjustedLeave;
                     if (ToPost) and ((VarLeaveDays - AdjustedLeave) > 0) then begin
-                        LeaveEarn.Init;
-                        LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
-                        LeaveEarn.Validate("Employee No.", EmpNo);
-                        LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
-                        LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-                        LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
-                        LeaveEarn.Validate("Balancing Days", VarLeaveDays - AdjustedLeave);
-                        LeaveEarn.Validate(Remarks, 'Leave Adusted.');
-                        LeaveEarn.Insert(true);
+
+                        LeaveMgt.CreateLeaveLedger(EmpNo,
+                                    LeaveTypeSetup.Code,
+                                    Today,
+                                    Enum::"Leave Earn Type"::used,
+                                    VarLeaveDays - AdjustedLeave,
+                                    LeaveMgt.GetNextLeaveLedgerEntryNo(),
+                                    '',
+                                    'Leave Adjusted',
+                                    '');
                     end;
                 end;
             until (LeaveTypeSetup.Next = 0);
