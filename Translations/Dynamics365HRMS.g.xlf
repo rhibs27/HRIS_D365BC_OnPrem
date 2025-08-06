@@ -2058,6 +2058,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Allowance Date Filter - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 644771389 - Field 892469277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field ATM Custodian Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 644771389 - Field 3500005727 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cash Risk Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2112,6 +2117,11 @@
           <source>Half Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Half Day - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 644771389 - Field 946672019 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Head Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 644771389 - Field 3119873895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday Counter Days</source>
@@ -2187,6 +2197,11 @@
           <source>Status</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 644771389 - Field 57314011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 644771389 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Date</source>
@@ -14418,6 +14433,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Assessable Income - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 892469277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field ATM Custodian Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 2378240213 - Field 13993998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Balance Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14592,6 +14612,11 @@
           <source>Half Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Half Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 946672019 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Head Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 3678162975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Health Insurance Premium</source>
@@ -14857,6 +14882,11 @@
           <source>Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Taxable Income - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 57314011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 1249660134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Adjusted Leave Days</source>
@@ -16493,6 +16523,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Assessable Income - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 892469277 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ATM Custodian Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field ATM Custodian Days - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 13993998 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Balance Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -16677,6 +16712,11 @@
           <source>Half Days</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Half Days - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 946672019 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Head Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Head Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 3678162975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Health Insurance Premium</source>
@@ -16943,6 +16983,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Sol ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 2720485332 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Source Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Source Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4113727574 - Field 2073569604 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Standard Hours</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -16962,6 +17007,11 @@
           <source>Taxable Income</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Taxable Income - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4113727574 - Field 57314011 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Teller Days</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Posted Payroll Line - Field Teller Days - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 4113727574 - Field 1249660134 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Adjusted Leave Days</source>
@@ -24358,6 +24408,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Absent Day - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 644771389 - Control 892469277 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Custodian Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control ATM Custodian Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 644771389 - Control 3500005727 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Cash Risk Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -24387,6 +24442,11 @@
           <source>Specifies the value of the Friday Counter Days field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Friday Counter Days - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 644771389 - Control 946672019 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head Teller Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Head Teller Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 644771389 - Control 3119873895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Holiday Counter Days field.</source>
@@ -24422,6 +24482,11 @@
           <source>Specifies the value of the Present Day field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Present Day - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 644771389 - Control 57314011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Teller Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Control Teller Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 644771389 - Control 2550690551 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Days field.</source>
@@ -39873,6 +39938,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Assessable Income - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 892469277 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ATM Custodian Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control ATM Custodian Days - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3884601073 - Control 13993998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Balance Taxable Income field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -39947,6 +40017,11 @@
           <source>Specifies the value of the Gratuity &amp; leave Encash Tax field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Gratuity &amp; leave Encash Tax - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 946672019 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Head Teller Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Head Teller Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 3678162975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Health Insurance Premium field.</source>
@@ -40122,6 +40197,11 @@
           <source>Specifies the value of the Taxable Income field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Taxable Income - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 57314011 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Teller Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Teller Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 1249660134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Adjusted Leave Days field.</source>
@@ -40762,6 +40842,11 @@
           <source>Specifies the value of the Variable Field 50620 field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Variable Field 50620 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 3208628662 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Vault Key Days field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Vault Key Days - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 4252434736 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Week off Days field.</source>

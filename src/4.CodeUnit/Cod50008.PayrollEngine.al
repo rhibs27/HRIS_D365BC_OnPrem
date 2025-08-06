@@ -2036,7 +2036,7 @@ codeunit 50008 "Payroll Engine"
         AttendanceSummary.SetRange("Allowance Date Filter", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
         AttendanceSummary.SetRange(Status, AttendanceSummary.Status::Released);
         AttendanceSummary.SetAutoCalcFields("Vault Key Days", "Festival Counter Days", "Friday Counter Days",
-                          "Evening Counter Days", "Holiday Counter Days", "Cash Risk Days", "Morning Counter Days");
+                          "Evening Counter Days", "Holiday Counter Days", "Cash Risk Days", "Morning Counter Days", "ATM Custodian Days", "Head Teller Days", "Teller Days");
         if AttendanceSummary.FindLast then begin
             PayrollLine.Validate("Evening Counter Days", AttendanceSummary."Evening Counter Days");
             PayrollLine.Validate("Vault Key Days", AttendanceSummary."Vault Key Days");
@@ -2045,6 +2045,9 @@ codeunit 50008 "Payroll Engine"
             PayrollLine.Validate("Morning Counter Days", AttendanceSummary."Morning Counter Days");
             PayrollLine.Validate("Holiday Counter Days", AttendanceSummary."Holiday Counter Days");
             PayrollLine.Validate("Friday Counter Days", AttendanceSummary."Friday Counter Days");
+            PayrollLine.Validate("ATM Custodian Days", AttendanceSummary."ATM Custodian Days");
+            PayrollLine.Validate("Head Teller Days", AttendanceSummary."Head Teller Days");
+            PayrollLine.Validate("Teller Days", AttendanceSummary."Teller Days");
         end;
     end;
 
@@ -3643,14 +3646,15 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Vault Key":
                 begin
-                    AllowanceAssignmentLine.Reset;
-                    AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
-                    AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
-                    AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
-                    AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Vault Key");
-                    AllowanceAssignmentLine.CalcSums("Allowance Amount");
-                    if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
-                        exit(Round(AllowanceAssignmentLine."Allowance Amount", 1, '='));
+                    // AllowanceAssignmentLine.Reset;
+                    // AllowanceAssignmentLine.SetRange("Employee Code", PayrollLineVar."Employee No.");
+                    // AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Screened);
+                    // AllowanceAssignmentLine.SetRange("From Date", PayCyclePeriod."Allowance Start Date", PayCyclePeriod."Allowance End Date");
+                    // AllowanceAssignmentLine.SetRange("Allowance Type", PGSetup."Vault Key");
+                    // AllowanceAssignmentLine.CalcSums("Allowance Amount");
+                    // if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
+                    //     exit(Round(AllowanceAssignmentLine."Allowance Amount", 1, '='));
+                    exit(PayrollLineVar."Vault Key Days" / PayrollLineVar."Total Days" * PGSetup."Vault Key Allowance(Regular)")
                 end;
 
             PGSetup."Morning Counter":
@@ -3675,6 +3679,21 @@ codeunit 50008 "Payroll Engine"
                     AllowanceAssignmentLine.CalcSums("Allowance Amount");
                     if not (AllowanceAssignmentLine."Allowance Amount" = 0) then
                         exit(AllowanceAssignmentLine."Allowance Amount");
+                end;
+
+            PGSetup."ATM Custodian":
+                begin
+                    exit(PayrollLineVar."ATM Custodian Days" / PayrollLineVar."Total Days" * PGSetup."ATM Custodian regular (month)")
+                end;
+
+            PGSetup."Head Teller Allowance":
+                begin
+                    exit(PayrollLineVar."Head Teller Days" / PayrollLineVar."Total Days" * PGSetup."Head Teller Allow. (Regular)")
+                end;
+
+            PGSetup."Teller Allowance":
+                begin
+                    exit(PayrollLineVar."Teller Days" / PayrollLineVar."Total Days" * PGSetup."Teller Allowance (Regular)")
                 end;
             /*
             PGSetup."OT Benefit Component" : BEGIN

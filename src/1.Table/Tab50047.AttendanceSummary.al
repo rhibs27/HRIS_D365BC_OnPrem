@@ -240,8 +240,29 @@ table 50047 "Attendance Summary"
         {
             FieldClass = FlowFilter;
         }
-    }
+        field(35; "ATM Custodian Days"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."ATM Custodian Allowance days" where("Employee No." = field("Employee No."),
+                                                                                              "Attendance Date" = field("Allowance Date Filter"),
+                                                                                              "ATM Custodian Allowance days" = filter(<> 0)));
+        }
+        field(36; "Head Teller Days"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Head Teller Allowance Days" where("Employee No." = field("Employee No."),
+                                                                                              "Attendance Date" = field("Allowance Date Filter"),
+                                                                                              "Head Teller Allowance Days" = filter(<> 0)));
+        }
+        field(37; "Teller Days"; Decimal)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Employee Attendance & Activity"."Teller Allowance Days" where("Employee No." = field("Employee No."),
+                                                                                              "Attendance Date" = field("Allowance Date Filter"),
+                                                                                              "Teller Allowance Days" = filter(<> 0)));
 
+        }
+    }
     keys
     {
         key(Key1; "Document No.", "Employee No.") { }
