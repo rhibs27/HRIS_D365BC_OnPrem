@@ -138,12 +138,11 @@ codeunit 50000 "Leave Mgt."
                             Counter += 1;
                             AlreadyAdded := true;
                         end;
-
-                        if Community = Employee.Community then begin
-                            Counter += 1;
-                            AlreadyAdded := true
-                        end;
-
+                        if Community <> Community::" " then
+                            if Community = Employee.Community then begin
+                                Counter += 1;
+                                AlreadyAdded := true
+                            end;
                     end;
 
                 end;

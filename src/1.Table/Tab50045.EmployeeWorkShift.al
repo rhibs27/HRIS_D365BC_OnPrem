@@ -39,8 +39,8 @@ table 50045 "Employee Work Shift"
         field(10; "Friday End Time"; Time) { }
         field(11; "Winter Start Date"; Date) { }
         field(12; "Winter End Date"; Date) { }
-        field(13; "Check Out From"; Decimal) { }
-        field(14; "Check In From"; Decimal) { }
+        field(13; "Check Out From"; Duration) { }
+        field(14; "Check In From"; Duration) { }
         field(15; "Deputation Type"; Enum "Deputation Type")
         {
             Caption = 'Deputation Type';

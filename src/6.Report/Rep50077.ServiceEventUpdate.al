@@ -107,6 +107,13 @@ report 50077 "Service Event Update"
                         ToolTip = 'Specifies the value of the Probation Period field.';
                         ApplicationArea = All;
                     }
+                    field(ContractCode; ContractCode)
+                    {
+                        Caption = 'Contract Code';
+                        TableRelation = "Employment Contract";
+                        ToolTip = 'Specifies the value of the Contract Code field.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -130,6 +137,11 @@ report 50077 "Service Event Update"
             Error('Please fill Effective Date field');
         if (EmploymentType = EmploymentType::" ") then
             Error('Please fill Employment Type values');
+        if ServiceEvent = ServiceEvent::"Re Appointment" then
+            if ContractCode = '' then
+                Error('Please fill Contract Code fields')
+            else
+                Employee.Validate("Emplymt. Contract Code", ContractCode);
         if EmploymentType = EmploymentType::Contract then
             if ContractExpiryMonth = ContractExpiryMonth::" " then
                 Error('Contract Expiry Month must have value.');
@@ -138,6 +150,18 @@ report 50077 "Service Event Update"
                 Error('Probation Period must have value.')
             else
                 Employee.Validate("Probation Period", ProbationPeriod);
+        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
+        ServiceHistory.Init;
+        ServiceHistory.Validate("Employee No.", Employee."No.");
+        ServiceHistory.Validate("Effective Date", EffectiveDate);
+        ServiceHistory.Validate("Service Event", ServiceEvent);
+        ServiceHistory.Validate(Remarks, Remarks);
+        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
+        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
+        ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
+        ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
+        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
+        ServiceHistory.Insert(true);
         if FunctionalTitle <> '' then
             Employee.Validate("Functional Title", FunctionalTitle);
         Employee.Validate("Salary Level", SalaryLevel);
@@ -153,18 +177,6 @@ report 50077 "Service Event Update"
             Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
         ValidateDeputationOnCode();
         Employee.Modify;
-        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
-        ServiceHistory.Init;
-        ServiceHistory.Validate("Employee No.", Employee."No.");
-        ServiceHistory.Validate("Effective Date", EffectiveDate);
-        ServiceHistory.Validate("Service Event", ServiceEvent);
-        ServiceHistory.Validate(Remarks, Remarks);
-        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
-        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-        ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
-        ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
-        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
-        ServiceHistory.Insert(true);
     end;
 
     var
@@ -188,6 +200,7 @@ report 50077 "Service Event Update"
         ServiceHistory: Record "Employee Service History";
         PayrollEngine: Codeunit "Payroll Engine";
         ProbationPeriod: Enum "Probation Period";
+        ContractCode: Code[20];
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var
