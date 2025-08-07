@@ -101,4 +101,12 @@ enum 50146 "Service Event"
         Caption = 'Change Details';
     }
 
+    value(24; "Retirement")
+    {
+        Caption = 'Retirement';
+    }
+    value(25; "Re Appointment")
+    {
+        Caption = 'Re Appointment';
+    }
 }

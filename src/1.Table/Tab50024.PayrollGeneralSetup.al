@@ -456,6 +456,7 @@ table 50024 "Payroll General Setup"
             Caption = 'LFA Source';
             Description = 'Source of LFA calculation';
         }
+        field(140; "Allowance Claim Limit (days)"; Integer) { }
 
     }
 

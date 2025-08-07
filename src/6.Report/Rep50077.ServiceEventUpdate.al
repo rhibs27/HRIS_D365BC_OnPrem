@@ -659,6 +659,53 @@ report 50077 "Service Event Update"
                             DeputationCodeTo := GetDeputation(DeputationOnTo);
                         end;
                     }
+                    field(RemarksVar; Remarks)
+                    {
+                        Caption = 'Remarks';
+                        ToolTip = 'Specifies the value of the Remarks field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Employment Type"; EmploymentType)
+                    {
+                        ToolTip = 'Specifies the value of the EmploymentType field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("Effective Date"; EffectiveDate)
+                    {
+                        ToolTip = 'Specifies the value of the EffectiveDate field.';
+                        ApplicationArea = All;
+                        ShowMandatory = true;
+                    }
+                    field("ContractExpiry Month"; ContractExpiryMonth)
+                    {
+                        ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
+                        ApplicationArea = All;
+
+                        trigger OnValidate()
+                        begin
+                            if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
+                                if EmploymentType <> EmploymentType::Contract then
+                                    Error('Employment type must be contract');
+                                if EffectiveDate = 0D then
+                                    Error('Date must have value');
+                            end;
+                        end;
+                    }
+                    field(ProbationPeriod; ProbationPeriod)
+                    {
+                        Caption = 'Probation Period';
+                        ToolTip = 'Specifies the value of the Probation Period field.';
+                        ApplicationArea = All;
+                    }
+                    field(ContractCode; ContractCode)
+                    {
+                        Caption = 'Contract Code';
+                        TableRelation = "Employment Contract";
+                        ToolTip = 'Specifies the value of the Contract Code field.';
+                        ApplicationArea = All;
+                    }
                 }
             }
         }
@@ -755,6 +802,45 @@ report 50077 "Service Event Update"
         end;
 
         if ServiceEvent = ServiceEvent::"Contract Renew" then
+            if EffectiveDate = 0D then
+                Error('Please fill Effective Date field');
+        if (EmploymentType = EmploymentType::" ") then
+            Error('Please fill Employment Type values');
+        if ServiceEvent = ServiceEvent::"Re Appointment" then
+            if ContractCode = '' then
+                Error('Please fill Contract Code fields')
+            else
+                Employee.Validate("Emplymt. Contract Code", ContractCode);
+        if EmploymentType = EmploymentType::Contract then
+            if ContractExpiryMonth = ContractExpiryMonth::" " then
+                Error('Contract Expiry Month must have value.');
+        if EmploymentType = EmploymentType::Probation then
+            if ProbationPeriod = ProbationPeriod::" " then
+                Error('Probation Period must have value.')
+            else
+                Employee.Validate("Probation Period", ProbationPeriod);
+        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
+        ServiceHistory.Init;
+        ServiceHistory.Validate("Employee No.", Employee."No.");
+        ServiceHistory.Validate("Effective Date", EffectiveDate);
+        ServiceHistory.Validate("Service Event", ServiceEvent);
+        ServiceHistory.Validate(Remarks, Remarks);
+        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
+        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
+        ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
+        ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
+        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
+        ServiceHistory.Insert(true);
+        if FunctionalTitle <> '' then
+            Employee.Validate("Functional Title", FunctionalTitle);
+        Employee.Validate("Salary Level", SalaryLevel);
+        Employee.Validate("Salary Grade", SalaryGrade);
+        if EmploymentType = EmploymentType::Permanent then
+            Employee."Confirmation Date" := EffectiveDate;
+        Employee.Validate("Employment Type", EmploymentType);
+        if ServiceEvent = ServiceEvent::Appointment then
+            Employee.Validate("Employment Date", EffectiveDate)
+        else if ServiceEvent = ServiceEvent::"Contract Renew" then
             Employee.Validate("Contract Renew Date", EffectiveDate);
 
         if ServiceEvent = ServiceEvent::"Period Extend" then begin
@@ -898,18 +984,6 @@ report 50077 "Service Event Update"
         ValidateDeputationOnCode();
 
         Employee.Modify;
-        PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
-        ServiceHistory.Init;
-        ServiceHistory.Validate("Employee No.", Employee."No.");
-        ServiceHistory.Validate("Effective Date", EffectiveDate);
-        ServiceHistory.Validate("Service Event", ServiceEvent);
-        ServiceHistory.Validate(Remarks, Remarks);
-        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
-        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
-        ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
-        ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
-        ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
-        ServiceHistory.Insert(true);
     end;
 
     trigger OnPostReport()
@@ -1006,6 +1080,7 @@ report 50077 "Service Event Update"
                 ShowForTerminated := true;
         end;
     end;
+        ContractCode: Code[20];
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var

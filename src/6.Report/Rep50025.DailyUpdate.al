@@ -36,9 +36,6 @@ report 50025 "Daily Update"
     begin
         if _UpdateAgeAndServicePeriod then
             UpdateAgeServicePeriod();
-
-        if _SendEmailForTransferAcknowledgement then
-            SendEmailTransferAcknowledgement();
     end;
 
     var
@@ -54,6 +51,8 @@ report 50025 "Daily Update"
         Employee.Reset;
         if Employee.FindFirst then
             repeat
+                if Employee."Resignation Date" = Today - 1 then
+                    Employee.Status := Employee.Status::Terminated;
                 HRMgt.CheckAgeAndBirthday(Employee."Birth Date", Today, Employee.Age, AgeDays, IsBirthDay);
                 HRMgt.CheckAgeAndBirthday(Employee."Employment Date", Today, Employee."Service Period", AgeDays, IsBirthDay);
                 if Employee."Employment Date" <> 0D then
@@ -62,26 +61,26 @@ report 50025 "Daily Update"
             until Employee.Next = 0;
     end;
 
-    local procedure SendEmailTransferAcknowledgement()
-    var
-        EmpAct: Record "Employee Activity";
-    begin
-        EmpAct.Reset;
-        EmpAct.SetRange(Type, EmpAct.Type::"Employee Transfer");
-        EmpAct.SetRange("Approval Status", EmpAct."Approval Status"::Approved);
-        EmpAct.SetRange("Transfer Effective Date", Today, 99990101D);
-        if EmpAct.FindFirst then
-            repeat
-                Clear(HRMgt);
-                HRMgt.SendMailFromTemplate(Database::"Employee Activity",
-                                      EmpAct.Type::"Employee Transfer",
-                                      EmpAct."Approval Status"::Approved,
-                                      '',
-                                      EmpAct."Employee No.",
-                                      EmpAct."No.",
-                                      1);   //For email
-            until EmpAct.Next = 0;
-    end;
+    // local procedure SendEmailTransferAcknowledgement()
+    // var
+    //     EmpAct: Record "Employee Activity";
+    // begin
+    //     EmpAct.Reset;
+    //     EmpAct.SetRange(Type, EmpAct.Type::"Employee Transfer");
+    //     EmpAct.SetRange("Approval Status", EmpAct."Approval Status"::Approved);
+    //     EmpAct.SetRange("Transfer Effective Date", Today, 99990101D);
+    //     if EmpAct.FindFirst then
+    //         repeat
+    //             Clear(HRMgt);
+    //             HRMgt.SendMailFromTemplate(Database::"Employee Activity",
+    //                                   EmpAct.Type::"Employee Transfer",
+    //                                   EmpAct."Approval Status"::Approved,
+    //                                   '',
+    //                                   EmpAct."Employee No.",
+    //                                   EmpAct."No.",
+    //                                   1);   //For email
+    //         until EmpAct.Next = 0;
+    // end;
 
     local procedure SendEmailOnMaxService()
     begin

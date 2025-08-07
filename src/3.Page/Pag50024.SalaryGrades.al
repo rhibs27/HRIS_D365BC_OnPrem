@@ -30,6 +30,7 @@ page 50024 "Salary Grades"
                 {
                     ToolTip = 'Specifies the value of the Grade Percentage field.';
                     ApplicationArea = All;
+                    DecimalPlaces = 0 : 5;
                 }
             }
         }

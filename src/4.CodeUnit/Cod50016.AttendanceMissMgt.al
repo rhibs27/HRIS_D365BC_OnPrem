@@ -225,6 +225,8 @@ codeunit 50016 "AttendanceMiss Mgt"
         AttendanceMissed: Record "Attendance Missed";
         EmpAttendActivity: Record "Employee Attendance & Activity";
         Employee: Record Employee;
+        LogDateTime: DateTime;
+        MachineEmpNo: Text;
     begin
         AttendanceMissed.Get(AttendanceMissCode);
         Employee.Get(AttendanceMissed."Employee No.");
@@ -232,25 +234,33 @@ codeunit 50016 "AttendanceMiss Mgt"
             if AttendanceMissed."Check In Time" <> 0T then begin
                 AttendanceLog.Init();
                 if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
-                    AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"))
+                    MachineEmpNo := Employee."No."
                 else
-                    AttendanceLog.Validate("Emp DateTime", Employee."Employee Attendance ID" + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
+                    MachineEmpNo := Employee."Employee Attendance ID";
 
+                Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
+                AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check In Time"));
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check In Time");
+                AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
                 AttendanceLog.Insert();
             end;
             if AttendanceMissed."Check Out Time" <> 0T then begin
                 AttendanceLog.Init();
                 if (Employee."No." = Employee."Employee Attendance ID") or (Employee."Employee Attendance ID" = '') then
-                    AttendanceLog.Validate("Emp DateTime", AttendanceMissed."Employee No." + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"))
+                    MachineEmpNo := Employee."No."
                 else
-                    AttendanceLog.Validate("Emp DateTime", Employee."Employee Attendance ID" + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
+                    MachineEmpNo := Employee."Employee Attendance ID";
+
+                Clear(LogDateTime);
+                Evaluate(LogDateTime, format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
+                AttendanceLog.Validate("Emp DateTime", MachineEmpNo + Format(AttendanceMissed."Start Date") + Format(AttendanceMissed."Check Out Time"));
                 AttendanceLog.Validate("Employee ID", AttendanceMissed."Employee No.");
                 AttendanceLog.Validate(Date, AttendanceMissed."Start Date");
                 AttendanceLog.Validate("Log Time", AttendanceMissed."Check Out Time");
+                AttendanceLog.Validate("Date Time Log", LogDateTime);
                 AttendanceLog.Validate("Biometric Attendance", false);
                 AttendanceLog.Insert();
             end;
