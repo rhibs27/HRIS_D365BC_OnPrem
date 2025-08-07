@@ -118,67 +118,27 @@ codeunit 50014 "Event Management"
         ActType: Enum "Employee Activity Type";
         EmpActDetails: Record "Employee Activity Details";
         Leave: Record Leave;
-    // SettlementHdr: Record "Settlement Header";
-    // SettlementType: Enum "Settlement Type";
-    // EmpSalLoan: Record "Employee Sal/ Loan";
-
+        EmployeeEdit: Record "Employee Edit";
     begin
         case RecordRef.Number of
             Database::Leave:
                 CardPageID := Page::"Posted Leave Card";
             Database::"Payroll Header":
                 CardPageID := Page::"Payroll Plan";
-        // Database::"Employee Activity Details":
-        //     begin
-        //         FieldRef := RecordRef.Field(EmpActDetails.FieldNo(Type));
-        //         ActType := FieldRef.Value;
-
-        //         case ActType of
-        //             ActType::"Update Attendance":
-        //                 CardPageID := Page::"Attendance Update Card";
-        //             ActType::"Overtime Claim Request":
-        //                 CardPageID := Page::"Overtime Req. Card";
-        //             ActType::"Transfer Request":
-        //                 CardPageID := Page::"Employee Transfer Card";
-        //             ActType::"Travel Request":
-        //                 CardPageID := Page::"Employee Travel Card";
-        //             ActType::Promotion:
-        //                 CardPageID := Page::"Employee Promotion Card";
-        //             ActType::Resignation:
-        //                 CardPageID := Page::"Employee Resignation Card";
-        //             ActType::"Work Order":
-        //                 CardPageID := Page::"Work Order Card";
-        //         end;
-        //     end;
-
-        // Database::"Settlement Header":
-        //     begin
-        //         FieldRef := RecordRef.Field(SettlementHdr.FieldNo("Settlement Type"));
-        //         SettlementType := FieldRef.Value;
-        //         if SettlementType = SettlementType::"Travel Settlement" then
-        //             CardPageID := Page::"Travel Settlement Card";
-        //     end;
-        // Database::"Training Calender":
-
-        //     CardPageID := Page::"Training Calender Card";
-        // Database::"Training Header":
-
-        //     CardPageID := Page::"Training Card";
-        // Database::"Employee Sal/ Loan":
-        //     begin
-        //         EmpSalLoan.Get(RecordRef.RecordId);
-        //         if EmpSalLoan."Loan Type" = EmpSalLoan."Loan Type"::"Salary Advance" then
-        //             CardPageID := Page::"Salary Advance Card"
-        //         else
-        //             if EmpSalLoan."Loan Type" = EmpSalLoan."Loan Type"::"Employee Loan" then
-        //                 CardPageID := Page::"Employee Loan Card";
-        //     end;
-        // Database::"Roster Header":
-        //     CardPageID := Page::"Roster Card";
-        // Database::"Posted Roster Header":
-        //     CardPageID := Page::"Posted Roster Card";
-        // Database::"Clearance Header":
-        //     CardPageID := Page::"Clearance Card";
+            Database::"Employee Edit":
+                CardPageID := Page::"Employee Edit Card";
+            Database::"Travel Request":
+                CardPageID := Page::"Travel Request Form";
+            Database::"Employee Transfer":
+                CardPageID := Page::"Transfer Card";
+            Database::"Transfer Claim Detail":
+                CardPageID := Page::"Transfer Claim Form";
+            Database::OverTime:
+                CardPageID := Page::"Overtime Card";
+            Database::"Allowance Assignment Header":
+                CardPageID := Page::"Allowance Assignment Card";
+            Database::"Retirement Fund":
+                CardPageID := Page::"Retirement Fund Card";
         end;
     end;
 

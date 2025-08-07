@@ -27763,31 +27763,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Vehicle Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CGPA field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control CGPA - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2222580281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Emp Document Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Emp Document Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Percentage field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Stream field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Stream - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Year of completion field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Year - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2113601774 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
