@@ -128,7 +128,7 @@ report 50077 "Service Event Update"
                             SubDepartmentCode := GetDeputation(DeputationOnTo::Unit);
                         end;
                     }
-                    field(RemarksVar; Remarks)
+                    field(Remarks; Remarks)
                     {
                         Caption = 'Remarks';
                         ToolTip = 'Specifies the value of the Remarks field.';
@@ -141,9 +141,8 @@ report 50077 "Service Event Update"
                         ShowCaption = false;
                         Visible = ShowProbationPeriod;
 
-                        field(ProbationPeriod; ProbationPeriod)
+                        field("Probation End Date"; ProbationEndDate)
                         {
-                            Caption = 'Probation Period';
                             ToolTip = 'Specifies the value of the Probation Period field.';
                             ApplicationArea = All;
                         }
@@ -154,7 +153,6 @@ report 50077 "Service Event Update"
                         ShowCaption = false;
                         Visible = ShowTraineePeriod;
 
-                        // Test : Was using ProbationPeriod instead of TraineePeriod
                         field(TraineePeriod; TraineePeriod)
                         {
                             Caption = 'Trainee Period';
@@ -666,13 +664,14 @@ report 50077 "Service Event Update"
                         ApplicationArea = All;
                         ShowMandatory = true;
                     }
-                    field("Employment Type"; EmploymentType)
+                    field("Employment Type1"; EmploymentType)
                     {
+                        Caption = 'Employment Type';
                         ToolTip = 'Specifies the value of the EmploymentType field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
                     }
-                    field("Effective Date"; EffectiveDate)
+                    field("Effective Date2"; EffectiveDate)
                     {
                         ToolTip = 'Specifies the value of the EffectiveDate field.';
                         ApplicationArea = All;
@@ -1037,6 +1036,8 @@ report 50077 "Service Event Update"
         ShowContractPeriod: Boolean;
         ShowPeriodExtendFields: Boolean;
         ShowChangeDetailsFields: Boolean;
+        ContractCode: Code[20];
+        ProbationEndDate: Date;
 
     local procedure UpdateFieldVisibility()
     begin
@@ -1080,7 +1081,7 @@ report 50077 "Service Event Update"
                 ShowForTerminated := true;
         end;
     end;
-        ContractCode: Code[20];
+    // ContractCode: Code[20];
 
     local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
     var
