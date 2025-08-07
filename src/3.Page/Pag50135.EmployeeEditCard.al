@@ -26,6 +26,10 @@ page 50135 "Employee Edit Card"
                 {
                     ToolTip = 'Specifies the value of the Changes In Employee Type field.';
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update();
+                    end;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
@@ -129,69 +133,7 @@ page 50135 "Employee Edit Card"
                     ApplicationArea = All;
                 }
             }
-            group("Employee Qualification")
-            {
-                Editable = false;
-                Visible = QualificationChanges or WorkExperienceChanges or AchievementChanges;
-                // Caption = GroupCaption;
-                field(Percentage; Rec.Percentage)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Percentage field.';
-                    Visible = QualificationChanges;
-                }
-                field(CGPA; Rec.CGPA)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the CGPA field.';
-                    Visible = QualificationChanges;
-                }
-                field(Stream; Rec.Stream)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Stream field.';
-                    Visible = QualificationChanges;
-                }
-                field(Year; Rec.Year)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Year of completion field.';
-                    Visible = QualificationChanges;
-                }
-                field("Emp Document Type"; Rec."Emp Document Type")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Emp Document Type field.';
-                }
 
-                field("From Date"; Rec."From Date")
-                {
-                }
-                field("To Date"; Rec."To Date")
-                {
-                }
-                field("Qualification Code"; Rec."Qualification Code")
-                {
-                    CaptionClass = WorkExperience;
-                }
-                field("Qualification Type"; rec."Qualification Type")
-                {
-                    Visible = QualificationChanges;
-                }
-                field(Description; Rec.Description)
-                {
-                }
-                field("Institution/Company"; Rec."Institution/Company")
-                {
-                }
-                field(Designation; Rec.Designation)
-                {
-                    Visible = WorkExperienceChanges;
-                }
-                field(Remuneration; Rec.Remuneration)
-                {
-                }
-            }
             group("Official Document")
             {
                 Editable = false;
@@ -222,69 +164,42 @@ page 50135 "Employee Edit Card"
                     ToolTip = 'Specifies the value of the Driving License No field.';
                 }
             }
-            group(Relative)
+
+            part("Qualification Details"; "Emp. Edit Qualifi Subform")
             {
-                Editable = false;
-                Visible = Relative;
-                field("Relative Code"; Rec."Relative Code")
-                {
-                }
-                field("Full Name"; Rec."Full Name")
-                {
-                }
-                field("Relative Phone No."; Rec."Relative Phone No.")
-                {
-                }
-                field("Relative Mail"; Rec."Relative Mail")
-                {
-                }
-                field("Set Emergency Contact"; Rec."Set Emergency Contact")
-                {
-                }
-                field("Employee Relative In Bank"; rec."Employee Relative In Bank")
-                {
-                }
-                field("Relative Employee No."; Rec."Relative's Employee No.")
-                {
-                }
-                field("Relative CitizenShip No."; Rec."Relative CitizenShip No.")
-                {
-                }
-                field("Relative District"; Rec."Relative District")
-                {
-                }
-                field("Relative VDC/Municipality"; Rec."Relative VDC/Municipality")
-                {
-                }
-                field("Ward No."; Rec."Ward No.")
-                {
-                }
-            }
-            group("Language Proficiency")
-            {
-                Editable = false;
-                Visible = LanguageChange;
-                field(Language; Rec.Language)
-                {
-                }
-                field(Reading; Rec.Reading)
-                {
-                }
-                field(Writing; Rec.Writing)
-                {
-                }
-                field(Speaking; Rec.Speaking)
-                {
-                }
-                field(Typing; Rec.Typing)
-                {
-                }
-            }
-            part("Employee Edit Line"; "Employee Edit Subform")
-            {
+                Visible = QualificationChanges;
                 SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter(Qualification));
                 ApplicationArea = all;
 
+            }
+            part("Work Experience Details"; "Emp Edit Work Exp. Subform")
+            {
+                Visible = WorkExperienceChanges;
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter("Work Experience"));
+                ApplicationArea = all;
+            }
+            part("Achievement Details"; "Emp. Edit Achievement Subform")
+            {
+                Visible = AchievementChanges;
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter(Achievement));
+                ApplicationArea = all;
+            }
+            part("Relative Details"; "Emp. Edit Relative Subform")
+            {
+                Visible = Relative;
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter(Relative));
+                ApplicationArea = all;
+            }
+            part("language Details"; "Emp Edit Language Prof Subform")
+            {
+                Visible = LanguageChange;
+                SubPageLink = "Document No." = field("No.");
+                SubPageView = where("Change in Emp Type" = filter(Language));
+                ApplicationArea = all;
             }
             part("Approval Subform"; "HRMS Approval Entry")
             {

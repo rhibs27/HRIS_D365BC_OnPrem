@@ -167,7 +167,7 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate(Designation, EmployeeEditLine.Designation);
             EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
         end;
-
+        EmployeeQualification.Validate(Running, EmployeeEditLine.Running);
         EmployeeQualification.Validate("Institution/Company", EmployeeEditLine."Institution/Company");
         EmployeeQualification.Validate("From Date", EmployeeEditLine."From Date");
         EmployeeQualification.Validate("To Date", EmployeeEditLine."To Date");
