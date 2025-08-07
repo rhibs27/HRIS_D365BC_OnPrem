@@ -480,8 +480,8 @@ codeunit 50000 "Leave Mgt."
         Clear(Employee);
         Employee.Get(EmpCode);
 
-        if LeaveTypeSetup."Employment Limit" <> 0 then begin
-            DateExpr := '<' + Format(LeaveTypeSetup."Employment Limit") + 'Y>';
+        if LeaveTypeSetup."Min. Service Year Eligibility" <> 0 then begin
+            DateExpr := '<' + Format(LeaveTypeSetup."Min. Service Year Eligibility") + 'Y>';
             if Today < CalcDate(DateExpr, Employee."Employment Date") then
                 Error('You are not eligible to apply for leave %1', LeaveTypeSetup.Description);
         end;
@@ -1101,7 +1101,7 @@ codeunit 50000 "Leave Mgt."
         LeaveLedgerEntry: Record "Leave Earn";
         LeaveTypeSetup: Record "Leave Type Setup";
         LeavePeriod, LeavePeriod1 : Record "Accounting Period";
-        EmpVar: Record Employee;
+        EmpVar, EmpVar2 : Record Employee;
         AttendanceMgt: Codeunit "Attendance Mgt";
         LastEntryNo: Integer;
         AnnualCreditLimit, ActualCreditLimit, LeaveDaysToCredit, ServiceYears, AttendanceDays, NoOfCreditPeriods : Decimal;
@@ -1141,20 +1141,34 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.SetFilter("Credit Method", '%1|%2', LeaveTypeSetup."Credit Method"::Automatic, LeaveTypeSetup."Credit Method"::Attendance);
                 LeaveTypeSetup.SetFilter("Days Earned Per Year", '>0');
                 LeaveTypeSetup.SetFilter("Leave For Employee Type", '%1|%2', EmpVar."Employment Type", LeaveTypeSetup."Leave For Employee Type"::" ");
+                if EmpVar."Employment Type" <> EmpVar."Employment Type"::Contract then
+                    LeaveTypeSetup.SetRange("Emplymt. Contract Code", '');
+
                 LeaveTypeSetup.SetFilter("Marital Status", '%1|%2', EmpVar."Marital Status", LeaveTypeSetup."Marital Status"::" ");
                 LeaveTypeSetup.SetFilter(Gender, '%1|%2', EmpVar.Gender, LeaveTypeSetup.Gender::" ");
-                LeaveTypeSetup.SetFilter("Employment Limit", '0|<=%1', ServiceYears);
+                LeaveTypeSetup.SetFilter("Min. Service Year Eligibility", '0|<=%1', ServiceYears);
                 LeaveTypeSetup.SetRange("Needed HR Permission", false);
                 OnGenerateLeaveOnSelectLeaveTypeSetup(LeaveTypeSetup, EmpVar);  //if further filter is required
 
                 if LeaveTypeSetup.FindFirst() then
                     repeat
                         Clear(SkipLeaveEarn);
+                        NoOfCreditPeriods := 0;
+
+                        if (EmpVar."Employment Type" = EmpVar."Employment Type"::Contract) and
+                            (LeaveTypeSetup."Emplymt. Contract Code" <> '') then begin
+                            EmpVar2.Reset();
+                            EmpVar2.SetRange("No.", EmpVar."No.");
+                            EmpVar2.SetFilter("Emplymt. Contract Code", LeaveTypeSetup."Emplymt. Contract Code");
+                            if not EmpVar2.FindFirst() then
+                                SkipLeaveEarn := true;
+                        end;
                         OnGenerateLeaveOnBeforeLeaveCalculation(LeaveTypeSetup, EmpVar, SkipLeaveEarn);
                         if not SkipLeaveEarn then begin
 
                             AnnualCreditLimit := LeaveTypeSetup."Days Earned Per Year";
                             if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::Automatic then begin
+                                //credit frequency monthly
                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Monthly then begin
                                     LeavePeriod.Reset();
                                     LeavePeriod.SetFilter("Starting Date", '>=%1&<=%2', CreditPeriodStartDate, CreditPeriodEndDate);
@@ -1170,19 +1184,16 @@ codeunit 50000 "Leave Mgt."
                                         if (LeavePeriod1."Starting Date" - 1) > CreditPeriodEndDate then
                                             NoOfCreditPeriods -= 1;
                                     end;
-                                    //check for month middle join
-                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
 
+                                    CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
                                     ActualCreditLimit := AnnualCreditLimit / 12 * NoOfCreditPeriods;
                                 end else
+                                    //credit frequency annual
                                     if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Annual then begin
                                         ProRataStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
-                                        if EmpVar."Employment Date" > LeavePeriod.GetCurrentLeaveYearStartDate() then begin
-                                            LeavePeriod1.Reset();
-                                            LeavePeriod1.SetRange("Starting Date", LeavePeriod.GetCurrentLeaveYearStartDate(), EmpVar."Employment Date");
-                                            if LeavePeriod1.FindLast() then
-                                                ProRataStartDate := LeavePeriod1."Starting Date";
-                                        end;
+                                        if EmpVar."Employment Date" > ProRataStartDate then
+                                            ProRataStartDate := EmpVar."Employment Date";
+
                                         ProRataEndDate := LeavePeriod.GetCurrentLeaveYearEndDate();
                                         if EmpVar."Termination Date" <> 0D then
                                             ProRataEndDate := EmpVar."Termination Date";
@@ -1191,19 +1202,29 @@ codeunit 50000 "Leave Mgt."
                                         if (EmpVar."Employment Date" <= LeavePeriod.GetCurrentLeaveYearStartDate()) and (ProRataEndDate = LeavePeriod.GetCurrentLeaveYearEndDate()) then
                                             ActualCreditLimit := AnnualCreditLimit
                                         else begin
-                                            LeavePeriod1.Reset();
-                                            LeavePeriod1.SetRange("Starting Date", ProRataStartDate, ProRataEndDate);
-                                            ActualCreditLimit := LeavePeriod1.Count;
-                                            if EmpVar."Employment Date" > LeavePeriod.GetCurrentLeaveYearStartDate() then
-                                                if (ProRataStartDate + 15) < EmpVar."Employment Date" then
-                                                    ActualCreditLimit -= 0.5;
-                                            if ProRataEndDate < LeavePeriod.GetCurrentLeaveYearEndDate() then begin
-                                                LeavePeriod1.Reset();
-                                                LeavePeriod1.SetFilter("Starting Date", '<=%1', ProRataEndDate);
-                                                if LeavePeriod1.FindLast() then
-                                                    if (LeavePeriod1."Starting Date" + 15) > ProRataEndDate then
-                                                        ActualCreditLimit -= 0.5;
-                                            end;
+                                            //     LeavePeriod1.Reset();
+                                            //     LeavePeriod1.SetRange("Starting Date", ProRataStartDate, ProRataEndDate);
+                                            //     ActualCreditLimit := LeavePeriod1.Count;
+                                            //     if EmpVar."Employment Date" > LeavePeriod.GetCurrentLeaveYearStartDate() then
+                                            //         if (ProRataStartDate + 15) < EmpVar."Employment Date" then
+                                            //             ActualCreditLimit -= 0.5;
+                                            //     if ProRataEndDate < LeavePeriod.GetCurrentLeaveYearEndDate() then begin
+                                            //         LeavePeriod1.Reset();
+                                            //         LeavePeriod1.SetFilter("Starting Date", '<=%1', ProRataEndDate);
+                                            //         if LeavePeriod1.FindLast() then
+                                            //             if (LeavePeriod1."Starting Date" + 15) > ProRataEndDate then
+                                            //                 ActualCreditLimit -= 0.5;
+                                            //     end;
+
+                                            LeavePeriod.Reset();
+                                            LeavePeriod.SetFilter("Starting Date", '>=%1&<=%2', ProRataStartDate, ProRataEndDate);
+                                            NoOfCreditPeriods := LeavePeriod.Count;
+                                            if LeavePeriod.FindFirst() then
+                                                if LeavePeriod."Starting Date" > ProRataStartDate then
+                                                    NoOfCreditPeriods += 1;
+
+                                            CalculateProrataLeavePeriod(NoOfCreditPeriods, EmpVar."Employment Date");
+                                            ActualCreditLimit := AnnualCreditLimit / 12 * NoOfCreditPeriods;
                                         end;
                                     end
                                     else
@@ -1380,8 +1401,11 @@ codeunit 50000 "Leave Mgt."
         LeaveYearStartDate, EmployementMonthStartDate, EmployementMonthEndDate : Date;
         IsHandled: Boolean;
     begin
-        if IsHandled then
+        HRSetup.Get();
+        if (HRSetup."Leave Rounding Precision" = 0) or
+       (HRSetup."Leave Rounding Precision" = 0.5) then
             exit;
+
         LeaveYearStartDate := LeavePeriod.GetCurrentLeaveYearStartDate();
         if LeaveYearStartDate >= EmployementDate then
             exit;

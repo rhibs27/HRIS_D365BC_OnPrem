@@ -166,22 +166,22 @@ report 50077 "Service Event Update"
                         ShowCaption = false;
                         Visible = ShowContractPeriod;
 
-                        field("ContractExpiry Month"; ContractExpiryMonth)
-                        {
-                            Caption = 'Contract Period';
-                            ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
-                            ApplicationArea = All;
+                        // field("ContractExpiry Month"; ContractExpiryMonth)
+                        // {
+                        //     Caption = 'Contract Period';
+                        //     ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
+                        //     ApplicationArea = All;
 
-                            trigger OnValidate()
-                            begin
-                                if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
-                                    if (EmploymentType <> EmploymentType::Contract) and (EmploymentType <> EmploymentType::Outsource) then
-                                        Error('Employment type must be contract or outsource');
-                                    if EffectiveDate = 0D then
-                                        Error('Date must have value');
-                                end;
-                            end;
-                        }
+                        //     trigger OnValidate()
+                        //     begin
+                        //         if ContractExpiryMonth <> ContractExpiryMonth::" " then begin
+                        //             if (EmploymentType <> EmploymentType::Contract) and (EmploymentType <> EmploymentType::Outsource) then
+                        //                 Error('Employment type must be contract or outsource');
+                        //             if EffectiveDate = 0D then
+                        //                 Error('Date must have value');
+                        //         end;
+                        //     end;
+                        // }
                     }
                 }
 
