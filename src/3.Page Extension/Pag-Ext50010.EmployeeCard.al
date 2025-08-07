@@ -1,5 +1,6 @@
 pageextension 50010 "Employee Card" extends "Employee Card"
 {
+    PromotedActionCategories = 'New,Process,Report,,Loan,History,Others';
     layout
     {
         modify("No.")
