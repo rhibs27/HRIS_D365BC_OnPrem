@@ -141,7 +141,10 @@ table 50074 "Employee Edit"
                         begin
                             Validate("Emp Document Type", "Emp Document Type"::Achievement);
                         end
-                end
+                end;
+                // if (xRec."Changes In Employee Type" <> Rec."Changes In Employee Type") and
+                //     (Rec."Changes In Employee Type" <> "Changes In Employee Type"::" ") then
+                //     UpdateEmployeeEditLine(Rec);
             end;
 
         }
@@ -474,5 +477,16 @@ table 50074 "Employee Edit"
                         ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;
+    end;
+
+    Procedure UpdateEmployeeEditLine(EmpEdit: Record "Employee Edit")
+    var
+        EmpEditLine: Record "Employee Edit Line";
+    begin
+        if not GuiAllowed then
+            exit;
+        EmpEditLine.SetRange("Document No.", EmpEdit."No.");
+        if EmpEditLine.FindSet() then
+            EmpEditLine.ModifyAll("Change in Emp Type", EmpEdit."Changes In Employee Type", false);
     end;
 }

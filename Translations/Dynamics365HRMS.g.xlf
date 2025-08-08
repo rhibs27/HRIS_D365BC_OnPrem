@@ -11173,11 +11173,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Employee No. Filter - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 310427152 - Field 4170267871 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employment Limit</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Employment Limit - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 310427152 - Field 619291327 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Emplymt. Contract Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -11257,6 +11252,11 @@
           <source>Maximum Leave at once</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Maximum Leave at once - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 310427152 - Field 1192804405 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Min. Service Year for Eligibility</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Leave Type Setup - Field Min. Service Year Eligibility - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 310427152 - Field 3770206729 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Minimum Leave at once</source>
@@ -26148,6 +26148,406 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Email Templates - Control Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3568638281 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Edit Language Prof Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Control 4093990710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Language field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Control Language - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Control 2965816022 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Reading field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Control Reading - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Control 300412064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Speaking field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Control Speaking - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Control 1030868383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Typing field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Control Typing - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Control 1042975732 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Writing field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Control Writing - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3568638281 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Language Prof Subform - Action Preview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp Edit Work Exp. Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Description field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 1750076273 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Designation field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control Designation - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 2510323415 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Document Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control Employee Document Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 3647888328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Institution/Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control Institution/Company - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1153010632 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp Edit Work Exp. Subform - Action Preview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp. Edit Achievement Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Description field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 1750076273 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Designation field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control Designation - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 2510323415 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Document Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control Employee Document Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 3647888328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Institution/Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control Institution/Company - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1038776289 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Achievement Subform - Action Preview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp. Edit Qualifi Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the CGPA field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control CGPA - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 2110632758 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the From Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control From Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 3647888328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Institution/Company field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Institution/Company - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Percentage field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Percentage - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 75174240 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Qualification Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Qualification Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 264531091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Qualification Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Qualification Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 1752522425 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Running field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Running - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Stream field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Stream - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 2565971985 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the To Date field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control To Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Year field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Control Year - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2023236073 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Qualifi Subform - Action Preview - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Emp. Edit Relative Subform</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 2962239689 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Relative In Bank field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Employee Relative In Bank - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 2981864456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Full Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Full Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 1324252289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Relative CitizenShip No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Relative CitizenShip No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 74742931 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Relative Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Relative Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 1398100151 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Relative Mail field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Relative Mail - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 363174193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Phone No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Relative Phone No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 3815875519 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Relative Employee No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Relative's Employee No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 691569405 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Set Emergency Contact field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Set Emergency Contact - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete the record.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action DeletePicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action DeletePicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export the picture to a file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action ExportFile - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action ExportFile - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import a picture file.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action ImportPicture - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action ImportPicture - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>View the Attachment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action Preview - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3477846856 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Action Preview - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2701905267 - Control 3294270728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Assigned User ID field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27363,31 +27763,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Vehicle Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CGPA field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control CGPA - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2222580281 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Emp Document Type field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Emp Document Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Percentage field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Stream field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Stream - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 2113601774 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Year of completion field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Card - Control Year - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 2113601774 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -27567,211 +27942,6 @@
           <source>Preview</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Picture - Action Preview - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Employee Edit Subform</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2228037091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Attacment field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Attacment - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1576740555 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Birth Date field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Birth Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2137649327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the CGPA field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control CGPA - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 4142058459 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Change in Emp Type field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Change in Emp Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1774546989 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Contact Number field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Contact Number - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Description field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Description - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1750076273 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Designation field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Designation - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2510323415 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Document Type field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Employee Document Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2962239689 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Employee Relative In Bank field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Employee Relative In Bank - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2981864456 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Full Name field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Full Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3647888328 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Institution/Company field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Institution/Company - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 4093990710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Language field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Language - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3557664220 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Percentage field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Percentage - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 75174240 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Qualification Code field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Qualification Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 264531091 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Qualification Type field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Qualification Type - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1018677426 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Rank field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Rank - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2965816022 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Reading field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Reading - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1324252289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative CitizenShip No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative CitizenShip No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 74742931 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative Code field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3399246878 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative District field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative District - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 363174193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Phone No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative Phone No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 821707378 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative VDC/Municipality field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative VDC/Municipality - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3815875519 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative Employee No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Relative's Employee No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remarks field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Remarks - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 3373264693 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Remuneration field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Remuneration - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 300412064 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Speaking field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Speaking - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 359323096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Stream field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Stream - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 847553828 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Time Period field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Time Period - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1030868383 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Typing field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Typing - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2771284209 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Relative Ward No. field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Ward No. - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 1042975732 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Writing field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Writing - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Control 2832340769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Year field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Control Year - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 3119204463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Delete the record.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action DeletePicture - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 3119204463 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action DeletePicture - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 2665042526 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Export the picture to a file.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ExportFile - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 2665042526 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Export</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ExportFile - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 2864777531 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Import a picture file.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ImportPicture - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 2864777531 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Import</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action ImportPicture - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 4266201246 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>View the Attachment</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action Preview - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 3426063600 - Action 4266201246 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Preview</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Edit Subform - Action Preview - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 14706639 - Control 3847225951 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Address of Owner field.</source>
@@ -35792,6 +35962,11 @@
           <source>Specifies the value of the Employment Limit field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Employment Limit - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 310427152 - Control 619291327 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Emplymt. Contract Code field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Leave Type Setup - Control Emplymt. Contract Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 310427152 - Control 2624446540 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Encashable field.</source>
@@ -51624,6 +51799,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Probation End Date - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code - Property ToolTip</note>
@@ -52067,6 +52243,10 @@
           <source>Specifies the value of the ContractExpiryMonth field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month Hidden - Property ToolTip</note>
+        <trans-unit id="Report 2595309284 - Control 2282677231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ContractExpiryMonth field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the DeputationCodeTo field.</source>

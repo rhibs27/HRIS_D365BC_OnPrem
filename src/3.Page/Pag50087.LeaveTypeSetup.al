@@ -142,10 +142,14 @@ page 50087 "Leave Type Setup"
                     ToolTip = 'Specifies the value of the Depending Leave field.';
                     ApplicationArea = All;
                 }
-                field("Employment Limit"; Rec."Employment Limit")
+                field("Employment Limit"; Rec."Min. Service Year Eligibility")
                 {
                     ToolTip = 'Specifies the value of the Employment Limit field.';
                     ApplicationArea = All;
+                }
+                field("Emplymt. Contract Code"; Rec."Emplymt. Contract Code")
+                {
+                    ToolTip = 'Specifies the value of the Emplymt. Contract Code field.', Comment = '%';
                 }
                 field("Needed HR Permission"; Rec."Needed HR Permission")
                 {

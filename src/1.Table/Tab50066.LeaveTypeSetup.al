@@ -81,8 +81,9 @@ table 50066 "Leave Type Setup"
                 Validate("Depending Leave", leaveMgt.LookupDependability(Code));
             end;
         }
-        field(21; "Employment Limit"; Decimal)
+        field(21; "Min. Service Year Eligibility"; Decimal)
         {
+            Caption = 'Min. Service Year for Eligibility';
         }
         field(22; "Calculate Proratawise"; Boolean)
         {

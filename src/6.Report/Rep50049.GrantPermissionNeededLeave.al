@@ -80,8 +80,8 @@ report 50049 "Grant Permission Needed Leave"
 
 
                 end;
-                if LeavetypSetup."Employment Limit" <> 0 then begin
-                    DateExpr := '<' + Format(LeavetypSetup."Employment Limit") + 'Y>';
+                if LeavetypSetup."Min. Service Year Eligibility" <> 0 then begin
+                    DateExpr := '<' + Format(LeavetypSetup."Min. Service Year Eligibility") + 'Y>';
                     if LeavetypSetup."Service Period Calc On" = LeavetypSetup."Service Period Calc On"::"Confirmation Date" then begin
                         if Today < CalcDate(DateExpr, Employee."Confirmation Date") then
                             Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeavetypSetup.Description);
