@@ -321,36 +321,4 @@ page 50061 "Employee Attendance & Activity"
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action("Update Emp Name")
-            {
-                Image = ReOpen;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Change Reviewer/ Check Reviewer action.';
-                ApplicationArea = All;
-                trigger OnAction()
-                var
-                    EmployeeAttendnce: Record "Employee Attendance & Activity";
-                    Employee: Record Employee;
-                begin
-                    EmployeeAttendnce.Reset();
-                    if EmployeeAttendnce.FindSet() then
-                        repeat
-                            if Employee.Get(EmployeeAttendnce."Employee No.") then begin
-                                EmployeeAttendnce."Employee Name" := Employee."Full Name";
-                                EmployeeAttendnce.Modify();
-                            end;
-                        until EmployeeAttendnce.Next() = 0;
-                end;
-            }
-
-        }
-    }
 }

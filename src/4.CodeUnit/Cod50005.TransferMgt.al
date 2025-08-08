@@ -470,7 +470,7 @@ codeunit 50005 "Transfer Mgt."
             EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
             EmployeeRec.Modify;
         end;
-        // OnAfterTransferAcknowledge(EmpHrTransfer);
+        OnAfterTransferAcknowledge(EmpHrTransfer);
         Message(Acknowledged);
         HRMgt.SendMailFromTemplate(DATABASE::"Employee Activity", EmpHrTransfer.Type::"Employee Transfer", EmpHrTransfer."Approval Status"::Acknowledged, '', EmpHrTransfer."Incoming Supervisior", EmpHrTransfer."No.", 0);
     end;

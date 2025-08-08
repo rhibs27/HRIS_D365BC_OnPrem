@@ -42,7 +42,7 @@ report 50049 "Grant Permission Needed Leave"
     local procedure GrantLeave()
     var
         EngNep: Record "English-Nepali Date";
-        LeavetypSetup: Record "Leave Type Setup";
+        LeaveTypeSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
         LeaveMgt: Codeunit "Leave Mgt.";
         DateExpr: Text;
@@ -51,52 +51,51 @@ report 50049 "Grant Permission Needed Leave"
         EngNep.Reset;
         EngNep.SetRange("English Date", Today);
         if EngNep.FindFirst then;
-        LeavetypSetup.Reset;
-        LeavetypSetup.SetFilter(Code, LeaveCodeFilter);
-        LeavetypSetup.SetRange("Needed HR Permission", true);
-        if LeavetypSetup.Find('-') then
+        LeaveTypeSetup.Reset;
+        LeaveTypeSetup.SetFilter(Code, LeaveCodeFilter);
+        LeaveTypeSetup.SetRange("Needed HR Permission", true);
+        if LeaveTypeSetup.Find('-') then
             repeat
                 Clear(LeaveEarn);
-                if not (LeavetypSetup.Gender = LeavetypSetup.Gender::" ") then
-                    if LeavetypSetup.Gender <> Employee.Gender then
+                if not (LeaveTypeSetup.Gender = LeaveTypeSetup.Gender::" ") then
+                    if LeaveTypeSetup.Gender <> Employee.Gender then
                         Error('Not applicable for employee %1', Employee."Full Name");
 
-                if not (LeavetypSetup."Leave For Employee Type" = LeavetypSetup."Leave For Employee Type"::" ") then
-                    if LeavetypSetup."Leave For Employee Type" <> Employee."Employment Type" then
+                if not (LeaveTypeSetup."Leave For Employee Type" = LeaveTypeSetup."Leave For Employee Type"::" ") then
+                    if LeaveTypeSetup."Leave For Employee Type" <> Employee."Employment Type" then
                         Error('Not applicable for employee %1', Employee."Full Name");
 
-                if not (LeavetypSetup."Marital Status" = LeavetypSetup."Marital Status"::" ") then
-                    if LeavetypSetup."Marital Status" <> Employee."Marital Status" then
+                if not (LeaveTypeSetup."Marital Status" = LeaveTypeSetup."Marital Status"::" ") then
+                    if LeaveTypeSetup."Marital Status" <> Employee."Marital Status" then
                         Error('Not applicable for employee %1', Employee."Full Name");
 
-                if LeavetypSetup."Services Period" then begin
+                if LeaveTypeSetup."Services Period" then begin
                     LeaveEarn.Reset;
                     LeaveEarn.SetRange("Employee No.", Employee."No.");
-                    LeaveEarn.SetRange("Leave Code", LeavetypSetup.Code);
+                    LeaveEarn.SetRange("Leave Code", LeaveTypeSetup.Code);
                     LeaveEarn.SetRange(Type, LeaveEarn.Type::Earned);
-                    LeaveEarn.CalcSums("Balancing Days");
-                    if LeaveEarn.Count >= LeavetypSetup."Times Per Service Period" then
-                        Error('Employee has already taken leave for more than %1 times in his service period.', LeavetypSetup."Times Per Service Period");
+                    if LeaveEarn.Count >= LeaveTypeSetup."Times Per Service Period" then
+                        Error('Employee has already taken leave for more than %1 times in his service period.', LeaveTypeSetup."Times Per Service Period");
 
 
                 end;
-                if LeavetypSetup."Min. Service Year Eligibility" <> 0 then begin
-                    DateExpr := '<' + Format(LeavetypSetup."Min. Service Year Eligibility") + 'Y>';
-                    if LeavetypSetup."Service Period Calc On" = LeavetypSetup."Service Period Calc On"::"Confirmation Date" then begin
+                if LeaveTypeSetup."Min. Service Year Eligibility" <> 0 then begin
+                    DateExpr := '<' + Format(LeaveTypeSetup."Min. Service Year Eligibility") + 'Y>';
+                    if LeaveTypeSetup."Service Period Calc On" = LeaveTypeSetup."Service Period Calc On"::"Confirmation Date" then begin
                         if Today < CalcDate(DateExpr, Employee."Confirmation Date") then
-                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeavetypSetup.Description);
+                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeaveTypeSetup.Description);
                     end else if Today < CalcDate(DateExpr, Employee."Employment Date") then
-                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeavetypSetup.Description);
+                            Error('You are not eligible to earn leave %1 as minimum service period requirement does not meet', LeaveTypeSetup.Description);
                 end;
 
                 Clear(LeaveEarn);
-                if not LeavetypSetup."Calculate Proratawise" then
-                    EarnDays := LeavetypSetup."Days Earned Per Year"
+                if not LeaveTypeSetup."Calculate Proratawise" then
+                    EarnDays := LeaveTypeSetup."Days Earned Per Year"
                 else
-                    EarnDays := LeaveMgt.CalculateProDataLeave(LeavetypSetup.Code, Employee."Employment Date");
+                    EarnDays := LeaveMgt.CalculateProDataLeave(LeaveTypeSetup.Code, Employee."Employment Date");
 
                 LeaveMgt.CreateLeaveLedger(Employee."No.",
-                                        LeaveTypSetup.Code,
+                                        LeaveTypeSetup.Code,
                                         Today,
                                         Enum::"Leave Earn Type"::Earned,
                                         EarnDays,
@@ -104,6 +103,6 @@ report 50049 "Grant Permission Needed Leave"
                                         '',
                                         '',
                                         '');
-            until LeavetypSetup.Next = 0;
+            until LeaveTypeSetup.Next = 0;
     end;
 }

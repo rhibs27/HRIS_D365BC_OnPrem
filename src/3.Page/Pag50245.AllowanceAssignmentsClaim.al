@@ -26,6 +26,16 @@ page 50245 "Allowance Assignments Claim"
                     ToolTip = 'Specifies the value of the Type field.';
                     ApplicationArea = All;
                 }
+                field("Employee No."; Rec."Employee No.")
+                {
+                    ToolTip = 'Specifies the value of the Employee No field.';
+                    ApplicationArea = All;
+                }
+                field("Employee Name"; Rec."Employee Name")
+                {
+                    ToolTip = 'Specifies the value of the Employee Name field.';
+                    ApplicationArea = All;
+                }
                 field("Code"; Rec.Code)
                 {
                     ToolTip = 'Specifies the value of the Code field.';

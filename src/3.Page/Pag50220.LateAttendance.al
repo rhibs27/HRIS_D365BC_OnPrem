@@ -8,7 +8,7 @@ page 50220 "Late Attendance"
     SourceTableView = WHERE(Type = CONST("Late Attendance"));
     CardPageId = "Late Attendance Card";
     InsertAllowed = false;
-    ModifyAllowed=false;
+    ModifyAllowed = false;
 
     layout
     {
@@ -29,6 +29,11 @@ page 50220 "Late Attendance"
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name field.';
+                    ApplicationArea = All;
+                }
+                field(Remarks; rec.Remarks)
+                {
+                    ToolTip = 'Specifies the value of the Remarks field.';
                     ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
