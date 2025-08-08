@@ -1,34 +1,54 @@
-page 50364 "Qualification Attachment"
+page 50108 "Emp. Edit Achievement Subform"
 {
     ApplicationArea = All;
-    Caption = 'Qualification Attachment';
-    PageType = CardPart;
-    DeleteAllowed = false;
-    InsertAllowed = false;
-    LinksAllowed = false;
-    SourceTable = "Employee Qualification";
+    Caption = 'Emp. Edit Achievement Subform';
+    PageType = ListPart;
+    SourceTable = "Employee Edit Line";
+    AutoSplitKey = true;
     layout
     {
         area(Content)
         {
-            field(Attachment; Rec.Attachment.HasValue())
+            repeater(General)
             {
-                ToolTip = 'Specifies the value of the Notice field.';
-            }
+                field("Employee Document Type"; Rec."Employee Document Type")
+                {
+                    ToolTip = 'Specifies the value of the Employee Document Type field.', Comment = '%';
+                }
 
+                field(Description; Rec.Description)
+                {
+                    ToolTip = 'Specifies the value of the Description field.', Comment = '%';
+                }
+                field(Designation; Rec.Designation)
+                {
+                    ToolTip = 'Specifies the value of the Designation field.', Comment = '%';
+                }
+                field("Institution/Company"; Rec."Institution/Company")
+                {
+                    ToolTip = 'Specifies the value of the Institution/Company field.', Comment = '%';
+                }
+
+                field("From Date"; Rec."From Date")
+                {
+                    ToolTip = 'Specifies the value of the From Date field.', Comment = '%';
+                }
+                field("To Date"; Rec."To Date")
+                {
+                    ToolTip = 'Specifies the value of the To Date field.', Comment = '%';
+                }
+            }
         }
     }
-
-
     actions
     {
-        area(processing)
+        area(Processing)
         {
             action(ImportPicture)
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Import';
-                Image = Import;
+
                 ToolTip = 'Import a picture file.';
                 trigger OnAction()
                 var
@@ -40,11 +60,17 @@ page 50364 "Qualification Attachment"
                 begin
                     // Rec.TestField("Entry No.");
                     if Rec.Attachment.HasValue() then
-                        if not Confirm(OverrideImageQst) then
+                        if not Confirm('There is an existing attachment. Do you wish to proceed') then
                             exit;
                     if UploadIntoStream('Import', '', 'All Files (*.*)|*.*', FromFileName, InStreamPic) then begin
                         // check file size 
-                        AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Emp Qualification Type"::Education));
+                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::Qualification then
+                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Employee Document Type"::Education))
+                        else if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
+                            AttachmentMgt.CheckAttachmentSizeLimit(InStreamPic, Format(Rec."Change in Emp Type"))
+                        else
+                            Error('Invali');
+
                         // Check File Extension
                         Extension := FileMgt.GetExtension(FromFileName);
                         if Extension = '' then
@@ -60,7 +86,7 @@ page 50364 "Qualification Attachment"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Preview';
-                Enabled = DeleteExportEnabled;
+
                 ToolTip = 'View the Attachment';
 
                 trigger OnAction()
@@ -73,8 +99,7 @@ page 50364 "Qualification Attachment"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Export';
-                Enabled = DeleteExportEnabled;
-                Image = Export;
+
                 ToolTip = 'Export the picture to a file.';
                 trigger OnAction()
                 var
@@ -83,10 +108,16 @@ page 50364 "Qualification Attachment"
                     ExportPath: Text;
                     ItemTenantMedia: Record "Tenant Media";
                     Instream: InStream;
+                    fileInitial: Text;
                 begin
                     // Rec.TestField("Entry No.");
                     if ItemTenantMedia.Get(Rec.Attachment.MediaId) then begin
-                        ToFile := Format(Rec."Employee No.") + '_' + format(Rec."Emp Qualification Type") + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
+                        if Rec."Change in Emp Type" = Rec."Change in Emp Type"::"Work Experience" then
+                            fileInitial := Rec.Designation
+                        else
+                            fileInitial := Rec."Qualification Code";
+
+                        ToFile := Format(Rec."Employee No.") + '_' + format(fileInitial) + '.' + FileManagement.GetExtension(ItemTenantMedia.Description);
                         ItemTenantMedia.CalcFields(Content);
                         ItemTenantMedia.Content.CreateInStream(Instream, TextEncoding::UTF8);
                         DownloadFromStream(Instream, '', '', '', ToFile);
@@ -100,15 +131,14 @@ page 50364 "Qualification Attachment"
             {
                 ApplicationArea = Basic, Suite;
                 Caption = 'Delete';
-                Enabled = DeleteExportEnabled;
-                Image = Delete;
+
                 ToolTip = 'Delete the record.';
 
                 trigger OnAction()
                 begin
                     Rec.TestField("Employee No.");
 
-                    if not Confirm(DeleteImageQst) then
+                    if not Confirm('Do you want to delete/') then
                         exit;
                     Clear(Rec.Attachment);
                     Rec.Modify(true);
@@ -116,18 +146,13 @@ page 50364 "Qualification Attachment"
             }
         }
     }
-    trigger OnAfterGetCurrRecord()
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        SetEditableOnPictureActions();
+        Rec."Change in Emp Type" := Rec."Change in Emp Type"::Achievement;
     end;
 
     var
-        OverrideImageQst: Label 'The existing picture will be replaced. Do you want to continue?';
-        SelectPictureTxt: Label 'Select a picture to upload';
-        DeleteExportEnabled: Boolean;
-        DeleteImageQst: Label 'Are you sure you want to delete the picture?';
-        EditableField: Boolean;
-        PreviewAttachment: page "Preview Attachment";
+        PreviewAttachment: Page "Preview Attachment";
 
     local procedure returnAttachmentBase64(): Text;
     var
@@ -144,12 +169,5 @@ page 50364 "Qualification Attachment"
                 exit(base64.ToBase64(InStr));
             end;
         end;
-    end;
-
-    local procedure SetEditableOnPictureActions()
-    begin
-        DeleteExportEnabled := Rec.Attachment.HasValue();
-        // if rec."Notice End Date" >= Today then
-        //     EditableField := true;
     end;
 }

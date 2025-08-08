@@ -6,73 +6,10 @@ tableextension 50026 "Dimension Value Ext" extends "Dimension Value"
         {
             DataClassification = CustomerContent;
         }
-        // field(50001; Province; Code[20])
-        // {
-        //     // TableRelation = Province;todo
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50002; "Sub-Province"; Code[20])
-        // {
-        //     TableRelation = "Sub Province";
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50003; Cluster; Code[20])
-        // {
-        // TableRelation = "Employee Hierarchy Master" where("Sub-Province" = field("Sub-Province"));
-        // DataClassification = CustomerContent;
-        // }
-        // field(50004; "Distance Criteria"; Integer)
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50005; District; Text[50])
-        // {
-        //     DataClassification = CustomerContent;
-        //     trigger OnLookup()
-        //     begin
-        //         // VALIDATE(District, HRMgt.LookupDistrict(Province, "Sub-Province", District)); todo
-        //     end;
-        // }
-        // field(50006; Address; Text[100])
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50007; "Inside/Outside Valley"; enum "Outside/Inside Valley")
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50008; "Remote Area Category"; Code[20])
-        // {
-        //     TableRelation = "Remote Area Category";
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50009; "Reporting Category"; Code[20])
-        // {
-        //     TableRelation = "Reporting Category";
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50010; "Sol ID"; Code[20])
-        // {
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50011; "BM Category"; Code[20])
-        // {
-        //     TableRelation = "Remote Area Category";
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50012; "Remote Area Reduction"; Code[20])
-        // {
-        //     TableRelation = "Remote Area Category";
-        //     DataClassification = CustomerContent;
-        // }
-        // field(50013; Municipality; Text[50])
-        // {
-        //     DataClassification = CustomerContent;
-        //     trigger OnLookup()
-        //     begin
-        //         // VALIDATE(Municipality, HRMgt.LookUpMunicipalityKPI(Municipality));todo
-        //         //VALIDATE(Municipality,HRMgt.LookupVDC(Municipality));
-        //     end;
-        // }
+        field(50001; "Deputation On Type"; Enum "Deputation Type")
+        {
+            FieldClass = FlowField;
+            CalcFormula = lookup(Dimension."Deputation On Type" where(Code = field("Dimension Code")));
+        }
     }
 }

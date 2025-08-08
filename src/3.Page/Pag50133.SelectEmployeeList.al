@@ -100,7 +100,7 @@ page 50133 "Select Employee List"
 
     var
         IsSelected: Boolean;
-        [InDataSet]
+
         IsTransferNotify: Boolean;
         EmpCodeText: Text;
         TempEmployee: Record Employee temporary;

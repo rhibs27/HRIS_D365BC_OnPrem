@@ -782,9 +782,7 @@ page 50210 "Payroll Settlement Subform"
             action("Payroll Attributes Usage")
             {
                 Image = PaymentDays;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
+
                 RunObject = page "Payroll Attributes Usage";
                 RunPageLink = "Employee Code" = field("Employee No.");
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
@@ -795,8 +793,6 @@ page 50210 "Payroll Settlement Subform"
                 AccessByPermission = tabledata Dimension = R;
                 Caption = 'Dimensions';
                 Image = Dimensions;
-                Promoted = true;
-                PromotedCategory = Process;
                 ShortcutKey = 'Shift+Ctrl+D';
                 ToolTip = 'Executes the Dimensions action.';
                 ApplicationArea = All;
@@ -810,7 +806,6 @@ page 50210 "Payroll Settlement Subform"
             action(Attendance)
             {
                 Image = DepositLines;
-                Promoted = true;
                 Visible = (not HourCalculationVisible);
                 ToolTip = 'Executes the Attendance action.';
                 ApplicationArea = All;
@@ -823,8 +818,6 @@ page 50210 "Payroll Settlement Subform"
             action("Timesheet Summary")
             {
                 Image = Timeline;
-                Promoted = true;
-                PromotedCategory = "Report";
                 Visible = TimeSheetVisible;
                 ToolTip = 'Executes the Timesheet Summary action.';
                 ApplicationArea = All;
@@ -895,9 +888,9 @@ page 50210 "Payroll Settlement Subform"
         Field50538Visible: Boolean;
         Field50539Visible: Boolean;
         Field50540Visible: Boolean;
-        // [InDataSet]
+        // 
         HourCalculationVisible: Boolean;
-        // [InDataSet]
+        // 
         TimeSheetVisible: Boolean;
 
     local procedure InitColumnVisibility()

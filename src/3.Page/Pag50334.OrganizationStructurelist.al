@@ -28,6 +28,10 @@ page 50334 "Organization Structure list"
                 {
                     ToolTip = 'Specifies the value of the Sol ID field.', Comment = '%';
                 }
+                field("Dimension Value Code"; Rec."Dimension Value Code")
+                {
+                    ToolTip = 'Specifies the value of the Dimension Code field.', Comment = '%';
+                }
                 field(Province; Rec."Province Name")
                 {
                     ToolTip = 'Specifies the value of the Province field.', Comment = '%';

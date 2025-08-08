@@ -136,11 +136,18 @@ table 50013 "Training Calendar"
     fieldgroups { }
 
     trigger OnInsert()
+    var
+        TrainingCalender: Record "Training Calendar";
     begin
         if "No." = '' then begin
             HRSetup.Get;
             HRSetup.TestField("Training Calendar No.");
-            NoSeriesMgt.InitSeries(HRSetup."Training Calendar No.", xRec."No. Series", Today, "No.", "No. Series");
+            HRMgt.InitNoSeriesNew(HRSetup."Training Calendar No.", xRec."No. Series", Today, "No.", "No. Series");
+
+            TrainingCalender.ReadIsolation(IsolationLevel::ReadUncommitted);
+            TrainingCalender.SetLoadFields("No.");
+            while TrainingCalender.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
 
         //NoseriesNew
@@ -156,7 +163,7 @@ table 50013 "Training Calendar"
 
     var
         TrainingMaster: Record "Training Master";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         // NOseries: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
@@ -168,8 +175,8 @@ table 50013 "Training Calendar"
         TrainCal := Rec;
         HRSetup.Get;
         HRSetup.TestField("Training Calendar No.");
-        if NoSeriesMgt.SelectSeries(HRSetup."Training Calendar No.", OldRecord."No. Series", TrainCal."No. Series") then begin
-            NoSeriesMgt.SetSeries(TrainCal."No.");
+        if NoSeriesMgt.LookupRelatedNoSeries(HRSetup."Training Calendar No.", OldRecord."No. Series", TrainCal."No. Series") then begin
+            NoSeriesMgt.GetNextNo(TrainCal."No.");
             Rec := TrainCal;
             exit(true);
         end;

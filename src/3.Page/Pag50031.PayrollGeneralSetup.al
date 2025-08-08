@@ -187,7 +187,8 @@ page 50031 "Payroll General Setup"
             {
                 field("Bal. Account Type"; Rec."Bal. Account Type")
                 {
-                    OptionCaption = 'G/L Account,,,Bank Account';
+                    // OptionCaption = 'G/L Account,,,Bank Account';
+                    ValuesAllowed = "G/L Account", "Bank Account";
                     ToolTip = 'Specifies the value of the Bal. Account Type field.';
                     ApplicationArea = All;
                 }

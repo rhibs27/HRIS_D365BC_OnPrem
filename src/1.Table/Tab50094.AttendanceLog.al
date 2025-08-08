@@ -28,6 +28,10 @@ table 50094 "Attendance Log"
         {
         }
         field(7; "Date Time Log"; DateTime) { }
+        field(9; "Device IP"; Text[20])
+        {
+
+        }
     }
 
     keys

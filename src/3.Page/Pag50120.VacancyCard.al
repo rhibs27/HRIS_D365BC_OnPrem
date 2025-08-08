@@ -346,14 +346,14 @@ page 50120 "Vacancy Card"
 
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-        [InDataSet]
+
         OpenApprovalEntriesExist: Boolean;
-        [InDataSet]
+
         IsPosted: Boolean;
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
+
         ShowForInternal: Boolean;
-        [InDataSet]
+
         OpenApprovalEntriesExistForCurrUser: Boolean;
 
     local procedure SetControlAppearance()

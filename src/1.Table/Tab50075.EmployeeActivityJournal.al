@@ -756,7 +756,7 @@ table 50075 "Employee Activity Journal"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HrMgt: Codeunit "HR Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";

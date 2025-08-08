@@ -395,6 +395,7 @@ codeunit 50024 "Service History Mgt"
     var
         LeaveTypeSetup: Record "Leave Type Setup";
         LeaveEarn: Record "Leave Earn";
+        LeaveMgt: Codeunit "Leave Mgt.";
     begin
         LeaveTypeSetup.Reset;
         LeaveTypeSetup.SetRange("Leave For Employee Type", LeaveTypeSetup."Leave For Employee Type"::Contract);
@@ -404,15 +405,25 @@ codeunit 50024 "Service History Mgt"
                 LeaveTypeSetup.CalcFields("Remaining Days");
                 if LeaveTypeSetup."Remaining Days" > 0 then begin
                     LeaveEarn.Reset;
-                    LeaveEarn.Init;
-                    LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
-                    LeaveEarn.Validate("Employee No.", EmpCode);
-                    LeaveEarn.Validate("Fiscal year", HrMgt.ReturnFiscalYear(Today));
-                    LeaveEarn.Validate("Posted Date", Today);
-                    LeaveEarn.Validate("Balancing Days", -LeaveTypeSetup."Remaining Days");
-                    LeaveEarn.Validate(Remarks, 'Leave Collapsed.');
-                    LeaveEarn.Validate(Type, LeaveEarn.Type::Collapsed);
-                    LeaveEarn.Insert(true);
+                    // LeaveEarn.Init;
+                    // LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
+                    // LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
+                    // LeaveEarn.Validate("Employee No.", EmpCode);
+                    // LeaveEarn.Validate("Fiscal year", HrMgt.ReturnFiscalYear(Today));
+                    // LeaveEarn.Validate("Posted Date", Today);
+                    // LeaveEarn.Validate("Balancing Days", -LeaveTypeSetup."Remaining Days");
+                    // LeaveEarn.Validate(Remarks, 'Leave Collapsed.');
+                    // LeaveEarn.Validate(Type, LeaveEarn.Type::Collapsed);
+                    // LeaveEarn.Insert(true);
+                    LeaveMgt.CreateLeaveLedger(EmpCode,
+                                   LeaveTypeSetup.Code,
+                                   Today,
+                                   Enum::"Leave Earn Type"::Collapsed,
+                                   -LeaveTypeSetup."Remaining Days",
+                                   LeaveMgt.GetNextLeaveLedgerEntryNo(),
+                                   '',
+                                   'Leave Collapsed',
+                                   '');
                 end;
             until LeaveTypeSetup.Next = 0;
     end;

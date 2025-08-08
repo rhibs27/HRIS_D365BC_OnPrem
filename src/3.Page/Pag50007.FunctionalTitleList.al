@@ -203,7 +203,7 @@ page 50007 "Functional Title List"
 
     var
         Selected: Boolean;
-        [InDataSet]
+
         ShowSelected: Boolean;
         FunctTitle: Record "Functional Title";
         TempFunctTitle: Record "Functional Title" temporary;

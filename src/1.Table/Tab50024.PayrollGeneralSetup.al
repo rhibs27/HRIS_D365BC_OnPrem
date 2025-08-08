@@ -471,26 +471,4 @@ table 50024 "Payroll General Setup"
     var
         GradeWiseAttributes: Record "Level Wise Attributes";
 
-    procedure ValidateHRMSMonth()
-    begin
-        if Rec."HRMS Month" <> xRec."HRMS Month" then begin
-            if CheckSalaryAtMonth("HRMS Month") then
-                Error('Month end has already performed for %1', "HRMS Month");
-            //IF FORMAT("HRMS Month") <>  EngToNepaliDate.getNepaliMonth(TODAY) THEN
-            //ERROR('Hrms month must be %1',EngToNepaliDate.getNepaliMonth(TODAY));
-        end;
-        //<<ratan 1.21.2021
-    end;
-
-    local procedure CheckSalaryAtMonth(HRMSMonth: Enum "Nepali Month"): Boolean
-    var
-        PostedPayrollheader: Record "Posted Payroll Header";
-    begin
-        PostedPayrollheader.Reset;
-        PostedPayrollheader.SetRange("Nepali Month", "HRMS Month");
-        if PostedPayrollheader.FindFirst then
-            exit(true)
-        else
-            exit(false);
-    end;
 }

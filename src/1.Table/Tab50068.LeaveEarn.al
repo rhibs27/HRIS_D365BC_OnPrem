@@ -100,9 +100,11 @@ table 50068 "Leave Earn"
     procedure PostLeaveEarn(TempLeaveEarn: Record "Leave Earn" temporary)
     var
         LeaveEarn: Record "Leave Earn";
+        LeaveMgt: Codeunit "Leave Mgt.";
     begin
         LeaveEarn.Init;
         LeaveEarn.TransferFields(TempLeaveEarn);
+        LeaveEarn."Entry No." := LeaveMgt.GetNextLeaveLedgerEntryNo();
         LeaveEarn."Fiscal year" := HrMgt.ReturnFiscalYear(Today);
         LeaveEarn."Posted Date" := Today;
         LeaveEarn.Type := LeaveEarn.Type::Earned;

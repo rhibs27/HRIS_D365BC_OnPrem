@@ -34,11 +34,7 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Appraisal No. field.';
             }
-            field("Leave No. Series"; Rec."Leave No. Series")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Leave No. Series field.';
-            }
+
             field("Recruitment No. Series"; Rec."Recruitment No. Series")
             {
                 ApplicationArea = All;
@@ -233,6 +229,20 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
         }
         addafter(Numbering)
         {
+            group(Leave)
+            {
+
+                field("Leave No. Series"; Rec."Leave No. Series")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave No. Series field.';
+                }
+                field("Leave Rounding Precision"; Rec."Leave Rounding Precision")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Rounding Precision field.', Comment = '%';
+                }
+            }
             group("Mail For Recruitement")
             {
                 field("Offer Letter Sent"; Rec."Offer Letter Sent")

@@ -1,24 +1,10 @@
 codeunit 50001 "HR Mgt."
 {
-    // //Min 1.2 -- Added ServiceEvent Parameter Option String of AddtoServiceHistory function same as ServiceEvent option of Employee Activity table.
-    // //Min 1.1 >> -- Commented,No Need to update information in its employee card and "Employee Service history" Table during Acknowledge -- as per "Tulasi" Didi.
-    // //Min 1.4 >> -- Update in Employee Card and "Employee Service history" Table during Approved -- as per "Tulasi" Didi.
-    // //Min 1.4 >> -- Issues occurred in earlier approved document, so commented later and update data via "Daily Attendance update" Report Job Queue.
-    // //Min 4.11.2022 -- For Donot allow to leave request in Present Day.
-    // //Min 4.27.2022 -- For Update Transfer Effective Date in Portal DB Employee Table.
-    // //Min 4.28.2022 -- Regination Submit Email Send.
-    // //Min 6.9.2022 -- Commented for no need to apply condition in Retirement Fund Screen
-    // //Min 9.15.2022 -- 1) Prov. Wise Email Send to HR Team. 2) Skip CC email for Doc.Type :: Transfer.
-    // //Min 10.13.2022 -- For restriction multiple time leave cancel of same document.
-    // //Abhiral 12.20.2022 -- Resignation Rejection Email Send.
 
     Permissions = TableData "G/L Entry" = rimd,
                   TableData "Bank Account Ledger Entry" = rimd;
 
     trigger OnRun()
-    var
-        texttest: BigText;
-        Candidate: Record Candidate;
     begin
 
     end;
@@ -395,7 +381,7 @@ codeunit 50001 "HR Mgt."
         VacaHeadaer: Record "Vacancy Header";
         RecruitmentLine: Record "Recruitement Memo Line";
         DocNo: Text;
-        NoMgt: Codeunit "NoSeriesManagement";
+        NoMgt: Codeunit "No. Series";
         VacancyLine: Record "Vacancy Line";
         SalaryLevel: Record "Salary Level";
         FunctionalTitle: Record "Functional Title";
@@ -5591,8 +5577,8 @@ codeunit 50001 "HR Mgt."
                                 VAR Description: Text[50];
                                 VAR Proviences: Text[150];
                                 VAR Gender: Enum "Employee Gender";
-                                VAR InOutValley: Option;
-                                VAR PostingRegion: Option;
+                                VAR InOutValley: Enum "Outside/Inside Valley";
+                                VAR PostingRegion: enum Region;
                                 VAR Branch: Text;
                                 var Community: Enum "Community Type";
                                 var Disabled: Boolean): Boolean
@@ -5652,75 +5638,6 @@ codeunit 50001 "HR Mgt."
         clear(Branch);
         Clear(Community);
         Clear(Disabled);
-    end;
-
-    procedure CheckDateStatus3(CalendarCode: Code[10];
-                                TargetDate: Date;
-                                Description: Text[100];
-                                Provinces: Text[150];
-                                Gender: Enum "Employee Gender";
-                                Branches: Code[250];
-                                Community: Enum "Community Type"): Boolean
-    var
-        GLSetup: Record "General Ledger Setup";
-        BaseCalChange: Record "Base Calendar Change";
-        OrgStructureList: Record "Organization Structure List";
-
-    begin
-        GLSetup.Get;
-        BaseCalChange.Reset;
-        BaseCalChange.SetRange("Base Calendar Code", CalendarCode);
-        if BaseCalChange.FindSet then
-            repeat
-                case BaseCalChange."Recurring System" of
-
-                    BaseCalChange."Recurring System"::" ":
-                        if TargetDate = BaseCalChange.Date then begin
-                            //check genderwise
-                            if (BaseCalChange."Gender Filter" <> BaseCalChange."Gender Filter"::" ") then
-                                if (BaseCalChange."Gender Filter" <> Gender) then begin
-                                    if CheckSaturday(TargetDate, CalendarCode) then
-                                        exit(BaseCalChange.Nonworking)
-                                    else
-                                        exit(not BaseCalChange.Nonworking);
-                                end;
-
-                            //check branchwise
-                            if BaseCalChange."Shortcut Dimension 1 Code" <> '' then begin  //replace with branch (branch = dimension?)
-                                OrgStructureList.Reset();
-                                OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
-                                OrgStructureList.SetRange(Blocked, false);
-                                OrgStructureList.SetFilter(Code, BaseCalChange."Shortcut Dimension 1 Code");
-                                if OrgStructureList.FindSet() then begin
-                                    repeat
-                                        if OrgStructureList.Code = Branches then
-                                            exit(BaseCalChange.Nonworking)
-                                    until OrgStructureList.Next() = 0;
-                                    if CheckSaturday(TargetDate, CalendarCode) then
-                                        exit(BaseCalChange.Nonworking)
-                                    else
-                                        exit(not BaseCalChange.Nonworking);
-                                end;
-                            end;
-
-                            //check community wise
-                            if (Community <> community::" ") and
-                            (Community = BaseCalChange.community) then
-                                exit(BaseCalChange.Nonworking);
-
-                        end;
-                    BaseCalChange."Recurring System"::"Weekly Recurring":
-                        if Date2DWY(TargetDate, 1) = BaseCalChange.Day then
-                            exit(BaseCalChange.Nonworking);
-                    BaseCalChange."Recurring System"::"Annual Recurring":
-                        if (Date2DMY(TargetDate, 2) = Date2DMY(BaseCalChange.Date, 2)) and
-                           (Date2DMY(TargetDate, 1) = Date2DMY(BaseCalChange.Date, 1))
-                        then
-                            exit(BaseCalChange.Nonworking);
-                end;
-            until BaseCalChange.Next = 0;
-
-
     end;
 
     procedure CheckSaturday(CheckDate: Date; CalCode: Code[10]): Boolean
@@ -5971,6 +5888,9 @@ codeunit 50001 "HR Mgt."
         Year, Month, Days : Integer;
         YearText, MonthText, DayText, ReturnValue : Text;
     begin
+        if ToDate < BirthDate then
+            exit('-');
+
         GetAgeInteger(BirthDate, ToDate, Year, Month, Days);
         if Year = 1 then
             YearText := ' year'
@@ -6042,6 +5962,9 @@ codeunit 50001 "HR Mgt."
         Year, Month, Days : Integer;
         YearText, MonthText, DayText, ReturnValue : Text;
     begin
+        if EngNep.getEngDate(ToDate) < EngNep.getEngDate(BirthDate) then
+            exit('-');
+
         GetAgeIntegerBS(BirthDate, ToDate, Year, Month, Days);
         if Year = 1 then
             YearText := ' year'

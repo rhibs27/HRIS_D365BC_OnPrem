@@ -750,11 +750,11 @@ page 50158 "Employee Vehicle Loan Card"
         AppliedLoan: Decimal;
         // FormEditable: Boolean;
         // FormVisible: Boolean;
-        [InDataSet]
+
         ForApprove: Boolean;
-        [InDataSet]
+
         ForRecommend: Boolean;
-        [InDataSet]
+
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;
@@ -764,7 +764,7 @@ page 50158 "Employee Vehicle Loan Card"
         ApprovalStatusView: Boolean;
         StatusView: Boolean;
         RecRef: RecordRef;
-        [InDataSet]
+
         AfterRecommendedVisible: Boolean;
         ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";

@@ -79,9 +79,7 @@ page 50121 "Vacancy Lines"
             action("Convert To Employee")
             {
                 Image = AddContacts;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
+
                 ToolTip = 'Executes the Convert To Employee action.';
                 ApplicationArea = All;
 

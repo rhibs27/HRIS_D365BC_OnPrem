@@ -1,6 +1,6 @@
 pageextension 50010 "Employee Card" extends "Employee Card"
 {
-    PromotedActionCategoriesML = ENU = 'New,Process,Report,,Loan,History,Others';
+    PromotedActionCategories = 'New,Process,Report,,Loan,History,Others';
     layout
     {
         modify("No.")
@@ -867,6 +867,17 @@ pageextension 50010 "Employee Card" extends "Employee Card"
 
             }
         }
+        addbefore("Employment Date")
+        {
+            field("Appointment Date"; Rec."Appointment Date")
+            {
+                ApplicationArea = all;
+            }
+            Field("Appointment Date (B.S.)"; Rec."Appointment Date (B.S.)")
+            {
+                ApplicationArea = all;
+            }
+        }
         addafter(Payments)
         {
             group(Payroll)
@@ -1637,13 +1648,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     PromotedOnly = true;
                     ToolTip = 'Executes the Generate Leave Balance action.';
                     trigger OnAction()
-                    var
-                        LeaveMgt: Codeunit "Leave Mgt.";
                     begin
-                        // Employee.RESET;
-                        // Employee.SETRANGE("No.", Rec."No.");
-                        // REPORT.RUNMODAL(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                        LeaveMgt.GenerateLeave(Rec."No.");
+                        Employee.Reset();
+                        Employee.SetRange("No.", Rec."No.");
+                        Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
                 action("Confirmation Employee")
@@ -1979,6 +1987,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     var
                         EmployeeEventUpdate: Report "Service Event Update";
                     begin
+                        rec.TestField(Gender);
                         IF CONFIRM('Do you want to update Employee Service event?', FALSE) THEN BEGIN
                             CLEAR(EmployeeEventUpdate);
                             EmployeeEventUpdate.SetAppointment(Rec."No.");

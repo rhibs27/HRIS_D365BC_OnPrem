@@ -6,31 +6,31 @@ enum 50018 "Leave Category"
     {
         Caption = ' ';
     }
-    value(1; "Sick Leave")
+    value(1; "Annual Leave")
     {
-        Caption = 'Sick Leave';
+        Caption = 'Annual Leave';
     }
     value(2; "Bereavement Leave")
     {
         Caption = 'Bereavement Leave';
     }
-    value(3; "Maternity Leave")
-    {
-        Caption = 'Maternity Leave';
-    }
-    value(4; "Paternity Leave")
-    {
-        Caption = 'Paternity Leave';
-    }
-    value(5; "Casual Leave")
+    value(3; "Casual Leave")
     {
         Caption = 'Casual Leave';
     }
-    value(7; "Annual Leave")
+    value(4; "Maternity Leave")
     {
-        Caption = 'Annual Leave';
+        Caption = 'Maternity Leave';
     }
-    value(8; Substitute)
+    value(5; "Paternity Leave")
+    {
+        Caption = 'Paternity Leave';
+    }
+    value(6; "Sick Leave")
+    {
+        Caption = 'Sick Leave';
+    }
+    value(7; Substitute)
     {
         Caption = 'Substitute';
     }

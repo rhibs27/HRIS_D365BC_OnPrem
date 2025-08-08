@@ -15,7 +15,6 @@ page 50275 "Active Employee"
                 {
                     field("Contract Staff"; Rec."Contract Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Contract Staff field.';
                         ApplicationArea = All;
                     }

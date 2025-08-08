@@ -469,7 +469,7 @@ page 50067 "Resignation Card"
         HRMgt: Codeunit "HR Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
         ApprovalSent: Boolean;
-        [InDataSet]
+
         //DocumentEditable: Boolean;
         IsRejected: Boolean;
         IsPending: Boolean;

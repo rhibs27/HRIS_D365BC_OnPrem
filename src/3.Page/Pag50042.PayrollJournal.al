@@ -382,9 +382,9 @@ page 50042 "Payroll Journal"
         ShowBalance: Boolean;
         ShowTotalBalance: Boolean;
         ShortcutDimCode: array[8] of Code[20];
-        [InDataSet]
+
         BalanceVisible: Boolean;
-        [InDataSet]
+
         TotalBalanceVisible: Boolean;
         StyleTxt: Text;
         PayrollPostLine: Codeunit "Payroll Jnl.-Post Line";

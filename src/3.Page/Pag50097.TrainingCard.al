@@ -693,16 +693,16 @@ page 50097 "Training Card"
     end;
 
     var
-        [InDataSet]
+
         OpenApprovalEntriesExist: Boolean;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         DateFilter: Text;
         NoOfColumn: Integer;
         HRMgt: Codeunit "HR Mgt.";
-        [InDataSet]
+
         IsApproved: Boolean;
         TrainHead: Record "Training Header";
-        [InDataSet]
+
         IsOpen: Boolean;
         EmailTemplate: Record "Email Template";
         RatingSetup: Record "Rating Setup";

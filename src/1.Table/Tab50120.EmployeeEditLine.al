@@ -197,6 +197,44 @@ table 50120 "Employee Edit Line"
             Description = 'Language Proficiency';
             DataClassification = CustomerContent;
         }
+        field(60; Running; Boolean)
+        {
+
+        }
+        field(61; "CitizenShip No."; Code[50])
+        {
+            Caption = 'CitizenShip No.';
+            Description = 'Official Document';
+            DataClassification = CustomerContent;
+        }
+        field(62; VDC; Text[50])
+        {
+            Caption = 'VDC';
+            DataClassification = CustomerContent;
+        }
+        field(63; "Relative Mail"; Text[30])
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                MailManagement: Codeunit "Mail Management";
+            begin
+                MailManagement.ValidateEmailAddressField("Relative Mail");
+            end;
+        }
+        field(64; "Set Emergency Contact"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1000; "Changed Field"; Text[1020])
+        {
+            Description = 'This field includes the name of fields that are updated from portal';
+        }
+        field(1001; "Original Line No."; Integer)
+        {
+
+        }
+
     }
     keys
     {

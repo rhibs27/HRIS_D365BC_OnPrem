@@ -706,7 +706,7 @@
 //     end;
 
 //     var
-//         [InDataSet]
+//         
 //         PayrollFieldsVisible: Boolean;
 //         Usersetup: Record "User Setup";
 //         Employee: Record Employee;

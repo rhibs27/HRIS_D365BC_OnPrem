@@ -279,7 +279,7 @@ page 50025 "Salary Levels"
 
     var
         Selected: Boolean;
-        [InDataSet]
+
         ShowSelected: Boolean;
         SalaryLevel: Record "Salary Level";
         TempSalaryLevel: Record "Salary Level" temporary;

@@ -130,7 +130,6 @@ page 50054 "Attendance Summary"
             action("Device Attendance")
             {
                 Image = DepositLines;
-                Promoted = true;
                 ToolTip = 'Executes the Device Attendance action.';
                 ApplicationArea = All;
 

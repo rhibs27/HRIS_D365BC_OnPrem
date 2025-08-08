@@ -661,11 +661,11 @@ page 50155 "Employee Personal Loan Card"
         ApprovalStatusView: Boolean;
         IsPending: Boolean;
         IsApproved: Boolean;
-        [InDataSet]
+
         ForApprove: Boolean;
-        [InDataSet]
+
         ForRecommend: Boolean;
-        [InDataSet]
+
         ForReject: Boolean;
         ForScreen: Boolean;
         ForSettle: Boolean;

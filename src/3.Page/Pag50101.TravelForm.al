@@ -595,15 +595,15 @@ page 50101 "Travel Form"
     var
         HRMgt: Codeunit "HR Mgt.";
 
-        [InDataSet]
+
         IsPending: Boolean;
-        [InDataSet]
+
         IsApproved: Boolean;
-        [InDataSet]
+
         IsOpen: Boolean;
         //IsScreened: Boolean;
         ErrorExtended: Label 'This Travel is order is Extended. Please try Travel order No %1.';
-        //[InDataSet]
+        //
         //IsRecommended: Boolean;
         StatusView: Boolean;
         ApprovalStatusView: Boolean;

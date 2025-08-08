@@ -81,8 +81,9 @@ table 50066 "Leave Type Setup"
                 Validate("Depending Leave", leaveMgt.LookupDependability(Code));
             end;
         }
-        field(21; "Employment Limit"; Decimal)
+        field(21; "Min. Service Year Eligibility"; Decimal)
         {
+            Caption = 'Min. Service Year for Eligibility';
         }
         field(22; "Calculate Proratawise"; Boolean)
         {
@@ -144,10 +145,7 @@ table 50066 "Leave Type Setup"
             OptionMembers = " ",Attendance,Automatic,"On Approval";
             Caption = 'Credit Method';
         }
-        field(102; "Min. Service Years"; Decimal)
-        {
-            Caption = 'Min. Service Years';
-        }
+
         field(103; "Max. Eligible Age"; Decimal)
         {
             Caption = 'Max. Eligible Age';
@@ -170,6 +168,10 @@ table 50066 "Leave Type Setup"
         }
         field(111; "Attendance Days"; Decimal) { }
         field(112; Encashable; Boolean) { }
+        field(114; "Service Period Calc On"; Option)
+        {
+            OptionMembers = "Employment Date","Confirmation Date";
+        }
         field(500; Blocked; Boolean) { }
 
         field(502; "Used Days"; Decimal)
@@ -188,10 +190,7 @@ table 50066 "Leave Type Setup"
         }
         field(504; "Encash Date"; Date) { }
         field(505; "Encash Remarks"; Text[100]) { }
-        field(506; "Employment Type Fiter"; Text[200])
-        {
 
-        }
 
     }
 

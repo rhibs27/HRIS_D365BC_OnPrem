@@ -229,6 +229,6 @@ page 50060 "Posted Attendance Card"
     end;
 
     var
-        [InDataSet]
+
         ControlEditable: Boolean;
 }

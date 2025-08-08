@@ -27,8 +27,9 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         {
             trigger OnAfterValidate()
             begin
-                if "From Date" > "To Date" then
-                    Error('From Date is greater than to Date ');
+                if ("From Date" <> 0D) and ("To Date" <> 0D) then
+                    if "From Date" > "To Date" then
+                        Error('From Date is greater than to Date ');
                 // Clear("Time Period");
             end;
         }
@@ -94,6 +95,10 @@ tableextension 50015 "Employee Qualification Ext " extends "Employee Qualificati
         }
         field(50013; Attachment; Media)
         {
+        }
+        field(50014; Running; Boolean)
+        {
+
         }
     }
     keys { }

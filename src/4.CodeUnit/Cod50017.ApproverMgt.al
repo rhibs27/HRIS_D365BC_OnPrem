@@ -28,6 +28,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
         ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+        OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
         count := 0;
         if ApprovalSetupLine.Findset() then
             repeat
@@ -166,6 +167,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetRange("Request Type", EmpActType);
         ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+        OnInsertApprovalCancelledOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
         count := 0;
         if ApprovalSetupLine.Findset() then
             repeat
@@ -748,6 +750,16 @@ codeunit 50017 "Approver Mgt"
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovaCancelledOnSelectApprover(var ApprovalSetupLine: Record "Approval Setup Line";
                                                 var Employee: Record Employee; var EmpRequest: Record employee; var IsHandled: Boolean);
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertApprovalOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type");
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnInsertApprovalCancelledOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type")
     begin
     end;
 

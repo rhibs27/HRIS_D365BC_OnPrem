@@ -216,7 +216,7 @@ page 50056 "Posted Employee Activity Card"
     end;
 
     var
-        [InDataSet]
+
         EnableLeave: Boolean;
         OpenApprovalEntriesExistForCurrUser: Boolean;
         OpenApprovalEntriesExist: Boolean;

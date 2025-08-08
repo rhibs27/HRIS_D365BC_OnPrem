@@ -299,26 +299,34 @@ table 50154 "Attendance Missed"
 
     }
     trigger OnInsert()
+    var
+        AttendanceMissed: Record "Attendance Missed";
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
         HRSetup.Get;
-        if "No." = '' then
+        if "No." = '' then begin
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
-                NoSeriesMgt.InitSeries(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
 
             end else begin
                 case Type of
                     Type::"Attendance Missed", Type::"Late Attendance":
                         begin
                             HRSetup.TestField("Attendance Missed No.");
-                            NoSeriesMgt.InitSeries(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            HRMgt.InitNoSeriesNew(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
                             if not "From Journal" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
                 end;
             end;
+
+            AttendanceMissed.ReadIsolation(IsolationLevel::ReadUncommitted);
+            AttendanceMissed.SetLoadFields("No.");
+            while AttendanceMissed.Get("No.") do
+                "No." := NoSeriesMgt.GetNextNo("No. Series");
+        end;
     end;
 
     trigger OnDelete()
@@ -339,7 +347,7 @@ table 50154 "Attendance Missed"
     var
         EmpVar: Record Employee;
         EngNepDate: Record "English-Nepali Date";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         HRSetup: Record "Human Resources Setup";
         HRMgt: Codeunit "HR Mgt.";
         EmployeeRec: Record Employee;

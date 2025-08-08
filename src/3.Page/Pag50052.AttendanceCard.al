@@ -232,6 +232,6 @@ page 50052 "Attendance Card"
     end;
 
     var
-        [InDataSet]
+
         ControlEditable: Boolean;
 }

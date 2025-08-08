@@ -306,7 +306,7 @@ page 50044 "Posted Payroll Plan List"
         PayrollEngine: Codeunit "Payroll Engine";
         PostedPayrollHdr: Record "Posted Payroll Header";
         Select: Boolean;
-        [InDataSet]
+
         IsSelected: Boolean;
         TempPostedPayHeader: Record "Posted Payroll Header" temporary;
         PostedDocument: Text;

@@ -24,8 +24,10 @@ enum 50117 "Employee Edit Type"
     }
     value(5; Relative)
     {
+        Caption = 'Relative';
     }
     value(7; Language)
     {
+        Caption = 'Language';
     }
 }

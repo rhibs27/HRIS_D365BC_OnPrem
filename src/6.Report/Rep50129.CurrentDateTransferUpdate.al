@@ -158,6 +158,8 @@ report 50129 "Current Date Transfer Update"
     end;
 
     local procedure InsertCompensatorydaysLeave()
+    var
+        leaveMgt: Codeunit "Leave Mgt.";
     begin
         CompensatoryFilter;
         CompLeaveOverTime.CalcSums(CompLeaveOverTime."Compensatory Days");
@@ -168,6 +170,7 @@ report 50129 "Current Date Transfer Update"
             if EngNep.FindFirst then;
             Clear(LeaveEarn);
             LeaveEarn.Init;
+            LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
             LeaveEarn.Validate("Leave Code", 'COMPENSATORY');
             LeaveEarn.Validate("Employee No.", Employee."No.");
             LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);

@@ -101,7 +101,7 @@ page 50033 "Payroll Attributes Usage"
                 var
                     EmpVar: Record Employee;
                     FilterPage: FilterPageBuilder;
-                    Ptxt: TextConst ENU = 'Select Employee';
+                    Ptxt: Label 'Select Employee';
                     EmpCode: Code[20];
                     PayrollEngine: Codeunit "Payroll Engine";
                 begin

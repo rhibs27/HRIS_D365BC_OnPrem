@@ -94,6 +94,7 @@ report 50120 FiscalYearEndLeave
                 leavetypeSetup2.CalcFields("Remaining Days");
 
                 LeaveEarn.Init;
+                LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
                 LeaveEarn.Validate("Employee No.", Employee."No.");
                 LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
                 LeaveEarn.Validate("Posted Date", Today);
@@ -148,12 +149,13 @@ report 50120 FiscalYearEndLeave
                     LeaveEarn.SetRange("Fiscal year", EngNep."Fiscal Year");
                 if not LeaveEarn.FindFirst then begin
                     LeaveEarn.Init;
+                    LeaveEarn.Validate("Entry No.", leaveMgt.GetNextLeaveLedgerEntryNo());
                     LeaveEarn.Validate("Leave Code", LeavetypSetup.Code);
                     LeaveEarn.Validate("Employee No.", Employee."No.");
                     LeaveEarn.Validate(Type, LeaveEarn.Type::Earned);
                     LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
                     LeaveEarn.Validate("Posted Date", Today + 1);
-                    LeaveEarn.Validate(Remarks, '2078/2079 Fisal Year earned.');
+                    LeaveEarn.Validate(Remarks, '2078/2079 Fisal Year earned.'); //?
                     if LeavetypSetup."AML Eligible" then begin
                         if Employee."Confirmation Date" <= PGSetup."Payroll Fiscal Year Start Date" then begin
                             if not LeavetypSetup."Calculate Proratawise" then

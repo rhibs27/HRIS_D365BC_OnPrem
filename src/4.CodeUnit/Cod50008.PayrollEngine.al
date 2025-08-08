@@ -129,7 +129,7 @@ codeunit 50008 "Payroll Engine"
     var
         TotalAnnualEarning: Decimal;
     begin
-        PGSetup.Get; //Get Setup
+        PGSetup.Get;
         PGSetup.TestField("Payroll Fiscal Year End Date");
         PGSetup.TestField("Payroll Fiscal Year Start Date");
         PayrollAttributes.Reset;
@@ -147,7 +147,7 @@ codeunit 50008 "Payroll Engine"
         PayrollHeader.TestField("Pay Cycle Code");
         PayrollHeader.TestField("Pay Cycle Term");
         PayrollHeader.TestField("Pay Cycle Period");
-        if PayrollHeader."Previous Year Payroll" then begin //Min 7.18.2022
+        if PayrollHeader."Previous Year Payroll" then begin
             PGSetup.TestField("Prev Fiscal Year End Date");
             PGSetup.TestField("Prev Fiscal Year Start Date");
         end;
@@ -159,7 +159,7 @@ codeunit 50008 "Payroll Engine"
         if EngNep.FindFirst then;
         Employee.Reset;
         Employee.SetRange("No.", PayrollLine."Employee No.");
-        if PayrollHeader."Previous Year Payroll" then //Min 7.18.2022
+        if PayrollHeader."Previous Year Payroll" then
             Employee.SetFilter("Date Filter", '%1..%2', PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date")
         else
             Employee.SetFilter("Date Filter", '%1..%2', PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
@@ -187,7 +187,6 @@ codeunit 50008 "Payroll Engine"
             if Employee."Employment Type" <> Employee."Employment Type"::Contract then
                 RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
             else begin
-                //Employee.TESTFIELD("Contract Expiry Date");
                 if PayrollHeader."Previous Year Payroll" then
                     RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod //Min 7.18.2022
                 else
@@ -211,11 +210,10 @@ codeunit 50008 "Payroll Engine"
 
         //Retirement
         if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then begin
-            CalcProjectionRetirementFund; //SUMAN
+            CalcProjectionRetirementFund;
         end;
         TotalContributionToRetirementFund := CITContribution + Abs(Employee."Total Retirement Contribution") + ProjectionEarning +
                                              EmployeeContribution + EmployerContribution + RF + LumpSumCIT + Abs(Employee."RF Deposit") + Abs(Employee."Lump Sum CIT") + EmpPayOpen."Total RF Opening" + EmployeeLumpsum;
-        //RetirementFundLimit1 := TotalAnnualEarning * PGSetup."Tax Ex. Amt. (%) on Retirement" / 100;
         RetirementFundLimit1 := TotalAnnualEarning / PGSetup."Tax Ex. Amt Divsion";
         RetirementFundLimit2 := PGSetup."Tax Ex. Amt. not Exceeding";
         RetirementFundTaxBenefit := TotalContributionToRetirementFund;
@@ -235,7 +233,7 @@ codeunit 50008 "Payroll Engine"
         if DonationLimit2 < DonationTaxBenefit then
             DonationTaxBenefit := DonationLimit2;
         //Life Insurance
-        LoanOutstanding.Reset; //Min 6.28.2022
+        LoanOutstanding.Reset;
         LoanOutstanding.SetRange("Employee No.", Employee."No.");
         LoanOutstanding.SetRange("Loan Type", LoanOutstanding."Loan Type"::"Home Loan Insurance Tieup");
         LoanOutstanding.SetRange("Scheme Code", '');
@@ -258,7 +256,7 @@ codeunit 50008 "Payroll Engine"
             PropertyInsuranceTaxBenefit := Employee."Premium Property Insurance"
         else
             PropertyInsuranceTaxBenefit := PGSetup."Tax Ex. Property Insurance Amt";
-        //CheckPremiumInsurance(PayrollLine."Employee No.");//Min Commented -- Calculated in above code.
+
         //Medical Tax Benefit
         TotalMedicalReimbursment := Employee."Total Medical Re-Imbursement" + CurrentMedicalReimbursment;   //>>pradhan    TaxOldEmployeeMedicalReinbursement(Employee."No.")
         MedicalReimbursmentLimit1 := TotalMedicalReimbursment * PGSetup."Tax Ex. Amt. (%) on Medical" / 100;
@@ -267,9 +265,10 @@ codeunit 50008 "Payroll Engine"
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit1
         else
             MedicalReimbursmentTaxBenefit := MedicalReimbursmentLimit2;
-        //Calculation for TaxAtOnce attribute payroll  >>
+
+        //Calculation for TaxAtOnce attribute payroll
         CalculateTaxAtOnce;
-        //<<Calculation for TaxAtOnce attribute payroll
+
         if PayrollHeader."Gross Payment" then begin
             PopulateGlobalAmounts;
             PayrollLine."Net Pay" := TaxAtOnceCurrentEarning - AddTaxOnInterestAllowance(Employee."No.", PayrollHeader."No.") - TaxAtOnceCurrentDeduction;
@@ -289,8 +288,8 @@ codeunit 50008 "Payroll Engine"
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
             TaxableAmount := TaxableAmount - DisablePersonReduction;
         end;
-        //GetRemoteAreaDeduction; //Min Commented -- Remote Do not calculate for Asar 2079 Payroll.
-        TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction"; //Min 7.6.2022
+
+        TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction";
         RemainingTaxableAmount := TaxableAmount;
 
         AnnualTax := 0;
@@ -350,8 +349,8 @@ codeunit 50008 "Payroll Engine"
         end else
             SocialSecurityTax := SocialSecurityTax - TaxExempt;
 
-        if TotalSSTPaid <> SocialSecurityTax then begin     //>>pradhan     SocialSecTaxAmt
-            if SocialSecurityTax - TotalSSTPaid < 0 then begin     //>>pradhan     SocialSecTaxAmt
+        if TotalSSTPaid <> SocialSecurityTax then begin
+            if SocialSecurityTax - TotalSSTPaid < 0 then begin
                 SocialSecurityTaxAmount := 0;
                 MonthlyTax := -TotalTaxRemunPaid + PayrollLine."Gratuity & leave Encash Tax";
                 //SocialSecurityTaxAmount := MonthlyTax + (SocialSecurityTax - Employee."Social Security Tax" -EmpPayOpen."Total Social Security Opening");//>>pradhan     SocialSecTaxAmt
@@ -1390,35 +1389,35 @@ codeunit 50008 "Payroll Engine"
             exit(DefaultDimension."Dimension Value Code" <> '');
     end;
 
-    procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
-    begin
-        if PostedPayrollHeader.ReadPermission then begin
-            PostedPayrollHeader.Reset;
-            PostedPayrollHeader.SetCurrentKey("No.");
-            PostedPayrollHeader.SetFilter("No.", DocNoFilter);
-            PostedPayrollHeader.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Posted Payroll Header", 0, PostedPayrollHeader.TableCaption, PostedPayrollHeader.Count);
-        end;
+    // procedure RetrieveEmployeeLedgers(var DocumentEntry: Record "Document Entry" temporary; DocNoFilter: Code[250]; PostingDateFilter: Text[250])
+    // begin
+    //     if PostedPayrollHeader.ReadPermission then begin
+    //         PostedPayrollHeader.Reset;
+    //         PostedPayrollHeader.SetCurrentKey("No.");
+    //         PostedPayrollHeader.SetFilter("No.", DocNoFilter);
+    //         PostedPayrollHeader.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Posted Payroll Header", 0, PostedPayrollHeader.TableCaption, PostedPayrollHeader.Count);
+    //     end;
 
-        if EmployeeLedgerEntry.ReadPermission then begin
-            EmployeeLedgerEntry.Reset;
-            EmployeeLedgerEntry.SetCurrentKey("Document No.");
-            EmployeeLedgerEntry.SetFilter("G/L Document No", DocNoFilter);
-            EmployeeLedgerEntry.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Employee Ledger Entry PRM", 0, EmployeeLedgerEntry.TableCaption, EmployeeLedgerEntry.Count);
-        end;
+    //     if EmployeeLedgerEntry.ReadPermission then begin
+    //         EmployeeLedgerEntry.Reset;
+    //         EmployeeLedgerEntry.SetCurrentKey("Document No.");
+    //         EmployeeLedgerEntry.SetFilter("G/L Document No", DocNoFilter);
+    //         EmployeeLedgerEntry.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Employee Ledger Entry PRM", 0, EmployeeLedgerEntry.TableCaption, EmployeeLedgerEntry.Count);
+    //     end;
 
-        if DetailedEmployeeLedgEntry.ReadPermission then begin
-            DetailedEmployeeLedgEntry.Reset;
-            DetailedEmployeeLedgEntry.SetCurrentKey("Document No.");
-            DetailedEmployeeLedgEntry.SetFilter("G/L Document No", DocNoFilter);
-            DetailedEmployeeLedgEntry.SetFilter("Posting Date", PostingDateFilter);
-            InsertIntoDocEntry(
-              DocumentEntry, Database::"Detailed Employee Ledg. En PRM", 0, DetailedEmployeeLedgEntry.TableCaption, DetailedEmployeeLedgEntry.Count);
-        end;
-    end;
+    //     if DetailedEmployeeLedgEntry.ReadPermission then begin
+    //         DetailedEmployeeLedgEntry.Reset;
+    //         DetailedEmployeeLedgEntry.SetCurrentKey("Document No.");
+    //         DetailedEmployeeLedgEntry.SetFilter("G/L Document No", DocNoFilter);
+    //         DetailedEmployeeLedgEntry.SetFilter("Posting Date", PostingDateFilter);
+    //         InsertIntoDocEntry(
+    //           DocumentEntry, Database::"Detailed Employee Ledg. En PRM", 0, DetailedEmployeeLedgEntry.TableCaption, DetailedEmployeeLedgEntry.Count);
+    //     end;
+    // end;
 
     local procedure InsertIntoDocEntry(var DocumentEntry: Record "Document Entry" temporary; DocTableID: Integer; DocType: Enum "Document Entry Document Type"; DocTableName: Text[1024]; DocNoOfRecords: Integer)
     begin
@@ -1719,7 +1718,7 @@ codeunit 50008 "Payroll Engine"
     end;
 
     local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
-                                 PostingRegion: Option; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+                                 PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var
         HrMgmt: Codeunit "HR Mgt.";
     begin
@@ -2072,6 +2071,7 @@ codeunit 50008 "Payroll Engine"
         UsedLeave: Decimal;
         CarryForwardLeave: Decimal;
         ProrataLeave: Decimal;
+        leaveMgt: Codeunit "Leave Mgt.";
     begin
         LeaveTypeSetup.Reset;
         Employee.Get(EmpNo);
@@ -2115,14 +2115,16 @@ codeunit 50008 "Payroll Engine"
                     end;
                     AdjustedLeave -= AdjustedLeave;
                     if (ToPost) and ((VarLeaveDays - AdjustedLeave) > 0) then begin
-                        LeaveEarn.Init;
-                        LeaveEarn.Validate("Employee No.", EmpNo);
-                        LeaveEarn.Validate("Leave Code", LeaveTypeSetup.Code);
-                        LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-                        LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
-                        LeaveEarn.Validate("Balancing Days", VarLeaveDays - AdjustedLeave);
-                        LeaveEarn.Validate(Remarks, 'Leave Adusted.');
-                        LeaveEarn.Insert(true);
+
+                        LeaveMgt.CreateLeaveLedger(EmpNo,
+                                    LeaveTypeSetup.Code,
+                                    Today,
+                                    Enum::"Leave Earn Type"::used,
+                                    VarLeaveDays - AdjustedLeave,
+                                    LeaveMgt.GetNextLeaveLedgerEntryNo(),
+                                    '',
+                                    'Leave Adjusted',
+                                    '');
                     end;
                 end;
             until (LeaveTypeSetup.Next = 0);

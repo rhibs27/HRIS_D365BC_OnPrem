@@ -1,10 +1,10 @@
 enum 50109 "Insurance Tieup"
 {
     Extensible = true;
-    
-    value(0; "")
+
+    value(0; " ")
     {
-        Caption = '';
+        Caption = ' ';
     }
     value(1; "NEPAL Life Insurance")
     {

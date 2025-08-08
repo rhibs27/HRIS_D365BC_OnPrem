@@ -30,7 +30,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             var
                 Regex: Codeunit Regex;
-                Pattern: Label '^[A-Za-z]+$';
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
                 if "Middle Name" <> '' then
                     if not Regex.IsMatch("Middle Name", Pattern) then
@@ -43,7 +43,7 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnAfterValidate()
             var
                 Regex: Codeunit Regex;
-                Pattern: Label '^[A-Za-z]+$';
+                Pattern: Label '^[A-Za-z .]+$';  //middle and last name can contain space and (.)
             begin
                 if "Middle Name" <> '' then
                     if not Regex.IsMatch("Last Name", Pattern) then
@@ -170,7 +170,6 @@ tableextension 50013 "Employee Ext" extends Employee
                     Clear("Inside/Outside Valley");
                     Clear("Sol Id");
                 end;
-                // Validate("Global Dimension 1 Code", "Branch Code");  //this is not ideal for all company
                 if "Deputation on" = "Deputation on"::Branch then
                     ValidateDeputationOn()
                 else begin
@@ -180,6 +179,7 @@ tableextension 50013 "Employee Ext" extends Employee
                         Clear("Branch Name");
 
                 end;
+                UpdateDimensionBasedOnDeputation("Deputation on"::Branch, "Branch Code");
             end;
         }
         field(50134; "Branch Name"; Text[50])
@@ -190,7 +190,6 @@ tableextension 50013 "Employee Ext" extends Employee
         field(50128; "Deputation on"; Enum "Deputation Type")
         {
             DataClassification = CustomerContent;
-            // ValuesAllowed = " ", Province, Branch, "Head Office";
             trigger OnValidate()
             begin
                 if xRec."Deputation on" <> "Deputation on" then
@@ -216,6 +215,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Province Name");
                 end;
+                UpdateDimensionBasedOnDeputation("Deputation on"::Province, "Province Code");
             end;
         }
         field(50002; "Department Code"; Code[20])
@@ -223,15 +223,7 @@ tableextension 50013 "Employee Ext" extends Employee
             TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
             trigger OnValidate()
             begin
-                // if "Department Code" <> xRec."Department Code" then begin
-                //     Clear("Department Name");
-                //     Clear("Province Code");
-                //     Clear("Province Name");
-                //     Clear("Unit Code");
-                //     Clear("Unit Name");
-                //     Clear("Posting Region");
-                //     Clear("Inside/Outside Valley");
-                // end;
+
                 if "Deputation on" = "Deputation on"::Department then
                     ValidateDeputationOn()
                 else begin
@@ -240,7 +232,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     else
                         Clear("Department Name");
                 end;
-
+                UpdateDimensionBasedOnDeputation("Deputation on"::Department, "Department Code");
             end;
         }
         field(50133; "Department Name"; Text[50])
@@ -268,6 +260,8 @@ tableextension 50013 "Employee Ext" extends Employee
                 if "Unit Code" = '' then
                     Clear("Unit Code");
 
+                UpdateDimensionBasedOnDeputation("Deputation on"::Unit, "Unit Code");
+
             end;
         }
         field(50132; "Unit Name"; Text[100])
@@ -282,7 +276,8 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnValidate()
             begin
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::"Sub-Unit", "Sub Unit Code") then
-                    Validate("Sub Unit Name", OrganizationStructureList.Name)
+                    Validate("Sub Unit Name", OrganizationStructureList.Name);
+                UpdateDimensionBasedOnDeputation("Deputation on"::"Sub-Unit", "Sub Unit Code");
             end;
         }
         field(50073; "Sub Unit Name"; Text[100])
@@ -1472,7 +1467,7 @@ tableextension 50013 "Employee Ext" extends Employee
             SubType = Bitmap;
             Caption = 'Digital Signature';
         }
-        field(50179; "Trainee Period"; DateFormula)
+        field(50179; "Trainee Period"; Text[20])
         {
             Caption = 'Trainee Period';
         }
@@ -1484,6 +1479,24 @@ tableextension 50013 "Employee Ext" extends Employee
         {
 
         }
+        field(50181; "Appointment Date"; Date)
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Appointment Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Date");
+            end;
+        }
+
+        field(50182; "Appointment Date (B.S.)"; Code[20])
+        {
+            DataClassification = CustomerContent;
+            trigger OnValidate()
+            begin
+                "Appointment Date" := EngNepDate.getEngDate("Appointment Date (B.S.)");
+            end;
+        }
+
 
     }
     keys
@@ -1798,5 +1811,60 @@ tableextension 50013 "Employee Ext" extends Employee
         RF: Record "Retirement Fund" temporary;
     begin
         HRMgt.OpenRFRequest("No.", RF);
+    end;
+
+    procedure UpdateDimensionBasedOnDeputation(DeputationOn: Enum "Deputation Type"; DeputationCode: Code[20])
+    var
+        OrgStructureList: Record "Organization Structure List";
+        DefaultDimension: Record "Default Dimension";
+        DefaultDimension2: Record "Default Dimension";
+        DimensionValue: Record "Dimension Value";
+    begin
+        if (DeputationOn = DeputationOn::" ") or (DeputationCode = '') then
+            exit;
+
+        OrgStructureList.SetRange(Type, DeputationOn);
+        OrgStructureList.SetRange(Code, DeputationCode);
+        OrgStructureList.FindFirst();
+        if OrgStructureList."Dimension Value Code" = '' then
+            exit;
+
+        DimensionValue.SetRange("Deputation On Type", DeputationOn);
+        DimensionValue.SetRange(Code, OrgStructureList."Dimension Value Code");
+        DimensionValue.SetRange(Blocked, false);
+        if DimensionValue.FindFirst() then begin
+            // if it is dimension 1 and 2 then validate the field
+            if DimensionValue."Global Dimension No." = 1 then begin
+                Validate("Global Dimension 1 Code", DimensionValue.Code);
+                Commit();
+                exit;
+            end;
+            if DimensionValue."Global Dimension No." = 2 then begin
+                Validate("Global Dimension 2 Code", DimensionValue.Code);
+                Commit();
+                exit;
+            end;
+            //check if default dimension exist
+            DefaultDimension.SetRange("Table ID", Database::Employee);
+            DefaultDimension.SetRange("No.", "No.");
+            DefaultDimension.SetRange("Dimension Code", DimensionValue."Dimension Code");
+            if not DefaultDimension.FindFirst() then begin
+
+                //if not exist insert
+                DefaultDimension2.Init();
+                DefaultDimension2.Validate("Table ID", Database::Employee);
+                DefaultDimension2.Validate("No.", "No.");
+                DefaultDimension2.Validate("Dimension Code", DimensionValue."Dimension Code");
+                DefaultDimension2.Validate("Dimension Value Code", DimensionValue.Code);
+                DefaultDimension2.Insert(true);
+                Commit();
+            end else begin
+
+                //if exist modify
+                DefaultDimension.Validate("Dimension Value Code", DimensionValue.Code);
+                DefaultDimension.Modify(true);
+                Commit();
+            end;
+        end;
     end;
 }

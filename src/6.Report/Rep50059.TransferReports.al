@@ -381,11 +381,11 @@ report 50059 "Transfer Reports"
         Month: Enum "Nepali Month";
         DeputOn: Enum "Deputation Type";
         Filteron: Text;
-        [InDataSet]
+
         ListVisible: Boolean;
-        [InDataSet]
+
         MonthlyVisible: Boolean;
-        [InDataSet]
+
         DeputationVisbile: Boolean;
         "Incoming/Outgoing": Option " ",Incoming,Outgoing;
         Startdate: Date;

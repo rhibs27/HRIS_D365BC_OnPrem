@@ -584,7 +584,7 @@ page 50198 "HR Cue"
         OvertimeVisibility: Boolean;
         Resignationvisibility: Boolean;
         SalaryAdvVisibility: Boolean;
-        [InDataSet]
+
         AttendanceMissedVisibility: Boolean;
         HRSetup: Record "Human Resources Setup";
         EmpActivity: Record "Employee Activity";
