@@ -51778,6 +51778,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2282677231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ContractExpiryMonth field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2282677231 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Contract Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -51813,15 +51823,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Probation End Date - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
         <trans-unit id="Report 2595309284 - Control 2964567753 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
@@ -52253,6 +52264,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractCode - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2529863153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ContractExpiryMonth field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month Hidden - Property ToolTip</note>
         <trans-unit id="Report 2595309284 - Control 2282677231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ContractExpiryMonth field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
