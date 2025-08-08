@@ -1826,7 +1826,8 @@ table 50027 "Payroll Line"
                         //end;//temporary
 
                         CalculateDifferentialInterestAmount(AttributeAmount);  //will check and send the code above if possible
-
+                        if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
+                            CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
                         RoundAmount(AttributeAmount);
                         if AttributeAmount <> 0 then
                             SaveValues(AttributeAmount, PayrollAttributes.Code);
@@ -1981,6 +1982,17 @@ table 50027 "Payroll Line"
             NumberStack[NsNo] := CalculateValue(Num1, Num2, operat);
         end;
         exit(NumberStack[NsNo]);
+    end;
+
+    procedure CalculateProRataAmountAfterTransfer(AttrUsage: Record "Payroll Attributes Usage"; var Amount: Decimal)
+    begin
+        GetPayrollHeader();
+        if (AttrUsage."Start Date" < PayrollHeader."From Date") and (AttrUsage."End Date" > PayrollHeader."To Date") then
+            exit;
+        if (AttrUsage."Start Date" > PayrollHeader."From Date") and (AttrUsage."Start Date" < PayrollHeader."To Date") then
+            Amount := Amount * (PayrollHeader."To Date" - AttrUsage."Start Date" + 1) / "Total Days"
+        else if (AttrUsage."End Date" > PayrollHeader."From Date") and (AttrUsage."End Date" < PayrollHeader."To Date") then
+            Amount := Amount * (AttrUsage."End Date" - PayrollHeader."From Date" + 1) / "Total Days"
     end;
 
     procedure ResolveColumn(var Expression: Code[100]; BasicFromLine: Boolean)
