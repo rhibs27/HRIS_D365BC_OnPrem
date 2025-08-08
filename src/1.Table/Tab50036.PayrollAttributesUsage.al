@@ -110,11 +110,11 @@ table 50036 "Payroll Attributes Usage"
         field(15; "Last EMI Date"; Date) { }
         field(16; "Start Date"; Date)
         {
-            Editable = false;
+            //Editable = false;
         }
         field(17; "End Date"; Date)
         {
-            Editable = false;
+            //Editable = false;
         }
     }
 
