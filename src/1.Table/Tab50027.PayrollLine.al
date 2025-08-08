@@ -341,6 +341,9 @@ table 50027 "Payroll Line"
         field(49; "Teller Days"; Decimal)
         {
         }
+        field(50; "Night Shifts"; Decimal)
+        {
+        }
         field(61; "Variable Field 50501"; Decimal)
         {
             AutoFormatExpression = "Currency Code";

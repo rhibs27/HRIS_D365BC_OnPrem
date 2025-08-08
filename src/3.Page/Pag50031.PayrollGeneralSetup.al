@@ -381,6 +381,11 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("Night Shift Allowance"; Rec."Night Shift Allowance")
+                {
+                    ApplicationArea = All;
+                }
+
 
             }
             group("Encashment Code Group")
