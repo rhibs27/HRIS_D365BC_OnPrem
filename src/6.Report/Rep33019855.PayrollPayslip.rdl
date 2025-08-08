@@ -11,6 +11,202 @@
       <rd:DataSourceID>e2e9838b-3df2-4632-a88a-57fdd4647148</rd:DataSourceID>
     </DataSource>
   </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="CompanyInfoPicture">
+          <DataField>CompanyInfoPicture</DataField>
+        </Field>
+        <Field Name="CompanyAddr1">
+          <DataField>CompanyAddr1</DataField>
+        </Field>
+        <Field Name="CompanyOneLineAddress">
+          <DataField>CompanyOneLineAddress</DataField>
+        </Field>
+        <Field Name="CompanyCommunicationAddress">
+          <DataField>CompanyCommunicationAddress</DataField>
+        </Field>
+        <Field Name="CompanyInfoVATRegNo">
+          <DataField>CompanyInfoVATRegNo</DataField>
+        </Field>
+        <Field Name="PrintedOn">
+          <DataField>PrintedOn</DataField>
+        </Field>
+        <Field Name="PrintedBy">
+          <DataField>PrintedBy</DataField>
+        </Field>
+        <Field Name="IsConfidential">
+          <DataField>IsConfidential</DataField>
+        </Field>
+        <Field Name="No_PostedPayrollHeader">
+          <DataField>No_PostedPayrollHeader</DataField>
+        </Field>
+        <Field Name="PayPeriodDate">
+          <DataField>PayPeriodDate</DataField>
+        </Field>
+        <Field Name="PayPeriod">
+          <DataField>PayPeriod</DataField>
+        </Field>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EmployeeFullName">
+          <DataField>EmployeeFullName</DataField>
+        </Field>
+        <Field Name="EmployeeDesignation">
+          <DataField>EmployeeDesignation</DataField>
+        </Field>
+        <Field Name="CITNo">
+          <DataField>CITNo</DataField>
+        </Field>
+        <Field Name="PFNo">
+          <DataField>PFNo</DataField>
+        </Field>
+        <Field Name="PanNo">
+          <DataField>PanNo</DataField>
+        </Field>
+        <Field Name="BankAccountNo">
+          <DataField>BankAccountNo</DataField>
+        </Field>
+        <Field Name="BankName">
+          <DataField>BankName</DataField>
+        </Field>
+        <Field Name="DeputationOn">
+          <DataField>DeputationOn</DataField>
+        </Field>
+        <Field Name="DeputationOnCode">
+          <DataField>DeputationOnCode</DataField>
+        </Field>
+        <Field Name="Grade">
+          <DataField>Grade</DataField>
+        </Field>
+        <Field Name="FunctionalTitledesc">
+          <DataField>FunctionalTitledesc</DataField>
+        </Field>
+        <Field Name="Dim1Code">
+          <DataField>Dim1Code</DataField>
+        </Field>
+        <Field Name="Dim2Code">
+          <DataField>Dim2Code</DataField>
+        </Field>
+        <Field Name="Dim1CodeCaption">
+          <DataField>Dim1CodeCaption</DataField>
+        </Field>
+        <Field Name="Dim2CodeCaption">
+          <DataField>Dim2CodeCaption</DataField>
+        </Field>
+        <Field Name="Level">
+          <DataField>Level</DataField>
+        </Field>
+        <Field Name="PresentDays">
+          <DataField>PresentDays</DataField>
+        </Field>
+        <Field Name="PresentDaysFormat">
+          <DataField>PresentDaysFormat</DataField>
+        </Field>
+        <Field Name="WeekoffDays">
+          <DataField>WeekoffDays</DataField>
+        </Field>
+        <Field Name="WeekoffDaysFormat">
+          <DataField>WeekoffDaysFormat</DataField>
+        </Field>
+        <Field Name="LeaveDays">
+          <DataField>LeaveDays</DataField>
+        </Field>
+        <Field Name="LeaveDaysFormat">
+          <DataField>LeaveDaysFormat</DataField>
+        </Field>
+        <Field Name="AbsentDays">
+          <DataField>AbsentDays</DataField>
+        </Field>
+        <Field Name="AbsentDaysFormat">
+          <DataField>AbsentDaysFormat</DataField>
+        </Field>
+        <Field Name="TotalDays">
+          <DataField>TotalDays</DataField>
+        </Field>
+        <Field Name="TotalDaysFormat">
+          <DataField>TotalDaysFormat</DataField>
+        </Field>
+        <Field Name="TourDays">
+          <DataField>TourDays</DataField>
+        </Field>
+        <Field Name="TourDaysFormat">
+          <DataField>TourDaysFormat</DataField>
+        </Field>
+        <Field Name="HalfDays">
+          <DataField>HalfDays</DataField>
+        </Field>
+        <Field Name="HalfDaysFormat">
+          <DataField>HalfDaysFormat</DataField>
+        </Field>
+        <Field Name="LateDays">
+          <DataField>LateDays</DataField>
+        </Field>
+        <Field Name="LateDaysFormat">
+          <DataField>LateDaysFormat</DataField>
+        </Field>
+        <Field Name="OvertimeDays">
+          <DataField>OvertimeDays</DataField>
+        </Field>
+        <Field Name="OvertimeDaysFormat">
+          <DataField>OvertimeDaysFormat</DataField>
+        </Field>
+        <Field Name="OTHrs">
+          <DataField>OTHrs</DataField>
+        </Field>
+        <Field Name="OTHrsFormat">
+          <DataField>OTHrsFormat</DataField>
+        </Field>
+        <Field Name="EntryNo">
+          <DataField>EntryNo</DataField>
+        </Field>
+        <Field Name="PostingDate">
+          <DataField>PostingDate</DataField>
+        </Field>
+        <Field Name="PayCycleCode">
+          <DataField>PayCycleCode</DataField>
+        </Field>
+        <Field Name="PayCycleTerm">
+          <DataField>PayCycleTerm</DataField>
+        </Field>
+        <Field Name="PayCyclePeriod">
+          <DataField>PayCyclePeriod</DataField>
+        </Field>
+        <Field Name="PaymentAmount">
+          <DataField>PaymentAmount</DataField>
+        </Field>
+        <Field Name="PaymentAmountFormat">
+          <DataField>PaymentAmountFormat</DataField>
+        </Field>
+        <Field Name="PaymentAmountInWords">
+          <DataField>PaymentAmountInWords</DataField>
+        </Field>
+        <Field Name="Benefits_PayrollAttributeCode">
+          <DataField>Benefits_PayrollAttributeCode</DataField>
+        </Field>
+        <Field Name="Benefits_Amount">
+          <DataField>Benefits_Amount</DataField>
+        </Field>
+        <Field Name="Benefits_AmountFormat">
+          <DataField>Benefits_AmountFormat</DataField>
+        </Field>
+        <Field Name="Deductions_PayrollAttributeCode">
+          <DataField>Deductions_PayrollAttributeCode</DataField>
+        </Field>
+        <Field Name="Deductions_Amount">
+          <DataField>Deductions_Amount</DataField>
+        </Field>
+        <Field Name="Deductions_AmountFormat">
+          <DataField>Deductions_AmountFormat</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -2791,7 +2987,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
         <Height>4.18076in</Height>
         <Style />
       </Body>
-      <Width>7.52747in</Width>
+      <Width>7.56393in</Width>
       <Page>
         <PageHeader>
           <Height>3.05223in</Height>
@@ -3573,7 +3769,7 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.28472in</Height>
+          <Height>0.32639in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3696,9 +3892,9 @@ Cstr(Fields!DeputationOn.Value) , 1)</Hidden>
         </PageFooter>
         <PageHeight>11.69in</PageHeight>
         <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.5in</LeftMargin>
+        <LeftMargin>0.25in</LeftMargin>
+        <RightMargin>0.25in</RightMargin>
         <TopMargin>0.5in</TopMargin>
-        <BottomMargin>0.5in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -4329,200 +4525,4 @@ FzUznFVelYT9/0RYRK4CILKkAAAAAElFTkSuQmCC</ImageData>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>7b1a31ec-b2e2-429f-a782-b697a7a00cba</rd:ReportID>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Fields>
-        <Field Name="CompanyInfoPicture">
-          <DataField>CompanyInfoPicture</DataField>
-        </Field>
-        <Field Name="CompanyAddr1">
-          <DataField>CompanyAddr1</DataField>
-        </Field>
-        <Field Name="CompanyOneLineAddress">
-          <DataField>CompanyOneLineAddress</DataField>
-        </Field>
-        <Field Name="CompanyCommunicationAddress">
-          <DataField>CompanyCommunicationAddress</DataField>
-        </Field>
-        <Field Name="CompanyInfoVATRegNo">
-          <DataField>CompanyInfoVATRegNo</DataField>
-        </Field>
-        <Field Name="PrintedOn">
-          <DataField>PrintedOn</DataField>
-        </Field>
-        <Field Name="PrintedBy">
-          <DataField>PrintedBy</DataField>
-        </Field>
-        <Field Name="IsConfidential">
-          <DataField>IsConfidential</DataField>
-        </Field>
-        <Field Name="No_PostedPayrollHeader">
-          <DataField>No_PostedPayrollHeader</DataField>
-        </Field>
-        <Field Name="PayPeriodDate">
-          <DataField>PayPeriodDate</DataField>
-        </Field>
-        <Field Name="PayPeriod">
-          <DataField>PayPeriod</DataField>
-        </Field>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="EmployeeFullName">
-          <DataField>EmployeeFullName</DataField>
-        </Field>
-        <Field Name="EmployeeDesignation">
-          <DataField>EmployeeDesignation</DataField>
-        </Field>
-        <Field Name="CITNo">
-          <DataField>CITNo</DataField>
-        </Field>
-        <Field Name="PFNo">
-          <DataField>PFNo</DataField>
-        </Field>
-        <Field Name="PanNo">
-          <DataField>PanNo</DataField>
-        </Field>
-        <Field Name="BankAccountNo">
-          <DataField>BankAccountNo</DataField>
-        </Field>
-        <Field Name="BankName">
-          <DataField>BankName</DataField>
-        </Field>
-        <Field Name="DeputationOn">
-          <DataField>DeputationOn</DataField>
-        </Field>
-        <Field Name="DeputationOnCode">
-          <DataField>DeputationOnCode</DataField>
-        </Field>
-        <Field Name="Grade">
-          <DataField>Grade</DataField>
-        </Field>
-        <Field Name="FunctionalTitledesc">
-          <DataField>FunctionalTitledesc</DataField>
-        </Field>
-        <Field Name="Dim1Code">
-          <DataField>Dim1Code</DataField>
-        </Field>
-        <Field Name="Dim2Code">
-          <DataField>Dim2Code</DataField>
-        </Field>
-        <Field Name="Dim1CodeCaption">
-          <DataField>Dim1CodeCaption</DataField>
-        </Field>
-        <Field Name="Dim2CodeCaption">
-          <DataField>Dim2CodeCaption</DataField>
-        </Field>
-        <Field Name="Level">
-          <DataField>Level</DataField>
-        </Field>
-        <Field Name="PresentDays">
-          <DataField>PresentDays</DataField>
-        </Field>
-        <Field Name="PresentDaysFormat">
-          <DataField>PresentDaysFormat</DataField>
-        </Field>
-        <Field Name="WeekoffDays">
-          <DataField>WeekoffDays</DataField>
-        </Field>
-        <Field Name="WeekoffDaysFormat">
-          <DataField>WeekoffDaysFormat</DataField>
-        </Field>
-        <Field Name="LeaveDays">
-          <DataField>LeaveDays</DataField>
-        </Field>
-        <Field Name="LeaveDaysFormat">
-          <DataField>LeaveDaysFormat</DataField>
-        </Field>
-        <Field Name="AbsentDays">
-          <DataField>AbsentDays</DataField>
-        </Field>
-        <Field Name="AbsentDaysFormat">
-          <DataField>AbsentDaysFormat</DataField>
-        </Field>
-        <Field Name="TotalDays">
-          <DataField>TotalDays</DataField>
-        </Field>
-        <Field Name="TotalDaysFormat">
-          <DataField>TotalDaysFormat</DataField>
-        </Field>
-        <Field Name="TourDays">
-          <DataField>TourDays</DataField>
-        </Field>
-        <Field Name="TourDaysFormat">
-          <DataField>TourDaysFormat</DataField>
-        </Field>
-        <Field Name="HalfDays">
-          <DataField>HalfDays</DataField>
-        </Field>
-        <Field Name="HalfDaysFormat">
-          <DataField>HalfDaysFormat</DataField>
-        </Field>
-        <Field Name="LateDays">
-          <DataField>LateDays</DataField>
-        </Field>
-        <Field Name="LateDaysFormat">
-          <DataField>LateDaysFormat</DataField>
-        </Field>
-        <Field Name="OvertimeDays">
-          <DataField>OvertimeDays</DataField>
-        </Field>
-        <Field Name="OvertimeDaysFormat">
-          <DataField>OvertimeDaysFormat</DataField>
-        </Field>
-        <Field Name="OTHrs">
-          <DataField>OTHrs</DataField>
-        </Field>
-        <Field Name="OTHrsFormat">
-          <DataField>OTHrsFormat</DataField>
-        </Field>
-        <Field Name="EntryNo">
-          <DataField>EntryNo</DataField>
-        </Field>
-        <Field Name="PostingDate">
-          <DataField>PostingDate</DataField>
-        </Field>
-        <Field Name="PayCycleCode">
-          <DataField>PayCycleCode</DataField>
-        </Field>
-        <Field Name="PayCycleTerm">
-          <DataField>PayCycleTerm</DataField>
-        </Field>
-        <Field Name="PayCyclePeriod">
-          <DataField>PayCyclePeriod</DataField>
-        </Field>
-        <Field Name="PaymentAmount">
-          <DataField>PaymentAmount</DataField>
-        </Field>
-        <Field Name="PaymentAmountFormat">
-          <DataField>PaymentAmountFormat</DataField>
-        </Field>
-        <Field Name="PaymentAmountInWords">
-          <DataField>PaymentAmountInWords</DataField>
-        </Field>
-        <Field Name="Benefits_PayrollAttributeCode">
-          <DataField>Benefits_PayrollAttributeCode</DataField>
-        </Field>
-        <Field Name="Benefits_Amount">
-          <DataField>Benefits_Amount</DataField>
-        </Field>
-        <Field Name="Benefits_AmountFormat">
-          <DataField>Benefits_AmountFormat</DataField>
-        </Field>
-        <Field Name="Deductions_PayrollAttributeCode">
-          <DataField>Deductions_PayrollAttributeCode</DataField>
-        </Field>
-        <Field Name="Deductions_Amount">
-          <DataField>Deductions_Amount</DataField>
-        </Field>
-        <Field Name="Deductions_AmountFormat">
-          <DataField>Deductions_AmountFormat</DataField>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-    </DataSet>
-  </DataSets>
 </Report>

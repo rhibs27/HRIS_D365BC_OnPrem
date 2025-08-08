@@ -3088,18 +3088,13 @@ codeunit 50001 "HR Mgt."
         Clear(EmailReceipientText);
         Clear(InStr);
         HRSetup.Get;
-
         AddEmailReceipentFromTemplate := true;
-
-        // SMTPSetup.Get;
         Clear(CodeunitEmailMessage);
         EmailTemplate.Reset;
         EmailTemplate.SetRange("Document Type", DocumentType);
         EmailTemplate.SetRange("Sub Type", SubType);
-        //EmailTemplate.SetRange(Type,TypeOpt);
         EmailTemplate.SetFilter("Approval Status", Format(TypeOpt));
         if TableNo = DATABASE::"Employee Loan/Advance" then begin
-            // EVALUATE(TempInt, DocumentNo);
             if EmpLoan.Get(DocumentNo) then
                 EmailTemplate.SetRange("Loan Type", EmpLoan."Loan Type");
         end;
@@ -3120,123 +3115,20 @@ codeunit 50001 "HR Mgt."
                     repeat
                         Employee.Get(TrainLine."Employee Code");
                         Employee.TestField("Company E-Mail");
-                        // if EmailReceipientText = '' then
                         EmailReceipientText.add(Employee."Company E-Mail");
-                    // else
-                    // EmailReceipientText += ';' + Employee."Company E-Mail";
                     until TrainLine.Next = 0;
             end;
-
-            //employee activities
-            if (DocumentNo <> '') and (TableNo = DATABASE::"Employee Activity") then begin
-                EmployeeActivity.Get(DocumentNo);
-                //if EmployeeActivity.Type = EmployeeActivity.Type::"Access Control" then
-                //EmailReceipientText.add(GetAddressAccessControl(EmployeeActivity))
-                if (DocumentType = DocumentType::"Employee Transfer") and (TypeOpt in [TypeOpt::"On Hold", TypeOpt::Canceled, TypeOpt::Approved, TypeOpt::Acknowledged]) then begin
-                    EmailCCReceipent.Add('');
-                    Employee.Reset;
-                    EmployeeActivity.TestField("Incoming Supervisior");
-                    EmployeeActivity.TestField("Outgoing Branch Rep. Person");
-                    Employee.SetFilter("No.", '%1|%2|%3', EmployeeActivity."Employee No.", EmployeeActivity."Incoming Supervisior", EmployeeActivity."Outgoing Branch Rep. Person");
-                    if Employee.Find('-') then
-                        repeat
-                            if EmployeeActivity."Employee No." = Employee."No." then begin
-                                // if EmailReceipientText = '' then
-                                EmailReceipientText.add(Employee."Company E-Mail");
-                                // else
-                                //     EmailReceipientText += ';' + Employee."Company E-Mail";
-                            end else begin
-                                // EmailCCReceipent := Employee."Company E-Mail"
-                                EmailCCReceipent.Add(Employee."Company E-Mail");
-                            end;
-                        until Employee.Next = 0;
-
-                    if EmployeeActivity."Notify to" <> '' then begin
-                        Employee1.Reset;
-                        Employee1.SetFilter("No.", EmployeeActivity."Notify to");
-                        if Employee1.Find('-') then
-                            repeat
-                                Employee1.TestField("Company E-Mail");
-                                //  if EmailCCReceipent = '' then
-                                EmailCCReceipent.Add(Employee1."Company E-Mail");
-                            // else
-                            //     EmailCCReceipent += ';' + Employee1."Company E-Mail";
-                            until Employee1.Next = 0;
-                    end;
-                    EmailReceipent.Reset; //Min 9.15.2022
-                    EmailReceipent.SetRange("Email Template Code", EmailTemplate.Code);
-                    EmailReceipent.SetFilter("Province Code", '%1|%2', EmployeeActivity."Province Code", EmployeeActivity."Province Code (To)");
-                    EmailReceipent.SetRange("Recipient Type", EmailReceipent."Recipient Type"::Cc);
-                    if EmailReceipent.Find('-') then
-                        repeat
-                            EmailCCReceipent.add(EmailReceipent."Email Recipients");
-                        until EmailReceipent.Next = 0;
-                end else if (TypeOpt = TypeOpt::Recommended) and (DocumentType = DocumentType::Resignation) then begin
-                    if SubType = SubType::" " then begin
-                        Employee.Get(EmployeeActivity."Employee No.");
-                        EmailReceipientText.add(Employee."Company E-Mail");
-                    end else if SubType = SubType::"Document Approver" then begin
-                        Employee.Reset;
-                        Employee.SetRange("Resignation Approver", true);
-                        if Employee.Find('-') then
-                            repeat
-                                // if EmailReceipientText = '' then
-                                EmailReceipientText.add(Employee."Company E-Mail");
-                            // else
-                            //     EmailReceipientText += ';' + Employee."Company E-Mail";
-                            until Employee.Next = 0;
-                    end;
-                end else begin
-                    case TypeOpt of
-                        TypeOpt::Open:
-                            begin
-                                Employee.Reset;
-                                Employee.SetFilter("No.", '%1|%2|%3|%4', EmployeeActivity."Recommender Code", EmployeeActivity."Approver Code",
-                                                    EmployeeActivity."Outgoing Branch Rep. Person", EmployeeActivity."Transfer Claim Reviewer");
-                                if Employee.FindFirst then
-                                    repeat
-                                        Employee.TestField("Company E-Mail");
-                                        // if EmailReceipientText = '' then
-                                        EmailReceipientText.add(Employee."Company E-Mail");
-                                    // else
-                                    //     EmailReceipientText += ';' + Employee."Company E-Mail";
-                                    until Employee.Next = 0;
-                                ResignationMgt.SetResignationApprover(EmpAct, EmailReceipientText); //pram
-                            end;
-                        TypeOpt::Rejected, TypeOpt::Approved:
-                            begin
-                                Employee.Get(EmployeeActivity."Employee No.");
-                                Employee.TestField("Company E-Mail");
-                                EmailReceipientText.add(Employee."Company E-Mail");
-                                if EmployeeActivity.Type = EmployeeActivity.Type::"Leave Request" then begin
-                                    LeaveTypeSetup.Get(EmployeeActivity."Leave Code");
-                                    if LeaveTypeSetup.Email <> '' then
-                                        // if EmailReceipientText = '' then
-                                            EmailReceipientText.add(LeaveTypeSetup.Email);
-                                    // else
-                                    //     EmailReceipientText += ';' + LeaveTypeSetup.Email;
-                                end;
-                            end;
-                    end;
-                end;
-            end;
-
             //loan
             if TableNo = DATABASE::"Employee Loan/Advance" then begin
-                // EVALUATE(TempInt, DocumentNo);
                 if EmpLoan.Get(DocumentNo) then begin
                     Employee.Reset;
                     if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
                         Employee.SetRange("No.", EmpLoan."Employee Code")
                     else
-                        // Employee.SetFilter("No.", '%1|%2', EmpLoan.Recommender, EmpLoan.Approver); santosh
                         if Employee.FindFirst then
                             repeat
                                 Employee.TestField("Company E-Mail");
-                                // if EmailReceipientText = '' then
                                 EmailReceipientText.add(Employee."Company E-Mail");
-                            // else
-                            //     EmailReceipientText += ';' + Employee."Company E-Mail";
                             until Employee.Next = 0;
                 end;
             end;
@@ -3252,10 +3144,7 @@ codeunit 50001 "HR Mgt."
                         Employee1.SetRange("Functional Title", FunctionalTitle.Code);
                         if Employee1.FindFirst then
                             repeat
-                                // if EmailReceipientText = '' then
                                 EmailReceipientText.add(Employee1."Company E-Mail");
-                            // else
-                            //     EmailReceipientText += ';' + Employee1."Company E-Mail";
                             until Employee1.Next = 0;
                     until FunctionalTitle.Next = 0;
                 end else
@@ -3268,10 +3157,7 @@ codeunit 50001 "HR Mgt."
                 EmailReceipientText.add(Candidate."E-Mail");
             end;
 
-            // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", EmailReceipientText, EmailTemplate.Subject, '', true);
             CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, '', true, EmailCCReceipent, EmailBCCReceipent);
-            // if EmailCCReceipent <> '' then
-            //     CodeunitEmailMessage.AddCC(EmailCCReceipent);
             EmailMessage.Reset;
             EmailMessage.SetRange("Template Code", EmailTemplate.Code);
             if EmailMessage.FindFirst then
@@ -3414,12 +3300,6 @@ codeunit 50001 "HR Mgt."
                                         EmployeeActivity.Get(DocumentNo);
                                         GetTransferBody(EmployeeActivity);
                                     end;
-
-                                // DocumentType::"Access Control":
-                                //     begin
-                                //         EmployeeActivity.Get(DocumentNo);
-                                //         // GetAccessControlBody(EmployeeActivity);
-                                //     end;
                                 DocumentType::"Attendance Missed":
                                     begin
                                         EmployeeActivity.Get(DocumentNo);
@@ -3433,9 +3313,9 @@ codeunit 50001 "HR Mgt."
                                             CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Rejection Remarks") + Colon + Format(EmployeeActivity."Rejection Remarks") + '<br>');
                                     end;
 
-                            end; //document type case end
-                        end; //document no end
-                    end; //employee activity end
+                            end;
+                        end;
+                    end;
                 DATABASE::Leave:
                     begin
                         if DocumentType = DocumentType::"Leave Request" then begin
@@ -3518,319 +3398,6 @@ codeunit 50001 "HR Mgt."
                 clear(FileName);
         end;
     end;
-
-    // procedure ApprovedRejectApprovalAPI(Approved: Boolean; EmpActCode: Code[20]; employeeNo: Code[20])
-    // var
-
-    //     EmpAct: Record "Employee Activity";
-    //     LeaveEarn: Record "Leave Earn";
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-    //     EmpAttendActivity: Record "Employee Attendance & Activity";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     EmpAct2: Record "Employee Activity";
-    // begin
-    //     EmpAct.Get(EmpActCode);
-    //     if EmpAct.Type = EmpAct.Type::"Leave Request" then begin
-    //         if Approved then begin
-    //             LeaveMgt.CheckForLeaveCriteria(EmpAct."Leave Code", EmpAct."Start Date", EmpAct."End Date", EmpAct."Employee No.", EmpAct."No. of Days");
-    //             EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Recommended);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
-    //             LeaveEarn.Init;
-    //             LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
-    //             LeaveEarn.Validate("Employee No.", EmpAct."Employee No.");
-    //             LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-    //             LeaveEarn.Validate("Fiscal year", EmpAct."Fiscal Year");
-    //             LeaveEarn.Validate("Posted Date", Today);
-    //             LeaveEarn.Validate("Balancing Days", -EmpAct."No. of Days");
-    //             LeaveEarn.Validate("Leave Request No", EmpAct."No.");
-    //             LeaveEarn.Insert(true);
-
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     LeaveTypeSetup.Get(EmpAct."Leave Code");
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 0;
-    //                     if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-    //                         if not LeaveTypeSetup."Exclude Non Working Days" then begin
-    //                             EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-    //                             EmpAttendActivity."Week Off Day" := 0;
-    //                             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                                 EmpAttendActivity."Present Day" := 1;
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                             end else begin
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                                 EmpAttendActivity."Absent Day" := 1;
-    //                             end;
-    //                             EmpAttendActivity."Leave Day" := 1;
-    //                         end;
-    //                     end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-    //                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                             EmpAttendActivity."Present Day" := 1;
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                         end else begin
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                             EmpAttendActivity."Absent Day" := 1;
-    //                         end;
-    //                         EmpAttendActivity."Leave Day" := 1;
-    //                     end;
-    //                     EmpAttendActivity."Tour Day" := 0;
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Source No." := EmpAct."No.";
-    //                     EmpAttendActivity.Validate("Leave Description", EmpAct."Leave Description");
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             AttendanceSetup.Get;
-    //             Employee.Get(EmpAct."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //         end else begin
-    //             EmpAct.TestField("Rejection Remarks");
-    //             if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending]) then
-    //                 Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-    //                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)   //For email
-    //             else
-    //                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Rejected);
-    //             EmpAct.TestField("Rejection Remarks");
-    //             Message('The leave request has been rejected.');
-    //         end;
-    //     end else begin
-    //         if Approved then begin
-    //             EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Recommended);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
-    //             if EmpAct.Type = EmpAct.Type::"Travel Request" then begin
-    //                 //changes in employee attendance and activity
-    //                 EmpAttendActivity.Reset;
-    //                 EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
-    //                 EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
-    //                 if EmpAttendActivity.Find('-') then
-    //                     repeat
-    //                         EmpAttendActivity."Absent Day" := 0;
-    //                         EmpAttendActivity."Present Day" := 1;
-    //                         EmpAttendActivity."Tour Day" := 1;
-    //                         EmpAttendActivity."Leave Day" := 0;
-    //                         EmpAttendActivity."Source No." := EmpAct."No.";
-    //                         EmpAttendActivity."Employee Activity Found" := true;
-    //                         EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-    //                         EmpAttendActivity.Modify;
-    //                     until EmpAttendActivity.Next = 0;
-    //                 Employee.Get(EmpAct."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 AttendanceSetup.Get;
-    //                 Employee.Get(EmpAct."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                     else
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 end else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 Employee.Modify;
-    //             end;
-
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //             Message('The document has been approved.');
-    //         end else
-    //             if (EmpAct."Approval Status" in [EmpAct."Approval Status"::Pending, EmpAct."Approval Status"::Recommended]) then begin
-    //                 EmpAct.TestField("Rejection Remarks");
-    //                 if EmpAct.Type = EmpAct.Type::"Travel Claim" then begin
-    //                     EmpAct.TestField("Travel Order No.");
-    //                     EmpAct2.Get(EmpAct."Travel Order No.");
-    //                     EmpAct2.Validate("Travel Claimed", false);
-    //                     EmpAct2.Modify;
-    //                 end;
-    //                 CheckEmployeeActivityApproval(EmpAct);
-    //                 if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-    //                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)  //For email
-    //                 else
-    //                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //                 EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Rejected);
-    //                 Message('The document has been rejected.');
-    //             end else
-    //                 Error('Cannot reject the document.');
-    //     end;
-    //     EmpAct.Posted := true;
-    //     EmpAct."Approved Date" := Today;
-    //     EmpAct.Modify;
-    // end;
-
-    // procedure ApprovedRejectApproval(Approved: Boolean; EmpActCode: Code[20])
-    // var
-
-    //     EmpAct: Record "Employee Activity";
-    //     LeaveEarn: Record "Leave Earn";
-    //     ApprovalStatusError: Label 'Approval Status must be %1 or %2.';
-    //     ErrorReject: Label 'Approval Status must be in %1 or %2.';
-    //     EmpAttendActivity: Record "Employee Attendance & Activity";
-    //     LeaveTypeSetup: Record "Leave Type Setup";
-    //     EmpAct2: Record "Employee Activity";
-    // begin
-    //     EmpAct.Get(EmpActCode);
-    //     if EmpAct.Type = EmpAct.Type::"Leave Request" then begin
-    //         if Approved then begin
-    //             LeaveMgt.CheckForLeaveCriteria(EmpAct."Leave Code", EmpAct."Start Date", EmpAct."End Date", EmpAct."Employee No.", EmpAct."No. of Days");
-    //             EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Recommended);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
-    //             LeaveEarn.Init;
-    //             LeaveEarn.Validate("Leave Code", EmpAct."Leave Code");
-    //             LeaveEarn.Validate("Employee No.", EmpAct."Employee No.");
-    //             LeaveEarn.Validate(Type, LeaveEarn.Type::Used);
-    //             LeaveEarn.Validate("Fiscal year", EmpAct."Fiscal Year");
-    //             LeaveEarn.Validate("Posted Date", Today);
-    //             LeaveEarn.Validate("Balancing Days", -EmpAct."No. of Days");
-    //             LeaveEarn.Validate("Leave Request No", EmpAct."No.");
-    //             LeaveEarn.Insert(true);
-
-    //             //changes in employee attendance and activity
-    //             EmpAttendActivity.Reset;
-    //             EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
-    //             EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
-    //             if EmpAttendActivity.Find('-') then
-    //                 repeat
-    //                     LeaveTypeSetup.Get(EmpAct."Leave Code");
-    //                     EmpAttendActivity."Absent Day" := 0;
-    //                     EmpAttendActivity."Present Day" := 0;
-    //                     if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::Holiday then begin
-    //                         if not LeaveTypeSetup."Exclude Non Working Days" then begin
-    //                             EmpAttendActivity."Day Type" := EmpAttendActivity."Day Type"::"Working Day";
-    //                             EmpAttendActivity."Week Off Day" := 0;
-    //                             if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                                 EmpAttendActivity."Present Day" := 1;
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                             end else begin
-    //                                 EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                                 EmpAttendActivity."Absent Day" := 1;
-    //                             end;
-    //                             EmpAttendActivity."Leave Day" := 1;
-    //                         end;
-    //                     end else if EmpAttendActivity."Day Type" = EmpAttendActivity."Day Type"::"Working Day" then begin
-    //                         if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
-    //                             EmpAttendActivity."Present Day" := 1;
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Paid;
-    //                         end else begin
-    //                             EmpAttendActivity."Pay Type" := EmpAttendActivity."Pay Type"::Unpaid;
-    //                             EmpAttendActivity."Absent Day" := 1;
-    //                         end;
-    //                         EmpAttendActivity."Leave Day" := 1;
-    //                     end;
-    //                     EmpAttendActivity."Tour Day" := 0;
-    //                     EmpAttendActivity."Employee Activity Found" := true;
-    //                     EmpAttendActivity."Source No." := EmpAct."No.";
-    //                     EmpAttendActivity.Validate("Leave Description", EmpAct."Leave Description");
-    //                     EmpAttendActivity."Created Datetime" := CurrentDateTime;
-    //                     EmpAttendActivity.Modify;
-    //                 until EmpAttendActivity.Next = 0;
-    //             AttendanceSetup.Get;
-    //             Employee.Get(EmpAct."Employee No.");
-    //             Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //             if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                 if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                 else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             end else
-    //                 Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //             Employee.Modify;
-
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);  //For email
-    //             Message('The document has been approved.');
-    //         end else begin
-    //             EmpAct.TestField("Rejection Remarks");
-    //             if not (EmpAct."Approval Status" in [EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending]) then
-    //                 Error(ApprovalStatusError, EmpAct."Approval Status"::Recommended, EmpAct."Approval Status"::Pending);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-    //                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)   //For email
-    //             else
-    //                 SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type::"Leave Request", EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Rejected);
-    //             EmpAct.TestField("Rejection Remarks");
-    //             Message('The leave request has been rejected.');
-    //         end;
-    //     end else begin
-    //         if Approved then begin
-    //             EmpAct.TestField("Approval Status", EmpAct."Approval Status"::Recommended);
-    //             CheckEmployeeActivityApproval(EmpAct);
-    //             EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Approved);
-    //             if EmpAct.Type = EmpAct.Type::"Travel Request" then begin
-    //                 //changes in employee attendance and activity
-    //                 EmpAttendActivity.Reset;
-    //                 EmpAttendActivity.SetRange("Employee No.", EmpAct."Employee No.");
-    //                 EmpAttendActivity.SetRange("Attendance Date", EmpAct."Start Date", EmpAct."End Date");
-    //                 if EmpAttendActivity.Find('-') then
-    //                     repeat
-    //                         EmpAttendActivity."Absent Day" := 0;
-    //                         EmpAttendActivity."Present Day" := 1;
-    //                         EmpAttendActivity."Tour Day" := 1;
-    //                         EmpAttendActivity."Leave Day" := 0;
-    //                         EmpAttendActivity."Source No." := EmpAct."No.";
-    //                         EmpAttendActivity."Employee Activity Found" := true;
-    //                         EmpAttendActivity."Created Datetime" := CurrentDateTime;
-
-    //                         EmpAttendActivity.Modify;
-    //                     until EmpAttendActivity.Next = 0;
-    //                 Employee.Get(EmpAct."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 AttendanceSetup.Get;
-    //                 Employee.Get(EmpAct."Employee No.");
-    //                 Employee.Validate("Attendance Missed On", CheckLeaveCount(Employee."No."));
-    //                 if AttendanceSetup."Activate Punch in Date" <> 0D then begin
-    //                     if (Employee."Attendance Missed On" < AttendanceSetup."Activate Punch in Date") and (not AttendanceSetup."Deactivate Punch in Count") then
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", AttendanceSetup."Activate Punch in Date" - 1))
-    //                     else
-    //                         Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 end else
-    //                     Employee.Validate("Attendance Missed Count", ReturnLeaveCount(Employee."No.", Employee."Attendance Missed On"));
-    //                 Employee.Modify;
-    //             end;
-
-    //             SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Approved, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //             Message('The document has been approved.');
-    //         end else
-    //             if (EmpAct."Approval Status" in [EmpAct."Approval Status"::Pending, EmpAct."Approval Status"::Recommended]) then begin
-    //                 EmpAct.TestField("Rejection Remarks");
-    //                 if EmpAct.Type = EmpAct.Type::"Travel Claim" then begin
-    //                     EmpAct.TestField("Travel Order No.");
-    //                     EmpAct2.Get(EmpAct."Travel Order No.");
-    //                     EmpAct2.Validate("Travel Claimed", false);
-    //                     EmpAct2.Modify;
-    //                 end;
-    //                 CheckEmployeeActivityApproval(EmpAct);
-    //                 if EmpAct."Approval Status" = EmpAct."Approval Status"::Pending then
-    //                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Recommender Code", EmpAct."No.", 0)  //For email
-    //                 else
-    //                     SendMailFromTemplate(DATABASE::"Employee Activity", EmpAct.Type, EmpAct."Approval Status"::Rejected, '', EmpAct."Approver Code", EmpAct."No.", 0);   //For email
-    //                 EmpAct.Validate("Approval Status", EmpAct."Approval Status"::Rejected);
-    //                 Message('The document has been rejected.');
-    //             end else
-    //                 Error('Cannot reject the document.');
-    //     end;
-    //     EmpAct.Posted := true;
-    //     EmpAct."Approved Date" := Today;
-    //     EmpAct.Modify;
-    // end;
 
     procedure GetNoDaysInMonth(): Decimal
     begin
@@ -4194,17 +3761,12 @@ codeunit 50001 "HR Mgt."
         BodyText1: Text;
         TrainLine: Record "Training Line";
         ProvinceVar: Record Province;
-        // SubProvinceVar: Record "Sub Province";
-        // DimValue: Record "Dimension Value";
         GLSetup: Record "General Ledger Setup";
-        // Depart: Record Department;
-        // EmpHie: Record "Employee Hierarchy Master";
         OrganizationStructureList: Record "Organization Structure List";
         FunctionalTitle: Record "Functional Title";
         Email: Codeunit Email;
         CodeunitEmailMessage: Codeunit "Email Message";
     begin
-        // Clear(CodeunitEmailMessage);
 
         GLSetup.Get;
         //Outgoing Placement

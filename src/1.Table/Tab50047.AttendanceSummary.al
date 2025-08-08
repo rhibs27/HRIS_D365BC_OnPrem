@@ -243,6 +243,7 @@ table 50047 "Attendance Summary"
         field(35; "ATM Custodian Days"; Decimal)
         {
             FieldClass = FlowField;
+            Editable = false;
             CalcFormula = sum("Employee Attendance & Activity"."ATM Custodian Allowance days" where("Employee No." = field("Employee No."),
                                                                                               "Attendance Date" = field("Allowance Date Filter"),
                                                                                               "ATM Custodian Allowance days" = filter(<> 0)));
@@ -250,6 +251,7 @@ table 50047 "Attendance Summary"
         field(36; "Head Teller Days"; Decimal)
         {
             FieldClass = FlowField;
+            Editable = false;
             CalcFormula = sum("Employee Attendance & Activity"."Head Teller Allowance Days" where("Employee No." = field("Employee No."),
                                                                                               "Attendance Date" = field("Allowance Date Filter"),
                                                                                               "Head Teller Allowance Days" = filter(<> 0)));
@@ -257,6 +259,7 @@ table 50047 "Attendance Summary"
         field(37; "Teller Days"; Decimal)
         {
             FieldClass = FlowField;
+            Editable = false;
             CalcFormula = sum("Employee Attendance & Activity"."Teller Allowance Days" where("Employee No." = field("Employee No."),
                                                                                               "Attendance Date" = field("Allowance Date Filter"),
                                                                                               "Teller Allowance Days" = filter(<> 0)));

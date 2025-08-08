@@ -1010,6 +1010,7 @@ codeunit 50000 "Leave Mgt."
         LeaveEarn.Validate("Posted Date", Today);
         LeaveEarn.Validate("Balancing Days", Days);
         LeaveEarn.Validate("Leave Request No", DocumentNo);
+        LeaveEarn.Validate("Entry No.", GetNextLeaveLedgerEntryNo());
         LeaveEarn.Insert(true);
     end;
 
