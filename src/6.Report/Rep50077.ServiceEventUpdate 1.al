@@ -16,7 +16,7 @@ report 50077 "Service Event Update"
                 {
                     field("Service Event"; ServiceEvent)
                     {
-                        ValuesAllowed = Appointment, "Period Extend", Confirmation, "Change Of Employment status", "Change Details";//"On The Job Training", "Contract Renew", "Expired Contract";
+                        ValuesAllowed = Appointment, "Period Extend", Confirmation, "Change Of Employment status", "Change Details";
                         ToolTip = 'Specifies the value of the Service Event field.';
                         ApplicationArea = All;
                         ShowMandatory = true;
@@ -25,8 +25,9 @@ report 50077 "Service Event Update"
                         begin
                             UpdateFieldVisibility();
                             LoadAutoPopulate();
+                            if ServiceEvent in [ServiceEvent::Appointment, ServiceEvent::Confirmation] then
+                                ValidateServiceEventExists();
                         end;
-
                     }
                 }
 
@@ -40,7 +41,6 @@ report 50077 "Service Event Update"
                         TableRelation = "Functional Title";
                         ToolTip = 'Specifies the value of the FunctionalTitle field.';
                         ApplicationArea = All;
-
                     }
                     field("Salary level"; SalaryLevel)
                     {
@@ -61,7 +61,6 @@ report 50077 "Service Event Update"
                         ApplicationArea = All;
                         ShowMandatory = true;
 
-
                         trigger OnValidate()
                         begin
                             UpdateFieldVisibility();
@@ -71,63 +70,109 @@ report 50077 "Service Event Update"
                     {
                         ToolTip = 'Specifies the value of the EffectiveDate field.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                     }
+
                     field("Deputation On"; DeputationOnTo)
                     {
-                        ToolTip = 'Specifies the value of the DeputationOnTo field.';
                         ApplicationArea = All;
+                        ToolTip = 'Specifies the value of the DeputationOnTo field.';
 
                         trigger OnValidate()
                         begin
-                            if DeputationOnTo <> DeputationOnTo::Branch then
-                                Clear(ProvinceCode);
+                            ClearDeputationCodes();
                         end;
                     }
-                    field(ProvinceCode; ProvinceCode)
+
+                    field("Province Code"; ProvinceCode)
                     {
+                        ApplicationArea = All;
                         Caption = 'Province Code';
                         ToolTip = 'Specifies the value of the Province Code field.';
-                        ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
+
                     field("Branch Code"; BranchCode)
                     {
+                        ApplicationArea = All;
                         Caption = 'Branch Code';
                         ToolTip = 'Specifies the value of the Branch Code field.';
-                        ApplicationArea = All;
+                        // Removed TableRelation since we'll handle it through lookup
+
+                        trigger OnValidate()
+                        begin
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            BranchCode := GetDeputation(DeputationOnTo::Branch);
+                            if ProvinceCode = '' then begin
+                                Message('Please select Province Code first.');
+                                exit(false);
+                            end;
+                            BranchCode := GetBranchDeputation(ProvinceCode);
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
+
                     field("Department Code"; DepartmentCode)
                     {
+                        ApplicationArea = All;
                         Caption = 'Department Code';
                         ToolTip = 'Specifies the value of the Department Code field.';
-                        ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             DepartmentCode := GetDeputation(DeputationOnTo::Department);
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
                         end;
                     }
+
                     field("Sub-Department Code"; SubDepartmentCode)
                     {
                         Caption = 'Sub-Department Code';
                         ToolTip = 'Specifies the value of the Sub-Department Code field.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Unit), Blocked = filter(false));
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             SubDepartmentCode := GetDeputation(DeputationOnTo::Unit);
                         end;
                     }
+
                     field(Remarks; Remarks)
                     {
                         Caption = 'Remarks';
@@ -213,8 +258,7 @@ report 50077 "Service Event Update"
 
                         trigger OnValidate()
                         begin
-                            if DeputationOnTo <> DeputationOnTo::Branch then
-                                Clear(ProvinceCode);
+                            ClearDeputationCodes();
                         end;
                     }
                     field("Province Code Conf"; ProvinceCode)
@@ -222,10 +266,25 @@ report 50077 "Service Event Update"
                         Caption = 'Province Code';
                         ToolTip = 'Specifies the value of the Province Code field.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
                     field("Branch Code Conf"; BranchCode)
@@ -233,10 +292,27 @@ report 50077 "Service Event Update"
                         Caption = 'Branch Code';
                         ToolTip = 'Specifies the value of the Branch Code field.';
                         ApplicationArea = All;
+                        // Removed TableRelation since we'll handle it through lookup
+
+                        trigger OnValidate()
+                        begin
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            BranchCode := GetDeputation(DeputationOnTo::Branch);
+                            if ProvinceCode = '' then begin
+                                Message('Please select Province Code first.');
+                                exit(false);
+                            end;
+                            BranchCode := GetBranchDeputation(ProvinceCode);
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
                     field("Department Code Conf"; DepartmentCode)
@@ -244,10 +320,19 @@ report 50077 "Service Event Update"
                         Caption = 'Department Code';
                         ToolTip = 'Specifies the value of the Department Code field.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             DepartmentCode := GetDeputation(DeputationOnTo::Department);
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
                         end;
                     }
                     field("Sub-Department Code Conf"; SubDepartmentCode)
@@ -255,6 +340,7 @@ report 50077 "Service Event Update"
                         Caption = 'Sub-Department Code';
                         ToolTip = 'Specifies the value of the Sub-Department Code field.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Unit), Blocked = filter(false));
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
@@ -273,7 +359,6 @@ report 50077 "Service Event Update"
                         caption = 'Confirmation Date';
                         ToolTip = 'Specifies the value of Confirmation Date';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                     }
                 }
 
@@ -301,7 +386,6 @@ report 50077 "Service Event Update"
                     {
                         Caption = 'New Period End Date';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                         ToolTip = 'Specify the new period end date.';
                     }
 
@@ -335,7 +419,6 @@ report 50077 "Service Event Update"
 
                         trigger OnValidate()
                         begin
-
                             Clear(InactiveDate);
                             Clear(CauseOfInactivity);
                             Clear(TerminationDate);
@@ -350,13 +433,11 @@ report 50077 "Service Event Update"
                         end;
                     }
 
-
                     field("Status Change Date"; EffectiveDate)
                     {
                         Caption = 'Effective Date';
                         ToolTip = 'Specify the date when the status change becomes effective.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                     }
 
                     group("Inactive Status Details")
@@ -369,7 +450,6 @@ report 50077 "Service Event Update"
                             ApplicationArea = All;
                             Caption = 'Inactive Date';
                             ToolTip = 'Specify the date the employee became inactive.';
-                            ShowMandatory = true;
                         }
 
                         field("Cause of Inactivity"; CauseOfInactivity)
@@ -377,7 +457,6 @@ report 50077 "Service Event Update"
                             ApplicationArea = All;
                             Caption = 'Cause of Inactivity';
                             ToolTip = 'Specify the reason for inactivity.';
-                            ShowMandatory = true;
                         }
                     }
 
@@ -391,7 +470,6 @@ report 50077 "Service Event Update"
                             ApplicationArea = All;
                             Caption = 'Termination Date';
                             ToolTip = 'Specify the date the employee was terminated.';
-                            ShowMandatory = true;
                         }
 
                         field("Grounds for Termination"; GroundsForTermination)
@@ -399,7 +477,6 @@ report 50077 "Service Event Update"
                             ApplicationArea = All;
                             Caption = 'Grounds for Termination';
                             ToolTip = 'Specify the reason or grounds for termination.';
-                            ShowMandatory = true;
                         }
                     }
 
@@ -453,7 +530,6 @@ report 50077 "Service Event Update"
                         Caption = 'Effective Date';
                         ToolTip = 'Specify the date when changes become effective.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                     }
                     field("Deputation On Change"; DeputationOnTo)
                     {
@@ -463,8 +539,7 @@ report 50077 "Service Event Update"
 
                         trigger OnValidate()
                         begin
-                            if DeputationOnTo <> DeputationOnTo::Branch then
-                                Clear(ProvinceCode);
+                            ClearDeputationCodes();
                         end;
                     }
                     field("Province Code Change"; ProvinceCode)
@@ -472,10 +547,25 @@ report 50077 "Service Event Update"
                         Caption = 'Province Code';
                         ToolTip = 'Modify the Province Code of the employee.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Province), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             ProvinceCode := GetDeputation(DeputationOnTo::Province);
+                            if ProvinceCode <> PrevProvinceCode then begin
+                                Clear(BranchCode);
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
                     field("Branch Code Change"; BranchCode)
@@ -483,10 +573,27 @@ report 50077 "Service Event Update"
                         Caption = 'Branch Code';
                         ToolTip = 'Modify the Branch Code of the employee.';
                         ApplicationArea = All;
+                        // Removed TableRelation since we'll handle it through lookup
+
+                        trigger OnValidate()
+                        begin
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
-                            BranchCode := GetDeputation(DeputationOnTo::Branch);
+                            if ProvinceCode = '' then begin
+                                Message('Please select Province Code first.');
+                                exit(false);
+                            end;
+                            BranchCode := GetBranchDeputation(ProvinceCode);
+                            if BranchCode <> PrevBranchcode then begin
+                                Clear(DepartmentCode);
+                                Clear(SubDepartmentCode);
+                            end;
                         end;
                     }
                     field("Department Code Change"; DepartmentCode)
@@ -494,10 +601,19 @@ report 50077 "Service Event Update"
                         Caption = 'Department Code';
                         ToolTip = 'Modify the Department Code of the employee.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Department), Blocked = filter(false));
+
+                        trigger OnValidate()
+                        begin
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
+                        end;
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             DepartmentCode := GetDeputation(DeputationOnTo::Department);
+                            if DepartmentCode <> PrevDepartmentCode then
+                                Clear(SubDepartmentCode);
                         end;
                     }
                     field("Sub-Department Code Change"; SubDepartmentCode)
@@ -505,6 +621,7 @@ report 50077 "Service Event Update"
                         Caption = 'Sub-Department Code';
                         ToolTip = 'Modify the Sub-Department Code of the employee.';
                         ApplicationArea = All;
+                        TableRelation = "Organization Structure List".Code where("Type" = filter("Deputation Type"::Unit), Blocked = filter(false));
 
                         trigger OnLookup(var Text: Text): Boolean
                         begin
@@ -641,8 +758,6 @@ report 50077 "Service Event Update"
                     }
                 }
 
-
-
                 group("Hidden Fields")
                 {
                     Visible = false;
@@ -675,9 +790,8 @@ report 50077 "Service Event Update"
                     {
                         ToolTip = 'Specifies the value of the EffectiveDate field.';
                         ApplicationArea = All;
-                        ShowMandatory = true;
                     }
-                    field("ContractExpiry Month"; ContractExpiryMonth)
+                    field("ContractExpiry Month Hidden"; ContractExpiryMonth)
                     {
                         ToolTip = 'Specifies the value of the ContractExpiryMonth field.';
                         ApplicationArea = All;
@@ -714,6 +828,9 @@ report 50077 "Service Event Update"
         trigger OnOpenPage()
         begin
             UpdateFieldVisibility();
+            PrevProvinceCode := ProvinceCode;
+            PrevBranchcode := BranchCode;
+            PrevDepartmentCode := DepartmentCode;
         end;
     }
 
@@ -728,6 +845,9 @@ report 50077 "Service Event Update"
 
         if ServiceEvent = ServiceEvent::" " then
             Error('Please fill Service Event field');
+
+        if ServiceEvent in [ServiceEvent::Appointment, ServiceEvent::Confirmation] then
+            ValidateServiceEventExists();
 
         if ServiceEvent = ServiceEvent::Appointment then begin
             if EffectiveDate = 0D then
@@ -773,14 +893,14 @@ report 50077 "Service Event Update"
                 Employee.Validate("Salary Level", SalaryLevel);
             if SalaryGrade <> '' then
                 Employee.Validate("Salary Grade", SalaryGrade);
-            if FunctionalTitle <> '' then
-                Employee.Validate("Functional Title", FunctionalTitle);
             if ProvinceCode <> '' then
                 Employee.Validate("Province Code", ProvinceCode);
             if BranchCode <> '' then
                 Employee.Validate("Branch Code", BranchCode);
             if DepartmentCode <> '' then
                 Employee.Validate("Department Code", DepartmentCode);
+            if SubDepartmentCode <> '' then
+                Employee.Validate("Unit Code", SubDepartmentCode);
 
             if ProbationPeriod <> ProbationPeriod::" " then
                 Employee.Validate("Probation Period", ProbationPeriod);
@@ -800,24 +920,28 @@ report 50077 "Service Event Update"
                 Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
         end;
 
-        if ServiceEvent = ServiceEvent::"Contract Renew" then
+        if ServiceEvent = ServiceEvent::"Contract Renew" then begin
             if EffectiveDate = 0D then
                 Error('Please fill Effective Date field');
-        if (EmploymentType = EmploymentType::" ") then
-            Error('Please fill Employment Type values');
-        if ServiceEvent = ServiceEvent::"Re Appointment" then
+            if (EmploymentType = EmploymentType::" ") then
+                Error('Please fill Employment Type values');
+            if EmploymentType = EmploymentType::Contract then
+                if ContractExpiryMonth = ContractExpiryMonth::" " then
+                    Error('Contract Expiry Month must have value.');
+            if EmploymentType = EmploymentType::Probation then
+                if ProbationPeriod = ProbationPeriod::" " then
+                    Error('Probation Period must have value.')
+                else
+                    Employee.Validate("Probation Period", ProbationPeriod);
+        end;
+
+        if ServiceEvent = ServiceEvent::"Re Appointment" then begin
             if ContractCode = '' then
                 Error('Please fill Contract Code fields')
             else
                 Employee.Validate("Emplymt. Contract Code", ContractCode);
-        if EmploymentType = EmploymentType::Contract then
-            if ContractExpiryMonth = ContractExpiryMonth::" " then
-                Error('Contract Expiry Month must have value.');
-        if EmploymentType = EmploymentType::Probation then
-            if ProbationPeriod = ProbationPeriod::" " then
-                Error('Probation Period must have value.')
-            else
-                Employee.Validate("Probation Period", ProbationPeriod);
+        end;
+
         PayrollEngine.InsertPayrollAttributesUsage(Employee."No.");
         ServiceHistory.Init;
         ServiceHistory.Validate("Employee No.", Employee."No.");
@@ -830,13 +954,7 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
         ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));
         ServiceHistory.Insert(true);
-        if FunctionalTitle <> '' then
-            Employee.Validate("Functional Title", FunctionalTitle);
-        Employee.Validate("Salary Level", SalaryLevel);
-        Employee.Validate("Salary Grade", SalaryGrade);
-        if EmploymentType = EmploymentType::Permanent then
-            Employee."Confirmation Date" := EffectiveDate;
-        Employee.Validate("Employment Type", EmploymentType);
+
         if ServiceEvent = ServiceEvent::Appointment then
             Employee.Validate("Employment Date", EffectiveDate)
         else if ServiceEvent = ServiceEvent::"Contract Renew" then
@@ -946,7 +1064,6 @@ report 50077 "Service Event Update"
                 if ContractExpiryMonth <> ContractExpiryMonth::" " then
                     Employee.Validate("Contract Expiry Month", ContractExpiryMonth);
 
-
             case NewStatus of
                 NewStatus::Active:
                     begin
@@ -980,6 +1097,7 @@ report 50077 "Service Event Update"
             Employee.Validate("Employment Date", EffectiveDate);
         end;
 
+        // Apply proper validation for deputation codes based on DeputationOnTo
         ValidateDeputationOnCode();
 
         Employee.Modify;
@@ -995,6 +1113,10 @@ report 50077 "Service Event Update"
         ServiceEvent: Enum "Service Event";
         DeputationCodeTo: Code[20];
         ProvinceCode: Code[20];
+        PrevProvinceCode: Code[20];
+        PrevBranchcode: code[20];
+        PrevDepartmentCode: code[20];
+
         BranchCode: Code[20];
         DepartmentCode: Code[20];
         SubDepartmentCode: Code[20];
@@ -1081,42 +1203,107 @@ report 50077 "Service Event Update"
                 ShowForTerminated := true;
         end;
     end;
-    // ContractCode: Code[20];
 
-    local procedure GetDeputation(Deputation: Enum "Deputation Type"): Code[20]
+    local procedure ClearDeputationCodes()
+    begin
+        case DeputationOnTo of
+            DeputationOnTo::Province:
+                begin
+                    Clear(BranchCode);
+                    Clear(DepartmentCode);
+                    Clear(SubDepartmentCode);
+                end;
+            DeputationOnTo::Branch:
+                begin
+                    Clear(DepartmentCode);
+                    Clear(SubDepartmentCode);
+                end;
+            DeputationOnTo::Department:
+                begin
+                    Clear(ProvinceCode);
+                    Clear(BranchCode);
+                    Clear(SubDepartmentCode);
+                end;
+            DeputationOnTo::Unit:
+                begin
+                    Clear(ProvinceCode);
+                    Clear(BranchCode);
+                    Clear(DepartmentCode);
+                end;
+            else begin
+                Clear(ProvinceCode);
+                Clear(BranchCode);
+                Clear(DepartmentCode);
+                Clear(SubDepartmentCode);
+            end;
+        end;
+    end;
+
+    local procedure GetDeputation(DeputationType: Enum "Deputation Type"): Code[20]
     var
         OrgStructureList: Record "Organization Structure List";
-        OrgStructureListPage: Page "Organization Structure list";
     begin
-        OrgStructureList.SetRange(Type, Deputation);
+        OrgStructureList.Reset();
+        OrgStructureList.SetRange(Type, DeputationType);
         OrgStructureList.SetRange(Blocked, false);
-        Clear(OrgStructureListPage);
-        OrgStructureListPage.LookupMode(true);
-        OrgStructureListPage.SetTableView(OrgStructureList);
-        OrgStructureListPage.SetRecord(OrgStructureList);
-        if OrgStructureListPage.RunModal() = Action::LookupOK then begin
-            OrgStructureListPage.GetRecord(OrgStructureList);
+
+        if Page.RunModal(Page::"Organization Structure list", OrgStructureList) = Action::OK then
+            exit(OrgStructureList.Code)
+        else
             exit(OrgStructureList.Code);
-        end;
+    end;
+
+    local procedure GetBranchDeputation(SelectedProvinceCode: Code[20]): Code[20]
+    var
+        OrgStructureLine: Record "Organization Structure line";
+    begin
+        if SelectedProvinceCode = '' then
+            exit('');
+
+        OrgStructureLine.Reset();
+        OrgStructureLine.SetRange(Type, OrgStructureLine.Type::Province);
+        OrgStructureLine.SetRange(Code, SelectedProvinceCode);
+        OrgStructureLine.SetRange("Reporting Type", OrgStructureLine."Reporting Type"::Branch);
+
+        if Page.RunModal(Page::"Organization Structure Subform", OrgStructureLine) = Action::OK then
+            exit(OrgStructureLine."Reporting Code")
+        else
+            exit(OrgStructureLine."Reporting Code");
     end;
 
     local procedure ValidateDeputationOnCode()
     begin
-        Employee.Validate("Deputation on", DeputationOnTo);
+        if DeputationOnTo <> DeputationOnTo::" " then
+            Employee.Validate("Deputation on", DeputationOnTo);
+
         case DeputationOnTo of
             DeputationOnTo::Province:
-                Employee.Validate("Province Code", ProvinceCode);
+                begin
+                    if ProvinceCode <> '' then
+                        Employee.Validate("Province Code", ProvinceCode);
+                end;
             DeputationOnTo::Branch:
                 begin
-                    Employee.Validate("Province Code", ProvinceCode);
-                    Employee.Validate("Branch Code", BranchCode);
+                    if ProvinceCode <> '' then
+                        Employee.Validate("Province Code", ProvinceCode);
+                    if BranchCode <> '' then
+                        Employee.Validate("Branch Code", BranchCode);
                 end;
             DeputationOnTo::Department:
-                Employee.Validate("Department Code", DepartmentCode);
+                begin
+                    if DepartmentCode <> '' then
+                        Employee.Validate("Department Code", DepartmentCode);
+                end;
             DeputationOnTo::"Extension Counter":
-                Employee.Validate("Extension Counter Code", DeputationCodeTo);
+                begin
+                    if DeputationCodeTo <> '' then
+                        Employee.Validate("Extension Counter Code", DeputationCodeTo);
+                end;
             DeputationOnTo::Unit:
-                Employee.Validate("Unit Code", SubDepartmentCode);
+                begin
+                    if SubDepartmentCode <> '' then
+                        Employee.Validate("Unit Code", SubDepartmentCode);
+                end;
         end;
     end;
 
@@ -1143,7 +1330,6 @@ report 50077 "Service Event Update"
                 end;
         end;
     end;
-
 
     local procedure LoadAutoPopulate()
     var
@@ -1176,6 +1362,38 @@ report 50077 "Service Event Update"
             CauseOfInactivity := EmployeeRec."Cause of Inactivity Code";
             TerminationDate := EmployeeRec."Termination Date";
             GroundsForTermination := EmployeeRec."Grounds for Term. Code";
+        end;
+    end;
+
+    local procedure ValidateServiceEventExists()
+    var
+        ServiceHistoryRec: Record "Employee Service History";
+    begin
+        // Check if Appointment already exists
+        if ServiceEvent = ServiceEvent::Appointment then begin
+            ServiceHistoryRec.Reset();
+            ServiceHistoryRec.SetRange("Employee No.", EmpNo);
+            ServiceHistoryRec.SetRange("Service Event", ServiceHistoryRec."Service Event"::Appointment);
+            if not ServiceHistoryRec.IsEmpty() then
+                Error('Appointment service event already exists for this employee.');
+        end;
+
+        // Check if Confirmation already exists
+        if ServiceEvent = ServiceEvent::Confirmation then begin
+            ServiceHistoryRec.Reset();
+            ServiceHistoryRec.SetRange("Employee No.", EmpNo);
+            ServiceHistoryRec.SetRange("Service Event", ServiceHistoryRec."Service Event"::Confirmation);
+            if not ServiceHistoryRec.IsEmpty() then
+                Error('Confirmation service event already exists for this employee.');
+        end;
+
+        // Additional validation: Confirmation should only be allowed after Appointment
+        if ServiceEvent = ServiceEvent::Confirmation then begin
+            ServiceHistoryRec.Reset();
+            ServiceHistoryRec.SetRange("Employee No.", EmpNo);
+            ServiceHistoryRec.SetRange("Service Event", ServiceHistoryRec."Service Event"::Appointment);
+            if ServiceHistoryRec.IsEmpty() then
+                Error('Confirmation service event can only be created after an Appointment service event exists for this employee.');
         end;
     end;
 }

@@ -51577,15 +51577,6 @@
           <source>Branch Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Branch Code - Property Caption</note>
-        <trans-unit id="Report 2595309284 - Control 3536606153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Contract Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractCode - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 3536606153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Contract Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractCode - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2282677231 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the ContractExpiryMonth field.</source>
@@ -51627,35 +51618,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Functional Title - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 4131516433 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 1025181107 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Probation Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProbationPeriod - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Probation End Date - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 4131516433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Probation Period</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProbationPeriod - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 3745630193 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Province Code field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2964567753 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 3745630193 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Province Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProvinceCode - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Province Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2109719288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Remarks field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control RemarksVar - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Remarks - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2595309284 - Control 2109719288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2595309284 - Control 2666052267 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Remarks</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control RemarksVar - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Remarks - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 546536126 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the SalaryLevel field.</source>
@@ -52067,10 +52053,60 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Service Event - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3536606153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Contract Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractCode - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3536606153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Contract Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractCode - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2529863153 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the ContractExpiryMonth field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ContractExpiry Month Hidden - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2594954132 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the DeputationCodeTo field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Deputation Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 3300430101 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EffectiveDate field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Effective Date2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1323954859 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the EmploymentType field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Employment Type1 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 1323954859 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Employment Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control Employment Type1 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 4131516433 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Probation Period field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProbationPeriod - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 4131516433 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Probation Period</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control ProbationPeriod - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2109719288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control RemarksVar - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2595309284 - Control 2109719288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remarks</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Service Event Update - Control RemarksVar - Property Caption</note>
         </trans-unit>
         <trans-unit id="Report 2595309284 - Control 2626214286 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Period Extend</source>
@@ -53237,6 +53273,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Document Attachment Details - Control Attachment Document Type - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>New,Process,Report,,Loan,History,Others</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Property PromotedActionCategories</note>
+        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Action 800241943 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>view Employee Bank account list</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -53546,6 +53587,36 @@
           <source>Date of Birth (A.D.)</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Birth Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 2224783030 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Loan</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 4.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_Category5 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 311693179 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>History</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 5.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_Category6 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 949389796 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Others</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 6.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_Category7 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 278110413 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>New</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 0.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_New - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 3383493608 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Process</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_Process - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 866835530 - Change 2234406979 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
+          <source>Report</source>
+          <note from="Developer" annotates="general" priority="2">Generated from the PromotedActionCategories property index 2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Change Category_Report - Property Caption</note>
         </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 1594531834 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Distance between Residence and Office field.</source>
