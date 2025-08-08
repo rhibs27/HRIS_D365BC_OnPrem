@@ -3694,6 +3694,11 @@ codeunit 50008 "Payroll Engine"
                 begin
                     exit(PayrollLineVar."Teller Days" / PayrollLineVar."Total Days" * PGSetup."Teller Allowance (Regular)")
                 end;
+            PGSetup."Night Shift Allowance":
+                begin
+                    LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level");
+                    exit(PayrollLineVar."Night Shifts" * LevelWiseAttributes."Night Shift Allowance")
+                end;
             /*
             PGSetup."OT Benefit Component" : BEGIN
               EXIT((LevelWiseAttributes."Total Basic Salary" / PayrollHeader."Total Days")*"OT Hrs");

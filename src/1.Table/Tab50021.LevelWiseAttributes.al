@@ -90,6 +90,8 @@ table 50021 "Level Wise Attributes"
         {
             Description = '1 month Total Salary (Basic+Grade)';
         }
+        field(25; "Night Shift Allowance"; Decimal) { }
+
     }
 
     keys
