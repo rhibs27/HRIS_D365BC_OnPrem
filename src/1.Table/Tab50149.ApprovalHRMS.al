@@ -102,12 +102,14 @@ table 50149 "Approval HRMS"
         EmployeeEdit: Record "Employee Edit";
         MissedAttendance: Record "Attendance Missed";
         Travel: Record "Travel Request";
-        // TravelClaim:Record 
         Transfer: Record "Transfer Header";
         TransferClaim: Record "Transfer Claim Detail";
         OT: Record OverTime;
         RetirementFund: Record "Retirement Fund";
         AllowanceAssignment: Record "Allowance Assignment Header";
+        CancelDocument: Record "Cancel Document";
+        EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        EmpActjournal: Record "Employee Activity Journal";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -122,7 +124,6 @@ table 50149 "Approval HRMS"
             "Document Type"::"Travel Request":
                 if Travel.Get("Document No.") then
                     RecRef.GetTable(Travel);
-            // "Document Type"::"Travel Claim":
             "Document Type"::"Employee Transfer":
                 if Transfer.Get("Document No.") then
                     RecRef.GetTable(Transfer);
@@ -135,10 +136,23 @@ table 50149 "Approval HRMS"
             "Document Type"::"Allowance Assignment":
                 if AllowanceAssignment.Get("Document No.") then
                     RecRef.GetTable(AllowanceAssignment);
-            // "Document Type"::"Allowance Assignment Claim":
             "Document Type"::Retirement:
                 if RetirementFund.Get("Document No.") then
                     RecRef.GetTable(RetirementFund);
+            "Document Type"::"Cancel Document":
+                if CancelDocument.Get("Document No.") then
+                    RecRef.GetTable(CancelDocument);
+            "Document Type"::Loan:
+                if EmployeeLoanAdvance.Get("Document No.") then
+                    RecRef.GetTable(EmployeeLoanAdvance);
+            "Document Type"::"Employee Journal":
+                begin
+                    EmpActjournal.SetRange(Type, "Document Type");
+                    EmpActjournal.SetRange("Document No", "Document No.");
+                    if EmpActjournal.FindSet() then
+                        RecRef.GetTable(EmpActjournal);
+                end;
+
         end;
 
         RecRef.SetRecFilter();
