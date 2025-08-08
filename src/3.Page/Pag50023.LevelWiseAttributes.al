@@ -81,6 +81,11 @@ page 50023 "Level Wise Attributes"
                     ToolTip = 'Specifies the value of the Friday Counter Allowance field.';
                     ApplicationArea = All;
                 }
+                field("Night Shift Allowance"; Rec."Night Shift Allowance")
+                {
+                    ToolTip = 'Specifies the value of the Night Shift Allowance field.';
+                    ApplicationArea = All;
+                }
                 field("Club Membership"; Rec."Club Membership")
                 {
                     ToolTip = 'Specifies the value of the Club Membership field.';

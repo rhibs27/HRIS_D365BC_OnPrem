@@ -457,6 +457,7 @@ table 50024 "Payroll General Setup"
             Description = 'Source of LFA calculation';
         }
         field(140; "Allowance Claim Limit (days)"; Integer) { }
+        field(141; "Night Shift Allowance"; Code[20]) { }
 
     }
 

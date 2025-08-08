@@ -11388,6 +11388,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field LFA Allowance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3400942707 - Field 2855902768 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Night Shift Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Level Wise Attributes - Field Night Shift Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3400942707 - Field 3158510099 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Officiating Allowance</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -13348,6 +13353,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Next Fiscal Year Start Date - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3915598104 - Field 2855902768 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Night Shift Allowance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll General Setup - Field Night Shift Allowance - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3915598104 - Field 3327777979 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Officiat Basic Adjustment Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -14667,6 +14677,11 @@
           <source>Net Tax Liability</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Net Tax Liability - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 2378240213 - Field 2977051065 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Night Shifts</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Payroll Line - Field Night Shifts - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 2378240213 - Field 2272340397 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Number</source>
@@ -36123,6 +36138,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control LFA Allowance - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3400942707 - Control 2855902768 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Night Shift Allowance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Level Wise Attributes - Control Night Shift Allowance - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3400942707 - Control 3158510099 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Officiating Allowance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -40212,6 +40232,11 @@
           <source>Specifies the value of the Net Tax Liability field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Net Tax Liability - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3884601073 - Control 2977051065 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Night Shifts field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Payroll Subform - Control Night Shifts - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3884601073 - Control 2272340397 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Number field.</source>
