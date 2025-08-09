@@ -55,13 +55,10 @@ codeunit 50000 "Leave Mgt."
                 else
                     Difference := 0.5;
 
-                OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
-                if not IsHandled then begin
-                    if LeaveTypeSetup."Exclude Non Working Days" then
-                        exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
-                    else
-                        exit(EndDate - StartDate + Difference);
-                end
+                if LeaveTypeSetup."Exclude Non Working Days" then
+                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                else
+                    exit(EndDate - StartDate + Difference);
 
             end;
         end else
