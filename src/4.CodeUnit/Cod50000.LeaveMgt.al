@@ -1358,7 +1358,7 @@ codeunit 50000 "Leave Mgt."
             exit(1);
     end;
 
-    procedure LeaveEncash(EmpCode: Code[20])
+    procedure LeaveEncash(EmpCode: Code[20]; EncashmentDate: Date)
     var
         EmpVar: Record Employee;
         LeaveTypeSetup: Record "Leave Type Setup";
@@ -1374,10 +1374,11 @@ codeunit 50000 "Leave Mgt."
                 LeaveTypeSetup.SetRange(Encashable, true);
                 LeaveTypeSetup.SetFilter("Encashable Limit", '<>%1', 0);
                 LeaveTypeSetup.SetFilter("Employee No. Filter", EmpVar."No.");
+                LeaveTypeSetup.SetFilter("Date Filter", '..%1', EncashmentDate);
                 LeaveTypeSetup.SetFilter("Remaining Days", '<>%1', 0);
                 if LeaveTypeSetup.FindSet() then
                     repeat
-                        // entryNo := GetNextLeaveLedgerEntryNo();
+                        LeaveTypeSetup.CalcFields("Remaining Days");
                         ExtendedEncashLimit := LeaveTypeSetup."Encashable Limit";
                         OnLeaveEncashOnbeforeCheckEncashLimit(LeaveTypeSetup, EmpVar, ExtendedEncashLimit);  //use it if employee has different encash limit.
                         if LeaveTypeSetup."Remaining Days" > ExtendedEncashLimit then
