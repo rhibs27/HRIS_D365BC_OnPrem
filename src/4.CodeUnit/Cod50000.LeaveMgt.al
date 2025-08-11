@@ -71,84 +71,78 @@ codeunit 50000 "Leave Mgt."
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
     var
         Description: Text;
-        Proviences: Text;
+        Provinces: Text;
         Gender: Enum "Employee Gender";
-        ProviencesVar: Record Province;
+        OrganizationStructureList: Record "Organization Structure List";
         CalendarDate: Record Date;
         Counter: Integer;
         AlreadyAdded: Boolean;
-        BaseCalendar: Record "Base Calendar";
-        InOutValley: Option " ",Outside,Inside;
-        PostingRegion: Option " ",Hilly,Terai;
+        InOutValley: Enum "Outside/Inside Valley";
+        PostingRegion: Enum Region;
         Branch: Text;
-        DimValue: Record "Dimension Value";
-        GLSetup: Record "General Ledger Setup";
         Community: Enum "Community Type";
         Disabled: Boolean;
     begin
         Counter := 0;
         PayrollSetup.Get;
         Employee.Get(EmpCode);
-        BaseCalendar.Reset;
-        BaseCalendar.FindFirst;
         CalendarDate.SetRange("Period Type", CalendarDate."Period Type"::Date);
         CalendarDate.SetRange("Period Start", StartDate, EndDate);
         if CalendarDate.Find('-') then
             repeat
                 Clear(AlreadyAdded);
-                if HRMgt.CheckDateStatus(BaseCalendar.Code, CalendarDate."Period Start", Description, Proviences, Gender, InOutValley, PostingRegion, Branch, Community, Disabled) then begin
+                if HRMgt.CheckDateStatus(PayrollSetup."Base Calendar", CalendarDate."Period Start", Description, Provinces, Gender, InOutValley, PostingRegion, Branch, Community, Disabled) then begin
                     CalendarDescription := Description;
-                    if (Proviences = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") and (not Disabled) then
+                    if (Provinces = '') and (Gender = Gender::" ") and (InOutValley = InOutValley::" ") and (PostingRegion = PostingRegion::" ") and (Branch = '') and (community = community::" ") and (not Disabled) then
                         Counter += 1
                     else begin
-                        if Proviences <> '' then begin
-                            ProviencesVar.Reset;
-                            ProviencesVar.SetFilter(Code, Proviences);
-                            if ProviencesVar.Find('-') then
+                        if Provinces <> '' then begin
+                            OrganizationStructureList.Reset;
+                            OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Province);
+                            OrganizationStructureList.SetFilter(Code, Provinces);
+                            if OrganizationStructureList.Find('-') then
                                 repeat
-                                    if (Employee."Province Code" = ProviencesVar.Code) and (not AlreadyAdded) then begin
+                                    if (Employee."Province Code" = OrganizationStructureList.Code) and (not AlreadyAdded) then begin
                                         Counter += 1;
                                         AlreadyAdded := true;
                                         break;
                                     end;
-                                until ProviencesVar.Next = 0;
+                                until OrganizationStructureList.Next = 0;
                         end;
 
                         if (Gender = Employee.Gender) and (Gender <> Gender::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
-                            // BREAK;
                         end;
 
                         if (PostingRegion = Employee."Posting Region") and (PostingRegion <> PostingRegion::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
-                            //BREAK;
                         end;
 
                         if (Branch <> '') and (not AlreadyAdded) then begin
-                            GLSetup.Get;
-                            DimValue.Reset;
-                            DimValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-                            DimValue.SetFilter(Code, Branch);
-                            if DimValue.Find('-') then
+                            OrganizationStructureList.Reset;
+                            OrganizationStructureList.SetRange(Type, OrganizationStructureList.type::Branch);
+                            OrganizationStructureList.SetFilter(Code, Branch);
+                            if OrganizationStructureList.Find('-') then
                                 repeat
-                                    if (DimValue.Code = Employee."Global Dimension 1 Code") and (not AlreadyAdded) then begin
+                                    if (OrganizationStructureList.Code = Employee."Branch Code") and (not AlreadyAdded) then begin
                                         Counter += 1;
                                         AlreadyAdded := true;
                                         break;
                                     end;
-                                until DimValue.Next = 0;
+                                until OrganizationStructureList.Next = 0;
                         end;
                         if (InOutValley = Employee."Inside/Outside Valley") and (InOutValley <> InOutValley::" ") and (not AlreadyAdded) then begin
                             Counter += 1;
                             AlreadyAdded := true;
                         end;
-
-                        if Community = Employee.Community then begin
-
-                        end;
-                        if Disabled then
+                        if (Community <> Community::" ") and (not AlreadyAdded) then
+                            if Community = Employee.Community then begin
+                                Counter += 1;
+                                AlreadyAdded := true;
+                            end;
+                        if Disabled and (not AlreadyAdded) then
                             if Disabled = Employee.disabled then begin
                                 Counter += 1;
                                 AlreadyAdded := true
@@ -766,13 +760,12 @@ codeunit 50000 "Leave Mgt."
             CheckForLimitDays(Leave."Leave Code", Leave."No. of Days");
             CheckLeaveConflict(Leave."Employee No.", Leave."Start Date", Leave."End Date");
         end;
-
         Leave.TestField("Start Date");
         Leave.TestField("End Date");
         Leave.TestField(Remarks);
         Leave.TestField("Leave Code");
         PayrollSetup.Get;
-        //check for fisal year start date
+        //check for fiscal year start date
         if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
             if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
                 Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
@@ -792,7 +785,7 @@ codeunit 50000 "Leave Mgt."
             ApproverMgt.UpdateFirstApproverStatus(Leave."No.");
             Leave.modify();
         end;
-        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, '', Leave."Employee No.", Leave."No.", 0);   //For email
+        HRMgt.SendMailFromTemplate(DATABASE::Leave, Leave.Type::"Leave Request", Leave."Approval Status"::Pending, leave.Remarks, Leave."Employee No.", Leave."No.", 0);   //For email
         exit(Leave."No.");
     end;
 
@@ -1252,7 +1245,6 @@ codeunit 50000 "Leave Mgt."
         MiddleYearsValue := EndYearNumber - StartYearNumber - 1;
         exit(StartYearValue + MiddleYearsValue + EndYearValue);
     end;
-
 
     procedure EarnMinimumLeave(EmpCode: Code[20]; LeaveTypeSetup: Record "Leave Type Setup"; EarnLeave: Decimal; EarnDate: Date; var LastEntryNo: Integer)
     var

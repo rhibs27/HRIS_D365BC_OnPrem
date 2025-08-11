@@ -315,6 +315,7 @@ codeunit 50015 "OverTime Mgt"
         LeaveEarn.Validate("Balancing Days", OverTime."Compensatory Days");
         LeaveEarn.Validate("Overtime Request No", OverTime."No.");
         LeaveEarn.Validate("Overtime Date", OverTime."Start Date");
+        LeaveEarn.Validate("Entry No.", LeaveMgt.GetNextLeaveLedgerEntryNo());
         LeaveEarn.Insert(true);
     end;
 

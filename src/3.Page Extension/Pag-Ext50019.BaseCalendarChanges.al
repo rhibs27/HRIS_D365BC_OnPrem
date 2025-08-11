@@ -13,18 +13,13 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Province Filter field.';
-                trigger OnLookup(var Text: Text): Boolean
-
-                begin
-                    Rec."Province Filter" := HRMgt.SetCalendarHolidayProvience(Rec."Province Filter")
-                end;
             }
             field("Gender Filter"; Rec."Gender Filter")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Gender Filter field.';
             }
-            field("Inside/Outisde Valley"; Rec."Inside/Outside Valley")
+            field("Inside/Outside Valley"; Rec."Inside/Outside Valley")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Inside/Outside Valley field.';
@@ -34,10 +29,10 @@ pageextension 50019 "Base Calendar Changes" extends "Base Calendar Changes"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Posting Region field.';
             }
-            field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
+            field("Branch Code"; Rec."Branch code")
             {
                 ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code field.';
+                ToolTip = 'Specifies the value of the Branch Code field.';
             }
             field(Community; Rec.Community)
             {

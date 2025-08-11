@@ -22548,6 +22548,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments Claim - Control Code - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 793870126 - Control 1480804031 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments Claim - Control Employee Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 793870126 - Control 1964419135 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Employee No field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Allowance Assignments Claim - Control Employee No. - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 793870126 - Control 1987624935 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the English Year field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -26682,11 +26692,6 @@
           <source>Specifies the value of the Work Time Difference field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Work Time Difference - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 251429658 - Action 3558967154 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Executes the Change Reviewer/ Check Reviewer action.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Action Update Emp Name - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 2793929939 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Bank Account Card</source>
@@ -35202,6 +35207,11 @@
           <source>Specifies the value of the No. field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 357109573 - Control 2666052267 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Remarks field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Late Attendance - Control Remarks - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 357109573 - Control 3252948560 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Requested Date field.</source>
@@ -52583,6 +52593,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Action Update Holiday in Attendance Log - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="PageExtension 997968390 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+          <source>Specifies the value of the Branch Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Branch Code - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 1864907812 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Disabled field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -52598,10 +52613,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Holiday Type - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 997968390 - Control 3506737127 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
+        <trans-unit id="PageExtension 997968390 - Control 747799495 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Inside/Outside Valley field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Inside/Outisde Valley - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Inside/Outside Valley - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 997968390 - Control 3280749004 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
           <source>Specifies the value of the Posting Region field.</source>
@@ -52612,11 +52627,6 @@
           <source>Specifies the value of the Province Filter field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Province Filter - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="PageExtension 997968390 - Control 1577567912 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 997968390">
-          <source>Specifies the value of the Shortcut Dimension 1 Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Base Calendar Changes - Control Shortcut Dimension 1 Code - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 1926831969 - Control 2117271168 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1926831969">
           <source>Specifies the value of the Branch field.</source>
@@ -54833,6 +54843,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Accounting Period Ext - Field New Leave Year - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 385602012 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
+          <source>Branch Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Branch Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 385602012 - Field 959909445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
           <source>Community</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -54872,11 +54887,6 @@
           <source>Province Filter</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Province Filter - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="TableExtension 385602012 - Field 1577567912 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1657483931">
-          <source>Shortcut Dimension 1 Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Base Calendar Change Ext - Field Shortcut Dimension 1 Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1046966257 - Field 486908828 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3899891410">
           <source>Document No.</source>
