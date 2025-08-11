@@ -1168,7 +1168,7 @@ codeunit 50000 "Leave Mgt."
 
                             AnnualCreditLimit := LeaveTypeSetup."Days Earned Per Year";
 
-                            OnGenerateLeaveOnAfterSetAnnualCreditLimit(LeaveTypeSetup, EmpVar, AnnualCreditLimit);
+                            OnGenerateLeaveOnAfterSetAnnualCreditLimit(LeaveTypeSetup, EmpVar, AnnualCreditLimit, PostingDate);
                             if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::Automatic then begin
                                 //credit frequency monthly
                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Monthly then begin
@@ -1444,7 +1444,7 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnGenerateLeaveOnAfterSetAnnualCreditLimit(var LeaveTypeSetup: Record "Leave Type Setup";
-                 var EmpVar: Record Employee; var AnnualCreditLimit: Decimal)
+                 var EmpVar: Record Employee; var AnnualCreditLimit: Decimal; var PostingDate: Date)
 
     begin
         //Same employee type, same leave but days earned per year is different on the basis of employment date (EBL)
