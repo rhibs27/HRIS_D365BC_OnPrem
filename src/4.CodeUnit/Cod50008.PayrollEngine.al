@@ -1644,7 +1644,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeAttendanceActivity.Modify;
     end;
 
-    local procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
+    procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
     var
         AttendanceSetup: Record "Attendance Setup";
         CheckInLateMinutes: Duration;

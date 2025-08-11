@@ -351,6 +351,7 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Modify();
                                 end;
                         end;
+                        OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
                         StatusMaster.SetRange(Rejected, true);
@@ -443,6 +444,7 @@ codeunit 50017 "Approver Mgt"
                                 HRMgt.ScreenRF(RetirementFund);
                             end;
                     end;
+                    OnAfterDocumentFinalApproved(RecRef);
                 end;
             end
             else begin
@@ -758,6 +760,16 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure IsmanualApproverworkflow(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterDocumentFinalApproved(var RecRef: RecordRef)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterDocumentRejected(var RecRef: RecordRef)
     begin
     end;
 
