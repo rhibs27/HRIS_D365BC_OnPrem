@@ -263,6 +263,14 @@ table 50043 "Attendance Line"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
         }
+        field(110; "Check-In Device IP"; text[20])
+        {
+
+        }
+        field(111; "Check-Out Device IP"; text[20])
+        {
+
+        }
     }
 
     keys

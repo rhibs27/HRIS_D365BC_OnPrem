@@ -2,7 +2,7 @@ report 50025 "Daily Update"
 {
     ProcessingOnly = true;
     ApplicationArea = All;
-
+    UsageCategory = ReportsAndAnalysis;
     dataset { }
 
     requestpage

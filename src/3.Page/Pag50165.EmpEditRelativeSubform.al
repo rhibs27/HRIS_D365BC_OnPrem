@@ -47,6 +47,10 @@ page 50165 "Emp. Edit Relative Subform"
                 {
                     ToolTip = 'Specifies the value of the Set Emergency Contact field.', Comment = '%';
                 }
+                field(lt; Rec."lt.")
+                {
+                    ToolTip = 'Specifies the value of the lt field.', Comment = '%';
+                }
             }
         }
     }

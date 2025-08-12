@@ -1717,6 +1717,19 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
+    procedure GetDeviceIPsfromLog(EmpNo: Code[20]; InitialDate: date; var InIP: text[20]; var OutIP: Text[20])
+    var
+        AttenLog: Record "Attendance Log";
+    begin
+        AttenLog.SetLoadFields("Employee ID", "Machine Emp. Code", Date);
+        AttenLog.SetRange("Employee ID", EmpNo);
+        AttenLog.SetRange(Date, InitialDate);
+        if AttenLog.FindFirst() then
+            InIP := AttenLog."Device IP";
+        if AttenLog.FindLast() then
+            OutIP := AttenLog."Device IP";
+    end;
+
     local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
                                  PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
     var

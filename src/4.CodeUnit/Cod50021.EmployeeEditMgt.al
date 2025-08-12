@@ -295,6 +295,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
         EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
         EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
+        EmployeeRelative.Validate("lt.", EmployeeEditLine."lt.");
         if EmployeeEditLine."Original Line No." = 0 then
             EmployeeRelative.Insert()
         else
