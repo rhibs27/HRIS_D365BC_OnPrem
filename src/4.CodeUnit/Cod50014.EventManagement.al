@@ -64,18 +64,8 @@ codeunit 50014 "Event Management"
     local procedure OnAfterCopyEmployeeLedgerEntryFromGenJnlLine(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
     var
     begin
-
         EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
     end;
-
-    // [EventSubscriber(ObjectType::Table, Database::"Service Item Line", 'OnBeforeCalculateResponseDateTime', '', false, false)]
-    // local procedure OnBeforeCalculateResponseDateTime(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
-    // var
-    // begin
-
-    //EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
-
-    // end;
 
     [EventSubscriber(ObjectType::Page, Page::"Base Calendar Entries Subform", OnUpdateBaseCalendarChanges, '', false, false)]
     local procedure "Base Calendar Entries Subform_OnUpdateBaseCalendarChanges"(var BaseCalendarChange: Record "Base Calendar Change"; var CustCalendarChange: Record "Customized Calendar Change")
@@ -84,7 +74,7 @@ codeunit 50014 "Event Management"
         BaseCalendarChange."Gender Filter" := CustCalendarChange.Gender;
         BaseCalendarChange."Inside/Outside Valley" := CustCalendarChange.InOutValley;
         BaseCalendarChange."Posting Region" := CustCalendarChange.PostingRegion;
-        BaseCalendarChange."Shortcut Dimension 1 Code" := CustCalendarChange.Branch;
+        BaseCalendarChange."Branch Code" := CustCalendarChange.Branch;
     end;
     //Add by santosh for Caption in payroll line
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Caption Class", 'OnResolveCaptionClass', '', true, true)]
@@ -191,7 +181,5 @@ codeunit 50014 "Event Management"
                 end;
         end;
     end;
-
-
 
 }

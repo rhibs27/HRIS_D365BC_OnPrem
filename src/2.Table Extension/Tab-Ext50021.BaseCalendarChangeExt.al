@@ -6,9 +6,13 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
         {
             DataClassification = ToBeClassified;
         }
-        field(50001; "Province Filter"; Text[150])
+        field(50001; "Province Filter"; Text[250])
         {
             DataClassification = ToBeClassified;
+            trigger OnLookup()
+            begin
+                Validate("Province Filter", HRMgt.LookupProvinceOrganization());
+            end;
         }
         field(50002; "Gender Filter"; Enum "Employee Gender")
         {
@@ -24,13 +28,12 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             DataClassification = ToBeClassified;
 
         }
-        field(50005; "Shortcut Dimension 1 Code"; Code[250])
+        field(50005; "Branch Code"; Code[250])
         {
             DataClassification = ToBeClassified;
-            CaptionClass = '1,2,1';
             trigger OnLookup()
             begin
-                Validate("Shortcut Dimension 1 Code", HRMgt.LookupBranch("Shortcut Dimension 1 Code", '', ''));
+                Validate("Branch Code", HRMgt.LookupBranch(''));
             end;
         }
         field(50006; "Employee Filter"; Text[20])
@@ -67,8 +70,8 @@ tableextension 50021 "Base Calendar Change Ext" extends "Base Calendar Change"
             Employee.SetRange("Inside/Outside Valley", "Inside/Outside Valley");
         if "Posting Region" <> "Posting Region"::" " then
             Employee.SetRange("Posting Region", "Posting Region");
-        if "Shortcut Dimension 1 Code" <> '' then
-            Employee.SetFilter("Global Dimension 1 Code", "Shortcut Dimension 1 Code");
+        if "Branch Code" <> '' then
+            Employee.SetFilter("Branch Code", "Branch Code");
         if Community <> Community::" " then
             Employee.SetRange(Community, Community);
         Employee.SetRange(Disabled, Disabled);
