@@ -2861,9 +2861,6 @@ codeunit 50001 "HR Mgt."
     begin
         Clear(PageDistrict);
         DistrictVar.Reset;
-        // DistrictVar.SetRange("Province Name", ProvienceName);
-        // PageDistrict.SetRecord(DistrictVar);
-        // PageDistrict.SetTableView(DistrictVar);
         PageDistrict.LookupMode(true);
         if PageDistrict.RunModal = ACTION::LookupOK then begin
             PageDistrict.GetRecord(DistrictVar);
@@ -2928,34 +2925,88 @@ codeunit 50001 "HR Mgt."
         exit(xProvTxt);
     end;
 
-    // procedure CheckSubProvience(SubProvienceName: Text[50])
+    procedure LookupProvinceOrganization(): Text[250]
+    var
+        ProvienceOrganizationList: Record "Organization Structure List";
+        ProvienceOrganizationPage: Page "Organization Structure list";
+        ConcatenatedValues: Text;
+    begin
+        Clear(ProvienceOrganizationList);
+        Clear(ProvienceOrganizationPage);
+        ProvienceOrganizationList.SetRange(Type, ProvienceOrganizationList.Type::Province);
+        ProvienceOrganizationPage.SetRecord(ProvienceOrganizationList);
+        ProvienceOrganizationPage.SetTableView(ProvienceOrganizationList);
+        ProvienceOrganizationPage.LookupMode(true);
+        if ProvienceOrganizationPage.RunModal = ACTION::LookupOK then begin
+            ProvienceOrganizationPage.SetSelectionFilter(ProvienceOrganizationList);
+            if ProvienceOrganizationList.FindSet() then begin
+                repeat
+                    if ConcatenatedValues <> '' then
+                        ConcatenatedValues += '|';
+                    ConcatenatedValues += ProvienceOrganizationList.code;
+                until ProvienceOrganizationList.Next() = 0;
+            end;
+            exit(ConcatenatedValues);
+        end;
+    end;
+
+    procedure LookupBranch(Province: Text): Text[250]
+    var
+        OrganizationStructureList: Record "Organization Structure List";
+        OrganizationStructureListPage: Page "Organization Structure list";
+        ConcatenatedValues: Text;
+    begin
+        Clear(OrganizationStructureList);
+        Clear(OrganizationStructureListPage);
+        if Province <> '' then
+            OrganizationStructureList.SetRange("Province Code", Province);
+        OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Branch);
+        OrganizationStructureListPage.SetRecord(OrganizationStructureList);
+        OrganizationStructureListPage.SetTableView(OrganizationStructureList);
+        OrganizationStructureListPage.LookupMode(true);
+        if OrganizationStructureListPage.RunModal = ACTION::LookupOK then begin
+            OrganizationStructureListPage.SetSelectionFilter(OrganizationStructureList);
+            if OrganizationStructureList.FindSet() then begin
+                repeat
+                    if ConcatenatedValues <> '' then
+                        ConcatenatedValues += '|';
+                    ConcatenatedValues += OrganizationStructureList.code;
+                until OrganizationStructureList.Next() = 0;
+            end;
+            exit(ConcatenatedValues);
+        end;
+    end;
+
+    // procedure LookupDepartment(DepartText: Text): Text
     // var
-    //     // SubProvienceVar: Record "Sub Province";
-    //     ErrorSubProvience: Label 'Sub-Provience Name %1 not found.';
+    //     PageDepart: Page Departments;
+    //     Depart: Record Department;
     // begin
-    //     Clear(SubProvienceVar);
-    //     SubProvienceVar.SetRange(City, SubProvienceName);
-    //     if not SubProvienceVar.FindFirst then
-    //         Error(ErrorSubProvience, SubProvienceName);
+    //     Depart.Reset;
+    //     Clear(PageDepart);
+    //     PageDepart.AssignShowSelected;
+    //     PageDepart.InsertTempDepart(DepartText);
+    //     PageDepart.SetRecord(Depart);
+    //     PageDepart.SetTableView(Depart);
+    //     if PageDepart.RunModal = ACTION::OK then
+    //         exit(PageDepart.ReturnDepartText);
     // end;
 
-    // procedure LookupSubProvience(ProvienceName: Text[50]; xSubProvTxt: Text[50]): Text[50]
-    // var
-    //     SubProvienceVar: Record "Sub Province";
-    //     PageSubProvience: Page "SubProvinceList";
-    // begin
-    //     Clear(SubProvienceVar);
-    //     Clear(PageSubProvience);
-    //     SubProvienceVar.SetRange("Province Name", ProvienceName);
-    //     PageSubProvience.SetRecord(SubProvienceVar);
-    //     PageSubProvience.SetTableView(SubProvienceVar);
-    //     PageSubProvience.LookupMode(true);
-    //     if PageSubProvience.RunModal = ACTION::LookupOK then begin
-    //         PageSubProvience.GetRecord(SubProvienceVar);
-    //         exit(SubProvienceVar.City);
-    //     end;
-    //     exit(xSubProvTxt);
-    // end;
+    procedure LookupFunctionalTitile(FunctTitleText: Text): Text
+    var
+        PageFunctTitle: Page "Functional Title List";
+        FunctTitle: Record "Functional Title";
+    begin
+        FunctTitle.Reset;
+        Clear(PageFunctTitle);
+        PageFunctTitle.AssignShowSelected;
+        PageFunctTitle.InsertFunctTitle(FunctTitleText);
+        PageFunctTitle.SetRecord(FunctTitle);
+        PageFunctTitle.SetTableView(FunctTitle);
+        if PageFunctTitle.RunModal = ACTION::OK then
+            exit(PageFunctTitle.ReturnFunctTitleText);
+    end;
+
 
     procedure ValidateTaxCode(Gender: Enum "Employee Gender"; MaritalStatus: Enum "Marital Status"): Code[20]
     var
@@ -3036,9 +3087,7 @@ codeunit 50001 "HR Mgt."
     procedure SendMailFromTemplate(TableNo: Integer; DocumentType: enum "Employee Activity Type"; TypeOpt: Enum "approval status"; Remarks: Text; EmployeeNo: Code[20]; DocumentNo: Code[20]; SubType: Option " ","Transfer Effective Date Exceeded","Document Approver")
     var
         EmailTemplate: Record "Email Template";
-        Footer: Text;
-        Header: Text;
-        Body: Text;
+        Header, Footer, Body : Text;
         EmailMessage: Record "Email Template Message";
         EmailReceipent: Record "Email Template Recipient";
         Employee: Record Employee;
@@ -3053,12 +3102,11 @@ codeunit 50001 "HR Mgt."
         AddEmailReceipentFromTemplate: Boolean;
         EmailCCReceipent: List of [Text];
         EmailBCCReceipent: List of [Text];
-        RegardsMessage: Label 'Thanks and Regards,<br>DNA and Talent Management Department<br><br>NIC ASIA Bank Ltd.<br>Trade Tower, Thapathali, Kathmandu<br>Tel: +977-1-5111177/78/79<br>Fax: +977-1-5111180M<br>Swift: NICENPKA<br>www.nicasiabank.com';
+        RegardsMessage: Label 'Thanks and Regards,<br>';
         AllowanceHeader: Record "Allowance Assignment Header";
         AllowanceBodyText: Label '<br>The allowance assignment from %1 Branch/Extension Counter for the week %2 of month %3 has not been recorded till date.<br>Request you to assign it till EOD.<br>';
         FunctionalTitle: Record "Functional Title";
         FileName: Text;
-        // FileMgt: Codeunit "File Management";
         CalcuationDate: Date;
         Week: Integer;
         PGSetup: Record "Payroll General Setup";
@@ -3176,16 +3224,6 @@ codeunit 50001 "HR Mgt."
                     begin
                         if (DocumentNo <> '') then begin //pram
                             case DocumentType of
-                                DocumentType::"Leave Request":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Leave Type") + Colon + Format(EmployeeActivity."Leave Description") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Remarks) + Colon + Format(EmployeeActivity.Remarks) + '<br>');
-                                    end;
 
                                 DocumentType::"Travel Request":
                                     begin
@@ -3314,6 +3352,39 @@ codeunit 50001 "HR Mgt."
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption(Remarks) + Colon + Format(Leave.Remarks) + '<br>');
                         end;
                     end;
+                DATABASE::"Travel Request":
+                    begin
+                        if DocumentType = DocumentType::"Travel Request" then begin
+                            EmployeeActivity.SetRange("No.", DocumentNo);
+                            EmployeeActivity.SetRange(Type, EmployeeActivity.Type::"Travel Request");
+                            EmployeeActivity.FindFirst;
+                            //EmployeeActivity.GET(DocumentNo);
+                            AddEmailReceipentFromTemplate := (EmployeeActivity."Advance Cash Required") and (TypeOpt = TypeOpt::Approved);
+                            if EmployeeActivity."Travel Order No." <> '' then
+                                CodeunitEmailMessage.AppendToBody('Extension of ' + EmployeeActivity.FieldCaption("Travel Order No.") + Colon + EmployeeActivity."Travel Order No." + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Type Of Visit") + Colon + Format(EmployeeActivity."Type Of Visit") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Depature From") + Colon + EmployeeActivity."Depature From" + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Destination) + Colon + EmployeeActivity.Destination + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Purpose of Travel") + Colon + EmployeeActivity."Purpose of Travel" + '<br>');
+                            if AddEmailReceipentFromTemplate then begin
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Advance Cash") + Colon + Format(EmployeeActivity."Advance Cash") + '<br>');
+                                CodeunitEmailMessage.AppendToBody(Employee.FieldCaption("Bank Account No.") + Colon + EmployeeActivity."Auth. Account No." + '<br>');
+
+                                //FileName := FileMgt.ClientTempFileName('pdf');
+                                FileName := StrSubstNo('C:/temp/%1.pdf', EmployeeActivity."No.");
+                                recRef.GetTable(EmployeeActivity);
+                                tmpBlob.CreateOutStream(OutStr);
+                                REPORT.SaveAs(DATABASE::"Employee Activity", '', format::Pdf, OutStr, recRef);
+                                tmpBlob.CreateInStream(InStr);
+                                CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
+                                // CodeunitEmailMessage.AddAttachment(FileName, 'pdf');
+                            end;
+                        end;
+                    end;
 
                 DATABASE::"Employee Loan/Advance":
                     begin
@@ -3377,11 +3448,8 @@ codeunit 50001 "HR Mgt."
                         until EmailReceipent.Next = 0;
                 end;
             end;
-            CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, '', true, EmailCCReceipent, EmailBCCReceipent);
+            CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, CodeunitEmailMessage.GetBody(), true, EmailCCReceipent, EmailBCCReceipent);
             Email.Send(CodeunitEmailMessage);
-            //MESSAGE('Success');
-            if FileName <> '' then
-                clear(FileName);
         end;
     end;
 
@@ -3428,77 +3496,6 @@ codeunit 50001 "HR Mgt."
                 Error(ErrorTime);
 
         exit((EndTime - StartTime) * NoOfDays);
-    end;
-
-    procedure LookupBranch(DimValueText: Text; Province: Text; SubProvince: Text): Text
-    var
-        // PageDimValue: Page "Dimension Values";
-        // DimValue: Record "Dimension Value";
-        // GLSetup: Record "General Ledger Setup";
-        OrganizationStructureList: Record "Organization Structure List";
-        OrganizationStructureListPage: Page "Organization Structure list";
-    begin
-        // OrganizationStructureList.Reset;
-        // Clear(OrganizationStructureListPage);
-        // OrganizationStructureList.FilterGroup(2);
-        // OrganizationStructureList.SetRange(Type, OrganizationStructureList.Type::Branch);
-        // OrganizationStructureList.SetFilter(Province, Province);
-        // OrganizationStructureList.SetFilter("Sub-Province", SubProvince);
-        // OrganizationStructureList.FilterGroup(0);
-        // OrganizationStructureListPage.AssignShowSelected;
-        // OrganizationStructureListPage.InsertTempDimValue(DimValueText);
-        // OrganizationStructureListPage.SetRecord(OrganizationStructureList);
-        // OrganizationStructureListPage.SetTableView(OrganizationStructureList);
-        // if OrganizationStructureListPage.RunModal = ACTION::OK then
-        // exit(OrganizationStructureListPage.ReturnDimText);
-    end;
-
-    // procedure LookupDepartment(DepartText: Text): Text
-    // var
-    //     PageDepart: Page Departments;
-    //     Depart: Record Department;
-    // begin
-    //     Depart.Reset;
-    //     Clear(PageDepart);
-    //     PageDepart.AssignShowSelected;
-    //     PageDepart.InsertTempDepart(DepartText);
-    //     PageDepart.SetRecord(Depart);
-    //     PageDepart.SetTableView(Depart);
-    //     if PageDepart.RunModal = ACTION::OK then
-    //         exit(PageDepart.ReturnDepartText);
-    // end;
-
-    // procedure LookupSubProvinceTraining(SubProvText: Text; ProvText: Text): Text
-    // var
-    //     PageSubProv: Page "SubProvinceList";
-    //     SubProv: Record "Sub Province";
-    // begin
-    //     SubProv.Reset;
-    //     Clear(PageSubProv);
-    //     SubProv.FilterGroup(2);
-    //     SubProv.SetFilter("Province Code", ProvText);
-    //     SubProv.FilterGroup(0);
-    //     PageSubProv.AssignShowSelected;
-    //     PageSubProv.InsertTempSubProv(SubProvText);
-    //     PageSubProv.SetRecord(SubProv);
-    //     PageSubProv.SetTableView(SubProv);
-    //     if PageSubProv.RunModal = ACTION::OK then
-    //         exit(PageSubProv.ReturnSubProvText);
-    // end;
-
-    procedure LookupFunctionalTitile(FunctTitleText: Text): Text
-    var
-        PageFunctTitle: Page "Functional Title List";
-        FunctTitle: Record "Functional Title";
-    begin
-        FunctTitle.Reset;
-        Clear(PageFunctTitle);
-        PageFunctTitle.AssignShowSelected;
-        PageFunctTitle.InsertFunctTitle(FunctTitleText);
-        PageFunctTitle.SetRecord(FunctTitle);
-        PageFunctTitle.SetTableView(FunctTitle);
-        if PageFunctTitle.RunModal = ACTION::OK then
-            exit(PageFunctTitle.ReturnFunctTitleText);
     end;
 
     procedure CheckAgeAndBirthday(BirthdayDate: Date; CheckAgeDate: Date; var AgeYears: Integer; var AgeDays: Integer; var IsBirthDayDate: Boolean)
@@ -5593,11 +5590,11 @@ codeunit 50001 "HR Mgt."
                     BaseCalChange."Recurring System"::" ":
                         IF TargetDate = BaseCalChange.Date THEN BEGIN
                             Description := BaseCalChange.Description;
-                            Proviences := BaseCalChange."Province Filter";             // returning provience
-                            Gender := BaseCalChange."Gender Filter";                     //returning gender
+                            Proviences := BaseCalChange."Province Filter";
+                            Gender := BaseCalChange."Gender Filter";
                             InOutValley := BaseCalChange."Inside/Outside Valley";
                             PostingRegion := BaseCalChange."Posting Region";
-                            Branch := BaseCalChange."Shortcut Dimension 1 Code";
+                            Branch := BaseCalChange."Branch Code";
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
@@ -5605,11 +5602,11 @@ codeunit 50001 "HR Mgt."
                     BaseCalChange."Recurring System"::"Weekly Recurring":
                         IF DATE2DWY(TargetDate, 1) = BaseCalChange.Day THEN BEGIN
                             Description := BaseCalChange.Description;
-                            Proviences := BaseCalChange."Province Filter";           // returning provience
+                            Proviences := BaseCalChange."Province Filter";
                             Gender := BaseCalChange."Gender Filter";
                             InOutValley := BaseCalChange."Inside/Outside Valley";
-                            PostingRegion := BaseCalChange."Posting Region";                  //returning gender
-                            Branch := BaseCalChange."Shortcut Dimension 1 Code";
+                            PostingRegion := BaseCalChange."Posting Region";
+                            Branch := BaseCalChange."Branch Code";
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
@@ -5619,11 +5616,11 @@ codeunit 50001 "HR Mgt."
                            (DATE2DMY(TargetDate, 1) = DATE2DMY(BaseCalChange.Date, 1))
                         THEN BEGIN
                             Description := BaseCalChange.Description;
-                            Proviences := BaseCalChange."Province Filter";         // returning provience
+                            Proviences := BaseCalChange."Province Filter";
                             Gender := BaseCalChange."Gender Filter";
                             InOutValley := BaseCalChange."Inside/Outside Valley";
-                            PostingRegion := BaseCalChange."Posting Region";            //returning gender
-                            Branch := BaseCalChange."Shortcut Dimension 1 Code";
+                            PostingRegion := BaseCalChange."Posting Region";
+                            Branch := BaseCalChange."Branch Code";
                             Community := BaseCalChange.Community;
                             Disabled := BaseCalChange.Disabled;
                             exit(BaseCalChange.Nonworking);
@@ -5631,14 +5628,82 @@ codeunit 50001 "HR Mgt."
                 END;
             UNTIL BaseCalChange.NEXT = 0;
         Description := '';
-        Proviences := '';                                       // returning provience
-        clear(Gender);                                          //returning gender
+        Proviences := '';
+        clear(Gender);
         clear(InOutValley);
         clear(PostingRegion);
         clear(Branch);
         Clear(Community);
         Clear(Disabled);
     end;
+    // procedure CheckDateStatus3(CalendarCode: Code[10];
+    //                             TargetDate: Date;
+    //                             Description: Text[100];
+    //                             Provinces: Text[150];
+    //                             Gender: Enum "Employee Gender";
+    //                             Branches: Code[250];
+    //                             Community: Enum "Community Type"): Boolean
+    // var
+    //     GLSetup: Record "General Ledger Setup";
+    //     BaseCalChange: Record "Base Calendar Change";
+    //     OrgStructureList: Record "Organization Structure List";
+
+    // begin
+    //     GLSetup.Get;
+    //     BaseCalChange.Reset;
+    //     BaseCalChange.SetRange("Base Calendar Code", CalendarCode);
+    //     if BaseCalChange.FindSet then
+    //         repeat
+    //             case BaseCalChange."Recurring System" of
+
+    //                 BaseCalChange."Recurring System"::" ":
+    //                     if TargetDate = BaseCalChange.Date then begin
+    //                         //check genderwise
+    //                         if (BaseCalChange."Gender Filter" <> BaseCalChange."Gender Filter"::" ") then
+    //                             if (BaseCalChange."Gender Filter" <> Gender) then begin
+    //                                 if CheckSaturday(TargetDate, CalendarCode) then
+    //                                     exit(BaseCalChange.Nonworking)
+    //                                 else
+    //                                     exit(not BaseCalChange.Nonworking);
+    //                             end;
+
+    //                         //check branchwise
+    //                         if BaseCalChange."Shortcut Dimension 1 Code" <> '' then begin  //replace with branch (branch = dimension?)
+    //                             OrgStructureList.Reset();
+    //                             OrgStructureList.SetRange(Type, OrgStructureList.Type::Branch);
+    //                             OrgStructureList.SetRange(Blocked, false);
+    //                             OrgStructureList.SetFilter(Code, BaseCalChange."Shortcut Dimension 1 Code");
+    //                             if OrgStructureList.FindSet() then begin
+    //                                 repeat
+    //                                     if OrgStructureList.Code = Branches then
+    //                                         exit(BaseCalChange.Nonworking)
+    //                                 until OrgStructureList.Next() = 0;
+    //                                 if CheckSaturday(TargetDate, CalendarCode) then
+    //                                     exit(BaseCalChange.Nonworking)
+    //                                 else
+    //                                     exit(not BaseCalChange.Nonworking);
+    //                             end;
+    //                         end;
+
+    //                         //check community wise
+    //                         if (Community <> community::" ") and
+    //                         (Community = BaseCalChange.community) then
+    //                             exit(BaseCalChange.Nonworking);
+
+    //                     end;
+    //                 BaseCalChange."Recurring System"::"Weekly Recurring":
+    //                     if Date2DWY(TargetDate, 1) = BaseCalChange.Day then
+    //                         exit(BaseCalChange.Nonworking);
+    //                 BaseCalChange."Recurring System"::"Annual Recurring":
+    //                     if (Date2DMY(TargetDate, 2) = Date2DMY(BaseCalChange.Date, 2)) and
+    //                        (Date2DMY(TargetDate, 1) = Date2DMY(BaseCalChange.Date, 1))
+    //                     then
+    //                         exit(BaseCalChange.Nonworking);
+    //             end;
+    //         until BaseCalChange.Next = 0;
+
+
+    // end;
 
     procedure CheckSaturday(CheckDate: Date; CalCode: Code[10]): Boolean
     var
