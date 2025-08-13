@@ -149,7 +149,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeQualification.Validate("Employee No.", EmployeeEditLine."Employee No.");
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Qualification then begin
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeQualification."Emp Qualification Type"::Education);
-            EmployeeQualification.Validate("Qualification Type", EmployeeEditLine."Qualification Type");
+            // EmployeeQualification.Validate("Qualification Type", EmployeeEditLine."Qualification Type");
             EmployeeQualification.Validate("Qualification Code", EmployeeEditLine."Qualification Code");
             EmployeeQualification.Validate(Stream, EmployeeEditLine.Stream);
             EmployeeQualification.Validate(Percentage, EmployeeEditLine.Percentage);
@@ -160,12 +160,14 @@ codeunit 50021 "Employee Edit Mgt."
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeEditLine."employee Document Type"::Work);
             EmployeeQualification.Validate(Designation, EmployeeEditLine.Designation);
             EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
+            EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
         end;
 
         if EmployeeEditLine."Change in Emp Type" = EmployeeEditLine."Change in Emp Type"::Achievement then begin
             EmployeeQualification.Validate("Emp Qualification Type", EmployeeEditLine."employee Document Type"::Achievement);
             EmployeeQualification.Validate(Designation, EmployeeEditLine.Designation);
             EmployeeQualification.Validate(Remuneration, EmployeeEditLine.Remuneration);
+            EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
         end;
         EmployeeQualification.Validate(Running, EmployeeEditLine.Running);
         EmployeeQualification.Validate("Institution/Company", EmployeeEditLine."Institution/Company");
@@ -173,7 +175,6 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeQualification.Validate("To Date", EmployeeEditLine."To Date");
         if EmployeeEditLine.Year <> '' then
             EmployeeQualification.Validate(Year, EmployeeEditLine.Year);
-        EmployeeQualification.Validate(Description, EmployeeEditLine.Description);
         EmployeeQualification.Validate(Attachment, EmployeeEditLine.Attachment);
         if EmployeeEditLine."Original Line No." = 0 then
             EmployeeQualification.Insert()
@@ -295,6 +296,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Ward No", EmployeeEditLine."Ward No.");
         EmployeeRelative.Validate("E-mail", EmployeeEditLine."Relative Mail");
         EmployeeRelative.Validate("Set Emergency Contact", EmployeeEditLine."Set Emergency Contact");
+        EmployeeRelative.Validate("lt.", EmployeeEditLine."lt.");
         if EmployeeEditLine."Original Line No." = 0 then
             EmployeeRelative.Insert()
         else

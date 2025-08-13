@@ -1283,6 +1283,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Check Out Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3012657631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-In Device IP</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Check-In Device IP - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1557300299 - Field 3506584432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-Out Device IP</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Line - Field Check-Out Device IP - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1557300299 - Field 651111352 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Day Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5333,6 +5343,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Check Out Time - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3012657631 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-In Device IP</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Check-In Device IP - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 251429658 - Field 3506584432 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check-Out Device IP</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Check-Out Device IP - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 251429658 - Field 3759403411 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Created Datetime</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5357,11 +5377,6 @@
           <source>Department Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Department Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 251429658 - Field 2550789235 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device IP</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Attendance &amp; Activity - Field Device IP - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 251429658 - Field 3227853153 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Early Check Out Day</source>
@@ -6477,6 +6492,11 @@
           <source>Line No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field Line No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1631507388 - Field 1645050938 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>lt.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Edit Line - Field lt. - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1631507388 - Field 537631876 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Original Line No.</source>
@@ -9172,6 +9192,11 @@
           <source>Rejected Vehicle Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Rejected Vehicle Loan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1672560071 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Request to Approve</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Request to Approve - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 3973430723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation By Age</source>
@@ -21424,7 +21449,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method InsertVacancyDocApprovalWorkflowSteps - NamedType ApprovalRequestCanceledMsg</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 2229816073" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Thanks and Regards,&lt;br&gt;DNA and Talent Management Department&lt;br&gt;&lt;br&gt;NIC ASIA Bank Ltd.&lt;br&gt;Trade Tower, Thapathali, Kathmandu&lt;br&gt;Tel: +977-1-5111177/78/79&lt;br&gt;Fax: +977-1-5111180M&lt;br&gt;Swift: NICENPKA&lt;br&gt;www.nicasiabank.com</source>
+          <source>Thanks and Regards,&lt;br&gt;</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType RegardsMessage</note>
         </trans-unit>
@@ -26513,6 +26538,11 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control Full Name - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 3477846856 - Control 2119304492 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the lt field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Emp. Edit Relative Subform - Control lt - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 3477846856 - Control 1324252289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Relative CitizenShip No. field.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
@@ -26892,6 +26922,16 @@
           <source>Specifies the value of the Check Out Time field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Check Out Time - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3012657631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check-In Device IP field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Check-In Device IP - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 251429658 - Control 3506584432 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Check-Out Device IP field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Employee Attendance &amp; Activity - Control Check-Out Device IP - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 251429658 - Control 3759403411 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Created Datetime field.</source>
@@ -53863,11 +53903,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>PF ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2122517253 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Portal Attendance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61537,21 +61572,6 @@
           <source>7 Flat</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Tax Info Report Type - EnumValue 7 Flat - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 2116936749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>12 Month</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 12 Month - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 3746106738 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>6 Month</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 6 Month - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4149592804 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

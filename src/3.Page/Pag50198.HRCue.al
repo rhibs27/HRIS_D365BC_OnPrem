@@ -10,7 +10,14 @@ page 50198 "HR Cue"
     {
         area(Content)
         {
-
+            cuegroup("Pending Tasks")
+            {
+                field("Request to Approve"; Rec."Request to Approve")
+                {
+                    ApplicationArea = all;
+                    DrillDownPageId = "Request to Approve HRIS";
+                }
+            }
             cuegroup("Attendance Missed")
             {
                 Visible = AttendanceMissedVisibility;
@@ -572,6 +579,8 @@ page 50198 "HR Cue"
                     Employee.Modify;
                 end;
             until Employee.Next = 0;
+
+        Rec.SetFilter("Employee Filter", HRMgt.GetEmployeeNo());
     end;
 
     var

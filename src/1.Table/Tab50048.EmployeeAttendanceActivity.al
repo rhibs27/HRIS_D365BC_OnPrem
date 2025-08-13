@@ -247,7 +247,11 @@ table 50048 "Employee Attendance & Activity"
             Caption = 'Leave Code';
             TableRelation = "Leave Type Setup";
         }
-        field(110; "Device IP"; text[20])
+        field(110; "Check-In Device IP"; text[20])
+        {
+
+        }
+        field(111; "Check-Out Device IP"; text[20])
         {
 
         }

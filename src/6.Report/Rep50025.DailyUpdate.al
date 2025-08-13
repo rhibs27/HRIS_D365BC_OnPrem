@@ -2,7 +2,7 @@ report 50025 "Daily Update"
 {
     ProcessingOnly = true;
     ApplicationArea = All;
-
+    UsageCategory = ReportsAndAnalysis;
     dataset { }
 
     requestpage
@@ -49,14 +49,17 @@ report 50025 "Daily Update"
     local procedure UpdateAgeServicePeriod()
     begin
         Employee.Reset;
+        Employee.SetRange(Status, Employee.Status::Active);
         if Employee.FindFirst then
             repeat
                 if Employee."Resignation Date" = Today - 1 then
                     Employee.Status := Employee.Status::Terminated;
-                HRMgt.CheckAgeAndBirthday(Employee."Birth Date", Today, Employee.Age, AgeDays, IsBirthDay);
-                HRMgt.CheckAgeAndBirthday(Employee."Employment Date", Today, Employee."Service Period", AgeDays, IsBirthDay);
-                if Employee."Employment Date" <> 0D then
+                if Employee."Birth Date" <> 0D then
+                    HRMgt.CheckAgeAndBirthday(Employee."Birth Date", Today, Employee.Age, AgeDays, IsBirthDay);
+                if Employee."Employment Date" <> 0D then begin
+                    HRMgt.CheckAgeAndBirthday(Employee."Employment Date", Today, Employee."Service Period", AgeDays, IsBirthDay);
                     Employee.Validate("Employment Date");
+                end;
                 Employee.Modify;
             until Employee.Next = 0;
     end;
