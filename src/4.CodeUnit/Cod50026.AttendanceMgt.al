@@ -2,7 +2,6 @@ codeunit 50026 "Attendance Mgt"
 {
     procedure InsertAttendanceLine(EmpNo: Code[20]; InitialDate: date; DocumentNo: Code[20])
     var
-        PayrollEngine: Codeunit "Payroll Engine";
         EmployeeWorkShift: Record "Employee Work Shift";
         CheckInTime, CheckOutTime : Time;
     begin
@@ -26,7 +25,6 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Department Code" := Employee."Department Code";
             AttendanceLine."Department Name" := Employee."Department Name";
             AttendanceLine."Unit Code" := Employee."Unit Code";
-            //AttendanceLine.CopyFromAttendanceHeader(AttendanceHeader);
             AttendanceLine.Insert();
         end;
         ShiftLine.Reset(); //Check for Approved WorkShift
@@ -80,7 +78,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine.Week := EngNep.Week;
         AttendanceLine.Modify();
 
-        PayrollEngine.PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
+        PrepareEmployeeDailyActivity(AttendanceLine."Employee No.", InitialDate, InitialDate, true);
     end;
 
     procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
@@ -111,7 +109,8 @@ codeunit 50026 "Attendance Mgt"
         // Initialize attendance log query
         AttendanceLog.Reset;
         AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
-        AttendanceLog.SetCurrentKey("Log Time");
+        // AttendanceLog.SetCurrentKey("Log Time");
+        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetRange("Employee ID", EmployeeNo);
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
             AttendanceLog.SetRange(Date, InitialDate);
@@ -140,7 +139,8 @@ codeunit 50026 "Attendance Mgt"
         // Initialize attendance log query
         AttendanceLog.Reset;
         AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
-        AttendanceLog.SetCurrentKey("Log Time");
+        // AttendanceLog.SetCurrentKey("Log Time");
+        AttendanceLog.SetCurrentKey("Date Time Log");
         AttendanceLog.SetRange("Employee ID", EmployeeNo);
         if EmployeeWorkShift.OverNight then begin  // Determine search date based on overnight shift
             AttendanceLog.SetRange(Date, InitialDate + 1);
@@ -152,7 +152,8 @@ codeunit 50026 "Attendance Mgt"
             // If not found on next day, search same day after check-in
             AttendanceLog.Reset;
             AttendanceLog.SetLoadFields(Date, "Log Time", "Employee ID");
-            AttendanceLog.SetCurrentKey("Log Time");
+            // AttendanceLog.SetCurrentKey("Log Time");
+            AttendanceLog.SetCurrentKey("Date Time Log");
             AttendanceLog.SetRange("Employee ID", EmployeeNo);
             AttendanceLog.SetRange(Date, InitialDate);
             AttendanceLog.SetFilter("Log Time", '>%1', CheckInTime);
@@ -210,7 +211,7 @@ codeunit 50026 "Attendance Mgt"
     procedure GetPresentDays(EmpCode: Code[20]; PStartDate: Date; PEndDate: Date): Decimal
     var
         EmpAtt: Record "Employee Attendance & Activity";
-        actualPresentDays, PresentDay : Decimal;
+        actualPresentDays: Decimal;
         AttendanceDate: Date;
     begin
         actualPresentDays := 0;
@@ -219,52 +220,8 @@ codeunit 50026 "Attendance Mgt"
         EmpAtt.SetRange("Employee No.", EmpCode);
         EmpAtt.SetRange("Attendance Date", PStartDate, PEndDate);
         EmpAtt.CalcSums("Present Day", "Week Off Day", "Tour Day", "Training Day", "Leave Day");
-        // if EmpAtt.FindSet() then
-        //     repeat
-        //         Clear(PresentDay);
-        //         if AttendanceDate <> EmpAtt."Attendance Date" then begin
-        //             if EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day" > 0 then begin
-        //                 actualPresentDays += 1;
-        //                 PresentDay := 1;
-        //             end;
-        //             if PresentDay > 0 then
-        //                 AttendanceDate := EmpAtt."Attendance Date";
-        //         end;
-        //     until EmpAtt.Next() = 0;
         actualPresentDays := EmpAtt."Present Day" + EmpAtt."Week Off Day" + EmpAtt."Tour Day" + EmpAtt."Training Day" + EmpAtt."Leave Day";
         exit(actualPresentDays);
-    end;
-
-    procedure GetLeaveDays(EmpCode: Code[20]; LeaveCodeFilter: Code[150]; PStartDate: Date; PEndDate: Date): Decimal
-    var
-        EmpAtt, EmpAtt1 : Record "Employee Attendance & Activity";
-        LeaveDays: Decimal;
-        AttendanceDate: Date;
-    begin
-        Clear(LeaveDays);
-        Clear(AttendanceDate);
-        //unlock this code if leave can't earn in some specific leave
-        // EmpAtt.Reset();   
-        // EmpAtt.SetRange("Employee No.", EmpCode);
-        // EmpAtt.SetRange("Attendance Date", PStartDate, PEndDate);
-        // EmpAtt.SetFilter("Leave Code", LeaveCodeFilter);
-        // EmpAtt.SetRange("Attendance Status 2", EmpAtt."Attendance Status 2"::LEAVE);
-        // EmpAtt.SetRange("Present Day", 0);
-        // if EmpAtt.FindSet() then
-        //     repeat
-        //         if AttendanceDate <> EmpAtt."Attendance Date" then
-        //             LeaveDays += 1;
-        //         AttendanceDate := EmpAtt."Attendance Date";
-
-        //         EmpAtt1.Reset();
-        //         EmpAtt1.SetRange("Employee No.", EmpAtt."Employee No.");
-        //         EmpAtt1.SetRange("Attendance Date", EmpAtt."Attendance Date");
-        //         EmpAtt1.SetRange("Leave Code", EmpAtt."Leave Code");
-        //         EmpAtt1.SetRange("Present Day", 1);
-        //         if EmpAtt1.FindFirst() then
-        //             LeaveDays -= 1;
-        //     until EmpAtt.Next() = 0;
-        // exit(LeaveDays);
     end;
 
     procedure GetDeviceIPsfromLog(EmpNo: Code[20]; InitialDate: date; var InIP: text[20]; var OutIP: Text[20])
@@ -280,6 +237,312 @@ codeunit 50026 "Attendance Mgt"
             OutIP := AttenLog."Device IP";
     end;
 
+    procedure PrepareEmployeeDailyActivity(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date; PreparationBeforePosting: Boolean)
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        Leave: Record Leave;
+        Travel: Record "Travel Request";
+        OverTime: Record OverTime;
+        AllowanceAssignmentLine: Record "Allowance Assignment Line";
+        AttendanceLine: Record "Attendance Line";
+        TrainingAttend: Record "Training Attendance";
+        AllowanceAssignMgt: Codeunit "Allowance Assignment Mgt";
+    begin
+        EmployeeAttendanceActivity.Reset;
+        EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+        EmployeeAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
+        EmployeeAttendanceActivity.DeleteAll;
+
+        AttendanceLine.Reset;
+        AttendanceLine.SetCurrentKey("Employee No.", "Attendance Date");
+        AttendanceLine.SetRange("Employee No.", EmployeeCode);
+        AttendanceLine.SetRange("Attendance Date", StartDate, EndDate);
+        if AttendanceLine.FindSet then
+            repeat
+                Clear(EmployeeAttendanceActivity);
+                EmployeeAttendanceActivity.TransferFields(AttendanceLine);
+                EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+                EmployeeAttendanceActivity.Insert;
+            until AttendanceLine.Next = 0;
+
+        Leave.Reset;
+        Leave.SetLoadFields("No.", "Employee No.", "Start Date", "End Date", Type, "Approval Status", Cancelled, "Cancelled No.");
+
+        Leave.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Leave.SetRange(Type, Leave.Type::"Leave Request");
+        Leave.SetRange("Employee No.", EmployeeCode);
+        Leave.SetFilter("Start Date", '<=%1', StartDate);
+        Leave.SetFilter("End Date", '>=%1', StartDate);
+        Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Leave.SetFilter("Cancelled No.", '%1', '');
+        Leave.SetRange(Cancelled, false);
+        if Leave.FindSet then
+            repeat
+                CorrectAttendanceActivity(Leave.Type, Leave."No.", StartDate, EmployeeCode);
+            until Leave.Next = 0;
+
+        // for Approved Travel Request
+        Travel.Reset;
+        Travel.SetLoadFields("No.", "Employee No.", Type, "Start Date", "End Date", "Approval Status", Cancelled, "Cancelled No.");
+        Travel.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        Travel.SetRange(Type, Leave.Type::"Travel Request");
+        Travel.SetRange("Employee No.", EmployeeCode);
+        Travel.SetFilter("Start Date", '<=%1', StartDate);
+        Travel.SetFilter("End Date", '>=%1', StartDate);
+        Travel.SetRange("Approval Status", Leave."Approval Status"::Approved);
+        Travel.SetFilter("Cancelled No.", '%1', '');
+        Travel.SetRange(Cancelled, false);
+        if Travel.FindSet then
+            repeat
+                CorrectAttendanceActivity(Travel.Type, Travel."No.", StartDate, EmployeeCode);
+            until Travel.Next = 0;
+
+        // for Approved OverTime Request
+        OverTime.Reset;
+        OverTime.SetCurrentKey("Employee No.", "Start Date", "End Date");
+        OverTime.SetRange(Type, OverTime.Type::Overtime);
+        OverTime.SetRange("Employee No.", EmployeeCode);
+        OverTime.SetFilter("Start Date", '<=%1', StartDate);
+        OverTime.SetFilter("End Date", '>=%1', StartDate);
+        OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
+        OverTime.SetRange(Cancelled, false);
+        if OverTime.FindSet then
+            repeat
+                CorrectAttendanceActivity(OverTime.Type, OverTime."No.", StartDate, EmployeeCode);
+            until OverTime.Next = 0;
+        // for Approved AllowanceAssignmentLine Request
+        AllowanceAssignmentLine.Reset;
+        AllowanceAssignmentLine.SetRange("Emp Act Type", AllowanceAssignmentLine."Emp Act Type"::"Allowance Assignment"); //Min 8.21.2022
+        AllowanceAssignmentLine.SetRange("Employee Code", EmployeeCode);
+        AllowanceAssignmentLine.SetFilter("From Date", '<=%1', StartDate);
+        AllowanceAssignmentLine.SetFilter("To Date", '>=%1', StartDate);
+        AllowanceAssignmentLine.SetRange("Approval Status", AllowanceAssignmentLine."Approval Status"::Approved);
+        if AllowanceAssignmentLine.Findset then
+            repeat
+                AllowanceAssignMgt.InsertHighestPriorityAllowanceInAttendance(AllowanceAssignmentLine."Employee Code", AllowanceAssignmentLine."From Date");
+            until AllowanceAssignmentLine.Next = 0;
+
+        TrainingAttend.Reset;
+        TrainingAttend.SetRange("Employee No.", EmployeeCode);
+        TrainingAttend.SetRange("Attended Date", StartDate);
+        if TrainingAttend.FindFirst then begin
+            if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
+                EmployeeAttendanceActivity."Training Day" := 1;
+                EmployeeAttendanceActivity.Validate("Present Day", 1);
+                EmployeeAttendanceActivity."Employee Activity Found" := true;
+                EmployeeAttendanceActivity."Source No." := TrainingAttend."Training No";
+                EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+            end;
+        end;
+        CalculateLateDays(EmployeeCode, StartDate, EndDate);
+        if EmployeeAttendanceActivity.Get(EmployeeCode, StartDate) then begin
+            if (EmployeeAttendanceActivity."Present Day" = 0) and (EmployeeAttendanceActivity."Leave Day" = 0) and (EmployeeAttendanceActivity."Week Off Day" = 0) then begin
+                EmployeeAttendanceActivity.Validate("Absent Day", 1);
+                EmployeeAttendanceActivity.Modify;
+            end;
+        end;
+    end;
+
+    local procedure CorrectAttendanceActivity(EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20]; AttendanceDate: Date; EmpNo: Code[20])
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        Leave: Record Leave;
+        LeaveTypeSetup: Record "Leave Type Setup";
+    begin
+
+        if EmployeeAttendanceActivity.Get(EmpNo, AttendanceDate) then begin
+            case EmployeeActType of
+                EmployeeActType::"Leave Request":
+                    begin
+                        Leave.Get(EmpActNo);
+                        LeaveTypeSetup.Get(Leave."Leave Code");
+                        if EmployeeAttendanceActivity."Day Type" = EmployeeAttendanceActivity."Day Type"::Holiday then
+                            if not LeaveTypeSetup."Exclude Non Working Days" then begin
+                                EmployeeAttendanceActivity."Day Type" := EmployeeAttendanceActivity."Day Type"::"Working Day";
+                                EmployeeAttendanceActivity."Week Off Day" := 0;
+                            end;
+                        if LeaveTypeSetup."Pay Type" = LeaveTypeSetup."Pay Type"::Paid then begin
+                            EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Paid;
+                        end else begin
+                            EmployeeAttendanceActivity."Pay Type" := EmployeeAttendanceActivity."Pay Type"::Unpaid;
+                        end;
+                        if leave."Leave Type" = Leave."Leave Type"::"Full Day" then begin
+                            EmployeeAttendanceActivity."Leave Day" := 1;
+                            EmployeeAttendanceActivity."Present Day" := 0;
+                        end else begin
+                            EmployeeAttendanceActivity."Leave Day" := 0.5;
+                            EmployeeAttendanceActivity."Present Day" := 0.5;
+                        end;
+                        EmployeeAttendanceActivity."Leave Code" := LeaveTypeSetup.Code;
+                        EmployeeAttendanceActivity."Tour Day" := 0;
+                        EmployeeAttendanceActivity."Half Day" := 0;
+                        EmployeeAttendanceActivity."OT Hrs" := 0;
+                        EmployeeAttendanceActivity."OT Day" := 0;
+                        EmployeeAttendanceActivity."Late Day" := 0;
+                        EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
+                        EmployeeAttendanceActivity."Training Day" := 0;
+                        EmployeeAttendanceActivity.Validate("Leave Description", Leave."Leave Description");
+                    end;
+
+                EmployeeActType::"Travel Request":
+                    begin
+                        EmployeeAttendanceActivity."Leave Day" := 0;
+                        EmployeeAttendanceActivity.Validate("Present Day", 1);
+                        EmployeeAttendanceActivity."Absent Day" := 0;
+                        EmployeeAttendanceActivity."Tour Day" := 1;
+                        EmployeeAttendanceActivity."Half Day" := 0;
+                        EmployeeAttendanceActivity."OT Hrs" := 0;
+                        EmployeeAttendanceActivity."OT Day" := 0;
+                        EmployeeAttendanceActivity."Late Day" := 0;
+                        EmployeeAttendanceActivity."Outdoor Duty Day" := 0;
+                        EmployeeAttendanceActivity."Training Day" := 0;
+                    end;
+            end;
+
+        end;
+        EmployeeAttendanceActivity."Employee Activity Found" := true;
+        EmployeeAttendanceActivity."Source No." := EmpActNo;
+        EmployeeAttendanceActivity."Created Datetime" := CurrentDateTime;
+        CalcAttendance(EmployeeAttendanceActivity);
+        EmployeeAttendanceActivity.Modify;
+    end;
+
+    local procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
+    var
+        AttendanceSetup: Record "Attendance Setup";
+        CheckInLateMinutes: Duration;
+        CheckOutEarlyMinutes: Duration;
+        CheckInEarlyMinutes: Duration;
+        CheckOutLateMinutes: Duration;
+        TempRemarks: Text[100];
+        EmpVar: Record Employee;
+    begin
+        AttendanceSetup.Get;
+        EmpVar.Get(EmployeeAttendanceActivity."Employee No.");
+        if IsHoliday(AttendanceSetup."Base Calender",
+                        EmployeeAttendanceActivity."Attendance Date",
+                        TempRemarks, Employee."Province Code",
+                        Employee.Gender,
+                        Employee."Inside/Outside Valley",
+                        Employee."Posting Region",
+                        Employee."Global Dimension 1 Code",
+                        Employee.Community,
+                        Employee.Disabled) then begin
+
+            if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
+                EmployeeAttendanceActivity."OT Hrs" := Round((EmployeeAttendanceActivity."Actual Work Time" / (60 * 1000)) / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
+                if EmployeeAttendanceActivity."OT Hrs" > 0 then
+                    EmployeeAttendanceActivity."OT Day" := 1;
+            end;
+        end else begin
+            if not EmpVar."Automatic Attendance" then begin
+                if (EmployeeAttendanceActivity."Shift Start Time" <> 0T) and (EmployeeAttendanceActivity."Check In Time" <> 0T) then
+                    EmployeeAttendanceActivity."Check In Difference" := EmployeeAttendanceActivity."Shift Start Time" - EmployeeAttendanceActivity."Check In Time";
+                if (EmployeeAttendanceActivity."Check Out Time" <> 0T) and (EmployeeAttendanceActivity."Shift End Time" <> 0T) then
+                    EmployeeAttendanceActivity."Check Out Difference" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Shift End Time";
+                if EmployeeAttendanceActivity."Check In Difference" < 0 then
+                    EmployeeAttendanceActivity."Late Check In Day" := 1;
+                if EmployeeAttendanceActivity."Check Out Difference" < 0 then
+                    EmployeeAttendanceActivity."Early Check Out Day" := 1;
+
+                if AttendanceSetup."Per Day Late Tolerance" <> 0 then begin
+                    if EmployeeAttendanceActivity."Check In Difference" < 0 then
+                        CheckInLateMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    if EmployeeAttendanceActivity."Check Out Difference" < 0 then
+                        CheckOutEarlyMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
+                    if (Abs(CheckInLateMinutes) > AttendanceSetup."Per Day Late Tolerance") or
+                        ((Abs(CheckOutEarlyMinutes) > AttendanceSetup."Per Day Late Tolerance")) then begin
+                        if EmployeeAttendanceActivity."Leave Day" = 0 then begin
+                            EmployeeAttendanceActivity."Present Day" := 0.5;
+                            EmployeeAttendanceActivity."Absent Day" := 0.5;
+                            EmployeeAttendanceActivity."Half Day" := 0.5;
+                        end;
+                    end;
+                end;
+
+                if AttendanceSetup."Min. minutes to be OT Eligible" <> 0 then begin
+                    if EmployeeAttendanceActivity."Check In Difference" > 0 then
+                        CheckInEarlyMinutes := EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    if EmployeeAttendanceActivity."Check Out Difference" > 0 then
+                        CheckOutLateMinutes := EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
+
+                    if CheckInEarlyMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
+                        EmployeeAttendanceActivity."OT Hrs" := Round(CheckInEarlyMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
+                    if CheckOutLateMinutes > AttendanceSetup."Min. minutes to be OT Eligible" then
+                        EmployeeAttendanceActivity."OT Hrs" += Round(CheckOutLateMinutes / AttendanceSetup."Min. minutes to be OT Eligible", 1, '<');
+                    if EmployeeAttendanceActivity."OT Hrs" > 0 then
+                        EmployeeAttendanceActivity."OT Day" := 1;
+                end;
+                if (EmployeeAttendanceActivity."Check In Time" <> 0T) and (EmployeeAttendanceActivity."Check Out Time" <> 0T) then
+                    EmployeeAttendanceActivity."Actual Work Time" := EmployeeAttendanceActivity."Check Out Time" - EmployeeAttendanceActivity."Check In Time";
+                EmployeeAttendanceActivity."Work Time Difference" := EmployeeAttendanceActivity."Actual Work Time" - EmployeeAttendanceActivity."Standard Work Time";
+            end;
+        end;
+    end;
+
+    local procedure CalculateLateDays(EmployeeCode: Code[20]; StartDate: Date; EndDate: Date): Decimal
+    var
+        EmployeeAttendanceActivity: Record "Employee Attendance & Activity";
+        AttendanceSetup: Record "Attendance Setup";
+        LateCheckInMinutes: Decimal;
+        EarlyCheckOutMinutes: Decimal;
+    begin
+        AttendanceSetup.Get;
+        if AttendanceSetup."Per Month Late Tolerance" <> 0 then begin
+            EmployeeAttendanceActivity.Reset;
+            EmployeeAttendanceActivity.SetCurrentKey("Employee No.", "Check In Difference");
+            EmployeeAttendanceActivity.Ascending(false);
+            EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+            EmployeeAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
+            EmployeeAttendanceActivity.SetRange("Late Check In Day", 1);
+            if EmployeeAttendanceActivity.FindSet then
+                repeat
+                    LateCheckInMinutes += EmployeeAttendanceActivity."Check In Difference" / (60 * 1000);
+                    if Abs(LateCheckInMinutes) > AttendanceSetup."Per Month Late Tolerance" then begin
+                        EmployeeAttendanceActivity."Late Day" := 1;
+                        EmployeeAttendanceActivity.Modify;
+                    end;
+                until EmployeeAttendanceActivity.Next = 0;
+
+            EmployeeAttendanceActivity.Reset;
+            EmployeeAttendanceActivity.SetCurrentKey("Employee No.", "Check Out Difference");
+            EmployeeAttendanceActivity.Ascending(false);
+            EmployeeAttendanceActivity.SetRange("Employee No.", EmployeeCode);
+            EmployeeAttendanceActivity.SetRange("Attendance Date", StartDate, EndDate);
+            EmployeeAttendanceActivity.SetRange("Early Check Out Day", 1);
+            if EmployeeAttendanceActivity.FindSet then
+                repeat
+                    EarlyCheckOutMinutes += EmployeeAttendanceActivity."Check Out Difference" / (60 * 1000);
+                    if Abs(EarlyCheckOutMinutes) > AttendanceSetup."Per Month Late Tolerance" then begin
+                        EmployeeAttendanceActivity."Late Day" := 1;
+                        EmployeeAttendanceActivity.Modify;
+                    end;
+                until EmployeeAttendanceActivity.Next = 0;
+        end;
+    end;
+
+    local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
+                                 PostingRegion: enum Region; Branch: Text; Community: Enum "Community Type"; Disabled: Boolean): Boolean
+    var
+        HrMgmt: Codeunit "HR Mgt.";
+    begin
+        exit(HrMgmt.CheckDateStatus(BaseCalendar, Date, Remarks, Provience, Gender, InOutValley, PostingRegion, Branch, Community, Disabled));
+    end;
+
+    // procedure NormalizeAttendanceLogTimeFields(var AttenLog: Record "Attendance Log")
+    // var
+    //     RecRef: RecordRef;
+    //     FldRef: FieldRef;
+    //     FieldCount: Integer;
+    //     i: Integer;
+    //     ConstDate: Date;
+    //     TimeVal: Time;
+    // begin
+    //     ConstDate := DMY2Date(1, 1, 1753); // Standard dummy date
+
+    //     AttenLog."Log Time" := CreateDateTime(ConstDate, AttenLog."Log Time");
+    // end;
+
     var
         AttendanceLine: Record "Attendance Line";
         AttendanceLog: Record "Attendance Log";
@@ -287,6 +550,5 @@ codeunit 50026 "Attendance Mgt"
         CalendarDescription: Text;
         ShiftLine: Record "Shift Line";
         Employee: Record Employee;
-        AttendanceSetUp: Record "Attendance Setup";
 
 }
