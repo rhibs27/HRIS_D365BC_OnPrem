@@ -574,6 +574,13 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
+        field(80; "Request to Approve"; Integer)
+        {
+            FieldClass = FlowField;
+            CalcFormula = count("Approval HRMS" where("Approval Status" = const(Open),
+                                                    "Approver No" = field("Employee Filter")));
+        }
+
     }
 
     keys

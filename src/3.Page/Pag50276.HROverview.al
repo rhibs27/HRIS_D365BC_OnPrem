@@ -15,20 +15,17 @@ page 50276 "HR Overview"
                 {
                     field("Permanent Staff"; Rec."Permanent Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Permanent Staff field.';
                         ApplicationArea = All;
                     }
                     field("Probation Staff"; Rec."Probation Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Probation Staff field.';
                         ApplicationArea = All;
                     }
 
                     field("Contract Staff"; Rec."Contract Staff")
                     {
-                        Image = "None";
                         ToolTip = 'Specifies the value of the Contract Staff field.';
                         ApplicationArea = All;
                     }
@@ -49,14 +46,17 @@ page 50276 "HR Overview"
                 ToolTip = 'Specifies the value of the Expired field.';
                 ApplicationArea = All;
             }
-
-
-
-
         }
     }
+    trigger OnOpenPage()
+    begin
+        HrSetup.Get();
+        Rec.SetFilter("Contract Expiry Date Filter", '%1..%2', today, CalcDate(HrSetup."Contract Expiry Days", Today));
+        Rec.SetFilter("Expiry Check Date", '..%1', Today);
+    end;
+
     var
         usersetup: Record "User Setup";
-
+        HrSetup: Record "Human Resources Setup";
 
 }

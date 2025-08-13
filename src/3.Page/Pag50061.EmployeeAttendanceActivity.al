@@ -318,6 +318,14 @@ page 50061 "Employee Attendance & Activity"
                     ToolTip = 'Specifies the value of the Salary Grade field.';
                     ApplicationArea = All;
                 }
+                field("Check-In Device IP"; Rec."Check-In Device IP")
+                {
+                    ToolTip = 'Specifies the value of the Check-In Device IP field.', Comment = '%';
+                }
+                field("Check-Out Device IP"; Rec."Check-Out Device IP")
+                {
+                    ToolTip = 'Specifies the value of the Check-Out Device IP field.', Comment = '%';
+                }
             }
         }
     }

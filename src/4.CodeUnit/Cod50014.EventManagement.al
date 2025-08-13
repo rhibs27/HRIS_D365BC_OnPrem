@@ -179,6 +179,8 @@ codeunit 50014 "Event Management"
                             CardPageID := Page::"Transfer Journal";
                     end;
                 end;
+            Database::"Attendance Missed":
+                CardPageID := Page::"Attendance missed Card";
         end;
     end;
 

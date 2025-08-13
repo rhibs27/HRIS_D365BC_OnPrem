@@ -18,7 +18,7 @@ report 50017 "Generate Leave Balance"
                 TestField("Employment Date");
                 if Employee."Employment Type" = Employee."Employment Type"::Permanent then
                     Employee.TestField("Confirmation Date");
-                LeaveMgt.GenerateLeave(Employee."No.");
+                LeaveMgt.GenerateLeave(Employee."No.", LeaveCreditDate);
 
                 //code will be placed seperately
                 // if Type = Type::"New Fiscal Year" then begin
@@ -94,13 +94,20 @@ report 50017 "Generate Leave Balance"
                 //         ApplicationArea = All;
                 //     }
                 // }
+                field("Leave Credit Date"; LeaveCreditDate)
+                {
+                    ApplicationArea = all;
+                }
             }
         }
 
-        actions { }
     }
 
-    labels { }
+    trigger OnPreReport()
+    begin
+        if LeaveCreditDate = 0D then
+            LeaveCreditDate := WorkDate();
+    end;
 
     var
         HRMgt: Codeunit "HR Mgt.";
@@ -111,4 +118,5 @@ report 50017 "Generate Leave Balance"
         IsTypeEmploymentTypeChanged: Boolean;
         SalaryLevel: Code[20];
         PayrollEngine: Codeunit "Payroll Engine";
+        LeaveCreditDate: Date;
 }

@@ -50,11 +50,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
     var
         LeavePeriod: Record "Accounting Period";
     begin
-        // LeavePeriod.Reset();
-        // LeavePeriod.SetRange("New Leave Year", true);
-        // LeavePeriod.SetRange("Leave Year Closed", false);
-        // LeavePeriod.FindFirst();
-        // exit(LeavePeriod."Starting Date");
         LeavePeriod.Reset();
         LeavePeriod.SetRange("New Leave Year", true);
         LeavePeriod.SetFilter("Starting Date", '<=%1', WorkDate());
@@ -66,12 +61,6 @@ tableextension 50027 "Accounting Period Ext" extends "Accounting Period"
     var
         LeavePeriod: Record "Accounting Period";
     begin
-        // LeavePeriod.Reset();
-        // LeavePeriod.SetRange("New Leave Year", true);
-        // LeavePeriod.SetRange("Leave Year Closed", false);
-        // LeavePeriod.FindFirst();
-        // LeavePeriod.Next();
-        // exit(LeavePeriod."Starting Date" - 1);
         LeavePeriod.Reset();
         LeavePeriod.SetRange("New Leave Year", true);
         LeavePeriod.SetFilter("Starting Date", '>%1', WorkDate());
