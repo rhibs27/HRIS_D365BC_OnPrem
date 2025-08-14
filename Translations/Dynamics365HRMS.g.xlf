@@ -56238,6 +56238,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Maintenance Advance - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 1028528413 - Field 194035682 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
+          <source>Manual Approver User</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension Employee Ext - Field Manual Approver User - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 1028528413 - Field 1915108478 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1498446062">
           <source>Marital Status</source>
           <note from="Developer" annotates="general" priority="2"></note>

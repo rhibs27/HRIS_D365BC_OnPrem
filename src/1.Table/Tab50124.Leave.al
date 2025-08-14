@@ -146,7 +146,8 @@ table 50124 Leave
             trigger OnValidate()
             begin
                 if GuiAllowed then
-                    leaveMgt.GenerateLeaveAttachment(rec);
+                    if Type = Type::"Leave Request" then
+                        leaveMgt.GenerateLeaveAttachment(rec);
                 if "No. of Days" <= 0 then
                     Error('No of Days Cannot be zero');
                 if not Cancelled then
@@ -410,7 +411,6 @@ table 50124 Leave
         }
         field(62; "Form Journal"; Boolean)
         {
-
         }
         field(63; "Deputation On Code"; Code[20])
         {
@@ -498,10 +498,10 @@ table 50124 Leave
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
-            ApprovalEntry.Reset();
-            ApprovalEntry.SetRange("Document No.", "No.");
-            ApprovalEntry.SetRange("Employee No", "Employee No.");
-            ApprovalEntry.DeleteAll();
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document No.", "No.");
+        ApprovalEntry.SetRange("Employee No", "Employee No.");
+        ApprovalEntry.DeleteAll();
         end;
     end;
 

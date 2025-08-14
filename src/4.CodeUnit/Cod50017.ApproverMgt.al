@@ -21,70 +21,77 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         count: Integer;
-        isHandled: Boolean;
+        IsHandled: Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
-        ApprovalSetupLine.Reset();
-        ApprovalSetupLine.SetRange("Request Type", EmpActType);
-        ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
-        ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-        OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
-        count := 0;
-        if ApprovalSetupLine.Findset() then
-            repeat
-                Employee.Reset();
-                Employee.SetRange(Status, Employee.Status::Active);
-                Employee.SetFilter("NAV Login ID", '<>%1', '');
-                OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
-                if not isHandled then begin
-                    if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
-                        Employee.SetRange("Deputation On", EmpRequest."Deputation On");
-                        if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                            Employee.SetRange("Branch Code", EmpRequest."Branch Code")
-                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
-                            Employee.SetRange("Department Code", EmpRequest."Department Code")
-                        else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
-                            Employee.SetRange("Province Code", EmpRequest."Province Code");
-                    end else begin
-                        if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
-                            Employee.SetRange("Province Code", EmpRequest."Province Code")
-                        else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
-                            Employee.SetRange("Unit Code", EmpRequest."Unit Code");
-                    end;
-                end;
-                Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
-                if Employee.FindFirst() then begin
-                    Approval.Init();
-                    Approval.Validate("Document No.", EmpActNo);
-                    Approval.Validate("Document Type", EmpActType);
-                    Approval.Validate("Approver No", Employee."No.");
-                    Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
-                    Approval.Validate(Status, ApprovalSetupLine."Approval Status");
-                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
-                    if ApprovalSetupLine."Approval Sequence" = 1 then begin
-                        if ApprovalStatus = ApprovalStatus::Pending then
-                            Approval.Validate("Approval Status", "Approval Status"::Open);
-                        if ApprovalStatus = ApprovalStatus::Open then
-                            Approval.Validate("Approval Status", "Approval Status"::Created);
-                        count := count + 1;
-                    end else
-                        Approval.Validate("Approval Status", "Approval Status"::Created);
-                    Approval.Validate("Employee No", EmployeeNo);
-                    Approval.Insert(true);
-                end
-                else
-                    Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-            until ApprovalSetupLine.Next() = 0
-        else
-            Error('Approval Setup not found');
-        if count = 0 then begin
-            Error('There is no approver setup for sequence 1');
+        if EmpRequest."Manual Approver User" then begin
+            IsmanualApproverworkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+            if IsHandled then
+                exit;
         end;
-        Approval1.Reset();
-        Approval1.SetRange("Document No.", EmpActNo);
-        if not Approval1.FindFirst() then
-            Error('Approval Not Found');
+        if not isHandled then begin
+            ApprovalSetupLine.Reset();
+            ApprovalSetupLine.SetRange("Request Type", EmpActType);
+            ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
+            ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
+            OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+            count := 0;
+            if ApprovalSetupLine.Findset() then
+                repeat
+                    Employee.Reset();
+                    Employee.SetRange(Status, Employee.Status::Active);
+                    Employee.SetFilter("NAV Login ID", '<>%1', '');
+                    OnInsertApprovalOnBeforeSelectApprover(ApprovalSetupLine, Employee, EmpRequest, IsHandled);
+                    if not isHandled then begin
+                        if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
+                            Employee.SetRange("Deputation On", EmpRequest."Deputation On");
+                            if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
+                                Employee.SetRange("Department Code", EmpRequest."Department Code")
+                            else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
+                                Employee.SetRange("Province Code", EmpRequest."Province Code");
+                        end else begin
+                            if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Province then
+                                Employee.SetRange("Province Code", EmpRequest."Province Code")
+                            else if ApprovalSetupLine."Deputation Type" = ApprovalSetupLine."Deputation Type"::Unit then
+                                Employee.SetRange("Unit Code", EmpRequest."Unit Code");
+                        end;
+                    end;
+                    Employee.SetRange("Approver Role", ApprovalSetupLine."Approver Role");
+                    if Employee.FindFirst() then begin
+                        Approval.Init();
+                        Approval.Validate("Document No.", EmpActNo);
+                        Approval.Validate("Document Type", EmpActType);
+                        Approval.Validate("Approver No", Employee."No.");
+                        Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
+                        Approval.Validate(Status, ApprovalSetupLine."Approval Status");
+                        // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                        Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
+                        if ApprovalSetupLine."Approval Sequence" = 1 then begin
+                            if ApprovalStatus = ApprovalStatus::Pending then
+                                Approval.Validate("Approval Status", "Approval Status"::Open);
+                            if ApprovalStatus = ApprovalStatus::Open then
+                                Approval.Validate("Approval Status", "Approval Status"::Created);
+                            count := count + 1;
+                        end else
+                            Approval.Validate("Approval Status", "Approval Status"::Created);
+                        Approval.Validate("Employee No", EmployeeNo);
+                        Approval.Insert(true);
+                    end
+                    else
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                until ApprovalSetupLine.Next() = 0
+            else
+                Error('Approval Setup not found');
+            if count = 0 then begin
+                Error('There is no approver setup for sequence 1');
+            end;
+            Approval1.Reset();
+            Approval1.SetRange("Document No.", EmpActNo);
+            if not Approval1.FindFirst() then
+                Error('Approval Not Found');
+        end;
     end;
 
     // >> Insert Approval for Loan >> Santosh 2025-03-04 >>
@@ -361,6 +368,7 @@ codeunit 50017 "Approver Mgt"
                                     RecRef.Modify();
                                 end;
                         end;
+                        OnAfterDocumentRejected(RecRef);
                         // Get the Rejected Status from Status Master
                         StatusMaster.Reset();
                         StatusMaster.SetRange(Rejected, true);
@@ -457,6 +465,7 @@ codeunit 50017 "Approver Mgt"
                                 AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
                             end;
                     end;
+                    OnAfterDocumentFinalApproved(RecRef);
                 end;
             end
             else begin
@@ -777,6 +786,21 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovalCancelledOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure IsmanualApproverworkflow(EmployeeNo: Code[20]; EmpActNo: Code[20]; EmpActType: enum "Employee Activity Type"; ApprovalStatus: Enum "Approval Status"; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterDocumentFinalApproved(var RecRef: RecordRef)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterDocumentRejected(var RecRef: RecordRef)
     begin
     end;
 

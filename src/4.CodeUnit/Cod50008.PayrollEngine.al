@@ -4458,5 +4458,11 @@ codeunit 50008 "Payroll Engine"
         //You can add custom logic here if needed.
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterEmployeeActivityProcess(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20])
+    begin
+        //This event can be used to perform attendance Process
+    end;
+
 
 }
