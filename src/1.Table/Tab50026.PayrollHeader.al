@@ -506,6 +506,7 @@ table 50026 "Payroll Header"
                     PayrollLine."Net Pay" := 0;
                     PayrollLine."1% Slab" := 0;
                     PayrollLine."10% Slab" := 0;
+                    PayrollLine."20% Slab" := 0;
                     PayrollLine."30% Slab" := 0;
                     PayrollLine."36% Slab" := 0;
                     PayrollLine."39% Slab" := 0;

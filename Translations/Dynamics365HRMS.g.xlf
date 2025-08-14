@@ -21424,7 +21424,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method InsertVacancyDocApprovalWorkflowSteps - NamedType ApprovalRequestCanceledMsg</note>
         </trans-unit>
         <trans-unit id="Codeunit 3904381950 - Method 1898609077 - NamedType 2229816073" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Thanks and Regards,&lt;br&gt;DNA and Talent Management Department&lt;br&gt;&lt;br&gt;NIC ASIA Bank Ltd.&lt;br&gt;Trade Tower, Thapathali, Kathmandu&lt;br&gt;Tel: +977-1-5111177/78/79&lt;br&gt;Fax: +977-1-5111180M&lt;br&gt;Swift: NICENPKA&lt;br&gt;www.nicasiabank.com</source>
+          <source>Thanks and Regards,&lt;br&gt;</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit HR Mgt. - Method SendMailFromTemplate - NamedType RegardsMessage</note>
         </trans-unit>
@@ -53863,11 +53863,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 866835530 - Control 2907643468 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
-          <source>PF ID</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension Employee Card - Control Employee Attendance ID - Property Caption</note>
-        </trans-unit>
         <trans-unit id="PageExtension 866835530 - Control 2122517253 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 866835530">
           <source>Specifies the value of the Portal Attendance field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -61537,21 +61532,6 @@
           <source>7 Flat</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Tax Info Report Type - EnumValue 7 Flat - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source> </source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue   - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 2116936749 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>12 Month</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 12 Month - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Enum 363203055 - EnumValue 3746106738 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>6 Month</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Trainee Period - EnumValue 6 Month - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4149592804 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source> </source>

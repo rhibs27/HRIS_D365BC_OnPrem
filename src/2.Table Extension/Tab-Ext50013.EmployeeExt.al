@@ -106,6 +106,7 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
 
         }
+
         modify(Address)
         {
             Caption = 'Permanent Address';
@@ -128,6 +129,7 @@ tableextension 50013 "Employee Ext" extends Employee
                     Validate("Contract Expiry Month");
                 if "Employment Date" <> 0D then
                     HrMgt.getServicePeriodText(Rec);
+                "Employment Date (B.S.)" := EngNepDate.getNepaliDate("Employment Date");
             end;
         }
         modify(Title)
