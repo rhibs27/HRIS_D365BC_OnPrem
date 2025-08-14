@@ -59923,11 +59923,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Casual Leave - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Enum 4204176933 - EnumValue 3548790258 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>force leave</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Enum Leave Category - EnumValue Force Leave - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Enum 4204176933 - EnumValue 3254799098 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Maternity Leave</source>
           <note from="Developer" annotates="general" priority="2"></note>

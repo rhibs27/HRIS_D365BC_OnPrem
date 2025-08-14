@@ -21,11 +21,13 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         count: Integer;
-        isHandled: Boolean;
+        IsHandled: Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
         if EmpRequest."Manual Approver User" then begin
-            IsmanualApproverworkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled)
+            IsmanualApproverworkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+            if IsHandled then
+                exit;
         end;
         if not isHandled then begin
             ApprovalSetupLine.Reset();
@@ -78,7 +80,6 @@ codeunit 50017 "Approver Mgt"
                     end
                     else
                         Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-                    Error('Approvers not found!');
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
