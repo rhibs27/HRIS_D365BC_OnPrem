@@ -45,6 +45,7 @@ page 50199 "HR Manager Role Center"
             {
                 ApplicationArea = All;
             }
+
         }
     }
 
@@ -169,6 +170,14 @@ page 50199 "HR Manager Role Center"
                         ApplicationArea = Basic, Suite;
                         Image = ListPage;
                         RunObject = page "Employee Work Shift";
+                        ToolTip = 'Executes the action of Employee Work Shift';
+                    }
+                    action("Biometric Device Config")
+                    {
+                        Caption = 'Biometric Device Config';
+                        ApplicationArea = Basic, Suite;
+                        Image = ListPage;
+                        RunObject = page "Biometric Device Config.";
                         ToolTip = 'Executes the action of Employee Work Shift';
                     }
                 }

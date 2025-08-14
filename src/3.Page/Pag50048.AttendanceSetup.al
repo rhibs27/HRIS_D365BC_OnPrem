@@ -87,6 +87,22 @@ page 50048 "Attendance Setup"
                 }
 
             }
+            group(Integration)
+            {
+                field("Base URL"; Rec."Base URL")
+                {
+                    ToolTip = 'Specifies the value of the URL field.';
+                }
+                field("User Name"; Rec."User Name")
+                {
+                    ToolTip = 'Specifies the value of the User Name field.';
+                }
+                field(Password; Rec.Password)
+                {
+                    ToolTip = 'Specifies the value of the Password field.';
+                    ExtendedDatatype = Masked;
+                }
+            }
         }
     }
 

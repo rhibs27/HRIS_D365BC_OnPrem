@@ -111,6 +111,7 @@ codeunit 50014 "Event Management"
         LoanType: Enum "Loan Type";
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         EmpActJournal: Record "Employee Activity Journal";
+        AttendanceMissed: Record "Attendance Missed";
     begin
         case RecordRef.Number of
             Database::Leave:
@@ -180,7 +181,14 @@ codeunit 50014 "Event Management"
                     end;
                 end;
             Database::"Attendance Missed":
-                CardPageID := Page::"Attendance missed Card";
+                begin
+                    ActType := RecordRef.Field(AttendanceMissed.FieldNo(Type)).Value;
+                    if ActType = ActType::"Attendance Missed" then
+                        CardPageID := Page::"Attendance missed Card"
+                    else if ActType = ActType::"Late Attendance" then
+                        CardPageID := Page::"Late Attendance Card";
+                end;
+
         end;
     end;
 

@@ -5,7 +5,7 @@ codeunit 50019 "Biometric Mgt."
     end;
 
     var
-        AdmsSetup: Record "Attendnce Integration Setup";
+        AdmsSetup: Record "Attendance Setup";
 
     local procedure GetJsonValue(jObj: JsonObject; jKeyName: Text; var jValue: JsonValue): Boolean
     var
