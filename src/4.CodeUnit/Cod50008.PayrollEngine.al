@@ -1629,12 +1629,7 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Training Day" := 0;
                     end;
             end;
-
-            /*EmployeeActivity.Type::Overtime : BEGIN //Min 8.21.2022
-              EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";
-              EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
-              //EmployeeAttendanceActivity."OT Day" := 1;
-            END;*/
+            OnAfterEmployeeActivityProcess(EmployeeAttendanceActivity, EmployeeActType, EmpActNo)
         end;
         EmployeeAttendanceActivity."Employee Activity Found" := true;
         EmployeeAttendanceActivity."Source No." := EmpActNo;
@@ -4791,6 +4786,12 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to perform get the outstation allowance for the employee before exiting the process.
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterEmployeeActivityProcess(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20])
+    begin
+        //This event can be used to perform attendance Process
     end;
 
 
