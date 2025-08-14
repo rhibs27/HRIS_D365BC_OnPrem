@@ -539,6 +539,25 @@ codeunit 50026 "Attendance Mgt"
 
     //     AttenLog."Log Time" := CreateDateTime(ConstDate, AttenLog."Log Time");
     // end;
+    procedure ApproveLateAttendance(docNo: Code[20])
+    var
+        EmpAttenActivity: Record "Employee Attendance & Activity";
+        AttenMissed: Record "Attendance Missed";
+    begin
+        AttenMissed.Get(docNo);
+        if AttenMissed.Type <> AttenMissed.Type::"Late Attendance" then
+            exit;
+
+        if EmpAttenActivity.Get(AttenMissed."Employee No.", AttenMissed."Start Date") then begin
+            EmpAttenActivity."Late Remarks" := AttenMissed.Remarks;
+            EmpAttenActivity.Modify();
+        end
+        else begin
+            DailyAttendanceUpdate(AttenMissed."Start Date", AttenMissed."Start Date", AttenMissed."Employee No.");
+            Commit();
+            ApproveLateAttendance(AttenMissed."No.");
+        end;
+    end;
 
     var
         AttendanceLine: Record "Attendance Line";

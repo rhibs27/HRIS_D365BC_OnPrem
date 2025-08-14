@@ -271,6 +271,7 @@ codeunit 50017 "Approver Mgt"
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         PayrollEngine: Codeunit "Payroll Engine";
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -447,6 +448,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 RetirementFund.Get(RecRef.RecordId);
                                 HRMgt.ScreenRF(RetirementFund);
+                            end;
+                        EmployeeActivityType::"Late Attendance":
+                            begin
+                                AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
                             end;
                     end;
                 end;

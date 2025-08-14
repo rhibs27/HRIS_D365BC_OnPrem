@@ -59,7 +59,7 @@ codeunit 50019 "Biometric Mgt."
 
         json_value: JsonValue;
         i: Integer;
-        AttenLog: Record "Biometric Attendance Log";
+        AttenLog: Record "Attendance Log";
         json_Token: JsonToken;
         DTVar: DateTime;
         DateText: text;
@@ -85,10 +85,11 @@ codeunit 50019 "Biometric Mgt."
                             Clear(AttenLog);
                             DTVar := 0DT;
                             AttenLog.Init();
-                            if GetJsonValue(json_object, 'BranchCode', json_value) then
-                                AttenLog."Branch Code" := json_value.AsCode();
+                            // if GetJsonValue(json_object, 'BranchCode', json_value) then
+                            //     AttenLog."Branch Code" := json_value.AsCode();
                             if GetJsonValue(json_object, 'CheckTime', json_value) then begin
-                                AttenLog."Check Time" := json_value.AsText();
+                                // AttenLog."Check Time" := json_value.AsText();
+                                Evaluate(AttenLog."Log Time", json_value.AsText());
 
                                 DateText := json_value.AsText().Substring(1, 10);
                                 year := DateText.Substring(1, 4);
@@ -96,17 +97,17 @@ codeunit 50019 "Biometric Mgt."
                                 day := DateText.Substring(9, 2);
                                 DateText := year + '-' + Month + '-' + day;
                                 TimeText := json_value.AsText().Substring(12, 10);
-                                Evaluate(AttenLog."Attendance Date", DateText);
-                                Evaluate(AttenLog."Attendance Time", TimeText);
+                                Evaluate(AttenLog.Date, DateText);
+                                Evaluate(AttenLog."Log Time", TimeText);
                             end;
 
-                            if GetJsonValue(json_object, 'DeviceSN', json_value) then
-                                AttenLog."Device SN" := json_value.astext();
-                            if GetJsonValue(json_object, 'Id', json_value) then
-                                AttenLog."Device Id" := json_value.AsInteger();
+                            // if GetJsonValue(json_object, 'DeviceSN', json_value) then
+                            //     AttenLog."Device SN" := json_value.astext();
+                            // if GetJsonValue(json_object, 'Id', json_value) then
+                            //     AttenLog."Device Id" := json_value.AsInteger();
 
-                            if GetJsonValue(json_object, 'UserPin', json_value) then
-                                AttenLog."User PIN" := json_value.AsInteger();
+                            // if GetJsonValue(json_object, 'UserPin', json_value) then
+                            //     AttenLog."User PIN" := json_value.AsInteger();
                             if AttenLog.Insert() then;
                         end;
                     end;

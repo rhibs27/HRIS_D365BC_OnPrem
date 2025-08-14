@@ -257,6 +257,7 @@ codeunit 50000 "Leave Mgt."
             Leave.SetRange("Employee No.", EmpCode);
             Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
             Leave.SetRange("End Date", StartDate - 1);
+            Leave.SetRange(Cancelled, false);
             if Leave.FindFirst then begin
                 if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")

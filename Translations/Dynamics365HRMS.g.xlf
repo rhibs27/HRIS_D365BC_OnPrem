@@ -843,6 +843,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field Employee Role - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4218880442 - Field 3320823955 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Setup Line - Field Line No. - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4218880442 - Field 1093055731 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Request Type</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2277,51 +2282,6 @@
           <source>Week Off Day</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Summary - Field Week Off Day - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Biometric Attendance Log</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 3795677189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Attendance Date - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 1972025046 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Attendance Time</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Attendance Time - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 3057995523 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Branch Code</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Branch Code - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 2403304701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Check Time</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Check Time - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 1613214047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device Id</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Device Id - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 1212023775 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Device SN</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field Device SN - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 129688762 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>User Name</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field User Name - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 1880084341 - Field 1303087546 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>User PIN</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Biometric Attendance Log - Field User PIN - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 220184072 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Branch</source>
@@ -24782,31 +24742,6 @@
           <source>Executes the Device Attendance action.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attendance Summary - Action Device Attendance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1880084341 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Biometric Attendance Log</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Attendance Log - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 1880084341 - Control 3057995523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Branch Code field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Attendance Log - Control Branch Code - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1880084341 - Control 1613214047 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Device Id field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Attendance Log - Control Device Id - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1880084341 - Control 129688762 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the User Name field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Attendance Log - Control User Name - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1880084341 - Control 1303087546 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the User PIN field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Biometric Attendance Log - Control User PIN - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 996671958 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Biometric Branches</source>

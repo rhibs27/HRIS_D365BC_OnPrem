@@ -4,7 +4,8 @@ page 50354 "Approval setup Subform"
     Caption = 'Approval setup Subform';
     PageType = ListPart;
     SourceTable = "Approval Setup Line";
-
+    AutoSplitKey = true;
+    DelayedInsert = true;
     layout
     {
         area(Content)
