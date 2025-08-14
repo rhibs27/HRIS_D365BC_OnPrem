@@ -63,14 +63,15 @@ codeunit 50000 "Leave Mgt."
                 OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
                 if not IsHandled then begin
 
-                if LeaveTypeSetup."Exclude Non Working Days" then
-                    exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
-                else
-                    exit(EndDate - StartDate + Difference);
+                    if LeaveTypeSetup."Exclude Non Working Days" then
+                        exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
+                    else
+                        exit(EndDate - StartDate + Difference);
 
-            end;
-        end else
-            exit(EndDate - StartDate + 1);
+                end;
+            end else
+                exit(EndDate - StartDate + 1);
+        end;
     end;
 
     procedure GetNonWorkingDays(StartDate: Date; EndDate: Date; EmpCode: Code[20]): Integer
@@ -161,7 +162,6 @@ codeunit 50000 "Leave Mgt."
 
         exit(Counter);
     end;
-
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
         leave: Record Leave;
