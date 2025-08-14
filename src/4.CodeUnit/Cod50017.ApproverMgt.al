@@ -60,7 +60,8 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approver No", Employee."No.");
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         if ApprovalStatus = ApprovalStatus::Pending then
                             Approval.Validate("Approval Status", "Approval Status"::Open);
@@ -131,7 +132,8 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approver No", Employee."No.");
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                     Approval.Validate("Loan Type", LoanType);
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         Approval.Validate("Approval Status", "Approval Status"::Open);
@@ -203,7 +205,8 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
                     Approval.Validate(Cancelled, Cancelled);
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         Approval.Validate("Approval Status", "Approval Status"::Open);
                         count := count + 1;

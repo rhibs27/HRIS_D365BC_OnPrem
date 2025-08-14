@@ -37,12 +37,12 @@ table 50120 "Employee Edit Line"
             DataClassification = CustomerContent;
             Description = 'Qualification';
         }
-        field(24; Description; Code[100])
+        field(24; Description; text[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
         }
-        field(25; "Institution/Company"; Code[100])
+        field(25; "Institution/Company"; Text[100])
         {
             DataClassification = CustomerContent;
             Description = 'Qualification';
@@ -108,7 +108,7 @@ table 50120 "Employee Edit Line"
             DataClassification = CustomerContent;
             TableRelation = Relative;
         }
-        field(46; "Full Name"; Code[30])
+        field(46; "Full Name"; Text[30])
         {
             Caption = 'Full Name';
             Description = 'Employee Relative';
