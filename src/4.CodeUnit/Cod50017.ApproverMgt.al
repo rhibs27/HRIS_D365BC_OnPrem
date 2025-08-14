@@ -32,8 +32,8 @@ codeunit 50017 "Approver Mgt"
             ApprovalSetupLine.SetRange("Request Type", EmpActType);
             ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
             ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
-        OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
-        count := 0;
+            OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+            count := 0;
             if ApprovalSetupLine.Findset() then
                 repeat
                     Employee.Reset();
@@ -44,8 +44,7 @@ codeunit 50017 "Approver Mgt"
                         if ApprovalSetupLine."Deputation type" = ApprovalSetupLine."Deputation On" then begin
                             Employee.SetRange("Deputation On", EmpRequest."Deputation On");
                             if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Branch then
-                            Employee.SetRange("Branch Code", EmpRequest."Branch Code")
-                                Employee.SetRange("Global Dimension 1 Code", EmpRequest."Global Dimension 1 Code")
+                                Employee.SetRange("Branch Code", EmpRequest."Branch Code")
                             else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Department then
                                 Employee.SetRange("Department Code", EmpRequest."Department Code")
                             else if EmpRequest."Deputation On" = EmpRequest."Deputation On"::Province then
@@ -78,8 +77,8 @@ codeunit 50017 "Approver Mgt"
                         Approval.Insert(true);
                     end
                     else
-                    Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-                        Error('Approvers not found!');
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                    Error('Approvers not found!');
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
