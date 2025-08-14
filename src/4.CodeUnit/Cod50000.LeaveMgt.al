@@ -45,6 +45,8 @@ codeunit 50000 "Leave Mgt."
         LeaveTypeSetup: Record "Leave Type Setup";
         Difference: Decimal;
         IsHandled: Boolean;
+        LeaveReq: Record Leave;
+        CalculatedDays: Decimal;
     begin
         if StartDate > EndDate then
             Error(DateError, StartDate, EndDate);
@@ -54,6 +56,12 @@ codeunit 50000 "Leave Mgt."
                     Difference := 1
                 else
                     Difference := 0.5;
+
+                IsfridayandCasual(LeaveReq, StartDate, EndDate, LeaveCode, EmpCode, IsHandled, CalculatedDays);
+                if IsHandled then
+                    exit(CalculatedDays);
+                OnCalculateNoOfDaysinLeave(LeaveTypeSetup, StartDate, EndDate, Empcode, IsHandled);  //to handle LTA  in EBL
+                if not IsHandled then begin
 
                 if LeaveTypeSetup."Exclude Non Working Days" then
                     exit(EndDate - StartDate + Difference - GetNonWorkingDays(StartDate, EndDate, Empcode))
@@ -748,8 +756,10 @@ codeunit 50000 "Leave Mgt."
         ConfirmLeave: Label 'Do you want to send leave request ?';
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeaveTypeSetup: Record "Leave Type Setup";
+        Ishandled: Boolean;
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
+        OnBeforeLeaveApproved(Leave, Ishandled);
         CheckPendingLeave(leave."No.", leave."Leave Code", Leave."Employee No.");
         CheckHalfLeave(Leave."Start Date", Leave."End Date", Leave."Leave Type", Leave."Leave Code");
         CheckLeaveApproved(Leave."Employee No.", Leave."Start Date", Leave."End Date");
@@ -1438,6 +1448,11 @@ codeunit 50000 "Leave Mgt."
 
     begin
         //Same employee type, same leave but days earned per year is different on the basis of employment date (EBL)
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure IsfridayandCasual(leaveReq: Record Leave; StartDate: Date; EndDate: Date; LeaveCode: Code[20]; EmpCode: Code[20]; var IsHandled: Boolean; var CalculatedDays: Decimal)
+    begin
     end;
 
     var

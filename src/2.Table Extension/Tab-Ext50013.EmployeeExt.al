@@ -1475,10 +1475,15 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Trainee/Probation End Date';
         }
+        field(50181; "Manual Approver User"; Boolean)
+        {
+            Caption = 'Manual Approver User';
+        }
         field(20181; "Automatic Attendance"; Boolean)
         {
 
         }
+
         field(50181; "Appointment Date"; Date)
         {
             DataClassification = CustomerContent;
@@ -1486,6 +1491,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 "Appointment Date (B.S.)" := EngNepDate.getNepaliDate("Appointment Date");
             end;
+
         }
 
         field(50182; "Appointment Date (B.S.)"; Code[20])

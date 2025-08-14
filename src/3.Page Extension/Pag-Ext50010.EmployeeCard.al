@@ -810,6 +810,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Specifies the value of the Employee Attendance ID field.';
 
                 }
+                field("Manual Approver User"; Rec."Manual Approver User")
+                {
+                    ApplicationArea = All;
+                }
             }
         }
         addlast(Payments)
@@ -835,7 +839,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the CIT No. field.';
-
             }
             // field("CIT Office Cont. Deduction"; Rec."CIT Office Cont. Deduction")
             // {
@@ -1205,7 +1208,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Promoted = true;
                 Image = Bank;
                 PromotedCategory = Process;
-
             }
             action("Service Inactivity Details")
             {
