@@ -25,7 +25,7 @@ codeunit 50017 "Approver Mgt"
     begin
         EmpRequest.Get(EmployeeNo);
         if EmpRequest."Manual Approver User" then begin
-            IsmanualApproverworkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
             if IsHandled then
                 exit;
         end;
@@ -36,8 +36,8 @@ codeunit 50017 "Approver Mgt"
             ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
             OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
             count := 0;
-        OnSkipEmployeeError(SkipError);
-        count := 0;
+            OnSkipEmployeeError(SkipError);
+            count := 0;
             if ApprovalSetupLine.Findset() then
                 repeat
                     Employee.Reset();
@@ -79,12 +79,11 @@ codeunit 50017 "Approver Mgt"
                             Approval.Validate("Approval Status", "Approval Status"::Created);
                         Approval.Validate("Employee No", EmployeeNo);
                         Approval.Insert(true);
-                end else begin
-                    if SkipError then
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                    end else begin
+                        if SkipError then
+                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                    end;
                 until ApprovalSetupLine.Next() = 0
-                end;
-            until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
             if count = 0 then begin
@@ -803,6 +802,7 @@ codeunit 50017 "Approver Mgt"
     local procedure OnSkipEmployeeError(var SKipError: Boolean)
     begin
     end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
         leaveMgt: Codeunit "Leave Mgt.";
