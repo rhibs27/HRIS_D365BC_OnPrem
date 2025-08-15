@@ -309,6 +309,7 @@ report 50144 "Yearly Payroll Projection"
                     {
                         ApplicationArea = All;
                         // TableRelation = Employee where(Nominee = const(false));
+                        TableRelation = Employee."No.";
                         ToolTip = 'Specifies the value of the EmployeeFilter field.';
                     }
                 }
