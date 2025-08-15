@@ -1489,7 +1489,7 @@ tableextension 50013 "Employee Ext" extends Employee
             end;
 
         }
-        field(50183; "Manual Approver User"; Boolean)
+        field(50184; "Manual Approver User"; Boolean)
         {
             Caption = 'Manual Approver User';
         }
