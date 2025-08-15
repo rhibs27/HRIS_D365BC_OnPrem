@@ -288,7 +288,7 @@ codeunit 50008 "Payroll Engine"
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
             TaxableAmount := TaxableAmount - DisablePersonReduction;
         end;
-
+        GetRemoteAreaDeduction();
         TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction";
         RemainingTaxableAmount := TaxableAmount;
 
@@ -3969,7 +3969,6 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end else begin
-            OrganationStructureList.Get();
             if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)

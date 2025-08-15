@@ -21,7 +21,7 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         count: Integer;
-        isHandled: Boolean;
+        isHandled, SkipError : Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
         ApprovalSetupLine.Reset();
@@ -29,6 +29,7 @@ codeunit 50017 "Approver Mgt"
         ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
         ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
         OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+        OnSkipEmployeeError(SkipError);
         count := 0;
         if ApprovalSetupLine.Findset() then
             repeat
@@ -71,9 +72,10 @@ codeunit 50017 "Approver Mgt"
                         Approval.Validate("Approval Status", "Approval Status"::Created);
                     Approval.Validate("Employee No", EmployeeNo);
                     Approval.Insert(true);
-                end
-                else
-                    Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                end else begin
+                    if SkipError then
+                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                end;
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -760,6 +762,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertApprovalCancelledOnFilterApprovalSetupLine(var ApprovalSetupLine: Record "Approval Setup Line"; var EmpActType: Enum "Employee Activity Type")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipEmployeeError(var SKipError: Boolean)
     begin
     end;
 
