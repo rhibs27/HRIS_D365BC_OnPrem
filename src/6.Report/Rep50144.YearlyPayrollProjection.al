@@ -274,10 +274,12 @@ report 50144 "Yearly Payroll Projection"
 
             begin
                 if EmpVar.Get(EmployeeFilter) then;
-                if EmployeePayrollOpen.Get(EmployeeFilter, PayCycleTerm) then;
-                // if not PAU.Get(Code, EmployeeFilter) then
-                //     CurrReport.Skip();
-                SortingNo := 0;
+                EmployeePayrollOpen.Reset();
+                EmployeePayrollOpen.SetRange("Employee No.", EmployeeFilter);
+                if EmployeePayrollOpen.FindLast() then
+                    // if not PAU.Get(Code, EmployeeFilter) then
+                    //     CurrReport.Skip();
+                    SortingNo := 0;
                 PayrollColumnConfig.Reset;
                 PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
                 PayrollColumnConfig.SetRange("Variable Field Code", PayrollAttributes.Code);
@@ -424,9 +426,10 @@ report 50144 "Yearly Payroll Projection"
     begin
         EmpVar.Get(EmployeeFilter);
         LastEntryNo := 90000000;
-        if EmployeePayrollOpen.Get(EmployeeFilter, PayCycleTerm) then;
-        TaxSetupHdr.Get(EmpVar."Tax Code");
-
+        EmployeePayrollOpen.Reset;
+        EmployeePayrollOpen.SetRange("Employee No.", EmployeeFilter);
+        if EmployeePayrollOpen.FindLast then
+            TaxSetupHdr.Get(EmpVar."Tax Code");
         DetailedEmpLedgerEntry.Reset;
         DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetFilter("Employee No.", EmployeeFilter);
