@@ -1475,7 +1475,7 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             Caption = 'Trainee/Probation End Date';
         }
-        field(20181; "Automatic Attendance"; Boolean)
+        field(50183; "Automatic Attendance"; Boolean)
         {
 
         }

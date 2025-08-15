@@ -1688,6 +1688,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Department Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 3335523416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Deputation On - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 163506987 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deputation On Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Deputation On Code - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3549385734 - Field 2619908208 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Ecosystem</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -1842,6 +1852,11 @@
           <source>Unit Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field Unit Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3549385734 - Field 2708250016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>User ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attendance Missed - Field User ID - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3429972266 - Field 836412028 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Absent Days</source>

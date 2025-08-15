@@ -268,8 +268,6 @@ table 50048 "Employee Attendance & Activity"
     trigger OnInsert()
     begin
         "Created Datetime" := CurrentDateTime;
-        if Employee.Get("Employee No.") then
-            Validate("Employee Name", Employee."Full Name");
     end;
 
     trigger OnModify()

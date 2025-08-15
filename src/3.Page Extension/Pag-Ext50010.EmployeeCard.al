@@ -387,6 +387,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 field("Same As Permanent"; SameAsPermanent)
                 {
                     Editable = true;
+                    ApplicationArea = All;
                     trigger OnValidate()
                     begin
                         if SameAsPermanent then
@@ -554,11 +555,10 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     Editable = false;
                     Visible = false;
+                    ApplicationArea = All;
                 }
                 field("Province Code"; Rec."Province Code")
                 {
-                    // Editable = ProvinceEdit;
-                    // Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Code field.';
 
@@ -568,7 +568,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     Visible = true;
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Province Name field.';
-
                 }
 
                 field("Branch Code"; Rec."Branch Code")

@@ -51,7 +51,7 @@ report 50077 "Service Event Update"
                     field(ProvinceCode; ProvinceCode)
                     {
                         Editable = DeputationOnTo = DeputationOnTo::Branch;
-
+                        ApplicationArea = All;
                         trigger OnLookup(var Text: Text): Boolean
                         begin
                             ProvinceCode := GetDeputation(DeputationOnTo::Province);
@@ -156,8 +156,9 @@ report 50077 "Service Event Update"
         ServiceHistory.Validate("Effective Date", EffectiveDate);
         ServiceHistory.Validate("Service Event", ServiceEvent);
         ServiceHistory.Validate(Remarks, Remarks);
-        ServiceHistory.Validate("Functional Title (To)", Employee."Functional Title");
-        ServiceHistory.Validate("Salary Level (To)", Employee."Salary Level");
+        ServiceHistory.Validate("Functional Title (To)", FunctionalTitle);
+        ServiceHistory.Validate("Salary Level (To)", SalaryLevel);
+        ServiceHistory.Validate("Salary Grade (To)", SalaryGrade);
         ServiceHistory.Validate("Deputation On (To)", DeputationOnTo);
         ServiceHistory.Validate("Deputation Code (To)", DeputationCodeTo);
         ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(DeputationOnTo, ServiceHistory."Employee No."));

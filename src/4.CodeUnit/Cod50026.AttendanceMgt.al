@@ -123,7 +123,7 @@ codeunit 50026 "Attendance Mgt"
             end else
                 exit(0T);
         end else begin
-            // Regular shift - search same day
+            // Regular shift
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
                 AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
@@ -266,7 +266,6 @@ codeunit 50026 "Attendance Mgt"
         //     until EmpAtt.Next() = 0;
         // exit(LeaveDays);
     end;
-
     procedure GetDeviceIPsfromLog(EmpNo: Code[20]; InitialDate: date; var InIP: text[20]; var OutIP: Text[20])
     var
         AttenLog: Record "Attendance Log";
@@ -279,6 +278,17 @@ codeunit 50026 "Attendance Mgt"
         if AttenLog.FindLast() then
             OutIP := AttenLog."Device IP";
     end;
+
+    procedure CheckOverNightShift(WorkShiftCode: Code[20]): Boolean
+    var
+        EmployeeWorkShift: Record "Employee Work Shift";
+    begin
+        if EmployeeWorkShift.Get(WorkShiftCode) then begin
+            if EmployeeWorkShift.OverNight then
+                exit(true)
+        end;
+    end;
+
 
     var
         AttendanceLine: Record "Attendance Line";

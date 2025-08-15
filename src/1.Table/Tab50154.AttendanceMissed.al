@@ -39,7 +39,8 @@ table 50154 "Attendance Missed"
                     Validate("Employee Name", EmpVar."Full Name");
                     Validate(Department, EmpVar."Department Code");
                     Validate("Branch Code", EmpVar."Branch Code");
-                    // Validate("Deputation On", EmpVar."Deputation on");
+                    Validate("Deputation On", EmpVar."Deputation on");
+                    Validate("Deputation On Code", EmpVar."Deputation On Code");
                     Validate("Salary Level Code", EmpVar."Salary Level");
                     Validate("Functional Title", EmpVar."Functional Title");
                     Validate("Province Code", EmpVar."Province Code");
@@ -167,11 +168,11 @@ table 50154 "Attendance Missed"
                 Clear("Rejection Remarks");
             end;
         }
-        // field(15; "User ID"; Text[50])
-        // {
-        //     Editable = false;
-        //     TableRelation = "User Setup"."User ID";
-        // }
+        field(15; "User ID"; Text[50])
+        {
+            Editable = false;
+            TableRelation = "User Setup"."User ID";
+        }
         field(16; "Approval Status"; Enum "Approval Status")
         {
         }
@@ -277,6 +278,14 @@ table 50154 "Attendance Missed"
         field(49; "Reason Description"; Text[50])
         {
         }
+        field(61; "Deputation On"; Enum "Deputation Type")
+        {
+
+        }
+        field(79; "Deputation On Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
         field(100; Status; text[20])
         {
         }
@@ -309,7 +318,6 @@ table 50154 "Attendance Missed"
             if Cancelled then begin
                 HRSetup.TestField("Cancel Document No. Series");
                 HRMgt.InitNoSeriesNew(HRSetup."Cancel Document No. Series", xRec."No. Series", "Requested Date", "No.", "No. Series");
-
             end else begin
                 case Type of
                     Type::"Attendance Missed", Type::"Late Attendance":
@@ -325,8 +333,6 @@ table 50154 "Attendance Missed"
                         end;
                 end;
             end;
-
-
         end;
     end;
 
