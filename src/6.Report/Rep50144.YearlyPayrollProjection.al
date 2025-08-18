@@ -14,8 +14,6 @@ report 50144 "Yearly Payroll Projection"
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(PANNo; CompanyInfo."VAT Registration No.") { }
             column(CompanyInfoName; CompanyInfo.Name) { }
-            // column(CompanyInfoAddress; CompanyInfo.GetCompanyPhysicalAddr()) { }
-            // column(CompanyCommunicationAddress; CompanyInfo.GetCompanyCommunicationAddr()) { }
             column(CompanyPhNo; CompanyInfo."Phone No.") { }
             column(Code; Code) { }
             column(Description; PayrollAttributes.Description) { }
@@ -24,7 +22,6 @@ report 50144 "Yearly Payroll Projection"
             column(PANNo_Employee; EmpVar."Pan No.") { }
             column(BankName; EmpVar."Bank Name") { }
             column(BankAccountNo; EmpVar."Bank Account No.") { }
-            // column(EmployeeBranch; EmpVar."Office Name") { }
             column(EmployeeSalaryLevel; EmpVar."Salary Level") { }
             column(ReportName; ReportName) { }
             column(SortinNo; SortingNo) { }
@@ -141,26 +138,7 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-            // column(PastBenifit; EmployeePayrollOpen."Past Benefit")
-            // {
-            //     AutoFormatExpression = 'NPR';
-            //     AutoFormatType = 1;
-            // }
-            // column(PastRetirement; EmployeePayrollOpen."Past Retirement Fund")
-            // {
-            //     AutoFormatExpression = 'NPR';
-            //     AutoFormatType = 1;
-            // }
-            // column(PastSStPaid; EmployeePayrollOpen."Past SST Paid")
-            // {
-            //     AutoFormatExpression = 'NPR';
-            //     AutoFormatType = 1;
-            // }
-            // column(PastTaxRenPaid; EmployeePayrollOpen."Past Tax on RIT Paid")
-            // {
-            //     AutoFormatExpression = 'NPR';
-            //     AutoFormatType = 1;
-            // }
+
             column(NonTaxable; Round(NonTaxable, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -187,8 +165,7 @@ report 50144 "Yearly Payroll Projection"
             column(MedicalInsuranceAmount; Round(MedicalInsuranceAmount, GlSetup."Amount Rounding Precision")) { }
             column(HouseInsuranceAmount; Round(HouseInsuranceAmount, GlSetup."Amount Rounding Precision")) { }
             column(TaxCode; EmpVar."Tax Code") { }
-            dataitem("Pay Cycle Period";
-            "Pay Cycle Period")
+            dataitem("Pay Cycle Period"; "Pay Cycle Period")
             {
                 DataItemTableView = sorting("Pay Cycle Code", "Pay Cycle Term", Period);
                 column(PayCycleTerm_PayCyclePeriod; "Pay Cycle Period"."Pay Cycle Term") { }
@@ -230,12 +207,10 @@ report 50144 "Yearly Payroll Projection"
 
                     Clear(Amount);
                     TempDetailedEmpLedgerEntry.Reset;
-                    // TempDetailedEmpLedgerPRM.SetRange("Employee No.", EmployeeFilter);
                     TempDetailedEmpLedgerEntry.SetRange("Pay Cycle Term", "Pay Cycle Term");
                     TempDetailedEmpLedgerEntry.SetRange("Pay Cycle Code", "Pay Cycle Code");
                     TempDetailedEmpLedgerEntry.SetRange("Pay Cycle Period", Period);
-                    // TempDetailedEmpLedgerPRM.SetRange("Payroll Attribute Code", PayrollAttributes.Code);
-                    // TempDetailedEmpLedgerPRM.SetRange(Reversed, false);
+                    TempDetailedEmpLedgerEntry.SetRange("Payroll Attribute Code", PayrollAttributes.Code);
                     if TempDetailedEmpLedgerEntry.FindFirst then
                         repeat
                             if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
@@ -277,8 +252,6 @@ report 50144 "Yearly Payroll Projection"
                 EmployeePayrollOpen.Reset();
                 EmployeePayrollOpen.SetRange("Employee No.", EmployeeFilter);
                 if EmployeePayrollOpen.FindLast() then
-                    // if not PAU.Get(Code, EmployeeFilter) then
-                    //     CurrReport.Skip();
                     SortingNo := 0;
                 PayrollColumnConfig.Reset;
                 PayrollColumnConfig.SetRange("Table No.", Database::"Payroll Line");
@@ -308,7 +281,6 @@ report 50144 "Yearly Payroll Projection"
                     field("Employee No"; EmployeeFilter)
                     {
                         ApplicationArea = All;
-                        // TableRelation = Employee where(Nominee = const(false));
                         TableRelation = Employee."No.";
                         ToolTip = 'Specifies the value of the EmployeeFilter field.';
                     }
@@ -339,7 +311,6 @@ report 50144 "Yearly Payroll Projection"
         PayPeriod: Record "Pay Cycle Period";
         HRMSPayrollPermission: Codeunit "Payroll Engine";
     begin
-        // HRMSPayrollPermission.PayrollPermission();
         GlSetup.Get;
         CompanyInfo.Get;
         CompanyInfo.CalcFields(Picture);
@@ -384,7 +355,6 @@ report 50144 "Yearly Payroll Projection"
         TDSCalcMonth: Enum "Nepali Month";
         TaxAmts: array[10] of Decimal;
         TaxAmtsSlabs: array[10] of Decimal;
-
         TaxRates: array[10] of Decimal;
         TaxRebate: Decimal;
         TotalRetirement: Decimal;
@@ -409,6 +379,7 @@ report 50144 "Yearly Payroll Projection"
         OneThird: Decimal;
         MedicalInsuranceAmount: Decimal;
         HouseInsuranceAmount: Decimal;
+        EmployeeInsuranceInfo: Record "Employee Insurance Information";
 
     local procedure InsertColumn()
     var
@@ -434,26 +405,20 @@ report 50144 "Yearly Payroll Projection"
         DetailedEmpLedgerEntry.Reset;
         DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetFilter("Employee No.", EmployeeFilter);
-        // DetailedEmpLedgerPRM.SetRange("Irregular Payroll", false);
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
         if DetailedEmpLedgerEntry.FindLast then begin
             CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
-            // RemainingMonth := 12 - DetaliedEmpLedgerPRM."Pay Cycle Period"
             RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period"
         end
         else begin
             CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
-            // RemainingMonth := 12
             RemainingMonth := GetLastPayCycle(EmployeeFilter);
         end;
-        // if RemainingMonth = 0 then
-        //     Error('projection can not be done as payroll has been posted for all month.');
 
         Clear(DetailedEmpLedgerEntry);
         DetailedEmpLedgerEntry.Reset;
         DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
         DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
-        // DetaliedEmpLedgerPRM.SetRange("Irregular Payroll", false);
         DetailedEmpLedgerEntry.SetRange(Reversed, false);
         if DetailedEmpLedgerEntry.FindFirst then
             repeat
@@ -463,12 +428,6 @@ report 50144 "Yearly Payroll Projection"
                     TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
                 TempDetailedEmpLedgerEntry.Insert;
             until DetailedEmpLedgerEntry.Next = 0;
-
-        // PayrollAmts[3]  taxable income
-        //payroll opening
-        //insurrance
-        //donation
-        //reduction
         TotalAnnualEarning := 0;
         TotalRetirement := 0;
         TotalRetirement_ := 0;
@@ -499,31 +458,19 @@ report 50144 "Yearly Payroll Projection"
         TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
 
         TempDetailedEmpLedgerEntry.Reset();
-        // TempDetailedEmpLedgerPRM.SetRange("Attribute Type", TempDetailedEmpLedgerPRM."Attribute Type"::Deduction);
-        // TempDetailedEmpLedgerPRM.SetFilter("Attribute Sub Type", '%1|%2|%3', TempDetailedEmpLedgerPRM."Attribute Sub Type"::"PF Contribution", TempDetailedEmpLedgerPRM."Attribute Sub Type"::CIT,
-
-        // TempDetailedEmpLedgerPRM."Attribute Sub Type"::"SSF Deposit");
-
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        // TotalRetirement_ := TempDetailedEmpLedgerPRM.Amount + EmployeePayrollOpen."Past Retirement Fund";
         TotalRetirement := TotalRetirement_;
 
         PgSetup.Get();
         MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;  //one third
         OneThird := MinDeduction_;
 
-        if MinDeduction_ > TotalRetirement then  //total retirement deductio
+        if MinDeduction_ > TotalRetirement then
             MinDeduction_ := TotalRetirement;
 
-        // if MinDeduction_ > PgSetup."Tax Ex. Amt. not Exceeding" then  //3 lakh limit
-        //     MinDeduction_ := PgSetup."Tax Ex. Amt. not Exceeding";
-
-        // if TaxSetupHdr.SSF then
-        //     TaxExemptionLimit := PgSetup."Tax Ex. Amt. not Exceeding SSF"
-        // else
         TaxExemptionLimit := PgSetup."Tax Ex. Amt. not Exceeding";
 
-        if MinDeduction_ > TaxExemptionLimit then  //3 lakh limit //5 lakh limit
+        if MinDeduction_ > TaxExemptionLimit then
             MinDeduction_ := TaxExemptionLimit;
 
         MinDeduction := MinDeduction_;
@@ -533,27 +480,15 @@ report 50144 "Yearly Payroll Projection"
             LifeInsuranceAmount := PgSetup."Tax Ex. Life Insurance Amt.";
 
         MedicalInsuranceAmount := Employee."Premium of Health Insurance";
-        // if MedicalInsuranceAmount > PgSetup."Tax Ex. Med Insurance Amt." then
-        //     MedicalInsuranceAmount := PgSetup."Tax Ex. Med Insurance Amt.";
-
-        // HouseInsuranceAmount := Employee."Premium of House Insurance";
-        // if HouseInsuranceAmount > PgSetup."Tax Ex. House Insurance Amt." then
-        //     HouseInsuranceAmount := PgSetup."Tax Ex. House Insurance Amt.";
-
         TempDetailedEmpLedgerEntry.Reset();
-        // TempDetailedEmpLedgerPRM.SetRange("Attribute Type", TempDetailedEmpLedgerPRM."Attribute Type"::"Non-Payment");
+
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalNonPayment := TempDetailedEmpLedgerEntry.Amount;
-
         TempDetailedEmpLedgerEntry.Reset();
-        // TempDetailedEmpLedgerPRM.SetRange("Non-Taxable", true);
-        // TempDetailedEmpLedgerPRM.SetRange("Attribute Type", TempDetailedEmpLedgerPRM."Attribute Type"::Benefits);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         NonTaxable := TempDetailedEmpLedgerEntry.Amount;
-
         TaxableAmount := TotalAnnualEarning + TotalNonPayment - MinDeduction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount;  //taxableamount
         RemainingTaxableAmount := TaxableAmount;
-
         j := 1;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, EmpVar."Tax Code");
@@ -586,18 +521,7 @@ report 50144 "Yearly Payroll Projection"
                     TaxAmts[6];
 
         TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * AnnualTax, 0.01, '=');
-
-        // TotalTaxPaid := Employee."Remuneration & Benefits Tax" + Employee."Social Security Tax" + EmployeePayrollOpen."Past SST Paid" + EmployeePayrollOpen."Past Tax on RIT Paid";
-
-        // if RemainingMonth > 0 then begin
-        //     MonthlySST := Round((SocialSecurityTax - EmployeePayrollOpen."Past SST Paid" - Employee."Social Security Tax") / RemainingMonth, 0.01, '=');
-        //     MonthlyProjectedTax := Round((AnnualTax - TaxRebate - TotalTaxPaid) / RemainingMonth, 0.01, '=');
-        // end;
-
-        MonthlyProjectedTax := MonthlyProjectedTax - MonthlySST; //tax renumeration
-
-        //tax
-        // for i := 12 - RemainingMonth to 12 do begin
+        MonthlyProjectedTax := MonthlyProjectedTax - MonthlySST;
         for i := 12 - RemainingMonth + 1 to GetLastPayCycle(EmployeeFilter) do begin
             PayrollAttrUsage.Reset();
             PayrollAttrUsage.SetRange("Employee Code", EmployeeFilter);
@@ -711,8 +635,6 @@ report 50144 "Yearly Payroll Projection"
         FirstIteration := true;
         PgSetup.Get();
         EmpVar.Get(EmployeeFilter);
-
-        // for i := StartPeriod to 12 do begin
         for i := StartPeriod to GetLastPayCycle(EmployeeFilter) do begin
             PayrollAttrUsage.Reset();
             PayrollAttrUsage.SetRange("Employee Code", EmployeeFilter);
@@ -733,10 +655,6 @@ report 50144 "Yearly Payroll Projection"
                         if PayAttr.Type = PayAttr.Type::Benefits then
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
-
-                        // TempDetailedEmpLedgerPRM."Specific Component" := PayAttr."Specific Component";
-                        // TempDetailedEmpLedgerPRM."Pension Specific" := PayAttr."Pension Specific";
-                        // TempDetailedEmpLedgerPRM."Settlement Specific" := PayAttr."Settlement Specific";
                         TempDetailedEmpLedgerEntry."Non-Taxable" := PayAttr."Non-Taxable";
                         TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
                         TempDetailedEmpLedgerEntry."Pay Cycle Term" := PayCycleTerm;
@@ -746,23 +664,6 @@ report 50144 "Yearly Payroll Projection"
                             PayrollReportMgt.SetEmployeeCode(EmployeeFilter);
                             TempDetailedEmpLedgerEntry.Amount := PayrollReportMgt.getAttributeAmount(EmployeeFilter, PayrollAttrUsage.Code);
                         end;
-
-                        // if PayAttr.Subtype = PayAttr.Subtype::Grade then
-                        //     TempDetailedEmpLedgerPRM.Amount := GetGradeAmt(EmpVar, TempDetailedEmpLedgerPRM.Amount, TempDetailedEmpLedgerPRM."Pay Cycle Period");  //update according to grade plan
-
-                        //tempcode non payment as 12 month>>
-                        // if PayAttr.Type = PayAttr.Type::"Non-Payment" then
-                        //     if not FirstIteration then
-                        //         TempDetailedEmpLedgerPRM.Amount := 0;
-
-                        //get interest income amt
-                        // if PayAttr."Specific Component" = PayAttr."Specific Component"::"Interest Income" then
-                        //     TempDetailedEmpLedgerPRM.Amount := getInterestIncome(TempDetailedEmpLedgerPRM."Employee No.",
-                        //                                                         PayAttr.Code,
-                        //                                                         TempDetailedEmpLedgerPRM."Pay Cycle Term",
-                        //                                                         TempDetailedEmpLedgerPRM."Pay Cycle Period"
-                        //                                                         );
-
                         TempDetailedEmpLedgerEntry.Insert();
                         TempEntryNo += 1;
                     end;
@@ -804,46 +705,8 @@ report 50144 "Yearly Payroll Projection"
                         (PGSetup."Payroll Fiscal Year End Date" > EmpRec."Contract Expiry Date") then
                     RemainingMonth := PayrollRepMgt.GetPayPeriodForContractExp(EmpRec, 'MONTHLY', PayCycleTerm);
 
-        //force retired EmpRec
-        // if EmpRec."Force Retirement Date" <> 0D then
-        //     if (EmpRec."Force Retirement Date" < PGSetup."Payroll Fiscal Year End Date") then
-        //         RemainingMonth := PayrollRepMgt.GetPayPeriodForForceRetirement(EmpRec, 'MONTHLY', PayCycleTerm);
-
         exit(RemainingMonth);
     end;
-
-    // procedure GetGradeAmt(Emp: Record Employee; var GradeAmt: Decimal; payPeriod: Integer): Decimal
-    // var
-    //     GradePlan: Record "Grade Plan";
-    //     levelwiseAttr: Record "Level Wise Attributes";
-    // begin
-    //     GradePlan.Reset();
-    //     GradePlan.SetRange("Employee No.", Emp."No.");
-    //     GradePlan.SetRange("Salary Level", Emp."Salary Level");
-    //     GradePlan.SetRange(Verified, true);
-    //     GradePlan.SetRange(Applied, false);
-    //     GradePlan.SetFilter("Salary Grade", '<>%1', Emp."Salary Grade");
-    //     GradePlan.SetFilter("Pay Cycle Period", '<>%1&<=%2', 0, payPeriod);
-    //     if GradePlan.FindLast() then
-    //         //get the applied month
-    //         if levelwiseAttr.Get(GradePlan."Salary Grade", Emp."Salary Level") then
-    //             GradeAmt := levelwiseAttr."Level Rate";
-
-    //     exit(GradeAmt);
-    // end;
-
-    // procedure getInterestIncome(empCode: Code[20]; PattrCode: Code[20]; PayCycleTerm: Code[20]; payCycleperiod: Integer): Decimal
-    // var
-    //     InterestIncome: Record "Payroll Interest Income";
-    // begin
-    //     InterestIncome.Reset();
-    //     InterestIncome.SetRange("Employee Code", empCode);
-    //     InterestIncome.SetRange("Payroll Attribute", PattrCode);
-    //     InterestIncome.SetRange("Pay Cycle Term", PayCycleTerm);
-    //     InterestIncome.SetRange("Pay Cycle Period", payCycleperiod);
-    //     InterestIncome.CalcSums("Interest Perquisite");
-    //     exit(InterestIncome."Interest Perquisite")
-    // end;
 
     procedure PassParPortal(empCode: Code[20]; FiscalYear: Code[20])
     begin
