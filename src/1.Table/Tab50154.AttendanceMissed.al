@@ -316,16 +316,15 @@ table 50154 "Attendance Missed"
                         begin
                             HRSetup.TestField("Attendance Missed No.");
                             HRMgt.InitNoSeriesNew(HRSetup."Attendance Missed No.", xRec."No. Series", "Requested Date", "No.", "No. Series");
+                            AttendanceMissed.ReadIsolation(IsolationLevel::ReadUncommitted);
+                            AttendanceMissed.SetLoadFields("No.");
+                            while AttendanceMissed.Get("No.") do
+                                "No." := NoSeriesMgt.GetNextNo("No. Series");
                             if not "From Journal" then
                                 ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                         end;
                 end;
             end;
-
-            AttendanceMissed.ReadIsolation(IsolationLevel::ReadUncommitted);
-            AttendanceMissed.SetLoadFields("No.");
-            while AttendanceMissed.Get("No.") do
-                "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
     end;
 

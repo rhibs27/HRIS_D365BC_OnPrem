@@ -51,6 +51,16 @@ page 50011 "Request to Approve HRIS"
     }
     actions
     {
+        area(Promoted)
+        {
+            actionref(OpenRecord; "Record")
+            { }
+            actionref(ApproveRequest; "Approve Request")
+            { }
+            actionref(RejectRequest; "Reject Request")
+            { }
+
+        }
         area(navigation)
         {
             action("Record")
@@ -66,6 +76,38 @@ page 50011 "Request to Approve HRIS"
                     Rec.ShowRecord();
                 end;
             }
+            action("Approve Request")
+            {
+                ApplicationArea = Suite;
+                Caption = 'Approve';
+                Image = Approve;
+                Scope = Repeater;
+                trigger OnAction()
+                begin
+                    CurrPage.SetSelectionFilter(ApprovalHRMS);
+                    if ApprovalHRMS.FindSet() then
+                        repeat
+                            ApprovalHRMS.ApproveRecord();
+                        until ApprovalHRMS.Next() = 0;
+                    CurrPage.Update();
+                end;
+            }
+            action("Reject Request")
+            {
+                ApplicationArea = Suite;
+                Caption = 'Reject';
+                Image = Reject;
+                Scope = Repeater;
+                trigger OnAction()
+                begin
+                    CurrPage.SetSelectionFilter(ApprovalHRMS);
+                    if ApprovalHRMS.FindSet() then
+                        repeat
+                            ApprovalHRMS.RejectRecord();
+                        until ApprovalHRMS.Next() = 0;
+                    CurrPage.Update();
+                end;
+            }
 
         }
     }
@@ -78,6 +120,7 @@ page 50011 "Request to Approve HRIS"
     end;
 
     var
-        a: page "Requests to Approve";
         HrMgt: Codeunit "HR Mgt.";
+        ApprovalHRMS: Record "Approval HRMS";
+
 }

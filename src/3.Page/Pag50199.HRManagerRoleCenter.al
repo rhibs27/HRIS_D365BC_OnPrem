@@ -751,10 +751,21 @@ page 50199 "HR Manager Role Center"
                         ToolTip = 'Executes the Posted Resignation Payroll Plan action.';
                     }
                 }
-                group("HR Journals")
+            }
+            group(Requests)
+            {
+                action("Request To Approve")
                 {
-
+                    Caption = 'Request To Approve';
+                    ApplicationArea = Basic, Suite;
+                    Image = ListPage;
+                    RunObject = page "Request to Approve HRIS";
+                    ToolTip = 'Executes the Request To Approve action.';
                 }
+            }
+            group("HR Journals")
+            {
+
             }
         }
         area(embedding)
