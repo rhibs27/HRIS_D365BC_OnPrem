@@ -11,8 +11,6 @@ codeunit 50001 "HR Mgt."
 
     var
         HrPermission: Record "Rolewise Job Description";
-        // SMTPMail: Codeunit "SMTP Mail"; todo
-        // SMTPSetup: Record "SMTP Mail Setup";
         Text001: Label 'The previous column set could not be found.';
         Text002: Label 'The period could not be found.';
         Text003: label 'There are no Calendar entries within the filter.';
@@ -43,7 +41,6 @@ codeunit 50001 "HR Mgt."
         CreateVacancyApproveApprovalRequestAutomaticallyTxt: Label 'Custom - Create and approve an approval request automatically on Vacancy.';
         OpenDocumentVacancyTxt: Label 'Custom - Reopen the Vacancy.';
         UnsupportedRecordTypeErr: Label 'Custom - Record type %1 is not supported by this workflow response.', Comment = 'Record type Customer is not supported by this workflow response.';
-        // "---------------------": ;
         TrainingDocCategoryTxt: Label 'Training';
         CustTrainingCategoryTxt: Label 'Training';
         CustTrainingCategoryDescTxt: Label 'Traning Document';
@@ -58,7 +55,6 @@ codeunit 50001 "HR Mgt."
         OpenDocumentTrainingTxt: Label 'Custom - Reopen the Training.';
         ExportTraineeTxt: Label 'Export Trainee';
         ExportAttendanceTxt: Label 'Export Attendance';
-        // "------------------------": ;
         FacilitatorDocCategoryTxt: Label 'Facilitator';
         CustFacilitatorCategoryTxt: Label 'Facilitator';
         CustFacilitatorCategoryDescTxt: Label 'Facilitator Document';
@@ -79,16 +75,11 @@ codeunit 50001 "HR Mgt."
         TempInt: Integer;
         Employee1: Record Employee;
         SQLConnectionMgt: Codeunit "SQL Connection Mgt";
-        // SQLConnection: DotNet SqlConnection;
-        // SQLCommand: DotNet SqlCommand;
-        // SQLParameter: DotNet SqlParameter;
-        // SQLDataReader: DotNet SqlDataReader;
         SQLCommandType: Option StoredProcedure,TableDirect,Text;
-        commandtext: Text;
+        CommandText: Text;
         reader: Text;
         InputStream: InStream;
         SQLstr: Text;
-        // "----------------------": ;
         ReadCommandTxt: Label 'Select * from ';
         WhereTxt: Label 'Where ';
         SetTxt: Label 'Set ';
@@ -3097,8 +3088,6 @@ codeunit 50001 "HR Mgt."
         TrainLine: Record "Training Line";
         TrainHead: Record "Training Header";
         Candidate: Record Candidate;
-        EmpAct: Record "Employee Activity";
-        LeaveTypeSetup: Record "Leave Type Setup";
         AddEmailReceipentFromTemplate: Boolean;
         EmailCCReceipent: List of [Text];
         EmailBCCReceipent: List of [Text];
@@ -3132,66 +3121,10 @@ codeunit 50001 "HR Mgt."
             if EmpLoan.Get(DocumentNo) then
                 EmailTemplate.SetRange("Loan Type", EmpLoan."Loan Type");
         end;
-
         if EmailTemplate.FindFirst then begin
             Clear(Footer);
             Clear(Header);
             Clear(Body);
-
-            // training header
-            if (DocumentNo <> '') and (TableNo = DATABASE::"Training Header") then begin
-                TrainHead.Get(DocumentNo);
-                TrainLine.Reset;
-                TrainLine.SetRange("Training No.", TrainHead."No.");
-                TrainLine.SetFilter("Trainer Type", '<>%1', TrainLine."Trainer Type"::External);
-                TrainLine.SetFilter(Type, '<>%1', TrainLine.Type::Vendor);
-                if TrainLine.Find('-') then
-                    repeat
-                        Employee.Get(TrainLine."Employee Code");
-                        Employee.TestField("Company E-Mail");
-                        EmailReceipientText.add(Employee."Company E-Mail");
-                    until TrainLine.Next = 0;
-            end;
-            //loan
-            if TableNo = DATABASE::"Employee Loan/Advance" then begin
-                if EmpLoan.Get(DocumentNo) then begin
-                    Employee.Reset;
-                    if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
-                        Employee.SetRange("No.", EmpLoan."Employee Code")
-                    else
-                        if Employee.FindFirst then
-                            repeat
-                                Employee.TestField("Company E-Mail");
-                                EmailReceipientText.add(Employee."Company E-Mail");
-                            until Employee.Next = 0;
-                end;
-            end;
-
-            //allowance assignment
-            if TableNo = DATABASE::"Allowance Assignment Header" then begin
-                FunctionalTitle.Reset;
-                FunctionalTitle.SetRange("Allowance Reminder Mail", true);
-                if FunctionalTitle.FindFirst then begin
-                    repeat
-                        Employee1.Reset;
-                        Employee1.SetRange("Global Dimension 1 Code", DocumentNo);
-                        Employee1.SetRange("Functional Title", FunctionalTitle.Code);
-                        if Employee1.FindFirst then
-                            repeat
-                                EmailReceipientText.add(Employee1."Company E-Mail");
-                            until Employee1.Next = 0;
-                    until FunctionalTitle.Next = 0;
-                end else
-                    exit;
-            end;
-
-
-            if (DocumentNo <> '') and (TableNo = DATABASE::Candidate) then begin
-                Candidate.Get(DocumentNo, Remarks);
-                EmailReceipientText.add(Candidate."E-Mail");
-            end;
-
-            CodeunitEmailMessage.Create(EmailReceipientText, EmailTemplate.Subject, '', true, EmailCCReceipent, EmailBCCReceipent);
             EmailMessage.Reset;
             EmailMessage.SetRange("Template Code", EmailTemplate.Code);
             if EmailMessage.FindFirst then
@@ -3210,136 +3143,7 @@ codeunit 50001 "HR Mgt."
 
             CodeunitEmailMessage.AppendToBody(Header);
             CodeunitEmailMessage.AppendToBody('<br><br>');
-            if (DATABASE::"Allowance Assignment Header" <> TableNo) then
-                if Body <> '' then begin
-                    CodeunitEmailMessage.AppendToBody(Body);
-                    CodeunitEmailMessage.AppendToBody('<br><br>');
-                end;
-            if (Remarks <> '') and (DocumentType <> DocumentType::"Allowance Assignment") then begin
-                CodeunitEmailMessage.AppendToBody(Remarks);
-            end;
-
             case TableNo of
-                DATABASE::"Employee Activity":
-                    begin
-                        if (DocumentNo <> '') then begin //pram
-                            case DocumentType of
-
-                                DocumentType::"Travel Request":
-                                    begin
-                                        EmployeeActivity.SetRange("No.", DocumentNo);
-                                        EmployeeActivity.SetRange(Type, EmployeeActivity.Type::"Travel Request");
-                                        EmployeeActivity.FindFirst;
-                                        //EmployeeActivity.GET(DocumentNo);
-                                        AddEmailReceipentFromTemplate := (EmployeeActivity."Advance Cash Required") and (TypeOpt = TypeOpt::Approved);
-                                        if EmployeeActivity."Travel Order No." <> '' then
-                                            CodeunitEmailMessage.AppendToBody('Extension of ' + EmployeeActivity.FieldCaption("Travel Order No.") + Colon + EmployeeActivity."Travel Order No." + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Type Of Visit") + Colon + Format(EmployeeActivity."Type Of Visit") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Depature From") + Colon + EmployeeActivity."Depature From" + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Destination) + Colon + EmployeeActivity.Destination + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Purpose of Travel") + Colon + EmployeeActivity."Purpose of Travel" + '<br>');
-                                        if AddEmailReceipentFromTemplate then begin
-                                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Advance Cash") + Colon + Format(EmployeeActivity."Advance Cash") + '<br>');
-                                            CodeunitEmailMessage.AppendToBody(Employee.FieldCaption("Bank Account No.") + Colon + EmployeeActivity."Auth. Account No." + '<br>');
-
-                                            //FileName := FileMgt.ClientTempFileName('pdf');
-                                            FileName := StrSubstNo('C:/temp/%1.pdf', EmployeeActivity."No.");
-                                            recRef.GetTable(EmployeeActivity);
-                                            tmpBlob.CreateOutStream(OutStr);
-                                            REPORT.SaveAs(DATABASE::"Employee Activity", '', format::Pdf, OutStr, recRef);
-                                            tmpBlob.CreateInStream(InStr);
-                                            CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
-                                            // CodeunitEmailMessage.AddAttachment(FileName, 'pdf');
-                                        end;
-                                    end;
-
-                                DocumentType::"Travel Claim":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Type Of Visit") + Colon + Format(EmployeeActivity."Type Of Visit") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Depature From") + Colon + EmployeeActivity."Depature From" + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Destination) + Colon + EmployeeActivity.Destination + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Purpose of Travel") + Colon + EmployeeActivity."Purpose of Travel" + '<br>');
-                                    end;
-
-                                DocumentType::Overtime:
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Date ' + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Purpose ' + Colon + Format(EmployeeActivity.Remarks) + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Time") + Colon + Format(EmployeeActivity."Start Time") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
-                                    end;
-
-                                DocumentType::"Out of Office":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Date ' + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Purpose ' + Colon + Format(EmployeeActivity.Remarks) + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Time") + Colon + Format(EmployeeActivity."Start Time") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
-                                    end;
-
-                                DocumentType::"Bulk Cash":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Date ' + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Purpose ' + Colon + Format(EmployeeActivity.Remarks) + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Time") + Colon + Format(EmployeeActivity."Start Time") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
-                                    end;
-
-                                DocumentType::"Medical Insurance Claim":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody('Medical Claim No' + Colon + Format(DocumentNo));
-                                        CodeunitEmailMessage.AppendToBody('Claim Option' + Colon + Format(EmployeeActivity."Insurance Claim"));
-                                        CodeunitEmailMessage.AppendToBody('Claim forwarded to Insurance Company Date' + Colon);
-                                        CodeunitEmailMessage.AppendToBody('Amount received from Insurance Company Date' + Colon);
-                                        CodeunitEmailMessage.AppendToBody('Insurance Amount Reimbursed Date' + Colon);
-                                        CodeunitEmailMessage.AppendToBody('Total Amount Reimbursed Date' + Colon);
-                                        CodeunitEmailMessage.AppendToBody('Reason for variation in claim amount' + Colon);
-                                    end;
-
-                                DocumentType::Resignation:
-                                    begin
-                                        if SubType = SubType::"Document Approver" then
-                                            CodeunitEmailMessage.AppendToBody(StrSubstNo('Please approve document for resignation of employee %1(%2)', EmployeeActivity."Employee No.", EmployeeActivity."Employee Name"));
-                                    end;
-
-                                DocumentType::"Employee Transfer":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        GetTransferBody(EmployeeActivity);
-                                    end;
-                                DocumentType::"Attendance Missed":
-                                    begin
-                                        EmployeeActivity.Get(DocumentNo);
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee Name") + Colon + Format(EmployeeActivity."Employee Name") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
-                                        CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Remarks) + Colon + Format(EmployeeActivity.Remarks) + '<br>');
-                                        if EmployeeActivity."Rejection Remarks" <> '' then
-                                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Rejection Remarks") + Colon + Format(EmployeeActivity."Rejection Remarks") + '<br>');
-                                    end;
-
-                            end;
-                        end;
-                    end;
                 DATABASE::Leave:
                     begin
                         if DocumentType = DocumentType::"Leave Request" then begin
@@ -3352,13 +3156,26 @@ codeunit 50001 "HR Mgt."
                             CodeunitEmailMessage.AppendToBody(Leave.FieldCaption(Remarks) + Colon + Format(Leave.Remarks) + '<br>');
                         end;
                     end;
+                Database::"Attendance Missed":
+                    begin
+                        if DocumentType = DocumentType::"Attendance Missed" then begin
+                            EmployeeActivity.Get(DocumentNo);
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee Name") + Colon + Format(EmployeeActivity."Employee Name") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Remarks) + Colon + Format(EmployeeActivity.Remarks) + '<br>');
+                            if EmployeeActivity."Rejection Remarks" <> '' then
+                                CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Rejection Remarks") + Colon + Format(EmployeeActivity."Rejection Remarks") + '<br>');
+                        end;
+                    end;
                 DATABASE::"Travel Request":
                     begin
                         if DocumentType = DocumentType::"Travel Request" then begin
                             EmployeeActivity.SetRange("No.", DocumentNo);
                             EmployeeActivity.SetRange(Type, EmployeeActivity.Type::"Travel Request");
                             EmployeeActivity.FindFirst;
-                            //EmployeeActivity.GET(DocumentNo);
                             AddEmailReceipentFromTemplate := (EmployeeActivity."Advance Cash Required") and (TypeOpt = TypeOpt::Approved);
                             if EmployeeActivity."Travel Order No." <> '' then
                                 CodeunitEmailMessage.AppendToBody('Extension of ' + EmployeeActivity.FieldCaption("Travel Order No.") + Colon + EmployeeActivity."Travel Order No." + '<br>');
@@ -3383,23 +3200,94 @@ codeunit 50001 "HR Mgt."
                                 CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
                                 // CodeunitEmailMessage.AddAttachment(FileName, 'pdf');
                             end;
+                        end else if DocumentType = DocumentType::"Travel Claim" then begin
+                            EmployeeActivity.Get(DocumentNo);
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Type Of Visit") + Colon + Format(EmployeeActivity."Type Of Visit") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("No. of Days") + Colon + Format(EmployeeActivity."No. of Days") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Depature From") + Colon + EmployeeActivity."Depature From" + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption(Destination) + Colon + EmployeeActivity.Destination + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Purpose of Travel") + Colon + EmployeeActivity."Purpose of Travel" + '<br>');
                         end;
                     end;
-
+                Database::OverTime:
+                    begin
+                        if DocumentType = DocumentType::Overtime then begin
+                            EmployeeActivity.Get(DocumentNo);
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Date ' + Colon + Format(EmployeeActivity."Start Date") + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Purpose ' + Colon + Format(EmployeeActivity.Remarks) + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Time") + Colon + Format(EmployeeActivity."Start Time") + '<br>');
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Time") + Colon + Format(EmployeeActivity."End Time") + '<br>');
+                        end;
+                    end;
+                Database::"Employee Transfer":
+                    begin
+                        if DocumentType = DocumentType::"Employee Transfer" then begin
+                            EmployeeActivity.Get(DocumentNo);
+                            GetTransferBody(EmployeeActivity);
+                        end;
+                    end;
                 DATABASE::"Employee Loan/Advance":
                     begin
+                        if EmpLoan.Get(DocumentNo) then begin
+                            Employee.Reset;
+                            if EmpLoan."Approval Status" in [EmpLoan."Approval Status"::Approved, EmpLoan."Approval Status"::Rejected] then
+                                Employee.SetRange("No.", EmpLoan."Employee Code")
+                            else
+                                if Employee.FindFirst then
+                                    repeat
+                                        Employee.TestField("Company E-Mail");
+                                        EmailReceipientText.add(Employee."Company E-Mail");
+                                    until Employee.Next = 0;
+                        end;
                         loanMgt.GetLoanBody(EmpLoan);
                     end;
-
+                Database::Resignation:
+                    begin
+                        if DocumentType = DocumentType::Resignation then begin
+                            if SubType = SubType::"Document Approver" then
+                                CodeunitEmailMessage.AppendToBody(StrSubstNo('Please approve document for resignation of employee %1(%2)', EmployeeActivity."Employee No.", EmployeeActivity."Employee Name"));
+                        end;
+                    end;
+                Database::"Medical Insurance Claim":
+                    begin
+                        if DocumentType = DocumentType::"Medical Insurance Claim" then begin
+                            EmployeeActivity.Get(DocumentNo);
+                            CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee No.") + Colon + Format(EmployeeActivity."Employee No.") + '<br>');
+                            CodeunitEmailMessage.AppendToBody('Medical Claim No' + Colon + Format(DocumentNo));
+                            CodeunitEmailMessage.AppendToBody('Claim Option' + Colon + Format(EmployeeActivity."Insurance Claim"));
+                            CodeunitEmailMessage.AppendToBody('Claim forwarded to Insurance Company Date' + Colon);
+                            CodeunitEmailMessage.AppendToBody('Amount received from Insurance Company Date' + Colon);
+                            CodeunitEmailMessage.AppendToBody('Insurance Amount Reimbursed Date' + Colon);
+                            CodeunitEmailMessage.AppendToBody('Total Amount Reimbursed Date' + Colon);
+                            CodeunitEmailMessage.AppendToBody('Reason for variation in claim amount' + Colon);
+                        end;
+                    end;
                 //training header
                 DATABASE::"Training Header":
                     begin
+                        TrainHead.Get(DocumentNo);
+                        TrainLine.Reset;
+                        TrainLine.SetRange("Training No.", TrainHead."No.");
+                        TrainLine.SetFilter("Trainer Type", '<>%1', TrainLine."Trainer Type"::External);
+                        TrainLine.SetFilter(Type, '<>%1', TrainLine.Type::Vendor);
+                        if TrainLine.Find('-') then
+                            repeat
+                                Employee.Get(TrainLine."Employee Code");
+                                Employee.TestField("Company E-Mail");
+                                EmailReceipientText.add(Employee."Company E-Mail");
+                            until TrainLine.Next = 0;
                         GetTrainingBody(TrainHead);
                     end;
 
                 //vacancy header
                 DATABASE::Candidate:
                     begin
+                        Candidate.Get(DocumentNo, Remarks);
+                        EmailReceipientText.add(Candidate."E-Mail");
                         GetCandidateBody(Candidate);
                     end;
 
@@ -3413,27 +3301,16 @@ codeunit 50001 "HR Mgt."
                         Week := Round(((Today - PGSetup."Allowance Email Days" - CalcuationDate) + 1) / 7, 1, '>');
                         if Week > 4 then
                             Week := 4;
+                        if Body <> '' then begin
+                            CodeunitEmailMessage.AppendToBody(Body);
+                            CodeunitEmailMessage.AppendToBody('<br><br>');
+                        end;
                         CodeunitEmailMessage.AppendToBody(StrSubstNo(AllowanceBodyText, Remarks, Week, EngNep."English Month"));
+                        CodeunitEmailMessage.AppendToBody('<br><br>');
+                        CodeunitEmailMessage.AppendToBody(Footer);
                     end;
             end;
-
-            if (DATABASE::"Allowance Assignment Header" = TableNo) then
-                if Body <> '' then begin
-                    CodeunitEmailMessage.AppendToBody(Body);
-                    CodeunitEmailMessage.AppendToBody('<br><br>');
-                end;
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Footer);
-
-            if EmployeeNo <> '' then begin
-                Employee.Get(EmployeeNo);
-                CodeunitEmailMessage.AppendToBody('<br>');
-                CodeunitEmailMessage.AppendToBody(Employee."Full Name");
-            end else begin
-
-                CodeunitEmailMessage.AppendToBody('<br>' + RegardsMessage + '<br>');
-            end;
-            if DocumentType <> DocumentType::"Employee Transfer" then begin //Min 9.15.2022
+            if DocumentType <> DocumentType::"Employee Transfer" then begin
                 if AddEmailReceipentFromTemplate then begin
                     EmailReceipent.Reset;
                     EmailReceipent.SetRange("Email Template Code", EmailTemplate.Code);

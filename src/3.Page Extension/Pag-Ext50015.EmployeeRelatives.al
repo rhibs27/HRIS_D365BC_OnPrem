@@ -33,15 +33,16 @@ pageextension 50015 "Employee Relatives" extends "Employee Relatives"
         {
             field("Full Name"; Rec."Full Name")
             {
+                ApplicationArea = All;
             }
 
             field("E-mail"; Rec."E-mail")
             {
-
+                ApplicationArea = All;
             }
             field("Set Emergency Contact"; Rec."Set Emergency Contact")
             {
-
+                ApplicationArea = All;
             }
         }
         addbefore("Full Name")

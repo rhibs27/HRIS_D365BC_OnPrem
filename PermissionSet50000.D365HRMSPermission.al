@@ -586,7 +586,6 @@ permissionset 50000 D365HRMSPermission
         page "Rolewise Job Descriptions" = X,
         page "Salary Grades" = X,
         page "Salary Levels" = X,
-        page "Sample Attachments" = X,
         page "Select Employee List" = X,
         page "Selection Commitee Sublist" = X,
         page "Service History Lists" = X,
@@ -690,7 +689,6 @@ permissionset 50000 D365HRMSPermission
         page "Status Master" = X,
         page "Transfer Request Card" = X,
         page "Travel Claim" = X,
-        tabledata "Employee Activity Journal" = RIMD,
         tabledata "Employee Bank Account" = RIMD,
         tabledata "Employee Edit" = RIMD,
         tabledata "Employee Edit Line" = RIMD,
@@ -779,5 +777,7 @@ permissionset 50000 D365HRMSPermission
         page "Shift Assignment Card" = X,
         page "Shift subform" = X,
         page "Transfer Claim Details Subform" = X,
-        page "Transfer Journal" = X;
+        page "Transfer Journal" = X,
+        tabledata "Employee Activity Journal" = RIMD,
+        page "Sample Attachments" = X;
 }

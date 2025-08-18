@@ -62,7 +62,7 @@ table 50141 OverTime
                     // Validate("Sub Province Code", EmpVar."Sub Province Code");
                     Validate("Province Code", EmpVar."Province Code");
                     Validate("Unit Code", EmpVar."Unit Code");
-                    Validate("Employee Work Shift", EmpVar."Employee Work Shift");
+                    // Validate("Employee Work Shift", EmpVar."Employee Work Shift");
                     Validate("Extension Counter Code", EmpVar."Extension Counter Code");
                     Validate("Branch Name", EmpVar."Branch Name");
                     Validate("Department Name", EmpVar."Department Name");
@@ -124,6 +124,7 @@ table 50141 OverTime
                         else begin
                             Validate("Check In Time", EmployeeAttendance."Check In Time");
                             Validate("Check Out Time", EmployeeAttendance."Check Out Time");
+                            Validate("Employee Work Shift", EmployeeAttendance."Employee Working Shift");
                         end;
                     end else
                         Error('No Attendance Found on %1', rec."Start Date");

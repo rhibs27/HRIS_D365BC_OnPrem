@@ -35,11 +35,14 @@ page 50194 "Attendance Logs"
                     ApplicationArea = All;
                     Caption = 'Attendance Time';
                 }
+                field("Date Time Log"; Rec."Date Time Log")
+                {
+                    ApplicationArea = All;
+                }
                 field("Device IP"; Rec."Device IP")
                 {
-
+                    ApplicationArea = All;
                 }
-
             }
         }
     }

@@ -21,11 +21,11 @@ codeunit 50017 "Approver Mgt"
         EmpRequest: Record Employee;
         Approval1: Record "Approval HRMS";
         count: Integer;
-        IsHandled: Boolean;
+        isHandled, SkipError : Boolean;
     begin
         EmpRequest.Get(EmployeeNo);
         if EmpRequest."Manual Approver User" then begin
-            IsmanualApproverworkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
+            IsManualApproverWorkflow(EmployeeNo, EmpActNo, EmpActType, ApprovalStatus, IsHandled);
             if IsHandled then
                 exit;
         end;
@@ -35,6 +35,8 @@ codeunit 50017 "Approver Mgt"
             ApprovalSetupLine.SetFilter("Deputation On", '%1|%2', EmpRequest."Deputation on"::" ", EmpRequest."Deputation On");
             ApprovalSetupLine.SetRange("Employee Role", EmpRequest."Approver Role");
             OnInsertApprovalOnFilterApprovalSetupLine(ApprovalSetupLine, EmpActType);
+            count := 0;
+            OnSkipEmployeeError(SkipError);
             count := 0;
             if ApprovalSetupLine.Findset() then
                 repeat
@@ -78,9 +80,10 @@ codeunit 50017 "Approver Mgt"
                             Approval.Validate("Approval Status", "Approval Status"::Created);
                         Approval.Validate("Employee No", EmployeeNo);
                         Approval.Insert(true);
-                    end
-                    else
-                        Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                    end else begin
+                        if SkipError then
+                            Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
+                    end;
                 until ApprovalSetupLine.Next() = 0
             else
                 Error('Approval Setup not found');
@@ -152,7 +155,6 @@ codeunit 50017 "Approver Mgt"
                 end
                 else
                     Error('Approvers not found for %1 Role', ApprovalSetupLine."Approval Role");
-
             until ApprovalSetupLine.Next() = 0
         else
             Error('Approval Setup not found');
@@ -801,6 +803,11 @@ codeunit 50017 "Approver Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterDocumentRejected(var RecRef: RecordRef)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnSkipEmployeeError(var SKipError: Boolean)
     begin
     end;
 

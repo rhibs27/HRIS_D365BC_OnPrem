@@ -1,11 +1,8 @@
 table 50045 "Employee Work Shift"
 {
-    // version ATM19.01.01
-
     DrillDownPageId = "Employee Work Shift";
     LookupPageId = "Employee Work Shift";
     DataClassification = CustomerContent;
-
     fields
     {
         field(1; "Code"; Code[20]) { }
@@ -59,7 +56,6 @@ table 50045 "Employee Work Shift"
         {
             DataClassification = ToBeClassified;
         }
-
     }
     keys
     {
@@ -87,7 +83,6 @@ table 50045 "Employee Work Shift"
                     "Work Time" := EndTime - StartTime
                 else
                     "Work Time" := EndTime - StartTime + Duration24;
-
         end;
     end;
 }

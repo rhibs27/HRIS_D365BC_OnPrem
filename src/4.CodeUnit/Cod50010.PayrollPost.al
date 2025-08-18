@@ -521,8 +521,7 @@ codeunit 50010 "Payroll-Post"
     procedure GetDimensionBeforeTransfer(EmpNo: Code[20]; FromDate: Date; ToDate: Date; var DeputationType: Enum "Deputation Type"): Code[20]
     var
         EmployeeServiceHistory: Record "Employee Service History";
-        // DimensionValue: Record "Dimension Value";
-        GLSetup: Record "General Ledger Setup";
+        OrganizationStructureList: Record "Organization Structure List";
     begin
         EmployeeServiceHistory.Reset;
         EmployeeServiceHistory.SetRange("Service Event", EmployeeServiceHistory."Service Event"::Transfer);
@@ -530,15 +529,8 @@ codeunit 50010 "Payroll-Post"
         EmployeeServiceHistory.SetRange("Employee No.", EmpNo);
         if EmployeeServiceHistory.FindFirst() then begin
             DeputationType := EmployeeServiceHistory."Deputation On(From)";
-            exit(EmployeeServiceHistory."Deputation Code (From)")
+            If OrganizationStructureList.get(DeputationType, EmployeeServiceHistory."Deputation Code (From)") then
+                exit(OrganizationStructureList."Dimension Value Code")
         end;
-        // else begin
-        //     GLSetup.Get();
-        //     DimensionValue.Reset();
-        //     DimensionValue.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
-        //     DimensionValue.SetRange("Head Office", true);
-        //     if DimensionValue.FindFirst() then
-        //         exit(DimensionValue.Code)
-        // end;
     end;
 }

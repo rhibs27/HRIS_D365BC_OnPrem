@@ -91,7 +91,7 @@ report 50054 "Payroll Payslip"
                 dataitem(EmployeeLedgerDetails; "Detailed Employee Ledger Entry")
                 {
                     DataItemLink = "Employee Ledger Entry No." = field("Entry No.");
-                    DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings" | "Non-Payment" | Deduction | "Tax Credit"), "Attribute Sub Type" = filter(<> "Tax on Interest" & <> "Lump Sum Contribution"));
+                    DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings" | Deduction | "Tax Credit"), "Attribute Sub Type" = filter(<> "Tax on Interest" & <> "Lump Sum Contribution"));
                     column(EntryNo; "Entry No.") { }
                     column(PostingDate; "Posting Date") { }
                     column(PayCycleCode; "Pay Cycle Code") { }
@@ -102,7 +102,7 @@ report 50054 "Payroll Payslip"
                     dataitem(Benefits; "Detailed Employee Ledger Entry")
                     {
                         DataItemLink = "Entry No." = field("Entry No.");
-                        DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings" | "Non-Payment"), "Attribute Sub Type" = filter(<> "Tax on Interest"));
+                        DataItemTableView = sorting("Entry No.") where("Attribute Type" = filter("Basic Earning" | "Other Earnings"), "Attribute Sub Type" = filter(<> "Tax on Interest"));
                         column(Benefits_PayrollAttributeCode; AttributeDescription) { }
                         column(Benefits_Amount; Amount) { }
 

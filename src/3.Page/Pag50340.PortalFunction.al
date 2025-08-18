@@ -9,7 +9,8 @@ page 50340 "Portal Function"
         {
             repeater(Group)
             {
-                field(PrimaryKey; Rec.PrimaryKey) { }
+                field(PrimaryKey; Rec.PrimaryKey)
+                { ApplicationArea = all; }
             }
         }
     }
