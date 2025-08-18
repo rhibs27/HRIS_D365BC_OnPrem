@@ -137,11 +137,11 @@ page 50276 "HR Overview"
         HrSetup.Get();
         Rec.SetFilter("Contract Expiry Date Filter", '%1..%2', today, CalcDate(HrSetup."Contract Expiry Days", Today));
         Rec.SetFilter("Expiry Check Date", '..%1', Today);
+        Rec.SetRange("Employee Filter", HrMgt.GetEmployeeNo());
     end;
 
     var
         usersetup: Record "User Setup";
         HrSetup: Record "Human Resources Setup";
-
-
+        HrMgt: Codeunit "HR Mgt.";
 }

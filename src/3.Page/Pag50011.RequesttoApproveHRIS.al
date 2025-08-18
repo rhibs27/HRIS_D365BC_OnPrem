@@ -24,11 +24,8 @@ page 50011 "Request to Approve HRIS"
                 }
                 field("Employee No"; Rec."Employee No")
                 {
+                    Caption = 'Requested By';
                     ToolTip = 'Specifies the value of the Employee No field.', Comment = '%';
-                }
-                field(Status; Rec.Status)
-                {
-                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
                 field("Approver No"; Rec."Approver No")
                 {

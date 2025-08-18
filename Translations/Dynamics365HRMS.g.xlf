@@ -44933,10 +44933,10 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Employee No - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2870880911 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Status - Property ToolTip</note>
+        <trans-unit id="Page 2870880911 - Control 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Employee No - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2870880911 - Action 1505103626 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approve</source>
