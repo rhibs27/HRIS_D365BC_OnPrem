@@ -256,7 +256,7 @@ codeunit 50021 "Employee Edit Mgt."
         EmployeeRelative.Validate("Relative's Employee No.", EmployeeEditLine."Relative's Employee No.");
         EmployeeRelative.Validate("Phone No.", EmployeeEditLine."Relative Phone No.");
         EmployeeRelative.Validate(Employee_BOD, EmployeeEditLine."Employee Relative In Bank");
-        EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."CitizenShip No.");
+        EmployeeRelative.Validate("Citizenship No.", EmployeeEditLine."Relative CitizenShip No.");
         EmployeeRelative.Validate("Birth Date", EmployeeEditLine."Birth Date");
         EmployeeRelative.Validate(District, EmployeeEditLine."Relative District");
         EmployeeRelative.Validate("VDC/Municipality", EmployeeEditLine.VDC);

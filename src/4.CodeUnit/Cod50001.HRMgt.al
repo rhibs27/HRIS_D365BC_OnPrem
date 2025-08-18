@@ -5950,7 +5950,7 @@ codeunit 50001 "HR Mgt."
         end;
         if Days < 0 then begin
             Month := Month - 1;
-            Days := GetMonthEndDayNepali(year, Month) - Abs(Days);
+            Days := GetMonthEndDayNepali(EngNep."Nepali Year", EngNep."Nepali Month".AsInteger()) - Abs(Days);
         end;
 
         if Month < 0 then begin
