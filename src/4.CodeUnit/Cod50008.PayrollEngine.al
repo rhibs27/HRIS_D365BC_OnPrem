@@ -288,7 +288,7 @@ codeunit 50008 "Payroll Engine"
                 DisablePersonReduction := TaxSetupLine."End Amount" / 2;
             TaxableAmount := TaxableAmount - DisablePersonReduction;
         end;
-
+        GetRemoteAreaDeduction();
         TaxableAmount := TaxableAmount - PayrollLine."Remote Area Deduction";
         RemainingTaxableAmount := TaxableAmount;
 
@@ -1629,12 +1629,7 @@ codeunit 50008 "Payroll Engine"
                         EmployeeAttendanceActivity."Training Day" := 0;
                     end;
             end;
-
-            /*EmployeeActivity.Type::Overtime : BEGIN //Min 8.21.2022
-              EmployeeAttendanceActivity."Check In Time" := EmployeeActivity."Start Time";
-              EmployeeAttendanceActivity."Check Out Time" := EmployeeActivity."End Time";
-              //EmployeeAttendanceActivity."OT Day" := 1;
-            END;*/
+            OnAfterEmployeeActivityProcess(EmployeeAttendanceActivity, EmployeeActType, EmpActNo)
         end;
         EmployeeAttendanceActivity."Employee Activity Found" := true;
         EmployeeAttendanceActivity."Source No." := EmpActNo;
@@ -1643,7 +1638,7 @@ codeunit 50008 "Payroll Engine"
         EmployeeAttendanceActivity.Modify;
     end;
 
-    local procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
+    procedure CalcAttendance(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity")
     var
         AttendanceSetup: Record "Attendance Setup";
         CheckInLateMinutes: Duration;
@@ -1715,6 +1710,19 @@ codeunit 50008 "Payroll Engine"
                 EmployeeAttendanceActivity."Work Time Difference" := EmployeeAttendanceActivity."Actual Work Time" - EmployeeAttendanceActivity."Standard Work Time";
             end;
         end;
+    end;
+
+    procedure GetDeviceIPsfromLog(EmpNo: Code[20]; InitialDate: date; var InIP: text[20]; var OutIP: Text[20])
+    var
+        AttenLog: Record "Attendance Log";
+    begin
+        AttenLog.SetLoadFields("Employee ID", "Machine Emp. Code", Date);
+        AttenLog.SetRange("Employee ID", EmpNo);
+        AttenLog.SetRange(Date, InitialDate);
+        if AttenLog.FindFirst() then
+            InIP := AttenLog."Device IP";
+        if AttenLog.FindLast() then
+            OutIP := AttenLog."Device IP";
     end;
 
     local procedure IsHoliday(BaseCalendar: Code[20]; Date: Date; Remarks: Text[100]; Provience: Text; Gender: Enum "Employee Gender"; InOutValley: Enum "Outside/Inside Valley";
@@ -3969,7 +3977,6 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end else begin
-            OrganationStructureList.Get();
             if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Global Dimension 1 Code") then
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
                     RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
@@ -4778,6 +4785,12 @@ codeunit 50008 "Payroll Engine"
     begin
         //This event can be used to perform get the outstation allowance for the employee before exiting the process.
         //You can add custom logic here if needed.
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterEmployeeActivityProcess(var EmployeeAttendanceActivity: Record "Employee Attendance & Activity"; EmployeeActType: Enum "Employee Activity Type"; EmpActNo: Code[20])
+    begin
+        //This event can be used to perform attendance Process
     end;
 
 

@@ -1,6 +1,8 @@
 table 50149 "Approval HRMS"
 {
     Caption = 'Approval HRMS';
+    DrillDownPageId = "Request to Approve HRIS";
+    LookupPageId = "Request to Approve HRIS";
     DataClassification = ToBeClassified;
     fields
     {
@@ -102,14 +104,14 @@ table 50149 "Approval HRMS"
         EmployeeEdit: Record "Employee Edit";
         MissedAttendance: Record "Attendance Missed";
         Travel: Record "Travel Request";
-        Transfer: Record "Transfer Header";
-        TransferClaim: Record "Transfer Claim Detail";
+        Transfer, TransferClaim : Record "Employee Transfer";
         OT: Record OverTime;
         RetirementFund: Record "Retirement Fund";
         AllowanceAssignment: Record "Allowance Assignment Header";
         CancelDocument: Record "Cancel Document";
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         EmpActjournal: Record "Employee Activity Journal";
+        ShiftAssignment: Record "Shift Assignment Header";
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
@@ -118,7 +120,133 @@ table 50149 "Approval HRMS"
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
-            "Document Type"::"Attendance Missed":
+            "Document Type"::"Attendance Missed", "Document Type"::"Late Attendance":
+                if MissedAttendance.Get("Document No.") then
+                    RecRef.GetTable(MissedAttendance);
+            "Document Type"::"Travel Request":
+                if Travel.Get("Document No.") then
+                    RecRef.GetTable(Travel);
+            "Document Type"::"Employee Transfer", "Document Type"::"Transfer Claim":
+                if Transfer.Get("Document No.") then
+                    RecRef.GetTable(Transfer);
+            "Document Type"::Overtime:
+                if OT.Get("Document No.") then
+                    RecRef.GetTable(OT);
+            "Document Type"::"Allowance Assignment":
+                if AllowanceAssignment.Get("Document No.") then
+                    RecRef.GetTable(AllowanceAssignment);
+            "Document Type"::Retirement:
+                if RetirementFund.Get("Document No.") then
+                    RecRef.GetTable(RetirementFund);
+            "Document Type"::"Cancel Document":
+                if CancelDocument.Get("Document No.") then
+                    RecRef.GetTable(CancelDocument);
+            "Document Type"::Loan:
+                if EmployeeLoanAdvance.Get("Document No.") then
+                    RecRef.GetTable(EmployeeLoanAdvance);
+            "Document Type"::"Employee Journal":
+                begin
+                    EmpActjournal.SetRange(Type, "Document Type");
+                    EmpActjournal.SetRange("Document No", "Document No.");
+                    if EmpActjournal.FindSet() then
+                        RecRef.GetTable(EmpActjournal);
+                end;
+            "Document Type"::"Shift Assignment":
+                if ShiftAssignment.Get("Document No.") then
+                    RecRef.GetTable(ShiftAssignment);
+        end;
+
+        RecRef.SetRecFilter();
+        PageManagement.PageRun(RecRef);
+    end;
+
+    procedure ApproveRecord()
+    var
+        RecRef: RecordRef;
+        LeaveRequest: Record Leave;
+        EmployeeEdit: Record "Employee Edit";
+        MissedAttendance: Record "Attendance Missed";
+        Travel: Record "Travel Request";
+        Transfer: Record "Employee Transfer";
+        OT: Record OverTime;
+        RetirementFund: Record "Retirement Fund";
+        AllowanceAssignment: Record "Allowance Assignment Header";
+        CancelDocument: Record "Cancel Document";
+        EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        EmpActjournal: Record "Employee Activity Journal";
+        ShiftAssignment: Record "Shift Assignment Header";
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        case "Document Type" of
+            "Document Type"::"Leave Request":
+                if LeaveRequest.Get("Document No.") then
+                    RecRef.GetTable(LeaveRequest);
+            "Document Type"::"Employee Edit":
+                if EmployeeEdit.Get("Document No.") then
+                    RecRef.GetTable(EmployeeEdit);
+            "Document Type"::"Attendance Missed", "Document Type"::"Late Attendance":
+                if MissedAttendance.Get("Document No.") then
+                    RecRef.GetTable(MissedAttendance);
+            "Document Type"::"Travel Request":
+                if Travel.Get("Document No.") then
+                    RecRef.GetTable(Travel);
+            "Document Type"::"Employee Transfer", "Document Type"::"Transfer Claim":
+                if Transfer.Get("Document No.") then
+                    RecRef.GetTable(Transfer);
+            "Document Type"::Overtime:
+                if OT.Get("Document No.") then
+                    RecRef.GetTable(OT);
+            "Document Type"::"Allowance Assignment":
+                if AllowanceAssignment.Get("Document No.") then
+                    RecRef.GetTable(AllowanceAssignment);
+            "Document Type"::Retirement:
+                if RetirementFund.Get("Document No.") then
+                    RecRef.GetTable(RetirementFund);
+            "Document Type"::"Cancel Document":
+                if CancelDocument.Get("Document No.") then
+                    RecRef.GetTable(CancelDocument);
+            "Document Type"::Loan:
+                if EmployeeLoanAdvance.Get("Document No.") then
+                    RecRef.GetTable(EmployeeLoanAdvance);
+            "Document Type"::"Employee Journal":
+                begin
+                    EmpActjournal.SetRange(Type, "Document Type");
+                    EmpActjournal.SetRange("Document No", "Document No.");
+                    if EmpActjournal.FindSet() then
+                        RecRef.GetTable(EmpActjournal);
+                end;
+            "Document Type"::"Shift Assignment":
+                if ShiftAssignment.Get("Document No.") then
+                    RecRef.GetTable(ShiftAssignment);
+        end;
+        ApproverMgt.ApproveRejectDocument(RecRef, true);
+    end;
+
+    procedure RejectRecord()
+    var
+        RecRef: RecordRef;
+        LeaveRequest: Record Leave;
+        EmployeeEdit: Record "Employee Edit";
+        MissedAttendance: Record "Attendance Missed";
+        Travel: Record "Travel Request";
+        Transfer, TransferClaim : Record "Employee Transfer";
+        OT: Record OverTime;
+        RetirementFund: Record "Retirement Fund";
+        AllowanceAssignment: Record "Allowance Assignment Header";
+        CancelDocument: Record "Cancel Document";
+        EmployeeLoanAdvance: Record "Employee Loan/Advance";
+        EmpActjournal: Record "Employee Activity Journal";
+        ShiftAssignment: Record "Shift Assignment Header";
+        ApproverMgt: Codeunit "Approver Mgt";
+    begin
+        case "Document Type" of
+            "Document Type"::"Leave Request":
+                if LeaveRequest.Get("Document No.") then
+                    RecRef.GetTable(LeaveRequest);
+            "Document Type"::"Employee Edit":
+                if EmployeeEdit.Get("Document No.") then
+                    RecRef.GetTable(EmployeeEdit);
+            "Document Type"::"Attendance Missed", "Document Type"::"Late Attendance":
                 if MissedAttendance.Get("Document No.") then
                     RecRef.GetTable(MissedAttendance);
             "Document Type"::"Travel Request":
@@ -152,10 +280,10 @@ table 50149 "Approval HRMS"
                     if EmpActjournal.FindSet() then
                         RecRef.GetTable(EmpActjournal);
                 end;
-
+            "Document Type"::"Shift Assignment":
+                if ShiftAssignment.Get("Document No.") then
+                    RecRef.GetTable(ShiftAssignment);
         end;
-
-        RecRef.SetRecFilter();
-        PageManagement.PageRun(RecRef);
+        ApproverMgt.ApproveRejectDocument(RecRef, false);
     end;
 }

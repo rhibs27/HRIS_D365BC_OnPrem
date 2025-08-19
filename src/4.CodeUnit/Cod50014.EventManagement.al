@@ -64,8 +64,18 @@ codeunit 50014 "Event Management"
     local procedure OnAfterCopyEmployeeLedgerEntryFromGenJnlLine(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
     var
     begin
+
         EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
     end;
+
+    // [EventSubscriber(ObjectType::Table, Database::"Service Item Line", 'OnBeforeCalculateResponseDateTime', '', false, false)]
+    // local procedure OnBeforeCalculateResponseDateTime(GenJournalLine: Record "Gen. Journal Line"; var EmployeeLedgerEntry: Record "Employee Ledger Entry")
+    // var
+    // begin
+
+    //EmployeeLedgerEntry."Fiscal Year" := GenJournalLine."Fiscal Year";
+
+    // end;
 
     [EventSubscriber(ObjectType::Page, Page::"Base Calendar Entries Subform", OnUpdateBaseCalendarChanges, '', false, false)]
     local procedure "Base Calendar Entries Subform_OnUpdateBaseCalendarChanges"(var BaseCalendarChange: Record "Base Calendar Change"; var CustCalendarChange: Record "Customized Calendar Change")
@@ -74,7 +84,7 @@ codeunit 50014 "Event Management"
         BaseCalendarChange."Gender Filter" := CustCalendarChange.Gender;
         BaseCalendarChange."Inside/Outside Valley" := CustCalendarChange.InOutValley;
         BaseCalendarChange."Posting Region" := CustCalendarChange.PostingRegion;
-        BaseCalendarChange."Branch Code" := CustCalendarChange.Branch;
+        BaseCalendarChange."Shortcut Dimension 1 Code" := CustCalendarChange.Branch;
     end;
     //Add by santosh for Caption in payroll line
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Caption Class", 'OnResolveCaptionClass', '', true, true)]
@@ -111,6 +121,8 @@ codeunit 50014 "Event Management"
         LoanType: Enum "Loan Type";
         EmployeeLoanAdvance: Record "Employee Loan/Advance";
         EmpActJournal: Record "Employee Activity Journal";
+        ShiftAssignment: Record "Shift Assignment Header";
+        AttendanceMissed: Record "Attendance Missed";
     begin
         case RecordRef.Number of
             Database::Leave:
@@ -127,7 +139,14 @@ codeunit 50014 "Event Management"
                     else if ActType = ActType::"Travel Claim" then
                         CardPageID := Page::"Travel Claim"
                 end;
-
+            Database::"Attendance Missed":
+                begin
+                    ActType := RecordRef.Field(AttendanceMissed.FieldNo(Type)).Value;
+                    if ActType = ActType::"Attendance Missed" then
+                        CardPageID := Page::"Attendance missed Card"
+                    else if ActType = ActType::"Late Attendance" then
+                        CardPageID := Page::"Late Attendance Card"
+                end;
             Database::"Employee Transfer":
                 begin
                     ActType := RecordRef.Field(EmployeeTransfer.FieldNo(Type)).Value;
@@ -179,7 +198,11 @@ codeunit 50014 "Event Management"
                             CardPageID := Page::"Transfer Journal";
                     end;
                 end;
+            Database::"Shift Assignment Header":
+                CardPageID := Page::"Shift Assignment Card";
         end;
     end;
+
+
 
 }

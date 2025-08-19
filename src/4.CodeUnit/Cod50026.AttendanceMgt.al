@@ -49,6 +49,7 @@ codeunit 50026 "Attendance Mgt"
             AttendanceLine."Week Off Day" := 0;
         end;
         EmployeeWorkShift.Get(AttendanceLine."Employee Working Shift");
+        GetDeviceIPsfromLog(EmpNo, InitialDate, AttendanceLine."Check-In Device IP", AttendanceLine."Check-Out Device IP");
         CheckInTime := GetCheckInTime(InitialDate, EmployeeWorkShift, EmpNo);
         if CheckInTime <> 0T then begin
             AttendanceLine.Validate("Check In Time", CheckInTime);
@@ -122,7 +123,7 @@ codeunit 50026 "Attendance Mgt"
             end else
                 exit(0T);
         end else begin
-            // Regular shift - search same day
+            // Regular shift
             AttendanceLog.SetRange(Date, InitialDate);
             if EmployeeWorkShift."Check In From" <> 0 then
                 AttendanceLog.SetRange("Log Time", (EmployeeWorkShift."Start Time" - EmployeeWorkShift."Check In From"), (EmployeeWorkShift."Start Time" + EmployeeWorkShift."Check In From"));
@@ -178,10 +179,11 @@ codeunit 50026 "Attendance Mgt"
     begin
         AttendanceLog.Reset();
         AttendanceLog.SetRange("Employee ID", '');
-        if AttendanceLog.FindSet() then begin
-            AttendanceLog."Employee ID" := GetEmployeeIDFromBiometric(AttendanceLog."Machine Emp. Code");
-            AttendanceLog.Modify();
-        end;
+        if AttendanceLog.FindSet() then
+            repeat
+                AttendanceLog."Employee ID" := GetEmployeeIDFromBiometric(AttendanceLog."Machine Emp. Code");
+                AttendanceLog.Modify();
+            until AttendanceLog.Modify()
     end;
 
     procedure GetEmployeeIDFromBiometric(BiometricID: Text): code[20]
@@ -264,6 +266,29 @@ codeunit 50026 "Attendance Mgt"
         //     until EmpAtt.Next() = 0;
         // exit(LeaveDays);
     end;
+    procedure GetDeviceIPsfromLog(EmpNo: Code[20]; InitialDate: date; var InIP: text[20]; var OutIP: Text[20])
+    var
+        AttenLog: Record "Attendance Log";
+    begin
+        AttenLog.SetLoadFields("Employee ID", "Machine Emp. Code", Date);
+        AttenLog.SetRange("Employee ID", EmpNo);
+        AttenLog.SetRange(Date, InitialDate);
+        if AttenLog.FindFirst() then
+            InIP := AttenLog."Device IP";
+        if AttenLog.FindLast() then
+            OutIP := AttenLog."Device IP";
+    end;
+
+    procedure CheckOverNightShift(WorkShiftCode: Code[20]): Boolean
+    var
+        EmployeeWorkShift: Record "Employee Work Shift";
+    begin
+        if EmployeeWorkShift.Get(WorkShiftCode) then begin
+            if EmployeeWorkShift.OverNight then
+                exit(true)
+        end;
+    end;
+
 
     var
         AttendanceLine: Record "Attendance Line";

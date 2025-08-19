@@ -247,7 +247,11 @@ table 50048 "Employee Attendance & Activity"
             Caption = 'Leave Code';
             TableRelation = "Leave Type Setup";
         }
-        field(110; "Device IP"; text[20])
+        field(110; "Check-In Device IP"; text[20])
+        {
+
+        }
+        field(111; "Check-Out Device IP"; text[20])
         {
 
         }
@@ -264,8 +268,6 @@ table 50048 "Employee Attendance & Activity"
     trigger OnInsert()
     begin
         "Created Datetime" := CurrentDateTime;
-        if Employee.Get("Employee No.") then
-            Validate("Employee Name", Employee."Full Name");
     end;
 
     trigger OnModify()

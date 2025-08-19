@@ -1,7 +1,5 @@
 table 50043 "Attendance Line"
 {
-    // version ATM19.01.01
-
     DrillDownPageId = "Attendance Detail";
     LookupPageId = "Attendance Detail";
     DataClassification = CustomerContent;
@@ -22,7 +20,7 @@ table 50043 "Attendance Line"
             trigger OnValidate()
             begin
                 GetCheckInOutDifference;
-                CalcAcutalWorkTime("Check In Time", "Check Out Time");
+                CalcActualWorkTime("Check In Time", "Check Out Time");
             end;
         }
         field(4; "Check Out Time"; Time)
@@ -30,7 +28,7 @@ table 50043 "Attendance Line"
             trigger OnValidate()
             begin
                 GetCheckInOutDifference;
-                CalcAcutalWorkTime("Check In Time", "Check Out Time");
+                CalcActualWorkTime("Check In Time", "Check Out Time");
             end;
         }
         field(5; Status; enum "Approval Status")
@@ -263,6 +261,14 @@ table 50043 "Attendance Line"
             DataClassification = ToBeClassified;
             TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Unit));
         }
+        field(110; "Check-In Device IP"; text[20])
+        {
+
+        }
+        field(111; "Check-Out Device IP"; text[20])
+        {
+
+        }
     }
 
     keys
@@ -291,6 +297,7 @@ table 50043 "Attendance Line"
 
     var
         EmployeeWorkShift: Record "Employee Work Shift";
+        AttendanceMgt: Codeunit "Attendance Mgt";
 
     local procedure ValidateDays()
     begin
@@ -360,15 +367,22 @@ table 50043 "Attendance Line"
             "Check Out Difference" := "Check Out Time" - "Shift End Time";
     end;
 
-    local procedure CalcAcutalWorkTime(StartTime: Time; EndTime: Time)
+    local procedure CalcActualWorkTime(StartTime: Time; EndTime: Time)
+    var
+        Duration24: Duration;
     begin
-        if ("Check In Time" = 0T) or ("Check Out Time" = 0T) then
+        Duration24 := 24 * 3600000;
+        if (StartTime = 0T) or (EndTime = 0T) then
             "Actual Work Time" := 0
         else begin
-            //IF EndTime <= StartTime THEN
-            //ERROR(Text000);
             if (StartTime <> 0T) and (EndTime <> 0T) then
-                "Actual Work Time" := EndTime - StartTime;
+                if AttendanceMgt.CheckOverNightShift("Employee Working Shift") then begin
+                    if EndTime < StartTime then
+                        "Actual Work Time" := EndTime - StartTime + Duration24
+                    else
+                        "Actual Work Time" := EndTime - StartTime;
+                end else
+                    "Actual Work Time" := EndTime - StartTime;
         end;
     end;
 }

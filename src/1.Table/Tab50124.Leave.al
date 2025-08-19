@@ -116,6 +116,8 @@ table 50124 Leave
         {
 
             trigger OnValidate()
+            var
+                IsHandled: Boolean;
             begin
                 EngNepDate.Reset;
                 EngNepDate.SetRange("English Date", "End Date");
@@ -126,9 +128,12 @@ table 50124 Leave
                 if GuiAllowed then begin
                     if Type = Type::"Leave Request" then
                         TestField("Leave Code");
-                    if "End Date" <> 0D then
-                        Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No."))
-                    else begin
+                    if "End Date" <> 0D then begin
+                        OnvalidateEndDateOnbeforeCalculatingNoofDays(Rec, IsHandled);   //added as needed to bypass "Exclude non working days" setup control
+                                                                                        //based on information provided in leave form
+                        if not IsHandled then
+                            Validate("No. of Days", leaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", Type, "Leave Type", "Employee No."))
+                    end else begin
                         Clear("End Date (BS)");
                         Clear("No. of Days");
                     end;
@@ -141,7 +146,8 @@ table 50124 Leave
             trigger OnValidate()
             begin
                 if GuiAllowed then
-                    leaveMgt.GenerateLeaveAttachment(rec);
+                    if Type = Type::"Leave Request" then
+                        leaveMgt.GenerateLeaveAttachment(rec);
                 if "No. of Days" <= 0 then
                     Error('No of Days Cannot be zero');
                 if not Cancelled then
@@ -405,7 +411,6 @@ table 50124 Leave
         }
         field(62; "Form Journal"; Boolean)
         {
-
         }
         field(63; "Deputation On Code"; Code[20])
         {
@@ -492,10 +497,10 @@ table 50124 Leave
         if not ("Approval Status" in ["Approval Status"::" ", "Approval Status"::Open]) then
             Error(CannotDelete)
         else begin
-            ApprovalEntry.Reset();
-            ApprovalEntry.SetRange("Document No.", "No.");
-            ApprovalEntry.SetRange("Employee No", "Employee No.");
-            ApprovalEntry.DeleteAll();
+        ApprovalEntry.Reset();
+        ApprovalEntry.SetRange("Document No.", "No.");
+        ApprovalEntry.SetRange("Employee No", "Employee No.");
+        ApprovalEntry.DeleteAll();
         end;
     end;
 
@@ -526,5 +531,10 @@ table 50124 Leave
                     end;
             end;
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnvalidateEndDateOnbeforeCalculatingNoofDays(var Leave: Record Leave; var IsHandled: Boolean);
+    begin
     end;
 }

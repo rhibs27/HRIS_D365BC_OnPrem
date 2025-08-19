@@ -560,18 +560,101 @@ table 50116 "HR Cue"
             Editable = false;
             FieldClass = FlowField;
         }
-        // field(78; "To Screen Residential Address"; Integer)
-        // {
-        //     CalcFormula = count("Employee Activity Second" where(Type = const("Residential Address"),
-        //                                                           Status = const(Approved)));
-        //     Editable = false;
-        //     FieldClass = FlowField;
-        // }
+        field(78; "Temporary Staff"; Integer)
+        {
+            CalcFormula = count(Employee where("Employment Type" = const(Temporary),
+                                                Status = const(Active)));
+            FieldClass = FlowField;
+        }
         field(79; "To Check Reviews KPI"; Integer)
         {
             CalcFormula = count("KPI Appraisal Header Bank" where(Status = const("Check Reviewed")));
             Description = 'KPI1.00';
             Editable = false;
+            FieldClass = FlowField;
+        }
+        field(80; "Leave Request"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Leave Request"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(81; "Travel Request"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Travel Request"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(82; "Travel Claim"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Travel Claim"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(83; "Update Attendance"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Attendance Missed"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(84; "Late Attendance"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Late Attendance"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(85; "Allowance Assignment"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Allowance Assignment"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(86; "Allowance Assignment Claim"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Allowance Assignment Claim"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(87; "Shift Assignment"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Shift Assignment"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(88; "Overtime"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Overtime"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(89; "Bulk Overtime"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Overtime Bulk"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(90; "Update Profile"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Employee Edit"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(91; "Transfer"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Employee Transfer" | "HR Transfer"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(92; "Transfer Claim"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Transfer Claim"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
+            FieldClass = FlowField;
+        }
+        field(93; "Insurance"; Integer)
+        {
+            CalcFormula = count("Approval HRMS" where("Document Type" = filter("Insurance"), "Approval Status" = const(Open), "Approver No" = field("Employee Filter")));
+            Description = 'Request To Approve';
             FieldClass = FlowField;
         }
     }

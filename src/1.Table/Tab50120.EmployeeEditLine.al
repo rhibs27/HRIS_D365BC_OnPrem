@@ -226,6 +226,10 @@ table 50120 "Employee Edit Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(65; "lt."; Boolean)
+        {
+
+        }
         field(1000; "Changed Field"; Text[1020])
         {
             Description = 'This field includes the name of fields that are updated from portal';
