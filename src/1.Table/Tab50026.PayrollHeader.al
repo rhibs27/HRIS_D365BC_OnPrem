@@ -95,6 +95,16 @@ table 50026 "Payroll Header"
             CaptionClass = '1,1,2';
             Caption = 'Global Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+            trigger OnValidate()
+            begin
+                PayLine.Reset;
+                PayLine.SetRange("Document No.", "No.");
+                if PayLine.FindSet then
+                    repeat
+                        PayLine.Validate("Global Dimension 2 Code", "Global Dimension 2 Code");
+                        PayLine.Modify;
+                    until PayLine.Next = 0;
+            end;
         }
         field(8; "Responsibility Center"; Code[20])
         {
@@ -187,8 +197,8 @@ table 50026 "Payroll Header"
                     Validate("From Date", 0D);
                     Validate("From Date", PayCyclePeriod."Start Date");
                     Validate("To Date", PayCyclePeriod."End Date");
-                    "Posting Date" := Today;//PayCyclePeriod."Pay Date";
-                    if PGSetup."Previous Year Payroll Enable" then //Min 7.18.2022
+                    "Posting Date" := Today;
+                    if PGSetup."Previous Year Payroll Enable" then
                         CheckDateNotAllowedPrev(PGSetup."Prev Fiscal Year End Date")
                     else
                         CheckDateNotAllowed("Posting Date");
@@ -313,7 +323,6 @@ table 50026 "Payroll Header"
         "Assigned User ID" := UserId;
         "Document Date" := Today;
         PGSetup.Get;
-        PGSetup.TestField("HRMS Month");
         if PGSetup."Previous Year Payroll Enable" then
             ValidatePayCyclesPrev
         else
@@ -433,7 +442,6 @@ table 50026 "Payroll Header"
             PayrollHeader.TestField(Status, Status::Pending);
             PayrollLine.Reset;
             PayrollLine.SetRange("Document No.", PayrollHeader."No.");
-            //PayrollLine.SETRANGE("Employee No.",'SS0511');//Min Test
             if PayrollLine.FindSet then
                 repeat
                     Clear(PayrollEngine);
@@ -564,7 +572,6 @@ table 50026 "Payroll Header"
 
         PGSetup.Get;
         AttendanceSetup.Get;
-        //TestField("Employee Type");
 
         Employee.Reset;
         Employee.SetCurrentKey("Employment Type");
@@ -576,18 +583,13 @@ table 50026 "Payroll Header"
                 Employee.SetFilter("Contract Expiry Date", '>%1', PGSetup."Payroll Fiscal Year Start Date");
         end else begin
             Employee.SetRange(Status, Employee.Status::Active);
-            //Employee.SetRange("Resignation Date", 0D); //include resigned employees effective from next month
             Employee.SetFilter("Resignation Date", '0D|>%1', "To Date");
         end;
         if Type = Type::Resignation then
             Employee.SetRange("Resignation Date", "From Date", "To Date");
         Employee.SetRange(Settled, false);
         if PayCyclePeriod.Get("Pay Cycle Code", "Pay Cycle Term", "Pay Cycle Period") then
-            Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date"); //Min
-        // if "Employee Type" = "Employee Type"::Contract then
-        //     Employee.SetRange("Employment Type", Employee."Employment Type"::Contract);
-        // else
-        //     Employee.SetFilter("Employment Type", '%1|%2', Employee."Employment Type", Employee."Employment Type"::Probation);
+            Employee.SetFilter("Employment Date", '<>%1', PayCyclePeriod."Pay Date");
         if "Employee Type" <> "Employee Type"::" " then
             Employee.SetRange("Employment Type", "Employee Type");
         if Employee.FindSet then
@@ -623,15 +625,6 @@ table 50026 "Payroll Header"
             repeat
                 PayrollLine.TestField("Employee No.");
             until PayrollLine.Next = 0;
-    end;
-
-    procedure CheckHeader()
-    begin
-        /*CALCFIELDS("Bank Balancing Amount","Total Net Payable");
-        IF "Bank Balancing Amount" > 0 THEN BEGIN
-          IF "Total Net Payable" <> "Bank Balancing Amount" THEN
-            ERROR(NetBalanceInConsistency,"No.","Total Net Payable","Bank Balancing Amount");
-        END;*/
     end;
 
     procedure OpenBalancingAccount()
@@ -679,13 +672,10 @@ table 50026 "Payroll Header"
     begin
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then begin
             Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
             Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-            Validate("Pay Cycle Period", PayCyclePeriod.Period);
         end;
-        Validate("Nepali Month", PGSetup."HRMS Month");
     end;
 
     procedure UpdatePayrollAttributes(PayrollHdr: Record "Payroll Header")
@@ -760,12 +750,9 @@ table 50026 "Payroll Header"
     begin
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Prev Fiscal Year Start Date", PGSetup."Prev Fiscal Year End Date");
-        PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then begin
             Validate("Pay Cycle Code", PayCyclePeriod."Pay Cycle Code");
             Validate("Pay Cycle Term", PayCyclePeriod."Pay Cycle Term");
-            Validate("Pay Cycle Period", PayCyclePeriod.Period);
         end;
-        Validate("Nepali Month", PGSetup."HRMS Month");
     end;
 }

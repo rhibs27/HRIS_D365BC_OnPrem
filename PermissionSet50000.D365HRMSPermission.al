@@ -2,7 +2,7 @@ permissionset 50000 D365HRMSPermission
 {
     Assignable = true;
     Permissions = //>>manual inserted for table extension object
-    tabledata Employee = RIM,
+ tabledata Employee = RIM,
         tabledata "G/L Account" = RIM,
         tabledata "G/L Entry" = RIM,
         tabledata "Gen. Journal Line" = RIM,
@@ -809,5 +809,13 @@ permissionset 50000 D365HRMSPermission
         page "Transfer Journal" = X,
         tabledata "Employee Activity Journal" = RIMD,
         page "Sample Attachments" = X,
-        report "OverTime Calculation Report" = X;
+        report "OverTime Calculation Report" = X,
+        tabledata "Biometric Branch" = RIMD,
+        tabledata "Biometric Device Config." = RIMD,
+        table "Biometric Branch" = X,
+        table "Biometric Device Config." = X,
+        report "Biometric Log Sync" = X,
+        codeunit "Biometric Mgt." = X,
+        page "Biometric Branches" = X,
+        page "Biometric Device Config." = X;
 }

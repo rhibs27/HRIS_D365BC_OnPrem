@@ -81,13 +81,13 @@ table 50024 "Payroll General Setup"
         field(20; "Tax Ex. Amt Divsion"; Decimal)
         {
         }
-        field(21; "HRMS Month"; Enum "Nepali Month")
-        {
-            trigger OnValidate()
-            begin
-                //ValidateHRMSMonth;
-            end;
-        }
+        // field(21; "HRMS Month"; Enum "Nepali Month")
+        // {
+        //     trigger OnValidate()
+        //     begin
+        //         //ValidateHRMSMonth;
+        //     end;
+        // }
         field(22; "Make Payroll Slip Confidential"; Boolean)
         { }
         field(23; "Per Step Salary Percentage"; Decimal)

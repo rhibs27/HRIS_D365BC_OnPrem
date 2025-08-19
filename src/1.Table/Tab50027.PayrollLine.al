@@ -15,42 +15,33 @@ table 50027 "Payroll Line"
             trigger OnValidate()
             begin
                 CheckDuplicateEmployee;
-                //CheckSettlement; //pram (requirement not fixed)
                 GetPayrollHeader;
                 Clear(PayrollEngine);
                 Employee.Get("Employee No.");
                 Employee.TestField("Deputation on");
-                Employee.TestField("Salary Grade");
                 Employee.TestField("Salary Level");
+                Employee.TestField("Salary Grade");
                 Employee.TestField("Employment Date");
                 Employee.TestField(Settled, false);
+                Employee.TestField("Tax Code");
                 if not (PayrollHeader.Type = PayrollHeader.Type::Settlement) then
                     Employee.TestField(Status, Employee.Status::Active);
-                Employee.TestField("Tax Code");
-                //Employee.TESTFIELD("Employee Designation"); UTS commented
+
                 Validate(Type, PayrollHeader.Type);
                 if PayrollHeader.Type = PayrollHeader.Type::Payroll then begin
-                    if Employee."Resignation Date" <> 0D then
-                        Error('Employee %1 has resigned.', Employee."Full Name");
-                    // case PayrollHeader."Employee Type" of
-                    //     PayrollHeader."Employee Type"::Contract:
-                    //         if Employee."Employment Type" <> Employee."Employment Type"::Contract then
-                    //             Error('Employment type of employee %1 must be contract', Employee."Full Name");
+                    // if Employee."Resignation Date" <> 0D then
+                    //     Error('Employee %1 has resigned.', Employee."Full Name");
 
-                    //     PayrollHeader."Employee Type"::Permanent:
-                    //         if not (Employee."Employment Type" in [Employee."Employment Type"::Permanent, Employee."Employment Type"::Probation]) then
-                    //             Error('Employment type of employee %1 must be  probation or permanent', Employee."Full Name");
-                    // end;
                     if PayrollHeader."Employee Type" <> PayrollHeader."Employee Type"::" " then
                         if Employee."Employment Type" <> PayrollHeader."Employee Type" then
                             Error('Employment type of employee %1 must be %2', Employee."Full Name", PayrollHeader."Employee Type".Names());
 
                     if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then begin
-                        if Employee."Employment Date" = PayCyclePeriod."Pay Date" then //Min
+                        if Employee."Employment Date" = PayCyclePeriod."Pay Date" then
                             Error('You Cannot Insert Employee of Employement Date %1', PayCyclePeriod."Pay Date");
                     end;
                 end;
-                //start pram
+
                 Validate("Employee Name", Employee.FullName);
                 Validate("Deputation On", Employee."Deputation on");
                 Validate("Sol ID", Employee."Sol Id");
@@ -62,15 +53,12 @@ table 50027 "Payroll Line"
                 Validate("Pan No.", Employee."PAN No.");
                 Validate(Gender, Employee.Gender);
                 Validate("Marital Status", Employee."Marital Status");
-                //end
 
                 HRSetup.Get;
-
                 Validate("Global Dimension 1 Code", PayrollHeader."Global Dimension 1 Code");
                 Validate("Global Dimension 2 Code", PayrollHeader."Global Dimension 2 Code");
                 "Bank Account No." := Employee."Bank Account No.";
                 "Bank Name" := Employee."Bank Name";
-                //ValidateShortcutDimCode(GetDimensionNo(HRSetup."Employee Dimension"),DefaultDimension."Dimension Value Code");
 
                 if PayrollHeader.Type = PayrollHeader.Type::Settlement then
                     ValidateSettlementFields;
@@ -81,7 +69,8 @@ table 50027 "Payroll Line"
                     Validate(Number, PayrollLine.Number + 1)
                 else
                     Validate(Number, 1);
-                //CheckPremiumInsurance("Employee No.");//Min
+
+                //any further calculation goes to onaftervalidate trigger
             end;
         }
         field(4; "Basic Salary"; Decimal)
@@ -1430,7 +1419,6 @@ table 50027 "Payroll Line"
         field(1007; "Vault Key Days"; Decimal) { Description = 'allowance assignment'; }
         field(1008; "Faciliating Hours"; Decimal) { }
         field(1009; "Gratuity Years"; Decimal) { }
-        // field(1010; "Document Type"; Enum "Payroll Document Type") { }
         field(1011; "Resignation Date"; Date) { }
         field(1012; "Annual Leave Days"; Decimal) { }
         field(1013; "Sick Leave Days"; Decimal) { }
@@ -1542,19 +1530,6 @@ table 50027 "Payroll Line"
 
         GetPayrollHeader;
 
-        /* UTS commented
-        TimeSheetSummary.RESET;
-        TimeSheetSummary.SETCURRENTKEY("Employee Code","From Date","To Date");
-        TimeSheetSummary.SETRANGE("Employee Code","Employee No.");
-        TimeSheetSummary.SETRANGE("From Date",PayrollHeader."From Date");
-        TimeSheetSummary.SETRANGE("To Date",PayrollHeader."To Date");
-        TimeSheetSummary.DELETEALL;
-
-        JournalAllocation.RESET;
-        JournalAllocation.SETRANGE("Document No.","Document No.");
-        JournalAllocation.SETRANGE("Journal Line No.","Line No.");
-        JournalAllocation.DELETEALL;
-        */
         EmployeeAdj.Reset;
         EmployeeAdj.SetRange("Payroll Document No.", "Document No.");
         EmployeeAdj.SetRange("Employee No.", "Employee No.");
@@ -1799,14 +1774,6 @@ table 50027 "Payroll Line"
                     AttributeAmount := 0;
                     if IsValidComponent then begin
                         if PayrollAttributesUsage.Amount <> 0 then begin
-                            // if PGSetup."Loan Attribute" = PayrollAttributes.Code then begin  //this code will sent to seprate procedure
-                            //     if (PayrollAttributesUsage."Is Loan EMI Applicable") then
-                            //         if (PayrollAttributesUsage."Last EMI Date" = 0D) then begin
-                            //             AttributeAmount := PayrollAttributesUsage.Amount;
-                            //         end else
-                            //             if (PayrollAttributesUsage."Last EMI Date" >= PayrollHeader."From Date") then
-                            //                 AttributeAmount := PayrollAttributesUsage.Amount;
-                            // end else
                             AttributeAmount := PayrollAttributesUsage.Amount;
                         end else
                             if PayrollAttributesUsage.Formula <> '' then
@@ -1816,16 +1783,11 @@ table 50027 "Payroll Line"
                                     AttributeAmount := EvaluateAmount(PayrollAttributes.Formula, false)
                                 else
                                     AttributeAmount := PayrollEngine.ValidateAttributes(PayrollAttributes.Code, Rec, PayCyclePeriod);
-                        // if PayrollAttributes."Apply Every Month" then begin  //will see
-                        //     PayrollAttributesUsage.Amount := AttributeAmount;
-                        //     PayrollAttributesUsage.Modify;
-                        // end;
-                        // if (PayrollAttributes."Deduct on Absent") and (not PromotionFound) then begin  //always deduct if deduct on absent is true
                         if PayrollAttributes."Deduct on Absent" then
                             AttributeAmount := GetAmountAfterAbsentism(AttributeAmount);
-                        //end;//temporary
 
-                        CalculateDifferentialInterestAmount(AttributeAmount);  //will check and send the code above if possible
+
+                        CalculateDifferentialInterestAmount(AttributeAmount);
                         if (PayrollAttributesUsage."Start Date" <> 0D) or (PayrollAttributesUsage."End Date" <> 0D) then
                             CalculateProRataAmountAfterTransfer(PayrollAttributesUsage, AttributeAmount);
                         RoundAmount(AttributeAmount);
@@ -2539,9 +2501,9 @@ table 50027 "Payroll Line"
             repeat
                 if CalcDate = 0D then
                     CalcDate := PayrollHeader."To Date" + 1;
-                //IF CalcDate1 = 0D THEN
+
                 CalcDate1 := EmployeeLoanInterest."Starting Date";
-                if PayrollHeader."Previous Year Payroll" then //Min 7.18.2022
+                if PayrollHeader."Previous Year Payroll" then
                     DiffIntAmt += ((OutstandingAmt / (PGSetup."Prev Fiscal Year End Date" - PGSetup."Prev Fiscal Year Start Date" + 1) *
                                     ((HRSetup."Base Interest Rate" - EmployeeLoanInterest."Interest Rate") / 100) *
                                        (CalcDate - CalcDate1)))
@@ -2556,7 +2518,7 @@ table 50027 "Payroll Line"
                 else
                     CalcDate1 := PayrollHeader."From Date";
             until EmployeeLoanInterest.Next(-1) = 0;
-            if PayrollHeader."Previous Year Payroll" then begin //Min 7.18.2022
+            if PayrollHeader."Previous Year Payroll" then begin
                 EmployeeLoanInterest1.Reset;
                 EmployeeLoanInterest1.SetRange("Loan Type", LoanType);
                 EmployeeLoanInterest1.SetFilter("Starting Date", '<%1', CalcDate1);
@@ -2574,7 +2536,7 @@ table 50027 "Payroll Line"
                                           (PayrollHeader."To Date" - PayrollHeader."From Date" + 1)));
             end;
         end;
-        if not PayrollHeader."Previous Year Payroll" then begin //Min 7.18.2022
+        if not PayrollHeader."Previous Year Payroll" then begin
             EmployeeLoanInterest1.Reset;
             EmployeeLoanInterest1.SetRange("Loan Type", LoanType);
             EmployeeLoanInterest1.SetFilter("Starting Date", '<%1', CalcDate1);
@@ -2835,6 +2797,18 @@ table 50027 "Payroll Line"
                     end;
                 until LoanOutstandingfromFinacle.Next = 0;
         end;
+    end;
+
+    procedure CalculateEmployeeSpecificGrade()
+    var
+        GradeEntry: Record "Grade Entry";
+        PayrollAttrUses: Record "Payroll Attributes Usage";
+    begin
+        //use setup
+        GradeEntry.SetRange("Employee No.", "Employee No.");
+        GradeEntry.SetRange("New Salary Level", Employee."Salary Level");
+        GradeEntry.CalcSums("Total Grade Percentage");
+
     end;
 
     [IntegrationEvent(false, false)]

@@ -1285,7 +1285,6 @@ table 50035 "Posted Payroll Line"
         field(1007; "Vault Key Days"; Decimal) { Description = 'allowance assignment'; }
         field(1008; "Faciliating Hours"; Decimal) { }
         field(1009; "Gratuity Years"; Decimal) { }
-        // field(1010; "Document Type"; Enum "Payroll Document Type") { }
         field(1011; "Resignation Date"; Date) { }
         field(1012; "Annual Leave Days"; Decimal) { }
         field(1013; "Sick Leave Days"; Decimal) { }

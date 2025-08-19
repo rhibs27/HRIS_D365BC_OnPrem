@@ -187,10 +187,10 @@ report 50070 "Tax Deduction Information"
         GetCompanyOneLineAddress;
 
         PGSetup.Get;
-        Month := PGSetup."HRMS Month";
+        // Month := PGSetup."HRMS Month";
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Start Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
-        PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
+        // PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
         if PayCyclePeriod.FindFirst then
             PayCycleTermText := PayCyclePeriod."Pay Cycle Term";
 

@@ -121,7 +121,7 @@ report 50115 "TDS Deposit Record"
                 else begin
                     PayCyclePeriod.Reset;
                     PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTerm);
-                    PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
+                    // PayCyclePeriod.SetRange("Nepali Month", PGSetup."HRMS Month");
                     PayCyclePeriod.SetCurrentKey("Start Date");
                     if PayCyclePeriod.FindFirst then
                         EndDate := PayCyclePeriod."End Date";
