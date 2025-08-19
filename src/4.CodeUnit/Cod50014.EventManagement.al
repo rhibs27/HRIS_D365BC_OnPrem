@@ -84,7 +84,7 @@ codeunit 50014 "Event Management"
         BaseCalendarChange."Gender Filter" := CustCalendarChange.Gender;
         BaseCalendarChange."Inside/Outside Valley" := CustCalendarChange.InOutValley;
         BaseCalendarChange."Posting Region" := CustCalendarChange.PostingRegion;
-        BaseCalendarChange."Shortcut Dimension 1 Code" := CustCalendarChange.Branch;
+        BaseCalendarChange."Branch Code" := CustCalendarChange.Branch;
     end;
     //Add by santosh for Caption in payroll line
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Caption Class", 'OnResolveCaptionClass', '', true, true)]
