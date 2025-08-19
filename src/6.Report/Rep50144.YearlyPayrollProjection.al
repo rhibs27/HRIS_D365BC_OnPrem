@@ -14,6 +14,8 @@ report 50144 "Yearly Payroll Projection"
             column(CompanyPicture; CompanyInfo.Picture) { }
             column(PANNo; CompanyInfo."VAT Registration No.") { }
             column(CompanyInfoName; CompanyInfo.Name) { }
+            // column(CompanyInfoAddress; CompanyInfo.GetCompanyPhysicalAddr()) { }
+            // column(CompanyCommunicationAddress; CompanyInfo.GetCompanyCommunicationAddr()) { }
             column(CompanyPhNo; CompanyInfo."Phone No.") { }
             column(Code; Code) { }
             column(Description; PayrollAttributes.Description) { }
@@ -33,8 +35,6 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-
-
             column(TaxableIncome; Round(TaxableAmount, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -140,7 +140,6 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-
             column(NonTaxable; Round(NonTaxable, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -155,7 +154,6 @@ report 50144 "Yearly Payroll Projection"
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
-
             }
             column(TaxExemptionLimit; Round(TaxExemptionLimit, GlSetup."Amount Rounding Precision"))
             {
@@ -173,6 +171,7 @@ report 50144 "Yearly Payroll Projection"
             column(MedicalInsuranceAmount; Round(MedicalInsuranceAmount, GlSetup."Amount Rounding Precision")) { }
             column(HouseInsuranceAmount; Round(HouseInsuranceAmount, GlSetup."Amount Rounding Precision")) { }
             column(TaxCode; EmpVar."Tax Code") { }
+
             dataitem("Pay Cycle Period"; "Pay Cycle Period")
             {
                 DataItemTableView = sorting("Pay Cycle Code", "Pay Cycle Term", Period);
@@ -212,7 +211,6 @@ report 50144 "Yearly Payroll Projection"
 
                 trigger OnAfterGetRecord()
                 begin
-
                     Clear(Amount);
                     TempDetailedEmpLedgerEntry.Reset;
                     TempDetailedEmpLedgerEntry.SetRange("Pay Cycle Term", "Pay Cycle Term");
@@ -254,7 +252,6 @@ report 50144 "Yearly Payroll Projection"
             end;
 
             trigger OnAfterGetRecord()
-
             begin
                 if EmpVar.Get(EmployeeFilter) then;
                 EmployeePayrollOpen.Reset();
@@ -272,6 +269,7 @@ report 50144 "Yearly Payroll Projection"
             end;
         }
     }
+
     requestpage
     {
         layout
@@ -349,7 +347,6 @@ report 50144 "Yearly Payroll Projection"
         DetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry";
         PayCycleTerm: Code[10];
         EmployeeFilter: Code[20];
-
         EmpVar: Record Employee;
         CompanyInfo: Record "Company Information";
         BenefitAmount: Decimal;
@@ -369,7 +366,6 @@ report 50144 "Yearly Payroll Projection"
         TotalTax: Decimal;
         TempDetailedEmpLedgerEntry: Record "Detailed Employee Ledger Entry" temporary;
         TotalAnnualEarning: Decimal;
-
         TotalTaxPaid: Decimal;
         MonthlyProjectedTax: Decimal;
         RemainingTaxable: Decimal;
@@ -444,10 +440,10 @@ report 50144 "Yearly Payroll Projection"
                     TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
                 TempDetailedEmpLedgerEntry.Insert;
             until DetailedEmpLedgerEntry.Next = 0;
+
         TotalAnnualEarning := 0;
         TotalRetirement := 0;
         TotalRetirement_ := 0;
-
         MinDeduction := 0;
         TempTax := 0;
         AnnualTax := 0;
@@ -473,8 +469,8 @@ report 50144 "Yearly Payroll Projection"
         TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
-        // Calculate Total Retirement
 
+        // Calculate Total Retirement
         TotalRetirement := 0;
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
@@ -500,10 +496,6 @@ report 50144 "Yearly Payroll Projection"
         TotalRetirement += EmployeeLumpsum;
         TotalRetirement += CITContribution;
 
-    end;
-
-
-
         // Calculate Min Deduction (1/3 rule)
         PgSetup.Get();
         MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;
@@ -526,9 +518,9 @@ report 50144 "Yearly Payroll Projection"
 
         MedicalInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Medical Insurance");
         HouseInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Property Insurance");
+
         // Get Donation Amount
         TotalDonation := GetDonationAmount(EmployeeFilter);
-
 
         // Calculate Total Non-Payment
         TempDetailedEmpLedgerEntry.Reset();
@@ -602,7 +594,7 @@ report 50144 "Yearly Payroll Projection"
                     LastEntryNo += 1;
                 until PayrollAttrUsage.Next() = 0
         end;
-    
+    end;
 
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean
     var
@@ -769,6 +761,7 @@ report 50144 "Yearly Payroll Projection"
         EmployeeFilter := empCode;
         PayCycleTerm := FiscalYear;
     end;
+
     local procedure GetInsuranceAmount(EmployeeNo: Code[20]; InsuranceType: Enum "Employee Insurance Type"): Decimal
     begin
         EmployeeInsuranceInfo.Reset();
