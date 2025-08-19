@@ -507,7 +507,7 @@ permissionset 50000 D365HRMSPermission
         page "Final Selected Candidates list" = X,
         page "Functional Title Card" = X,
         page "Functional Title List" = X,
-        page "Grade Entry" = X,
+        page "Grade Entries" = X,
         page "HR Budget Matrix Subform" = X,
         page "HR Budget Plan" = X,
         page "HR Budgeting" = X,

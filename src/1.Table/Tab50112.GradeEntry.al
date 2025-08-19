@@ -38,8 +38,20 @@ table 50112 "Grade Entry"
         {
             Description = 'Default garde + appraisal grade';
         }
-        field(11; "Default Grade Percentage"; Decimal) { }
-        field(12; "Appraisal Grade Percentage"; Decimal) { }
+        field(11; "Default Grade Percentage"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                "Total Grade Percentage" := "Default Grade Percentage" + "Appraisal Grade Percentage";
+            end;
+        }
+        field(12; "Appraisal Grade Percentage"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                "Total Grade Percentage" := "Default Grade Percentage" + "Appraisal Grade Percentage";
+            end;
+        }
     }
 
     keys

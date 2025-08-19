@@ -1754,6 +1754,7 @@ table 50027 "Payroll Line"
         CalculateLateDeduction();
         CalculateOTBenifit();
         GetTotalInsurranceClaim();
+        CalculateEmployeeSpecificGrade();
 
 
         if PayrollHeader.Type = PayrollHeader.Type::Settlement then
@@ -1805,7 +1806,7 @@ table 50027 "Payroll Line"
                 if (PayrollAttributesUsage."Pay Cycle Code" = PayrollHeader."Pay Cycle Code") and
                     (PayrollAttributesUsage."Pay Cycle Term" = PayrollHeader."Pay Cycle Term") and
                       (PayrollAttributesUsage."Pay Cycle Period" = PayrollHeader."Pay Cycle Period") then begin
-                    exit(IsValidPeriod);
+                    exit(true);
                 end;
             end
             else begin
@@ -1813,38 +1814,13 @@ table 50027 "Payroll Line"
                     if (PayrollAttributes."Pay Cycle Code" = PayrollHeader."Pay Cycle Code") and
                         (PayrollAttributes."Pay Cycle Term" = PayrollHeader."Pay Cycle Term") and
                           (PayrollAttributes."Pay Cycle Period" = PayrollHeader."Pay Cycle Period") then begin
-                        exit(IsValidPeriod);
+                        exit(true);
                     end;
                 end
                 else
-                    exit(IsValidPeriod);
+                    exit(true);
             end;
         end;
-    end;
-
-    local procedure IsValidPeriod(): Boolean
-    begin
-        exit(true);
-        /*IF (PayrollAttributesUsage."Pay Period Start Date" <> 0D) AND (PayrollAttributesUsage."Pay Period End Date" <> 0D) THEN BEGIN
-          IF (PayrollAttributesUsage."Pay Period Start Date" <= PayrollHeader."From Date") AND
-              (PayrollAttributesUsage."Pay Period End Date" >= PayrollHeader."To Date")
-           THEN
-            EXIT(TRUE);
-        END
-        ELSE IF (PayrollAttributesUsage."Pay Period Start Date" <> 0D) AND (PayrollAttributesUsage."Pay Period End Date" = 0D) THEN BEGIN
-          IF (PayrollAttributesUsage."Pay Period Start Date" > PayrollHeader."From Date") AND
-              (PayrollAttributesUsage."Pay Period Start Date" <= PayrollHeader."To Date") THEN
-          EXIT(TRUE);
-          IF PayrollAttributesUsage."Pay Period Start Date" <= PayrollHeader."From Date" THEN
-            EXIT(TRUE);
-        END
-        ELSE IF (PayrollAttributesUsage."Pay Period Start Date" = 0D) AND (PayrollAttributesUsage."Pay Period End Date" <> 0D) THEN BEGIN
-          IF PayrollAttributesUsage."Pay Period End Date" >= PayrollHeader."To Date" THEN
-            EXIT(TRUE);
-        END
-        ELSE
-          EXIT(TRUE);
-        */
     end;
 
     procedure EvaluateAmount(Expression: Code[100]; BasicFromLine: Boolean): Decimal
@@ -2804,10 +2780,17 @@ table 50027 "Payroll Line"
         GradeEntry: Record "Grade Entry";
         PayrollAttrUses: Record "Payroll Attributes Usage";
     begin
-        //use setup
+        //use setup to call this procedure as few company may use employee specific grade percentage ignore otherwise
         GradeEntry.SetRange("Employee No.", "Employee No.");
         GradeEntry.SetRange("New Salary Level", Employee."Salary Level");
         GradeEntry.CalcSums("Total Grade Percentage");
+
+        PayrollAttrUses.SetRange("Employee Code", "Employee No.");
+        PayrollAttrUses.SetRange(Subtype, PayrollAttrUses.Subtype::Grade);
+        if PayrollAttrUses.FindFirst() then begin
+            PayrollAttrUses.Validate(Amount, Round("Basic Salary" * GradeEntry."Total Grade Percentage" / 100, 0.01, '='));
+            PayrollAttrUses.Modify();
+        end;
 
     end;
 
