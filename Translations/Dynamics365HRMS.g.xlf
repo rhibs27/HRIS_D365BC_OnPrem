@@ -7963,6 +7963,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Employee No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2110632758 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field From Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 840714972 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From Employee Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field From Employee Status - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 565250863 - Field 1002773756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Functional Title (From)</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -8037,6 +8047,16 @@
           <source>Service History Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field Service History Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 2565971985 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field To Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 565250863 - Field 965450895 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>To Employee Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Employee Service History - Field To Employee Status - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3659416491 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Employee Transfer</source>
