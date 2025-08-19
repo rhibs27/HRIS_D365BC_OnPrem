@@ -33,6 +33,8 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
+
+
             column(TaxableIncome; Round(TaxableAmount, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
@@ -148,6 +150,12 @@ report 50144 "Yearly Payroll Projection"
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
+            }
+            column(TotalDonation; Round(TotalDonation, GlSetup."Amount Rounding Precision"))
+            {
+                AutoFormatExpression = 'NPR';
+                AutoFormatType = 1;
+
             }
             column(TaxExemptionLimit; Round(TaxExemptionLimit, GlSetup."Amount Rounding Precision"))
             {
@@ -380,6 +388,182 @@ report 50144 "Yearly Payroll Projection"
         MedicalInsuranceAmount: Decimal;
         HouseInsuranceAmount: Decimal;
         EmployeeInsuranceInfo: Record "Employee Insurance Information";
+        TotalDonation: Decimal;
+
+    // local procedure InsertColumn()
+    // var
+    //     LastEntryNo: Integer;
+    //     i: Integer;
+    //     Employee: Record Employee;
+    //     TempTax: Decimal;
+    //     AnnualTax: Decimal;
+    //     SocialSecurityTax: Decimal;
+    //     TaxSetupHdr: Record "Tax Setup Header";
+    //     RemainingMonth: Integer;
+    //     TaxSetupLine: Record "Tax Setup Line";
+    //     MinDeduction_: Decimal;
+    //     TotalRetirement_: Decimal;
+    //     j: Integer;
+    // begin
+    //     EmpVar.Get(EmployeeFilter);
+    //     LastEntryNo := 90000000;
+    //     EmployeePayrollOpen.Reset;
+    //     EmployeePayrollOpen.SetRange("Employee No.", EmployeeFilter);
+    //     if EmployeePayrollOpen.FindLast then
+    //         TaxSetupHdr.Get(EmpVar."Tax Code");
+    //     DetailedEmpLedgerEntry.Reset;
+    //     DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+    //     DetailedEmpLedgerEntry.SetFilter("Employee No.", EmployeeFilter);
+    //     DetailedEmpLedgerEntry.SetRange(Reversed, false);
+    //     if DetailedEmpLedgerEntry.FindLast then begin
+    //         CreateTempDetailedLedgerFromPAttrUsage(DetailedEmpLedgerEntry."Pay Cycle Period" + 1, LastEntryNo);
+    //         RemainingMonth := GetLastPayCycle(EmployeeFilter) - DetailedEmpLedgerEntry."Pay Cycle Period"
+    //     end
+    //     else begin
+    //         CreateTempDetailedLedgerFromPAttrUsage(1, LastEntryNo);
+    //         RemainingMonth := GetLastPayCycle(EmployeeFilter);
+    //     end;
+
+    //     Clear(DetailedEmpLedgerEntry);
+    //     DetailedEmpLedgerEntry.Reset;
+    //     DetailedEmpLedgerEntry.SetRange("Pay Cycle Term", PayCycleTerm);
+    //     DetailedEmpLedgerEntry.SetRange("Employee No.", EmployeeFilter);
+    //     DetailedEmpLedgerEntry.SetRange(Reversed, false);
+    //     if DetailedEmpLedgerEntry.FindFirst then
+    //         repeat
+    //             TempDetailedEmpLedgerEntry.Init;
+    //             TempDetailedEmpLedgerEntry := DetailedEmpLedgerEntry;
+    //             if TempDetailedEmpLedgerEntry."Attribute Type" = TempDetailedEmpLedgerEntry."Attribute Type"::Deduction then
+    //                 TempDetailedEmpLedgerEntry.Amount := Abs(DetailedEmpLedgerEntry.Amount);
+    //             TempDetailedEmpLedgerEntry.Insert;
+    //         until DetailedEmpLedgerEntry.Next = 0;
+    //     TotalAnnualEarning := 0;
+    //     TotalRetirement := 0;
+    //     TotalRetirement_ := 0;
+
+    //     MinDeduction := 0;
+    //     TempTax := 0;
+    //     AnnualTax := 0;
+    //     SocialSecurityTax := 0;
+    //     TotalTaxPaid := 0;
+    //     TotalNonPayment := 0;
+    //     NonTaxable := 0;
+    //     OneThird := 0;
+    //     MedicalInsuranceAmount := 0;
+    //     HouseInsuranceAmount := 0;
+
+    //     PgSetup.Get();
+    //     Employee.Reset;
+    //     Employee.SetRange("No.", EmployeeFilter);
+    //     Employee.SetFilter("Date Filter", '%1..%2', PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
+    //     Employee.FindFirst;
+    //     Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
+    //             "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
+
+    //     TempDetailedEmpLedgerEntry.Reset();
+    //     TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
+    //     TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
+    //     TempDetailedEmpLedgerEntry.CalcSums(Amount);
+    //     TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+
+    //     TempDetailedEmpLedgerEntry.Reset();
+    //     TempDetailedEmpLedgerEntry.CalcSums(Amount);
+    //     TotalRetirement := TotalRetirement_;
+
+    //     PgSetup.Get();
+    //     MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;  //one third
+    //     OneThird := MinDeduction_;
+
+    //     if MinDeduction_ > TotalRetirement then
+    //         MinDeduction_ := TotalRetirement;
+
+    //     TaxExemptionLimit := PgSetup."Tax Ex. Amt. not Exceeding";
+
+    //     if MinDeduction_ > TaxExemptionLimit then
+    //         MinDeduction_ := TaxExemptionLimit;
+
+    //     MinDeduction := MinDeduction_;
+    //     //added
+    //     LifeInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Life Insurance");
+    //     if LifeInsuranceAmount > PgSetup."Tax Ex. Life Insurance Amt." then
+    //         LifeInsuranceAmount := PgSetup."Tax Ex. Life Insurance Amt.";
+
+
+    //     MedicalInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Medical Insurance");
+    //     HouseInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Property Insurance");
+    //     TempDetailedEmpLedgerEntry.Reset();
+
+    //     TempDetailedEmpLedgerEntry.CalcSums(Amount);
+    //     TotalNonPayment := TempDetailedEmpLedgerEntry.Amount;
+
+    //     TempDetailedEmpLedgerEntry.Reset();
+    //     TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", true);
+    //     TempDetailedEmpLedgerEntry.CalcSums(Amount);
+    //     NonTaxable := TempDetailedEmpLedgerEntry.Amount;
+    //     TaxableAmount := TotalAnnualEarning + TotalNonPayment - MinDeduction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount;  //taxableamount
+    //     RemainingTaxableAmount := TaxableAmount;
+    //     j := 1;
+    //     TaxSetupLine.Reset;
+    //     TaxSetupLine.SetRange(Code, EmpVar."Tax Code");
+    //     if TaxSetupLine.FindSet then
+    //         repeat
+    //             if RemainingTaxableAmount > 0 then begin
+
+    //                 if TaxSetupLine."Tax Rate" = 0 then
+    //                     TempTax := 0
+    //                 else
+    //                     TempTax := GetTax(TaxSetupLine."Start Amount", TaxSetupLine."End Amount") * TaxSetupLine."Tax Rate" / 100.0;
+
+    //                 AnnualTax += TempTax;
+    //                 if (SocialSecurityTax = 0) and (TaxSetupLine."Tax Rate" = 1) then
+    //                     SocialSecurityTax := AnnualTax;
+
+    //                 TaxAmts[j] := TempTax;
+    //                 TaxAmtsSlabs[j] := GetTax2(TaxSetupLine."Start Amount", TaxSetupLine."End Amount", RemainingTaxableAmount, TempTax, TaxSetupLine);
+    //                 TaxRates[j] := TaxSetupLine."Tax Rate";
+
+    //                 j += 1;
+    //             end;
+    //         until (TaxSetupLine.Next = 0);
+
+    //     TotalTax := TaxAmts[1] +
+    //                 TaxAmts[2] +
+    //                 TaxAmts[3] +
+    //                 TaxAmts[4] +
+    //                 TaxAmts[5] +
+    //                 TaxAmts[6];
+
+    //     TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * AnnualTax, 0.01, '=');
+    //     MonthlyProjectedTax := MonthlyProjectedTax - MonthlySST;
+    //     for i := 12 - RemainingMonth + 1 to GetLastPayCycle(EmployeeFilter) do begin
+    //         PayrollAttrUsage.Reset();
+    //         PayrollAttrUsage.SetRange("Employee Code", EmployeeFilter);
+    //         PayrollAttrUsage.SetFilter(Subtype, '%1|%2', PayrollAttributes.Subtype::"Social Security Tax", PayrollAttrUsage.Subtype::"Tax on Remuneration & Benefits");
+    //         if PayrollAttrUsage.FindSet() then
+    //             repeat
+    //                 PayrollAttrUsage.CalcFields(Type, Subtype);
+    //                 TempDetailedEmpLedgerEntry.Init();
+    //                 TempDetailedEmpLedgerEntry."Entry No." := LastEntryNo;
+    //                 TempDetailedEmpLedgerEntry."Employee No." := EmployeeFilter;
+    //                 TempDetailedEmpLedgerEntry.Validate("Payroll Attribute Code", PayrollAttrUsage.Code);
+    //                 TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
+    //                 TempDetailedEmpLedgerEntry."Pay Cycle Term" := PayCycleTerm;
+    //                 TempDetailedEmpLedgerEntry."Pay Cycle Period" := i;
+
+    //                 if PayrollAttrUsage.Subtype = PayrollAttrUsage.Subtype::"Social Security Tax" then
+    //                     TempDetailedEmpLedgerEntry.Amount := MonthlySST
+    //                 else
+    //                     TempDetailedEmpLedgerEntry.Amount := MonthlyProjectedTax;
+
+    //                 TempDetailedEmpLedgerEntry.Insert();
+    //                 LastEntryNo += 1;
+    //             until PayrollAttrUsage.Next() = 0
+    //     end;
+    //     TempDetailedEmpLedgerEntry.Reset();
+    //     TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::"Non-Payment");
+    //     TempDetailedEmpLedgerEntry.CalcSums(Amount);
+    //     TotalNonPayment := TempDetailedEmpLedgerEntry.Amount;
+    // end;
 
     local procedure InsertColumn()
     var
@@ -395,6 +579,14 @@ report 50144 "Yearly Payroll Projection"
         MinDeduction_: Decimal;
         TotalRetirement_: Decimal;
         j: Integer;
+        DetailedEmpLedgerEntry2: Record "Detailed Employee Ledger Entry";
+        EmployerContribution: Decimal;
+        RF: Decimal;
+        LumpSumCIT: Decimal;
+        EmployeeLumpsum: Decimal;
+        ProjectionEarning: Decimal;
+        CITContribution: Decimal;
+        EmpPayOpen: Record "Employee Payroll Opening";
     begin
         EmpVar.Get(EmployeeFilter);
         LastEntryNo := 90000000;
@@ -451,18 +643,48 @@ report 50144 "Yearly Payroll Projection"
         Employee.CalcFields("Total Earning", "Total Retirement Contribution", "Total Donation Contribution",
                 "Total Medical Re-Imbursement", "Social Security Tax", "Remuneration & Benefits Tax", "PF Contribution");
 
+        // Calculate Total Annual Earning
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Type", '%1|%2', TempDetailedEmpLedgerEntry."Attribute Type"::"Basic Earning", TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings");
         TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
+        // Calculate Total Retirement
 
+        TotalRetirement := 0;
+
+        // 1. Get standard retirement contributions from ledger
         TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
+        TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
+            TempDetailedEmpLedgerEntry."Attribute Sub Type"::CIT,
+            TempDetailedEmpLedgerEntry."Attribute Sub Type"::RF,
+            TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Lump Sum Contribution",
+            TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
+            TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution");
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := TotalRetirement_;
+        TotalRetirement := TempDetailedEmpLedgerEntry.Amount;
 
+        // 2. Add employee-specific retirement amounts
+        TotalRetirement += Abs(Employee."Total Retirement Contribution");
+        TotalRetirement += Abs(Employee."RF Deposit");
+        TotalRetirement += Abs(Employee."Lump Sum CIT");
+
+        // 3. Add opening balances and past amounts
+        TotalRetirement += EmpPayOpen."Total RF Opening";
+        TotalRetirement += EmployeePayrollOpen."Total RF Opening";
+
+        // 4. Add other components
+        TotalRetirement += EmployeeLumpsum;
+        TotalRetirement += CITContribution;
+
+    end;
+
+
+
+        // Calculate Min Deduction (1/3 rule)
         PgSetup.Get();
-        MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;  //one third
+        MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;
         OneThird := MinDeduction_;
 
         if MinDeduction_ > TotalRetirement then
@@ -475,27 +697,41 @@ report 50144 "Yearly Payroll Projection"
 
         MinDeduction := MinDeduction_;
 
-        LifeInsuranceAmount := Employee."Premium of Life Insurance";
+        // Get Insurance Amounts
+        LifeInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Life Insurance");
         if LifeInsuranceAmount > PgSetup."Tax Ex. Life Insurance Amt." then
             LifeInsuranceAmount := PgSetup."Tax Ex. Life Insurance Amt.";
 
-        MedicalInsuranceAmount := Employee."Premium of Health Insurance";
-        TempDetailedEmpLedgerEntry.Reset();
+        MedicalInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Medical Insurance");
+        HouseInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Property Insurance");
+        // Get Donation Amount
+        TotalDonation := GetDonationAmount(EmployeeFilter);
 
+
+        // Calculate Total Non-Payment
+        TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::"Non-Payment");
+        TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", false); // Exclude non-taxable non-payments
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         TotalNonPayment := TempDetailedEmpLedgerEntry.Amount;
+
+        // Calculate Non-Taxable Amounts
         TempDetailedEmpLedgerEntry.Reset();
+        TempDetailedEmpLedgerEntry.SetRange("Non-Taxable", true);
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
         NonTaxable := TempDetailedEmpLedgerEntry.Amount;
-        TaxableAmount := TotalAnnualEarning + TotalNonPayment - MinDeduction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount;  //taxableamount
+
+        // Calculate Taxable Amount
+        TaxableAmount := TotalAnnualEarning + TotalNonPayment - MinDeduction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount - TotalDonation;
         RemainingTaxableAmount := TaxableAmount;
+
+        // Calculate Tax Slabs
         j := 1;
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, EmpVar."Tax Code");
         if TaxSetupLine.FindSet then
             repeat
                 if RemainingTaxableAmount > 0 then begin
-
                     if TaxSetupLine."Tax Rate" = 0 then
                         TempTax := 0
                     else
@@ -513,15 +749,13 @@ report 50144 "Yearly Payroll Projection"
                 end;
             until (TaxSetupLine.Next = 0);
 
-        TotalTax := TaxAmts[1] +
-                    TaxAmts[2] +
-                    TaxAmts[3] +
-                    TaxAmts[4] +
-                    TaxAmts[5] +
-                    TaxAmts[6];
+        TotalTax := TaxAmts[1] + TaxAmts[2] + TaxAmts[3] + TaxAmts[4] + TaxAmts[5] + TaxAmts[6];
 
+        // Calculate Tax Rebate
         TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * AnnualTax, 0.01, '=');
         MonthlyProjectedTax := MonthlyProjectedTax - MonthlySST;
+
+        // Project remaining months
         for i := 12 - RemainingMonth + 1 to GetLastPayCycle(EmployeeFilter) do begin
             PayrollAttrUsage.Reset();
             PayrollAttrUsage.SetRange("Employee Code", EmployeeFilter);
@@ -546,7 +780,7 @@ report 50144 "Yearly Payroll Projection"
                     LastEntryNo += 1;
                 until PayrollAttrUsage.Next() = 0
         end;
-    end;
+    
 
     local procedure CheckIfProjectable(AttrCode: Code[20]): Boolean
     var
@@ -713,4 +947,48 @@ report 50144 "Yearly Payroll Projection"
         EmployeeFilter := empCode;
         PayCycleTerm := FiscalYear;
     end;
+
+    local procedure GetInsuranceAmount(EmployeeNo: Code[20]; InsuranceType: Enum "Employee Insurance Type"): Decimal
+
+    begin
+        EmployeeInsuranceInfo.Reset();
+        EmployeeInsuranceInfo.SetRange("Employee No.", EmployeeNo);
+        EmployeeInsuranceInfo.SetRange(Type, EmployeeInsuranceInfo.Type::Insurance);
+        EmployeeInsuranceInfo.SetRange("Approval Status", EmployeeInsuranceInfo."Approval Status"::Approved);
+        EmployeeInsuranceInfo.SetRange(Expired, false);
+        EmployeeInsuranceInfo.SetRange("Insurance Type", InsuranceType);
+        if EmployeeInsuranceInfo.FindSet() then begin
+            EmployeeInsuranceInfo.CalcSums("Annual Premium Amount");
+            exit(EmployeeInsuranceInfo."Annual Premium Amount");
+        end;
+        exit(0);
+    end;
+
+    local procedure GetDonationAmount(EmployeeNo: Code[20]): Decimal
+    var
+        Emp: Record Employee;
+    begin
+        Emp.Get(EmployeeNo);
+        Emp.SetRange("Date Filter", PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
+        Emp.CalcFields("Total Donation Contribution");
+        exit(Emp."Total Donation Contribution");
+    end;
+
+    //     local procedure GetDonationAmount(EmployeeNo: Code[20]): Decimal
+    // var
+    //     DetailedLedger: Record "Detailed Employee Ledger Entry";
+    // begin
+    //     DetailedLedger.Reset();
+    //     DetailedLedger.SetRange("Employee No.", EmployeeNo);
+    //     DetailedLedger.SetRange("Attribute Type", DetailedLedger."Attribute Type"::"Non-Payment");
+    //     DetailedLedger.SetRange("Attribute Sub Type", DetailedLedger."Attribute Sub Type"::Donation);
+    //     DetailedLedger.SetRange("Posting Date", PgSetup."Payroll Fiscal Year Start Date", PgSetup."Payroll Fiscal Year End Date");
+    //     DetailedLedger.SetRange(Reversed, false);
+
+    //     if DetailedLedger.FindSet() then begin
+    //         DetailedLedger.CalcSums(Amount);
+    //         exit(DetailedLedger.Amount);
+    //     end;
+    //     exit(0);
+    // end;
 }
