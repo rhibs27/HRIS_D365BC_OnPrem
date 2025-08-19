@@ -576,7 +576,8 @@ table 50026 "Payroll Header"
                 Employee.SetFilter("Contract Expiry Date", '>%1', PGSetup."Payroll Fiscal Year Start Date");
         end else begin
             Employee.SetRange(Status, Employee.Status::Active);
-            Employee.SetRange("Resignation Date", 0D);
+            //Employee.SetRange("Resignation Date", 0D); //include resigned employees effective from next month
+            Employee.SetFilter("Resignation Date", '0D|>%1', "To Date");
         end;
         if Type = Type::Resignation then
             Employee.SetRange("Resignation Date", "From Date", "To Date");

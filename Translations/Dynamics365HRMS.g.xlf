@@ -9048,6 +9048,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Acknowledged Transfer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1214640677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Allowance Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 2202092499 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Allowance Assignment Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Allowance Assignment Claim - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 470349803 - Field 3807695278 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approved  Bulk Cash</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -9092,6 +9102,11 @@
           <source>Approved Vehicle Loan</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Approved Vehicle Loan - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 920818757 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bulk Overtime</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Bulk Overtime - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 3096454712 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Contract Expired Employees</source>
@@ -9142,6 +9157,26 @@
           <source>Incoming Branch</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Incoming Branch - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1538464910 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insurance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Insurance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 357109573 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Late Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Late Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3584713366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave Request</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Leave Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1631060925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overtime</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Overtime - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 1506971888 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Permanent Staff</source>
@@ -9227,6 +9262,16 @@
           <source>Screened Overtime</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Screened Overtime - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 2780494557 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shift Assignment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Shift Assignment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1626518671 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Temporary Staff</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Temporary Staff - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 4088089130 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>To Approve Attendance Missed</source>
@@ -9362,6 +9407,36 @@
           <source>To Screen Travel Claim</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field To Screen Travel Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 4224198349 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 3382071339 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Transfer Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Transfer Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1674581342 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel Claim</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Travel Claim - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 621202891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Travel Request</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Travel Request - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 1736849778 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Attendance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Update Attendance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 470349803 - Field 319548630 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Profile</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Update Profile - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 470349803 - Field 3243278099 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>User Filter</source>
@@ -33313,6 +33388,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Posted Resignation Payroll - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1747221607 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Executes the Request To Approve action.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Request To Approve - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 900836314 - Action 1747221607 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Request To Approve</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Manager Role Center - Action Request To Approve - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1780339891 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Overview</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33333,6 +33418,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Probation Staff - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1626518671 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Temporary Staff field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Temporary Staff - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1780339891 - Control 3096454712 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Expired field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -33352,6 +33442,76 @@
           <source>Contract Expiring</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Contract Expiry Employees - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1214640677 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Allowance Assignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Allowance Assignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 2202092499 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Allowance Assignment Claim field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Allowance Assignment Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 920818757 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bulk Overtime field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Bulk Overtime - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1538464910 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Insurance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Insurance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 357109573 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Late Attendance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Late Attendance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 3584713366 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Leave Request field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Leave Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1631060925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Overtime field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Overtime - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 2780494557 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Shift Assignment field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Shift Assignment - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 4224198349 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Transfer - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 3382071339 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Transfer Claim field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Transfer Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1674581342 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Travel Claim field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Travel Claim - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 621202891 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Travel Request field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Travel Request - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 1736849778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Update Attendance field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Update Attendance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1780339891 - Control 319548630 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Bulk Overtime field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page HR Overview - Control Update Profile - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1521437288 - Control 317029363 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>HR Activities</source>
@@ -44828,10 +44988,15 @@
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Employee No - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 2870880911 - Control 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Approval Status field.</source>
-          <note from="Developer" annotates="general" priority="2">%</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Status - Property ToolTip</note>
+        <trans-unit id="Page 2870880911 - Control 665443949 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requested By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Control Employee No - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2870880911 - Action 1505103626 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approve</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Action Approve Request - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2870880911 - Action 3875867463 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Open the document, journal line, or card that the approval is requested for.</source>
@@ -44842,6 +45007,11 @@
           <source>Open Record</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Action Record - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2870880911 - Action 2997986122 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reject</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Request to Approve HRIS - Action Reject Request - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3980991557 - Control 1878856189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Approval Status field.</source>
