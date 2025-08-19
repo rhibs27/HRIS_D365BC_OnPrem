@@ -162,6 +162,7 @@ codeunit 50000 "Leave Mgt."
 
         exit(Counter);
     end;
+
     procedure CheckLeaveConflict(EmpCode: Code[20]; StartDate: Date; EndDate: Date)
     var
         leave: Record Leave;
@@ -265,6 +266,7 @@ codeunit 50000 "Leave Mgt."
             Leave.SetRange("Employee No.", EmpCode);
             Leave.SetRange("Approval Status", Leave."Approval Status"::Approved);
             Leave.SetRange("End Date", StartDate - 1);
+            Leave.SetRange(Cancelled, false);
             if Leave.FindFirst then begin
                 if LeaveTypeSetup."Maximum Leave at once" < NoOfDays + Leave."No. of Days" then
                     Error(ErrorforConsecutive, LeaveCode, LeaveTypeSetup."Maximum Leave at once")
@@ -288,6 +290,7 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveEarn: Record "Leave Earn";
         LeavetypSetup: Record "Leave Type Setup";
+        LeavePeriod: Record "Accounting Period";
     begin
         CheckBetweenFiscalYear;
         PayrollSetup.Get;
@@ -322,7 +325,7 @@ codeunit 50000 "Leave Mgt."
                     LeaveEarn.Validate("Fiscal year", EngNep."Fiscal Year");
                     LeaveEarn.Validate("Posted Date", Today);
                     if LeavetypSetup."AML Eligible" then begin
-                        if Employee."Confirmation Date" <= PayrollSetup."Payroll Fiscal Year Start Date" then begin
+                        if Employee."Confirmation Date" <= LeavePeriod.GetCurrentLeaveYearStartDate() then begin
                             if not LeavetypSetup."Calculate Proratawise" then
                                 LeaveEarn.Validate("Balancing Days", LeavetypSetup."Days Earned Per Year")
                             else
@@ -433,10 +436,12 @@ codeunit 50000 "Leave Mgt."
     end;
 
     procedure CheckBetweenFiscalYear()
+    var
+        LeavePeriod: Record "Accounting Period";
     begin
         PayrollSetup.Get;
-        if (Today < PayrollSetup."Payroll Fiscal Year Start Date") or (Today > PayrollSetup."Payroll Fiscal Year End Date") then
-            Error('Date must between %1 and %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
+        if (Today < LeavePeriod.GetCurrentLeaveYearStartDate()) or (Today > LeavePeriod.GetCurrentLeaveYearEndDate()) then
+            Error('Date must between %1 and %2', LeavePeriod.GetCurrentLeaveYearStartDate(), LeavePeriod.GetCurrentLeaveYearEndDate());
     end;
 
     procedure CalculateProDataLeave(LeaveCode: Code[20]; JoiningDate: Date): Decimal
@@ -582,13 +587,14 @@ codeunit 50000 "Leave Mgt."
         EmpAttendActivity: Record "Employee Attendance & Activity";
         ErrorPresent: Label 'Cannot apply compenstory leave for %1.';
         EmpActivity: Record "Employee Activity";
+        LeavePeriod: Record "Accounting Period";
     begin
         LeaveType.Get(LeaveCode);
         PayrollSetup.Get; //Min
         if LeaveType."Leave Category" = LeaveType."Leave Category"::Substitute then begin
             if NoOfDays <> 1 then
                 Error(ErrorNoOfDays);
-            if not (CompensatoryDate in [PayrollSetup."Payroll Fiscal Year Start Date" .. PayrollSetup."Payroll Fiscal Year End Date"]) then
+            if not (CompensatoryDate in [LeavePeriod.GetCurrentLeaveYearStartDate() .. LeavePeriod.GetCurrentLeaveYearEndDate()]) then
                 Error('Cannot apply for previous fiscal year');
             //IF GetNonWorkingDays(CompensatoryDate,CompensatoryDate,EmpCode) <> 1 THEN
             //ERROR(ErrorNonWokDays,CompensatoryDate);
@@ -757,6 +763,7 @@ codeunit 50000 "Leave Mgt."
         ErrorNoOfDays: Label 'No. of leave days must be greater than 0.';
         LeaveTypeSetup: Record "Leave Type Setup";
         Ishandled: Boolean;
+        LeavePeriod: Record "Accounting Period";
     begin
         LeaveTypeSetup.Get(Leave."Leave Code");
         OnBeforeLeaveApproved(Leave, Ishandled);
@@ -780,8 +787,8 @@ codeunit 50000 "Leave Mgt."
         PayrollSetup.Get;
         //check for fiscal year start date
         if not (LeaveTypeSetup."Leave at Once" and LeaveTypeSetup."Needed HR Permission") then
-            if (Leave."Start Date" < PayrollSetup."Payroll Fiscal Year Start Date") or (Leave."End Date" > PayrollSetup."Payroll Fiscal Year End Date") then
-                Error('Leave Start date must be within %1 - %2', PayrollSetup."Payroll Fiscal Year Start Date", PayrollSetup."Payroll Fiscal Year End Date");
+            if (Leave."Start Date" < LeavePeriod.GetCurrentLeaveYearStartDate()) or (Leave."End Date" > LeavePeriod.GetCurrentLeaveYearEndDate()) then
+                Error('Leave Start date must be within %1 - %2', LeavePeriod.GetCurrentLeaveYearStartDate(), LeavePeriod.GetCurrentLeaveYearEndDate());
 
         //Bereavement Leave
         if GuiAllowed then

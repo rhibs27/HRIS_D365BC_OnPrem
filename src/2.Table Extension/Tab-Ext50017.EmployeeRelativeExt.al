@@ -220,6 +220,13 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
         end;
     end;
 
+    trigger OnAfterModify()
+    begin
+        if GuiAllowed then
+            if "Set Emergency Contact" then
+                Validate("Set Emergency Contact");
+    end;
+
     local procedure GetNextLineNo();
     var
         EmployeeRelative: Record "Employee Relative";

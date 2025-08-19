@@ -68,7 +68,8 @@ codeunit 50017 "Approver Mgt"
                         Approval.Validate("Approver No", Employee."No.");
                         Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                         Approval.Validate(Status, ApprovalSetupLine."Approval Status");
-                        Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                        // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                        Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                         if ApprovalSetupLine."Approval Sequence" = 1 then begin
                             if ApprovalStatus = ApprovalStatus::Pending then
                                 Approval.Validate("Approval Status", "Approval Status"::Open);
@@ -141,7 +142,8 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approver No", Employee."No.");
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                     Approval.Validate("Loan Type", LoanType);
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         Approval.Validate("Approval Status", "Approval Status"::Open);
@@ -212,7 +214,8 @@ codeunit 50017 "Approver Mgt"
                     Approval.Validate("Approval Sequence", ApprovalSetupLine."Approval Sequence");
                     Approval.Validate(Status, ApprovalSetupLine."Approval Status");
                     Approval.Validate(Cancelled, Cancelled);
-                    Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    // Approval.Validate("Approval Role", ApprovalSetupLine."Approval Role");
+                    Approval.Validate("Approval Role", ApprovalSetupLine."Approver Role");
                     if ApprovalSetupLine."Approval Sequence" = 1 then begin
                         Approval.Validate("Approval Status", "Approval Status"::Open);
                         count := count + 1;
@@ -280,6 +283,7 @@ codeunit 50017 "Approver Mgt"
         DocumentNo: Code[20];
         RetirementFund: Record "Retirement Fund";
         PayrollEngine: Codeunit "Payroll Engine";
+        AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         case RecRef.Number() of
             Database::"Retirement Fund":
@@ -457,6 +461,10 @@ codeunit 50017 "Approver Mgt"
                             begin
                                 RetirementFund.Get(RecRef.RecordId);
                                 HRMgt.ScreenRF(RetirementFund);
+                            end;
+                        EmployeeActivityType::"Late Attendance":
+                            begin
+                                AttendanceMgt.ApproveLateAttendance(RecRef.Field(1).Value);
                             end;
                     end;
                     OnAfterDocumentFinalApproved(RecRef);
