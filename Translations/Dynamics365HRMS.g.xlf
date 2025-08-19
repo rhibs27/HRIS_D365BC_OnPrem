@@ -9243,11 +9243,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Rejected Vehicle Loan - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 470349803 - Field 1672560071 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Request to Approve</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table HR Cue - Field Request to Approve - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 470349803 - Field 3973430723 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Resignation By Age</source>
           <note from="Developer" annotates="general" priority="2"></note>

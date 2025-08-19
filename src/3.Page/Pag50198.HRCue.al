@@ -10,14 +10,6 @@ page 50198 "HR Cue"
     {
         area(Content)
         {
-            cuegroup("Pending Tasks")
-            {
-                field("Request to Approve"; Rec."Request to Approve")
-                {
-                    ApplicationArea = all;
-                    DrillDownPageId = "Request to Approve HRIS";
-                }
-            }
             cuegroup("Attendance Missed")
             {
                 Visible = AttendanceMissedVisibility;
