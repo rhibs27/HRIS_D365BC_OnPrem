@@ -274,17 +274,17 @@ codeunit 50016 "AttendanceMiss Mgt"
         end;
     end;
 
-    procedure CheckAlreadyExists("EmployeeNo": code[20]; "type": Enum "Employee Activity Type"; "startDate": Date)
+    procedure CheckAlreadyExists("EmployeeNo": code[20]; Type: Enum "Employee Activity Type"; "startDate": Date)
     var
         AttendanceMissed: Record "Attendance Missed";
     begin
         AttendanceMissed.Reset;
         AttendanceMissed.SetRange("Employee No.", EmployeeNo);
-        AttendanceMissed.SetRange(Type, type::"Attendance Missed");
+        AttendanceMissed.SetRange(Type, Type);
         AttendanceMissed.SetRange("Start Date", startDate);
         AttendanceMissed.SetFilter("Approval Status", '<>%1&<>%2', AttendanceMissed."Approval Status"::Rejected, AttendanceMissed."Approval Status"::Withdrawn);
         if AttendanceMissed.FindFirst then
-            Error('%1 already applied for date %2', type::"Attendance Missed", AttendanceMissed."Start Date");
+            Error('%1 already applied for date %2', Type, AttendanceMissed."Start Date");
     end;
 
     procedure CheckForLeaveDay(var AttendanceJRN: Record "Employee Activity Journal")
