@@ -108,6 +108,10 @@ table 50096 "Employee Service History"
         }
         field(26; "Document No."; Code[20]) { }
         field(27; "Outstation Eligible"; Boolean) { }
+        field(30; "From Date"; Date) { }
+        field(31; "To Date"; Date) { }
+        field(32; "From Employee Status"; Enum "Employee Status") { }
+        field(33; "To Employee Status"; Enum "Employee Status") { }
     }
 
     keys
