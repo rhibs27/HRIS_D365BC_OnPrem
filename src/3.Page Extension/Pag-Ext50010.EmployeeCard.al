@@ -1312,7 +1312,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 Promoted = true;
                 PromotedCategory = Process;
                 RunObject = Page "Employee Work Qualification";
-                RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = CONST(Work);
+                RunPageLink = "Employee No." = field("No."), "Emp Qualification Type" = filter(Work | Achievement);
                 Image = Certificate;
                 ToolTip = 'Executes the Work Experience action.';
             }

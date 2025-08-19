@@ -1,9 +1,8 @@
 page 50235 "Employee Edit list"
 {
-    ApplicationArea = BasicHR;
-    // Editable = false;
-    // InsertAllowed = false;
-    // DeleteAllowed = false;
+    Editable = false;
+    InsertAllowed = false;
+    DeleteAllowed = false;
     PageType = List;
     SourceTable = "Employee Edit";
     UsageCategory = Lists;

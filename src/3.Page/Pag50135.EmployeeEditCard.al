@@ -3,8 +3,9 @@ page 50135 "Employee Edit Card"
     PageType = Card;
     ApplicationArea = All;
     SourceTable = "Employee Edit";
-    // InsertAllowed = false;
-    // DeleteAllowed = false;
+    InsertAllowed = false;
+    DeleteAllowed = false;
+    Editable = false;
     layout
     {
         area(Content)

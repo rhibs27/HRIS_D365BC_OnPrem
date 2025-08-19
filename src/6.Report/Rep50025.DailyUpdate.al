@@ -54,8 +54,10 @@ report 50025 "Daily Update"
             repeat
                 if Employee."Resignation Date" = Today - 1 then
                     Employee.Status := Employee.Status::Terminated;
-                if Employee."Birth Date" <> 0D then
+                if Employee."Birth Date" <> 0D then begin
                     HRMgt.CheckAgeAndBirthday(Employee."Birth Date", Today, Employee.Age, AgeDays, IsBirthDay);
+                    Employee.Validate("Birth Date");
+                end;
                 if Employee."Employment Date" <> 0D then begin
                     HRMgt.CheckAgeAndBirthday(Employee."Employment Date", Today, Employee."Service Period", AgeDays, IsBirthDay);
                     Employee.Validate("Employment Date");
