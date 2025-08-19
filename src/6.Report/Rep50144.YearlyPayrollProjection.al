@@ -476,8 +476,6 @@ report 50144 "Yearly Payroll Projection"
         // Calculate Total Retirement
 
         TotalRetirement := 0;
-
-        // 1. Get standard retirement contributions from ledger
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
