@@ -1,7 +1,38 @@
 permissionset 50000 D365HRMSPermission
 {
     Assignable = true;
-    Permissions = tabledata "Email Template Message" = RIMD,
+    Permissions = //>>manual inserted for table extension object
+    tabledata Employee = RIM,
+        tabledata "G/L Account" = RIM,
+        tabledata "G/L Entry" = RIM,
+        tabledata "Gen. Journal Line" = RIM,
+        tabledata "User Setup" = RIM,
+        tabledata "General Ledger Setup" = RI,
+        tabledata "Incoming Document" = RIMD,
+        tabledata "Incoming Document Attachment" = RIMD,
+        tabledata "Reason Code" = rim,
+        tabledata "Source Code Setup" = ri,
+        tabledata "Country/Region" = ri,
+        tabledata "Excel Buffer" = rim,
+        tabledata "Change Log Entry" = ri,
+        tabledata "Document Attachment" = rimd,
+        tabledata Qualification = rimd,
+        tabledata "Employee Qualification" = rimd,
+        tabledata Relative = rim,
+        tabledata "Employee Relative" = rimd,
+        tabledata "Human Resources Setup" = ri,
+        tabledata "Employee Ledger Entry" = ri,
+        tabledata "Detailed Employee Ledger Entry" = rimd,
+        tabledata "Base Calendar Change" = ri,
+        tabledata "Terms And Conditions" = rim,
+        tabledata "Customized Calendar Change" = ri,
+        tabledata "Reversal Entry" = ri,
+        tabledata "Standard Text" = rim,
+        tabledata "Dimension Value" = ri,
+        tabledata "Accounting Period" = rim,
+        tabledata Dimension = ri,
+    //<table extension
+        tabledata "Email Template Message" = RIMD,
         tabledata "Email Template Recipient" = RIMD,
         tabledata "Allowance Assignment Header" = RIMD,
         tabledata "Allowance Assignment Line" = RIMD,
@@ -274,7 +305,6 @@ permissionset 50000 D365HRMSPermission
         report "Export Posted Payroll Value" = X,
         report "Extra Mileage EMail Send" = X,
         report "Extra Working Hour Report" = X,
-        report "Overtime Calculation Report" = X,
         report FiscalYearEndLeave = X,
         report "Formation of Functional Title" = X,
         report "Generate Can Schedule" = X,
@@ -477,7 +507,6 @@ permissionset 50000 D365HRMSPermission
         page "Final Selected Candidates list" = X,
         page "Functional Title Card" = X,
         page "Functional Title List" = X,
-        page "Grade Entries" = X,
         page "Grade Entry" = X,
         page "HR Budget Matrix Subform" = X,
         page "HR Budget Plan" = X,
@@ -779,5 +808,6 @@ permissionset 50000 D365HRMSPermission
         page "Transfer Claim Details Subform" = X,
         page "Transfer Journal" = X,
         tabledata "Employee Activity Journal" = RIMD,
-        page "Sample Attachments" = X;
+        page "Sample Attachments" = X,
+        report "OverTime Calculation Report" = X;
 }
