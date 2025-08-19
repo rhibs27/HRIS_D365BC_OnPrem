@@ -4864,7 +4864,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox42">
+                        <Textbox Name="Textbox20">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -4881,7 +4881,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox42</rd:DefaultName>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -4996,7 +4996,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -5283,14 +5282,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox59">
+                        <Textbox Name="RetirementAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!RetirementAmount.Value</Value>
+                                  <Value>=First(Fields!RetirementAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -5301,7 +5300,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox59</rd:DefaultName>
+                          <rd:DefaultName>RetirementAmount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -5709,7 +5708,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!OneThird.Value</Value>
+                                  <Value>=First(Fields!OneThird.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6594,14 +6593,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="MinDeduction_">
+                        <Textbox Name="Minvaluededuction">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!MinDeduction_.Value)</Value>
+                                  <Value>=Fields!Minvaluededuction.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -6612,7 +6611,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>MinDeduction_</rd:DefaultName>
+                          <rd:DefaultName>Minvaluededuction</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -8651,11 +8650,11 @@ End Function
         <Field Name="TaxRebateFormat">
           <DataField>TaxRebateFormat</DataField>
         </Field>
-        <Field Name="MinDeduction_">
-          <DataField>MinDeduction_</DataField>
+        <Field Name="Minvaluededuction">
+          <DataField>Minvaluededuction</DataField>
         </Field>
-        <Field Name="MinDeduction_Format">
-          <DataField>MinDeduction_Format</DataField>
+        <Field Name="MinvaluedeductionFormat">
+          <DataField>MinvaluedeductionFormat</DataField>
         </Field>
         <Field Name="TotalTax">
           <DataField>TotalTax</DataField>

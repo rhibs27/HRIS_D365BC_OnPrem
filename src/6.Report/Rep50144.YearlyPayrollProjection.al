@@ -130,7 +130,12 @@ report 50144 "Yearly Payroll Projection"
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
             }
-            column(MinDeduction_; Round(MinDeduction, GlSetup."Amount Rounding Precision"))
+            // column(MinDeduction_; Round(MinDeduction, GlSetup."Amount Rounding Precision"))
+            // {
+            //     AutoFormatExpression = 'NPR';
+            //     AutoFormatType = 1;
+            // }
+            column(Minvaluededuction; Round(Minvaluededuction, GlSetup."Amount Rounding Precision"))
             {
                 AutoFormatExpression = 'NPR';
                 AutoFormatType = 1;
@@ -375,7 +380,8 @@ report 50144 "Yearly Payroll Projection"
         RemainingTaxableAmount: Decimal;
         TaxableAmount: Decimal;
         PayrollAttrUsage: Record "Payroll Attributes Usage";
-        MinDeduction: Decimal;
+        // MinDeduction: Decimal;
+        Minvaluededuction: Decimal;
         LifeInsuranceAmount: Decimal;
         TotalNonPayment: Decimal;
         NonTaxable: Decimal;
@@ -397,8 +403,7 @@ report 50144 "Yearly Payroll Projection"
         TaxSetupHdr: Record "Tax Setup Header";
         RemainingMonth: Integer;
         TaxSetupLine: Record "Tax Setup Line";
-        MinDeduction_: Decimal;
-        TotalRetirement_: Decimal;
+        //MinDeduction_: Decimal;
         j: Integer;
         EmployerContribution: Decimal;
         RF: Decimal;
@@ -443,8 +448,8 @@ report 50144 "Yearly Payroll Projection"
 
         TotalAnnualEarning := 0;
         TotalRetirement := 0;
-        TotalRetirement_ := 0;
-        MinDeduction := 0;
+        //MinDeduction := 0;
+        Minvaluededuction := 0;
         TempTax := 0;
         AnnualTax := 0;
         SocialSecurityTax := 0;
@@ -471,7 +476,6 @@ report 50144 "Yearly Payroll Projection"
         TotalAnnualEarning := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total Benefit Opening";
 
         // Calculate Total Retirement
-        TotalRetirement := 0;
         TempDetailedEmpLedgerEntry.Reset();
         TempDetailedEmpLedgerEntry.SetRange("Attribute Type", TempDetailedEmpLedgerEntry."Attribute Type"::Deduction);
         TempDetailedEmpLedgerEntry.SetFilter("Attribute Sub Type", '%1|%2|%3|%4|%5',
@@ -481,36 +485,28 @@ report 50144 "Yearly Payroll Projection"
             TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employee Contribution",
             TempDetailedEmpLedgerEntry."Attribute Sub Type"::"Employer Contribution");
         TempDetailedEmpLedgerEntry.CalcSums(Amount);
-        TotalRetirement := TempDetailedEmpLedgerEntry.Amount;
+        TotalRetirement := TempDetailedEmpLedgerEntry.Amount + EmployeePayrollOpen."Total RF Opening";
 
-        // 2. Add employee-specific retirement amounts
-        TotalRetirement += Abs(Employee."Total Retirement Contribution");
-        TotalRetirement += Abs(Employee."RF Deposit");
-        TotalRetirement += Abs(Employee."Lump Sum CIT");
 
-        // 3. Add opening balances and past amounts
-        TotalRetirement += EmpPayOpen."Total RF Opening";
-        TotalRetirement += EmployeePayrollOpen."Total RF Opening";
-
-        // 4. Add other components
-        TotalRetirement += EmployeeLumpsum;
-        TotalRetirement += CITContribution;
-
-        // Calculate Min Deduction (1/3 rule)
         PgSetup.Get();
-        MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;
-        OneThird := MinDeduction_;
-
-        if MinDeduction_ > TotalRetirement then
-            MinDeduction_ := TotalRetirement;
-
+        //calculate one third of gross income
+        OneThird := TotalAnnualEarning / PgSetup."Tax Ex. Amt Divsion";
+        // Calculate Min Deduction (1/3 rule)
+        //OneThird := MinDeduction_;
+        // MinDeduction_ := (PgSetup."Tax Ex. Amt. (%) on Retirement" * TotalAnnualEarning) / 100;
+        // if MinDeduction_ > TotalRetirement then
+        //     MinDeduction_ := TotalRetirement;
+        // if MinDeduction_ > TaxExemptionLimit then
+        //     MinDeduction_ := TaxExemptionLimit;
+        // MinDeduction := MinDeduction_;
+        //Tax exemptionlimit value
         TaxExemptionLimit := PgSetup."Tax Ex. Amt. not Exceeding";
-
-        if MinDeduction_ > TaxExemptionLimit then
-            MinDeduction_ := TaxExemptionLimit;
-
-        MinDeduction := MinDeduction_;
-
+        //calculate min value among total contribution on retirement fund , One third of gross income and tax Exemption Limit
+        MinValueDeduction := TotalRetirement;
+        if OneThird < MinValueDeduction then
+            MinValueDeduction := OneThird;
+        if TaxExemptionLimit < MinValueDeduction then
+            MinValueDeduction := TaxExemptionLimit;
         // Get Insurance Amounts
         LifeInsuranceAmount := GetInsuranceAmount(EmployeeFilter, EmployeeInsuranceInfo."Insurance Type"::"Life Insurance");
         if LifeInsuranceAmount > PgSetup."Tax Ex. Life Insurance Amt." then
@@ -536,7 +532,7 @@ report 50144 "Yearly Payroll Projection"
         NonTaxable := TempDetailedEmpLedgerEntry.Amount;
 
         // Calculate Taxable Amount
-        TaxableAmount := TotalAnnualEarning + TotalNonPayment - MinDeduction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount - TotalDonation;
+        TaxableAmount := TotalAnnualEarning + TotalNonPayment - Minvaluededuction - LifeInsuranceAmount - MedicalInsuranceAmount - HouseInsuranceAmount - TotalDonation;
         RemainingTaxableAmount := TaxableAmount;
 
         // Calculate Tax Slabs
@@ -566,7 +562,16 @@ report 50144 "Yearly Payroll Projection"
         TotalTax := TaxAmts[1] + TaxAmts[2] + TaxAmts[3] + TaxAmts[4] + TaxAmts[5] + TaxAmts[6];
 
         // Calculate Tax Rebate
-        TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * AnnualTax, 0.01, '=');
+
+        TaxRebate := 0;
+
+        TaxSetupHdr.Reset();
+        TaxSetupHdr.SetRange(Code, EmpVar."Tax Code");
+        if TaxSetupHdr.FindFirst() then begin
+            if TaxSetupHdr."Special Tax Exempt %" > 0 then
+                TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * TotalTax, 0.01, '=');
+        end;
+        //TaxRebate := Round((TaxSetupHdr."Special Tax Exempt %" / 100) * AnnualTax, 0.01, '=');
         MonthlyProjectedTax := MonthlyProjectedTax - MonthlySST;
 
         // Project remaining months
@@ -700,8 +705,12 @@ report 50144 "Yearly Payroll Projection"
                         TempDetailedEmpLedgerEntry."Entry No." := TempEntryNo;
                         TempDetailedEmpLedgerEntry."Employee No." := EmployeeFilter;
                         TempDetailedEmpLedgerEntry.Validate("Payroll Attribute Code", PayrollAttrUsage.Code);
+
+
                         if PayAttr.Type = PayAttr.Type::Benefits then
                             TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::"Other Earnings";
+                        if PayAttr.Type = PayAttr.Type::Deduction then
+                            TempDetailedEmpLedgerEntry."Attribute Type" := TempDetailedEmpLedgerEntry."Attribute Type"::Deduction;
                         TempDetailedEmpLedgerEntry."Attribute Sub Type" := PayAttr.Subtype;
                         TempDetailedEmpLedgerEntry."Non-Taxable" := PayAttr."Non-Taxable";
                         TempDetailedEmpLedgerEntry.Validate("Pay Cycle Code", 'MONTHLY');
