@@ -22,12 +22,12 @@ page 50173 "Grade Entries"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-                field("New Salary Level"; Rec."Salary Level")
+                field("Salary Level"; Rec."Salary Level")
                 {
                     ToolTip = 'Specifies the value of the New Salary Level field.';
                     ApplicationArea = All;
                 }
-                field("New Grade Level"; Rec.Grade)
+                field(Grade; Rec.Grade)
                 {
                     ToolTip = 'Specifies the value of the New Grade Level field.';
                     ApplicationArea = All;
