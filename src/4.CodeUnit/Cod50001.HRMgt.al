@@ -5808,18 +5808,7 @@ codeunit 50001 "HR Mgt."
 
             NewEmploymentDate := NewEmploymentDate + AdjustingDays;
 
-            // if Format(Employee."Previous Service Period") <> '' then begin
-            //     if Format(Employee."Additional Service Period") <> '' then
-            //         Evaluate(PreviousPeriod, '-' + (Format(Employee."Previous Service Period") + '-' + Format(Employee."Additional Service Period")))
-            //     else
-            //         Evaluate(PreviousPeriod, '-' + Format(Employee."Previous Service Period"));
-            //     NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
-            // end
-            // else
-            //     if Format(Employee."Additional Service Period") <> '' then begin
-            //         Evaluate(PreviousPeriod, '-' + Format(Employee."Additional Service Period"));
-            //         NewEmploymentDate := CalcDate(PreviousPeriod, NewEmploymentDate);
-            //     end;
+            //if there is previous service period add code hhere accordingly
             exit(NewEmploymentDate);
         end;
     end;
@@ -5950,7 +5939,7 @@ codeunit 50001 "HR Mgt."
         end;
         if Days < 0 then begin
             Month := Month - 1;
-            Days := GetMonthEndDayNepali(EngNep2."Nepali Year", EngNep."Nepali Month".AsInteger()) - Abs(Days);
+            Days := GetMonthEndDayNepali(EngNep2."Nepali Year", EngNep2."Nepali Month".AsInteger() - 1) - Abs(Days);
         end;
 
         if Month < 0 then begin
