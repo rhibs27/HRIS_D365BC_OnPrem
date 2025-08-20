@@ -9148,15 +9148,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Entry No. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 461579923 - Field 1451412465 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New Grade Level</source>
+        <trans-unit id="Table 461579923 - Field 2817493743 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Grade</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field New Grade Level - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Table 461579923 - Field 1291840298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>New Salary Level</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field New Salary Level - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Grade - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 461579923 - Field 2034231048 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Old Grade Level</source>
@@ -9172,6 +9167,11 @@
           <source>Posting Date</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Posting Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 461579923 - Field 1640361694 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salary Level</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Grade Entry - Field Salary Level - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 461579923 - Field 1770618697 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Total Grade Percentage</source>
@@ -31723,11 +31723,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Employee No. - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 473053513 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Entry No. field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Entry No. - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 473053513 - Control 1451412465 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the New Grade Level field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -31742,11 +31737,6 @@
           <source>Specifies the value of the Last Grade Posting Date field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Posting Date - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 473053513 - Control 3710982960 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Last Grade Posting Date</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Grade Entries - Control Posting Date - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 473053513 - Control 1770618697 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Total Grade Percentage field.</source>
