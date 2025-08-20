@@ -19388,6 +19388,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Good Service Period - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1640361694 - Field 2073481189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Grades Limit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Salary Level - Field Grades Limit - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1640361694 - Field 1360892913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Holiday Counter Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -46267,6 +46272,11 @@
           <source>Specifies the value of the Good Service Period field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Good Service Period - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3544505483 - Control 2073481189 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies number of grades per salary level</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Salary Levels - Control Grades Limit - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3544505483 - Control 1360892913 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Holiday Counter Eligible field.</source>

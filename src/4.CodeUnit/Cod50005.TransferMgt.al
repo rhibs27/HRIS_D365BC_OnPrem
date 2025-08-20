@@ -86,7 +86,7 @@ codeunit 50005 "Transfer Mgt."
         Employee.Get(HRMgt.GetEmployeeNo());
         if HRSetup."HR Department Code" <> Employee."Department Code" then
             Error('Only Employee from HR department can confirm transfer Details');
-        if Today > EmpHrTransfer."Transfer Effective Date" then //Min 8.7.2022 + 1
+        if Today > EmpHrTransfer."Transfer Effective Date" then
             Error(TransferError, EmpHrTransfer."Transfer Effective Date", Today);
         EmpHrTransfer.TestField("Transfer Category");
         EmpHrTransfer.TestField("Transfer Effective Date");

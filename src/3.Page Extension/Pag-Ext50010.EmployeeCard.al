@@ -1848,7 +1848,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Rec.FilterGroup(2);
                         EmployeeTransfer.SETRANGE("Employee No.", Rec."No.");
                         EmployeeTransfer.SETFILTER(Type, '%1|%2', EmployeeTransfer.Type::"HR Transfer", EmployeeTransfer.Type::"Employee Transfer");
-                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved); //Min -- Approved filter added.
+                        EmployeeTransfer.SETFILTER("Approval Status", '%1|%2', EmployeeTransfer."Approval Status"::Acknowledged, EmployeeTransfer."Approval Status"::Approved);
                         Rec.FilterGroup(0);
                         CLEAR(PageTransferHistory);
                         PageTransferHistory.ForHistoryPage;
@@ -2412,8 +2412,8 @@ pageextension 50010 "Employee Card" extends "Employee Card"
     LOCAL PROCEDURE CheckEmployee();
     BEGIN
         //   {IF NOT (Status = Status::Active) THEN
-        //         EXIT;} //Min 1.1 commented for only control apply for new creation employee
-        IF Rec."New Employee" THEN BEGIN //Min 1.2
+        //         EXIT;} 
+        IF Rec."New Employee" THEN BEGIN
             Rec.TESTFIELD("Full Name");
             Rec.TESTFIELD("Deputation on");
             Rec.TESTFIELD("Salary Level");
@@ -2427,14 +2427,14 @@ pageextension 50010 "Employee Card" extends "Employee Card"
             Rec.TESTFIELD("Tax Code");
             Rec.TESTFIELD("Inside/Outside Valley");
             Rec.TESTFIELD("Posting Region");
-            Rec.TESTFIELD("Date of Birth (B.S.)"); //Min <<
+            Rec.TESTFIELD("Date of Birth (B.S.)");
             Rec.TESTFIELD("PAN No.");
-            Rec.TESTFIELD("Citizen Number");//Min >>
+            Rec.TESTFIELD("Citizen Number");
             IF Rec."Employment Type" = Rec."Employment Type"::Permanent THEN
                 Rec.TESTFIELD("Confirmation Date");
             IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN
                 Rec.TESTFIELD("Contract Salary Amount");
-            IF Rec."Employment Type" = Rec."Employment Type"::Probation THEN //Min
+            IF Rec."Employment Type" = Rec."Employment Type"::Probation THEN
                 Rec.TESTFIELD("Probation Period");
             IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN BEGIN
                 Rec.TESTFIELD("Contract Expiry Month");

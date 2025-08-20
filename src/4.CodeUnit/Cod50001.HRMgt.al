@@ -223,7 +223,7 @@ codeunit 50001 "HR Mgt."
             Employee.Validate("Salary Level", PromotionHistory.GetFilter("Promoted Salary Level Code"));
             Employee.Validate("Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             Employee.Validate("Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
-            Employee.Validate("Promotion Date", PromotedDate); //Min -- for update promotion date in employee table
+            Employee.Validate("Promotion Date", PromotedDate);
             Employee.Modify;
 
             if ServiceHistory.Get(ServiceHistoryCode) then begin
@@ -1117,8 +1117,8 @@ codeunit 50001 "HR Mgt."
                             EvaluationEntires.Validate(Type, EvaluationEntires.Type::"Written Exam");
                             EvaluationEntires.Validate("No.", Candidate."No.");
                             EvaluationEntires.Validate("Attribute Code", EvaAttribute.Code);
-                            EvaluationEntires.Validate(Name, Candidate."Full Name"); //Min 7.4.2022
-                            EvaluationEntires.Validate(Marks, Candidate."Written Score"); //Min 7.6.2022
+                            EvaluationEntires.Validate(Name, Candidate."Full Name");
+                            EvaluationEntires.Validate(Marks, Candidate."Written Score");
                             EvaluationEntires.Insert(true);
                         end;
                     until Candidate.Next = 0;
@@ -1169,8 +1169,8 @@ codeunit 50001 "HR Mgt."
                             EvaluationEntires.Validate(Type, EvaluationEntires.Type::"Group Discussion");
                             EvaluationEntires.Validate("No.", Candidate."No.");
                             EvaluationEntires.Validate("Attribute Code", EvaAttribute.Code);
-                            EvaluationEntires.Validate(Name, Candidate."Full Name"); //Min 7.4.2022
-                            EvaluationEntires.Validate(Marks, Candidate."Written Score"); //Min 7.6.2022
+                            EvaluationEntires.Validate(Name, Candidate."Full Name");
+                            EvaluationEntires.Validate(Marks, Candidate."Written Score");
                             EvaluationEntires.Insert(true);
                         end;
                     until Candidate.Next = 0;
@@ -1376,7 +1376,7 @@ codeunit 50001 "HR Mgt."
         Candidate.SetFilter("Total Marks", '<>%1', 0);
         if Candidate.Find('-') then
             repeat
-                Interviewer.Reset; //Min -- For add control incase of interviwer missing to submit marks.
+                Interviewer.Reset;
                 Interviewer.SetRange("Vacancy Code", VacancyCode);
                 InterviewerCount := Interviewer.Count;
                 if Candidate."Interviewer Count" <> InterviewerCount then
@@ -1393,7 +1393,7 @@ codeunit 50001 "HR Mgt."
         CandidateRec.SetRange("Vacancy Code",VacancyCode);
         CandidateRec.SetRange(Status,Candidate.Status::"Interview Scheduled");
         CandidateRec.SETFILTER("Total Marks",'<>%1',0);
-        Interviewer.Reset; //Min -- For add control incase of interviwer missing to submit marks.
+        Interviewer.Reset; 
         Interviewer.SetRange("Vacancy Code",VacancyCode);
         InterviewerCount := Interviewer.COUNT;
         IF CandidateRec."Interviewer Count" <> InterviewerCount THEN
@@ -1446,8 +1446,8 @@ codeunit 50001 "HR Mgt."
                 EvaluationEntry.SetRange("No.", Candidate."No.");
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
                 EvaluationEntry.SetRange("Is Remarks", false);
-                EvaluationEntry.SetFilter(Marks, '>0'); //Min 7.4.2022
-                                                        //EvaluationEntry.SetRange(Posted,TRUE); //Min commented -- not required during calculate marks
+                EvaluationEntry.SetFilter(Marks, '>0');
+                //EvaluationEntry.SetRange(Posted,TRUE); 
                 EvaluationEntry.CalcSums(Marks);
                 EvaluationAttribute.Reset;
                 EvaluationAttribute.SetRange("Attribute Type", EvaluationAttribute."Attribute Type"::Interview);
@@ -1472,9 +1472,9 @@ codeunit 50001 "HR Mgt."
                 Clear(EvaluationEntry);
                 //EvaluationEntry.SetRange("Attribute Code", 'APTITUDE'); commented by Santosh
                 EvaluationEntry.SetRange("No.", Candidate."No.");
-                //EvaluationEntry.SetRange(Posted,TRUE); //Min commented -- not required during Interviewer Name Update
+                //EvaluationEntry.SetRange(Posted,TRUE); 
                 EvaluationEntry.SetRange(Type, EvaluationEntry.Type::Interview);
-                EvaluationEntry.SetFilter(Marks, '>0'); //Min 7.4.2022
+                EvaluationEntry.SetFilter(Marks, '>0');
                 Candidate."Interviewer Count" := EvaluationEntry.Count;
                 i := 1;
                 if EvaluationEntry.Find('-') then
@@ -1487,13 +1487,13 @@ codeunit 50001 "HR Mgt."
                             3:
                                 Candidate."Interviewer 3" := EvaluationEntry."Interviewer Name";
                             4:
-                                Candidate."Interviewer 4" := EvaluationEntry."Interviewer Name"; //Min 7.3.2022
+                                Candidate."Interviewer 4" := EvaluationEntry."Interviewer Name";
                             5:
-                                Candidate."Interviewer 5" := EvaluationEntry."Interviewer Name"; //Min 7.3.2022
+                                Candidate."Interviewer 5" := EvaluationEntry."Interviewer Name";
                         end;
                         i += 1;
                     until EvaluationEntry.Next = 0;
-                Clear(EvaluationEntryRec); //Min -- For candiate remarks
+                Clear(EvaluationEntryRec);
                 EvaluationEntryRec.SetRange("No.", Candidate."No.");
                 EvaluationEntryRec.SetRange("Attribute Code", 'REMARKS');
                 EvaluationEntryRec.SetRange(Type, EvaluationEntryRec.Type::Interview);
@@ -3634,11 +3634,11 @@ codeunit 50001 "HR Mgt."
         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Employee Name") + Colon + EmployeeActivity."Employee Name" + '<br>');
         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Transfer Effective Date") + Colon + getDateinFormat(EmployeeActivity."Transfer Effective Date") + '<br>');
         CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Transfer Category") + Colon + Format(EmployeeActivity."Transfer Category") + '<br>');
-        if (EmployeeActivity."Start Date" <> 0D) and (EmployeeActivity."End Date" <> 0D) then begin //Min 12.9.2022 -- for cover general transfer
+        if (EmployeeActivity."Start Date" <> 0D) and (EmployeeActivity."End Date" <> 0D) then begin
             CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("Start Date") + Colon + Format(EmployeeActivity."Start Date") + '<br>');
             CodeunitEmailMessage.AppendToBody(EmployeeActivity.FieldCaption("End Date") + Colon + Format(EmployeeActivity."End Date") + '<br>');
         end;
-        /*IF EmployeeActivity."Transfer Category" IN //Min 12.9.2022 -- Commented
+        /*IF EmployeeActivity."Transfer Category" IN 
           [EmployeeActivity."Transfer Category"::Officiating,EmployeeActivity."Transfer Category"::"Temporary"] THEN BEGIN
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("Start Date") + Colon + FORMAT("Start Date") +'<br>');
           CodeunitEmailMessage.AppendToBody(FIELDCAPTION("End Date") + Colon + FORMAT("End Date") +'<br>');
@@ -4010,7 +4010,7 @@ codeunit 50001 "HR Mgt."
         //             EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
         //             EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
         //             EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
-        //             EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected); //Min 8.7.2022
+        //             EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected);
         //             if EmpOvertime.FindFirst then
         //                 Error('Overtime already submitted for %1', TempOvertime."Start Date");
 
@@ -4445,9 +4445,9 @@ codeunit 50001 "HR Mgt."
 
         RF.Difference := Round(RF."RF Contribution Eligible Amt" - RF."Total Deduction", 0.01, '=');
 
-        RF."Lumpsum Committed Contribution" := RF."RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)"; //Min -- Calc for lumpsum comm. contri.
+        RF."Lumpsum Committed Contribution" := RF."RTF Amount (Lumpsum)" + RF."CIT Amount( Lumpsum)";
 
-        RF."Lumpsum Space Max Benefit" := Round(RF."Additional Space for RF Cont." - (RF."RTF Amount (Month)" + RF."CIT Amount (Month)") * ProjectionMonth, 0.01, '='); //Min -- Lumpsum space Max benefit calc.
+        RF."Lumpsum Space Max Benefit" := Round(RF."Additional Space for RF Cont." - (RF."RTF Amount (Month)" + RF."CIT Amount (Month)") * ProjectionMonth, 0.01, '=');
         if RF."Lumpsum Space Max Benefit" < 0 then
             RF."Lumpsum Space Max Benefit" := 0;
     end;

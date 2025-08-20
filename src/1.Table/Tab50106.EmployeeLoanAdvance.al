@@ -669,7 +669,7 @@ table 50106 "Employee Loan/Advance"
     //     if not Confirm('Do you want to return the document?', false) then
     //         exit;
     //     EmpLoanAdvance."Approval Status" := EmpLoanAdvance."Approval Status"::Open;
-    //     EmpLoanAdvance."Returned Loan" := true; //Min -- For Identify Return Document.
+    //     EmpLoanAdvance."Returned Loan" := true; 
     //     EmpLoanAdvance.Modify;
     //     Message('The document has been returned.');
     // end;

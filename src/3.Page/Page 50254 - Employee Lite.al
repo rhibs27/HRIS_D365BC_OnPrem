@@ -2,8 +2,8 @@
 // {
 //     // version NAVW113.00
 
-//     // //Min Feb-4-2022 -- For Calculate "Contact Remaining Days".
-//     // //Min Feb-4-2022 -- Added Field "Resignation Date",Satus in "Employee List" Page.
+//     // Feb-4-2022 -- For Calculate "Contact Remaining Days".
+//     // Feb-4-2022 -- Added Field "Resignation Date",Satus in "Employee List" Page.
 //     //                     Hide Note factbox page.
 
 //     ApplicationArea = BasicHR;
@@ -693,7 +693,7 @@
 
 //     trigger OnAfterGetRecord()
 //     begin
-//         //Min Feb-4-2022
+//         Feb-4-2022
 //         Rec."Contract Expiry Remaining Days" := 0;
 //         if Rec."Contract Expiry Date" > Today then
 //             Rec."Contract Expiry Remaining Days" := Rec."Contract Expiry Date" - Today;

@@ -137,7 +137,7 @@ codeunit 50015 "OverTime Mgt"
                     EmpOvertime.SetRange(Type, EmpOvertime.Type::Overtime);
                     EmpOvertime.SetRange("Employee No.", TempOvertime."Employee No.");
                     EmpOvertime.SetRange("Start Date", TempOvertime."Start Date");
-                    EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected); //Min 8.7.2022
+                    EmpOvertime.SetFilter("Approval Status", '<>%1', TempOvertime."Approval Status"::Rejected);
                     if EmpOvertime.FindFirst then
                         Error('Overtime already submitted for %1', TempOvertime."Start Date");
 

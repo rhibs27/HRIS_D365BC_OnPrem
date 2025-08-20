@@ -53,7 +53,7 @@ table 50005 "Employee Payroll Adjustment"
     begin
         TestField("Employee No.");
         //TESTFIELD("Attribute Code");
-        if PayrollHeader.Get("Payroll Document No.") then //Min 11.28.2022
+        if PayrollHeader.Get("Payroll Document No.") then
             if PayrollHeader."OverTime From" = 0D then
                 TestField("Attribute Code");
     end;

@@ -283,7 +283,7 @@ page 50117 "Candidate List"
                                 repeat
                                     Candidate.TestField(Status, Candidate.Status::Interviewed);
                                     Candidate.Status := Candidate.Status::"Final Shortlisted";
-                                    EvaluationEntry.Reset; //Min -- For updated posted in Evaluation Entry.
+                                    EvaluationEntry.Reset;
                                     EvaluationEntry.SetRange("No.", Candidate."No.");
                                     EvaluationEntry.ModifyAll(Posted, true);
                                     Candidate.Modify;

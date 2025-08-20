@@ -1317,7 +1317,7 @@
 //                         Rec.FilterGroup(2);
 //                         EmployeeAct.SetFilter(Type, '%1|%2', EmployeeAct.Type::"HR Transfer", EmployeeAct.Type::"Employee Transfer");
 //                         EmployeeAct.SetRange("Employee No.", Rec."No.");
-//                         EmployeeAct.SetFilter("Approval Status", '%1|%2', EmployeeAct."Approval Status"::Acknowledged, EmployeeAct."Approval Status"::Approved); //Min -- Approved filter added.
+//                         EmployeeAct.SetFilter("Approval Status", '%1|%2', EmployeeAct."Approval Status"::Acknowledged, EmployeeAct."Approval Status"::Approved); -- Approved filter added.
 //                         Rec.FilterGroup(0);
 //                         Clear(PageTransferHistory);
 //                         PageTransferHistory.ForHistoryPage;
@@ -1847,7 +1847,7 @@
 
 //                 trigger OnAction()
 //                 begin
-//                     /*IF CONFIRM(ConfirmMessage) THEN BEGIN //Min -- for change Job Position.
+//                     /*IF CONFIRM(ConfirmMessage) THEN BEGIN -- for change Job Position.
 //                       IF (Rec."New Employee") AND ("Employment Type" IN ["Employment Type"::Probation,"Employment Type"::Contract]) THEN
 //                         HRMgt.PopUpChangingJobPositionEmployee(Rec)
 //                       ELSE
@@ -2049,8 +2049,8 @@
 //     local procedure CheckEmployee()
 //     begin
 //         /*IF NOT (Status = Status::Active) THEN
-//           EXIT;*///Min 1.1 commented for only control apply for new creation employee
-//         if Rec."New Employee" then begin //Min 1.2
+//           EXIT;*/1.1 commented for only control apply for new creation employee
+//         if Rec."New Employee" then begin 1.2
 //             Rec.TestField("Full Name");
 //             Rec.TestField("Deputation on");
 //             Rec.TestField("Salary Level");
@@ -2064,9 +2064,9 @@
 //             //TESTFIELD("Tax Code");
 //             Rec.TestField("Inside/Outisde Valley");
 //             Rec.TestField("Posting Region");
-//             Rec.TestField("Date of Birth (B.S.)"); //Min <<
+//             Rec.TestField("Date of Birth (B.S.)"); <<
 //             Rec.TestField("PAN No.");
-//             Rec.TestField("Citizen Number");//Min >>
+//             Rec.TestField("Citizen Number");>>
 //             if Rec."Employment Type" = Rec."Employment Type"::Permanent then
 //                 Rec.TestField("Confirmation Date");
 //             if Rec."Employment Type" = Rec."Employment Type"::Contract then

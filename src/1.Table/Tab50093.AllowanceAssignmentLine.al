@@ -136,7 +136,7 @@ table 50093 "Allowance Assignment Line"
                 end;
                 // TestField("Employee Code", '');
                 // PGSetup.Get;
-                // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then //Min 12.20.2022
+                // if ("Allowance Type" = PGSetup."Holiday Counter") or ("Allowance Type" = PGSetup."Festival Counter") then 12.20.2022
                 //     Error(TEXT003);//santosh
             end;
         }

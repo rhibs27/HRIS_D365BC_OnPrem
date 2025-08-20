@@ -60,11 +60,11 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                Clear(Len); //Min >> --- for Special Characters Control Add.
+                Clear(Len);
                 Len := StrLen(DelChr("Policy Number", '=', DelChr("Policy Number", '=', SpecialChars)));
                 if Len > 0 then
                     Error(SpecialCharsErr);
-                EmpInsurance.Reset; //Min >> --- For add control in duplicate Policy No.
+                EmpInsurance.Reset;
                 EmpInsurance.SetRange("Employee No.", Rec."Employee No.");
                 EmpInsurance.SetRange("Policy Number", Rec."Policy Number");
                 if EmpInsurance.FindFirst then
@@ -215,7 +215,7 @@ table 50099 "Employee Insurance Information"
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then
     //             "Approval Status" := "Approval Status"::Pending;
-    /*EmpInsurance.RESET; //Min >> --- For add control in duplicate Policy No.
+    /*EmpInsurance.RESET;
     EmpInsurance.SETRANGE("Employee No.",Rec."Employee No.");
     EmpInsurance.SETRANGE("Policy Number",Rec."Policy Number");
     IF EmpInsurance.FINDFIRST THEN

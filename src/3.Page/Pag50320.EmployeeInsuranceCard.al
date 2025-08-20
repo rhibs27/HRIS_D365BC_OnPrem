@@ -216,7 +216,7 @@ page 50320 "Employee Insurance Card"
                     if not Confirm('Do you want to screen this insurance?', false) then
                         exit;
                     Rec.TestField("Approval Status", Rec."Approval Status"::Pending);
-                    CheckPremiumInsurance(Rec."Employee No."); //Min 6.28.2022
+                    CheckPremiumInsurance(Rec."Employee No.");
                     Rec.Validate("Approval Status", Rec."Approval Status"::Screened);
                     Rec.Modify;
                     Message('Request Screened');

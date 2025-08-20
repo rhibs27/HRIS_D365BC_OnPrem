@@ -188,7 +188,7 @@ codeunit 50008 "Payroll Engine"
                 RemainingMonth := PayCycleTerm."Periods Generated" - GetLastPayPeriod
             else begin
                 if PayrollHeader."Previous Year Payroll" then
-                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod //Min 7.18.2022
+                    RemainingMonth := GetPayCyclePeriodPrevious(Employee."Contract Expiry Date") - GetLastPayPeriod
                 else
                     RemainingMonth := GetPayCyclePeriod(Employee."Contract Expiry Date") - GetLastPayPeriod;
             end;
@@ -276,9 +276,9 @@ codeunit 50008 "Payroll Engine"
             exit;
         end;
         if PayrollHeader.Type = PayrollHeader.Type::Payroll then
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit   //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit
         else
-            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit - FLRecovery - InsuranceRecovery;     //settlement //Min 4.22.2022
+            TaxableAmount := TotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit - FLRecovery - InsuranceRecovery;
 
         if Employee.Disabled then begin
             TaxSetupLine.Reset;
@@ -2108,7 +2108,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 61 to 220 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2242,7 +2242,7 @@ codeunit 50008 "Payroll Engine"
                 FieldRef := RecRef.Field(2);
                 FieldRef.SetRange(PostedPayrollLine."Line No.");
                 RecRef.FindFirst;
-                for FieldID := 61 to 220 do begin //Min 9.16.2022
+                for FieldID := 61 to 220 do begin
                     FieldRef := RecRef.Field(FieldID);
                     Evaluate(FieldValue, Format(FieldRef.Value));
                     if FieldValue <> 0 then begin
@@ -2837,13 +2837,13 @@ codeunit 50008 "Payroll Engine"
             RetirementFundTaxBenefit := RetirementFundLimit1;
         if RetirementFundLimit2 < RetirementFundTaxBenefit then
             RetirementFundTaxBenefit := RetirementFundLimit2;
-        TaxAtOnceTaxableAmt := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit; //Min 4.22.2022
+        TaxAtOnceTaxableAmt := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit - DonationTaxBenefit - InsuranceTaxBenefit - HealthInsuranceTaxBenefit - PropertyInsuranceTaxBenefit;
     end;
 
     local procedure CalculateTaxAtOnceTax()
     begin
         //Calculation for TaxAtOnce payroll
-        TaxAtOnceTaxableAmt := TaxAtOnceTaxableAmt - DisablePersonReduction - PayrollLine."Remote Area Deduction"; //Min 7.6.2022
+        TaxAtOnceTaxableAmt := TaxAtOnceTaxableAmt - DisablePersonReduction - PayrollLine."Remote Area Deduction";
         TaxAtOnceRemainingAmt := TaxAtOnceTaxableAmt;
         Clear(SlabCount);
         TaxAtOnceAnnualTax := 0;
@@ -2936,7 +2936,7 @@ codeunit 50008 "Payroll Engine"
                     if ServiceHistory.FindLast then begin
                         if ServiceHistory."Outstation Eligible" then
                             OutstationEligible := true;
-                        if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then; //Min 5.4.2022
+                        if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then;
                     end;
                     InitialDate := PayCyclePeriod."Start Date";
                     ServiceHistory.Reset;
@@ -2947,10 +2947,10 @@ codeunit 50008 "Payroll Engine"
                     ServiceHistory.SetCurrentKey("Effective Date");
                     if ServiceHistory.Find('-') then
                         repeat
-                            if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then; //Min 5.4.2022
+                            if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then;
                             GrossSalary := LevelWiseAttributes."Total Basic Salary" * 0.25 / PayrollHeader."Total Days" *
                                         (ServiceHistory."Effective Date" - InitialDate);
-                            if ServiceHistory."Service Event" in [ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation] then begin //Min 7.5.2022
+                            if ServiceHistory."Service Event" in [ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation] then begin
                                 if OutstationEligible then
                                     Amount += GrossSalary;
                                 OutstationEligible := ServiceHistory."Outstation Eligible";
@@ -2965,13 +2965,13 @@ codeunit 50008 "Payroll Engine"
                     ServiceHistory.SetRange("Employee No.", Employee."No.");
                     ServiceHistory.SetRange("Effective Date", PayCyclePeriod."Start Date", PayCyclePeriod."End Date");
                     ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4', ServiceHistory."Service Event"::"Grade Increment",
-                                            ServiceHistory."Service Event"::"Internal Appointment", ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation); //Min 7.5.2022
+                                            ServiceHistory."Service Event"::"Internal Appointment", ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation);
                     ServiceHistory.SetCurrentKey("Effective Date");
                     if ServiceHistory.FindLast then begin
-                        if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then; //Min 5.4.2022
+                        if LevelWiseAttributes.Get(PayrollLineVar."Salary Grade", PayrollLineVar."Salary Level") then;
                         GrossSalary := LevelWiseAttributes."Total Basic Salary" * 0.25 / PayrollHeader."Total Days" *
                                       (PayCyclePeriod."End Date" - ServiceHistory."Effective Date" + 1);
-                        if ServiceHistory."Service Event" in [ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation] then begin //Min 7.5.2022
+                        if ServiceHistory."Service Event" in [ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Confirmation] then begin
                             if ServiceHistory."Outstation Eligible" then
                                 Amount += GrossSalary;
                         end else begin
@@ -3265,7 +3265,7 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Holiday Counter":
                 begin
-                    OverTime.Reset; //Min 12.22.2022
+                    OverTime.Reset;
                     OverTime.SetRange("Employee No.", PayrollLineVar."Employee No.");
                     OverTime.SetRange(Type, OverTime.Type::Overtime);
                     OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
@@ -3295,7 +3295,7 @@ codeunit 50008 "Payroll Engine"
 
             PGSetup."Festival Counter":
                 begin
-                    OverTime.Reset; //Min 12.22.2022
+                    OverTime.Reset;
                     OverTime.SetRange("Employee No.", PayrollLineVar."Employee No.");
                     OverTime.SetRange(Type, OverTime.Type::Overtime);
                     OverTime.SetRange("Approval Status", OverTime."Approval Status"::Approved);
@@ -3546,7 +3546,7 @@ codeunit 50008 "Payroll Engine"
         PayrollLine."Taxable Income" := TaxAtOnceTotalAnnualEarning - RetirementFundTaxBenefit;
         PayrollLine."Life Insurance Premium" := InsuranceTaxBenefit;
         PayrollLine."Health Insurance Premium" := HealthInsuranceTaxBenefit;
-        PayrollLine."Property Insurance Premium" := PropertyInsuranceTaxBenefit; //Min -- assigned PropertyInsuranceTaxBenefit
+        PayrollLine."Property Insurance Premium" := PropertyInsuranceTaxBenefit;
         PayrollLine."Disable Person Reduction" := DisablePersonReduction;
         PayrollLine."Total Tax Liability" := TaxAtOnceAnnualTax + TaxExempt + TotalSSTPaid + TotalTaxRemunPaid;
         //Wrong Expression

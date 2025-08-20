@@ -25,7 +25,6 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate(Remarks, RemarksVar);
                     EmpServiceHis.Insert(true);
                 end;
-            //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::"Back From Deputation":
@@ -95,7 +94,6 @@ codeunit 50024 "Service History Mgt"
                     EmpServiceHis.Validate(Remarks, RemarksVar);
                     EmpServiceHis.Insert(true);
                 end;
-            //Min 1.2 -- Added option String "Temporary Deputation","Back From Deputation" and "Officiating Arrangement".
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Back From Deputation", ServiceEvent::"Officiating Arrangement":
@@ -451,7 +449,7 @@ codeunit 50024 "Service History Mgt"
         Employee."Functional Title" := EmployeeTransferRec."Functional Title (To)";
         if FunctionalTitle.Get(EmployeeTransferRec."Functional Title (To)") then;
         Employee."Functional Title Desc" := FunctionalTitle.Description;
-        Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date"; //Min -- Assign "Transfer Effective Date".
+        Employee."Last Placement Date" := EmployeeTransferRec."Transfer Effective Date";
         Employee.Modify;
     end;
 

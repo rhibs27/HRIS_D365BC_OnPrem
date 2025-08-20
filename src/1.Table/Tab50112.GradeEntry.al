@@ -36,6 +36,7 @@ table 50112 "Grade Entry"
         field(9; "Created Date"; Date) { }
         field(10; "Total Grade Percentage"; Decimal)
         {
+            Editable = false;
             Description = 'Default garde + appraisal grade';
         }
         field(11; "Default Grade Percentage"; Decimal)

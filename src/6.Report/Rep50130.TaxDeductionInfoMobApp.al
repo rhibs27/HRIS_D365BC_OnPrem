@@ -214,11 +214,11 @@ report 50130 "Tax Deduction Info Mob App"
         if DocumentNo = '' then
             Error('Select Voucher No. to run this report.');
         if EmployeeNoFilter = '' then
-            EmployeeNoFilter := Employee."No."; //Min -- Assign employee no.
-                                                /*IF EmployeeNoFilter = '' THEN
-                                                  ERROR('Please select an employee.');*/
-                                                //IF Employee.GETFILTER("No.") = '' THEN
-                                                //ERROR('Please select employee no. to preview the report.');
+            EmployeeNoFilter := Employee."No.";
+        /*IF EmployeeNoFilter = '' THEN
+          ERROR('Please select an employee.');*/
+        //IF Employee.GETFILTER("No.") = '' THEN
+        //ERROR('Please select employee no. to preview the report.');
 
         PayCyclePeriod.Reset;
         PayCyclePeriod.SetRange("Pay Cycle Term", PayCycleTermText);
@@ -510,7 +510,7 @@ report 50130 "Tax Deduction Info Mob App"
         PreviousPayrollHdr.SetRange("Pay Cycle Code", PostedPayrollHeader."Pay Cycle Code");
         PreviousPayrollHdr.SetRange("Pay Cycle Term", PostedPayrollHeader."Pay Cycle Term");
         PreviousPayrollHdr.SetFilter("Posted Date", '<%1', PostedPayrollHeader."Posted Date");
-        PreviousPayrollHdr.SetRange(Reversed, false); //Min -- for exclude reverse entry.
+        PreviousPayrollHdr.SetRange(Reversed, false);
         //PreviousPayrollHdr.SETFILTER("Pay Cycle Period",'<=%1',PostedPayrollHeader."Pay Cycle Period");
         //PreviousPayrollHdr.SETFILTER("No.",'<>%1',PostedPayrollHeader."No.");
         //PreviousPayrollHdr.SETRANGE("No.",'POSTPADJ_77_78_00046');
@@ -519,7 +519,7 @@ report 50130 "Tax Deduction Info Mob App"
                 PreviousPayrollLine.Reset;
                 PreviousPayrollLine.SetRange("Document No.", PreviousPayrollHdr."No.");
                 PreviousPayrollLine.SetRange("Employee No.", Employee."No.");
-                PreviousPayrollLine.SetRange(Reversed, false); //Min -- for exclude reverse entry.
+                PreviousPayrollLine.SetRange(Reversed, false);
                 if PreviousPayrollLine.FindSet then begin
                     TotalTaxableMonthWise := 0;
 

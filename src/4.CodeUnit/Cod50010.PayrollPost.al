@@ -2,13 +2,13 @@ codeunit 50010 "Payroll-Post"
 {
     // version PRM19.01.01
 
-    // //Min 12.28.2022 -- for update OT Disbursed,Payroll No. in Overtime Lines.
+
 
     TableNo = "Payroll Header";
 
     trigger OnRun()
     begin
-        PostedPayrollHeaderRec.Reset; //Pranisha Begin
+        PostedPayrollHeaderRec.Reset;
         PostedPayrollLineRec.Reset;
         PayrollLine.Reset;
         PostedPayrollHeaderRec.Reset;
@@ -173,13 +173,13 @@ codeunit 50010 "Payroll-Post"
         PostedPayrollHeader.Irregular := PayrollHeader.Irregular;
         PostedPayrollHeader."Posted Date" := CurrentDateTime;
         PostedPayrollHeader.Insert;
-        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin  //Min 12.28.2022
+        if PayrollHeader.Type = PayrollHeader.Type::Adjustment then begin
             if PayrollHeader."Encashment Code" <> '' then
                 PayrollEngine.UpdateOTDisbursedEncashCode(PayrollHeader, PostedPayrollHeader."No.");
             if PayrollHeader."Encashment Period" <> PayrollHeader."Encashment Period"::" " then
                 PayrollEngine.UpdateOTDisbursedEncashPeriod(PayrollHeader, PostedPayrollHeader."No.");
         end;
-        if PayrollHeader.Type = PayrollHeader.Type::Payroll then //Min 12.28.2022
+        if PayrollHeader.Type = PayrollHeader.Type::Payroll then
             PayrollEngine.UpdateOTDisbursedAllowances(PayrollHeader, PostedPayrollHeader."No.");
     end;
 

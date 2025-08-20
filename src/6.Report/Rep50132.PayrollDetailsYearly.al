@@ -1,7 +1,6 @@
 report 50132 "Payroll Details Yearly"
 {
-    // //Min 3 feb 2022 (1.1) -- for add condition in months filter.
-    // //Min 3 feb 2022 (1.2) -- Commented for skip months request page control.
+
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019933.PayrollDetailsYearly.rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -132,14 +131,14 @@ report 50132 "Payroll Details Yearly"
                 trigger OnPreDataItem()
                 begin
                     SetRange("Pay Cycle Term", PayCycleTerm);
-                    if Months <> Months::" " then //Min 3 feb 2022 (1.1)
+                    if Months <> Months::" " then
                         SetRange("Nepali Month", Months);
                 end;
             }
 
             trigger OnAfterGetRecord()
             begin
-                /*IF Months = Months::" " THEN //Min 3 feb 2022 (1.2)
+                /*IF Months = Months::" " THEN
                   ERROR('Please select a month.');*/
                 if PayCycleTerm = '' then
                     Error('Please select a pay cycle term.');

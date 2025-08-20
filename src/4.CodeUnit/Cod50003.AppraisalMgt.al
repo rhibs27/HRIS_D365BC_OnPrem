@@ -138,7 +138,7 @@ codeunit 50003 "AppraisalMgt."
         KRASubform.SetRange("Employee Code", AppraisalRec."Employee Code");
         KRASubform.DeleteAll;
 
-        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Annually then begin //Min 7.26.2022
+        if AppraisalRec."Appraisal Type" = AppraisalRec."Appraisal Type"::Annually then begin
             ValidateKRAInEmployeeKRAAnnually(AppraisalRec);
             ValidateKRAInEmployeeKPIAnnually(AppraisalRec);
             ValidateKRAInEmployeeSATKPIAnnually(AppraisalRec);

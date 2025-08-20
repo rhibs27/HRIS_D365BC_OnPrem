@@ -273,7 +273,7 @@ table 50076 Candidate
         {
             trigger OnValidate()
             begin
-                //TESTFIELD(Status, Status::"Manual Shortlist"); //Min Commented -- Not Required
+
                 if FunctionalTitle.Get("Functional Title") then
                     if FunctionalTitle."Written Exam" and FunctionalTitle."Group Discussion" then begin
                         EvaluationAttributes.Reset;

@@ -415,7 +415,7 @@ table 50061 Appraisal
             "Employee Name" := EmployeeVar."Full Name";
             "Branch Name" := EmployeeVar."Branch Name";
             "Job Grade" := EmployeeVar."Salary Grade";
-            KRAMasterSetupRec.Reset; //Min 8.9.2022 -- for Transfer employee data manage
+            KRAMasterSetupRec.Reset;
             KRAMasterSetupRec.SetRange("Employee Code", "Employee Code");
             KRAMasterSetupRec.SetRange("Key Result Area", '');
             if KRAMasterSetupRec.FindFirst then begin

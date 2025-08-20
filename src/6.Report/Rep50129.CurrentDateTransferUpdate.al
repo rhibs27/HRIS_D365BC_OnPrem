@@ -1,8 +1,5 @@
 report 50129 "Current Date Transfer Update"
 {
-    // //Min 1.3 --- Added ServiceHistory."Service Event"::"Back From Deputation" Parameter instead of ServiceHistory."Service Event"::"Transfer"
-    // //Min 3.13.2022 -- For Update data in "Employee Service History" and "Employee" Table of "Approved" and "Acknowledge" Transfer.
-
     ProcessingOnly = true;
     UsageCategory = Tasks;
     ApplicationArea = All;
@@ -18,9 +15,9 @@ report 50129 "Current Date Transfer Update"
                 trigger OnAfterGetRecord()
                 begin
                     if GeneralTransferUpdate then
-                        ApprovedTransferUpdateEmployee; //Min 3.13.2022
+                        ApprovedTransferUpdateEmployee;
                     if CompensatoryLeaveEarnUpdate then
-                        InsertCompensatorydaysLeave; //Min 12.14.2022
+                        InsertCompensatorydaysLeave;
                     if UpdateCompensatoryDays then
                         UpdateCompensatoryDayCalc;
                     if UpdateHolidayCounterAmount then

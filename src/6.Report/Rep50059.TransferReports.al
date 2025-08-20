@@ -1,6 +1,5 @@
 report 50059 "Transfer Reports"
 {
-    // //Min -- Added Column "Incoming Supervisor" and "Incoming Supervisor Name" in Report Layout.
     DefaultLayout = RDLC;
     RDLCLayout = './src/6.Report/Rep33019860.TransferReports.rdl';
     UsageCategory = ReportsAndAnalysis;

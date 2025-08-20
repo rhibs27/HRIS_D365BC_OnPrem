@@ -1,9 +1,5 @@
 codeunit 50002 "Loan Mgt."
 {
-    // //Min 7.3.2022 -- For allowed to change approver of Status::Pending and Open allowance assignment.
-    // //Min 9.29.2022 -- Round down "RemAgePeriodAsPerBankTenure" and "RemServicePeriodAsPerBankTenure",Decimal age calc. in "Age Home Loan".
-    // //Min 12.20.2022 -- Risk allowance calc. updated fotr TA Position.
-
 
     trigger OnRun()
     var
@@ -99,7 +95,7 @@ codeunit 50002 "Loan Mgt."
         HRSetup.TestField("Retirement Age");
         EmpLoan."Remaining Service Period" := HRSetup."Retirement Age" - EmpLoan.Age;
         Evaluate(RemServicePeriodAsPerBankTenure, Format(30 - (Today - Employee."Employment Date") / 365));
-        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then begin //Min 9.29.2022
+        if EmpLoan."Loan Type" = EmpLoan."Loan Type"::"Home Loan" then begin
             EmpLoan."Age Home Loan" := Round((Today - EmpLoan."Date of Birth") / 365, 0.01, '=');
             Evaluate(RemAgePeriodAsPerBankTenure, Format(HRSetup."Retirement Age" - (Today - EmpLoan."Date of Birth") / 365));
             RemAgePeriodAsPerBankTenure := Round(RemAgePeriodAsPerBankTenure, 1, '<');
@@ -1977,7 +1973,7 @@ codeunit 50002 "Loan Mgt."
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Approver ID");
     //     AllowancePageBuilder.ADdField('Change Approver', AllowanceHead."Change Approver Remarks");
     //     if AllowancePageBuilder.RunModal then begin
-    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin //Min 7.3.2022
+    //         if AllowanceHeader."Approval Status" in [AllowanceHeader."Approval Status"::Pending, AllowanceHeader."Approval Status"::Open] then begin /
     //             AllowanceHead.SetView(AllowancePageBuilder.GetView('Change Approver'));
     //             Employee.Get(HRMgt.GetEmployeeNo);
     //             // if not Employee.Screener then
@@ -1990,7 +1986,7 @@ codeunit 50002 "Loan Mgt."
     //             AllowanceHeader.Validate("Approver ID", AllowanceHead.GetFilter("Approver ID"));
     //             AllowanceHeader.Modify;
     //             Message('Approver updated.');
-    //         end else begin //Min 7.3.2022
+    //         end else begin 
     //             Error('You cannot change the approver of Approval Status : %1', AllowanceHeader."Approval Status");
     //         end;
     //     end;
