@@ -77,7 +77,7 @@ report 50116 "Payroll Details"
 
                         trigger OnPreDataItem()
                         begin
-                            SetFilter(Code, PayrollAttributeFilter); //Min
+                            SetFilter(Code, PayrollAttributeFilter);
                         end;
                     }
 
@@ -126,7 +126,7 @@ report 50116 "Payroll Details"
                             Clear(NetPay);
                             Clear(CurrentDeduction);
                             FirstTime := true;
-                            if Employee.Get("Posted Payroll Line"."Employee No.") then begin //Min
+                            if Employee.Get("Posted Payroll Line"."Employee No.") then begin
                                 EmployeeSalaryLevel := Employee."Salary Level";
                                 EmployeePanNo := Employee."PAN No.";
                                 EmployeeSalaryLevelDesc := Employee."Salary Level Description";

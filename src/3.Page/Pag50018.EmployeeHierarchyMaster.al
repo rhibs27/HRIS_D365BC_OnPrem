@@ -78,12 +78,12 @@
 //           CapText := CurrPage.CAPTION('Cluster List');
 //         END;
 //         */
-//         Rec.SetRange(Blocked, false); //Min
+//         Rec.SetRange(Blocked, false); 
 //     end;
 
 //     trigger OnQueryClosePage(CloseAction: Action): Boolean
 //     begin
-//         EmpHirerchyMaster.Reset; //Min
+//         EmpHirerchyMaster.Reset; 
 //         EmpHirerchyMaster.SetRange(Code, '');
 //         if EmpHirerchyMaster.FindFirst then
 //             repeat

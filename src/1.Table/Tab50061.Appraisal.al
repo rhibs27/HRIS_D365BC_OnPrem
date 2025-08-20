@@ -308,7 +308,7 @@ table 50061 Appraisal
         HumanResSetup.TestField("HR Head Functional Title");
         EmployeeVar.Reset;
         EmployeeVar.SetRange("Functional Title", HumanResSetup."HR Head Functional Title");
-        EmployeeVar.SetRange(Status, EmployeeVar.Status::Active); //Min
+        EmployeeVar.SetRange(Status, EmployeeVar.Status::Active);
         if EmployeeVar.FindFirst then
             Validate("Approver Code", EmployeeVar."No.");
 
@@ -406,8 +406,8 @@ table 50061 Appraisal
         Clear("Deputation on");
         Clear(Unit);
         Clear("Unit Name");
-        Clear("Functional Title Desc");//Min
-        Clear("Sol Id"); //Min
+        Clear("Functional Title Desc");
+        Clear("Sol Id");
 
         if EmployeeVar.Get("Employee Code") then begin
             "Functional Title" := EmployeeVar."Functional Title";
@@ -427,7 +427,7 @@ table 50061 Appraisal
                 Validate("Deputation on", EmployeeVar."Deputation on");
                 Validate(Province, EmployeeVar."Province Code");
                 // Validate("Sub-Province", EmployeeVar."Sub Province Code");
-                Validate("Sol Id", EmployeeVar."Sol Id"); //Min
+                Validate("Sol Id", EmployeeVar."Sol Id");
             end;
             "Date of Employement" := EmployeeVar."Employment Date";
             Validate(Branch, EmployeeVar."Global Dimension 1 Code");
@@ -437,7 +437,7 @@ table 50061 Appraisal
             Validate("Department Name", EmployeeVar."Department Name");
             Validate("Province Name", EmployeeVar."Province Name");
             Validate("Unit Name", EmployeeVar."Unit Name");
-            Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");//Min
+            Validate("Functional Title Desc", EmployeeVar."Functional Title Desc");
         end;
     end;
 

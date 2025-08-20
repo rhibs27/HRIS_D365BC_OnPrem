@@ -194,7 +194,7 @@ codeunit 50001 "HR Mgt."
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Salary Grade");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Date");
         PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory."Promoted Functional Title");
-        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory.Remarks);  //Min
+        PromotionPageBuilder.ADdField('Promote Employee', PromotionHistory.Remarks);
 
         if PromotionPageBuilder.RunModal then begin
             PromotionHistory.SetView(PromotionPageBuilder.GetView('Promote Employee'));
@@ -214,7 +214,7 @@ codeunit 50001 "HR Mgt."
             PromoHis.Validate("Promoted Salary Level Code", PromotionHistory.GetFilter("Promoted Salary Level Code"));
             PromoHis.Validate("Promoted Salary Grade", PromotionHistory.GetFilter("Promoted Salary Grade"));
             PromoHis.Validate("Promoted Functional Title", PromotionHistory.GetFilter("Promoted Functional Title"));
-            PromoHis.Validate(Remarks, PromotionHistory.GetFilter(Remarks)); //Min
+            PromoHis.Validate(Remarks, PromotionHistory.GetFilter(Remarks));
             PromoHis.Validate("Line No.", LineNo);
             PromoHis.Insert(true);
 
@@ -233,7 +233,7 @@ codeunit 50001 "HR Mgt."
                 ServiceHistory.Validate("Deputation On (To)", Employee."Deputation on");
                 ServiceHistory.Validate("Deputation Code (To)", ServiceHistoryMgt.ExitTransferDeputationWiseCode(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
                 ServiceHistory.Validate("Deputation Value (To)", ServiceHistoryMgt.ExitTransferDeputationWiseValue(ServiceHistory."Deputation On (To)", ServiceHistory."Employee No."));
-                ServiceHistory.Validate(Remarks, PromotionHistory.GetFilter(Remarks)); //Min
+                ServiceHistory.Validate(Remarks, PromotionHistory.GetFilter(Remarks));
                 PreviousServiceHistory.Reset;
                 PreviousServiceHistory.SetRange("Employee No.", Employee."No.");
                 PreviousServiceHistory.SetFilter("Service History Code", '<>%1', ServiceHistoryCode);
@@ -4142,7 +4142,7 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
         Employee.SetRange("Department Code", HRSetup."HR Department Code");
-        Employee.SetRange(Status, Employee.Status::Active); //Min
+        Employee.SetRange(Status, Employee.Status::Active);
         if Employee.FindFirst then
             exit(Employee."No.");
     end;
@@ -4877,7 +4877,7 @@ codeunit 50001 "HR Mgt."
         Employee.Reset;
         Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
         Employee.SetRange("Department Code", HRSetup."HR Department Code");
-        Employee.SetRange(Status, Employee.Status::Active); //Min
+        Employee.SetRange(Status, Employee.Status::Active);
         if Employee.FindFirst then
             EmpAct.Validate("Approver Code", Employee."No.");
         /*IF EmpAct.Type = EmpAct.Type::"Employee Transfer" THEN

@@ -452,7 +452,7 @@ codeunit 50002 "Loan Mgt."
     //         EmployeeRec.Reset;
     //         EmployeeRec.SetRange("Functional Title", HRSetup."HR Head Functional Title");
     //         EmployeeRec.SetRange("Department Code", HRSetup."HR Department Code");
-    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); //Min
+    //         EmployeeRec.SetRange(Status, EmployeeRec.Status::Active); 
     //         if EmployeeRec.FindFirst then
     //             EmpLoan.Validate(Approver, EmployeeRec."No.");
     //     end;
@@ -842,7 +842,7 @@ codeunit 50002 "Loan Mgt."
         HRSetup.Get;
         // Employee.Reset;
         // Employee.SetRange("Functional Title", HRSetup."HR Head Functional Title");
-        // Employee.SetRange(Status, Employee.Status::Active); //Min
+        // Employee.SetRange(Status, Employee.Status::Active); 
         // if Employee.FindFirst then;
         // EmpLoan.Validate(Approver, Employee."No.");
         // if not GuiAllowed then begin

@@ -223,7 +223,7 @@ page 50120 "Vacancy Card"
 
                     trigger OnAction()
                     begin
-                        if Confirm('Do you want to Post this vacancy.', false) then begin  //Min
+                        if Confirm('Do you want to Post this vacancy.', false) then begin
                             Rec.Posted := true;
                             Rec."Approval Status" := Rec."Approval Status"::released;
                             Rec."Approved Date" := Today;

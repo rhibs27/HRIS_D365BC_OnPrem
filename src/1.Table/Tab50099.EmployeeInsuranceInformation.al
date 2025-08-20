@@ -81,7 +81,7 @@ table 50099 "Employee Insurance Information"
                     Validate("Insurance Start Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Insurance Start Date (BS)");
-                if "Insurance Start Date (AD)" > Today then //Min
+                if "Insurance Start Date (AD)" > Today then
                     Error(Error002, Today);
             end;
         }
@@ -99,7 +99,7 @@ table 50099 "Employee Insurance Information"
                     Validate("Insurance Expiry Date (BS)", EngNepDate."Nepali Date")
                 else
                     Clear("Insurance Expiry Date (BS)");
-                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then //Min
+                if "Insurance Start Date (AD)" > "Insurance Expiry Date (AD)" then
                     Error(Error001, "Insurance Start Date (AD)");
             end;
         }
@@ -112,7 +112,7 @@ table 50099 "Employee Insurance Information"
         {
             trigger OnValidate()
             begin
-                if "Annual Premium Amount" > "Insurance Amount" then //Min
+                if "Annual Premium Amount" > "Insurance Amount" then
                     Error('Annual Premium Amount Should be less than Insurance Amount.');
             end;
         }
@@ -210,7 +210,7 @@ table 50099 "Employee Insurance Information"
 
     // trigger OnModify()
     // begin
-    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then //Min
+    //     if "Approval Status" in ["Approval Status"::Open, "Approval Status"::Pending] then 
     //         LoanMgt.CheckInsuranceAttachment("Insurance No.", "Employee No.");
     //     if not GuiAllowed then
     //         if "Approval Status" = "Approval Status"::Open then

@@ -198,7 +198,7 @@
 //             if FromDate < Today - 1 then
 //                 Error('You are not eligible to run back date daily attendance.');
 
-//         if (FromDate > Today) or (ToDate > Today) then //Min
+//         if (FromDate > Today) or (ToDate > Today) then 
 //             Error('Cannot run attendance of future date. Please check the date.');
 
 //         if SyncEmployees then
@@ -556,7 +556,7 @@
 //             EmployeeServiceHistory.SetRange("Employee No.", TransferRec."Employee No.");
 //             EmployeeServiceHistory.SetFilter("Service Event", '%1|%2|%3', EmployeeServiceHistory."Service Event"::Transfer, EmployeeServiceHistory."Service Event"::"Temporary Deputation", EmployeeServiceHistory."Service Event"::"Officiating Arrangement");
 //             EmployeeServiceHistory.SetRange("Document No.", TransferRec."No.");
-//             if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
+//             if not EmployeeServiceHistory.FindFirst then  -- For skip already created transfer Emp service history
 //                 ServiceHistoryMgt.ApprovedTransferUpdate(TransferRec);
 //         end;
 //     end;

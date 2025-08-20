@@ -84,7 +84,7 @@ report 50136 "Re-instiate HR Transfer"
             if FromDate < Today - 1 then
                 Error('You are not eligible to run back date daily attendance.');
 
-        if (FromDate > Today) or (ToDate > Today) then //Min
+        if (FromDate > Today) or (ToDate > Today) then
             Error('Cannot run attendance of future date. Please check the date.');
     end;
 

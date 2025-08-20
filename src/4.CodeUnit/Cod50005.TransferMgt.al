@@ -98,7 +98,7 @@ codeunit 50005 "Transfer Mgt."
         EmpHrTransfer.TestField("Reason for Transfer");
         EmpHrTransfer.TestField("Incoming Supervisior");
         EmpHrTransfer.TestField("Outgoing Branch Rep. Person");
-        // EmpHrTransfer.TestField("Notify to"); //Min
+        // EmpHrTransfer.TestField("Notify to"); 
         if EmpHrTransfer."Transfer Category" in [EmpHrTransfer."Transfer Category"::"Temporary", EmpHrTransfer."Transfer Category"::Officiating] then begin
             EmpHrTransfer.TestField("Start Date");
             EmpHrTransfer.TestField("End Date");

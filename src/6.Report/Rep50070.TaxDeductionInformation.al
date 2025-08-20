@@ -604,7 +604,7 @@ report 50070 "Tax Deduction Information"
                     InsertTaxableColumn;
                     InsertTotalRFColumn;
                     InsertLeaveEncashGratuityColumn;
-                    //InsertOtherFacilityColumn; //Min
+                    //InsertOtherFacilityColumn; 
                 end;
             until PreviousPayrollHdr.Next = 0;
     end;

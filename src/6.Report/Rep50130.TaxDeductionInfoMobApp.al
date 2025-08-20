@@ -605,7 +605,7 @@ report 50130 "Tax Deduction Info Mob App"
                     InsertTaxableColumn;
                     InsertTotalRFColumn;
                     InsertLeaveEncashGratuityColumn;
-                    //InsertOtherFacilityColumn; //Min
+                    //InsertOtherFacilityColumn; 
                 end;
             until PreviousPayrollHdr.Next = 0;
     end;

@@ -112,7 +112,7 @@ report 50129 "Current Date Transfer Update"
         if FromDate > ToDate then
             Error('From Date %1 must be to date %2.', FromDate, ToDate);
 
-        if (FromDate > Today) or (ToDate > Today) then //Min
+        if (FromDate > Today) or (ToDate > Today) then
             Error('Cannot run Transfer of future date. Please check the date.');
     end;
 
@@ -149,7 +149,7 @@ report 50129 "Current Date Transfer Update"
         if Transfer.FindFirst then begin
             EmployeeServiceHistory.Reset;
             EmployeeServiceHistory.SetRange("Document No.", Transfer."No.");
-            if not EmployeeServiceHistory.FindFirst then  //Min-- For skip already created transfer Emp service history
+            if not EmployeeServiceHistory.FindFirst then
                 ServiceHistoryMgt.ApprovedTransferUpdate(Transfer);
         end;
     end;

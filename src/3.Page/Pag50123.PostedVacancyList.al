@@ -152,7 +152,7 @@ page 50123 "Posted Vacancy List"
 
                     trigger OnAction()
                     begin
-                        Clear(EvaluationEntry); //Min
+                        Clear(EvaluationEntry);
                         EvaluationEntry.SetRange("Attribute Code", 'APTITUDE');
                         EvaluationEntry.SetRange("Vacancy Code", 'VACANCY0005');
                         EvaluationEntry.SetRange(Posted, true);

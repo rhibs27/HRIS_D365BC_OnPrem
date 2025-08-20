@@ -485,7 +485,7 @@ tableextension 50013 "Employee Ext" extends Employee
             begin
                 if not TypeHelper.IsNumeric(Rec."PAN No.") then
                     Error(NumericError, FieldCaption("PAN No."));
-                if StrLen("PAN No.") <> 9 then //Min
+                if StrLen("PAN No.") <> 9 then
                     Error(Text007);
             end;
         }

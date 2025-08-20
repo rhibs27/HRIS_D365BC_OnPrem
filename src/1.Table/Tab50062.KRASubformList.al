@@ -22,7 +22,7 @@ table 50062 "KRA Subform List"
         {
             trigger OnValidate()
             begin
-                CalcReviewerFinalScore; //Min
+                CalcReviewerFinalScore;
             end;
         }
         field(10; "Reviewers Remarks"; Text[250]) { }
@@ -30,7 +30,7 @@ table 50062 "KRA Subform List"
         {
             trigger OnValidate()
             begin
-                CalcCheckReviewFinalScore; //Min
+                CalcCheckReviewFinalScore;
             end;
         }
         field(12; "Check Reviewers Remarks"; Text[250]) { }
@@ -72,8 +72,8 @@ table 50062 "KRA Subform List"
     trigger OnInsert()
     begin
         //GetKPINo;
-        CalcCheckReviewFinalScore; //Min
-        CalcReviewerFinalScore; //Min
+        CalcCheckReviewFinalScore;
+        CalcReviewerFinalScore;
     end;
 
     trigger OnModify()
@@ -85,7 +85,7 @@ table 50062 "KRA Subform List"
     var
         AppraisalForm: Record Appraisal;
     begin
-        if AppraisalForm.Get("Appraisal Code") then begin //Min
+        if AppraisalForm.Get("Appraisal Code") then begin
             if AppraisalForm.Status = AppraisalForm.Status::Reviewed then
                 "Check Reviewers Final Score" := "Check Reviewers Score" * ("Weightage (%)" / 100);
         end;
@@ -95,7 +95,7 @@ table 50062 "KRA Subform List"
     var
         AppraisalRec: Record Appraisal;
     begin
-        if AppraisalRec.Get("Appraisal Code") then begin //Min
+        if AppraisalRec.Get("Appraisal Code") then begin
             if AppraisalRec.Status = AppraisalRec.Status::Submitted then
                 "Reviewers Final Score" := "Reviewers Score" * ("Weightage (%)" / 100);
         end;

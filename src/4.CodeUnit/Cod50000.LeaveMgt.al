@@ -590,7 +590,7 @@ codeunit 50000 "Leave Mgt."
         LeavePeriod: Record "Accounting Period";
     begin
         LeaveType.Get(LeaveCode);
-        PayrollSetup.Get; //Min
+        PayrollSetup.Get;
         if LeaveType."Leave Category" = LeaveType."Leave Category"::Substitute then begin
             if NoOfDays <> 1 then
                 Error(ErrorNoOfDays);

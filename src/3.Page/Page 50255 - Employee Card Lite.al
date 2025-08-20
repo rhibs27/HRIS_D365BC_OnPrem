@@ -2071,7 +2071,7 @@
 //                 Rec.TestField("Confirmation Date");
 //             if Rec."Employment Type" = Rec."Employment Type"::Contract then
 //                 Rec.TestField("Contract Salary Amount");
-//             if Rec."Employment Type" = Rec."Employment Type"::Probation then //Min
+//             if Rec."Employment Type" = Rec."Employment Type"::Probation then 
 //                 Rec.TestField("Probation Period");
 //             if Rec."Employment Type" = Rec."Employment Type"::Contract then begin
 //                 Rec.TestField("Contract Expiry Month");

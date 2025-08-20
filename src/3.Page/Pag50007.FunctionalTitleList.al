@@ -183,7 +183,7 @@ page 50007 "Functional Title List"
 
     trigger OnOpenPage()
     begin
-        Rec.SetRange(Blocked, false); //Min
+        Rec.SetRange(Blocked, false);
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

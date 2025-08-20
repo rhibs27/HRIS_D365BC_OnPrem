@@ -36,7 +36,7 @@ table 50098 "Employee Declaration"
                     Validate("Deputation On", "Deputation On"::" ");
                     Validate("Deputation Code", '');
                     Validate("Deputation Value", '');
-                    Validate("Fiscal Year", ''); //Min
+                    Validate("Fiscal Year", '');
                 end;
             end;
         }

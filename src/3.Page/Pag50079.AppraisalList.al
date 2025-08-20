@@ -170,7 +170,7 @@ page 50079 "Appraisal List"
         Rec.SetRange(Posted, false);
         Rec.SetRange(Hide, false);
 
-        UserSetup.Get(UserId); //Min
+        UserSetup.Get(UserId);
         if not UserSetup."Can View Appraisal List" then
             Error(Err001);
     end;
