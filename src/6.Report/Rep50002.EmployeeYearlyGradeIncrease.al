@@ -21,7 +21,7 @@ report 50002 "Employee Yearly Grade Increase"
                         Employee.SetRange("No.", EmployeeNo);
                     Employee.SetRange("Employment Type", Employee."Employment Type"::Permanent);
                     Employee.SetRange(Status, Employee.Status::Active);
-                    Employee.SetFilter("Employment Date", '<%1&<>%2', HRSetup."Employment Before (Grade Incre", 0D);
+                    //Employee.SetFilter("Employment Date", '<%1&<>%2', HRSetup."Employment Before (Grade Incre", 0D);
                     if Employee.FindSet then
                         repeat
                             LevelWiseAttributes.Get(Employee."Salary Grade", Employee."Salary Level");
@@ -47,7 +47,7 @@ report 50002 "Employee Yearly Grade Increase"
                     EnglishNepaliDate.SetRange("Nepali Day", EnglishNepaliDate2."Nepali Day");
                     EnglishNepaliDate.SetRange("Nepali Month", EnglishNepaliDate2."Nepali Month");
                     EnglishNepaliDate.SetFilter("English Year", '<=%1', Date2DMY(WorkDate, 3));
-                    EnglishNepaliDate.SetFilter("English Date", '>=%1', HRSetup."Employment Before (Grade Incre");
+                    // EnglishNepaliDate.SetFilter("English Date", '>=%1', HRSetup."Employment Before (Grade Incre");
                     if EnglishNepaliDate.FindFirst then
                         repeat
                             Employee.Reset;
@@ -55,7 +55,7 @@ report 50002 "Employee Yearly Grade Increase"
                                 Employee.SetRange("No.", EmployeeNo);
                             Employee.SetRange("Employment Type", Employee."Employment Type"::Permanent);
                             Employee.SetRange(Status, Employee.Status::Active);
-                            Employee.SetFilter("Employment Date", '>=%1', HRSetup."Employment Before (Grade Incre");
+                            // Employee.SetFilter("Employment Date", '>=%1', HRSetup."Employment Before (Grade Incre");
                             Employee.SetRange("Confirmation Date", EnglishNepaliDate."English Date");
                             if Employee.FindSet then
                                 repeat
@@ -83,7 +83,7 @@ report 50002 "Employee Yearly Grade Increase"
                     else
                         EnglishNepaliDate.SetRange("Nepali Month", EnglishNepaliDate2."Nepali Month" - 1);
                     EnglishNepaliDate.SetFilter("English Year", '<=%1', Date2DMY(WorkDate, 3));
-                    EnglishNepaliDate.SetFilter("English Date", '>=%1', HRSetup."Employment Before (Grade Incre");
+                    // EnglishNepaliDate.SetFilter("English Date", '>=%1', HRSetup."Employment Before (Grade Incre");
                     if EnglishNepaliDate.FindFirst then
                         repeat
                             Employee.Reset;
@@ -91,7 +91,7 @@ report 50002 "Employee Yearly Grade Increase"
                                 Employee.SetRange("No.", EmployeeNo);
                             Employee.SetRange("Employment Type", Employee."Employment Type"::Permanent);
                             Employee.SetRange(Status, Employee.Status::Active);
-                            Employee.SetFilter("Employment Date", '>=%1', HRSetup."Employment Before (Grade Incre");
+                            // Employee.SetFilter("Employment Date", '>=%1', HRSetup."Employment Before (Grade Incre");
                             Employee.SetRange("Confirmation Date", EnglishNepaliDate."English Date");
                             if Employee.FindSet then
                                 repeat
@@ -146,7 +146,7 @@ report 50002 "Employee Yearly Grade Increase"
     trigger OnPreReport()
     begin
         HRSetup.Get;
-        HRSetup.TestField("Employment Before (Grade Incre");
+        // HRSetup.TestField("Employment Before (Grade Incre");
 
         EnglishNepaliDate.Reset;
         EnglishNepaliDate.SetRange("English Date", WorkDate);

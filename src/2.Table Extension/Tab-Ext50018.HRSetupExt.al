@@ -638,10 +638,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50138; "Employment Before (Grade Incre"; Date)
-        {
-            DataClassification = CustomerContent;
-        }
+        // field(50138; "Employment Before (Grade Incre"; Date)
+        // {
+        //     DataClassification = CustomerContent;
+        // }
         field(50139; "Location Incentive 1"; Decimal)
         {
             DataClassification = CustomerContent;

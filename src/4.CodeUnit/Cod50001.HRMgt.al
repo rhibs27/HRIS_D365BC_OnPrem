@@ -5801,9 +5801,9 @@ codeunit 50001 "HR Mgt."
                 repeat
                     if not EmployeeInactiveLine."Counted In Service Period" then
                         if EmployeeInactiveLine."End Date" <> 0D then
-                            AdjustingDays += EmployeeInactiveLine."End Date" - EmployeeInactiveLine."Start Date"
+                            AdjustingDays += EmployeeInactiveLine."End Date" - EmployeeInactiveLine."Start Date" + 1
                         else
-                            AdjustingDays += WorkDate() - EmployeeInactiveLine."Start Date";
+                            AdjustingDays += WorkDate() - EmployeeInactiveLine."Start Date" + 1;
                 until EmployeeInactiveLine.Next() = 0;
 
             NewEmploymentDate := NewEmploymentDate + AdjustingDays;

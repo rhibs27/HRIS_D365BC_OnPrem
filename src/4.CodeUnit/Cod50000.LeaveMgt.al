@@ -992,6 +992,7 @@ codeunit 50000 "Leave Mgt."
             ServiceInactivity.Validate("Employee No.", leave."Employee No.");
             ServiceInactivity.Validate("Start Date", leave."Start Date");
             ServiceInactivity.Validate("End Date", leave."End Date");
+            ServiceInactivity.Validate("Source Doc No", leave."No.");
             ServiceInactivity.Insert(true);
         end;
         Commit();
@@ -1031,6 +1032,7 @@ codeunit 50000 "Leave Mgt."
     var
         LeaveEarn: Record "Leave Earn";
         CancelDocument: Record "Cancel Document";
+        ServiceInactivity: Record "Service Inactivity Ledger";
         NextEntryNo: Integer;
     begin
         CancelDocument.Get(CancelLeaveCode);
@@ -1047,6 +1049,13 @@ codeunit 50000 "Leave Mgt."
                      CancelDocument.Remarks,
                      '');
 
+            LeaveTypeSetup.get(CancelDocument."Leave Code");
+            if LeaveTypeSetup."Exclude in Service Period" then begin
+                ServiceInactivity.SetRange("Source Doc No", CancelDocument."Cancelled No.");
+                ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
+                if ServiceInactivity.FindFirst() then
+                    ServiceInactivity.Delete();
+            end;
             // Update Daily Attendance
             if CancelDocument."Start Date" <= Today then begin
                 if CancelDocument."End Date" > Today then
