@@ -20,7 +20,7 @@ table 50112 "Grade Entry"
         {
             TableRelation = "Salary Grade";
         }
-        field(5; "New Grade Level"; Code[20])
+        field(5; Grade; Code[20])
         {
             TableRelation = "Salary Grade";
         }
@@ -28,7 +28,7 @@ table 50112 "Grade Entry"
         {
             TableRelation = "Salary Level";
         }
-        field(7; "New Salary Level"; Code[20])
+        field(7; "Salary Level"; Code[20])
         {
             TableRelation = "Salary Level";
         }

@@ -2782,7 +2782,7 @@ table 50027 "Payroll Line"
     begin
         //use setup to call this procedure as few company may use employee specific grade percentage ignore otherwise
         GradeEntry.SetRange("Employee No.", "Employee No.");
-        GradeEntry.SetRange("New Salary Level", Employee."Salary Level");
+        GradeEntry.SetRange("Salary Level", Employee."Salary Level");
         GradeEntry.CalcSums("Total Grade Percentage");
 
         PayrollAttrUses.SetRange("Employee Code", "Employee No.");

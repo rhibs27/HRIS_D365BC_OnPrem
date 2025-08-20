@@ -12,11 +12,6 @@ page 50173 "Grade Entries"
         {
             repeater(Group)
             {
-                field("Entry No."; Rec."Entry No.")
-                {
-                    ToolTip = 'Specifies the value of the Entry No. field.';
-                    ApplicationArea = All;
-                }
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -27,22 +22,14 @@ page 50173 "Grade Entries"
                     ToolTip = 'Specifies the value of the Employee Name field.';
                     ApplicationArea = All;
                 }
-
-                field("New Grade Level"; Rec."New Grade Level")
-                {
-                    ToolTip = 'Specifies the value of the New Grade Level field.';
-                    ApplicationArea = All;
-                }
-
-                field("New Salary Level"; Rec."New Salary Level")
+                field("New Salary Level"; Rec."Salary Level")
                 {
                     ToolTip = 'Specifies the value of the New Salary Level field.';
                     ApplicationArea = All;
                 }
-                field("Posting Date"; Rec."Posting Date")
+                field("New Grade Level"; Rec.Grade)
                 {
-                    Caption = 'Last Grade Posting Date';
-                    ToolTip = 'Specifies the value of the Last Grade Posting Date field.';
+                    ToolTip = 'Specifies the value of the New Grade Level field.';
                     ApplicationArea = All;
                 }
                 field("Default Grade Percentage"; Rec."Default Grade Percentage")
@@ -56,6 +43,12 @@ page 50173 "Grade Entries"
                 field("Total Grade Percentage"; Rec."Total Grade Percentage")
                 {
                     ToolTip = 'Specifies the value of the Total Grade Percentage field.', Comment = '%';
+                }
+                field("Posting Date"; Rec."Posting Date")
+                {
+
+                    ToolTip = 'Specifies the value of the Last Grade Posting Date field.';
+                    ApplicationArea = All;
                 }
             }
         }

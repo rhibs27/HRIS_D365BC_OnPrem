@@ -30,11 +30,11 @@ report 50032 "Insert Grade"
                         SalaryGradeRec.SetCurrentKey("Grade Percentage");
                         SalaryGradeRec.SetFilter("Grade Percentage", '>%1', GradePercent);
                         if SalaryGradeRec.FindFirst then
-                            GradeEntry."New Grade Level" := SalaryGradeRec.Code;
+                            GradeEntry.Grade := SalaryGradeRec.Code;
                         GradeEntry."Created Date" := Today;
                         GradeEntry."Posting Date" := CalcDate(HRSetup."Grade Adjustment Period", GradeEntry."Posting Date");
                         GradeEntry.Insert(true);
-                        Employee."Salary Grade" := GradeEntry."New Grade Level";
+                        Employee."Salary Grade" := GradeEntry.Grade;
                         Employee.Modify;
                     end;
                 end;
@@ -84,17 +84,17 @@ report 50032 "Insert Grade"
             if AppraisalRec.FindFirst then begin
                 if Format(AppraisalRec.Rating) = HRSetup."APR Grade 2 Increment" then begin
                     Evaluate(TempGrade, SalaryGradeRec.Code);
-                    GradeEntry."New Grade Level" := Format(TempGrade + 2);
+                    GradeEntry.Grade := Format(TempGrade + 2);
                 end
                 else if Format(AppraisalRec.Rating) = HRSetup."APR Grade 1 Increment" then begin
                     Evaluate(TempGrade, SalaryGradeRec.Code);
-                    GradeEntry."New Grade Level" := Format(TempGrade + 2);
+                    GradeEntry.Grade := Format(TempGrade + 2);
                 end;
             end;
             GradeEntry."Created Date" := Today;
             GradeEntry."Posting Date" := CalcDate(HRSetup."Grade Adjustment Period", GradeEntry."Posting Date");
             GradeEntry.Insert(true);
-            Employee."Salary Grade" := GradeEntry."New Grade Level";
+            Employee."Salary Grade" := GradeEntry.Grade;
             Employee.Modify;
         end;
     end;
