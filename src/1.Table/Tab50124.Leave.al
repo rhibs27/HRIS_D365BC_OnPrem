@@ -486,7 +486,8 @@ table 50124 Leave
                 end;
             end;
         if not GuiAllowed then begin
-            leaveMgt.ApplyForLeave(Rec)
+            leaveMgt.ApplyForLeave(Rec);
+            OnAfterApplyForLeave(Rec);
         end;
     end;
 
@@ -535,6 +536,11 @@ table 50124 Leave
 
     [IntegrationEvent(false, false)]
     local procedure OnvalidateEndDateOnbeforeCalculatingNoofDays(var Leave: Record Leave; var IsHandled: Boolean);
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterApplyForLeave(var Leave: Record Leave)
     begin
     end;
 }

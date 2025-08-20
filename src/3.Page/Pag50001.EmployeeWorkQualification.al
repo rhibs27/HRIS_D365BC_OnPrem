@@ -112,7 +112,7 @@ page 50001 "Employee Work Qualification"
 
     trigger OnOpenPage()
     begin
-        Rec.SetRange("Emp Qualification Type", Rec."Emp Qualification Type"::Work);
+        Rec.SetFilter("Emp Qualification Type", '%1|%2', Rec."Emp Qualification Type"::Achievement, Rec."Emp Qualification Type"::Work);
     end;
 
     trigger OnNewRecord(BelowxRec: Boolean)
